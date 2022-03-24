@@ -5,8 +5,9 @@ description: An umbrella Helm chart for ska-tmc-leafnodes deployment.
 type: application
 version: 0.0.6
 appVersion: 0.3.6
-icon: >
-https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
+icon: >-
+    https://www.skatelescope.org/wp-content/uploads/2016/07/09545
+    _NEW_LOGO_2014.png
 maintainers:
   - name: Aditya Dange
     email: adityadange.ska@gmail.com
