@@ -19,17 +19,12 @@ cache:
 # It is also specified that only the master branch will be subject of this job.
 
 stages:
-  - lint
   - test
   - pages
   - scan
   - lifecycle
 
 include:
-# # Helm Chart linting and Publish
-- project: 'ska-telescope/templates-repository'
-  file: 'gitlab-ci/includes/helm-chart.gitlab-ci.yml'
-
 # # Python packages build,lint, test and publish
 - project: 'ska-telescope/templates-repository'
   file: 'gitlab-ci/includes/python.gitlab-ci.yml'
