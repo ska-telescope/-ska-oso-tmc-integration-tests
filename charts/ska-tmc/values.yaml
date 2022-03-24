@@ -1,3 +1,4 @@
+---
 display: ":0"
 xauthority: "~/.Xauthority"
 
@@ -44,7 +45,7 @@ tmc-leafnodes:
 
     sdpsln:
       enabled: true
-    
+
     sdpmln:
       enabled: true
 
