@@ -35,17 +35,7 @@ ska-ser-skuid:
       generator_id: mvp01
 
 tmc-leafnodes:
-  deviceServers:
-    mocks:
-      enabled: false
-      component:
-        csp: false
-        sdp: false
-        dish: false
-    sdpsln:
-      enabled: true
-    sdpmln:
-      enabled: true
+  enabled: true
 
 tmc_central_node:
   enabled: true

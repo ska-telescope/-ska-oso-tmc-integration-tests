@@ -21,9 +21,9 @@ KUBE_NAMESPACE ?= ska-tmc-integration
 HELM_RELEASE ?= test
 
 # UMBRELLA_CHART_PATH Path of the umbrella chart to work with
-HELM_CHART=test-parent
+HELM_CHART=ska-tmc
 UMBRELLA_CHART_PATH ?= charts/$(HELM_CHART)/
-K8S_CHARTS ?= test-parent## list of charts
+K8S_CHARTS ?= ska-tmc## list of charts
 K8S_CHART ?= $(HELM_CHART)
 
 TEST_VERSION ?= 0.8.14
@@ -45,7 +45,7 @@ DISPLAY ?= $(THIS_HOST):0
 JIVE ?= false# Enable jive
 TARANTA ?= false
 MINIKUBE ?= true ## Minikube or not
-FAKE_DEVICES ?= true ## Install fake devices or not
+FAKE_DEVICES ?= false ## Install fake devices or not
 TANGO_HOST ?= tango-databaseds:10000## TANGO_HOST connection to the Tango DS
 
 ITANGO_DOCKER_IMAGE = $(CAR_OCI_REGISTRY_HOST)/ska-tango-images-tango-itango:9.3.5
@@ -71,7 +71,6 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set ska-tango-base.xauthority=$(XAUTHORITY) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
 	--set tmc-leafnodes.telescope=$(TELESCOPE) \
-	--set tmc-leafnodes.deviceServers.mocks.enabled=$(FAKE_DEVICES) \
 	--set ska-taranta.enabled=$(TARANTA) \
 	$(CUSTOM_VALUES) \
 	--values gilab_values.yaml
