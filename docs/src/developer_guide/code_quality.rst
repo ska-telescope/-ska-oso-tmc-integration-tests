@@ -1,5 +1,5 @@
 ######################################
-TMC Leaf Nodes code quality guidelines
+TMC integration code quality guidelines
 ######################################
 
 ***********************
