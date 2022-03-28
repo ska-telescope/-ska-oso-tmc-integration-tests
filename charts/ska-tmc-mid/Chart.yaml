@@ -22,7 +22,7 @@ dependencies:
     version: 0.3.5
     repository: https://artefact.skao.int/repository/helm-internal
   - name: ska-tmc-leafnodes
-    version: 0.8.14
+    version: 0.8.15
     repository: https://artefact.skao.int/repository/helm-internal
     alias: tmc-leafnodes
   - name: ska-tmc-centralnode
