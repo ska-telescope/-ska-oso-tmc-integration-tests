@@ -37,11 +37,6 @@ autodoc_mock_imports = [
     "ska_tmc_cdm",
     "CODEC",
     "ValidationError",
-    "ska_telmodel",
-    "ska_ser_skuid",
-    "transitions",
-    "ska_tmc_common",
-    "ska_ser_log_transactions"
 ]
 
 import os
@@ -56,7 +51,7 @@ def setup(app):
 # -- Project information -----------------------------------------------------
 
 project = "ska-tmc-integration"
-copyright = "2021, NCRA India"
+copyright = "2022, NCRA India"
 author = "NCRA India"
 
 # The short X.Y version

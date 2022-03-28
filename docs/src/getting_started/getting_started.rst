@@ -2,7 +2,7 @@ Getting started
 ===============
 
 This page contains instructions for software developers who want to get
-started with usage and development of the TMC Leaf Nodes.
+started with usage and development of the TMC integration repository.
 
 Background
 ----------
@@ -32,83 +32,22 @@ How to Use
 
 Clone this repo:
 ::
-git clone https://gitlab.com/ska-telescope/ska-tmc-leafnodes.git
-cd ska-tmc-leafnodes
+git clone https://gitlab.com/ska-telescope/ska-tmc-integration.git
+cd ska-tmc-integration
 
-Install dependencies
+
+To deploy the pods:
 ::
-apt update
-apt install -y curl git build-essential libboost-python-dev libtango-dev 
-curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3 -
-source $HOME/.poetry/env
+make k8s-install-chart
 
-Please note that:
- * the `libtango-dev` will install an old version of the TANGO-controls framework (9.2.5);
- * the best way to get the framework is compiling it (instructions can be found `here <https://gitlab.com/tango-controls/cppTango/-/blob/main/INSTALL.md>`_);
- * the above script has been tested with Ubuntu 20.04.
-
-*During this step, `libtango-dev` instalation can ask for the Tango Server IP:PORT. Just accept the default proposed value.*
-
-Install python requirements for linting and unit testing:
+To test the integration test cases:
 ::
-$ poetry install
+make k8s-test
 
-Activate the poetry environment:
+To uninstall the pods:
 ::
-$ source $(poetry env info --path)/bin/activate
+make k8s-uninstall-chart
 
-Alternate way to install and activate poetry
+To watch the pods, services status:
 ::
-
-Follow the steps till installation of dependencies then run below command:
-::
-$ virtualenv cn_venv
-$ source cn_venv/bin/activate
-$ make requirements
-
-Run python-test:
-::
-$ make python-test
-PyTango 9.3.3 (9, 3, 3)
-PyTango compiled with:
-Python : 3.8.5
-Numpy  : 0.0.0 ## output generated from a WSL windows machine
-Tango  : 9.2.5
-Boost  : 1.71.0
-
-PyTango runtime is:
-Python : 3.8.5
-Numpy  : None
-Tango  : 9.2.5
-
-PyTango running on:
-uname_result(system='Linux', node='LAPTOP-5LBGJH83', release='4.19.128-microsoft-standard', version='#1 SMP Tue Jun 23 12:58:10 UTC 2020', machine='x86_64', processor='x86_64')
-
-============================= test session starts ==============================
-platform linux -- Python 3.8.5, pytest-5.4.3, py-1.10.0, pluggy-0.13.1 -- /home/
-[....]
-
---------------------------------- JSON report ----------------------------------
-JSON report written to: build/reports/report.json (165946 bytes)
-
------------ coverage: platform linux, python 3.8.5-final-0 -----------
-Coverage HTML written to dir build/htmlcov
-Coverage XML written to file build/reports/code-coverage.xml
-
-======================== 48 passed, 5 deselected in 42.42s ========================
-
-
-Formatting the code:
-::
-$ make python-format
-[...]
---------------------------------------------------------------------
-Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
-
-
-Python linting:
-::
-$ make python-lint
-[...]
---------------------------------------------------------------------
-Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
+make k8s-watch
