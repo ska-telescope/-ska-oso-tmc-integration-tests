@@ -21,9 +21,9 @@ KUBE_NAMESPACE ?= ska-tmc-integration
 HELM_RELEASE ?= test
 
 # UMBRELLA_CHART_PATH Path of the umbrella chart to work with
-HELM_CHART=ska-tmc
+HELM_CHART=ska-tmc-mid
 UMBRELLA_CHART_PATH ?= charts/$(HELM_CHART)/
-K8S_CHARTS ?= ska-tmc## list of charts
+K8S_CHARTS ?= ska-tmc-mid## list of charts
 K8S_CHART ?= $(HELM_CHART)
 
 TEST_VERSION ?= 0.8.14
@@ -36,6 +36,9 @@ CI_REGISTRY ?= gitlab.com
 # 	--set tmc-leafnodes.sdpleafnodes.image.tag=$(VERSION)-dev.c$(CI_COMMIT_SHORT_SHA)
 # K8S_TEST_IMAGE_TO_TEST=$(CI_REGISTRY)/ska-telescope/$(PROJECT)/$(PROJECT):$(TEST_VERSION)-dev.c$(CI_COMMIT_SHORT_SHA)
 # endif
+
+K8S_TEST_IMAGE_TO_TEST ?= artefact.skao.int/ska-ser-skallop:2.9.1## docker image that will be run for testing purpose
+
 
 CI_PROJECT_DIR ?= .
 
@@ -92,6 +95,6 @@ K8S_TEST_TEST_COMMAND = cd .. && $(PYTHON_VARS_BEFORE_PYTEST) $(PYTHON_RUNNER) \
 test-requirements:
 	@poetry export --without-hashes --dev --format requirements.txt --output tests/requirements.txt
 
-k8s-pre-test: python-pre-test test-requirements
+k8s-pre-test: test-requirements
 
 
