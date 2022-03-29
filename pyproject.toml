@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ska-tmc-integration"
-version = "0.0.1"
+version = "0.8.16"
 description = "SKA-TMC-INTEGRATION"
 authors = ["Team NCRA"]
 license = "BSD-3-Clause"
@@ -44,5 +44,5 @@ datetime = "4.3"
 ska-dish-master-mid = "0.8.5"
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
