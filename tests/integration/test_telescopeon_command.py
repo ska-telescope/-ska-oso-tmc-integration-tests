@@ -7,7 +7,7 @@ from tango import DeviceProxy, DevState
 LOGGER = logging.getLogger(__name__)
 
 
-@pytest.mark.SKA-Mid
+@pytest.mark.SKA_mid
 def test_cn_telescopeon():
     try:
         fixture = {}

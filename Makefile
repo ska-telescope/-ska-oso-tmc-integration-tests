@@ -1,6 +1,3 @@
-# This Makefile will be used in story AT1-1076
-
-
 # Project makefile for a ska-tmc-integration project. You should normally only need to modify
 # CAR_OCI_REGISTRY_USER and PROJECT below.
 
@@ -9,7 +6,7 @@ PROJECT = ska-tmc-integration
 TANGO_HOST ?= tango-databaseds:10000 ## TANGO_HOST connection to the Tango DS
 PYTHON_VARS_BEFORE_PYTEST ?= PYTHONPATH=.:./src \
 							 TANGO_HOST=$(TANGO_HOST)
-TELESCOPE ?= SKA-Mid
+TELESCOPE ?= SKA-mid
 MARK ?= ## What -m opt to pass to pytest
 # run one test with FILE=acceptance/test_subarray_node.py::test_check_internal_model_according_to_the_tango_ecosystem_deployed
 FILE ?= tests## A specific test file to pass to pytest
@@ -31,6 +28,14 @@ K8S_CHART ?= $(HELM_CHART)
 
 TEST_VERSION ?= 0.8.14
 CI_REGISTRY ?= gitlab.com
+# CUSTOM_VALUES = --set tmc-leafnodes.sdpleafnodes.image.tag=$(VERSION)
+# K8S_TEST_IMAGE_TO_TEST=$(CAR_OCI_REGISTRY_HOST)/$(PROJECT):$(VERSION)
+# ifneq ($(CI_JOB_ID),)
+# CUSTOM_VALUES = --set tmc-leafnodes.sdpleafnodes.image.image=$(PROJECT) \
+# 	--set tmc-leafnodes.sdpleafnodes.image.registry=$(CI_REGISTRY)/ska-telescope/$(PROJECT) \
+# 	--set tmc-leafnodes.sdpleafnodes.image.tag=$(VERSION)-dev.c$(CI_COMMIT_SHORT_SHA)
+# K8S_TEST_IMAGE_TO_TEST=$(CI_REGISTRY)/ska-telescope/$(PROJECT)/$(PROJECT):$(TEST_VERSION)-dev.c$(CI_COMMIT_SHORT_SHA)
+# endif
 
 K8S_TEST_IMAGE_TO_TEST ?= artefact.skao.int/ska-ser-skallop:2.9.1## docker image that will be run for testing purpose
 
@@ -58,7 +63,8 @@ $(shell echo 'global:\n  annotations:\n    app.gitlab.com/app: $(CI_PROJECT_PATH
 
 ifeq ($(MAKECMDGOALS),k8s-test)
 ADD_ARGS +=  --true-context
-MARK = $(shell echo $(TELESCOPE) | sed s/-/_/) and (post_deployment or acceptance)
+#MARK = $(shell echo $(TELESCOPE) | sed s/-/_/) and (post_deployment or acceptance)
+MARK = SKA_mid
 endif
 
 PYTHON_VARS_AFTER_PYTEST ?= -m '$(MARK)' $(ADD_ARGS) $(FILE)
@@ -91,5 +97,3 @@ test-requirements:
 	@poetry export --without-hashes --dev --format requirements.txt --output tests/requirements.txt
 
 k8s-pre-test: test-requirements
-
-
