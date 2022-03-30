@@ -6,7 +6,7 @@ from tango import DeviceProxy, DevState
 
 LOGGER = logging.getLogger(__name__)
 
-
+@pytest.mark.xfail(reason="Work on the this integration test case will be a parat of separate story")
 @pytest.mark.SKA_mid
 def test_cn_telescopeon():
     try:
