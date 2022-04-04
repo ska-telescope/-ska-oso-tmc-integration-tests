@@ -1,30 +1,32 @@
 name: "sdpsubarrayleafnode-test"
 function: telescope-monitoring
 domain: general-monitoring
-instances: ["01"]
+instances: ["01", "02", "03"]
 entrypoints:
   - name: "ska_tmc_sdpsubarrayleafnode.sdp_subarray_leaf_node.SdpSubarrayLeafNode"
 server:
   name: "sdp_subarray_leaf_node"
   instances:
-  - name: "01"
-    classes:
-    - name: "SdpSubarrayLeafNode"
-      devices:
-      - name: "ska_mid/tm_leaf_node/sdp_subarray01"
-        properties:
-        - name: "SdpSubarrayFQDN"
-          values:
-          - "{{.Values.deviceServers.sdpsubarrayleafnode.SdpSubarrayFQDN}}"
-        - name: "SkaLevel"
-          values:
-            - "3"
-        - name: "LoggingTargetsDefault"
-          values:
-            - "tango::logger"
-        - name: "LoggingLevelDefault"
-          values:
-            - "5"
+  {{- range  .Values.coalesced_subarray_devices }}
+    - name: "{{ . }}"
+      classes:
+      - name: "SdpSubarrayLeafNode"
+        devices:
+          - name: "ska_mid/tm_leaf_node/sdp_subarray{{ . }}"
+            properties:
+              - name: "SdpSubarrayFQDN"
+                values:
+                - "mid_sdp/elt/subarray_{{ (split "0" .)._1}}"
+              - name: "SkaLevel"
+                values:
+                - "3"
+              - name: "LoggingTargetsDefault"
+                values:
+                - "tango::logger"
+              - name: "LoggingLevelDefault"
+                values:
+                - "5"
+  {{- end}}
 depends_on:
   - device: sys/database/2
 image:

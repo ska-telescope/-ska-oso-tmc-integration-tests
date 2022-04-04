@@ -98,9 +98,10 @@ resources:
 deviceServers:
   sdpsubarrayleafnode:
     enabled: true
-    instances: ["01"]
-    file: "data/sdpsubarrayleafnode.yaml"
-    SdpSubarrayFQDN: "mid_sdp/elt/subarray_1"
+    instances: ["01", "02", "03"]
+    mid:
+      file: "data/sdpsubarrayleafnode.yaml"
+      SdpSubarrayFQDN: "mid_sdp/elt/subarray_1"
   sdpmasterleafnode:
     enabled: true
     instances: ["01"]
@@ -108,7 +109,7 @@ deviceServers:
     SdpMasterFQDN: "mid_sdp/elt/master"
   subarraynode:
     enabled: true
-    instances: ["01"]
+    instances: ["01", "02", "03"]
     mid:
       file: "data/subarraynode_mid.yaml"
       DishLeafNodePrefix: "ska_mid/tm_leaf_node/d"
