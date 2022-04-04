@@ -1,0 +1,49 @@
+name: "subarraynode-test"
+function: telescope-monitoring
+domain: subarray
+instances: ["01"]
+entrypoints:
+  - name: "ska_tmc_subarraynode.subarray_node_mid.SubarrayNodeMid"
+server:
+  name: "subarray_node_mid"
+  instances:
+  {{- range  .Values.coalesced_subarray_devices }}
+    - name: "{{ . }}"
+      classes:
+      - name: "SubarrayNodeMid"
+        devices:
+        - name: "ska_mid/tm_subarray_node/{{ (split "0" .)._1}}"
+          properties:
+          - name: "DishLeafNodePrefix"
+            values:
+            - "ska_mid/tm_leaf_node/d"
+          - name: "CspSubarrayLNFQDN"
+            values:
+            - "ska_mid/tm_leaf_node/csp_subarray{{ . }}"
+          - name: "SdpSubarrayLNFQDN"
+            values:
+            - "ska_mid/tm_leaf_node/sdp_subarray{{ . }}"
+          - name: "CspSubarrayFQDN"
+            values:
+            - "mid_csp/elt/subarray_{{ . }}"
+          - name: "SdpSubarrayFQDN"
+            values:
+            - "mid_sdp/elt/subarray_{{ (split "0" .)._1}}"
+          - name: "SkaLevel"
+            values:
+              - "2"
+          - name: "LoggingTargetsDefault"
+            values:
+              - "tango::logger"
+          - name: "LoggingLevelDefault"
+            values:
+              - "5"
+  {{- end}}
+depends_on:
+  - device: sys/database/2
+image:
+  registry: "{{.Values.subarraynode.image.registry}}"
+  image: "{{.Values.subarraynode.image.image}}"
+  tag: "{{.Values.subarraynode.image.tag}}"
+  pullPolicy: "{{.Values.subarraynode.image.pullPolicy}}"
+

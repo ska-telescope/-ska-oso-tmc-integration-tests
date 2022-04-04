@@ -1,0 +1,65 @@
+name: "centralnode-test"
+function: telescope-monitoring
+domain: general-monitoring
+instances: ["01"]
+entrypoints:
+  - name: "ska_tmc_centralnode.central_node_mid.CentralNodeMid"
+server:
+  name: "central_node_mid"
+  instances:
+  - name: "01"
+    classes:
+    - name: "CentralNodeMid"
+      devices:
+      - name: "ska_mid/tm_central/central_node"
+        properties:
+        - name: "CspMasterLeafNodeFQDN"
+          values:
+          - "{{.Values.deviceServers.centralnode.CspMasterLeafNodeFQDN}}"
+        - name: "CspMasterFQDN"
+          values:
+          - "{{.Values.deviceServers.centralnode.CspMasterFQDN}}"
+        - name: "SdpMasterLeafNodeFQDN"
+          values:
+          - "{{.Values.deviceServers.centralnode.SdpMasterLeafNodeFQDN}}"
+        - name: "SdpMasterFQDN"
+          values:
+          - "{{.Values.deviceServers.centralnode.SdpMasterFQDN}}"
+        - name: "DishLeafNodePrefix"
+          values:
+          - "{{.Values.deviceServers.centralnode.DishLeafNodePrefix}}"
+        - name: "NumDishes"
+          values:
+          - "{{.Values.deviceServers.centralnode.NumDishes}}"
+        - name: "TMSubarrayNodes"
+          values:
+          {{- range  ( regexSplit " " ((.Values.deviceServers.centralnode.subarray_count | int) | seq ) -1 )  }}
+          - "ska_mid/tm_subarray_node/{{ . }}"
+          {{- end }}
+        - name: "TMMidCspSubarrayLeafNodes"
+          values: 
+          {{- range  ( regexSplit " " ((.Values.deviceServers.centralnode.subarray_count | int) | seq ) -1 )  }}
+          - "ska_mid/tm_leaf_node/csp_subarray{{ printf "%02s" . }}"
+          {{- end }}
+        - name: "TMMidSdpSubarrayLeafNodes"
+          values: 
+          {{- range  ( regexSplit " " ((.Values.deviceServers.centralnode.subarray_count | int) | seq ) -1 )  }}
+          - "ska_mid/tm_leaf_node/sdp_subarray{{ printf "%02s" . }}"
+          {{- end }}
+        - name: "SkaLevel"
+          values:
+            - "1"
+        - name: "LoggingTargetsDefault"
+          values:
+            - "tango::logger"
+        - name: "LoggingLevelDefault"
+          values:
+            - "5"
+depends_on:
+  - device: sys/database/2
+image:
+  registry: "{{.Values.centralnode.image.registry}}"
+  image: "{{.Values.centralnode.image.image}}"
+  tag: "{{.Values.centralnode.image.tag}}"
+  pullPolicy: "{{.Values.centralnode.image.pullPolicy}}"
+
