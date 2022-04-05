@@ -21,21 +21,12 @@ KUBE_NAMESPACE ?= ska-tmc-integration
 HELM_RELEASE ?= test
 
 # UMBRELLA_CHART_PATH Path of the umbrella chart to work with
-HELM_CHART=ska-tmc-mid-umbrella
+HELM_CHART=test-parent
 UMBRELLA_CHART_PATH ?= charts/$(HELM_CHART)/
-K8S_CHARTS ?= ska-tmc-mid ska-tmc-mid-umbrella## list of charts
+K8S_CHARTS ?= ska-tmc-mid test-parent## list of charts
 K8S_CHART ?= $(HELM_CHART)
 
-TEST_VERSION ?= 0.8.14
 CI_REGISTRY ?= gitlab.com
-# CUSTOM_VALUES = --set tmc-leafnodes.sdpleafnodes.image.tag=$(VERSION)
-# K8S_TEST_IMAGE_TO_TEST=$(CAR_OCI_REGISTRY_HOST)/$(PROJECT):$(VERSION)
-# ifneq ($(CI_JOB_ID),)
-# CUSTOM_VALUES = --set tmc-leafnodes.sdpleafnodes.image.image=$(PROJECT) \
-# 	--set tmc-leafnodes.sdpleafnodes.image.registry=$(CI_REGISTRY)/ska-telescope/$(PROJECT) \
-# 	--set tmc-leafnodes.sdpleafnodes.image.tag=$(VERSION)-dev.c$(CI_COMMIT_SHORT_SHA)
-# K8S_TEST_IMAGE_TO_TEST=$(CI_REGISTRY)/ska-telescope/$(PROJECT)/$(PROJECT):$(TEST_VERSION)-dev.c$(CI_COMMIT_SHORT_SHA)
-# endif
 
 K8S_TEST_IMAGE_TO_TEST ?= artefact.skao.int/ska-ser-skallop:2.9.1## docker image that will be run for testing purpose
 
@@ -63,8 +54,8 @@ $(shell echo 'global:\n  annotations:\n    app.gitlab.com/app: $(CI_PROJECT_PATH
 
 ifeq ($(MAKECMDGOALS),k8s-test)
 ADD_ARGS +=  --true-context
-#MARK = $(shell echo $(TELESCOPE) | sed s/-/_/) and (post_deployment or acceptance)
-MARK = SKA_mid
+MARK = $(shell echo $(TELESCOPE) | sed s/-/_/) and (post_deployment or acceptance)
+#MARK = SKA_mid
 endif
 
 PYTHON_VARS_AFTER_PYTEST ?= -m '$(MARK)' $(ADD_ARGS) $(FILE)
@@ -74,7 +65,6 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set ska-tango-base.display=$(DISPLAY) \
 	--set ska-tango-base.xauthority=$(XAUTHORITY) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
-	--set tmc-leafnodes.telescope=$(TELESCOPE) \
 	--set ska-taranta.enabled=$(TARANTA) \
 	$(CUSTOM_VALUES) \
 	--values gilab_values.yaml
