@@ -276,8 +276,8 @@ gilab_values.yaml
 charts/ska-tmc-leafnodes/Chart.lock
 output.yaml
 charts/ska-tmc-leafnodes/charts/
-charts/ska-tmc-mid-umbrella/Chart.lock
-charts/ska-tmc-mid-umbrella/charts/
+charts/test-parent/Chart.lock
+charts/test-parent/charts/
 code-coverage
 pytest-logs.txt
 .make/
