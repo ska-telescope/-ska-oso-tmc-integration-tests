@@ -1,5 +1,5 @@
 apiVersion: v2
-name: test-parent
+name: ska-tmc-mid-umbrella
 description: An umbrella Helm chart for SKA-TMC-Mid deployment.
 type: application
 version: 0.0.2
