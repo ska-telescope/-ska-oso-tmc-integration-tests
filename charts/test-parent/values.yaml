@@ -38,21 +38,21 @@ ska-tango-base:
   tangodb:
     use_pv: false
 
-# ska-webjive:
-#   enabled: true
-#   minikube: false
-#   ingress:
-#     enabled: true
-#     nginx: true
-#   tangogql:
-#     replicas: 3
-#     resources:
-#       requests:
-#         cpu: 600m     # 600m = 0.6 CPU
-#         memory: 512Mi # 512Mi = 0.5 GB mem
-#       limits:
-#         cpu: 1000m     # 1000m = 1 CPU
-#         memory: 1024Mi # 1024Mi = 1 GB mem
+ska-webjive:
+  enabled: true
+  minikube: false
+  ingress:
+    enabled: true
+    nginx: true
+  tangogql:
+    replicas: 3
+    resources:
+      requests:
+        cpu: 600m     # 600m = 0.6 CPU
+        memory: 512Mi # 512Mi = 0.5 GB mem
+      limits:
+        cpu: 1000m     # 1000m = 1 CPU
+        memory: 1024Mi # 1024Mi = 1 GB mem
 
 ## tm
 tmc-mid:
@@ -65,21 +65,8 @@ tmc-mid:
       enabled: true
     centralnode:
       enabled: true
-
-## tm-simulator
-ska-tmc-mid-simulators:
-  deviceServers:
-    cspmastersimulator:
-      enabled: false
-     
-    sdpmastersimulator:
-      enabled: false
-     
-    cspsubarraysimulator:
-      enabled: false
-    
-    sdpsubarraysimulator:
-      enabled: false
+    mocks:
+      enabled: true
  
 ## SKUID
 ska-ser-skuid:

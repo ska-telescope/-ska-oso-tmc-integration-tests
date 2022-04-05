@@ -16,11 +16,6 @@ annotations:
 global:
   minikube: false
   tango_host: databaseds-tango-base-test:10000
-  # skatmc:
-  #   registry: artefact.skao.int/ska-telescope
-  #   image: ska-tmc
-  #   tag: 0.8.8
-  #   pullPolicy: IfNotPresent
 
   ##  Order of instances resolution ##
   # .Values.global.dishes & .Values.global.subarray_count
@@ -40,10 +35,6 @@ global:
     - "subarraynode"
   subarray_count: 3
   
-  ## Decide deployment mode of TMC. if standalone_mode is set to "true", then simulators for subsystem devices 
-  # are deployed. If the value is "false", then simulators are not deployed.
-  standalone_mode: "false"
-
 dsconfig:
   configuration_file: data/tmc-mid-config.json
   image:
@@ -128,6 +119,9 @@ deviceServers:
     SdpMasterFQDN: "mid_sdp/elt/master"
     DishLeafNodePrefix: "ska_mid/tm_leaf_node/d"
     NumDishes: 1
+  mocks:
+    enabled: true
+    file: "data/mocks.yaml"
   # tm-alarmhandler:
   #   enabled: true
   #   instances: ["01"]
