@@ -47,9 +47,9 @@ def test_telescope_standby():
 
         """Verify Sdp Master and Sdp Subarray State"""
         assert TMCCentralNode.State() == DevState.ON
-        assert TMCCentralNode.telescopeState == DevState.UNKNOWN
+        assert TMCCentralNode.telescopeState == DevState.STANDBY
         assert SdpMaster.State() == DevState.STANDBY
-        assert SdpSubarray.State() == DevState.STANDBY
+        assert SdpSubarray.State() == DevState.OFF
 
         fixture["state"] = "TelescopeStandby"
 
