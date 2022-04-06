@@ -80,29 +80,10 @@ resources:
     memory: 128Mi
 
 deviceServers:
-  sdpsubarrayleafnode:
-    enabled: true
-    instances: ["01", "02", "03"]
-    file: "data/sdpsubarrayleafnode.yaml"
-    SdpSubarrayFQDN: "mid_sdp/elt/subarray_1"
-  sdpmasterleafnode:
-    enabled: true
-    instances: ["01"]
-    file: "data/sdpmasterleafnode.yaml"
-    SdpMasterFQDN: "mid_sdp/elt/master"
-  subarraynode:
-    enabled: true
-    instances: ["01", "02", "03"]
-    file: "data/subarraynode_mid.yaml"
-    DishLeafNodePrefix: "ska_mid/tm_leaf_node/d"
-    CspSubarrayLNFQDN: "ska_mid/tm_leaf_node/csp_subarray01"
-    SdpSubarrayLNFQDN: "ska_mid/tm_leaf_node/sdp_subarray01"
-    CspSubarrayFQDN: "mid_csp/elt/subarray_01"
-    SdpSubarrayFQDN: "mid_sdp/elt/subarray_1"
   centralnode:
     enabled: true
     instances: ["01"]
-    subarray_count: 1
+    subarray_count: 3
     file: "data/centralnode_mid.yaml"
     CspMasterLeafNodeFQDN: "ska_mid/tm_leaf_node/csp_master"
     CspMasterFQDN: "mid_csp/elt/master"
@@ -110,6 +91,23 @@ deviceServers:
     SdpMasterFQDN: "mid_sdp/elt/master"
     DishLeafNodePrefix: "ska_mid/tm_leaf_node/d"
     NumDishes: 1
+
+  subarraynode:
+    enabled: true
+    instances: ["01", "02", "03"]
+    file: "data/subarraynode_mid.yaml"
+  
+  sdpsubarrayleafnode:
+    enabled: true
+    instances: ["01", "02", "03"]
+    file: "data/sdpsubarrayleafnode.yaml"
+  
+  sdpmasterleafnode:
+    enabled: true
+    instances: ["01"]
+    file: "data/sdpmasterleafnode.yaml"
+    SdpMasterFQDN: "mid_sdp/elt/master"
+  
   mocks:
     enabled: true
     file: "data/mocks.yaml"
