@@ -16,11 +16,8 @@ from tango import DeviceProxy, DevState
 LOGGER = logging.getLogger(__name__)
 
 TMCCentralNode = DeviceProxy("ska_mid/tm_central/central_node")
-SdpMasterLeafNode = DeviceProxy("ska_mid/tm_leaf_node/sdp_master")
 SdpMaster = DeviceProxy("mid_sdp/elt/master")
 SdpSubarray = DeviceProxy("mid_sdp/elt/subarray_1")
-TMCSubarrayNode = DeviceProxy("ska_mid/tm_subarray_node/1")
-
 
 @pytest.mark.SKA_mid
 def test_telescope_on():
@@ -40,10 +37,27 @@ def test_telescope_on():
         LOGGER.info("TelescopeOn command is invoked successfully")
 
         """Verify Sdp Master and Sdp Subarray State"""
+        assert TMCCentralNode.State() == DevState.ON
+        assert TMCCentralNode.telescopeState == DevState.UNKNOWN
         assert SdpMaster.State() == DevState.ON
         assert SdpSubarray.State() == DevState.ON
 
         fixture["state"] = "TelescopeOn"
+
+        """Invoke TelescopeOff() command on TMC"""
+        LOGGER.info("Invoking TelescopeOff command on TMC CentralNode")
+        TMCCentralNode.TelescopeOff()
+        time.sleep(0.5)
+        LOGGER.info("TelescopeOff command is invoked successfully")
+
+        """Verify Sdp Master and Sdp Subarray State"""
+        assert TMCCentralNode.State() == DevState.ON
+        assert TMCCentralNode.telescopeState == DevState.UNKNOWN
+        assert SdpMaster.State() == DevState.OFF
+        assert SdpSubarray.State() == DevState.OFF
+
+        fixture["state"] = "TelescopeOff"
+
         LOGGER.info("Tests complete: tearing down...")
 
     except Exception:

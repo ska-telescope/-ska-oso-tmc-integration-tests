@@ -1,2 +1,4 @@
-release=0.8.16
-tag=0.8.16
+release=0.1.0
+tag=0.1.0
+tag_description=Separate integration repository for ska-tmc-mid.Helm chart creation for ska-tmc-mid.
+release_notes=This release contains:<br/><ul><li>Separate integration repository for ska-tmc-mid.Helm chart creation for ska-tmc-mid.</li></ul><br/>
