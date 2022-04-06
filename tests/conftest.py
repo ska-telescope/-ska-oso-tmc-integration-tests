@@ -1,10 +1,4 @@
-# pylint: disable=unused-argument
-import pytest
 import tango
-from tango.test_context import MultiDeviceTestContext
-from tango.test_utils import DeviceTestContext
-
-
 
 def pytest_sessionstart(session):
     """
@@ -32,18 +26,3 @@ def pytest_addoption(parser):
             "need to spin up a Tango test context"
         ),
     )
-
-
-@pytest.fixture
-def sdp_master_device():
-    return "mid_sdp/elt/master"
-
-
-@pytest.fixture
-def csp_master_device():
-    return "mid_csp/elt/master"
-
-
-@pytest.fixture(scope="session")
-def sdp_subarray_device():
-    return "mid_sdp/elt/subarray_1"
