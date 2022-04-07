@@ -64,7 +64,7 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set ska-tango-base.display=$(DISPLAY) \
 	--set ska-tango-base.xauthority=$(XAUTHORITY) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
-	--set ska-taranta.enabled=$(TARANTA) \
+	--set ska-tango-taranta.enabled=$(TARANTA) \
 	$(CUSTOM_VALUES) \
 	--values gilab_values.yaml
 
