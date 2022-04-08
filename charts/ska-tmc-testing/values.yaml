@@ -61,23 +61,23 @@ ska-tango-base:
   tangodb:
     use_pv: false
 
-# taranta:
-#   ingress:
-#     enabled: true
-#     nginx: true
-#     hostname: test-taranta.k8s.stfc.skao.int
+taranta:
+  ingress:
+    enabled: true
+    nginx: true
+    hostname: test-taranta.k8s.stfc.skao.int
 
-# taranta-dashboard:
-#   ingress:
-#     enabled: true
-#     nginx: true
-#     hostname: test-taranta.k8s.stfc.skao.int
+taranta-dashboard:
+  ingress:
+    enabled: true
+    nginx: true
+    hostname: test-taranta.k8s.stfc.skao.int
 
-# taranta-auth:
-#   ingress:
-#     enabled: true
-#     nginx: true
-#     hostname: test-taranta.k8s.stfc.skao.int
+taranta-auth:
+  ingress:
+    enabled: true
+    nginx: true
+    hostname: test-taranta.k8s.stfc.skao.int
 
 
 ## tmc
