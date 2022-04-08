@@ -1,5 +1,5 @@
 import functools
-from resources.test_support.helpers import waiter, watch, resource
+from tests.resources.test_support.helpers import waiter, watch, resource
 from contextlib import contextmanager
 import signal
 import logging
@@ -28,14 +28,14 @@ def sync_telescope_on(func):
     return wrapper
 
 
-# defined as a context manager
-@contextmanager
-def sync_telescope_on(timeout=50):
-    # check_coming_out_of_standby()
-    the_waiter = waiter()
-    the_waiter.set_wait_for_telescope_on()
-    yield
-    the_waiter.wait(timeout)
+# # defined as a context manager
+# @contextmanager
+# def sync_telescope_on(timeout=50):
+#     # check_coming_out_of_standby()
+#     the_waiter = waiter()
+#     the_waiter.set_wait_for_telescope_on()
+#     yield
+#     the_waiter.wait(timeout)
 
 
 def sync_set_to_off(func):

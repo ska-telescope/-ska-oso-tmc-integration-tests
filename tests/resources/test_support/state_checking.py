@@ -1,4 +1,4 @@
-from resources.test_support.helpers import resource
+from tests.resources.test_support.helpers import resource
 from datetime import date, datetime
 from time import time, sleep
 import threading

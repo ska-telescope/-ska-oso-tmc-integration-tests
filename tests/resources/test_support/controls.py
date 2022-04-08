@@ -5,27 +5,9 @@ import logging
 from tango import DevState
 
 ##local depencies
-from resources.test_support.helpers import (
-    subarray_devices,
-    resource,
-    ResourceGroup,
-    waiter,
-    watch,
+from tests.resources.test_support.helpers import (
+    resource
 )
-from resources.test_support.persistance_helping import (
-    update_scan_config_file,
-    update_resource_config_file,
-)
-from resources.test_support.sync_decorators import (
-    sync_assign_resources,
-    sync_configure_oet,
-    time_it,
-    sync_release_resources,
-    sync_end_sb,
-    sync_scan_oet,
-    sync_restart_sa,
-)
-from resources.test_support.mappings import device_to_subarrays
 
 LOGGER = logging.getLogger(__name__)
 
@@ -39,6 +21,11 @@ def telescope_is_in_standby():
         'resource("mid_sdp/elt/subarray_1").get("State")'
         + str(resource("mid_sdp/elt/subarray_1").get("State"))
     )
+    LOGGER.info(
+        'resource("mid_sdp/elt/master").get("State")'
+        + str(resource("mid_sdp/elt/master").get("State"))
+    )
+
     # TODO: Check for sdp Subarray state to be added
     # return [
     #     resource("ska_mid/tm_subarray_node/1").get("State"),
@@ -49,7 +36,7 @@ def telescope_is_in_standby():
     return [
         resource("mid_sdp/elt/subarray_1").get("State"),
         resource("mid_sdp/elt/master").get("State")
-    ] in [["DISABLE", "OFF"], ["DISABLE", "STANDBY", "OFF"]]
+    ] == ["OFF", "OFF"]
 
 
 def telescope_is_in_on():

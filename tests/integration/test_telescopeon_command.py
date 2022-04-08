@@ -6,9 +6,9 @@ from tango import DeviceProxy, DevState
 import pytest
 import os
 import logging
-from resources.test_support.helpers import waiter, watch, resource
-from resources.test_support.controls import telescope_is_in_standby, telescope_is_in_on, telescope_is_in_off
-import resources.test_support.tmc_helpers as tmc
+from tests.resources.test_support.helpers import waiter, watch, resource
+from tests.resources.test_support.controls import telescope_is_in_standby, telescope_is_in_on, telescope_is_in_off
+import tests.resources.test_support.tmc_helpers as tmc
 
 
 LOGGER = logging.getLogger(__name__)
