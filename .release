@@ -1,0 +1,4 @@
+release=0.1.0
+tag=0.1.0
+tag_description=A single helm chart for ska-tmc-mid which utilises latest docker images of CentralNode, SubarrayNode and Sdp leaf nodes for integration.
+release_notes=This release contains:<br/><ul><li>A single helm chart for ska-tmc-mid which utilises latest docker images of CentralNode, SubarrayNode and Sdp leaf nodes for integration.</li></ul><br/>
