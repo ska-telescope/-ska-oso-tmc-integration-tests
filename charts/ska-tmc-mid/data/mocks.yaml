@@ -22,7 +22,11 @@ server:
         - name: "HelperSubArrayDevice"
           devices:
           - name: "mid_sdp/elt/subarray_1"
+          - name: "mid_sdp/elt/subarray_2"
+          - name: "mid_sdp/elt/subarray_3"
           - name: "mid_csp/elt/subarray_01"
+          - name: "mid_csp/elt/subarray_02"
+          - name: "mid_csp/elt/subarray_03"
         - name: "HelperSubarrayLeafDevice"
           devices:
           - name: "ska_mid/tm_leaf_node/csp_subarray01"

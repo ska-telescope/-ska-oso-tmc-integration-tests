@@ -1,10 +1,4 @@
-# pylint: disable=unused-argument
-import pytest
 import tango
-from tango.test_context import MultiDeviceTestContext
-from tango.test_utils import DeviceTestContext
-
-
 
 def pytest_sessionstart(session):
     """
