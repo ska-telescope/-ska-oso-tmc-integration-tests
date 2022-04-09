@@ -5,7 +5,6 @@ import tests.resources.test_support.tmc_helpers as tmc
 
 LOGGER = logging.getLogger(__name__)
 
-@pytest.mark.xfailed
 @pytest.mark.SKA_mid
 def test_telescope_on():
     """TelescopeOn() is executed."""
