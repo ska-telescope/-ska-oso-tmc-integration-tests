@@ -1,13 +1,11 @@
 import logging
 import pytest
-import pytest
-import logging
 from tests.resources.test_support.controls import telescope_is_in_standby, telescope_is_in_on, telescope_is_in_off
 import tests.resources.test_support.tmc_helpers as tmc
 
-
 LOGGER = logging.getLogger(__name__)
 
+@pytest.mark.xfailed
 @pytest.mark.SKA_mid
 def test_telescope_on():
     """TelescopeOn() is executed."""
@@ -15,7 +13,7 @@ def test_telescope_on():
         fixture = {}
         fixture["state"] = "Unknown"
 
-        """Verify Telescope is Off"""
+        """Verify Telescope is Off/Standby"""
         assert telescope_is_in_standby()
         LOGGER.info("Staring up the Telescope")
 
