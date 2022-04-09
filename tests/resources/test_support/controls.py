@@ -33,11 +33,12 @@ def telescope_is_in_standby():
     #     resource("mid_csp_cbf/sub_elt/subarray_01").get("State"),
     # ] == ["OFF", "OFF", "OFF"]
 
-    return [
-        resource("mid_sdp/elt/subarray_1").get("State"),
-        resource("mid_sdp/elt/master").get("State")
-    ] == ["OFF", "OFF"]
+    # return [
+    #     resource("mid_sdp/elt/subarray_1").get("State"),
+    #     resource("mid_sdp/elt/master").get("State")
+    # ] == ["OFF", "OFF"]
 
+    return resource("mid_sdp/elt/subarray_1").get("State") in ["DISABLE" , "OFF"], resource("mid_sdp/elt/master").get("State") in ["DISABLE", "OFF", "STANDBY"]
 
 def telescope_is_in_on():
     LOGGER.info(
