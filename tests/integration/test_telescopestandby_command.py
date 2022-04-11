@@ -5,8 +5,8 @@ from tests.conftest import LOGGER
 
 
 @pytest.mark.SKA_mid
-def test_telescope_on():
-    """TelescopeOn() is executed."""
+def test_telescope_standby():
+    """TelescopeStandby() is executed."""
     try:
         fixture = {}
         fixture["state"] = "Unknown"
@@ -25,13 +25,14 @@ def test_telescope_on():
         fixture["state"] = "TelescopeOn"
 
         """Invoke TelescopeOff() command on TMC"""
-        tmc.set_to_off()
+        tmc.set_to_standby()
 
         """Verify State transitions after TelescopeOff"""
-        assert telescope_is_in_off_state()
+        assert telescope_is_in_standby_state()
         fixture["state"] = "TelescopeOff"
 
         LOGGER.info("Tests complete: tearing down...")
+        
 
     except:
         LOGGER.info("Exception occurred in the test for state = {}".format(fixture["state"]))

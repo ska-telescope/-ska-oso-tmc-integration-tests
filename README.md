@@ -1,2 +1,0 @@
-# ska-tmc-integration
-
