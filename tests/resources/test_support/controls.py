@@ -4,27 +4,42 @@ from tests.resources.test_support.helpers import (
 )
 from tests.conftest import LOGGER    
 
-def logger_for_state_attribute():
-    return LOGGER.info(
+def telescope_is_in_standby_state():
+    LOGGER.info(
         'resource("ska_mid/tm_subarray_node/1").get("State")'
         + str(resource("ska_mid/tm_subarray_node/1").get("State"))
-    ), LOGGER.info(
+    )
+    LOGGER.info(
         'resource("mid_sdp/elt/subarray_1").get("State")'
         + str(resource("mid_sdp/elt/subarray_1").get("State"))
-    ),LOGGER.info(
+    )
+    LOGGER.info(
         'resource("mid_sdp/elt/master").get("State")'
         + str(resource("mid_sdp/elt/master").get("State"))
-    ),LOGGER.info(
+    )
+    LOGGER.info(
         'resource("ska_mid/tm_central/central_node").get("State")'
         + str(resource("ska_mid/tm_central/central_node").get("State"))
     )
-
-def telescope_is_in_standby_state():
-    logger_for_state_attribute()
     return resource("mid_sdp/elt/subarray_1").get("State") in ["DISABLE" , "OFF"], resource("mid_sdp/elt/master").get("State") in ["DISABLE", "STANDBY"]
 
 def telescope_is_in_on_state():
-    logger_for_state_attribute()
+    LOGGER.info(
+        'resource("ska_mid/tm_subarray_node/1").get("State")'
+        + str(resource("ska_mid/tm_subarray_node/1").get("State"))
+    )
+    LOGGER.info(
+        'resource("mid_sdp/elt/subarray_1").get("State")'
+        + str(resource("mid_sdp/elt/subarray_1").get("State"))
+    )
+    LOGGER.info(
+        'resource("mid_sdp/elt/master").get("State")'
+        + str(resource("mid_sdp/elt/master").get("State"))
+    )
+    LOGGER.info(
+        'resource("ska_mid/tm_central/central_node").get("State")'
+        + str(resource("ska_mid/tm_central/central_node").get("State"))
+
     return [
         resource("mid_sdp/elt/subarray_1").get("State"),
         resource("mid_sdp/elt/master").get("State"),
@@ -32,8 +47,23 @@ def telescope_is_in_on_state():
         resource("ska_mid/tm_central/central_node").get("telescopeState"),
     ] == ["ON", "ON", "ON", "UNKNOWN"]
 
+
 def telescope_is_in_off_state():
-    logger_for_state_attribute()
+    LOGGER.info(
+        'resource("ska_mid/tm_subarray_node/1").get("State")'
+        + str(resource("ska_mid/tm_subarray_node/1").get("State"))
+    )
+    LOGGER.info(
+        'resource("mid_sdp/elt/subarray_1").get("State")'
+        + str(resource("mid_sdp/elt/subarray_1").get("State"))
+    )
+    LOGGER.info(
+        'resource("mid_sdp/elt/master").get("State")'
+        + str(resource("mid_sdp/elt/master").get("State"))
+    )
+    LOGGER.info(
+        'resource("ska_mid/tm_central/central_node").get("State")'
+        + str(resource("ska_mid/tm_central/central_node").get("State"))
     return [
         resource("mid_sdp/elt/subarray_1").get("State"),
         resource("mid_sdp/elt/master").get("State"),
