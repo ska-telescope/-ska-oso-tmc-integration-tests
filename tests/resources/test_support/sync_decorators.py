@@ -1,7 +1,6 @@
 import functools
 from tests.resources.test_support.helpers import waiter
 from contextlib import contextmanager
-from contextlib import contextmanager
 
 
 def sync_telescope_on(func):

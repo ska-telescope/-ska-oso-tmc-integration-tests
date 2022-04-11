@@ -1,4 +1,8 @@
 import tango
+import logging
+
+LOGGER = logging.getLogger(__name__)
+
 
 def pytest_sessionstart(session):
     """
