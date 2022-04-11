@@ -21,7 +21,7 @@ def telescope_is_in_standby():
         'resource("mid_sdp/elt/master").get("State")'
         + str(resource("mid_sdp/elt/master").get("State"))
     )
-    return resource("mid_sdp/elt/subarray_1").get("State") in ["DISABLE" , "OFF"], resource("mid_sdp/elt/master").get("State") in ["DISABLE", "OFF", "STANDBY"]
+    return resource("mid_sdp/elt/subarray_1").get("State") in ["DISABLE" , "OFF"], resource("mid_sdp/elt/master").get("State") in ["DISABLE", "STANDBY"]
 
 def telescope_is_in_on():
     LOGGER.info(
