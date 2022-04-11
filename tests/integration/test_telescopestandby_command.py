@@ -32,6 +32,7 @@ def test_telescope_standby():
         fixture["state"] = "TelescopeOff"
 
         LOGGER.info("Tests complete: tearing down...")
+        
 
     except:
         LOGGER.info("Exception occurred in the test for state = {}".format(fixture["state"]))
