@@ -18,7 +18,6 @@ server:
           - name: "ska_mid/tm_leaf_node/csp_master"
           - name: "mid_csp/elt/master"
           - name: "mid_d0001/elt/master"
-          - name: "ska_mid/tm_leaf_node/d0001"
         - name: "HelperSubArrayDevice"
           devices:
           - name: "mid_sdp/elt/subarray_1"
