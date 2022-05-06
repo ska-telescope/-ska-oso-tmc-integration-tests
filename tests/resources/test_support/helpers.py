@@ -318,6 +318,21 @@ class waiter:
                 "State", changed_to="OFF"
             )
         )
+        self.waits.append(
+            watch(resource("mid_csp/elt/subarray_01")).to_become(
+                "State", changed_to="OFF"
+            )
+        )
+        self.waits.append(
+            watch(resource("mid_csp/elt/master")).to_become(
+                "State", changed_to="STANDBY"
+            )
+        )
+        self.waits.append(
+            watch(resource("mid_d0001/elt/master")).to_become(
+                "State", changed_to="OFF"
+            )
+        )
 
     def set_wait_for_going_to_standby(self):
         self.waits.append(
@@ -339,6 +354,17 @@ class waiter:
             watch(resource('mid_sdp/elt/subarray_1')).to_become(
                 "State", changed_to="ON"
             )
+        )
+        self.waits.append(
+            watch(resource("mid_csp/elt/master")).to_become("State", changed_to="ON")
+        )
+        self.waits.append(
+            watch(resource('mid_csp/elt/subarray_01')).to_become(
+                "State", changed_to="ON"
+            )
+        )
+        self.waits.append(
+            watch(resource("mid_d0001/elt/master")).to_become("State", changed_to="ON")
         )
 
     def wait(self, timeout=30, resolution=0.1):
