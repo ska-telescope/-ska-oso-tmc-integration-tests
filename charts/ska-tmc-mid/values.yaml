@@ -117,7 +117,7 @@ deviceServers:
 
   dishleafnode:
     enabled: true
-    instances: ["01"]
+    instances: ["01", "02", "03", "04"]
     file: "data/dishleafnode.yaml"
   
   mocks:
