@@ -119,7 +119,6 @@ deviceServers:
     enabled: true
     instances: ["01"]
     file: "data/dishleafnode.yaml"
-    DishMasterFQDN: "mid_d0001/elt/master"
   
   mocks:
     enabled: true
