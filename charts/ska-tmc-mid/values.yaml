@@ -71,6 +71,13 @@ sdpleafnodes:
     tag: 0.8.16
     pullPolicy: IfNotPresent
 
+cspleafnodes:
+  image:
+    registry: artefact.skao.int
+    image: ska-tmc-cspleafnodes
+    tag: 0.1.0
+    pullPolicy: IfNotPresent
+
 dishleafnode:
   image:
     registry: artefact.skao.int
@@ -114,6 +121,17 @@ deviceServers:
     instances: ["01"]
     file: "data/sdpmasterleafnode.yaml"
     SdpMasterFQDN: "mid_sdp/elt/master"
+
+  cspmasterleafnode:
+    enabled: true
+    instances: ["01"]
+    file: "data/cspmasterleafnode.yaml"
+    CspMasterFQDN: "mid_csp/elt/master"
+
+  cspsubarrayleafnode:
+    enabled: true
+    instances: ["01", "02", "03"]
+    file: "data/cspsubarrayleafnode.yaml"
 
   dishleafnode:
     enabled: true

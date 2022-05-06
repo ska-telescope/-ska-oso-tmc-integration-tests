@@ -26,11 +26,6 @@ server:
           - name: "mid_csp/elt/subarray_01"
           - name: "mid_csp/elt/subarray_02"
           - name: "mid_csp/elt/subarray_03"
-        - name: "HelperSubarrayLeafDevice"
-          devices:
-          - name: "ska_mid/tm_leaf_node/csp_subarray01"
-          - name: "ska_mid/tm_leaf_node/csp_subarray02"
-          - name: "ska_mid/tm_leaf_node/csp_subarray03"
 depends_on:
   - device: sys/database/2
 image:
