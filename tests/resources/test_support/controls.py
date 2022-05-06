@@ -33,7 +33,12 @@ def telescope_is_in_standby_state():
         'resource("ska_mid/tm_central/central_node").get("State")'
         + str(resource("ska_mid/tm_central/central_node").get("State"))
     )
-    return resource("mid_sdp/elt/subarray_1").get("State") in ["DISABLE" , "OFF"], resource("mid_sdp/elt/master").get("State") in ["DISABLE", "STANDBY"]
+    return (resource("mid_sdp/elt/subarray_1").get("State") in ["DISABLE" , "OFF"], 
+    resource("mid_sdp/elt/master").get("State") in ["DISABLE", "STANDBY"],
+    resource("mid_csp/elt/master").get("State") in ["DISABLE", "STANDBY"],
+    resource("mid_csp/elt/subarray_01").get("State") in ["DISABLE", "OFF"],
+    resource("mid_d0001/elt/master").get("State") in ["DISABLE", "OFF"],
+)
 
 def telescope_is_in_on_state():
     LOGGER.info(

@@ -40,7 +40,7 @@ ska-tango-base:
 
 taranta:
   ingress:
-    enabled: false
+    enabled: true
     nginx: true
     hostname: test-taranta.k8s.stfc.skao.int
 
