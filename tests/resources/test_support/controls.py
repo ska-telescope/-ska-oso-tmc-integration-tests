@@ -18,6 +18,18 @@ def telescope_is_in_standby_state():
         + str(resource("mid_sdp/elt/master").get("State"))
     )
     LOGGER.info(
+        'resource("mid_csp/elt/master").get("State")'
+        + str(resource("mid_csp/elt/master").get("State"))
+    )
+    LOGGER.info(
+        'resource("mid_csp/elt/subarray_01").get("State")'
+        + str(resource("mid_csp/elt/subarray_01").get("State"))
+    )
+    LOGGER.info(
+        'resource("mid_d0001/elt/master").get("State")'
+        + str(resource("mid_d0001/elt/master").get("State"))
+    )
+    LOGGER.info(
         'resource("ska_mid/tm_central/central_node").get("State")'
         + str(resource("ska_mid/tm_central/central_node").get("State"))
     )
