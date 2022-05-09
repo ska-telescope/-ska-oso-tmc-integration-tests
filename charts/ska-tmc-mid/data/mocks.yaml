@@ -17,6 +17,7 @@ server:
           - name: "mid_sdp/elt/master"
           - name: "mid_csp/elt/master"
           - name: "mid_d0001/elt/master"
+          - name: "mid_d0002/elt/master"
         - name: "HelperSubArrayDevice"
           devices:
           - name: "mid_sdp/elt/subarray_1"
