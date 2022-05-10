@@ -393,6 +393,23 @@ class waiter:
             )
         )
 
+    def set_wait_for_going_to_empty(self):
+        self.waits.append(
+            watch(resource("mid_sdp/elt/subarray_1")).to_become(
+                "ObsState", changed_to="EMPTY"
+            )
+        )
+        self.waits.append(
+            watch(resource("mid_csp/elt/subarray_01")).to_become(
+                "ObsState", changed_to="EMPTY"
+            )
+        )
+        self.waits.append(
+            watch(resource("ska_mid/tm_subarray_node/1")).to_become(
+                "ObsState", changed_to="EMPTY"
+            )
+        )
+
     def wait(self, timeout=30, resolution=0.1):
         self.logs = ""
         while self.waits:

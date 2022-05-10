@@ -93,6 +93,7 @@ def subarray_obs_state_is_idle ():
         resource("mid_csp/elt/subarray_01").get("ObsState"),
     ] == ["IDLE", "IDLE", "IDLE",]
 
+
 def subarray_obs_state_is_empty():
    LOGGER.info(
         'resource("ska_mid/tm_subarray_node/1").get("ObsState")'
