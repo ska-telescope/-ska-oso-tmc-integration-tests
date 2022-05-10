@@ -5,7 +5,6 @@ from tests.resources.test_support.sync_decorators import (
     sync_telescope_on,
     sync_set_to_off,
     sync_set_to_standby,
-    sync_set_to_assign_resources,
     sync_release_resources,
 )
 from tango import DeviceProxy
@@ -16,11 +15,11 @@ import logging
 LOGGER = logging.getLogger(__name__)
 
 
-def get_release_input_str(release_input_file="command_ReleaseResources.json"):
-    path = join(dirname(__file__), "..", "data", release_input_file)
+def get_input_str(input_file):
+    path = join(dirname(__file__), "..", "data", input_file)
     with open(path, "r") as f:
-        release_input_str = f.read()
-    return release_input_str
+        input_str = f.read()
+    return input_str
 
 
 @sync_telescope_on
@@ -49,15 +48,13 @@ def set_to_standby():
     LOGGER.info("Off the Telescope")
 
 @sync_set_to_assign_resources
-def set_to_assign_resources():
+def set_to_assign_resources(assign_input_str):
     CentralNode = DeviceProxy("ska_mid/tm_central/central_node")
-    CentralNode.AssignResources()
-    LOGGER.info("After AssignResources CentralNode ObState:" + str(CentralNode.State()))
-    LOGGER.info("Assign Resources")
+    CentralNode.AssignResources(assign_input_str)
+    LOGGER.info("AssignResources is invoked")
 
 @sync_release_resources
 def invoke_releaseResources(release_input_str):
     CentralNode = DeviceProxy("ska_mid/tm_central/central_node")
     CentralNode.ReleaseResources(release_input_str)
-    LOGGER.info("After ReleaseResources CentralNode ObsState:" + str(CentralNode.ObsState()))
     LOGGER.info("ReleaseResources is invoked")
