@@ -71,3 +71,44 @@ def telescope_is_in_off_state():
         resource("ska_mid/tm_central/central_node").get("State"),
         resource("ska_mid/tm_central/central_node").get("telescopeState"),
     ] == ["OFF", "OFF", "ON", "UNKNOWN"]
+
+
+def subarray_obs_state_is_idle ():
+   LOGGER.info(
+        'resource("ska_mid/tm_subarray_node/1").get("ObsState")'
+         + str(resource("ska_mid/tm_subarray_node/1").get("ObsState"))
+    )
+   LOGGER.info(
+        'resource("mid_sdp/elt/subarray_1").get("ObsState")'
+         + str(resource("mid_sdp/elt/subarray_1").get("ObsState"))
+    )
+   LOGGER.info(
+        'resource("mid_csp/elt/subarray_01").get("ObsState")'
+         + str(resource("mid_csp/elt/subarray_01").get("ObsState"))
+    )
+   
+   return [
+        resource("mid_sdp/elt/subarray_1").get("ObsState"),
+        resource("ska_mid/tm_subarray_node/1").get("ObsState"),
+        resource("mid_csp/elt/subarray_01").get("ObsState"),
+    ] == ["IDLE", "IDLE", "IDLE",]
+
+def subarray_obs_state_is_empty():
+   LOGGER.info(
+        'resource("ska_mid/tm_subarray_node/1").get("ObsState")'
+         + str(resource("ska_mid/tm_subarray_node/1").get("ObsState"))
+    )
+   LOGGER.info(
+        'resource("mid_sdp/elt/subarray_1").get("ObsState")'
+         + str(resource("mid_sdp/elt/subarray_1").get("ObsState"))
+    )
+   LOGGER.info(
+        'resource("mid_csp/elt/subarray_01").get("ObsState")'
+         + str(resource("mid_csp/elt/subarray_01").get("ObsState"))
+    )
+   
+   return [
+        resource("mid_sdp/elt/subarray_1").get("ObsState"),
+        resource("ska_mid/tm_subarray_node/1").get("ObsState"),
+        resource("mid_csp/elt/subarray_01").get("ObsState"),
+    ] == ["EMPTY", "EMPTY", "EMPTY",]

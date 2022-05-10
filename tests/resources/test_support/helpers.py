@@ -318,6 +318,21 @@ class waiter:
                 "State", changed_to="OFF"
             )
         )
+        self.waits.append(
+            watch(resource("mid_csp/elt/subarray_01")).to_become(
+                "State", changed_to="OFF"
+            )
+        )
+        self.waits.append(
+            watch(resource("mid_csp/elt/master")).to_become(
+                "State", changed_to="STANDBY"
+            )
+        )
+        self.waits.append(
+            watch(resource("mid_d0001/elt/master")).to_become(
+                "State", changed_to="OFF"
+            )
+        )
 
     def set_wait_for_going_to_standby(self):
         self.waits.append(
@@ -330,6 +345,21 @@ class waiter:
                 "State", changed_to="STANDBY"
             )
         )
+        self.waits.append(
+            watch(resource("mid_csp/elt/subarray_01")).to_become(
+                "State", changed_to="OFF"
+            )
+        )
+        self.waits.append(
+            watch(resource("mid_csp/elt/master")).to_become(
+                "State", changed_to="STANDBY"
+            )
+        )
+        self.waits.append(
+            watch(resource("mid_d0001/elt/master")).to_become(
+                "State", changed_to="OFF"
+            )
+        )
 
     def set_wait_for_telescope_on(self):
         self.waits.append(
@@ -338,6 +368,28 @@ class waiter:
         self.waits.append(
             watch(resource('mid_sdp/elt/subarray_1')).to_become(
                 "State", changed_to="ON"
+            )
+        )
+        self.waits.append(
+            watch(resource("mid_csp/elt/master")).to_become("State", changed_to="ON")
+        )
+        self.waits.append(
+            watch(resource('mid_csp/elt/subarray_01')).to_become(
+                "State", changed_to="ON"
+            )
+        )
+        self.waits.append(
+            watch(resource("mid_d0001/elt/master")).to_become("State", changed_to="ON")
+        )
+    def set_wait_for_going_to_obs_idle(self):
+        self.waits.append(
+            watch(resource('mid_sdp/elt/subarray_1')).to_become(
+                "ObsState", changed_to="IDLE"
+            )
+        )
+        self.waits.append(
+            watch(resource('mid_csp/elt/subarray_01')).to_become(
+                "ObsState", changed_to="IDLE"
             )
         )
 
