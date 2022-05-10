@@ -68,21 +68,21 @@ sdpleafnodes:
   image:
     registry: artefact.skao.int
     image: ska-tmc-sdpleafnodes
-    tag: 0.8.16
+    tag: 0.8.18
     pullPolicy: IfNotPresent
 
 cspleafnodes:
   image:
     registry: artefact.skao.int
     image: ska-tmc-cspleafnodes
-    tag: 0.1.0
+    tag: 0.1.1
     pullPolicy: IfNotPresent
 
 dishleafnode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-dishleafnode
-    tag: 0.1.0
+    tag: 0.1.1
     pullPolicy: IfNotPresent
 
 resources:
