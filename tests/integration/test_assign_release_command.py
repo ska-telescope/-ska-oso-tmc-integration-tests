@@ -1,21 +1,13 @@
-"""
-AssignResourcesCommand class for TMC Mid
-
-"""
 import pytest
-from tests.resources.test_support.controls import (
-    telescope_is_in_standby_state, 
-    telescope_is_in_on_state, 
-    subarray_obs_state_is_idle,
-    subarray_obs_state_is_empty,
-)
-import tests.resources.test_support.tmc_helpers as tmc
+from os.path import join, dirname
+from tests.resources.test_support.controls import telescope_is_in_standby_state, telescope_is_in_on_state, telescope_is_in_off_state, subarray_obs_state_is_empty, subarray_obs_state_is_idle
+import tests.resources.test_support.tmc_helpers as tmc, get_release_input_str
 from tests.conftest import LOGGER
 
 
 @pytest.mark.SKA_mid
-def test_assign_resources():
-    """AssignResources is executed."""
+def test_assign_release_commands():
+    """AssignResources and ReleaseResources is executed."""
     try:
         fixture = {}
         fixture["state"] = "Unknown"
@@ -44,10 +36,28 @@ def test_assign_resources():
         """Verify ObsState is Idle"""
         assert subarray_obs_state_is_idle()
         fixture["state"] ="AssignResources"
+
+        release_input_str = get_release_input_str()
         
+        """Invoke ReleaseResources() command on TMC"""
+        tmc.invoke_releaseResources(release_input_str)
+
+        fixture["state"] = "ReleaseResources"
+        assert subarray_obs_state_is_empty()
+
+        """Invoke TelescopeOff() command on TMC"""
+        tmc.set_to_off()
+
+        """Verify State transitions after TelescopeOff"""
+        assert telescope_is_in_off_state()
+        fixture["state"] = "TelescopeOff"
+
+        LOGGER.info("Tests complete: tearing down...")
 
     except:
         LOGGER.info("Exception occurred in the test for state = {}".format(fixture["state"]))
+        if fixture["state"] == "AssignResources":
+            tmc.invoke_releaseResources(release_input_str)
         if fixture["state"] == "TelescopeOn":
             tmc.set_to_off()
         raise
