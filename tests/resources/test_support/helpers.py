@@ -381,6 +381,7 @@ class waiter:
         self.waits.append(
             watch(resource("mid_d0001/elt/master")).to_become("State", changed_to="ON")
         )
+
     def set_wait_for_going_to_obs_idle(self):
         self.waits.append(
             watch(resource("ska_mid/tm_subarray_node/1")).to_become(

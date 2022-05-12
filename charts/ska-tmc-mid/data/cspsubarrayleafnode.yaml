@@ -1,22 +1,22 @@
-name: "sdpsubarrayleafnode-test"
+name: "cspsubarrayleafnode-test"
 function: telescope-monitoring
 domain: general-monitoring
 instances: ["01", "02"]
 entrypoints:
-  - name: "ska_tmc_sdpsubarrayleafnode.sdp_subarray_leaf_node.SdpSubarrayLeafNode"
+  - name: "ska_tmc_cspsubarrayleafnode.csp_subarray_leaf_node.CspSubarrayLeafNode"
 server:
-  name: "sdp_subarray_leaf_node"
+  name: "csp_subarray_leaf_node"
   instances:
   {{- range  .Values.coalesced_subarray_devices }}
     - name: "{{ . }}"
       classes:
-      - name: "SdpSubarrayLeafNode"
+      - name: "CspSubarrayLeafNode"
         devices:
-          - name: "ska_mid/tm_leaf_node/sdp_subarray{{ . }}"
+          - name: "ska_mid/tm_leaf_node/csp_subarray{{ . }}"
             properties:
-              - name: "SdpSubarrayFQDN"
+              - name: "CspSubarrayFQDN"
                 values:
-                - "mid_sdp/elt/subarray_{{ (split "0" .)._1}}"
+                - "mid_csp/elt/subarray_{{ . }}"
               - name: "SkaLevel"
                 values:
                 - "3"
@@ -30,8 +30,8 @@ server:
 depends_on:
   - device: sys/database/2
 image:
-  registry: "{{.Values.sdpleafnodes.image.registry}}"
-  image: "{{.Values.sdpleafnodes.image.image}}"
-  tag: "{{.Values.sdpleafnodes.image.tag}}"
-  pullPolicy: "{{.Values.sdpleafnodes.image.pullPolicy}}"
+  registry: "{{.Values.cspleafnodes.image.registry}}"
+  image: "{{.Values.cspleafnodes.image.image}}"
+  tag: "{{.Values.cspleafnodes.image.tag}}"
+  pullPolicy: "{{.Values.cspleafnodes.image.pullPolicy}}"
 
