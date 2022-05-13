@@ -181,41 +181,41 @@ def telescope_is_in_off_state():
 
 def subarray_obs_state_is_idle ():
    LOGGER.info(
-        'resource("ska_mid/tm_subarray_node/1").get("ObsState")'
-         + str(resource("ska_mid/tm_subarray_node/1").get("ObsState"))
+        'resource("ska_mid/tm_subarray_node/1").get("obsState")'
+         + str(resource("ska_mid/tm_subarray_node/1").get("obsState"))
     )
    LOGGER.info(
-        'resource("mid_sdp/elt/subarray_1").get("ObsState")'
-         + str(resource("mid_sdp/elt/subarray_1").get("ObsState"))
+        'resource("mid_sdp/elt/subarray_1").get("obsState")'
+         + str(resource("mid_sdp/elt/subarray_1").get("obsState"))
     )
    LOGGER.info(
-        'resource("mid_csp/elt/subarray_01").get("ObsState")'
-         + str(resource("mid_csp/elt/subarray_01").get("ObsState"))
+        'resource("mid_csp/elt/subarray_01").get("obsState")'
+         + str(resource("mid_csp/elt/subarray_01").get("obsState"))
     )
    
    return [
-        resource("mid_sdp/elt/subarray_1").get("ObsState"),
-        resource("ska_mid/tm_subarray_node/1").get("ObsState"),
-        resource("mid_csp/elt/subarray_01").get("ObsState"),
+        resource("mid_sdp/elt/subarray_1").get("obsState"),
+        resource("ska_mid/tm_subarray_node/1").get("obsState"),
+        resource("mid_csp/elt/subarray_01").get("obsState"),
     ] == ["IDLE", "IDLE", "IDLE",]
 
 
 def subarray_obs_state_is_empty():
    LOGGER.info(
-        'resource("ska_mid/tm_subarray_node/1").get("ObsState")'
-         + str(resource("ska_mid/tm_subarray_node/1").get("ObsState"))
+        'resource("ska_mid/tm_subarray_node/1").get("obsState")'
+         + str(resource("ska_mid/tm_subarray_node/1").get("obsState"))
     )
    LOGGER.info(
-        'resource("mid_sdp/elt/subarray_1").get("ObsState")'
-         + str(resource("mid_sdp/elt/subarray_1").get("ObsState"))
+        'resource("mid_sdp/elt/subarray_1").get("obsState")'
+         + str(resource("mid_sdp/elt/subarray_1").get("obsState"))
     )
    LOGGER.info(
-        'resource("mid_csp/elt/subarray_01").get("ObsState")'
-         + str(resource("mid_csp/elt/subarray_01").get("ObsState"))
+        'resource("mid_csp/elt/subarray_01").get("obsState")'
+         + str(resource("mid_csp/elt/subarray_01").get("obsState"))
     )
    
    return [
-        resource("mid_sdp/elt/subarray_1").get("ObsState"),
-        resource("ska_mid/tm_subarray_node/1").get("ObsState"),
-        resource("mid_csp/elt/subarray_01").get("ObsState"),
+        resource("mid_sdp/elt/subarray_1").get("obsState"),
+        resource("ska_mid/tm_subarray_node/1").get("obsState"),
+        resource("mid_csp/elt/subarray_01").get("obsState"),
     ] == ["EMPTY", "EMPTY", "EMPTY",]

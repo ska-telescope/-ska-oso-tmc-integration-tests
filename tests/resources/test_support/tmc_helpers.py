@@ -16,10 +16,10 @@ LOGGER = logging.getLogger(__name__)
 
 
 def get_input_str(input_file):
-    path = join(dirname(__file__), "..", "data", input_file)
+    path = join(dirname(__file__), "..", "..", "data", input_file)
     with open(path, "r") as f:
         input_str = f.read()
-    return input_str
+    return json.dumps(input_str)
 
 
 @sync_telescope_on

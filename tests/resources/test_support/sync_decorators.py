@@ -52,6 +52,11 @@ def sync_set_to_assign_resources(func):
     def wrapper(*args, **kwargs):
         the_waiter = waiter()
         the_waiter.set_wait_for_going_to_obs_idle()
+        result = func(*args, **kwargs)
+        the_waiter.wait(200)
+        return result
+
+    return wrapper
 
 def sync_release_resources(func):
     @functools.wraps(func)

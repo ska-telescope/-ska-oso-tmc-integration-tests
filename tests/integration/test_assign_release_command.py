@@ -31,6 +31,8 @@ def test_assign_release_commands():
 
         assign_input_str = tmc.get_input_str(assign_resources_file)
 
+        print("AssignR json", assign_input_str)
+
         """Invoke AssignResources() Command on TMC"""
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
         tmc.set_to_assign_resources(assign_input_str)
