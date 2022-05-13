@@ -1,6 +1,6 @@
 import pytest
 from tests.resources.test_support.controls import telescope_is_in_standby_state, telescope_is_in_on_state, telescope_is_in_off_state, subarray_obs_state_is_empty, subarray_obs_state_is_idle
-import tests.resources.test_support.tmc_helpers as tmc, get_input_str
+import tests.resources.test_support.tmc_helpers as tmc
 from tests.conftest import LOGGER
 
 assign_resources_file = "command_AssignResources.json"
@@ -29,7 +29,7 @@ def test_assign_release_commands():
         """Verify ObsState is Empty"""
         assert subarray_obs_state_is_empty()
 
-        assign_input_str = get_input_str(assign_resources_file)
+        assign_input_str = tmc.get_input_str(assign_resources_file)
 
         """Invoke AssignResources() Command on TMC"""
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
@@ -40,7 +40,7 @@ def test_assign_release_commands():
         assert subarray_obs_state_is_idle()
         fixture["state"] ="AssignResources"
 
-        release_input_str = get_input_str(release_resources_file)
+        release_input_str = tmc.get_input_str(release_resources_file)
         
         """Invoke ReleaseResources() command on TMC"""
         tmc.invoke_releaseResources(release_input_str)
