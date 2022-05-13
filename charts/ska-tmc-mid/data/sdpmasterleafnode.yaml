@@ -27,6 +27,7 @@ server:
             - "5"
 depends_on:
   - device: sys/database/2
+  - device: mid_sdp/elt/master
 image:
   registry: "{{.Values.sdpleafnodes.image.registry}}"
   image: "{{.Values.sdpleafnodes.image.image}}"

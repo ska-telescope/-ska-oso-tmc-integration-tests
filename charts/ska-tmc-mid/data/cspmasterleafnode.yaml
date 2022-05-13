@@ -27,6 +27,7 @@ server:
             - "5"
 depends_on:
   - device: sys/database/2
+  - device: mid_csp/elt/master
 image:
   registry: "{{.Values.cspleafnodes.image.registry}}"
   image: "{{.Values.cspleafnodes.image.image}}"

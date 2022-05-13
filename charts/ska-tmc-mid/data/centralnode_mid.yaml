@@ -61,6 +61,9 @@ server:
             - "1000"
 depends_on:
   - device: sys/database/2
+  - device: ska_mid/tm_leaf_node/csp_master
+  - device: ska_mid/tm_leaf_node/sdp_master
+  - device: ska_mid/tm_subarray_node/1
 image:
   registry: "{{.Values.centralnode.image.registry}}"
   image: "{{.Values.centralnode.image.image}}"
