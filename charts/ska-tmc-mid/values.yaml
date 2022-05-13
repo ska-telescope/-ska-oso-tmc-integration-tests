@@ -61,28 +61,28 @@ subarraynode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-subarraynode
-    tag: 0.3.17
+    tag: 0.3.18
     pullPolicy: IfNotPresent
   
 sdpleafnodes:
   image:
     registry: artefact.skao.int
     image: ska-tmc-sdpleafnodes
-    tag: 0.8.18
+    tag: 0.8.19
     pullPolicy: IfNotPresent
 
 cspleafnodes:
   image:
     registry: artefact.skao.int
     image: ska-tmc-cspleafnodes
-    tag: 0.1.1
+    tag: 0.1.2
     pullPolicy: IfNotPresent
 
 dishleafnode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-dishleafnode
-    tag: 0.1.1
+    tag: 0.1.2
     pullPolicy: IfNotPresent
 
 resources:
