@@ -1,7 +1,7 @@
 name: "subarraynode-test"
 function: telescope-monitoring
 domain: subarray
-instances: ["01", "02"]
+instances: ["01"]
 entrypoints:
   - name: "ska_tmc_subarraynode.subarray_node_mid.SubarrayNodeMid"
 server:
@@ -38,10 +38,6 @@ server:
           - name: "LoggingLevelDefault"
             values:
               - "5"
-          - name: "polled_attr"
-            values:
-            - "healthstate"
-            - "1000"
   {{- end}}
 depends_on:
   - device: sys/database/2

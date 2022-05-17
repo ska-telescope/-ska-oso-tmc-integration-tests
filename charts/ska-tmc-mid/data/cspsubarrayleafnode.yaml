@@ -1,13 +1,13 @@
 name: "cspsubarrayleafnode-test"
 function: telescope-monitoring
 domain: general-monitoring
-instances: ["01", "02"]
+instances: ["01"]
 entrypoints:
   - name: "ska_tmc_cspsubarrayleafnode.csp_subarray_leaf_node.CspSubarrayLeafNode"
 server:
   name: "csp_subarray_leaf_node"
   instances:
-  {{- range  .Values.coalesced_subarray_devices }}
+  {{- range  .Values.deviceServers.cspsubarrayleafnode.instances }}
     - name: "{{ . }}"
       classes:
       - name: "CspSubarrayLeafNode"
