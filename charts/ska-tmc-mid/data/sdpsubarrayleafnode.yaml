@@ -29,8 +29,6 @@ server:
   {{- end}}
 depends_on:
   - device: sys/database/2
-  - device: mid_sdp/elt/subarray_1
-  - device: mid_sdp/elt/subarray_2
 image:
   registry: "{{.Values.sdpleafnodes.image.registry}}"
   image: "{{.Values.sdpleafnodes.image.image}}"

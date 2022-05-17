@@ -45,10 +45,6 @@ server:
   {{- end}}
 depends_on:
   - device: sys/database/2
-  - device: ska_mid/tm_leaf_node/csp_subarray01
-  - device: ska_mid/tm_leaf_node/sdp_subarray01
-  - device: ska_mid/tm_leaf_node/csp_subarray02
-  - device: ska_mid/tm_leaf_node/sdp_subarray02
 image:
   registry: "{{.Values.subarraynode.image.registry}}"
   image: "{{.Values.subarraynode.image.image}}"

@@ -29,8 +29,6 @@ server:
   {{- end}}
 depends_on:
   - device: sys/database/2
-  - device: mid_csp/elt/subarray_01
-  - device: mid_csp/elt/subarray_02
 image:
   registry: "{{.Values.cspleafnodes.image.registry}}"
   image: "{{.Values.cspleafnodes.image.image}}"
