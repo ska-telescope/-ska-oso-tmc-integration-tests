@@ -59,6 +59,8 @@ taranta-auth:
 
 ## tmc
 tmc-mid:
+  labels:
+    app: ska-tmc-integration
   deviceServers:
     centralnode:
       enabled: true
@@ -77,6 +79,8 @@ tmc-mid:
  
 ## SKUID
 ska-ser-skuid:
+  labels:
+    app: ska-tmc-integration
   enabled: true
   skuid:
     use_pv: false
