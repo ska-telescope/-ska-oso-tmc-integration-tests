@@ -38,27 +38,10 @@ ska-tango-base:
   tangodb:
     use_pv: false
 
-# taranta:
-#   ingress:
-#     enabled: false
-#     nginx: true
-#     hostname: test-taranta.k8s.stfc.skao.int
-
-# taranta-dashboard:
-#   ingress:
-#     enabled: false
-#     nginx: true
-#     hostname: test-taranta.k8s.stfc.skao.int
-
-# taranta-auth:
-#   ingress:
-#     enabled: false
-#     nginx: true
-#     hostname: test-taranta.k8s.stfc.skao.int
-
-
 ## tmc
 tmc-mid:
+  labels:
+    app: ska-tmc-integration
   deviceServers:
     centralnode:
       enabled: true
@@ -77,6 +60,8 @@ tmc-mid:
  
 ## SKUID
 ska-ser-skuid:
+  labels:
+    app: ska-tmc-integration
   enabled: true
   skuid:
     use_pv: false
