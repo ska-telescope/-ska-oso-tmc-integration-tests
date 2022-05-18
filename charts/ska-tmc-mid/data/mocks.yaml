@@ -5,7 +5,7 @@ instances: ["01"]
 entrypoints:
   - name: "ska_tmc_common.test_helpers.helper_state_device.HelperStateDevice"
   - name: "ska_tmc_common.test_helpers.helper_subarray_device.HelperSubArrayDevice"
-  - name: "ska_tmc_common.test_helpers.helper_subarray_leaf_device.HelperSubarrayLeafDevice"
+  - name: "ska_tmc_common.test_helpers.helper_dish_device.HelperDishDevice"
 server:
   name: "mocks"
   instances:
@@ -15,23 +15,14 @@ server:
         - name: "HelperStateDevice"
           devices:
           - name: "mid_sdp/elt/master"
-          - name: "ska_mid/tm_leaf_node/csp_master"
           - name: "mid_csp/elt/master"
-          - name: "mid_d0001/elt/master"
-          - name: "ska_mid/tm_leaf_node/d0001"
         - name: "HelperSubArrayDevice"
           devices:
           - name: "mid_sdp/elt/subarray_1"
-          - name: "mid_sdp/elt/subarray_2"
-          - name: "mid_sdp/elt/subarray_3"
           - name: "mid_csp/elt/subarray_01"
-          - name: "mid_csp/elt/subarray_02"
-          - name: "mid_csp/elt/subarray_03"
-        - name: "HelperSubarrayLeafDevice"
+        - name: "HelperDishDevice"
           devices:
-          - name: "ska_mid/tm_leaf_node/csp_subarray01"
-          - name: "ska_mid/tm_leaf_node/csp_subarray02"
-          - name: "ska_mid/tm_leaf_node/csp_subarray03"
+          - name: "mid_d0001/elt/master"
 depends_on:
   - device: sys/database/2
 image:
