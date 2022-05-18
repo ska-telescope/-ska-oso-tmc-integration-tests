@@ -384,6 +384,12 @@ class waiter:
 
     def set_wait_for_going_to_obs_idle(self):
         self.waits.append(
+            watch(resource("ska_mid/tm_subarray_node/1")).for_any_change_on(
+                "receptorIDList"
+            )
+        )
+
+        self.waits.append(
             watch(resource("ska_mid/tm_subarray_node/1")).to_become(
                 "obsState", changed_to="IDLE"
             )
@@ -414,6 +420,30 @@ class waiter:
         self.waits.append(
             watch(resource("ska_mid/tm_subarray_node/1")).to_become(
                 "obsState", changed_to="EMPTY"
+            )
+        )
+
+    def set_wait_for_assign_resources(self):
+        ### the following is a hack to wait for items taht are not worked into the state variable
+        self.waits.append(
+            watch(resource("mid_csp/elt/subarray_01")).to_become(
+                "obsState", changed_to="IDLE"
+            )
+        )
+        # self.waits.append(
+        #     watch(resource("mid_csp_cbf/sub_elt/subarray_01")).to_become(
+        #         "obsState", changed_to="IDLE"
+        #     )
+        # )
+        self.waits.append(
+            watch(resource("mid_sdp/elt/subarray_1")).to_become(
+                "obsState", changed_to="IDLE"
+            )
+        )
+        # self.waits.append(watch(resource('mid_sdp/elt/subarray_1')).to_become("obsState",changed_to='IDLE'))
+        self.waits.append(
+            watch(resource("ska_mid/tm_subarray_node/1")).to_become(
+                "obsState", changed_to="IDLE"
             )
         )
 
