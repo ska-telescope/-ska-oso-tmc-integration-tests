@@ -382,6 +382,71 @@ class waiter:
             watch(resource("mid_d0001/elt/master")).to_become("State", changed_to="ON")
         )
 
+    def set_wait_for_going_to_obs_idle(self):
+        self.waits.append(
+            watch(resource("ska_mid/tm_subarray_node/1")).for_any_change_on(
+                "receptorIDList"
+            )
+        )
+
+        self.waits.append(
+            watch(resource("ska_mid/tm_subarray_node/1")).to_become(
+                "obsState", changed_to="IDLE"
+            )
+        )
+
+        self.waits.append(
+            watch(resource('mid_sdp/elt/subarray_1')).to_become(
+                "obsState", changed_to="IDLE"
+            )
+        )
+        self.waits.append(
+            watch(resource('mid_csp/elt/subarray_01')).to_become(
+                "obsState", changed_to="IDLE"
+            )
+        )
+
+    def set_wait_for_going_to_empty(self):
+        self.waits.append(
+            watch(resource("mid_sdp/elt/subarray_1")).to_become(
+                "obsState", changed_to="EMPTY"
+            )
+        )
+        self.waits.append(
+            watch(resource("mid_csp/elt/subarray_01")).to_become(
+                "obsState", changed_to="EMPTY"
+            )
+        )
+        self.waits.append(
+            watch(resource("ska_mid/tm_subarray_node/1")).to_become(
+                "obsState", changed_to="EMPTY"
+            )
+        )
+
+    def set_wait_for_assign_resources(self):
+        ### the following is a hack to wait for items taht are not worked into the state variable
+        self.waits.append(
+            watch(resource("mid_csp/elt/subarray_01")).to_become(
+                "obsState", changed_to="IDLE"
+            )
+        )
+        # self.waits.append(
+        #     watch(resource("mid_csp_cbf/sub_elt/subarray_01")).to_become(
+        #         "obsState", changed_to="IDLE"
+        #     )
+        # )
+        self.waits.append(
+            watch(resource("mid_sdp/elt/subarray_1")).to_become(
+                "obsState", changed_to="IDLE"
+            )
+        )
+        # self.waits.append(watch(resource('mid_sdp/elt/subarray_1')).to_become("obsState",changed_to='IDLE'))
+        self.waits.append(
+            watch(resource("ska_mid/tm_subarray_node/1")).to_become(
+                "obsState", changed_to="IDLE"
+            )
+        )
+
     def wait(self, timeout=30, resolution=0.1):
         self.logs = ""
         while self.waits:
