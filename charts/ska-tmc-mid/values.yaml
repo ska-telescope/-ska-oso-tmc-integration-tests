@@ -100,7 +100,7 @@ deviceServers:
     subarray_count: 1
     file: "data/centralnode_mid.yaml"
     CspMasterLeafNodeFQDN: "ska_mid/tm_leaf_node/csp_master"
-    CspMasterFQDN: "mid_csp/elt/master"
+    CspMasterFQDN: "mid-csp/control/0"
     SdpMasterLeafNodeFQDN: "ska_mid/tm_leaf_node/sdp_master"
     SdpMasterFQDN: "mid_sdp/elt/master"
     DishLeafNodePrefix: "ska_mid/tm_leaf_node/d"
@@ -126,7 +126,7 @@ deviceServers:
     enabled: true
     instances: ["01"]
     file: "data/cspmasterleafnode.yaml"
-    CspMasterFQDN: "mid_csp/elt/master"
+    CspMasterFQDN: "mid-csp/control/0"
 
   cspsubarrayleafnode:
     enabled: true

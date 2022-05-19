@@ -319,12 +319,12 @@ class waiter:
             )
         )
         self.waits.append(
-            watch(resource("mid_csp/elt/subarray_01")).to_become(
+            watch(resource("mid-csp/subarray/01")).to_become(
                 "State", changed_to="OFF"
             )
         )
         self.waits.append(
-            watch(resource("mid_csp/elt/master")).to_become(
+            watch(resource("mid-csp/control/0")).to_become(
                 "State", changed_to="STANDBY"
             )
         )
@@ -346,12 +346,12 @@ class waiter:
             )
         )
         self.waits.append(
-            watch(resource("mid_csp/elt/subarray_01")).to_become(
+            watch(resource("mid-csp/subarray/01")).to_become(
                 "State", changed_to="OFF"
             )
         )
         self.waits.append(
-            watch(resource("mid_csp/elt/master")).to_become(
+            watch(resource("mid-csp/control/0")).to_become(
                 "State", changed_to="STANDBY"
             )
         )
@@ -371,10 +371,10 @@ class waiter:
             )
         )
         self.waits.append(
-            watch(resource("mid_csp/elt/master")).to_become("State", changed_to="ON")
+            watch(resource("mid-csp/control/0")).to_become("State", changed_to="ON")
         )
         self.waits.append(
-            watch(resource('mid_csp/elt/subarray_01')).to_become(
+            watch(resource('mid-csp/subarray/01')).to_become(
                 "State", changed_to="ON"
             )
         )
@@ -394,7 +394,7 @@ class waiter:
             )
         )
         self.waits.append(
-            watch(resource("mid_csp/elt/subarray_01")).to_become(
+            watch(resource("mid-csp/subarray/01")).to_become(
                 "obsState", changed_to="EMPTY"
             )
         )
@@ -407,7 +407,7 @@ class waiter:
     def set_wait_for_assign_resources(self):
         # the following is a hack to wait for items taht are not worked into the state variable
         self.waits.append(
-            watch(resource("mid_csp/elt/subarray_01")).to_become(
+            watch(resource("mid-csp/subarray/01")).to_become(
                 "obsState", changed_to="IDLE"
             )
         )

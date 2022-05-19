@@ -16,7 +16,7 @@ server:
             properties:
               - name: "CspSubarrayFQDN"
                 values:
-                - "mid_csp/elt/subarray_{{ . }}"
+                - "mid-csp/subarray/{{ . }}"
               - name: "SkaLevel"
                 values:
                 - "3"

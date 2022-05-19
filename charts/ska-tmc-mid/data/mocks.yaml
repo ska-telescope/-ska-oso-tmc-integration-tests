@@ -15,11 +15,11 @@ server:
         - name: "HelperStateDevice"
           devices:
           - name: "mid_sdp/elt/master"
-          - name: "mid_csp/elt/master"
+          - name: "mid-csp/control/0"
         - name: "HelperSubArrayDevice"
           devices:
           - name: "mid_sdp/elt/subarray_1"
-          - name: "mid_csp/elt/subarray_01"
+          - name: "mid-csp/subarray/01"
         - name: "HelperDishDevice"
           devices:
           - name: "mid_d0001/elt/master"

@@ -7,9 +7,9 @@ from tests.conftest import LOGGER
 centralnode = "ska_mid/tm_central/central_node"
 tm_subarraynode1 = "ska_mid/tm_subarray_node/1"
 sdp_subarray1 = "mid_sdp/elt/subarray_1"
-csp_subarray1 = "mid_csp/elt/subarray_01"
+csp_subarray1 = "mid-csp/subarray/01"
 sdp_master = "mid_sdp/elt/master"
-csp_master = "mid_csp/elt/master"
+csp_master = "mid-csp/control/0"
 dish_master1 = "mid_d0001/elt/master"
 
 
