@@ -1,6 +1,6 @@
 {
   "interface": "https://schema.skao.int/ska-tmc-assignresources/2.0",
-  "transaction_id": "txn-....-00001",
+  "transaction_id": "txn-local-20210203-0001",
   "subarray_id": 1,
   "dish": {
     "receptor_ids": [
