@@ -18,7 +18,6 @@ def get_input_str(input_file):
     with open(path, "r") as f:
         return f.read()
 
-
 @sync_telescope_on
 def set_to_on():
     CentralNode = DeviceProxy(centralnode)
@@ -27,7 +26,6 @@ def set_to_on():
         + str(CentralNode.State())
     )
     CentralNode.TelescopeOn()
-
 
 @sync_set_to_off
 def set_to_off():
@@ -45,9 +43,10 @@ def set_to_standby():
             f"After invoking TelescopeStandBy command {centralnode} State is: {CentralNode.State()}"
     )
 
-
 @sync_release_resources
 def invoke_releaseResources(release_input_str):
     CentralNode = DeviceProxy(centralnode)
     CentralNode.ReleaseResources(release_input_str)
-    LOGGER.info("ReleaseResources is invoked on Central Node")
+    LOGGER.info(
+            f"ReleaseResources command is invoked on {centralnode}"
+    )
