@@ -30,11 +30,12 @@ def test_telescope_standby():
         assert telescope_is_in_standby_state()
         fixture["state"] = "TelescopeOff"
 
-        LOGGER.info("Tests complete: tearing down...")
+        LOGGER.info("Tests complete.")
         
 
     except:
         LOGGER.info("Exception occurred in the test for state = {}".format(fixture["state"]))
+        LOGGER.info("Tearing down...")
         if fixture["state"] == "TelescopeOn":
             tmc.set_to_off()
         raise

@@ -3,14 +3,12 @@ from tests.resources.test_support.helpers import waiter, resource
 from contextlib import contextmanager
 
 
-# pre cheks
+# pre checks
 def check_going_out_of_empty():
-    ##verify once for obstate = EMPTY
+    # verify once for obstate = EMPTY
     resource("mid_csp/elt/subarray_01").assert_attribute("obsState").equals("EMPTY")
     resource("mid_sdp/elt/subarray_1").assert_attribute("obsState").equals("EMPTY")
     resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals("EMPTY")
-
-
 
 def sync_telescope_on(func):
     @functools.wraps(func)
@@ -22,7 +20,6 @@ def sync_telescope_on(func):
         return result
 
     return wrapper
-
 
 def sync_set_to_off(func):
     @functools.wraps(func)
@@ -86,9 +83,7 @@ def sync_assign_resources():
             check_going_out_of_empty()
             the_waiter = waiter()
             the_waiter.set_wait_for_assign_resources()
-            ################
             result = func(*args, **kwargs)
-            ################
             the_waiter.wait(200)
             return result
 

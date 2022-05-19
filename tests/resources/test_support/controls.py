@@ -1,4 +1,4 @@
-##local depencies
+# local depencies
 from tests.resources.test_support.helpers import (
     resource
 )

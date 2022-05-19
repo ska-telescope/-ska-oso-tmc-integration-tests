@@ -68,10 +68,11 @@ def test_assign_release_commands():
         assert telescope_is_in_off_state()
         fixture["state"] = "TelescopeOff"
 
-        LOGGER.info("Tests complete: tearing down...")
+        LOGGER.info("Tests complete.")
 
     except:
         LOGGER.info("Exception occurred in the test for state = {}".format(fixture["state"]))
+        LOGGER.info("Tearing down...")
         if fixture["state"] == "AssignResources":
             tmc.invoke_releaseResources(release_input_str)
         if fixture["state"] == "TelescopeOn":
