@@ -5,7 +5,7 @@ from tests.resources.test_support.sync_decorators import (
     sync_set_to_standby,
     sync_release_resources,
 )
-from tango import DeviceProxy
+from tango import DeviceProxy, DevState
 
 import logging
 
@@ -26,6 +26,8 @@ def set_to_on():
         + str(CentralNode.State())
     )
     CentralNode.TelescopeOn()
+    csp_Subarray1_proxy = DeviceProxy("mid_csp/elt/subarray_01")
+    csp_Subarray1_proxy.SetDirectState(DevState.ON)
 
 
 @sync_set_to_off
@@ -33,6 +35,8 @@ def set_to_off():
     CentralNode = DeviceProxy("ska_mid/tm_central/central_node")
     CentralNode.TelescopeOff()
     LOGGER.info("After TelescopeOff CentralNode State:" + str(CentralNode.State()))
+    csp_Subarray1_proxy = DeviceProxy("mid_csp/elt/subarray_01")
+    csp_Subarray1_proxy.SetDirectState(DevState.OFF)
     LOGGER.info("Off the Telescope")
 
 
@@ -41,6 +45,8 @@ def set_to_standby():
     CentralNode = DeviceProxy("ska_mid/tm_central/central_node")
     CentralNode.TelescopeStandBy()
     LOGGER.info("After TelescopeStandBy CentralNode State:" + str(CentralNode.State()))
+    csp_Subarray1_proxy = DeviceProxy("mid_csp/elt/subarray_01")
+    csp_Subarray1_proxy.SetDirectState(DevState.OFF)
     LOGGER.info("Off the Telescope")
 
 

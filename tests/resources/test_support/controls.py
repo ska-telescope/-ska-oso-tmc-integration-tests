@@ -33,6 +33,10 @@ def telescope_is_in_standby_state():
         'resource("ska_mid/tm_central/central_node").get("State")'
         + str(resource("ska_mid/tm_central/central_node").get("State"))
     )
+    LOGGER.info(
+        'resource("ska_mid/tm_central/central_node").get("telescopeState")'
+        + str(resource("ska_mid/tm_central/central_node").get("telescopeState")))
+
     return (resource("mid_sdp/elt/subarray_1").get("State") in ["DISABLE" , "OFF"],
     resource("mid_sdp/elt/master").get("State") in ["DISABLE", "STANDBY"],
     resource("mid_csp/elt/master").get("State") in ["DISABLE", "STANDBY"],
@@ -70,7 +74,7 @@ def telescope_is_in_on_state():
         + str(resource("mid_d0001/elt/master").get("State"))
     )
     LOGGER.info(
-        'resource("ska_mid/tm_central/central_node").get("State")'
+        'resource("ska_mid/tm_central/central_node").get("telescopeState")'
         + str(resource("ska_mid/tm_central/central_node").get("telescopeState")))
 
     return [
@@ -113,6 +117,10 @@ def telescope_is_in_off_state():
         'resource("mid_d0001/elt/master").get("State")'
         + str(resource("mid_d0001/elt/master").get("State"))
     )
+
+    LOGGER.info(
+        'resource("ska_mid/tm_central/central_node").get("telescopeState")'
+        + str(resource("ska_mid/tm_central/central_node").get("telescopeState")))
 
     return [
         resource("mid_sdp/elt/subarray_1").get("State"),
