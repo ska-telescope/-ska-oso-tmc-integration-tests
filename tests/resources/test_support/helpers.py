@@ -385,7 +385,7 @@ class waiter:
     def set_wait_for_going_to_obs_idle(self):
         self.waits.append(
             watch(resource("ska_mid/tm_subarray_node/1")).for_any_change_on(
-                "receptorIDList"
+                "assignedResources"
             )
         )
 
@@ -407,6 +407,11 @@ class waiter:
         )
 
     def set_wait_for_going_to_empty(self):
+        self.waits.append(
+            watch(resource("ska_mid/tm_subarray_node/1")).for_any_change_on(
+                "assignedResources"
+            )
+        )
         self.waits.append(
             watch(resource("mid_sdp/elt/subarray_1")).to_become(
                 "obsState", changed_to="EMPTY"
