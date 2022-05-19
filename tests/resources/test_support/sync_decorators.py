@@ -32,7 +32,6 @@ def sync_set_to_off(func):
 
     return wrapper
 
-
 # defined as a context manager
 @contextmanager
 def sync_going_to_off(timeout=50):
@@ -40,7 +39,6 @@ def sync_going_to_off(timeout=50):
     the_waiter.set_wait_for_going_to_off()
     yield
     the_waiter.wait(timeout)
-
 
 def sync_set_to_standby(func):
     @functools.wraps(func)
