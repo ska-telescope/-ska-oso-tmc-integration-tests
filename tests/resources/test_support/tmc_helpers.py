@@ -32,20 +32,18 @@ def set_to_on():
 def set_to_off():
     CentralNode = DeviceProxy("ska_mid/tm_central/central_node")
     CentralNode.TelescopeOff()
-    LOGGER.info("After TelescopeOff CentralNode State:" + str(CentralNode.State()))
-    LOGGER.info("Off the Telescope")
+    LOGGER.info("After TelescopeOff ska_mid/tm_central/central_node State:" + str(CentralNode.State()))
 
 
 @sync_set_to_standby
 def set_to_standby():
     CentralNode = DeviceProxy("ska_mid/tm_central/central_node")
     CentralNode.TelescopeStandBy()
-    LOGGER.info("After TelescopeStandBy CentralNode State:" + str(CentralNode.State()))
-    LOGGER.info("Off the Telescope")
+    LOGGER.info("After TelescopeStandBy ska_mid/tm_central/central_node State:" + str(CentralNode.State()))
 
 
 @sync_release_resources
 def invoke_releaseResources(release_input_str):
     CentralNode = DeviceProxy("ska_mid/tm_central/central_node")
     CentralNode.ReleaseResources(release_input_str)
-    LOGGER.info("ReleaseResources is invoked")
+    LOGGER.info("ReleaseResources is invoked on Central Node")
