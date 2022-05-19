@@ -6,6 +6,7 @@ from tests.resources.test_support.sync_decorators import (
     sync_release_resources,
 )
 from tango import DeviceProxy
+from tests.resources.test_support.controls import centralnode
 
 import logging
 
@@ -20,7 +21,7 @@ def get_input_str(input_file):
 
 @sync_telescope_on
 def set_to_on():
-    CentralNode = DeviceProxy("ska_mid/tm_central/central_node")
+    CentralNode = DeviceProxy(centralnode)
     LOGGER.info(
         "Before Sending TelescopeOn command on CentralNode state :"
         + str(CentralNode.State())
@@ -30,20 +31,23 @@ def set_to_on():
 
 @sync_set_to_off
 def set_to_off():
-    CentralNode = DeviceProxy("ska_mid/tm_central/central_node")
+    CentralNode = DeviceProxy(centralnode)
     CentralNode.TelescopeOff()
-    LOGGER.info("After TelescopeOff ska_mid/tm_central/central_node State:" + str(CentralNode.State()))
-
+    LOGGER.info(
+            f"After invoking TelescopeOff command {centralnode} State is: {CentralNode.State()}"
+    )
 
 @sync_set_to_standby
 def set_to_standby():
-    CentralNode = DeviceProxy("ska_mid/tm_central/central_node")
+    CentralNode = DeviceProxy(centralnode)
     CentralNode.TelescopeStandBy()
-    LOGGER.info("After TelescopeStandBy ska_mid/tm_central/central_node State:" + str(CentralNode.State()))
+    LOGGER.info(
+            f"After invoking TelescopeStandBy command {centralnode} State is: {CentralNode.State()}"
+    )
 
 
 @sync_release_resources
 def invoke_releaseResources(release_input_str):
-    CentralNode = DeviceProxy("ska_mid/tm_central/central_node")
+    CentralNode = DeviceProxy(centralnode)
     CentralNode.ReleaseResources(release_input_str)
     LOGGER.info("ReleaseResources is invoked on Central Node")
