@@ -42,10 +42,7 @@ def telescope_is_in_standby_state():
         'resource(centralnode).get("State")'
         + str(resource(centralnode).get("State"))
     )
-    LOGGER.info(
-        'resource(centralnode).get("telescopeState")'
-        + str(resource(centralnode).get("telescopeState")))
-
+    
     return (resource(sdp_subarray1).get("State") in ["DISABLE" , "OFF"],
     resource(sdp_master).get("State") in ["DISABLE", "STANDBY"],
     resource(csp_master).get("State") in ["DISABLE", "STANDBY"],
@@ -82,9 +79,6 @@ def telescope_is_in_on_state():
         'resource(centralnode).get("State")'
         + str(resource(centralnode).get("State"))
     )
-    LOGGER.info(
-        'resource(centralnode).get("telescopeState")'
-        + str(resource(centralnode).get("telescopeState")))
 
     return [
         resource(sdp_subarray1).get("State"),
@@ -93,8 +87,7 @@ def telescope_is_in_on_state():
         resource(csp_subarray1).get("State"),
         resource(dish_master1).get("State"),
         resource(centralnode).get("State"),
-        resource(centralnode).get("telescopeState"),
-    ] == ["ON", "ON", "ON", "ON", "ON", "ON", "ON"]
+    ] == ["ON", "ON", "ON", "ON", "ON", "ON"]
 
 
 def telescope_is_in_off_state():
@@ -127,10 +120,6 @@ def telescope_is_in_off_state():
         + str(resource(dish_master1).get("State"))
     )
 
-    LOGGER.info(
-        'resource(centralnode).get("telescopeState")'
-        + str(resource(centralnode).get("telescopeState")))
-
     return [
         resource(sdp_subarray1).get("State"),
         resource(sdp_master).get("State"),
@@ -138,8 +127,7 @@ def telescope_is_in_off_state():
         resource(csp_subarray1).get("State"),
         resource(dish_master1).get("State"),
         resource(centralnode).get("State"),
-        resource(centralnode).get("telescopeState"),
-    ] == ["OFF", "OFF", "STANDBY", "OFF", "OFF", "ON", "STANDBY"]
+    ] == ["OFF", "OFF", "STANDBY", "OFF", "OFF", "ON"]
 
 
 def subarray_obs_state_is_idle ():
