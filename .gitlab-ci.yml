@@ -27,7 +27,6 @@ stages:
   - scan
   - lifecycle
 
-
 include:
 # # Helm Chart linting and Publish
 - project: 'ska-telescope/templates-repository'
@@ -45,4 +44,19 @@ include:
 # https://developer.skatelescope.org/en/latest/tools/continuousintegration.html#automated-collection-of-ci-health-metrics-as-part-of-the-ci-pipeline
 - project: 'ska-telescope/templates-repository'
   file: 'gitlab-ci/includes/finaliser.gitlab-ci.yml'
-  
+
+k8s-test:
+  retry: 2
+  variables:
+    TELESCOPE: SKA-mid
+    KUBE_NAMESPACE: ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-mid
+  environment:
+    name: test/$CI_COMMIT_REF_SLUG-mid
+    kubernetes:
+      namespace: ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-mid
+  after_script:
+    - &after_script |
+        echo $CI_JOB_NAME - $CI_JOB_STAGE
+        bash scripts/gitlab_section.sh vars "Make config dump" make vars
+        make k8s-uninstall-chart || true
+        make k8s-delete-namespace

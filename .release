@@ -1,4 +1,4 @@
-release=0.5.0
-tag=0.5.0
-tag_description=Version increment to avoid overlap with old version number
-release_notes=Version increment to avoid overlap with old version number
+release=0.5.1
+tag=0.5.1
+tag_description=Version increment utilising latest image versions for all real tmc devices.
+release_notes=Version increment utilising latest image versions for all real tmc devices.

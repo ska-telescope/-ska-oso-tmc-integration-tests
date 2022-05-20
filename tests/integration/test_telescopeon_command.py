@@ -3,7 +3,6 @@ from tests.resources.test_support.controls import telescope_is_in_standby_state,
 import tests.resources.test_support.tmc_helpers as tmc
 from tests.conftest import LOGGER
 
-
 @pytest.mark.SKA_mid
 def test_telescope_on():
     """TelescopeOn() is executed."""
@@ -31,10 +30,11 @@ def test_telescope_on():
         assert telescope_is_in_off_state()
         fixture["state"] = "TelescopeOff"
 
-        LOGGER.info("Tests complete: tearing down...")
+        LOGGER.info("Tests complete.")
 
     except:
         LOGGER.info("Exception occurred in the test for state = {}".format(fixture["state"]))
+        LOGGER.info("Tearing down...")
         if fixture["state"] == "TelescopeOn":
             tmc.set_to_off()
         raise

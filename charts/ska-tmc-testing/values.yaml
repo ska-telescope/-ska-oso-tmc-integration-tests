@@ -38,7 +38,7 @@ ska-tango-base:
   tangodb:
     use_pv: false
 
-## tmc
+# Tmc-Mid
 tmc-mid:
   labels:
     app: ska-tmc-integration
@@ -58,7 +58,7 @@ tmc-mid:
     mocks:
       enabled: true
  
-## SKUID
+# SKUID
 ska-ser-skuid:
   labels:
     app: ska-tmc-integration

@@ -25,7 +25,7 @@ server:
             - "ska_mid/tm_leaf_node/sdp_subarray{{ . }}"
           - name: "CspSubarrayFQDN"
             values:
-            - "mid_csp/elt/subarray_{{ . }}"
+            - "mid-csp/subarray/{{ . }}"
           - name: "SdpSubarrayFQDN"
             values:
             - "mid_sdp/elt/subarray_{{ (split "0" .)._1}}"

@@ -13,7 +13,7 @@ from tango import DeviceProxy, CmdArgType, EventType
 LOGGER = logging.getLogger(__name__)
 
 
-####typical device sets
+# typical device sets
 subarray_devices = [
     "ska_mid/tm_subarray_node/1",
     "mid_sdp/elt/subarray_1",
@@ -65,7 +65,7 @@ class ObjectComparison:
             )
 
 
-####time keepers based on above resources
+# time keepers based on above resources
 class monitor(object):
     """
     Montitors an attribte of a given resource and allows a user to block/wait on a specific condition:
@@ -296,7 +296,7 @@ def wait_for(device, timeout=80):
     return state_checker(device, timeout)
 
 
-### this is a composite type of waiting based on a set of predefined pre conditions expected to be true
+# this is a composite type of waiting based on a set of predefined pre conditions expected to be true
 class waiter:
     def __init__(self):
         self.waits = []
@@ -319,12 +319,12 @@ class waiter:
             )
         )
         self.waits.append(
-            watch(resource("mid_csp/elt/subarray_01")).to_become(
+            watch(resource("mid-csp/subarray/01")).to_become(
                 "State", changed_to="OFF"
             )
         )
         self.waits.append(
-            watch(resource("mid_csp/elt/master")).to_become(
+            watch(resource("mid-csp/control/0")).to_become(
                 "State", changed_to="STANDBY"
             )
         )
@@ -346,12 +346,12 @@ class waiter:
             )
         )
         self.waits.append(
-            watch(resource("mid_csp/elt/subarray_01")).to_become(
+            watch(resource("mid-csp/subarray/01")).to_become(
                 "State", changed_to="OFF"
             )
         )
         self.waits.append(
-            watch(resource("mid_csp/elt/master")).to_become(
+            watch(resource("mid-csp/control/0")).to_become(
                 "State", changed_to="STANDBY"
             )
         )
@@ -371,15 +371,55 @@ class waiter:
             )
         )
         self.waits.append(
-            watch(resource("mid_csp/elt/master")).to_become("State", changed_to="ON")
+            watch(resource("mid-csp/control/0")).to_become("State", changed_to="ON")
         )
         self.waits.append(
-            watch(resource('mid_csp/elt/subarray_01')).to_become(
+            watch(resource('mid-csp/subarray/01')).to_become(
                 "State", changed_to="ON"
             )
         )
         self.waits.append(
             watch(resource("mid_d0001/elt/master")).to_become("State", changed_to="ON")
+        )
+
+    def set_wait_for_going_to_empty(self):
+        self.waits.append(
+            watch(resource("ska_mid/tm_subarray_node/1")).for_any_change_on(
+                "assignedResources"
+            )
+        )
+        self.waits.append(
+            watch(resource("mid_sdp/elt/subarray_1")).to_become(
+                "obsState", changed_to="EMPTY"
+            )
+        )
+        self.waits.append(
+            watch(resource("mid-csp/subarray/01")).to_become(
+                "obsState", changed_to="EMPTY"
+            )
+        )
+        self.waits.append(
+            watch(resource("ska_mid/tm_subarray_node/1")).to_become(
+                "obsState", changed_to="EMPTY"
+            )
+        )
+
+    def set_wait_for_assign_resources(self):
+        # the following is a hack to wait for items taht are not worked into the state variable
+        self.waits.append(
+            watch(resource("mid-csp/subarray/01")).to_become(
+                "obsState", changed_to="IDLE"
+            )
+        )
+        self.waits.append(
+            watch(resource("mid_sdp/elt/subarray_1")).to_become(
+                "obsState", changed_to="IDLE"
+            )
+        )
+        self.waits.append(
+            watch(resource("ska_mid/tm_subarray_node/1")).to_become(
+                "obsState", changed_to="IDLE"
+            )
         )
 
     def wait(self, timeout=30, resolution=0.1):
@@ -428,9 +468,7 @@ class waiter:
             )
 
 
-#####Waiters based on tango DevicProxy's abilitu to subscribe to events
-
-
+# Waiters based on tango DevicProxy's abilitu to subscribe to events
 class AttributeWatcher:
     """listens to events in a device and enables waiting until a predicate is true or publish to a subscriber
     It allows in essence for the ability to wait for three types of conditions:

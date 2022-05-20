@@ -15,18 +15,18 @@ server:
         - name: "HelperStateDevice"
           devices:
           - name: "mid_sdp/elt/master"
-          - name: "mid_csp/elt/master"
+          - name: "mid-csp/control/0"
         - name: "HelperSubArrayDevice"
           devices:
           - name: "mid_sdp/elt/subarray_1"
-          - name: "mid_csp/elt/subarray_01"
+          - name: "mid-csp/subarray/01"
         - name: "HelperDishDevice"
           devices:
           - name: "mid_d0001/elt/master"
 depends_on:
   - device: sys/database/2
 image:
-  registry: "{{.Values.sdpleafnodes.image.registry}}"
-  image: "{{.Values.sdpleafnodes.image.image}}"
-  tag: "{{.Values.sdpleafnodes.image.tag}}"
-  pullPolicy: "{{.Values.sdpleafnodes.image.pullPolicy}}"
+  registry: "{{.Values.dishleafnode.image.registry}}"
+  image: "{{.Values.dishleafnode.image.image}}"
+  tag: "{{.Values.dishleafnode.image.tag}}"
+  pullPolicy: "{{.Values.dishleafnode.image.pullPolicy}}"
