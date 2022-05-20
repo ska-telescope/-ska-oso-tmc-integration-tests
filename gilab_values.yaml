@@ -1,4 +1,0 @@
-global:
-  annotations:
-    app.gitlab.com/app: ska-tmc-integration
-    app.gitlab.com/env: ska-tmc-integration
