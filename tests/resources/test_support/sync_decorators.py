@@ -16,7 +16,7 @@ def sync_telescope_on(func):
         the_waiter = waiter()
         the_waiter.set_wait_for_telescope_on()
         result = func(*args, **kwargs)
-        the_waiter.wait(100)
+        the_waiter.wait(500)
         return result
 
     return wrapper
@@ -27,7 +27,7 @@ def sync_set_to_off(func):
         the_waiter = waiter()
         the_waiter.set_wait_for_going_to_off()
         result = func(*args, **kwargs)
-        the_waiter.wait(100)
+        the_waiter.wait(500)
         return result
 
     return wrapper
@@ -46,7 +46,7 @@ def sync_set_to_standby(func):
         the_waiter = waiter()
         the_waiter.set_wait_for_going_to_standby()
         result = func(*args, **kwargs)
-        the_waiter.wait(100)
+        the_waiter.wait(500)
         return result
 
     return wrapper
@@ -57,7 +57,7 @@ def sync_release_resources(func):
         the_waiter = waiter()
         the_waiter.set_wait_for_going_to_empty()
         result = func(*args, **kwargs)
-        the_waiter.wait(100)
+        the_waiter.wait(500)
         return result
 
     return wrapper
@@ -71,7 +71,7 @@ def sync_assign_resources():
             the_waiter = waiter()
             the_waiter.set_wait_for_assign_resources()
             result = func(*args, **kwargs)
-            the_waiter.wait(200)
+            the_waiter.wait(500)
             return result
 
         return wrapper
