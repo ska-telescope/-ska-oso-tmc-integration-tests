@@ -139,7 +139,7 @@ deviceServers:
     file: "data/dishleafnode.yaml"
   
   mocks:
-    enabled: true
+    enabled: false
     file: "data/mocks.yaml"
 
 

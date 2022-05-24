@@ -1,4 +1,4 @@
-release=0.5.1
-tag=0.5.1
+release=0.5.2
+tag=0.5.2
 tag_description=Version increment utilising latest image versions for all real tmc devices.
 release_notes=Version increment utilising latest image versions for all real tmc devices.
