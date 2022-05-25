@@ -25,7 +25,7 @@ global:
   # List the dishes, if set, then this list will be applied to instances of:
   # deviceServers.dishmaster, deviceServers.dishleafnode
   dish_devices: ["dishmaster", "dishleafnode"]
-  dishes: ["01"]
+  dishes: ["01", "02", "03", "04"]
 
   # subarray_count, this will be expanded (1 to N inclusive) and applied to instances of:
   # deviceServers.cspsubarrayleafnode, deviceServers.sdpsubarrayleafnode, deviceServers.subarraynode
@@ -33,7 +33,7 @@ global:
     - "cspsubarrayleafnode"
     - "sdpsubarrayleafnode"
     - "subarraynode"
-  subarray_count: 1
+  subarray_count: 3
   
 dsconfig:
   configuration_file: data/tmc-mid-config.json
@@ -97,23 +97,23 @@ deviceServers:
   centralnode:
     enabled: true
     instances: ["01"]
-    subarray_count: 1
+    subarray_count: 3
     file: "data/centralnode_mid.yaml"
     CspMasterLeafNodeFQDN: "ska_mid/tm_leaf_node/csp_master"
     CspMasterFQDN: "mid-csp/control/0"
     SdpMasterLeafNodeFQDN: "ska_mid/tm_leaf_node/sdp_master"
     SdpMasterFQDN: "mid_sdp/elt/master"
     DishLeafNodePrefix: "ska_mid/tm_leaf_node/d"
-    NumDishes: 1
+    NumDishes: 4
 
   subarraynode:
     enabled: true
-    instances: ["01"]
+    instances: ["01", "02", "03"]
     file: "data/subarraynode_mid.yaml"
   
   sdpsubarrayleafnode:
     enabled: true
-    instances: ["01"]
+    instances: ["01", "02", "03"]
     file: "data/sdpsubarrayleafnode.yaml"
   
   sdpmasterleafnode:
@@ -130,12 +130,12 @@ deviceServers:
 
   cspsubarrayleafnode:
     enabled: true
-    instances: ["01"]
+    instances: ["01", "02", "03"]
     file: "data/cspsubarrayleafnode.yaml"
 
   dishleafnode:
     enabled: true
-    instances: ["01"]
+    instances: ["01", "02", "03", "04"]
     file: "data/dishleafnode.yaml"
   
   mocks:

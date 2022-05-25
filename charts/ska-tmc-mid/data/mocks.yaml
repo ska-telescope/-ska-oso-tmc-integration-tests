@@ -18,11 +18,18 @@ server:
           - name: "mid-csp/control/0"
         - name: "HelperSubArrayDevice"
           devices:
-          - name: "mid_sdp/elt/subarray_1"
+          - name: "mid_sdp/elt/subarray_1" 
+          - name: "mid_sdp/elt/subarray_2"
+          - name: "mid_sdp/elt/subarray_3"
           - name: "mid-csp/subarray/01"
+          - name: "mid-csp/subarray/02"
+          - name: "mid-csp/subarray/03"
         - name: "HelperDishDevice"
           devices:
           - name: "mid_d0001/elt/master"
+          - name: "mid_d0002/elt/master"
+          - name: "mid_d0003/elt/master"
+          - name: "mid_d0004/elt/master"  
 depends_on:
   - device: sys/database/2
 image:

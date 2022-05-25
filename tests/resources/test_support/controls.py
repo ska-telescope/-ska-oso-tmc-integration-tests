@@ -6,11 +6,20 @@ from tests.conftest import LOGGER
 
 centralnode = "ska_mid/tm_central/central_node"
 tm_subarraynode1 = "ska_mid/tm_subarray_node/1"
+tm_subarraynode2 = "ska_mid/tm_subarray_node/2"
+tm_subarraynode3 = "ska_mid/tm_subarray_node/3"
 sdp_subarray1 = "mid_sdp/elt/subarray_1"
+sdp_subarray2 = "mid_sdp/elt/subarray_2"
+sdp_subarray3 = "mid_sdp/elt/subarray_3"
 csp_subarray1 = "mid-csp/subarray/01"
+csp_subarray2 = "mid-csp/subarray/02"
+csp_subarray3 = "mid-csp/subarray/03"
 sdp_master = "mid_sdp/elt/master"
 csp_master = "mid-csp/control/0"
 dish_master1 = "mid_d0001/elt/master"
+dish_master2 = "mid_d0002/elt/master"
+dish_master3 = "mid_d0003/elt/master"
+dish_master4 = "mid_d0004/elt/master"
 
 
 def telescope_is_in_standby_state():
@@ -19,7 +28,7 @@ def telescope_is_in_standby_state():
         + str(resource(tm_subarraynode1).get("State"))
     )
     LOGGER.info(
-        'resource(sdp_master_fqdn).get("State")'
+        'resource(sdp_master).get("State")'
         + str(resource(sdp_master).get("State"))
     )
     LOGGER.info(
@@ -56,7 +65,7 @@ def telescope_is_in_on_state():
         + str(resource(tm_subarraynode1).get("State"))
     )
     LOGGER.info(
-        'resource(sdp_master_fqdn).get("State")'
+        'resource(sdp_master).get("State")'
         + str(resource(sdp_master).get("State"))
     )
     LOGGER.info(
