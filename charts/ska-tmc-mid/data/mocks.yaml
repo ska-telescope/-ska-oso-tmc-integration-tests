@@ -6,27 +6,37 @@ entrypoints:
   - name: "ska_tmc_common.test_helpers.helper_state_device.HelperStateDevice"
   - name: "ska_tmc_common.test_helpers.helper_subarray_device.HelperSubArrayDevice"
   - name: "ska_tmc_common.test_helpers.helper_dish_device.HelperDishDevice"
+  - name: "ska_tmc_common.test_helpers.helper_csp_master_device.HelperCspMasterDevice"
 server:
   name: "mocks"
   instances:
     - name: "01"
       classes:
       # mocks for leaf nodes can be removed once the related leafnodes docker images are available
+        - name: "HelperCspMasterDevice"
+          devices:
+          - name: "mid-csp/control/0"
         - name: "HelperStateDevice"
           devices:
           - name: "mid_sdp/elt/master"
-          - name: "mid-csp/control/0"
         - name: "HelperSubArrayDevice"
           devices:
-          - name: "mid_sdp/elt/subarray_1"
+          - name: "mid_sdp/elt/subarray_1" 
+          - name: "mid_sdp/elt/subarray_2"
+          - name: "mid_sdp/elt/subarray_3"
           - name: "mid-csp/subarray/01"
+          - name: "mid-csp/subarray/02"
+          - name: "mid-csp/subarray/03"
         - name: "HelperDishDevice"
           devices:
           - name: "mid_d0001/elt/master"
+          - name: "mid_d0002/elt/master"
+          - name: "mid_d0003/elt/master"
+          - name: "mid_d0004/elt/master"  
 depends_on:
   - device: sys/database/2
 image:
-  registry: "{{.Values.dishleafnode.image.registry}}"
-  image: "{{.Values.dishleafnode.image.image}}"
-  tag: "{{.Values.dishleafnode.image.tag}}"
-  pullPolicy: "{{.Values.dishleafnode.image.pullPolicy}}"
+  registry: "{{.Values.cspleafnodes.image.registry}}"
+  image: "{{.Values.cspleafnodes.image.image}}"
+  tag: "{{.Values.cspleafnodes.image.tag}}"
+  pullPolicy: "{{.Values.cspleafnodes.image.pullPolicy}}"

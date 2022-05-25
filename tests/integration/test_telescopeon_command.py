@@ -4,7 +4,6 @@ import tests.resources.test_support.tmc_helpers as tmc
 from tests.conftest import LOGGER
 
 @pytest.mark.SKA_mid
-@pytest.mark.skip(reason = "Test case appears to be failing randomly due to deployment setup")
 def test_telescope_on():
     """TelescopeOn() is executed."""
     try:
