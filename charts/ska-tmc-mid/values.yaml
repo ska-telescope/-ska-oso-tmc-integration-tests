@@ -75,7 +75,7 @@ cspleafnodes:
   image:
     registry: artefact.skao.int
     image: ska-tmc-cspleafnodes
-    tag: 0.1.4
+    tag: 0.1.5
     pullPolicy: IfNotPresent
 
 dishleafnode:
