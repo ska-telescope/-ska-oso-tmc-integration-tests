@@ -1,15 +1,18 @@
 {
   "interface": "https://schema.skao.int/ska-tmc-assignresources/2.0",
-  "transaction_id": "txn-local-20210203-0001",
+  "transaction_id": "txn-local-20220526-0001",
   "subarray_id": 1,
   "dish": {
     "receptor_ids": [
-      "0001"
+      "0001",
+      "0002",
+      "0003",
+      "0004"
     ]
   },
   "sdp": {
     "interface": "https://schema.skao.int/ska-sdp-assignres/0.3",
-    "eb_id": "eb-mvp01-20200325-00001",
+    "eb_id": "eb-mvp01-20200325-09059",
     "max_length": 100.0,
     "scan_types": [
       {
@@ -22,8 +25,8 @@
             "count": 744,
             "start": 0,
             "stride": 2,
-            "freq_min": 0.35e9,
-            "freq_max": 0.368e9,
+            "freq_min": 350000000.0,
+            "freq_max": 368000000.0,
             "link_map": [
               [
                 0,
@@ -47,8 +50,8 @@
             "count": 744,
             "start": 2000,
             "stride": 1,
-            "freq_min": 0.36e9,
-            "freq_max": 0.368e9,
+            "freq_min": 360000000.0,
+            "freq_max": 368000000.0,
             "link_map": [
               [
                 2000,
@@ -72,8 +75,8 @@
             "count": 744,
             "start": 0,
             "stride": 2,
-            "freq_min": 0.35e9,
-            "freq_max": 0.368e9,
+            "freq_min": 350000000.0,
+            "freq_max": 368000000.0,
             "link_map": [
               [
                 0,
@@ -97,8 +100,8 @@
             "count": 744,
             "start": 2000,
             "stride": 1,
-            "freq_min": 0.36e9,
-            "freq_max": 0.368e9,
+            "freq_min": 360000000.0,
+            "freq_max": 368000000.0,
             "link_map": [
               [
                 2000,
@@ -115,64 +118,15 @@
     ],
     "processing_blocks": [
       {
-        "pb_id": "pb-mvp01-20200325-00001",
+        "pb_id": "pb-mvp01-20200325-09059",
         "workflow": {
           "kind": "realtime",
-          "name": "vis_receive",
-          "version": "0.1.0"
+          "name": "test_receive_addresses",
+          "version": "0.3.6"
         },
         "parameters": {
           
         }
-      },
-      {
-        "pb_id": "pb-mvp01-20200325-00002",
-        "workflow": {
-          "kind": "realtime",
-          "name": "test_realtime",
-          "version": "0.1.0"
-        },
-        "parameters": {
-          
-        }
-      },
-      {
-        "pb_id": "pb-mvp01-20200325-00003",
-        "workflow": {
-          "kind": "batch",
-          "name": "ical",
-          "version": "0.1.0"
-        },
-        "parameters": {
-          
-        },
-        "dependencies": [
-          {
-            "pb_id": "pb-mvp01-20200325-00001",
-            "kind": [
-              "visibilities"
-            ]
-          }
-        ]
-      },
-      {
-        "pb_id": "pb-mvp01-20200325-00004",
-        "workflow": {
-          "kind": "batch",
-          "name": "dpreb",
-          "version": "0.1.0"
-        },
-        "parameters": {
-          
-        },
-        "dependencies": [
-          {
-            "pb_id": "pb-mvp01-20200325-00003",
-            "kind": [
-              "calibration"
-            ]
-          }
-        ]
       }
     ]
   }
