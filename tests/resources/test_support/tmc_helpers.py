@@ -48,6 +48,8 @@ def set_to_standby():
     CentralNode.TelescopeStandBy()
     csp_Subarray1_proxy = DeviceProxy(csp_subarray1)
     csp_Subarray1_proxy.SetDirectState(DevState.OFF)
+    sdp_Subarray1_proxy = DeviceProxy(sdp_subarray1)
+    sdp_Subarray1_proxy.SetDirectState(DevState.OFF)
     LOGGER.info(
             f"After invoking TelescopeStandBy command {centralnode} State is: {CentralNode.State()}"
     )
