@@ -325,7 +325,7 @@ class waiter:
         )
         self.waits.append(
             watch(resource("mid-csp/control/0")).to_become(
-                "State", changed_to="STANDBY"
+                "State", changed_to="OFF"
             )
         )
         self.waits.append(

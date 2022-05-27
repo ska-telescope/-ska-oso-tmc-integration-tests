@@ -12,7 +12,6 @@ server:
   instances:
     - name: "01"
       classes:
-      # mocks for leaf nodes can be removed once the related leafnodes docker images are available
         - name: "HelperCspMasterDevice"
           devices:
           - name: "mid-csp/control/0"

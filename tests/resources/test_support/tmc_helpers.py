@@ -6,7 +6,7 @@ from tests.resources.test_support.sync_decorators import (
     sync_release_resources,
 )
 from tango import DeviceProxy, DevState
-from tests.resources.test_support.controls import centralnode, csp_subarray1
+from tests.resources.test_support.controls import centralnode, csp_subarray1, sdp_subarray1
 
 import logging
 
@@ -27,6 +27,8 @@ def set_to_on():
     CentralNode.TelescopeOn()
     csp_Subarray1_proxy = DeviceProxy(csp_subarray1)
     csp_Subarray1_proxy.SetDirectState(DevState.ON)
+    sdp_Subarray1_proxy = DeviceProxy(sdp_subarray1)
+    sdp_Subarray1_proxy.SetDirectState(DevState.ON)
 
 @sync_set_to_off
 def set_to_off():
@@ -34,6 +36,8 @@ def set_to_off():
     CentralNode.TelescopeOff()
     csp_Subarray1_proxy = DeviceProxy(csp_subarray1)
     csp_Subarray1_proxy.SetDirectState(DevState.OFF)
+    sdp_Subarray1_proxy = DeviceProxy(sdp_subarray1)
+    sdp_Subarray1_proxy.SetDirectState(DevState.OFF)
     LOGGER.info(
             f"After invoking TelescopeOff command {centralnode} State is: {CentralNode.State()}"
     )
@@ -44,6 +48,8 @@ def set_to_standby():
     CentralNode.TelescopeStandBy()
     csp_Subarray1_proxy = DeviceProxy(csp_subarray1)
     csp_Subarray1_proxy.SetDirectState(DevState.OFF)
+    sdp_Subarray1_proxy = DeviceProxy(sdp_subarray1)
+    sdp_Subarray1_proxy.SetDirectState(DevState.OFF)
     LOGGER.info(
             f"After invoking TelescopeStandBy command {centralnode} State is: {CentralNode.State()}"
     )
