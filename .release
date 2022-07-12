@@ -1,4 +1,4 @@
-release=0.5.5
-tag=0.5.5
-tag_description=Update log method CentralNode
-release_notes=Update log method CentralNode
+release=0.5.6
+tag=0.5.6
+tag_description=Update SubarrayNode obsState aggregation
+release_notes=Update SubarrayNode obsState aggregation
