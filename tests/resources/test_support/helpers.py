@@ -330,7 +330,7 @@ class waiter:
         )
         self.waits.append(
             watch(resource("mid_d0001/elt/master")).to_become(
-                "State", changed_to="OFF"
+                "State", changed_to="STANDBY"
             )
         )
 
