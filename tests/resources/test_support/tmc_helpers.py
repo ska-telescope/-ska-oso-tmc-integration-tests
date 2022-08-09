@@ -41,7 +41,7 @@ def set_to_off():
     sdp_Subarray1_proxy = DeviceProxy(sdp_subarray1)
     sdp_Subarray1_proxy.SetDirectState(DevState.OFF)
     dish_master1_proxy = DeviceProxy(dish_master1)
-    dish_master1_proxy.SetDirectState(DevState.STANDBY)
+    dish_master1_proxy.SetDirectState(DevState.OFF)
     LOGGER.info(
             f"After invoking TelescopeOff command {centralnode} State is: {CentralNode.State()}"
     )
