@@ -1,13 +1,12 @@
 name: "dishleafnode-test"
 function: telescope-monitoring
 domain: general-monitoring
-instances: ["01"]
-entrypoints:
-  - name: "ska_tmc_dishleafnode.dish_leaf_node.DishLeafNode"
+instances: ["01", "02", "03", "04"]
+command: "python3 /app/src/ska_tmc_dishleafnode/dish_leaf_node.py"
 server:
   name: "dish_leaf_node"
   instances:
-  {{- range  .Values.deviceServers.dishleafnode.instances }}
+  {{- range  .Values.deviceServers.dishln.instances }}
     - name: "{{ . }}"
       classes:
       - name: "DishLeafNode"
@@ -16,7 +15,7 @@ server:
           properties:
           - name: "DishMasterFQDN"
             values:
-            - "mid_d{{ printf "%04s" . }}/elt/master"
+              - "mid_d{{ printf "%04s" . }}/elt/master"
           - name: "SkaLevel"
             values:
               - "3"
@@ -26,7 +25,7 @@ server:
           - name: "LoggingLevelDefault"
             values:
               - "5"
-  {{- end}}
+  {{- end }}
 depends_on:
   - device: sys/database/2
 image:
@@ -34,4 +33,3 @@ image:
   image: "{{.Values.dishleafnode.image.image}}"
   tag: "{{.Values.dishleafnode.image.tag}}"
   pullPolicy: "{{.Values.dishleafnode.image.pullPolicy}}"
-
