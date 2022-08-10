@@ -1,4 +1,4 @@
-release=0.5.10
-tag=0.5.10
-tag_description=CentralNode and Dishleafnode upgrade to v0.13.
-release_notes=CentralNode and Dishleafnode upgrade to v0.13.
+release=0.5.11
+tag=0.5.11
+tag_description=CentralNode AssignResources and ReleaseResources commands upgrade to v0.13.
+release_notes=CentralNode AssignResources and ReleaseResources commands upgrade to v0.13.
