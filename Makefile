@@ -74,7 +74,7 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 K8S_TEST_TEST_COMMAND ?= $(PYTHON_VARS_BEFORE_PYTEST) $(PYTHON_RUNNER) \
 						pytest \
 						$(PYTHON_VARS_AFTER_PYTEST) ./tests \
-						 | tee pytest.stdout; # k8s-test test command to run in container
+						 | tee pytest.stdout # k8s-test test command to run in container
 
 -include .make/k8s.mk
 -include .make/helm.mk
