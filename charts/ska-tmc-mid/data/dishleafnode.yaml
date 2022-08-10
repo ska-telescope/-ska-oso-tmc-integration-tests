@@ -2,7 +2,8 @@ name: "dishleafnode-test"
 function: telescope-monitoring
 domain: general-monitoring
 instances: ["01", "02", "03", "04"]
-command: "python3 /app/src/ska_tmc_dishleafnode/dish_leaf_node.py"
+entrypoints:
+  - name: "ska_tmc_dishleafnode.dish_leaf_node.DishLeafNode"
 server:
   name: "dish_leaf_node"
   instances:
