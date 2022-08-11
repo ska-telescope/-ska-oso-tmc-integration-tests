@@ -1,4 +1,4 @@
-release=0.5.9
-tag=0.5.9
-tag_description=Updated leaf nodes to move adapter creation to do method of command classes
-release_notes=Updated leaf nodes to move adapter creation to do method of command classes
+release=0.5.10
+tag=0.5.10
+tag_description=CentralNode and Dishleafnode upgrade to v0.13.
+release_notes=CentralNode and Dishleafnode upgrade to v0.13.

@@ -136,7 +136,7 @@ def telescope_is_in_off_state():
         resource(csp_subarray1).get("State"),
         resource(dish_master1).get("State"),
         resource(centralnode).get("State"),
-    ] == ["OFF", "OFF", "OFF", "OFF", "OFF", "ON"]
+    ] == ["OFF", "OFF", "OFF", "OFF", "STANDBY", "ON"]
 
 
 def subarray_obs_state_is_idle ():
