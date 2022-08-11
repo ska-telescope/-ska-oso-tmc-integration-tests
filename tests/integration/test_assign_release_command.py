@@ -11,7 +11,6 @@ assign_resources_file = "command_AssignResources.json"
 release_resources_file  = "command_ReleaseResources.json"
 
 @pytest.mark.SKA_mid
-# @pytest.mark.skip(reason = "Test case appears to be failing randomly due to deployment setup")
 def test_assign_release():
     """AssignResources and ReleaseResources is executed."""
     try:
