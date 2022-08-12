@@ -1,4 +1,4 @@
 release=0.5.13
 tag=0.5.13
 tag_description= Fix Telescope On/Off BDD test issues.
-release_notes= Fix Telescope On/Off test BDD issues.
+release_notes= Fix Telescope On/Off  BDD test issues.
