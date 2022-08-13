@@ -1,4 +1,4 @@
-release=0.5.13
-tag=0.5.13
-tag_description= Fix Telescope On/Off BDD test issues.
-release_notes= Fix Telescope On/Off  BDD test issues.
+release=0.5.14
+tag=0.5.14
+tag_description= Utilizing latest DishLeafNode image version 0.1.11 .
+release_notes= Utilizing latest DishLeafNode image version 0.1.11.
