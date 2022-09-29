@@ -71,7 +71,15 @@ sdpleafnodes:
     tag: 0.8.23
     pullPolicy: IfNotPresent
 
-cspleafnodes:
+cspmasterleafnode:
+  image:
+    registry: artefact.skao.int
+    image: ska-tmc-cspleafnodes
+    tag: 0.1.8
+    pullPolicy: IfNotPresent
+
+
+cspsubarrayleafnode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-cspleafnodes
