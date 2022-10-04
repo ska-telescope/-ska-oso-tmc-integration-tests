@@ -34,7 +34,7 @@ global:
     - "sdpsubarrayleafnode"
     - "subarraynode"
   subarray_count: 3
-  
+
 dsconfig:
   configuration_file: data/tmc-mid-config.json
   image:
@@ -54,7 +54,7 @@ centralnode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-centralnode
-    tag: 0.3.20
+    tag: 0.3.21
     pullPolicy: IfNotPresent
 
 subarraynode:
@@ -118,12 +118,12 @@ deviceServers:
     enabled: true
     instances: ["01", "02", "03"]
     file: "data/subarraynode_mid.yaml"
-  
+
   sdpsubarrayleafnode:
     enabled: true
     instances: ["01", "02", "03"]
     file: "data/sdpsubarrayleafnode.yaml"
-  
+
   sdpmasterleafnode:
     enabled: true
     instances: ["01"]
@@ -145,7 +145,7 @@ deviceServers:
     enabled: true
     instances: ["01", "02", "03", "04"]
     file: "data/dishleafnode.yaml"
-  
+
   mocks:
     enabled: false
     file: "data/mocks.yaml"
