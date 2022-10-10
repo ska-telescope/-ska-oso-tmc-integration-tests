@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ska-tmc-integration"
-version = "0.5.15"
+version = "0.5.16"
 description = "Repository for integration of TMC components"
 authors = ["Team Himalaya", "Team Sahyadri"]
 license = "BSD-3-Clause"
