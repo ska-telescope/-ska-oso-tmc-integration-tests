@@ -1,4 +1,4 @@
-release=0.5.16
-tag=0.5.16
-tag_description= Utilizing latest DishLeafNode image version 0.1.11 .
-release_notes= Utilizing latest DishLeafNode image version 0.1.11.
+release=0.5.17
+tag=0.5.17
+tag_description= Utilize upgraded ska-tmc-subarraynode and ska-tmc-cspsubarrayleafnode docker images with bc 0.13.3(For On, Off, AssignResources and ReleaseResources commands).
+release_notes= Utilize upgraded ska-tmc-subarraynode and ska-tmc-cspsubarrayleafnode docker images with bc 0.13.3(For On, Off, AssignResources and ReleaseResources commands).
