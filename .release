@@ -1,4 +1,4 @@
-release=0.5.17
-tag=0.5.17
-tag_description= Utilize upgraded ska-tmc-subarraynode and ska-tmc-cspsubarrayleafnode docker images with bc 0.13.3(For On, Off, AssignResources and ReleaseResources commands).
-release_notes= Utilize upgraded ska-tmc-subarraynode and ska-tmc-cspsubarrayleafnode docker images with bc 0.13.3(For On, Off, AssignResources and ReleaseResources commands).
+release=0.5.18
+tag=0.5.18
+tag_description= Updated CentralNode,SubarrayNode and SdpLeafNode to utilise updated sdp json schema according to ADR-54.
+release_notes= Updated CentralNode,SubarrayNode and SdpLeafNode to utilise updated sdp json schema according to ADR-54.
