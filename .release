@@ -1,4 +1,4 @@
 release=0.5.18
 tag=0.5.18
-tag_description= Updated CentralNode,SubarrayNode and SdpLeafNode to utilise updated sdp json schema according to ADR-54.
-release_notes= Updated CentralNode,SubarrayNode and SdpLeafNode to utilise updated sdp json schema according to ADR-54.
+tag_description= Updated CentralNode,SubarrayNode and SdpLeafNode to utilize updated sdp json schema according to ADR-54.
+release_notes= Updated CentralNode,SubarrayNode and SdpLeafNode to utilize updated sdp json schema according to ADR-54.
