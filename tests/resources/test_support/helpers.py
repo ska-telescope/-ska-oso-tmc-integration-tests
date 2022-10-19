@@ -429,6 +429,56 @@ class waiter:
             )
         )
 
+    def set_wait_for_configure(self):
+        # the following is a hack to wait for items taht are not worked into the state variable
+        self.waits.append(
+            watch(resource("mid-csp/subarray/01")).to_become(
+                "obsState", changed_to="READY"
+            )
+        )
+        self.waits.append(
+            watch(resource("mid_sdp/elt/subarray_1")).to_become(
+                "obsState", changed_to="READY"
+            )
+        )
+
+        # self.waits.append(
+        #     watch(resource("mid_d0001/elt/master")).to_become(
+        #         "pointingState", changed_to="TRACK"
+        #     )
+        # )
+
+        self.waits.append(
+            watch(resource("ska_mid/tm_subarray_node/1")).to_become(
+                "obsState", changed_to="READY"
+            )
+        )
+
+
+    def set_wait_for_idle(self):
+        # the following is a hack to wait for items taht are not worked into the state variable
+        self.waits.append(
+            watch(resource("mid-csp/subarray/01")).to_become(
+                "obsState", changed_to="IDLE"
+            )
+        )
+        self.waits.append(
+            watch(resource("mid_sdp/elt/subarray_1")).to_become(
+                "obsState", changed_to="IDLE"
+            )
+        )
+
+        # self.waits.append(
+        #     watch(resource("mid_d0001/elt/master")).to_become(
+        #         "pointingState", changed_to="READY"
+        #     )
+        # )
+
+        self.waits.append(
+            watch(resource("ska_mid/tm_subarray_node/1")).to_become(
+                "obsState", changed_to="IDLE"
+            )
+        )
     def wait(self, timeout=30, resolution=0.1):
         self.logs = ""
         while self.waits:
