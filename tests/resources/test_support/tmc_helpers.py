@@ -20,31 +20,30 @@ def get_input_str(input_file):
 
 def check_devices():
     CentralNode = DeviceProxy(centralnode)
-    assert -1 < CentralNode.ping()
+    assert 0 < CentralNode.ping()
     csp_Subarray1_proxy = DeviceProxy(csp_subarray1)
-    assert -1 < csp_Subarray1_proxy.ping()
+    assert 0 < csp_Subarray1_proxy.ping()
 
-    assert -1 < csp_Subarray1_proxy.ping()
     sdp_Subarray1_proxy = DeviceProxy(sdp_subarray1)
-    assert -1 < sdp_Subarray1_proxy.ping()
+    assert 0 < sdp_Subarray1_proxy.ping()
 
     dish_master1_proxy = DeviceProxy(dish_master1)
-    assert -1< dish_master1_proxy.ping()
+    assert 0< dish_master1_proxy.ping()
     
     tm_subarraynode1_proxy = DeviceProxy(tm_subarraynode1)
-    assert -1 < tm_subarraynode1_proxy.ping()
+    assert 0< tm_subarraynode1_proxy.ping()
     
     csp_master_proxy = DeviceProxy("ska_mid/tm_leaf_node/csp_master")
-    assert -1 < csp_master_proxy.ping()
+    assert 0 < csp_master_proxy.ping()
     
     csp_subarray_proxy = DeviceProxy("ska_mid/tm_leaf_node/csp_subarray01")
-    assert -1 < csp_subarray_proxy.ping()
+    assert 0< csp_subarray_proxy.ping()
     
     sdp_master_proxy = DeviceProxy("ska_mid/tm_leaf_node/sdp_master")
-    assert -1 < sdp_master_proxy.ping()
+    assert 0 < sdp_master_proxy.ping()
     
     sdp_subarray_proxy = DeviceProxy("ska_mid/tm_leaf_node/sdp_subarray01")
-    assert -1 < sdp_subarray_proxy.ping()
+    assert 0< sdp_subarray_proxy.ping()
     
     
     

@@ -30,7 +30,7 @@ def test_assign_release():
         """Verify State transitions after TelescopeOn"""
         assert telescope_is_in_on_state()
         fixture["state"] = "TelescopeOn"
-        tmc.check_devices()
+        
         """Invoke AssignResources() Command on TMC"""
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
         @sync_assign_resources()
@@ -43,6 +43,7 @@ def test_assign_release():
             )
             assign_res_input = tmc.get_input_str(assign_resources_file)            
             CentralNode = DeviceProxy("ska_mid/tm_central/central_node")
+            tmc.check_devices()
             CentralNode.AssignResources(assign_res_input)
             LOGGER.info("Invoked AssignResources on CentralNode")
 
