@@ -83,7 +83,9 @@ def test_configure_end():
             SubarrayNode = DeviceProxy("ska_mid/tm_subarray_node/1")
             SubarrayNode.End()
             LOGGER.info("Invoked End on SubarrayNode")
-        
+
+        end()
+
         """Verify ObsState is IDLE"""
         assert subarray_obs_state_is_idle()
         fixture["state"] ="End"
