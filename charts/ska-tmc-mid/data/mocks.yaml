@@ -20,9 +20,9 @@ server:
           - name: "mid_sdp/elt/master"
         - name: "HelperSubArrayDevice"
           devices:
-          - name: "mid_sdp/elt/subarray_1" 
-          - name: "mid_sdp/elt/subarray_2"
-          - name: "mid_sdp/elt/subarray_3"
+          - name: "mid-sdp/subarray/01"
+          - name: "mid-sdp/subarray/02"
+          - name: "mid-sdp/subarray/03"
           - name: "mid-csp/subarray/01"
           - name: "mid-csp/subarray/02"
           - name: "mid-csp/subarray/03"
@@ -31,7 +31,7 @@ server:
           - name: "mid_d0001/elt/master"
           - name: "mid_d0002/elt/master"
           - name: "mid_d0003/elt/master"
-          - name: "mid_d0004/elt/master"  
+          - name: "mid_d0004/elt/master"
 depends_on:
   - device: sys/database/2
 image:

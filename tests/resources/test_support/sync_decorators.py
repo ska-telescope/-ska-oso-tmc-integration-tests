@@ -7,7 +7,7 @@ from contextlib import contextmanager
 def check_going_out_of_empty():
     # verify once for obstate = EMPTY
     resource("mid-csp/subarray/01").assert_attribute("obsState").equals("EMPTY")
-    resource("mid_sdp/elt/subarray_1").assert_attribute("obsState").equals("EMPTY")
+    resource("mid-sdp/subarray/01").assert_attribute("obsState").equals("EMPTY")
     resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals("EMPTY")
 
 def sync_telescope_on(func):
@@ -61,7 +61,7 @@ def sync_release_resources(func):
         return result
 
     return wrapper
-  
+
 def sync_assign_resources():
     # defined as a decorator
     def decorator_sync_assign_resources(func):
