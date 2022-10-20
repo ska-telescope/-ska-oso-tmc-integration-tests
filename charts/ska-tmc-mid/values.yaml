@@ -109,7 +109,7 @@ deviceServers:
     CspMasterLeafNodeFQDN: "ska_mid/tm_leaf_node/csp_master"
     CspMasterFQDN: "mid-csp/control/0"
     SdpMasterLeafNodeFQDN: "ska_mid/tm_leaf_node/sdp_master"
-    SdpMasterFQDN: "mid_sdp/elt/master"
+    SdpMasterFQDN: "mid-sdp/control/0"
     DishLeafNodePrefix: "ska_mid/tm_leaf_node/d"
     NumDishes: 4
 
@@ -127,7 +127,7 @@ deviceServers:
     enabled: true
     instances: ["01"]
     file: "data/sdpmasterleafnode.yaml"
-    SdpMasterFQDN: "mid_sdp/elt/master"
+    SdpMasterFQDN: "mid-sdp/control/0"
 
   cspmasterleafnode:
     enabled: true

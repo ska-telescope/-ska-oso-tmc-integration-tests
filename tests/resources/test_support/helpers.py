@@ -314,7 +314,7 @@ class waiter:
             )
         )
         self.waits.append(
-            watch(resource("mid_sdp/elt/master")).to_become(
+            watch(resource("mid-sdp/control/0")).to_become(
                 "State", changed_to="OFF"
             )
         )
@@ -341,7 +341,7 @@ class waiter:
             )
         )
         self.waits.append(
-            watch(resource("mid_sdp/elt/master")).to_become(
+            watch(resource("mid-sdp/control/0")).to_become(
                 "State", changed_to="STANDBY"
             )
         )
@@ -363,7 +363,7 @@ class waiter:
 
     def set_wait_for_telescope_on(self):
         self.waits.append(
-            watch(resource("mid_sdp/elt/master")).to_become("State", changed_to="ON")
+            watch(resource("mid-sdp/control/0")).to_become("State", changed_to="ON")
         )
         self.waits.append(
             watch(resource('mid-sdp/subarray/01')).to_become(
