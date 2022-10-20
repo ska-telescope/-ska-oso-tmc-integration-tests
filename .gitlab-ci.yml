@@ -47,5 +47,7 @@ include:
 
 k8s-test:
   after_script:
-    - kubectl get pods -n $KUBE_NAMESPACE
+    - kubectl get pod/cspsubarrayleafnode-01-0  -n $KUBE_NAMESPACE
+    - kubectl get pod/cspsubarrayleafnode-02-0  -n $KUBE_NAMESPACE
+    - kubectl get pod/cspsubarrayleafnode-03-0  -n $KUBE_NAMESPACE
   retry: 2
