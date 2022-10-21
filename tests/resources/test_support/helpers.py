@@ -68,13 +68,13 @@ class ObjectComparison:
 # time keepers based on above resources
 class monitor(object):
     """
-    Montitors an attribte of a given resource and allows a user to block/wait on a specific condition:
-    1. the attribite has changed in value (but it can be any value): previous value != current value
+    Monitors an attribute of a given resource and allows a user to block/wait on a specific condition:
+    1. the attribute has changed in value (but it can be any value): previous value != current value
     2. the attribute has changed in value and to a specific desired value: previous value = future value but have changed also
     3. the attribute has changed or is already the desired value: previous value = future value
-    4. instead of a direct equality a predicate can also be used to performa the comparison
+    4. instead of a direct equality a predicate can also be used to perform the comparison
     The value for which it must wait can also be provided by the time at calling the wait or by the time of instantiation
-    The former allows for the monitor to be used in a list that waits iteratively, the latter is when it is inline at where it sould wait
+    The former allows for the monitor to be used in a list that waits iteratively, the latter is when it is inline at where it should wait
     """
 
     previous_value = None
@@ -257,7 +257,7 @@ def watch(resource, implementation="polling"):
     return subscriber(resource, implementation)
 
 
-# this function may become depracated
+# this function may become deprecated
 class state_checker:
     def __init__(self, device, timeout=80, debug=False):
         self.device = device
@@ -285,7 +285,7 @@ class state_checker:
                     result += str(attr_name) + " not eq " + str(required_attr)
             if premise_correct:
                 return timeout
-                # TODO throw timout exception
+                # TODO throw timeout exception
             else:
                 sleep(0.1)
                 timeout -= 1
@@ -405,7 +405,7 @@ class waiter:
         )
 
     def set_wait_for_assign_resources(self):
-        # the following is a hack to wait for items taht are not worked into the state variable
+        # the following is a hack to wait for items that are not worked into the state variable
         self.waits.append(
             watch(resource("mid-csp/subarray/01")).to_become(
                 "obsState", changed_to="IDLE"
@@ -430,7 +430,6 @@ class waiter:
         )
 
     def set_wait_for_configure(self):
-        # the following is a hack to wait for items taht are not worked into the state variable
         self.waits.append(
             watch(resource("mid-csp/subarray/01")).to_become(
                 "obsState", changed_to="READY"
@@ -442,6 +441,7 @@ class waiter:
             )
         )
 
+        # TODO: This is not in scope of PI #16
         # self.waits.append(
         #     watch(resource("mid_d0001/elt/master")).to_become(
         #         "pointingState", changed_to="TRACK"
@@ -456,7 +456,6 @@ class waiter:
 
 
     def set_wait_for_idle(self):
-        # the following is a hack to wait for items taht are not worked into the state variable
         self.waits.append(
             watch(resource("mid-csp/subarray/01")).to_become(
                 "obsState", changed_to="IDLE"
@@ -468,6 +467,7 @@ class waiter:
             )
         )
 
+        # TODO: This is not in scope of PI #16
         # self.waits.append(
         #     watch(resource("mid_d0001/elt/master")).to_become(
         #         "pointingState", changed_to="READY"
@@ -519,13 +519,13 @@ class waiter:
                 )
         if self.timed_out:
             raise Exception(
-                "timed out, the following timeouts occured:\n{} Successfull changes:\n{}".format(
+                "timed out, the following timeouts ocurred:\n{} Successful changes:\n{}".format(
                     self.error_logs, self.logs
                 )
             )
 
 
-# Waiters based on tango DevicProxy's abilitu to subscribe to events
+# Waiters based on tango DeviceProxy's ability to subscribe to events
 class AttributeWatcher:
     """listens to events in a device and enables waiting until a predicate is true or publish to a subscriber
     It allows in essence for the ability to wait for three types of conditions:
