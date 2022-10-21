@@ -405,7 +405,6 @@ class waiter:
         )
 
     def set_wait_for_assign_resources(self):
-        # the following is a hack to wait for items that are not worked into the state variable
         self.waits.append(
             watch(resource("mid-csp/subarray/01")).to_become(
                 "obsState", changed_to="IDLE"
