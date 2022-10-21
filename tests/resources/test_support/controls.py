@@ -179,3 +179,24 @@ def subarray_obs_state_is_empty():
         resource(tm_subarraynode1).get("obsState"),
         resource(csp_subarray1).get("obsState"),
     ] == ["EMPTY", "EMPTY", "EMPTY",]
+
+
+def subarray_obs_state_is_ready():
+   LOGGER.info(
+        'resource(tm_subarraynode1).get("obsState")'
+         + str(resource(tm_subarraynode1).get("obsState"))
+    )
+   LOGGER.info(
+        'resource(sdp_subarray1).get("obsState")'
+         + str(resource(sdp_subarray1).get("obsState"))
+    )
+   LOGGER.info(
+        'resource(csp_subarray1).get("obsState")'
+         + str(resource(csp_subarray1).get("obsState"))
+    )
+   
+   return [
+        resource(sdp_subarray1).get("obsState"),
+        resource(tm_subarraynode1).get("obsState"),
+        resource(csp_subarray1).get("obsState"),
+    ] == ["READY", "READY", "READY",]
