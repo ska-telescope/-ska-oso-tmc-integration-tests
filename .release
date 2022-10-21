@@ -1,4 +1,4 @@
-release=0.5.19
-tag=0.5.19
-tag_description= Intermediate chart release for skampi integration.Updated CentralNode,SubarrayNode and SdpLeafNode to utilize updated sdp json schema according to ADR-54.
-release_notes= Intermediate chart release for skampi integration.Updated CentralNode,SubarrayNode and SdpLeafNode to utilize updated sdp json schema according to ADR-54.
+release=0.5.20
+tag=0.5.20
+tag_description= Intermediate chart release for skampi integration.Updated SDP master FQDN according to ADR-9.
+release_notes= Intermediate chart release for skampi integration.Updated SDP master FQDN according to ADR-9.
