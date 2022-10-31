@@ -10,6 +10,22 @@ def check_going_out_of_empty():
     resource("mid-sdp/subarray/01").assert_attribute("obsState").equals("EMPTY")
     resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals("EMPTY")
 
+
+def check_going_out_of_idle():
+    # verify once for obstate = IDLE
+    resource("mid-csp/subarray/01").assert_attribute("obsState").equals("IDLE")
+    resource("mid_sdp/elt/subarray_1").assert_attribute("obsState").equals("IDLE")
+    resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals("IDLE")
+
+
+def check_going_out_of_ready():
+    # verify once for obstate = READY
+    resource("mid-csp/subarray/01").assert_attribute("obsState").equals("READY")
+    resource("mid_sdp/elt/subarray_1").assert_attribute("obsState").equals("READY")
+    resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals("READY")
+
+
+
 def sync_telescope_on(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
@@ -77,3 +93,35 @@ def sync_assign_resources():
         return wrapper
 
     return decorator_sync_assign_resources
+
+def sync_configure():
+    # defined as a decorator
+    def decorator_sync_configure(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            check_going_out_of_idle()
+            the_waiter = waiter()
+            the_waiter.set_wait_for_configure()
+            result = func(*args, **kwargs)
+            the_waiter.wait(500)
+            return result
+
+        return wrapper
+
+    return decorator_sync_configure
+
+def sync_end():
+    # defined as a decorator
+    def decorator_sync_end(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            check_going_out_of_ready()
+            the_waiter = waiter()
+            the_waiter.set_wait_for_idle()
+            result = func(*args, **kwargs)
+            the_waiter.wait(500)
+            return result
+
+        return wrapper
+
+    return decorator_sync_end
