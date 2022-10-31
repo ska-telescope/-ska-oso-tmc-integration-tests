@@ -1,4 +1,4 @@
-release=0.5.20
-tag=0.5.20
+release=0.5.22
+tag=0.5.22
 tag_description= Intermediate chart release for skampi integration.Updated SDP master FQDN according to ADR-9.
 release_notes= Intermediate chart release for skampi integration.Updated SDP master FQDN according to ADR-9.
