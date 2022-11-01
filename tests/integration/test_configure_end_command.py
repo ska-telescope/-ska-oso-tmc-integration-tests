@@ -42,8 +42,8 @@ def test_configure_end():
                 "EMPTY"
             )
             assign_res_input = tmc.get_input_str(assign_resources_file)            
-            CentralNode = DeviceProxy("ska_mid/tm_central/central_node")
-            CentralNode.AssignResources(assign_res_input)
+            central_node = DeviceProxy("ska_mid/tm_central/central_node")
+            central_node.AssignResources(assign_res_input)
             LOGGER.info("Invoked AssignResources on CentralNode")
 
         compose_sub()
@@ -61,8 +61,8 @@ def test_configure_end():
                 "IDLE"
             )
             configure_input = tmc.get_input_str(configure_resources_file)            
-            SubarrayNode = DeviceProxy("ska_mid/tm_subarray_node/1")
-            SubarrayNode.Configure(configure_input)
+            subarray_node = DeviceProxy("ska_mid/tm_subarray_node/1")
+            subarray_node.Configure(configure_input)
             LOGGER.info("Invoked Configure on SubarrayNode")
 
         configure_subarray()
@@ -79,8 +79,8 @@ def test_configure_end():
             resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals(
                 "READY"
             )
-            SubarrayNode = DeviceProxy("ska_mid/tm_subarray_node/1")
-            SubarrayNode.End()
+            subarray_node = DeviceProxy("ska_mid/tm_subarray_node/1")
+            subarray_node.End()
             LOGGER.info("Invoked End on SubarrayNode")
 
         end()

@@ -7,21 +7,21 @@ from contextlib import contextmanager
 def check_going_out_of_empty():
     # verify once for obstate = EMPTY
     resource("mid-csp/subarray/01").assert_attribute("obsState").equals("EMPTY")
-    resource("mid_sdp/elt/subarray_1").assert_attribute("obsState").equals("EMPTY")
+    resource("mid-sdp/subarray/01").assert_attribute("obsState").equals("EMPTY")
     resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals("EMPTY")
 
 
 def check_going_out_of_idle():
     # verify once for obstate = IDLE
     resource("mid-csp/subarray/01").assert_attribute("obsState").equals("IDLE")
-    resource("mid_sdp/elt/subarray_1").assert_attribute("obsState").equals("IDLE")
+    resource("mid-sdp/subarray/01").assert_attribute("obsState").equals("IDLE")
     resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals("IDLE")
 
 
 def check_going_out_of_ready():
     # verify once for obstate = READY
     resource("mid-csp/subarray/01").assert_attribute("obsState").equals("READY")
-    resource("mid_sdp/elt/subarray_1").assert_attribute("obsState").equals("READY")
+    resource("mid-sdp/subarray/01").assert_attribute("obsState").equals("READY")
     resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals("READY")
 
 
@@ -77,7 +77,7 @@ def sync_release_resources(func):
         return result
 
     return wrapper
-  
+
 def sync_assign_resources():
     # defined as a decorator
     def decorator_sync_assign_resources(func):

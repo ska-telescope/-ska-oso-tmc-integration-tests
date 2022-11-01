@@ -14,6 +14,7 @@ release_resources_file  = "command_ReleaseResources.json"
 def test_assign_release():
     """AssignResources and ReleaseResources is executed."""
     try:
+        tmc.check_devices()
         fixture = {}
         fixture["state"] = "Unknown"
 
@@ -29,7 +30,7 @@ def test_assign_release():
         """Verify State transitions after TelescopeOn"""
         assert telescope_is_in_on_state()
         fixture["state"] = "TelescopeOn"
-    
+
         """Invoke AssignResources() Command on TMC"""
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
         @sync_assign_resources()
@@ -41,8 +42,9 @@ def test_assign_release():
                 "EMPTY"
             )
             assign_res_input = tmc.get_input_str(assign_resources_file)            
-            CentralNode = DeviceProxy("ska_mid/tm_central/central_node")
-            CentralNode.AssignResources(assign_res_input)
+            central_node = DeviceProxy("ska_mid/tm_central/central_node")
+            tmc.check_devices()
+            central_node.AssignResources(assign_res_input)
             LOGGER.info("Invoked AssignResources on CentralNode")
 
         compose_sub()

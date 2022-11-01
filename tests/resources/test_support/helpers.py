@@ -16,7 +16,7 @@ LOGGER = logging.getLogger(__name__)
 # typical device sets
 subarray_devices = [
     "ska_mid/tm_subarray_node/1",
-    "mid_sdp/elt/subarray_1",
+    "mid-sdp/subarray/01",
 ]
 
 class resource:
@@ -309,12 +309,12 @@ class waiter:
 
     def set_wait_for_going_to_off(self):
         self.waits.append(
-            watch(resource("mid_sdp/elt/subarray_1")).to_become(
+            watch(resource("mid-sdp/subarray/01")).to_become(
                 "State", changed_to="OFF"
             )
         )
         self.waits.append(
-            watch(resource("mid_sdp/elt/master")).to_become(
+            watch(resource("mid-sdp/control/0")).to_become(
                 "State", changed_to="OFF"
             )
         )
@@ -336,12 +336,12 @@ class waiter:
 
     def set_wait_for_going_to_standby(self):
         self.waits.append(
-            watch(resource("mid_sdp/elt/subarray_1")).to_become(
+            watch(resource("mid-sdp/subarray/01")).to_become(
                 "State", changed_to="OFF"
             )
         )
         self.waits.append(
-            watch(resource("mid_sdp/elt/master")).to_become(
+            watch(resource("mid-sdp/control/0")).to_become(
                 "State", changed_to="STANDBY"
             )
         )
@@ -363,10 +363,10 @@ class waiter:
 
     def set_wait_for_telescope_on(self):
         self.waits.append(
-            watch(resource("mid_sdp/elt/master")).to_become("State", changed_to="ON")
+            watch(resource("mid-sdp/control/0")).to_become("State", changed_to="ON")
         )
         self.waits.append(
-            watch(resource('mid_sdp/elt/subarray_1')).to_become(
+            watch(resource('mid-sdp/subarray/01')).to_become(
                 "State", changed_to="ON"
             )
         )
@@ -389,7 +389,7 @@ class waiter:
             )
         )
         self.waits.append(
-            watch(resource("mid_sdp/elt/subarray_1")).to_become(
+            watch(resource("mid-sdp/subarray/01")).to_become(
                 "obsState", changed_to="EMPTY"
             )
         )
@@ -411,7 +411,7 @@ class waiter:
             )
         )
         self.waits.append(
-            watch(resource("mid_sdp/elt/subarray_1")).to_become(
+            watch(resource("mid-sdp/subarray/01")).to_become(
                 "obsState", changed_to="IDLE"
             )
         )
@@ -435,7 +435,7 @@ class waiter:
             )
         )
         self.waits.append(
-            watch(resource("mid_sdp/elt/subarray_1")).to_become(
+            watch(resource("mid-sdp/subarray/01")).to_become(
                 "obsState", changed_to="READY"
             )
         )
@@ -461,7 +461,7 @@ class waiter:
             )
         )
         self.waits.append(
-            watch(resource("mid_sdp/elt/subarray_1")).to_become(
+            watch(resource("mid-sdp/subarray/01")).to_become(
                 "obsState", changed_to="IDLE"
             )
         )
