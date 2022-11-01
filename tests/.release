@@ -1,0 +1,4 @@
+release=0.5.21
+tag=0.5.21
+tag_description= Utilize upgraded ska-tmc-subarraynode and ska-tmc-cspsubarrayleafnode docker images with bc 0.13.3(For Configure and End commands).
+release_notes= Utilize upgraded ska-tmc-subarraynode and ska-tmc-cspsubarrayleafnode docker images with bc 0.13.3(For Configure and End commands).
