@@ -30,7 +30,7 @@ def test_assign_release():
         """Verify State transitions after TelescopeOn"""
         assert telescope_is_in_on_state()
         fixture["state"] = "TelescopeOn"
-        
+
         """Invoke AssignResources() Command on TMC"""
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
         @sync_assign_resources()
