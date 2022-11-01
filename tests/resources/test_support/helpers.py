@@ -435,7 +435,7 @@ class waiter:
             )
         )
         self.waits.append(
-            watch(resource("mid_sdp/elt/subarray_1")).to_become(
+            watch(resource("mid-sdp/elt/subarray_1")).to_become(
                 "obsState", changed_to="READY"
             )
         )
@@ -461,7 +461,7 @@ class waiter:
             )
         )
         self.waits.append(
-            watch(resource("mid_sdp/elt/subarray_1")).to_become(
+            watch(resource("mid-sdp/elt/subarray_1")).to_become(
                 "obsState", changed_to="IDLE"
             )
         )

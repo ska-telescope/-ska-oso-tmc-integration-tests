@@ -6,7 +6,7 @@ from tests.resources.test_support.sync_decorators import (
     sync_release_resources,
 )
 from tango import DeviceProxy, DevState
-from tests.resources.test_support.controls import centralnode, csp_subarray1, sdp_subarray1, dish_master1,tm_subarraynode1
+from tests.resources.test_support.controls import centralnode, csp_subarray1, sdp_subarray1, dish_master1, tm_subarraynode1
 
 import logging
 
@@ -28,7 +28,7 @@ def check_devices():
     assert 0 < sdp_Subarray1_proxy.ping()
 
     dish_master1_proxy = DeviceProxy(dish_master1)
-    assert 0< dish_master1_proxy.ping()
+    assert 0 < dish_master1_proxy.ping()
     
     tm_subarraynode1_proxy = DeviceProxy(tm_subarraynode1)
     assert 0< tm_subarraynode1_proxy.ping()
