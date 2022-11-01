@@ -42,9 +42,9 @@ def test_assign_release():
                 "EMPTY"
             )
             assign_res_input = tmc.get_input_str(assign_resources_file)            
-            CentralNode = DeviceProxy("ska_mid/tm_central/central_node")
+            central_node = DeviceProxy("ska_mid/tm_central/central_node")
             tmc.check_devices()
-            CentralNode.AssignResources(assign_res_input)
+            central_node.AssignResources(assign_res_input)
             LOGGER.info("Invoked AssignResources on CentralNode")
 
         compose_sub()
