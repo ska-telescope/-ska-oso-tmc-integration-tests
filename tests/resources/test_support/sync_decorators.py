@@ -14,14 +14,14 @@ def check_going_out_of_empty():
 def check_going_out_of_idle():
     # verify once for obstate = IDLE
     resource("mid-csp/subarray/01").assert_attribute("obsState").equals("IDLE")
-    resource("mid_sdp/elt/subarray_1").assert_attribute("obsState").equals("IDLE")
+    resource("mid-sdp/subarray/01").assert_attribute("obsState").equals("IDLE")
     resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals("IDLE")
 
 
 def check_going_out_of_ready():
     # verify once for obstate = READY
     resource("mid-csp/subarray/01").assert_attribute("obsState").equals("READY")
-    resource("mid_sdp/elt/subarray_1").assert_attribute("obsState").equals("READY")
+    resource("mid-sdp/subarray/01").assert_attribute("obsState").equals("READY")
     resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals("READY")
 
 
