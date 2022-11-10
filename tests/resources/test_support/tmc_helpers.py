@@ -99,8 +99,8 @@ def invoke_releaseResources(release_input_str):
             f"ReleaseResources command is invoked on {central_node}"
     )
 
-@sync_end
-def invoke_end ():
+@sync_end()
+def invoke_end():
     subarraynode_node = DeviceProxy(tm_subarraynode1)
     subarraynode_node.End()
     LOGGER.info(
