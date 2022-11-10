@@ -453,6 +453,24 @@ class waiter:
             )
         )
 
+    def set_wait_for_scan(self):
+        self.waits.append(
+            watch(resource("mid-csp/subarray/01")).to_become(
+                "obsState", changed_to="SCANNING"
+            )
+        )
+        self.waits.append(
+            watch(resource("mid-sdp/subarray/01")).to_become(
+                "obsState", changed_to="SCANNING"
+            )
+        )
+
+        self.waits.append(
+            watch(resource("ska_mid/tm_subarray_node/1")).to_become(
+                "obsState", changed_to="SCANNING"
+            )
+        )
+
 
     def set_wait_for_idle(self):
         self.waits.append(
@@ -478,6 +496,25 @@ class waiter:
                 "obsState", changed_to="IDLE"
             )
         )
+
+    def set_wait_for_ready(self):
+        self.waits.append(
+            watch(resource("mid-csp/subarray/01")).to_become(
+                "obsState", changed_to="READY"
+            )
+        )
+        self.waits.append(
+            watch(resource("mid-sdp/subarray/01")).to_become(
+                "obsState", changed_to="READY"
+            )
+        )
+
+        self.waits.append(
+            watch(resource("ska_mid/tm_subarray_node/1")).to_become(
+                "obsState", changed_to="READY"
+            )
+        )
+
     def wait(self, timeout=30, resolution=0.1):
         self.logs = ""
         while self.waits:
