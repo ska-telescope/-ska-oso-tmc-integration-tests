@@ -1,9 +1,11 @@
 import pytest
+from threading import Timer
+import time
 from tests.resources.test_support.controls import telescope_is_in_standby_state ,telescope_is_in_on_state ,subarray_obs_state_is_idle ,subarray_obs_state_is_ready, subarray_obs_state_is_empty, telescope_is_in_off_state
 import tests.resources.test_support.tmc_helpers as tmc
 from tests.conftest import LOGGER
 from tests.resources.test_support.sync_decorators import sync_assign_resources ,sync_configure ,sync_scan ,sync_end ,sync_endscan
-from tests.resources.test_support.helpers import resource
+from tests.resources.test_support.helpers import resource , monitor, waiter
 from tango import DeviceProxy
 
 assign_resources_file = "command_AssignResources.json"
@@ -12,6 +14,7 @@ configure_resources_file = "command_Configure.json"
 scan_file= "command_Scan.json"
 
 @pytest.mark.SKA_mid
+@pytest.mark.MSS
 def test_scan_endscan():
     """Scan and EndScan is executed."""
     try:
@@ -85,29 +88,12 @@ def test_scan_endscan():
             LOGGER.info("Invoked Scan on SubarrayNode")
 
         scan_subarray()
-
+        time.sleep(10)
         """Verify ObsState is READY"""
         assert subarray_obs_state_is_ready()
         fixture["state"] ="Scan"
         LOGGER.info("Scan command is invoked successfully")
 
-        """Invoke EndScan() Command on TMC"""
-        LOGGER.info("Invoking EndScan command on TMC SubarrayNode")
-        @sync_endscan()
-        def endscan():
-            resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals(
-                "READY"
-            )
-            subarray_node = DeviceProxy("ska_mid/tm_subarray_node/1")
-            subarray_node.EndScan()
-            LOGGER.info("Invoked EndScan on SubarrayNode")
-
-        endscan()
-
-        """Verify ObsState is READY"""
-        assert subarray_obs_state_is_ready()
-        fixture["state"] ="EndScan"
-        LOGGER.info("EndScan command is invoked successfully")
 
         """Invoke End() Command on TMC"""
         LOGGER.info("Invoking End command on TMC SubarrayNode")
