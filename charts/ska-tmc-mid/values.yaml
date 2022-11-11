@@ -82,7 +82,7 @@ cspsubarrayleafnode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-cspleafnodes
-    tag: 0.1.15
+    tag: 0.1.16
     pullPolicy: IfNotPresent
 
 dishleafnode:
