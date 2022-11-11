@@ -10,7 +10,7 @@ from tango import DeviceProxy
 assign_resources_file = "command_AssignResources.json"
 release_resources_file  = "command_ReleaseResources.json"
 
-@pytest.mark.skip
+
 @pytest.mark.SKA_mid
 def test_assign_release():
     """AssignResources and ReleaseResources is executed."""
