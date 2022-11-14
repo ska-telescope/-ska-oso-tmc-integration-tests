@@ -1,5 +1,5 @@
 import functools
-from tests.resources.test_support.helpers import waiter, resource
+from tests.resources.test_support.helpers import waiter, resource, WaitForScan
 from contextlib import contextmanager
 
 
@@ -11,19 +11,18 @@ def check_going_out_of_empty():
     resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals("EMPTY")
 
 
-def check_going_out_of_idle():
+def check_resources_assign():
     # verify once for obstate = IDLE
     resource("mid-csp/subarray/01").assert_attribute("obsState").equals("IDLE")
     resource("mid-sdp/subarray/01").assert_attribute("obsState").equals("IDLE")
     resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals("IDLE")
 
 
-def check_going_out_of_ready():
+def check_going_out_of_configure():
     # verify once for obstate = READY
     resource("mid-csp/subarray/01").assert_attribute("obsState").equals("READY")
     resource("mid-sdp/subarray/01").assert_attribute("obsState").equals("READY")
     resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals("READY")
-
 
 
 def sync_telescope_on(func):
@@ -55,6 +54,7 @@ def sync_going_to_off(timeout=50):
     the_waiter.set_wait_for_going_to_off()
     yield
     the_waiter.wait(timeout)
+
 
 def sync_set_to_standby(func):
     @functools.wraps(func)
@@ -99,7 +99,7 @@ def sync_configure():
     def decorator_sync_configure(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            check_going_out_of_idle()
+            check_resources_assign()
             the_waiter = waiter()
             the_waiter.set_wait_for_configure()
             result = func(*args, **kwargs)
@@ -110,12 +110,27 @@ def sync_configure():
 
     return decorator_sync_configure
 
+def sync_scan(timeout = 300):
+    # define as a decorator
+    def decorator_sync_scan(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            check_going_out_of_configure()
+            scan_wait = WaitForScan()
+            result = func(*args, **kwargs)
+            scan_wait.wait(timeout)
+            return result
+
+        return wrapper
+
+    return decorator_sync_scan
+
 def sync_end():
     # defined as a decorator
     def decorator_sync_end(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            check_going_out_of_ready()
+            check_going_out_of_configure()
             the_waiter = waiter()
             the_waiter.set_wait_for_idle()
             result = func(*args, **kwargs)
