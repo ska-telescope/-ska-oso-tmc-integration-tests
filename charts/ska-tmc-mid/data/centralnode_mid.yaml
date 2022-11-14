@@ -15,22 +15,22 @@ server:
         properties:
         - name: "CspMasterLeafNodeFQDN"
           values:
-          - "{{.Values.deviceServers.centralnode.CspMasterLeafNodeFQDN}}"
+          - "ska_mid/tm_leaf_node/csp_master"
         - name: "CspMasterFQDN"
           values:
-          - "{{.Values.deviceServers.centralnode.CspMasterFQDN}}"
+          - "mid-csp/control/0"
         - name: "SdpMasterLeafNodeFQDN"
           values:
-          - "{{.Values.deviceServers.centralnode.SdpMasterLeafNodeFQDN}}"
+          - "ska_mid/tm_leaf_node/sdp_master"
         - name: "SdpMasterFQDN"
           values:
-          - "{{.Values.deviceServers.centralnode.SdpMasterFQDN}}"
+          - "mid-sdp/control/0"
         - name: "DishLeafNodePrefix"
           values:
-          - "{{.Values.deviceServers.centralnode.DishLeafNodePrefix}}"
+          - "ska_mid/tm_leaf_node/d"
         - name: "NumDishes"
           values:
-          - "{{.Values.deviceServers.centralnode.NumDishes}}"
+          - "4"
         - name: "TMSubarrayNodes"
           values:
           {{- range  ( regexSplit " " ((.Values.deviceServers.centralnode.subarray_count | int) | seq ) -1 )  }}

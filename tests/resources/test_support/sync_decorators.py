@@ -1,5 +1,5 @@
 import functools
-from tests.resources.test_support.helpers import waiter, resource, WaitScanning
+from tests.resources.test_support.helpers import waiter, resource, WaitForScan
 from contextlib import contextmanager
 
 
@@ -116,7 +116,7 @@ def sync_scan(timeout = 300):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
             check_going_out_of_configure()
-            scan_wait = WaitScanning()
+            scan_wait = WaitForScan()
             result = func(*args, **kwargs)
             scan_wait.wait(timeout)
             return result
