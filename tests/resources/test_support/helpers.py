@@ -46,28 +46,6 @@ class resource:
     def assert_attribute(self, attr):
         return ObjectComparison("{}.{}".format(self.device_name, attr), self.get(attr))
 
-class WaitScanning:
-    def __init__(self):
-        self.tmc_subarraynode = watch(resource("ska_mid/tm_subarray_node/1")).for_a_change_on(
-            "obsState"
-        )
-        self.csp_subarray = watch(resource("mid-csp/subarray/01")).for_a_change_on("obsState")
-        self.sdp_subarray = watch(resource("mid-sdp/subarray/01")).for_a_change_on("obsState")
-
-    def wait(self, timeout):
-        logging.info(
-            "scan command dispatched, checking that the state transitioned to SCANNING"
-        )
-        self.tmc_subarraynode.wait_until_value_changed_to("SCANNING", timeout)
-        self.csp_subarray.wait_until_value_changed_to("SCANNING", timeout)
-        self.sdp_subarray.wait_until_value_changed_to("SCANNING", timeout)
-        logging.info(
-            "state transitioned to SCANNING, waiting for it to return to READY"
-        )
-        self.tmc_subarraynode.wait_until_value_changed_to("READY", timeout)
-        self.csp_subarray.wait_until_value_changed_to("READY", timeout)
-        self.sdp_subarray.wait_until_value_changed_to("READY", timeout)
-
 class ObjectComparison:
     def __init__(self, object, value):
         self.value = value
@@ -545,7 +523,27 @@ class waiter:
                     self.error_logs, self.logs
                 )
             )
+class WaitForScan(waiter):
+    def __init__(self):
+        self.tmc_subarraynode = watch(resource("ska_mid/tm_subarray_node/1")).for_a_change_on(
+            "obsState"
+        )
+        self.csp_subarray = watch(resource("mid-csp/subarray/01")).for_a_change_on("obsState")
+        self.sdp_subarray = watch(resource("mid-sdp/subarray/01")).for_a_change_on("obsState")
 
+    def wait(self, timeout):
+        logging.info(
+            "scan command dispatched, checking that the state transitioned to SCANNING"
+        )
+        self.tmc_subarraynode.wait_until_value_changed_to("SCANNING", timeout)
+        self.csp_subarray.wait_until_value_changed_to("SCANNING", timeout)
+        self.sdp_subarray.wait_until_value_changed_to("SCANNING", timeout)
+        logging.info(
+            "state transitioned to SCANNING, waiting for it to return to READY"
+        )
+        self.tmc_subarraynode.wait_until_value_changed_to("READY", timeout)
+        self.csp_subarray.wait_until_value_changed_to("READY", timeout)
+        self.sdp_subarray.wait_until_value_changed_to("READY", timeout)
 
 # Waiters based on tango DeviceProxy's ability to subscribe to events
 class AttributeWatcher:
