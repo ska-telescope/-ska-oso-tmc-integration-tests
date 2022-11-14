@@ -17,6 +17,7 @@ LOGGER = logging.getLogger(__name__)
 subarray_devices = [
     "ska_mid/tm_subarray_node/1",
     "mid-sdp/subarray/01",
+    "mid-csp/subarray/01",
 ]
 
 class resource:
