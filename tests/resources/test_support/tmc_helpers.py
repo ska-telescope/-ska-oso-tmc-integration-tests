@@ -7,7 +7,7 @@ from tests.resources.test_support.sync_decorators import (
     sync_end, sync_assign_resources, sync_configure, sync_scan
 )
 from tango import DeviceProxy, DevState
-from tests.resources.test_support.controls import centralnode, csp_subarray1, sdp_subarray1, dish_master1, tm_subarraynode1
+from tests.resources.test_support.controls import centralnode, csp_subarray1, sdp_subarray1, dish_master1, tmc_subarraynode1
 from tests.resources.test_support.helpers import resource
 import logging
 
@@ -28,8 +28,8 @@ def check_devices():
     assert 0 < sdp_subarray_1.ping()
     dish_master_1 = DeviceProxy(dish_master1)
     assert 0 < dish_master_1.ping()
-    tm_subarraynode_1 = DeviceProxy(tm_subarraynode1)
-    assert 0 < tm_subarraynode_1.ping()
+    tmc_subarraynode_1 = DeviceProxy(tmc_subarraynode1)
+    assert 0 < tmc_subarraynode_1.ping()
     csp_master = DeviceProxy("ska_mid/tm_leaf_node/csp_master")
     assert 0 < csp_master.ping()
     csp_subarray = DeviceProxy("ska_mid/tm_leaf_node/csp_subarray01")
@@ -91,7 +91,7 @@ def invoke_releaseResources(release_input_str):
 
 @sync_end()
 def end():
-    subarraynode_node = DeviceProxy(tm_subarraynode1)
+    subarraynode_node = DeviceProxy(tmc_subarraynode1)
     subarraynode_node.End()
     LOGGER.info(
             f"ReleaseResources command is invoked on {subarraynode_node}"
@@ -99,10 +99,10 @@ def end():
 
 @sync_assign_resources()
 def compose_sub(assign_res_input):
-    resource(tm_subarraynode1).assert_attribute("State").equals(
+    resource(tmc_subarraynode1).assert_attribute("State").equals(
         "ON"
     )
-    resource(tm_subarraynode1).assert_attribute("obsState").equals(
+    resource(tmc_subarraynode1).assert_attribute("obsState").equals(
         "EMPTY"
     )
     central_node = DeviceProxy("ska_mid/tm_central/central_node")
@@ -112,19 +112,19 @@ def compose_sub(assign_res_input):
 
 @sync_configure()
 def configure_subarray(configure_input_str):
-    resource(tm_subarraynode1).assert_attribute("obsState").equals(
+    resource(tmc_subarraynode1).assert_attribute("obsState").equals(
         "IDLE"
     )
-    subarray_node = DeviceProxy(tm_subarraynode1)
+    subarray_node = DeviceProxy(tmc_subarraynode1)
     subarray_node.Configure(configure_input_str)
     LOGGER.info("Invoked Configure on SubarrayNode")
 
 
 @sync_scan()
 def scan(scan_input):
-    resource(tm_subarraynode1).assert_attribute("obsState").equals(
+    resource(tmc_subarraynode1).assert_attribute("obsState").equals(
         "READY"
     )
-    subarray_node = DeviceProxy(tm_subarraynode1)
+    subarray_node = DeviceProxy(tmc_subarraynode1)
     subarray_node.Scan(scan_input)
     LOGGER.info("Invoked Scan on SubarrayNode")

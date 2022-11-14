@@ -116,9 +116,9 @@ def sync_scan(timeout = 300):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
             check_going_out_of_configure()
-            w = WaitScanning()
+            scan_wait = WaitScanning()
             result = func(*args, **kwargs)
-            w.wait(timeout)
+            scan_wait.wait(timeout)
             return result
 
         return wrapper

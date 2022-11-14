@@ -10,6 +10,7 @@ from tango import EventType
 from tango import DeviceProxy, CmdArgType, EventType
 
 
+
 LOGGER = logging.getLogger(__name__)
 
 
@@ -47,25 +48,25 @@ class resource:
 
 class WaitScanning:
     def __init__(self):
-        self.w = watch(resource("ska_mid/tm_subarray_node/1")).for_a_change_on(
+        self.tmc_subarraynode = watch(resource("ska_mid/tm_subarray_node/1")).for_a_change_on(
             "obsState"
         )
-        self.w1 = watch(resource("mid-csp/subarray/01")).for_a_change_on("obsState")
-        self.w2 = watch(resource("mid-sdp/subarray/01")).for_a_change_on("obsState")
+        self.csp_subarray = watch(resource("mid-csp/subarray/01")).for_a_change_on("obsState")
+        self.sdp_subarray = watch(resource("mid-sdp/subarray/01")).for_a_change_on("obsState")
 
     def wait(self, timeout):
         logging.info(
             "scan command dispatched, checking that the state transitioned to SCANNING"
         )
-        self.w.wait_until_value_changed_to("SCANNING", timeout)
-        self.w1.wait_until_value_changed_to("SCANNING", timeout)
-        self.w2.wait_until_value_changed_to("SCANNING", timeout)
+        self.tmc_subarraynode.wait_until_value_changed_to("SCANNING", timeout)
+        self.csp_subarray.wait_until_value_changed_to("SCANNING", timeout)
+        self.sdp_subarray.wait_until_value_changed_to("SCANNING", timeout)
         logging.info(
             "state transitioned to SCANNING, waiting for it to return to READY"
         )
-        self.w.wait_until_value_changed_to("READY", timeout)
-        self.w1.wait_until_value_changed_to("READY", timeout)
-        self.w2.wait_until_value_changed_to("READY", timeout)
+        self.tmc_subarraynode.wait_until_value_changed_to("READY", timeout)
+        self.csp_subarray.wait_until_value_changed_to("READY", timeout)
+        self.sdp_subarray.wait_until_value_changed_to("READY", timeout)
 
 class ObjectComparison:
     def __init__(self, object, value):
