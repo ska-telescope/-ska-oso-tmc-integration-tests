@@ -3,7 +3,7 @@ from tests.resources.test_support.controls import telescope_is_in_standby_state,
 import tests.resources.test_support.tmc_helpers as tmc
 from tests.conftest import LOGGER
 
-
+@pytest.mark.skip
 @pytest.mark.SKA_mid
 def test_telescope_standby():
     """TelescopeStandby() is executed."""

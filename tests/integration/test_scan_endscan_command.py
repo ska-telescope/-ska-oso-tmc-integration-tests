@@ -88,7 +88,7 @@ def test_scan_endscan():
             LOGGER.info("Invoked Scan on SubarrayNode")
 
         scan_subarray()
-        time.sleep(10)
+        # time.sleep(10)
         """Verify ObsState is READY"""
         assert subarray_obs_state_is_ready()
         fixture["state"] ="Scan"

@@ -44,6 +44,27 @@ class resource:
     def assert_attribute(self, attr):
         return ObjectComparison("{}.{}".format(self.device_name, attr), self.get(attr))
 
+class WaitScanning:
+    def __init__(self):
+        self.w = watch(resource("ska_mid/tm_subarray_node/1")).for_a_change_on(
+            "obsState"
+        )
+        self.w1 = watch(resource("mid-csp/subarray/01")).for_a_change_on("obsState")
+        self.w2 = watch(resource("mid-sdp/subarray/01")).for_a_change_on("obsState")
+
+    def wait(self, timeout):
+        logging.info(
+            "scan command dispatched, checking that the state transitioned to SCANNING"
+        )
+        self.w.wait_until_value_changed_to("SCANNING", timeout)
+        self.w1.wait_until_value_changed_to("SCANNING", timeout)
+        self.w2.wait_until_value_changed_to("SCANNING", timeout)
+        logging.info(
+            "state transitioned to SCANNING, waiting for it to return to READY"
+        )
+        self.w.wait_until_value_changed_to("READY", timeout)
+        self.w1.wait_until_value_changed_to("READY", timeout)
+        self.w2.wait_until_value_changed_to("READY", timeout)
 
 class ObjectComparison:
     def __init__(self, object, value):
