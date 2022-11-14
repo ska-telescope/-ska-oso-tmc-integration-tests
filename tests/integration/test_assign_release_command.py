@@ -73,8 +73,6 @@ def test_assign_release():
         LOGGER.info("Tests complete.")
 
     except:
-        LOGGER.info("Exception occurred in the test for state = {}".format(fixture["state"]))
-        LOGGER.info("Tearing down...")
         if fixture["state"] == "AssignResources":
             tmc.invoke_releaseResources(release_input_str)
         if fixture["state"] == "TelescopeOn":

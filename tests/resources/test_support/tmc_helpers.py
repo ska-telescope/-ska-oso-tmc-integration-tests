@@ -13,7 +13,6 @@ import logging
 
 LOGGER = logging.getLogger(__name__)
 
-
 def get_input_str(input_file):
     path = join(dirname(__file__), "..", "..", "data", input_file)
     with open(path, "r") as f:
@@ -94,7 +93,7 @@ def end():
     subarray_node = DeviceProxy(tmc_subarraynode1)
     subarray_node.End()
     LOGGER.info(
-            f" End command is invoked on {subarray_node}"
+            f"End command is invoked on {subarray_node}"
     )
 
 @sync_assign_resources()
