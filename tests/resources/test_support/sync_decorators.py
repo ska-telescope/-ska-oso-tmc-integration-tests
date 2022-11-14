@@ -11,7 +11,7 @@ def check_going_out_of_empty():
     resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals("EMPTY")
 
 
-def check_going_out_of_assigning_resources():
+def check_resources_assign():
     # verify once for obstate = IDLE
     resource("mid-csp/subarray/01").assert_attribute("obsState").equals("IDLE")
     resource("mid-sdp/subarray/01").assert_attribute("obsState").equals("IDLE")
@@ -99,7 +99,7 @@ def sync_configure():
     def decorator_sync_configure(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            check_going_out_of_assigning_resources()
+            check_resources_assign()
             the_waiter = waiter()
             the_waiter.set_wait_for_configure()
             result = func(*args, **kwargs)

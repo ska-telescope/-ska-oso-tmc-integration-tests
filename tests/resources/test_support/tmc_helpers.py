@@ -91,10 +91,10 @@ def invoke_releaseResources(release_input_str):
 
 @sync_end()
 def end():
-    subarraynode_node = DeviceProxy(tmc_subarraynode1)
-    subarraynode_node.End()
+    subarray_node = DeviceProxy(tmc_subarraynode1)
+    subarray_node.End()
     LOGGER.info(
-            f"ReleaseResources command is invoked on {subarraynode_node}"
+            f" End command is invoked on {subarray_node}"
     )
 
 @sync_assign_resources()
