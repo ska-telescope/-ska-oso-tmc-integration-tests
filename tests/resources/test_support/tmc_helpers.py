@@ -39,7 +39,6 @@ def check_devices():
     sdp_subarray = DeviceProxy("ska_mid/tm_leaf_node/sdp_subarray01")
     assert 0 < sdp_subarray.ping()
 
-
 @sync_telescope_on
 def set_to_on():
     central_node = DeviceProxy(centralnode)
