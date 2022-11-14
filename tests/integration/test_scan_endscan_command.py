@@ -2,9 +2,6 @@ import pytest
 from tests.resources.test_support.controls import telescope_is_in_standby_state ,telescope_is_in_on_state ,subarray_obs_state_is_idle ,subarray_obs_state_is_ready, subarray_obs_state_is_empty, telescope_is_in_off_state
 import tests.resources.test_support.tmc_helpers as tmc
 from tests.conftest import LOGGER
-from tests.resources.test_support.sync_decorators import sync_assign_resources ,sync_configure ,sync_scan ,sync_end 
-from tests.resources.test_support.helpers import resource
-from tango import DeviceProxy
 
 assign_resources_file = "command_AssignResources.json"
 release_resources_file  = "command_ReleaseResources.json"
@@ -33,20 +30,9 @@ def test_scan_endscan():
 
         """Invoke AssignResources() Command on TMC"""
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-        @sync_assign_resources()
-        def compose_sub():
-            resource("ska_mid/tm_subarray_node/1").assert_attribute("State").equals(
-                "ON"
-            )
-            resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals(
-                "EMPTY"
-            )
-            assign_res_input = tmc.get_input_str(assign_resources_file)
-            central_node = DeviceProxy("ska_mid/tm_central/central_node")
-            central_node.AssignResources(assign_res_input)
-            LOGGER.info("Invoked AssignResources on CentralNode")
 
-        compose_sub()
+        assign_res_input = tmc.get_input_str(assign_resources_file)
+        tmc.compose_sub(assign_res_input)
 
         """Verify ObsState is Idle"""
         assert subarray_obs_state_is_idle()
@@ -55,17 +41,8 @@ def test_scan_endscan():
 
         """Invoke Configure() Command on TMC"""
         LOGGER.info("Invoking Configure command on TMC CentralNode")
-        @sync_configure()
-        def configure_subarray():
-            resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals(
-                "IDLE"
-            )
-            configure_input = tmc.get_input_str(configure_resources_file)
-            subarray_node = DeviceProxy("ska_mid/tm_subarray_node/1")
-            subarray_node.Configure(configure_input)
-            LOGGER.info("Invoked Configure on SubarrayNode")
-
-        configure_subarray()
+        configure_input_str = tmc.get_input_str(configure_resources_file)
+        tmc.configure_subarray(configure_input_str)
 
         """Verify ObsState is READY"""
         assert subarray_obs_state_is_ready()
@@ -74,35 +51,17 @@ def test_scan_endscan():
 
         """Invoke Scan() Command on TMC"""
         LOGGER.info("Invoking Scan command on TMC CentralNode")
-        @sync_scan()
-        def scan_subarray():
-            resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals(
-                "READY"
-            )
-            scan_input = tmc.get_input_str(scan_file)
-            subarray_node = DeviceProxy("ska_mid/tm_subarray_node/1")
-            subarray_node.Scan(scan_input)
-            LOGGER.info("Invoked Scan on SubarrayNode")
+        scan_input = tmc.get_input_str(scan_file)
+        tmc.scan(scan_input)
 
-        scan_subarray()
         """Verify ObsState is READY"""
         assert subarray_obs_state_is_ready()
         fixture["state"] ="Scan"
         LOGGER.info("Scan command is invoked successfully")
 
-
         """Invoke End() Command on TMC"""
         LOGGER.info("Invoking End command on TMC SubarrayNode")
-        @sync_end()
-        def end():
-            resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals(
-                "READY"
-            )
-            subarray_node = DeviceProxy("ska_mid/tm_subarray_node/1")
-            subarray_node.End()
-            LOGGER.info("Invoked End on SubarrayNode")
-
-        end()
+        tmc.end()
 
         """Verify ObsState is IDLE"""
         assert subarray_obs_state_is_idle()
@@ -132,10 +91,10 @@ def test_scan_endscan():
         if fixture["state"] == "AssignResources":
             tmc.invoke_releaseResources(release_input_str)
         if fixture["state"] == "Configure":
-            tmc.invoke_end()
+            tmc.end()
             tmc.invoke_releaseResources(release_input_str)
         if fixture["state"] == "Scan":
-            tmc.invoke_end()
+            tmc.end()
             tmc.invoke_releaseResources(release_input_str)
         if fixture["state"] == "TelescopeOn":
             tmc.set_to_off()
