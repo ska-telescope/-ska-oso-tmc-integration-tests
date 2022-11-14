@@ -140,20 +140,3 @@ def sync_end():
         return wrapper
 
     return decorator_sync_end
-
-def sync_endscan():
-    # define as a decorator
-    def decorator_sync_endscan(func):
-        @functools.wraps(func)
-        def wrapper(*args ,**kwargs):
-            check_going_out_of_configure()
-            the_waiter = waiter()
-            the_waiter.set_wait_for_ready()
-            result = func(*args, **kwargs)
-            the_waiter.wait(500)
-            return result
-
-        return wrapper
-
-    return decorator_sync_endscan
-
