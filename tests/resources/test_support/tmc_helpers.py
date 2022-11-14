@@ -24,25 +24,18 @@ def check_devices():
     assert 0 < central_node.ping()
     csp_subarray_1 = DeviceProxy(csp_subarray1)
     assert 0 < csp_subarray_1.ping()
-
     sdp_subarray_1 = DeviceProxy(sdp_subarray1)
     assert 0 < sdp_subarray_1.ping()
-
     dish_master_1 = DeviceProxy(dish_master1)
     assert 0 < dish_master_1.ping()
-
     tm_subarraynode_1 = DeviceProxy(tm_subarraynode1)
     assert 0 < tm_subarraynode_1.ping()
-
     csp_master = DeviceProxy("ska_mid/tm_leaf_node/csp_master")
     assert 0 < csp_master.ping()
-
     csp_subarray = DeviceProxy("ska_mid/tm_leaf_node/csp_subarray01")
     assert 0 < csp_subarray.ping()
-
     sdp_master = DeviceProxy("ska_mid/tm_leaf_node/sdp_master")
     assert 0 < sdp_master.ping()
-
     sdp_subarray = DeviceProxy("ska_mid/tm_leaf_node/sdp_subarray01")
     assert 0 < sdp_subarray.ping()
 
