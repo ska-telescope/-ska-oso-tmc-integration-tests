@@ -1,4 +1,4 @@
-release=0.6.0
-tag=0.6.0
-tag_description= TMC-mid to support Scan functionality.
-release_notes= TMC-mid to support Scan functionality.
+release=0.6.1
+tag=0.6.1
+tag_description= TMC-mid to support Scan functionality. Utilised CspSubarrayleafnode v0.1.17 with a scan command fix for TMC-CSP interface.
+release_notes= TMC-mid to support Scan functionality. Utilised CspSubarrayleafnode v0.1.17 with a scan command fix for TMC-CSP interface.
