@@ -23,6 +23,10 @@ dependencies:
     version: 0.6.2
     repository: file://../ska-tmc-mid
     alias: tmc-mid
+  - name: ska-tmc-low
+    version: 0.1.0
+    repository: file://../ska-tmc-low
+    alias: tmc-low
   - name: ska-ser-skuid
     version: 0.3.0
     repository: https://artefact.skao.int/repository/helm-internal

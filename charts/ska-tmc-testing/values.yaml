@@ -46,6 +46,15 @@ tmc-mid:
   deviceServers:
     mocks:
       enabled: true
+      
+#TMC-low
+tmc-low:
+  labels:
+    app: ska-tmc-integration
+  enabled: true
+  deviceServers:
+    mocks:
+      enabled: true
  
 # SKUID
 ska-ser-skuid:
