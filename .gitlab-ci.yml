@@ -40,6 +40,8 @@ include:
 - project: 'ska-telescope/templates-repository'
   file: 'gitlab-ci/includes/k8s.gitlab-ci.yml'
 
+- local: "/.gitlab/ci/ska-low.gitlab-ci.yml"
+
 # Create Gitlab CI badges from CI metrics
 # https://developer.skatelescope.org/en/latest/tools/continuousintegration.html#automated-collection-of-ci-health-metrics-as-part-of-the-ci-pipeline
 - project: 'ska-telescope/templates-repository'
@@ -47,3 +49,32 @@ include:
 
 k8s-test:
   retry: 2
+
+8s-test-low:
+  extends:
+    - k8s-test
+  variables:
+    CHART: 'low'
+    KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-$CONFIG'
+  script:
+    - echo $TELESCOPE
+    - make k8s-install-chart
+    - make k8s-wait 
+    - make k8s-test
+  environment:
+    name: test/$CI_COMMIT_REF_SLUG
+    on_stop: stop-k8s-test-low
+    auto_stop_in: 1 minute
+
+stop-k8s-test-low:
+  extends:
+    - stop-k8s-test
+  variables:
+    CONFIG: 'low'
+    KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-$CONFIG'
+  script:
+    - make k8s-uninstall-chart
+    - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all
+    - make k8s-delete-namespace
+
+

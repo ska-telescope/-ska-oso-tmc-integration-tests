@@ -21,11 +21,12 @@ endif
 # HELM_RELEASE is the release that all Kubernetes resources will be labelled
 # with
 HELM_RELEASE ?= test
+CHART ?= mid
 
 # UMBRELLA_CHART_PATH Path of the umbrella chart to work with
-HELM_CHART=ska-tmc-testing
+HELM_CHART=ska-tmc-testing-$(CHART)
 UMBRELLA_CHART_PATH ?= charts/$(HELM_CHART)/
-K8S_CHARTS ?= ska-tmc-mid ska-tmc-testing## list of charts
+K8S_CHARTS ?= ska-tmc-$(CHART) ska-tmc-testing-$(CHART)## list of charts
 K8S_CHART ?= $(HELM_CHART)
 
 CI_REGISTRY ?= gitlab.com

@@ -1,0 +1,61 @@
+name: "centralnode-test"
+function: telescope-monitoring
+domain: general-monitoring
+instances: ["01"]
+command: "python3 /app/src/ska_tmc_centralnode/central_node_low.py"
+server:
+  name: "central_node_low"
+  instances:
+  - name: "01"
+    classes:
+    - name: "CentralNodeLow"
+      devices:
+      - name: "ska_low/tm_central/central_node"
+        properties:
+        - name: "CspMasterLeafNodeFQDN"
+          values:
+          - "{{.Values.deviceServers.centralnode.CspMasterLeafNodeFQDN}}"
+        - name: "CspMasterFQDN"
+          values:
+          - "{{.Values.deviceServers.centralnode.CspMasterFQDN}}"
+        - name: "SdpMasterLeafNodeFQDN"
+          values:
+          - "{{.Values.deviceServers.centralnode.SdpMasterLeafNodeFQDN}}"
+        - name: "SdpMasterFQDN"
+          values:
+          - "{{.Values.deviceServers.centralnode.SdpMasterFQDN}}"
+        - name: "SkuidService"
+          values:
+          - "{{.Values.deviceServers.centralnode.SkuidService}}"
+        - name: "TMCSubarrayNodes"
+          values:
+          {{- range  ( regexSplit " " ((.Values.deviceServers.centralnode.subarray_count | int) | seq ) -1 )  }}
+          - "ska_low/tm_subarray_node/{{ . }}"
+          {{- end }}
+        - name: "TMCLowCspSubarrayLeafNodes"
+          values:
+          {{- range  ( regexSplit " " ((.Values.deviceServers.centralnode.subarray_count | int) | seq ) -1 )  }}
+          - "ska_low/tm_leaf_node/csp_subarray{{ printf "%02s" . }}"
+          {{- end }}
+        - name: "TMCLowSdpSubarrayLeafNodes"
+          values:
+          {{- range  ( regexSplit " " ((.Values.deviceServers.centralnode.subarray_count | int) | seq ) -1 )  }}
+          - "ska_low/tm_leaf_node/sdp_subarray{{ printf "%02s" . }}"
+          {{- end }}
+        - name: "SkaLevel"
+          values:
+            - "1"
+        - name: "LoggingTargetsDefault"
+          values:
+            - "tango::logger"
+        - name: "LoggingLevelDefault"
+          values:
+            - "5"
+depends_on:
+  - device: sys/database/2
+image:
+  registry: "{{.Values.centralnode.image.registry}}"
+  image: "{{.Values.centralnode.image.image}}"
+  tag: "{{.Values.centralnode.image.tag}}"
+  pullPolicy: "{{.Values.centralnode.image.pullPolicy}}"
+
