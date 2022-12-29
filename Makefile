@@ -25,7 +25,7 @@ HELM_RELEASE ?= test
 # UMBRELLA_CHART_PATH Path of the umbrella chart to work with
 HELM_CHART=ska-tmc-testing
 UMBRELLA_CHART_PATH ?= charts/$(HELM_CHART)/
-K8S_CHARTS ?= ska-tmc-mid ska-tmc-testing## list of charts
+K8S_CHARTS ?= ska-tmc-mid ska-tmc-testing ska-tmc-low## list of charts
 K8S_CHART ?= $(HELM_CHART)
 
 CI_REGISTRY ?= gitlab.com

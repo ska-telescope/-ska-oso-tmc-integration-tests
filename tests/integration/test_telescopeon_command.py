@@ -38,3 +38,10 @@ def test_telescope_on():
         if fixture["state"] == "TelescopeOn":
             tmc.set_to_off()
         raise
+
+
+@pytest.mark.SKA_low
+def test_telescope_on():
+    """TelescopeOn() is executed."""
+    LOGGER.info("Placeholder test case for low deployment")
+    assert 1
