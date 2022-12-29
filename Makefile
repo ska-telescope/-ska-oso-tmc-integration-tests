@@ -25,7 +25,7 @@ HELM_RELEASE ?= test
 # UMBRELLA_CHART_PATH Path of the umbrella chart to work with
 HELM_CHART=ska-tmc-testing
 UMBRELLA_CHART_PATH ?= charts/$(HELM_CHART)/
-K8S_CHARTS ?= ska-tmc-low ska-tmc-testing## list of charts
+K8S_CHARTS ?= $(K8S_CHART_DEPLOYMENT) ska-tmc-testing## list of charts
 K8S_CHART ?= $(HELM_CHART)
 
 CI_REGISTRY ?= gitlab.com
@@ -56,7 +56,7 @@ $(shell echo 'global:\n  annotations:\n    app.gitlab.com/app: $(CI_PROJECT_PATH
 
 ifeq ($(MAKECMDGOALS),k8s-test)
 ADD_ARGS +=  --true-context
-MARK ?= $(TELESCOPE)
+MARK ?= SKA_mid
 endif
 
 PYTHON_VARS_AFTER_PYTEST ?= -m '$(MARK)' $(ADD_ARGS) $(FILE)
