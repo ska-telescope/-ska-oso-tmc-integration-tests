@@ -53,7 +53,7 @@ k8s-test-low:
     - k8s-test
   variables:
     CHART: 'low'
-    TELESCOPE: 'SKA-low'
+    TELESCOPE: 'SKA_low'
     KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-$CHART'
   script:
     - echo $TELESCOPE
