@@ -45,30 +45,6 @@ include:
 - project: 'ska-telescope/templates-repository'
   file: 'gitlab-ci/includes/finaliser.gitlab-ci.yml'
 
-k8s-test: 
-  extends:
-    - k8s-test 
-  variables:
-    TELESCOPE: 'SKA-mid'
-    CONFIG: 'mid'
-    KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-$CONFIG'
-    DEPLOYMENT_TYPE: 'mid'
-  environment:
-    name: test/$CI_COMMIT_REF_SLUG
-    on_stop: stop-k8s-test-mid
-    auto_stop_in: 1 minute
-
-stop-k8s-test-mid:
-  extends:
-    - stop-k8s-test
-  variables:
-    CONFIG: 'mid'
-    KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-$CONFIG'
-  script:
-    - make k8s-uninstall-chart
-    - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all
-    - make k8s-delete-namespace
-
 k8s-test-low:
   extends:
     - k8s-test
