@@ -3,7 +3,7 @@ xauthority: "~/.Xauthority"
 
 enabled: true
 
-system: TMC-low
+system: TM-low
 telescope: SKA-low
 subsystem: ska-tmc-low
 
