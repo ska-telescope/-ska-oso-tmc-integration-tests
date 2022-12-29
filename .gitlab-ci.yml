@@ -53,6 +53,7 @@ k8s-test-low:
     - k8s-test
   variables:
     CHART: 'low'
+    TELESCOPE: 'SKA-low'
     KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-$CHART'
   script:
     - echo $TELESCOPE
@@ -68,7 +69,7 @@ stop-k8s-test-low:
   extends:
     - stop-k8s-test
   variables:
-    CONFIG: 'low'
+    CHART: 'low'
     KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-$CHART'
   script:
     - make k8s-uninstall-chart
