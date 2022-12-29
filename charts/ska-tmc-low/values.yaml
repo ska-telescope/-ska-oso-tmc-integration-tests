@@ -107,37 +107,32 @@ deviceServers:
     subarray_count: 3
     file: "data/centralnode_low.yaml"
 
-  subarraynode:
-    enabled: true
-    instances: ["01", "02", "03"]
-    file: "data/subarraynode_low.yaml"
+  # subarraynode:
+  #   enabled: true
+  #   instances: ["01", "02", "03"]
+  #   file: "data/subarraynode_low.yaml"
 
-  sdpsubarrayleafnode:
-    enabled: true
-    instances: ["01", "02", "03"]
-    file: "data/sdpsubarrayleafnode.yaml"
+  # sdpsubarrayleafnode:
+  #   enabled: true
+  #   instances: ["01", "02", "03"]
+  #   file: "data/sdpsubarrayleafnode.yaml"
 
-  sdpmasterleafnode:
-    enabled: true
-    instances: ["01"]
-    file: "data/sdpmasterleafnode.yaml"
-    SdpMasterFQDN: "low-sdp/control/0"
+  # sdpmasterleafnode:
+  #   enabled: true
+  #   instances: ["01"]
+  #   file: "data/sdpmasterleafnode.yaml"
+  #   SdpMasterFQDN: "low-sdp/control/0"
 
-  cspmasterleafnode:
-    enabled: true
-    instances: ["01"]
-    file: "data/cspmasterleafnode.yaml"
-    CspMasterFQDN: "low-csp/control/0"
+  # cspmasterleafnode:
+  #   enabled: true
+  #   instances: ["01"]
+  #   file: "data/cspmasterleafnode.yaml"
+  #   CspMasterFQDN: "low-csp/control/0"
 
-  cspsubarrayleafnode:
-    enabled: true
-    instances: ["01", "02", "03"]
-    file: "data/cspsubarrayleafnode.yaml"
-
-#  dishleafnode:
-#    enabled: true
-#    instances: ["01", "02", "03", "04"]
-#    file: "data/dishleafnode.yaml"
+  # cspsubarrayleafnode:
+  #   enabled: true
+  #   instances: ["01", "02", "03"]
+  #   file: "data/cspsubarrayleafnode.yaml"
 
   mocks:
     enabled: false

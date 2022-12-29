@@ -1,5 +1,5 @@
 apiVersion: v2
-name: ska-tmc-testing
+name: ska-tmc-testing-mid
 description: An umbrella Helm chart for SKA-TMC-Mid deployment.
 type: application
 version: 0.0.2
@@ -23,10 +23,7 @@ dependencies:
     version: 0.6.2
     repository: file://../ska-tmc-mid
     alias: tmc-mid
-  - name: ska-tmc-low
-    version: 0.1.0
-    repository: file://../ska-tmc-low
-    alias: tmc-low
+    condition: tmc-mid.enabled
   - name: ska-ser-skuid
     version: 0.3.0
     repository: https://artefact.skao.int/repository/helm-internal

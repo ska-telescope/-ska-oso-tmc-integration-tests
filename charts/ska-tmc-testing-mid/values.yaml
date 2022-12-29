@@ -40,18 +40,9 @@ ska-tango-base:
 
 # Tmc-Mid
 tmc-mid:
+  enabled: true
   labels:
     app: ska-tmc-integration
-  enabled: true
-  deviceServers:
-    mocks:
-      enabled: true
-      
-#TMC-low
-tmc-low:
-  labels:
-    app: ska-tmc-integration
-  enabled: true
   deviceServers:
     mocks:
       enabled: true

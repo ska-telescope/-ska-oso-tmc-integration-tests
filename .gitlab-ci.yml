@@ -29,7 +29,6 @@ stages:
 
 include:
 # # Helm Chart linting and Publish
-- local: '.gitlab/ci/ska-low.gitlab-ci.yml'
 - project: 'ska-telescope/templates-repository'
   file: 'gitlab-ci/includes/helm-chart.gitlab-ci.yml'
 
@@ -38,13 +37,64 @@ include:
   file: 'gitlab-ci/includes/docs-pages.gitlab-ci.yml'
 
 # k8s steps
-#- project: 'ska-telescope/templates-repository'
-#  file: 'gitlab-ci/includes/k8s.gitlab-ci.yml'
+- project: 'ska-telescope/templates-repository'
+  file: 'gitlab-ci/includes/k8s.gitlab-ci.yml'
 
 # Create Gitlab CI badges from CI metrics
 # https://developer.skatelescope.org/en/latest/tools/continuousintegration.html#automated-collection-of-ci-health-metrics-as-part-of-the-ci-pipeline
 - project: 'ska-telescope/templates-repository'
   file: 'gitlab-ci/includes/finaliser.gitlab-ci.yml'
 
+k8s-test: 
+  extends:
+    - k8s-test 
+  variables:
+    TELESCOPE: 'SKA-mid'
+    CONFIG: 'mid'
+    KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-$CONFIG'
+    DEPLOYMENT_TYPE: 'mid'
+  environment:
+    name: test/$CI_COMMIT_REF_SLUG
+    on_stop: stop-k8s-test-mid
+    auto_stop_in: 1 minute
+
+stop-k8s-test-mid:
+  extends:
+    - stop-k8s-test
+  variables:
+    CONFIG: 'mid'
+    KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-$CONFIG'
+  script:
+    - make k8s-uninstall-chart
+    - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all
+    - make k8s-delete-namespace
+
 k8s-test-low:
-  retry: 2
+  extends:
+    - k8s-test
+  variables:
+    TELESCOPE: 'SKA-low'
+    CONFIG: 'low'
+    KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-$CONFIG'
+    DEPLOYMENT_TYPE: 'low'
+  script:
+    - make k8s-install-chart
+    - make k8s-wait 
+    - make k8s-test
+  environment:
+    name: test/$CI_COMMIT_REF_SLUG
+    on_stop: stop-k8s-test-low
+    auto_stop_in: 1 minute
+
+stop-k8s-test-low:
+  extends:
+    - stop-k8s-test
+  variables:
+    CONFIG: 'low'
+    KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-$CONFIG'
+  script:
+    - make k8s-uninstall-chart
+    - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all
+    - make k8s-delete-namespace
+
+
