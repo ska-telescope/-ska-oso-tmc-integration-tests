@@ -51,7 +51,6 @@ k8s-test-low:
     - k8s-test
   variables:
     TELESCOPE: 'SKA-low'
-    DEPLOYMENT_TYPE: 'low'
     KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-$DEPLOYMENT_TYPE'
   script:
     - make k8s-install-chart
