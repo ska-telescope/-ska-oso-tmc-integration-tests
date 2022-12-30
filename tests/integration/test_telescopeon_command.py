@@ -2,6 +2,7 @@ import pytest
 from tests.resources.test_support.controls import telescope_is_in_standby_state, telescope_is_in_on_state, telescope_is_in_off_state
 import tests.resources.test_support.tmc_helpers as tmc
 from tests.conftest import LOGGER
+from tango import DeviceProxy
 
 @pytest.mark.SKA_mid
 def test_telescope_on():
@@ -44,4 +45,6 @@ def test_telescope_on():
 def test_telescope_on():
     """TelescopeOn() is executed."""
     LOGGER.info("Placeholder test case for low deployment")
-    assert 1
+    sdp_low = DeviceProxy("low-sdp/subarray/01")
+    ping = sdp_low.ping()
+    assert ping > 1

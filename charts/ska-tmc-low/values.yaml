@@ -50,16 +50,6 @@ sdpleafnodes:
     tag: 0.8.24
     pullPolicy: IfNotPresent
 
-<<<<<<< HEAD
-=======
-cspleafnodes:
-  image:
-    registry: artefact.skao.int
-    image: ska-tmc-cspleafnodes
-    tag: 0.1.18
-    pullPolicy: IfNotPresent
-
->>>>>>> aa90d1a50216a2f6e8ee6d804f8d3ea9e8ac55c8
 resources:
   limits:
     cpu: 300m
@@ -78,14 +68,9 @@ deviceServers:
   sdpmasterleafnode:
     enabled: true
     instances: ["01"]
-<<<<<<< HEAD
     file: "data/sdpmasterleafnode.yaml"
     SdpMasterFQDN: "low-sdp/control/0"
 
-=======
-    subarray_count: 3
-    file: "data/centralnode.yaml"
->>>>>>> aa90d1a50216a2f6e8ee6d804f8d3ea9e8ac55c8
 
   mocks:
     enabled: false
