@@ -29,7 +29,7 @@ global:
   subarray_count: 3
 
 dsconfig:
-  configuration_file: data/tmc-mid-config.json
+  configuration_file: data/tmc-low-config.json
   image:
     registry: artefact.skao.int
     image: ska-tango-images-tango-dsconfig

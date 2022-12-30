@@ -7,7 +7,8 @@ TANGO_HOST ?= tango-databaseds:10000 ## TANGO_HOST connection to the Tango DS
 PYTHON_VARS_BEFORE_PYTEST ?= PYTHONPATH=.:./src \
 							 TANGO_HOST=$(TANGO_HOST)
 TELESCOPE ?= SKA-mid
-MARK ?= ## What -m opt to pass to pytest
+DEPLOYMENT_TYPE ?= mid
+MARK = $(shell echo $(TELESCOPE) | sed "s/-/_/g") ## What -m opt to pass to pytest
 # run one test with FILE=acceptance/test_subarray_node.py::test_check_internal_model_according_to_the_tango_ecosystem_deployed
 FILE ?= tests## A specific test file to pass to pytest
 ADD_ARGS ?= ## Additional args to pass to pytest
@@ -23,9 +24,9 @@ endif
 HELM_RELEASE ?= test
 
 # UMBRELLA_CHART_PATH Path of the umbrella chart to work with
-HELM_CHART=ska-tmc-testing
+HELM_CHART=ska-tmc-testing-$(DEPLOYMENT_TYPE)
 UMBRELLA_CHART_PATH ?= charts/$(HELM_CHART)/
-K8S_CHARTS ?= ska-tmc-mid ska-tmc-testing ska-tmc-low## list of charts
+K8S_CHARTS ?= ska-tmc-$(DEPLOYMENT_TYPE) ska-tmc-testing-$(DEPLOYMENT_TYPE)## list of charts
 K8S_CHART ?= $(HELM_CHART)
 
 CI_REGISTRY ?= gitlab.com
@@ -56,7 +57,7 @@ $(shell echo 'global:\n  annotations:\n    app.gitlab.com/app: $(CI_PROJECT_PATH
 
 ifeq ($(MAKECMDGOALS),k8s-test)
 ADD_ARGS +=  --true-context
-MARK = $(shell echo $(TELESCOPE) | sed s/-/_/)
+MARK = $(shell echo $(TELESCOPE) | sed "s/-/_/g")
 endif
 
 PYTHON_VARS_AFTER_PYTEST ?= -m '$(MARK)' $(ADD_ARGS) $(FILE)
