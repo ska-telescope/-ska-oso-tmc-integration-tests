@@ -331,12 +331,12 @@ class waiter:
                 "State", changed_to="OFF"
             )
         )
-        if TELESCOPE_ENV == "SKA-mid":
-            self.waits.append(
-                watch(resource(dish_master1)).to_become(
-                    "State", changed_to="STANDBY"
-                )
+        #if TELESCOPE_ENV == "SKA-mid":
+        self.waits.append(
+            watch(resource(dish_master1)).to_become(
+                "State", changed_to="STANDBY"
             )
+        )
 
     def set_wait_for_going_to_standby(self):
         self.waits.append(
@@ -359,12 +359,12 @@ class waiter:
                 "State", changed_to="STANDBY"
             )
         )
-        if TELESCOPE_ENV == "SKA-mid":
-            self.waits.append(
-                watch(resource(dish_master1)).to_become(
-                    "State", changed_to="STANDBY"
-                )
+        # if TELESCOPE_ENV == "SKA-mid":
+        self.waits.append(
+            watch(resource(dish_master1)).to_become(
+                "State", changed_to="STANDBY"
             )
+        )
 
     def set_wait_for_telescope_on(self):
         self.waits.append(
@@ -383,12 +383,12 @@ class waiter:
                 "State", changed_to="ON"
             )
         )
-        if TELESCOPE_ENV == "SKA-mid":
-            self.waits.append(
-                watch(resource(dish_master1)).to_become(
-                    "State", changed_to="STANDBY"
-                )
+        # if TELESCOPE_ENV == "SKA-mid":
+        self.waits.append(
+            watch(resource(dish_master1)).to_become(
+                "State", changed_to="STANDBY"
             )
+        )
 
     def set_wait_for_going_to_empty(self):
         self.waits.append(
@@ -424,12 +424,12 @@ class waiter:
             )
         )
 
-        if TELESCOPE_ENV == "SKA-mid":
-            self.waits.append(
-                watch(resource(dish_master1)).to_become(
-                    "State", changed_to="STANDBY"
-                )
+        # if TELESCOPE_ENV == "SKA-mid":
+        self.waits.append(
+            watch(resource(dish_master1)).to_become(
+                "State", changed_to="STANDBY"
             )
+        )
 
         self.waits.append(
             watch(resource(tmc_subarraynode1)).to_become(
