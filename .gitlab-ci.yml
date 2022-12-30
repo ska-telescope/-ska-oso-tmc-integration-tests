@@ -45,6 +45,8 @@ include:
 - project: 'ska-telescope/templates-repository'
   file: 'gitlab-ci/includes/finaliser.gitlab-ci.yml'
 
+k8s-test:
+  retry: 2
 
 k8s-test-low:
   extends:

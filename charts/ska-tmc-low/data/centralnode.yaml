@@ -1,0 +1,59 @@
+name: "centralnode-test"
+function: telescope-monitoring
+domain: general-monitoring
+instances: ["01"]
+entrypoints:
+  - name: "ska_tmc_centralnode.central_node_low.CentralNodeLow"
+server:
+  name: "central_node_low"
+  instances:
+  - name: "01"
+    classes:
+    - name: "CentralNodeLow"
+      devices:
+      - name: "ska_low/tm_central/central_node"
+        properties:
+        - name: "CspMasterLeafNodeFQDN"
+          values:
+          - "ska_low/tm_leaf_node/csp_master"
+        - name: "CspMasterFQDN"
+          values:
+          - "low-csp/control/0"
+        - name: "SdpMasterLeafNodeFQDN"
+          values:
+          - "ska_low/tm_leaf_node/sdp_master"
+        - name: "SdpMasterFQDN"
+          values:
+          - "low-sdp/control/0"
+        - name: "TMSubarrayNodes"
+          values:
+          {{- range  ( regexSplit " " ((.Values.deviceServers.centralnode.subarray_count | int) | seq ) -1 )  }}
+          - "ska_low/tm_subarray_node/{{ . }}"
+          {{- end }}
+        - name: "TMLowCspSubarrayLeafNodes"
+          values: 
+          {{- range  ( regexSplit " " ((.Values.deviceServers.centralnode.subarray_count | int) | seq ) -1 )  }}
+          - "ska_low/tm_leaf_node/csp_subarray{{ printf "%02s" . }}"
+          {{- end }}
+        - name: "TMLowSdpSubarrayLeafNodes"
+          values: 
+          {{- range  ( regexSplit " " ((.Values.deviceServers.centralnode.subarray_count | int) | seq ) -1 )  }}
+          - "ska_low/tm_leaf_node/sdp_subarray{{ printf "%02s" . }}"
+          {{- end }}
+        - name: "SkaLevel"
+          values:
+            - "1"
+        - name: "LoggingTargetsDefault"
+          values:
+            - "tango::logger"
+        - name: "LoggingLevelDefault"
+          values:
+            - "5"
+depends_on:
+  - device: sys/database/2
+image:
+  registry: "{{.Values.centralnode.image.registry}}"
+  image: "{{.Values.centralnode.image.image}}"
+  tag: "{{.Values.centralnode.image.tag}}"
+  pullPolicy: "{{.Values.centralnode.image.pullPolicy}}"
+

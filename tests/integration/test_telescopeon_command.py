@@ -40,11 +40,8 @@ def test_telescope_on():
             tmc.set_to_off()
         raise
 
-
 @pytest.mark.SKA_low
-def test_telescope_on():
-    """TelescopeOn() is executed."""
-    LOGGER.info("Placeholder test case for low deployment")
-    sdp_low = DeviceProxy("low-sdp/subarray/01")
-    ping = sdp_low.ping()
-    assert ping > 1
+def test_sample():
+    proxy = DeviceProxy("ska_low/tm_central/central_node")
+    result = proxy.ping()
+    assert result > 1
