@@ -45,12 +45,12 @@ itango:
     tag: 9.3.9
     pullPolicy: IfNotPresent
 
-# centralnode:
-#   image:
-#     registry: artefact.skao.int
-#     image: ska-tmc-centralnode
-#     tag: 0.4.0
-#     pullPolicy: IfNotPresent
+centralnode:
+  image:
+    registry: artefact.skao.int
+    image: ska-tmc-centralnode
+    tag: 0.4.0
+    pullPolicy: IfNotPresent
 
 # subarraynode:
 #   image:
