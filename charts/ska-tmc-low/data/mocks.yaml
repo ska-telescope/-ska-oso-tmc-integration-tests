@@ -12,12 +12,12 @@ server:
       classes:
         - name: "HelperStateDevice"
           devices:
-          - name: "mid-sdp/control/0"
+          - name: "low-sdp/control/0"
         - name: "HelperSubArrayDevice"
           devices:
-          - name: "mid-sdp/subarray/01"
-          - name: "mid-sdp/subarray/02"
-          - name: "mid-sdp/subarray/03"
+          - name: "low-sdp/subarray/01"
+          - name: "low-sdp/subarray/02"
+          - name: "low-sdp/subarray/03"
 depends_on:
   - device: sys/database/2
 image:

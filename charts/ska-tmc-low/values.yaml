@@ -69,7 +69,7 @@ deviceServers:
     enabled: true
     instances: ["01"]
     file: "data/sdpmasterleafnode.yaml"
-    SdpMasterFQDN: "mid-sdp/control/0"
+    SdpMasterFQDN: "low-sdp/control/0"
 
 
   mocks:
