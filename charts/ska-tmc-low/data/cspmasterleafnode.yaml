@@ -1,0 +1,35 @@
+name: "cspmasterleafnode-test"
+function: telescope-monitoring
+domain: general-monitoring
+instances: ["01"]
+entrypoints:
+  - name: "ska_tmc_cspmasterleafnode.csp_master_leaf_node.CspMasterLeafNode"
+server:
+  name: "csp_master_leaf_node"
+  instances:
+  - name: "01"
+    classes:
+    - name: "CspMasterLeafNode"
+      devices:
+      - name: "ska_low/tm_leaf_node/csp_master"
+        properties:
+        - name: "CspMasterFQDN"
+          values:
+          - "{{.Values.deviceServers.cspmasterleafnode.CspMasterFQDN}}"
+        - name: "SkaLevel"
+          values:
+            - "3"
+        - name: "LoggingTargetsDefault"
+          values:
+            - "tango::logger"
+        - name: "LoggingLevelDefault"
+          values:
+            - "5"
+depends_on:
+  - device: sys/database/2
+image:
+  registry: "{{.Values.cspleafnodes.image.registry}}"
+  image: "{{.Values.cspleafnodes.image.image}}"
+  tag: "{{.Values.cspleafnodes.image.tag}}"
+  pullPolicy: "{{.Values.cspleafnodes.image.pullPolicy}}"
+
