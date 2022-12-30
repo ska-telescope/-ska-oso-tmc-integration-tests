@@ -18,8 +18,8 @@ def assign_release(central_node_name, assign_json, release_json, subarray_device
         fixture["state"] = "Unknown"
 
         """Verify Telescope is Off/Standby"""
-        # assert telescope_is_in_standby_state()
-        # LOGGER.info("Staring up the Telescope")
+        assert telescope_is_in_standby_state()
+        LOGGER.info("Staring up the Telescope")
 
         # """Invoke TelescopeOn() command on TMC"""
         LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
@@ -84,13 +84,12 @@ def assign_release(central_node_name, assign_json, release_json, subarray_device
 def test_assign_res_command_mid(central_node_name, json_factory):
     return assign_release(
         central_node_name,
-        json_factory("command_assign_resource_low"),
-        json_factory("command_assign_resource_low"),
+        json_factory("command_AssignResources"),
+        json_factory("command_ReleaseResources"),
         "ska_mid/tm_subarray_node/1",
     )
 
 
-# @pytest.mark.post_deployment
 @pytest.mark.SKA_low
 @pytest.mark.parametrize(
     "central_node_name",
@@ -100,6 +99,6 @@ def test_assign_res_command_low(central_node_name, json_factory):
     return assign_release(
         central_node_name,
         json_factory("command_assign_resource_low"),
-        json_factory("command_assign_resource_low"),
+        json_factory("command_release_resource_low"),
         "ska_low/tm_subarray_node/1",
     )
