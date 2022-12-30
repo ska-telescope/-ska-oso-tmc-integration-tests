@@ -51,8 +51,7 @@ k8s-test-low:
     - k8s-test
   variables:
     TELESCOPE: 'SKA-low'
-    DEPLOYMENT_TYPE: 'low'
-    KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-$DEPLOYMENT_TYPE'
+    KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-low'
   script:
     - make k8s-install-chart
     - make k8s-wait
@@ -66,8 +65,7 @@ stop-k8s-test-low:
   extends:
     - stop-k8s-test
   variables:
-    CONFIG: 'low'
-    KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-$CONFIG'
+    KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-low'
   script:
     - make k8s-uninstall-chart
     - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all
