@@ -30,12 +30,12 @@ server:
           {{- range  ( regexSplit " " ((.Values.deviceServers.centralnode.subarray_count | int) | seq ) -1 )  }}
           - "ska_low/tm_subarray_node/{{ . }}"
           {{- end }}
-        - name: "TMMidCspSubarrayLeafNodes"
+        - name: "TMLowCspSubarrayLeafNodes"
           values: 
           {{- range  ( regexSplit " " ((.Values.deviceServers.centralnode.subarray_count | int) | seq ) -1 )  }}
           - "ska_low/tm_leaf_node/csp_subarray{{ printf "%02s" . }}"
           {{- end }}
-        - name: "TMMidSdpSubarrayLeafNodes"
+        - name: "TMLowSdpSubarrayLeafNodes"
           values: 
           {{- range  ( regexSplit " " ((.Values.deviceServers.centralnode.subarray_count | int) | seq ) -1 )  }}
           - "ska_low/tm_leaf_node/sdp_subarray{{ printf "%02s" . }}"
