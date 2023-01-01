@@ -112,7 +112,7 @@ def compose_sub(assign_res_input):
     resource(tmc_subarraynode1).assert_attribute("obsState").equals(
         "EMPTY"
     )
-    central_node = DeviceProxy(central_node)
+    central_node = DeviceProxy(centralnode)
     central_node.AssignResources(assign_res_input)
     LOGGER.info("Invoked AssignResources on CentralNode")
 
