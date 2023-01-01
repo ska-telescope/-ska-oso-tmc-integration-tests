@@ -26,93 +26,94 @@ def validate_states(device_info, attr):
 
 
 def telescope_is_in_standby_state():
-    device_info = {
-        sdp_master: ["DISABLE", "STANDBY"],
-        sdp_subarray1: ["DISABLE" , "OFF"], 
-        csp_master: ["DISABLE", "STANDBY"], 
-        csp_subarray1: ["DISABLE", "OFF"]
-    }
-    if TELESCOPE_ENV == "SKA-mid":
-        device_info[dish_master1] = ["DISABLE", "OFF"]
+    # device_info = {
+    #     sdp_master: ["DISABLE", "STANDBY"],
+    #     sdp_subarray1: ["DISABLE" , "OFF"], 
+    #     csp_master: ["DISABLE", "STANDBY"], 
+    #     csp_subarray1: ["DISABLE", "OFF"]
+    # }
+    # if TELESCOPE_ENV == "SKA-mid":
+    #     device_info[dish_master1] = ["DISABLE", "OFF"]
     
-    return validate_states(device_info, "State")
-#     LOGGER.info(
-#         'resource(sdp_master).get("State")'
-#         + str(resource(sdp_master).get("State"))
-#     )
-#     LOGGER.info(
-#         'resource(sdp_subarray1).get("State")'
-#         + str(resource(sdp_subarray1).get("State"))
-#     )
-#     LOGGER.info(
-#         'resource(csp_master).get("State")'
-#         + str(resource(csp_master).get("State"))
-#     )
-#     LOGGER.info(
-#         'resource(csp_subarray1).get("State")'
-#         + str(resource(csp_subarray1).get("State"))
-#     )
-#     LOGGER.info(
-#         'resource(dish_master1).get("State")'
-#         + str(resource(dish_master1).get("State"))
-#     )
+    # return validate_states(device_info, "State")
+    LOGGER.info(
+        'resource(sdp_master).get("State")'
+        + str(resource(sdp_master).get("State"))
+    )
+    LOGGER.info(
+        'resource(sdp_subarray1).get("State")'
+        + str(resource(sdp_subarray1).get("State"))
+    )
+    LOGGER.info(
+        'resource(csp_master).get("State")'
+        + str(resource(csp_master).get("State"))
+    )
+    LOGGER.info(
+        'resource(csp_subarray1).get("State")'
+        + str(resource(csp_subarray1).get("State"))
+    )
+    LOGGER.info(
+        'resource(dish_master1).get("State")'
+        + str(resource(dish_master1).get("State"))
+    )
 
-#     return (resource(sdp_subarray1).get("State") in ["DISABLE" , "OFF"],
-#     resource(sdp_master).get("State") in ["DISABLE", "STANDBY"],
-#     resource(csp_master).get("State") in ["DISABLE", "STANDBY"],
-#     resource(csp_subarray1).get("State") in ["DISABLE", "OFF"],
-#     resource(dish_master1).get("State") in ["DISABLE", "OFF"],
-# )
+    return (
+        resource(sdp_subarray1).get("State") in ["DISABLE" , "OFF"],
+        resource(sdp_master).get("State") in ["DISABLE", "STANDBY"],
+        resource(csp_master).get("State") in ["DISABLE", "STANDBY"],
+        resource(csp_subarray1).get("State") in ["DISABLE", "OFF"],
+        resource(dish_master1).get("State") in ["DISABLE", "OFF"],
+    )
 
 def telescope_is_in_on_state():
     LOGGER.info(
         'resource(tmc_subarraynode1).get("State")'
         + str(resource(tmc_subarraynode1).get("State"))
     )
-    device_info = {
-        sdp_master: ["ON"],
-        sdp_subarray1: ["ON"], 
-        csp_master: ["ON"], 
-        csp_subarray1: ["ON"],
-        centralnode: ["ON"]
-    }
-    if TELESCOPE_ENV == "SKA-mid":
-        device_info[dish_master1] = ["ON"]
+    # device_info = {
+    #     sdp_master: ["ON"],
+    #     sdp_subarray1: ["ON"], 
+    #     csp_master: ["ON"], 
+    #     csp_subarray1: ["ON"],
+    #     centralnode: ["ON"]
+    # }
+    # if TELESCOPE_ENV == "SKA-mid":
+    #     device_info[dish_master1] = ["ON"]
     
-    return validate_states(device_info, "State")
-    # LOGGER.info(
-    #     'resource(sdp_master).get("State")'
-    #     + str(resource(sdp_master).get("State"))
-    # )
-    # LOGGER.info(
-    #     'resource(sdp_subarray1).get("State")'
-    #     + str(resource(sdp_subarray1).get("State"))
-    # )
-    # LOGGER.info(
-    #     'resource(csp_master).get("State")'
-    #     + str(resource(csp_master).get("State"))
-    # )
-    # LOGGER.info(
-    #     'resource(csp_subarray1).get("State")'
-    #     + str(resource(csp_subarray1).get("State"))
-    # )
-    # LOGGER.info(
-    #     'resource(dish_master1).get("State")'
-    #     + str(resource(dish_master1).get("State"))
-    # )
-    # LOGGER.info(
-    #     'resource(centralnode).get("State")'
-    #     + str(resource(centralnode).get("State"))
-    # )
+    # return validate_states(device_info, "State")
+    LOGGER.info(
+        'resource(sdp_master).get("State")'
+        + str(resource(sdp_master).get("State"))
+    )
+    LOGGER.info(
+        'resource(sdp_subarray1).get("State")'
+        + str(resource(sdp_subarray1).get("State"))
+    )
+    LOGGER.info(
+        'resource(csp_master).get("State")'
+        + str(resource(csp_master).get("State"))
+    )
+    LOGGER.info(
+        'resource(csp_subarray1).get("State")'
+        + str(resource(csp_subarray1).get("State"))
+    )
+    LOGGER.info(
+        'resource(dish_master1).get("State")'
+        + str(resource(dish_master1).get("State"))
+    )
+    LOGGER.info(
+        'resource(centralnode).get("State")'
+        + str(resource(centralnode).get("State"))
+    )
 
-    # return [
-    #     resource(sdp_subarray1).get("State"),
-    #     resource(sdp_master).get("State"),
-    #     resource(csp_master).get("State"),
-    #     resource(csp_subarray1).get("State"),
-    #     resource(dish_master1).get("State"),
-    #     resource(centralnode).get("State"),
-    # ] == ["ON", "ON", "ON", "ON", "ON", "ON"]
+    return [
+        resource(sdp_subarray1).get("State"),
+        resource(sdp_master).get("State"),
+        resource(csp_master).get("State"),
+        resource(csp_subarray1).get("State"),
+        resource(dish_master1).get("State"),
+        resource(centralnode).get("State"),
+    ] == ["ON", "ON", "ON", "ON", "ON", "ON"]
 
 
 def telescope_is_in_off_state():
