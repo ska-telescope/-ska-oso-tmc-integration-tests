@@ -385,9 +385,7 @@ class waiter:
         )
         # if TELESCOPE_ENV == "SKA-mid":
         self.waits.append(
-            watch(resource(dish_master1)).to_become(
-                "State", changed_to="STANDBY"
-            )
+            watch(resource(dish_master1)).to_become("State", changed_to="ON")
         )
 
     def set_wait_for_going_to_empty(self):
@@ -427,7 +425,7 @@ class waiter:
         # if TELESCOPE_ENV == "SKA-mid":
         self.waits.append(
             watch(resource(dish_master1)).to_become(
-                "State", changed_to="STANDBY"
+                "pointingState", changed_to="READY"
             )
         )
 
