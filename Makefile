@@ -23,6 +23,7 @@ endif
 # HELM_RELEASE is the release that all Kubernetes resources will be labelled
 # with
 HELM_RELEASE ?= test
+CHART ?= mid
 
 # UMBRELLA_CHART_PATH Path of the umbrella chart to work with
 HELM_CHART=ska-tmc-testing-$(DEPLOYMENT_TYPE)
