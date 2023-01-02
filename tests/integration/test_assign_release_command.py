@@ -10,8 +10,8 @@ from tango import DeviceProxy
 def test_assign_release(json_factory):
     """AssignResources and ReleaseResources is executed."""
     try:
-        assign_json = json_factory("command_assign_resource_low")
-        release_json = json_factory("command_release_resource_low")
+        assign_json = json_factory("command_AssignResources")
+        release_json = json_factory("command_ReleaseResources")
         tmc.check_devices()
         fixture = {}
         fixture["state"] = "Unknown"
