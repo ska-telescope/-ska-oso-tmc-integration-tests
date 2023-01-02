@@ -1,13 +1,14 @@
 import pytest
-from tests.resources.test_support.controls import telescope_is_in_standby_state, telescope_is_in_on_state, telescope_is_in_off_state, subarray_obs_state_is_empty, subarray_obs_state_is_idle
-import tests.resources.test_support.tmc_helpers as tmc
+from tests.resources.test_support.low.controls import telescope_is_in_standby_state, telescope_is_in_on_state, telescope_is_in_off_state, subarray_obs_state_is_empty, subarray_obs_state_is_idle
+import tests.resources.test_support.low.tmc_helpers as tmc
 from tests.conftest import LOGGER
-from tests.resources.test_support.sync_decorators import sync_assign_resources
-from tests.resources.test_support.helpers import resource
+from tests.resources.test_support.low.sync_decorators import sync_assign_resources
+from tests.resources.test_support.low.helpers import resource
 from tango import DeviceProxy
 
-@pytest.mark.SKA_mid
-def test_assign_release(json_factory):
+
+@pytest.mark.SKA_low
+def test_assign_release_low(json_factory):
     """AssignResources and ReleaseResources is executed."""
     try:
         assign_json = json_factory("command_assign_resource_low")
