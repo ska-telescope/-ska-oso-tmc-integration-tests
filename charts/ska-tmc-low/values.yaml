@@ -24,8 +24,8 @@ global:
 
   # List the dishes, if set, then this list will be applied to instances of:
   # deviceServers.dishmaster, deviceServers.dishleafnode
-  #dish_devices: ["dishmaster", "dishleafnode"]
-  #dishes: ["01", "02", "03", "04"]
+  dish_devices: ["dishmaster", "dishleafnode"]
+  dishes: ["01", "02", "03", "04"]
 
   # subarray_count, this will be expanded (1 to N inclusive) and applied to instances of:
   # deviceServers.cspsubarrayleafnode, deviceServers.sdpsubarrayleafnode, deviceServers.subarraynode
@@ -33,7 +33,7 @@ global:
     - "cspsubarrayleafnode"
     - "sdpsubarrayleafnode"
     - "subarraynode"
-  subarray_count: 3
+  subarray_count: 1
 
 dsconfig:
   configuration_file: data/tmc-low-config.json
@@ -61,7 +61,7 @@ subarraynode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-subarraynode
-    tag: 0.3.35
+    tag: 0.4.0
     pullPolicy: IfNotPresent
 
 sdpleafnodes:
@@ -71,11 +71,18 @@ sdpleafnodes:
     tag: 0.8.24
     pullPolicy: IfNotPresent
 
-cspleafnodes:
+cspmasterleafnode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-cspleafnodes
-    tag: 0.1.18
+    tag: 0.2.0
+    pullPolicy: IfNotPresent
+
+cspsubarrayleafnode:
+  image:
+    registry: artefact.skao.int
+    image: ska-tmc-cspleafnodes
+    tag: 0.2.0
     pullPolicy: IfNotPresent
 
 resources:
@@ -90,12 +97,40 @@ deviceServers:
   centralnode:
     enabled: true
     instances: ["01"]
-    subarray_count: 3
+    subarray_count: 1
     file: "data/centralnode.yaml"
+
+  subarraynode:
+    enabled: true
+    instances: ["01"]
+    file: "data/subarraynode.yaml"
+
+  sdpsubarrayleafnode:
+    enabled: true
+    instances: ["01"]
+    file: "data/sdpsubarrayleafnode.yaml"
+
+  sdpmasterleafnode:
+    enabled: true
+    instances: ["01"]
+    file: "data/sdpmasterleafnode.yaml"
+    SdpMasterFQDN: "low-sdp/control/0"
+
+  cspmasterleafnode:
+    enabled: true
+    instances: ["01"]
+    file: "data/cspmasterleafnode.yaml"
+    CspMasterFQDN: "low-csp/control/0"
+
+  cspsubarrayleafnode:
+    enabled: true
+    instances: ["01"]
+    file: "data/cspsubarrayleafnode.yaml"
 
   mocks:
     enabled: false
     file: "data/mocks.yaml"
+
 
 
 nodeSelector: {}

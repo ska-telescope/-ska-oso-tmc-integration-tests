@@ -2,8 +2,7 @@ name: "centralnode-test"
 function: telescope-monitoring
 domain: general-monitoring
 instances: ["01"]
-entrypoints:
-  - name: "ska_tmc_centralnode.central_node_low.CentralNodeLow"
+command: "python3 /app/src/ska_tmc_centralnode/central_node_low.py"
 server:
   name: "central_node_low"
   instances:
@@ -25,18 +24,21 @@ server:
         - name: "SdpMasterFQDN"
           values:
           - "low-sdp/control/0"
-        - name: "TMSubarrayNodes"
+        - name: "SkuidService"
+          values:
+          - "{{.Values.deviceServers.centralnode.SkuidService}}"
+        - name: "TMCSubarrayNodes"
           values:
           {{- range  ( regexSplit " " ((.Values.deviceServers.centralnode.subarray_count | int) | seq ) -1 )  }}
           - "ska_low/tm_subarray_node/{{ . }}"
           {{- end }}
-        - name: "TMLowCspSubarrayLeafNodes"
-          values: 
+        - name: "TMCLowCspSubarrayLeafNodes"
+          values:
           {{- range  ( regexSplit " " ((.Values.deviceServers.centralnode.subarray_count | int) | seq ) -1 )  }}
           - "ska_low/tm_leaf_node/csp_subarray{{ printf "%02s" . }}"
           {{- end }}
-        - name: "TMLowSdpSubarrayLeafNodes"
-          values: 
+        - name: "TMCLowSdpSubarrayLeafNodes"
+          values:
           {{- range  ( regexSplit " " ((.Values.deviceServers.centralnode.subarray_count | int) | seq ) -1 )  }}
           - "ska_low/tm_leaf_node/sdp_subarray{{ printf "%02s" . }}"
           {{- end }}
@@ -56,4 +58,5 @@ image:
   image: "{{.Values.centralnode.image.image}}"
   tag: "{{.Values.centralnode.image.tag}}"
   pullPolicy: "{{.Values.centralnode.image.pullPolicy}}"
+
 

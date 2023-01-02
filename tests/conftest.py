@@ -1,9 +1,5 @@
-import json
-import pytest
-import logging
-from os.path import dirname, join
 import tango
-import os
+import logging
 
 LOGGER = logging.getLogger(__name__)
 
@@ -34,28 +30,3 @@ def pytest_addoption(parser):
             "need to spin up a Tango test context"
         ),
     )
-    
-
-def get_input_str(path):
-    """
-    Returns input json string
-    :rtype: String
-    """
-    with open(path, "r") as f:
-        input_arg = f.read()
-    return input_arg
-
-
-@pytest.fixture()
-def json_factory():
-    """
-    Json factory for getting json files
-    """
-
-    def _get_json(slug):
-        return get_input_str(join(dirname(__file__), "data", f"{slug}.json"))
-
-    return _get_json
-
-TELESCOPE_ENV = os.getenv("TELESCOPE")
-

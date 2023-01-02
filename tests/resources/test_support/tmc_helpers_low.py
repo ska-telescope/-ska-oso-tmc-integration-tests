@@ -1,5 +1,5 @@
 from os.path import dirname, join
-from tests.resources.test_support.sync_decorators import (
+from tests.resources.test_support.sync_decorators_low import (
     sync_telescope_on,
     sync_set_to_off,
     sync_set_to_standby,
@@ -7,8 +7,8 @@ from tests.resources.test_support.sync_decorators import (
     sync_end, sync_assign_resources, sync_configure, sync_scan
 )
 from tango import DeviceProxy, DevState
-from tests.resources.test_support.controls import centralnode, csp_subarray1, sdp_subarray1, dish_master1, tmc_subarraynode1
-from tests.resources.test_support.helpers import resource
+from tests.resources.test_support.controls_low import centralnode, csp_subarray1, sdp_subarray1, tmc_subarraynode1
+from tests.resources.test_support.helpers_low import resource
 import logging
 
 LOGGER = logging.getLogger(__name__)
@@ -25,17 +25,15 @@ def check_devices():
     assert 0 < csp_subarray_1.ping()
     sdp_subarray_1 = DeviceProxy(sdp_subarray1)
     assert 0 < sdp_subarray_1.ping()
-    dish_master_1 = DeviceProxy(dish_master1)
-    assert 0 < dish_master_1.ping()
     tmc_subarraynode_1 = DeviceProxy(tmc_subarraynode1)
     assert 0 < tmc_subarraynode_1.ping()
-    csp_master = DeviceProxy("ska_mid/tm_leaf_node/csp_master")
+    csp_master = DeviceProxy("ska_low/tm_leaf_node/csp_master")
     assert 0 < csp_master.ping()
-    csp_subarray = DeviceProxy("ska_mid/tm_leaf_node/csp_subarray01")
+    csp_subarray = DeviceProxy("ska_low/tm_leaf_node/csp_subarray01")
     assert 0 < csp_subarray.ping()
-    sdp_master = DeviceProxy("ska_mid/tm_leaf_node/sdp_master")
+    sdp_master = DeviceProxy("ska_low/tm_leaf_node/sdp_master")
     assert 0 < sdp_master.ping()
-    sdp_subarray = DeviceProxy("ska_mid/tm_leaf_node/sdp_subarray01")
+    sdp_subarray = DeviceProxy("ska_low/tm_leaf_node/sdp_subarray01")
     assert 0 < sdp_subarray.ping()
 
 @sync_telescope_on
@@ -49,8 +47,6 @@ def set_to_on():
     csp_subarray_1.SetDirectState(DevState.ON)
     sdp_subarray_1 = DeviceProxy(sdp_subarray1)
     sdp_subarray_1.SetDirectState(DevState.ON)
-    dish_master_1 = DeviceProxy(dish_master1)
-    dish_master_1.SetDirectState(DevState.ON)
 
 @sync_set_to_off
 def set_to_off():
@@ -60,8 +56,6 @@ def set_to_off():
     csp_subarray_1.SetDirectState(DevState.OFF)
     sdp_subarray_1 = DeviceProxy(sdp_subarray1)
     sdp_subarray_1.SetDirectState(DevState.OFF)
-    dish_master_1 = DeviceProxy(dish_master1)
-    dish_master_1.SetDirectState(DevState.STANDBY)
     LOGGER.info(
             f"After invoking TelescopeOff command {central_node} State is: {central_node.State()}"
     )
@@ -74,8 +68,6 @@ def set_to_standby():
     csp_subarray_1.SetDirectState(DevState.OFF)
     sdp_subarray_1 = DeviceProxy(sdp_subarray1)
     sdp_subarray_1.SetDirectState(DevState.OFF)
-    dish_master_1 = DeviceProxy(dish_master1)
-    dish_master_1.SetDirectState(DevState.STANDBY)
     LOGGER.info(
             f"After invoking TelescopeStandBy command {central_node} State is: {central_node.State()}"
     )
@@ -104,7 +96,7 @@ def compose_sub(assign_res_input):
     resource(tmc_subarraynode1).assert_attribute("obsState").equals(
         "EMPTY"
     )
-    central_node = DeviceProxy("ska_mid/tm_central/central_node")
+    central_node = DeviceProxy("ska_low/tm_central/central_node")
     central_node.AssignResources(assign_res_input)
     LOGGER.info("Invoked AssignResources on CentralNode")
 

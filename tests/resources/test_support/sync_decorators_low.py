@@ -1,28 +1,28 @@
 import functools
-from tests.resources.test_support.helpers import waiter, resource, WaitForScan
+from tests.resources.test_support.helpers_low import waiter, resource, WaitForScan
 from contextlib import contextmanager
 
 
 # pre checks
 def check_going_out_of_empty():
     # verify once for obstate = EMPTY
-    resource("mid-csp/subarray/01").assert_attribute("obsState").equals("EMPTY")
-    resource("mid-sdp/subarray/01").assert_attribute("obsState").equals("EMPTY")
-    resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals("EMPTY")
+    resource("low-csp/subarray/01").assert_attribute("obsState").equals("EMPTY")
+    resource("low-sdp/subarray/01").assert_attribute("obsState").equals("EMPTY")
+    resource("ska_low/tm_subarray_node/1").assert_attribute("obsState").equals("EMPTY")
 
 
 def check_resources_assign():
     # verify once for obstate = IDLE
-    resource("mid-csp/subarray/01").assert_attribute("obsState").equals("IDLE")
-    resource("mid-sdp/subarray/01").assert_attribute("obsState").equals("IDLE")
-    resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals("IDLE")
+    resource("low-csp/subarray/01").assert_attribute("obsState").equals("IDLE")
+    resource("low-sdp/subarray/01").assert_attribute("obsState").equals("IDLE")
+    resource("ska_low/tm_subarray_node/1").assert_attribute("obsState").equals("IDLE")
 
 
 def check_going_out_of_configure():
     # verify once for obstate = READY
-    resource("mid-csp/subarray/01").assert_attribute("obsState").equals("READY")
-    resource("mid-sdp/subarray/01").assert_attribute("obsState").equals("READY")
-    resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals("READY")
+    resource("low-csp/subarray/01").assert_attribute("obsState").equals("READY")
+    resource("low-sdp/subarray/01").assert_attribute("obsState").equals("READY")
+    resource("ska_low/tm_subarray_node/1").assert_attribute("obsState").equals("READY")
 
 
 def sync_telescope_on(func):
