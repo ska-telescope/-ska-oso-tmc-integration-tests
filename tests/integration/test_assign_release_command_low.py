@@ -7,6 +7,7 @@ from tests.resources.test_support.low.helpers import resource
 from tango import DeviceProxy
 
 
+@pytest.mark.xfail(reason="Validate this test case after Image of Subarray Device is released with Assign and Release resource command")
 @pytest.mark.SKA_low
 def test_assign_release_low(json_factory):
     """AssignResources and ReleaseResources is executed."""
