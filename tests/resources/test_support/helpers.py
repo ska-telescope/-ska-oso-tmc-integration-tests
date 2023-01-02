@@ -9,7 +9,6 @@ from tango import EventType
 # SUT frameworks
 from tango import DeviceProxy, CmdArgType, EventType
 from tests.resources.test_support.constant import *
-from tests.conftest import TELESCOPE_ENV
 
 
 
@@ -331,12 +330,11 @@ class waiter:
                 "State", changed_to="OFF"
             )
         )
-        if TELESCOPE_ENV == "SKA-mid":
-            self.waits.append(
-                watch(resource(dish_master1)).to_become(
-                    "State", changed_to="STANDBY"
-                )
+        self.waits.append(
+            watch(resource(dish_master1)).to_become(
+                "State", changed_to="STANDBY"
             )
+        )
 
     def set_wait_for_going_to_standby(self):
         self.waits.append(
@@ -359,12 +357,11 @@ class waiter:
                 "State", changed_to="STANDBY"
             )
         )
-        if TELESCOPE_ENV == "SKA-mid":
-            self.waits.append(
-                watch(resource(dish_master1)).to_become(
-                    "State", changed_to="STANDBY"
-                )
+        self.waits.append(
+            watch(resource(dish_master1)).to_become(
+                "State", changed_to="STANDBY"
             )
+        )
 
     def set_wait_for_telescope_on(self):
         self.waits.append(
@@ -383,10 +380,9 @@ class waiter:
                 "State", changed_to="ON"
             )
         )
-        if TELESCOPE_ENV == "SKA-mid":
-            self.waits.append(
-                watch(resource(dish_master1)).to_become("State", changed_to="ON")
-            )
+        self.waits.append(
+            watch(resource(dish_master1)).to_become("State", changed_to="ON")
+        )
 
     def set_wait_for_going_to_empty(self):
         self.waits.append(
@@ -421,13 +417,12 @@ class waiter:
                 "obsState", changed_to="IDLE"
             )
         )
-
-        if TELESCOPE_ENV == "SKA-mid":
-            self.waits.append(
-                watch(resource(dish_master1)).to_become(
-                    "pointingState", changed_to="READY"
-                )
+        
+        self.waits.append(
+            watch(resource(dish_master1)).to_become(
+                "pointingState", changed_to="READY"
             )
+        )
 
         self.waits.append(
             watch(resource(tmc_subarraynode1)).to_become(
