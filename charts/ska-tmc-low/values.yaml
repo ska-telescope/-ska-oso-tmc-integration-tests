@@ -22,17 +22,12 @@ global:
   # .Values.deviceServers.<device>.instances
   # File, data/<device>.yaml, instances
 
-  # List the dishes, if set, then this list will be applied to instances of:
-  # deviceServers.dishmaster, deviceServers.dishleafnode
-  #dish_devices: ["dishmaster", "dishleafnode"]
-  #dishes: ["01", "02", "03", "04"]
-
   # subarray_count, this will be expanded (1 to N inclusive) and applied to instances of:
   # deviceServers.cspsubarrayleafnode, deviceServers.sdpsubarrayleafnode, deviceServers.subarraynode
   subarray_devices:
-    - "cspsubarrayleafnode"
+    # - "cspsubarrayleafnode"
     - "sdpsubarrayleafnode"
-    - "subarraynode"
+    # - "subarraynode"
   subarray_count: 3
 
 dsconfig:
@@ -57,12 +52,12 @@ centralnode:
     tag: 0.4.0
     pullPolicy: IfNotPresent
 
-subarraynode:
-  image:
-    registry: artefact.skao.int
-    image: ska-tmc-subarraynode
-    tag: 0.3.35
-    pullPolicy: IfNotPresent
+# subarraynode:
+#   image:
+#     registry: artefact.skao.int
+#     image: ska-tmc-subarraynode
+#     tag: 0.3.35
+#     pullPolicy: IfNotPresent
 
 sdpleafnodes:
   image:
@@ -71,12 +66,12 @@ sdpleafnodes:
     tag: 0.8.24
     pullPolicy: IfNotPresent
 
-cspleafnodes:
-  image:
-    registry: artefact.skao.int
-    image: ska-tmc-cspleafnodes
-    tag: 0.1.18
-    pullPolicy: IfNotPresent
+# cspleafnodes:
+#   image:
+#     registry: artefact.skao.int
+#     image: ska-tmc-cspleafnodes
+#     tag: 0.1.18
+#     pullPolicy: IfNotPresent
 
 resources:
   limits:
