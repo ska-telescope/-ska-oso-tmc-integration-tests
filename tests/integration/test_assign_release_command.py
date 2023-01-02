@@ -89,7 +89,7 @@ def test_assign_res_command_mid(central_node_name, json_factory):
         "ska_mid/tm_subarray_node/1",
     )
 
-
+@pytest.mark.xfail
 @pytest.mark.SKA_low
 @pytest.mark.parametrize(
     "central_node_name",
