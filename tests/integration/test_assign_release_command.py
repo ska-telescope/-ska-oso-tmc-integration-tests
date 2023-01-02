@@ -10,10 +10,11 @@ from tango import DeviceProxy
 assign_resources_file = "command_AssignResources.json"
 release_resources_file  = "command_ReleaseResources.json"
 
-def assign_release(central_node_name, assign_json, release_json, subarray_device):
+@pytest.mark.SKA_mid
+def test_assign_release():
     """AssignResources and ReleaseResources is executed."""
     try:
-        # tmc.check_devices()
+        tmc.check_devices()
         fixture = {}
         fixture["state"] = "Unknown"
 
@@ -21,12 +22,12 @@ def assign_release(central_node_name, assign_json, release_json, subarray_device
         assert telescope_is_in_standby_state()
         LOGGER.info("Staring up the Telescope")
 
-        # """Invoke TelescopeOn() command on TMC"""
+        """Invoke TelescopeOn() command on TMC"""
         LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
         tmc.set_to_on()
         LOGGER.info("TelescopeOn command is invoked successfully")
 
-        # """Verify State transitions after TelescopeOn"""
+        """Verify State transitions after TelescopeOn"""
         assert telescope_is_in_on_state()
         fixture["state"] = "TelescopeOn"
 
@@ -34,15 +35,16 @@ def assign_release(central_node_name, assign_json, release_json, subarray_device
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
         @sync_assign_resources()
         def compose_sub():
-            resource(subarray_device).assert_attribute("State").equals(
+            resource("ska_mid/tm_subarray_node/1").assert_attribute("State").equals(
                 "ON"
             )
-            resource(subarray_device).assert_attribute("obsState").equals(
+            resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals(
                 "EMPTY"
-            )           
-            central_node = DeviceProxy(central_node_name)
+            )
+            assign_res_input = tmc.get_input_str(assign_resources_file)            
+            central_node = DeviceProxy("ska_mid/tm_central/central_node")
             tmc.check_devices()
-            central_node.AssignResources(assign_json)
+            central_node.AssignResources(assign_res_input)
             LOGGER.info("Invoked AssignResources on CentralNode")
 
         compose_sub()
@@ -52,9 +54,11 @@ def assign_release(central_node_name, assign_json, release_json, subarray_device
         """Verify ObsState is Idle"""
         assert subarray_obs_state_is_idle()
         fixture["state"] ="AssignResources"
+
+        release_input_str = tmc.get_input_str(release_resources_file)
         
         """Invoke ReleaseResources() command on TMC"""
-        tmc.invoke_releaseResources(release_json)
+        tmc.invoke_releaseResources(release_input_str)
 
         fixture["state"] = "ReleaseResources"
         assert subarray_obs_state_is_empty()
@@ -70,35 +74,7 @@ def assign_release(central_node_name, assign_json, release_json, subarray_device
 
     except:
         if fixture["state"] == "AssignResources":
-            tmc.invoke_releaseResources(release_json)
+            tmc.invoke_releaseResources(release_input_str)
         if fixture["state"] == "TelescopeOn":
             tmc.set_to_off()
         raise
-
-
-@pytest.mark.SKA_mid
-@pytest.mark.parametrize(
-    "central_node_name",
-    [("ska_mid/tm_central/central_node")],
-)
-def test_assign_res_command_mid(central_node_name, json_factory):
-    return assign_release(
-        central_node_name,
-        json_factory("command_AssignResources"),
-        json_factory("command_ReleaseResources"),
-        "ska_mid/tm_subarray_node/1",
-    )
-
-@pytest.mark.xfail
-@pytest.mark.SKA_low
-@pytest.mark.parametrize(
-    "central_node_name",
-    [("ska_low/tm_central/central_node")],
-)
-def test_assign_res_command_low(central_node_name, json_factory):
-    return assign_release(
-        central_node_name,
-        json_factory("command_assign_resource_low"),
-        json_factory("command_release_resource_low"),
-        "ska_low/tm_subarray_node/1",
-    )
