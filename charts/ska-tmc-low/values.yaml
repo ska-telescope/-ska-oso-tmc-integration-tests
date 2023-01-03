@@ -96,7 +96,7 @@ deviceServers:
     file: "data/centralnode.yaml"
 
   subarraynode:
-    enabled: false
+    enabled: true
     instances: ["01", "02", "03"]
     file: "data/subarraynode.yaml"
 
@@ -112,13 +112,13 @@ deviceServers:
     SdpMasterFQDN: "low-sdp/control/0"
 
   cspmasterleafnode:
-    enabled: false
+    enabled: true
     instances: ["01"]
     file: "data/cspmasterleafnode.yaml"
     CspMasterFQDN: "low-csp/control/0"
 
   cspsubarrayleafnode:
-    enabled: false
+    enabled: true
     instances: ["01", "02", "03"]
     file: "data/cspsubarrayleafnode.yaml"
 
