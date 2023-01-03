@@ -1,5 +1,5 @@
 # local depencies
-from tests.resources.test_support.helpers import (
+from tests.resources.test_support.low.helpers import (
     resource
 )
 from tests.conftest import LOGGER

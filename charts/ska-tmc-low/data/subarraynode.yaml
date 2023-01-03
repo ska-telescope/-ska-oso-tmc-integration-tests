@@ -14,9 +14,6 @@ server:
         devices:
         - name: "ska_low/tm_subarray_node/{{ (split "0" .)._1}}"
           properties:
-          - name: "DishLeafNodePrefix"
-            values:
-            - "ska_low/tm_leaf_node/d"
           - name: "CspSubarrayLNFQDN"
             values:
             - "ska_low/tm_leaf_node/csp_subarray{{ . }}"
