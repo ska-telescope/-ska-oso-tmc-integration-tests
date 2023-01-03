@@ -46,9 +46,10 @@ include:
   file: 'gitlab-ci/includes/finaliser.gitlab-ci.yml'
 
 k8s-test:
-  retry: 2
+  retry: 1
 
 k8s-test-low:
+  retry: 1
   extends:
     - k8s-test
   variables:

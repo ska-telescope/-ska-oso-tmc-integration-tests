@@ -24,9 +24,6 @@ server:
         - name: "SdpMasterFQDN"
           values:
           - "low-sdp/control/0"
-        - name: "SkuidService"
-          values:
-          - "{{.Values.deviceServers.centralnode.SkuidService}}"
         - name: "TMCSubarrayNodes"
           values:
           {{- range  ( regexSplit " " ((.Values.deviceServers.centralnode.subarray_count | int) | seq ) -1 )  }}
