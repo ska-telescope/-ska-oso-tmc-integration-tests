@@ -4,6 +4,7 @@ import tests.resources.test_support.low.tmc_helpers as tmc
 from tests.conftest import LOGGER
 from tests.resources.test_support.low.sync_decorators import sync_assign_resources
 from tests.resources.test_support.low.helpers import resource
+from tests.resources.test_support.constant_low import tmc_subarraynode1, centralnode
 from tango import DeviceProxy
 
 
@@ -35,13 +36,13 @@ def test_assign_release_low(json_factory):
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
         @sync_assign_resources()
         def compose_sub():
-            resource("ska_mid/tm_subarray_node/1").assert_attribute("State").equals(
+            resource(tmc_subarraynode1).assert_attribute("State").equals(
                 "ON"
             )
-            resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals(
+            resource(tmc_subarraynode1).assert_attribute("obsState").equals(
                 "EMPTY"
             )            
-            central_node = DeviceProxy("ska_mid/tm_central/central_node")
+            central_node = DeviceProxy(centralnode)
             tmc.check_devices()
             central_node.AssignResources(assign_json)
             LOGGER.info("Invoked AssignResources on CentralNode")
