@@ -88,6 +88,17 @@ deviceServers:
     subarray_count: 3
     file: "data/centralnode.yaml"
 
+  sdpsubarrayleafnode:
+    enabled: true
+    instances: ["01", "02", "03"]
+    file: "data/sdpsubarrayleafnode.yaml"
+
+  sdpmasterleafnode:
+    enabled: true
+    instances: ["01"]
+    file: "data/sdpmasterleafnode.yaml"
+    SdpMasterFQDN: "mid-sdp/control/0"
+
   mocks:
     enabled: false
     file: "data/mocks.yaml"
