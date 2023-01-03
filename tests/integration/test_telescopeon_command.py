@@ -2,6 +2,7 @@ import pytest
 from tests.resources.test_support.controls import telescope_is_in_standby_state, telescope_is_in_on_state, telescope_is_in_off_state
 import tests.resources.test_support.tmc_helpers as tmc
 from tests.conftest import LOGGER
+from tango import DeviceProxy
 
 @pytest.mark.SKA_mid
 def test_telescope_on():
@@ -38,3 +39,10 @@ def test_telescope_on():
         if fixture["state"] == "TelescopeOn":
             tmc.set_to_off()
         raise
+
+@pytest.mark.SKA_low
+def test_device_running():
+    """Tests whether the Central Node Low is up."""
+    proxy = DeviceProxy("ska_low/tm_central/central_node")
+    result = proxy.ping()
+    assert result > 1
