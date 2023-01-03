@@ -15,6 +15,8 @@ This project is integration of the TMC components for the `Square Kilometre Arra
    developer_guide/code_quality
 
 .. include:: tmc_api.rst
+.. include:: obs_mandc.rst
+.. include:: operational_mandc.rst
    
 
 Indices and tables
