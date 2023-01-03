@@ -8,7 +8,7 @@ from tango import EventType
 
 # SUT frameworks
 from tango import DeviceProxy, CmdArgType, EventType
-from tests.resources.test_support.constant_low import *
+from tests.resources.test_support.constant_low import sdp_subarray1, csp_subarray1, tmc_subarraynode1, csp_master, sdp_master
 
 
 LOGGER = logging.getLogger(__name__)

@@ -1,7 +1,7 @@
 import functools
 from tests.resources.test_support.low.helpers import waiter, resource, WaitForScan
 from contextlib import contextmanager
-from tests.resources.test_support.constant_low import *
+from tests.resources.test_support.constant_low import csp_subarray1, sdp_subarray1, tmc_subarraynode1
 
 # pre checks
 def check_going_out_of_empty():
