@@ -10,17 +10,7 @@ from tango import EventType
 from tango import DeviceProxy, CmdArgType, EventType
 from tests.resources.test_support.constant_low import *
 
-
-
 LOGGER = logging.getLogger(__name__)
-
-
-# typical device sets
-subarray_devices = [
-    "ska_mid/tm_subarray_node/1",
-    "mid-sdp/subarray/01",
-    "mid-csp/subarray/01",
-]
 
 class resource:
     device_name = None
