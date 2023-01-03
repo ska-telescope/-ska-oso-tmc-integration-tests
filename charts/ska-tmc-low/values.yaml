@@ -25,9 +25,9 @@ global:
   # subarray_count, this will be expanded (1 to N inclusive) and applied to instances of:
   # deviceServers.cspsubarrayleafnode, deviceServers.sdpsubarrayleafnode, deviceServers.subarraynode
   subarray_devices:
-    # - "cspsubarrayleafnode"
+    - "cspsubarrayleafnode"
     - "sdpsubarrayleafnode"
-    # - "subarraynode"
+    - "subarraynode"
   subarray_count: 3
 
 dsconfig:
