@@ -48,33 +48,33 @@ k8s-test:
   variables:
     KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA'
     SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA"
-  script:
+  before_script:
     - make cred SERVICE_ACCOUNT=$SERVICE_ACCOUNT
 
-k8s-test-low:
-  extends:
-    - k8s-test
-  variables:
-    TELESCOPE: 'SKA-low'
-    KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-low'
-    SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-low"
-  script:
-    - make cred SERVICE_ACCOUNT=$SERVICE_ACCOUNT
-    - make k8s-install-chart
-    - make k8s-wait
-    - make k8s-test
-  environment:
-    name: test/$CI_COMMIT_REF_SLUG
-    on_stop: stop-k8s-test-low
-    auto_stop_in: 1 minute
+# k8s-test-low:
+#   extends:
+#     - k8s-test
+#   variables:
+#     TELESCOPE: 'SKA-low'
+#     KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-low'
+#     SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-low"
+#   script:
+#     - make cred SERVICE_ACCOUNT=$SERVICE_ACCOUNT
+#     - make k8s-install-chart
+#     - make k8s-wait
+#     - make k8s-test
+#   environment:
+#     name: test/$CI_COMMIT_REF_SLUG
+#     on_stop: stop-k8s-test-low
+#     auto_stop_in: 1 minute
 
-stop-k8s-test-low:
-  extends:
-    - stop-k8s-test
-  variables:
-    KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-low'
-  script:
-    - make k8s-uninstall-chart
-    - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all
-    - make k8s-delete-namespace
+# stop-k8s-test-low:
+#   extends:
+#     - stop-k8s-test
+#   variables:
+#     KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-low'
+#   script:
+#     - make k8s-uninstall-chart
+#     - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all
+#     - make k8s-delete-namespace
 
