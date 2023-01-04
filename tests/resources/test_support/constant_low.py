@@ -15,3 +15,18 @@ csp_subarray2 = "low-csp/subarray/02"
 csp_subarray3 = "low-csp/subarray/03"
 sdp_master = "low-sdp/control/0"
 csp_master = "low-csp/control/0"
+
+DEVICE_STATE_STANDBY_INFO = {
+    sdp_subarray1: ["DISABLE" , "OFF"],
+    sdp_master: ["DISABLE", "STANDBY", "OFF"],
+    csp_master: ["DISABLE", "STANDBY", "OFF"],
+    csp_subarray1: ["DISABLE", "OFF"]
+}
+
+DEVICE_STATE_ON_INFO = {
+    sdp_subarray1: ["ON"],
+    sdp_master: ["ON"],
+    csp_master: ["ON"],
+    csp_subarray1: ["ON"],
+    centralnode: ["ON"]
+}
