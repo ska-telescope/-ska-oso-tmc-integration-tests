@@ -30,3 +30,10 @@ DEVICE_STATE_ON_INFO = {
     csp_subarray1: ["ON"],
     centralnode: ["ON"]
 }
+
+DEVICE_STATE_OFF_STATE = {
+    sdp_subarray1: ["OFF"],
+    sdp_master: ["OFF"],
+    csp_master: ["OFF"],
+    csp_subarray1: ["OFF"]
+}
