@@ -5,6 +5,7 @@ from tests.conftest import LOGGER
 from tests.resources.test_support.sync_decorators import sync_assign_resources
 from tests.resources.test_support.helpers import resource
 from tango import DeviceProxy
+import time
 
 
 assign_resources_file = "command_AssignResources.json"
@@ -33,6 +34,7 @@ def test_assign_release():
 
         """Invoke AssignResources() Command on TMC"""
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
+        time.sleep(10)
         @sync_assign_resources()
         def compose_sub():
             resource("ska_mid/tm_subarray_node/1").assert_attribute("State").equals(
