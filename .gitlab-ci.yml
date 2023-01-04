@@ -44,18 +44,21 @@ include:
 # https://developer.skatelescope.org/en/latest/tools/continuousintegration.html#automated-collection-of-ci-health-metrics-as-part-of-the-ci-pipeline
 - project: 'ska-telescope/templates-repository'
   file: 'gitlab-ci/includes/finaliser.gitlab-ci.yml'
-
-k8s-test:
-  retry: 1
+k8s-test: 
+  variables:
+    SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA"
+  before_script:
+    - make cred SERVICE_ACCOUNT=$SERVICE_ACCOUNT
 
 k8s-test-low:
-  retry: 1
   extends:
     - k8s-test
   variables:
     TELESCOPE: 'SKA-low'
     KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-low'
+    SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-low"
   script:
+    - make cred SERVICE_ACCOUNT=$SERVICE_ACCOUNT
     - make k8s-install-chart
     - make k8s-wait
     - make k8s-test
