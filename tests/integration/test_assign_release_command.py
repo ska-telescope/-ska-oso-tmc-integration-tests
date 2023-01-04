@@ -3,7 +3,7 @@ from tests.resources.test_support.controls import telescope_is_in_standby_state,
 import tests.resources.test_support.tmc_helpers as tmc
 from tests.conftest import LOGGER
 from tests.resources.test_support.sync_decorators import sync_assign_resources
-from tests.resources.test_support.helpers import resource
+from tests.resources.test_support.helpers import resource, waiter
 from tango import DeviceProxy
 import time
 
@@ -34,7 +34,8 @@ def test_assign_release():
 
         """Invoke AssignResources() Command on TMC"""
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-        time.sleep(2)
+        the_waiter = waiter()
+        the_waiter.wait(20)
         @sync_assign_resources()
         def compose_sub():
             resource("ska_mid/tm_subarray_node/1").assert_attribute("State").equals(
