@@ -31,7 +31,7 @@ def sync_telescope_on(func):
         the_waiter = waiter()
         the_waiter.set_wait_for_telescope_on()
         result = func(*args, **kwargs)
-        the_waiter.wait(200)
+        the_waiter.wait(210)
         return result
 
     return wrapper
