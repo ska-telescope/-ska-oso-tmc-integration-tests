@@ -34,7 +34,7 @@ def test_assign_release():
 
         """Invoke AssignResources() Command on TMC"""
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-        time.sleep(2)
+        # time.sleep(2)
         @sync_assign_resources()
         def compose_sub():
             resource("ska_mid/tm_subarray_node/1").assert_attribute("State").equals(
