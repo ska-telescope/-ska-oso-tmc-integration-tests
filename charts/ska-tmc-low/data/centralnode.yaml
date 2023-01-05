@@ -57,3 +57,4 @@ image:
   tag: "{{.Values.centralnode.image.tag}}"
   pullPolicy: "{{.Values.centralnode.image.pullPolicy}}"
 
+

@@ -25,9 +25,9 @@ global:
   # subarray_count, this will be expanded (1 to N inclusive) and applied to instances of:
   # deviceServers.cspsubarrayleafnode, deviceServers.sdpsubarrayleafnode, deviceServers.subarraynode
   subarray_devices:
-    # - "cspsubarrayleafnode"
+    - "cspsubarrayleafnode"
     - "sdpsubarrayleafnode"
-    # - "subarraynode"
+    - "subarraynode"
   subarray_count: 3
 
 dsconfig:
@@ -35,14 +35,14 @@ dsconfig:
   image:
     registry: artefact.skao.int
     image: ska-tango-images-tango-dsconfig
-    tag: 1.5.5
+    tag: 1.5.7
     pullPolicy: IfNotPresent
 
 itango:
   image:
     registry: artefact.skao.int
     image: ska-tango-images-tango-itango
-    tag: 9.3.9
+    tag: 9.3.10
     pullPolicy: IfNotPresent
 
 centralnode:
@@ -52,12 +52,12 @@ centralnode:
     tag: 0.4.0
     pullPolicy: IfNotPresent
 
-# subarraynode:
-#   image:
-#     registry: artefact.skao.int
-#     image: ska-tmc-subarraynode
-#     tag: 0.3.35
-#     pullPolicy: IfNotPresent
+subarraynode:
+  image:
+    registry: artefact.skao.int
+    image: ska-tmc-subarraynode
+    tag: 0.4.0
+    pullPolicy: IfNotPresent
 
 sdpleafnodes:
   image:
@@ -66,12 +66,19 @@ sdpleafnodes:
     tag: 0.8.24
     pullPolicy: IfNotPresent
 
-# cspleafnodes:
-#   image:
-#     registry: artefact.skao.int
-#     image: ska-tmc-cspleafnodes
-#     tag: 0.1.18
-#     pullPolicy: IfNotPresent
+cspmasterleafnode:
+  image:
+    registry: artefact.skao.int
+    image: ska-tmc-cspleafnodes
+    tag: 0.2.0
+    pullPolicy: IfNotPresent
+
+cspsubarrayleafnode:
+  image:
+    registry: artefact.skao.int
+    image: ska-tmc-cspleafnodes
+    tag: 0.1.18
+    pullPolicy: IfNotPresent
 
 resources:
   limits:
@@ -88,6 +95,11 @@ deviceServers:
     subarray_count: 3
     file: "data/centralnode.yaml"
 
+  subarraynode:
+    enabled: true
+    instances: ["01", "02", "03"]
+    file: "data/subarraynode.yaml"
+
   sdpsubarrayleafnode:
     enabled: true
     instances: ["01", "02", "03"]
@@ -97,7 +109,18 @@ deviceServers:
     enabled: true
     instances: ["01"]
     file: "data/sdpmasterleafnode.yaml"
-    SdpMasterFQDN: "mid-sdp/control/0"
+    SdpMasterFQDN: "low-sdp/control/0"
+
+  cspmasterleafnode:
+    enabled: true
+    instances: ["01"]
+    file: "data/cspmasterleafnode.yaml"
+    CspMasterFQDN: "low-csp/control/0"
+
+  cspsubarrayleafnode:
+    enabled: true
+    instances: ["01", "02", "03"]
+    file: "data/cspsubarrayleafnode.yaml"
 
   mocks:
     enabled: false
