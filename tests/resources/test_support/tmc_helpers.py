@@ -13,8 +13,10 @@ from tests.resources.test_support.controls import (
     sdp_subarray1, 
     dish_master1, 
     tmc_subarraynode1, 
-    tmc_csp_master_leaf_node,
-    tmc_sdp_master_leaf_node
+    csp_master_leaf_node,
+    sdp_master_leaf_node,
+    tmc_csp_subarray_leaf_node,
+    tmc_sdp_subarray_leaf_node
 )
 from tests.resources.test_support.helpers import resource
 import logging
@@ -37,13 +39,13 @@ def check_devices():
     assert 0 < dish_master_1.ping()
     tmc_subarraynode_1 = DeviceProxy(tmc_subarraynode1)
     assert 0 < tmc_subarraynode_1.ping()
-    csp_master = DeviceProxy(tmc_csp_master_leaf_node)
+    csp_master = DeviceProxy(csp_master_leaf_node)
     assert 0 < csp_master.ping()
-    csp_subarray = DeviceProxy("ska_mid/tm_leaf_node/csp_subarray01")
+    csp_subarray = DeviceProxy(tmc_csp_subarray_leaf_node)
     assert 0 < csp_subarray.ping()
-    sdp_master = DeviceProxy(tmc_sdp_master_leaf_node)
+    sdp_master = DeviceProxy(sdp_master_leaf_node)
     assert 0 < sdp_master.ping()
-    sdp_subarray = DeviceProxy("ska_mid/tm_leaf_node/sdp_subarray01")
+    sdp_subarray = DeviceProxy(tmc_sdp_subarray_leaf_node)
     assert 0 < sdp_subarray.ping()
 
 @sync_telescope_on
