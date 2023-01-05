@@ -5,31 +5,10 @@ Observation Execution APIs
 
 The observation execution can be done by following a sequence of APIs as follows:
 
-#. |resource_allocation|
-#. |configure_scan|
-#. |perform_scan|
-#. |end_scan|
-#. |release_deallocation|
+* `ResourceAllocation <https://developer.skao.int/projects/ska-tmc-centralnode/en/latest/api/ska_tmc_centralnode.commands.html#ska-tmc-centralnode-commands-assign-resources-command-module>`_
+* `ConfigureScan <https://developer.skao.int/projects/ska-tmc-subarraynode/en/latest/api/ska_tmc_subarraynode.commands.html#module-ska_tmc_subarraynode.commands.configure_command>`_
+* `PerformScan <https://developer.skao.int/projects/ska-tmc-subarraynode/en/latest/api/ska_tmc_subarraynode.commands.html#module-ska_tmc_subarraynode.commands.scan_command>`_
+* `EndScan <https://developer.skao.int/projects/ska-tmc-subarraynode/en/latest/api/ska_tmc_subarraynode.commands.html#module-ska_tmc_subarraynode.commands.end_command>`_
+* `ReleaseDeallocation <https://developer.skao.int/projects/ska-tmc-centralnode/en/latest/api/ska_tmc_centralnode.commands.html#ska-tmc-centralnode-commands-release-resources-command-module>`_
 
-Before performing any observation related operation it is necessary 
-that the telescope is in ON state.
-
-.. |resource_assignment| raw: html
-
-    <a href="https://developer.skao.int/projects/ska-tmc-centralnode/en/latest/api/ska_tmc_centralnode.commands.html#ska-tmc-centralnode-commands-assign-resources-command-module" target="_blank">Resource assignment (Central Node)</a>
-
-.. |configure_scan_subarray_node| raw: html
-
-    <a href="https://developer.skao.int/projects/ska-tmc-subarraynode/en/latest/api/ska_tmc_subarraynode.commands.html#module-ska_tmc_subarraynode.commands.configure_command" target="_blank">Configure a scan (Subarray Node)</a>
-
-.. |scan_subarray_node| raw: html
-
-    <a href="https://developer.skao.int/projects/ska-tmc-subarraynode/en/latest/api/ska_tmc_subarraynode.commands.html#module-ska_tmc_subarraynode.commands.scan_command" target="_blank">Scan (Subarray Node)</a>
-
-.. |end_subarray_node| raw: html
-
-    <a href="https://developer.skao.int/projects/ska-tmc-subarraynode/en/latest/api/ska_tmc_subarraynode.commands.html#module-ska_tmc_subarraynode.commands.end_command" target="_blank">End (Subarray Node)</a>
-
-.. |release_resources| raw: html
-
-    <a href="https://developer.skao.int/projects/ska-tmc-centralnode/en/latest/api/ska_tmc_centralnode.commands.html#ska-tmc-centralnode-commands-release-resources-command-module" target="_blank">Releasing the resources (Central Node)</a>
+Before performing any observation related operation it is necessary that the telescope is in ON state.

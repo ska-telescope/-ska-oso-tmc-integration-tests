@@ -14,15 +14,11 @@ This project is integration of the TMC components for the `Square Kilometre Arra
 
    developer_guide/code_quality
 
-.. toctree::
-   :maxdepth: 1
-   :caption: TMC (Telescope Monitoring and Control)
-
-   tmc_api
+.. include:: tmc_api.rst
 
 .. toctree::
    :maxdepth: 1
-   :caption: APIs
+   :caption: Tmc Apis
 
    apis/obs_mandc
    apis/operational_mandc
