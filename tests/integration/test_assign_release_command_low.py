@@ -6,6 +6,7 @@ from tests.resources.test_support.low.sync_decorators import sync_assign_resourc
 from tests.resources.test_support.low.helpers import resource
 from tests.resources.test_support.constant_low import tmc_subarraynode1, centralnode
 from tango import DeviceProxy
+import time
 
 
 @pytest.mark.xfail(reason="Validate this test case after Image of Subarray Device is released with Assign and Release resource command")
@@ -31,7 +32,9 @@ def test_assign_release_low(json_factory):
         """Verify State transitions after TelescopeOn"""
         assert telescope_is_in_on_state()
         fixture["state"] = "TelescopeOn"
-
+        # The sleep solution is the temporary solution. Further investigation needed
+        time.sleep(2)
+        
         """Invoke AssignResources() Command on TMC"""
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
         @sync_assign_resources()
