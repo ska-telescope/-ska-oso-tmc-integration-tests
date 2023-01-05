@@ -2,12 +2,8 @@
 from tests.resources.test_support.low.helpers import (
     resource
 )
-import os
 from tests.conftest import LOGGER
 from tests.resources.test_support.constant_low import *
-
-# Tango device fqdns used across to create device proxy
-
 
 def telescope_is_in_standby_state():
     LOGGER.info(
@@ -27,12 +23,12 @@ def telescope_is_in_standby_state():
         + str(resource(csp_subarray1).get("State"))
     )
 
-    return (
-        resource(sdp_subarray1).get("State") in ["DISABLE" , "OFF"],
-        resource(sdp_master).get("State") in ["DISABLE", "STANDBY"],
-        resource(csp_master).get("State") in ["DISABLE", "STANDBY"],
-        resource(csp_subarray1).get("State") in ["DISABLE", "OFF"]
-    )
+
+    return (resource(sdp_subarray1).get("State") in ["DISABLE" , "OFF"],
+    resource(sdp_master).get("State") in ["DISABLE", "STANDBY"],
+    resource(csp_master).get("State") in ["DISABLE", "STANDBY"],
+    resource(csp_subarray1).get("State") in ["DISABLE", "OFF"],
+)
 
 def telescope_is_in_on_state():
     LOGGER.info(
@@ -91,7 +87,7 @@ def telescope_is_in_off_state():
         resource(sdp_master).get("State"),
         resource(csp_master).get("State"),
         resource(csp_subarray1).get("State"),
-    ] == ["OFF", "OFF", "OFF", "OFF"]
+    ] == ["OFF", "OFF", "OFF", "OFF",]
 
 
 def subarray_obs_state_is_idle():

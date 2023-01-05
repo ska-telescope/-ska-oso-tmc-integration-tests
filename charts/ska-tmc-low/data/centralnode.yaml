@@ -25,18 +25,18 @@ server:
         - name: "SdpMasterFQDN"
           values:
           - "low-sdp/control/0"
-        - name: "TMSubarrayNodes"
+        - name: "TMCSubarrayNodes"
           values:
           {{- range  ( regexSplit " " ((.Values.deviceServers.centralnode.subarray_count | int) | seq ) -1 )  }}
           - "ska_low/tm_subarray_node/{{ . }}"
           {{- end }}
-        - name: "TMLowCspSubarrayLeafNodes"
-          values: 
+        - name: "TMCLowCspSubarrayLeafNodes"
+          values:
           {{- range  ( regexSplit " " ((.Values.deviceServers.centralnode.subarray_count | int) | seq ) -1 )  }}
           - "ska_low/tm_leaf_node/csp_subarray{{ printf "%02s" . }}"
           {{- end }}
-        - name: "TMLowSdpSubarrayLeafNodes"
-          values: 
+        - name: "TMCLowSdpSubarrayLeafNodes"
+          values:
           {{- range  ( regexSplit " " ((.Values.deviceServers.centralnode.subarray_count | int) | seq ) -1 )  }}
           - "ska_low/tm_leaf_node/sdp_subarray{{ printf "%02s" . }}"
           {{- end }}
@@ -56,4 +56,5 @@ image:
   image: "{{.Values.centralnode.image.image}}"
   tag: "{{.Values.centralnode.image.tag}}"
   pullPolicy: "{{.Values.centralnode.image.pullPolicy}}"
+
 

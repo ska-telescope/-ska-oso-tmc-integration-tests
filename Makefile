@@ -46,7 +46,7 @@ MINIKUBE ?= false ## Minikube or not
 FAKE_DEVICES ?= false ## Install fake devices or not
 TANGO_HOST ?= tango-databaseds:10000## TANGO_HOST connection to the Tango DS
 
-ITANGO_DOCKER_IMAGE = $(CAR_OCI_REGISTRY_HOST)/ska-tango-images-tango-itango:9.3.5
+ITANGO_DOCKER_IMAGE = $(CAR_OCI_REGISTRY_HOST)/ska-tango-images-tango-itango:9.3.10
 
 # Test runner - run to completion job in K8s
 # name of the pod running the k8s_tests
@@ -86,9 +86,11 @@ K8S_TEST_TEST_COMMAND ?= $(PYTHON_VARS_BEFORE_PYTEST) $(PYTHON_RUNNER) \
 -include .make/make.mk
 -include .make/help.mk
 -include PrivateRules.mak
+cred:
+	make k8s-namespace
+	curl -s https://gitlab.com/ska-telescope/templates-repository/-/raw/master/scripts/namespace_auth.sh | bash -s $(SERVICE_ACCOUNT) $(KUBE_NAMESPACE) || true
 
 
 test-requirements:
 	@poetry export --without-hashes --dev --format requirements.txt --output tests/requirements.txt
-
 k8s-pre-test: test-requirements

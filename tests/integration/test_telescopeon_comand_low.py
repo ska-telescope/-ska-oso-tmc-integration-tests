@@ -1,9 +1,8 @@
 import pytest
-from tests.resources.test_support.controls import telescope_is_in_standby_state, telescope_is_in_on_state, telescope_is_in_off_state
-import tests.resources.test_support.tmc_helpers as tmc
+from tests.resources.test_support.low.controls import telescope_is_in_standby_state, telescope_is_in_on_state, telescope_is_in_off_state
+import tests.resources.test_support.low.tmc_helpers as tmc
 from tests.conftest import LOGGER
-
-@pytest.mark.SKA_mid
+@pytest.mark.SKA_low
 def test_telescope_on():
     """TelescopeOn() is executed."""
     try:

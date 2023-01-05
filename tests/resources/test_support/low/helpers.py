@@ -8,9 +8,18 @@ from tango import EventType
 
 # SUT frameworks
 from tango import DeviceProxy, CmdArgType, EventType
-from tests.resources.test_support.constant_low import *
+from tests.resources.test_support.constant_low import sdp_subarray1, csp_subarray1, tmc_subarraynode1, csp_master, sdp_master
+
 
 LOGGER = logging.getLogger(__name__)
+
+
+# typical device sets
+subarray_devices = [
+    tmc_subarraynode1,
+    sdp_subarray1,
+    csp_subarray1,
+]
 
 class resource:
     device_name = None
@@ -320,7 +329,6 @@ class waiter:
                 "State", changed_to="OFF"
             )
         )
-
     def set_wait_for_going_to_standby(self):
         self.waits.append(
             watch(resource(sdp_subarray1)).to_become(
@@ -413,13 +421,6 @@ class waiter:
             )
         )
 
-        # TODO: This is not in scope of PI #16
-        # self.waits.append(
-        #     watch(resource("mid_d0001/elt/master")).to_become(
-        #         "pointingState", changed_to="TRACK"
-        #     )
-        # )
-
         self.waits.append(
             watch(resource(tmc_subarraynode1)).to_become(
                 "obsState", changed_to="READY"
@@ -437,14 +438,6 @@ class waiter:
                 "obsState", changed_to="IDLE"
             )
         )
-
-        # TODO: This is not in scope of PI #16
-        # self.waits.append(
-        #     watch(resource("mid_d0001/elt/master")).to_become(
-        #         "pointingState", changed_to="READY"
-        #     )
-        # )
-
         self.waits.append(
             watch(resource(tmc_subarraynode1)).to_become(
                 "obsState", changed_to="IDLE"

@@ -7,16 +7,10 @@ from tests.resources.test_support.low.sync_decorators import (
     sync_end, sync_assign_resources, sync_configure, sync_scan
 )
 from tango import DeviceProxy, DevState
-from tests.resources.test_support.low.controls import (
-    centralnode, 
-    csp_subarray1, 
-    sdp_subarray1,  
-    tmc_subarraynode1, 
-    tmc_csp_master_leaf_node,
-    tmc_sdp_master_leaf_node
-)
+# from tests.resources.test_support.low.controls_low import centralnode, csp_subarray1, sdp_subarray1, tmc_subarraynode1
 from tests.resources.test_support.low.helpers import resource
 import logging
+from tests.resources.test_support.constant_low import centralnode, csp_subarray1, sdp_subarray1, tmc_subarraynode1, tmc_csp_master_leaf_node, tmc_csp_subarray_leaf_node, tmc_sdp_master_leaf_node,tmc_sdp_subarray_leaf_node
 
 LOGGER = logging.getLogger(__name__)
 
@@ -36,11 +30,11 @@ def check_devices():
     assert 0 < tmc_subarraynode_1.ping()
     csp_master = DeviceProxy(tmc_csp_master_leaf_node)
     assert 0 < csp_master.ping()
-    csp_subarray = DeviceProxy("ska_low/tm_leaf_node/csp_subarray01")
+    csp_subarray = DeviceProxy(tmc_csp_subarray_leaf_node)
     assert 0 < csp_subarray.ping()
     sdp_master = DeviceProxy(tmc_sdp_master_leaf_node)
     assert 0 < sdp_master.ping()
-    sdp_subarray = DeviceProxy("ska_low/tm_leaf_node/sdp_subarray01")
+    sdp_subarray = DeviceProxy(tmc_sdp_subarray_leaf_node)
     assert 0 < sdp_subarray.ping()
 
 @sync_telescope_on
