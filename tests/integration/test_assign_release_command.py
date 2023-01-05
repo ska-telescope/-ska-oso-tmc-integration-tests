@@ -33,7 +33,6 @@ def test_assign_release():
         fixture["state"] = "TelescopeOn"
 
         """Invoke AssignResources() Command on TMC"""
-        # time.sleep(2)
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
         @sync_assign_resources()
         def compose_sub():
