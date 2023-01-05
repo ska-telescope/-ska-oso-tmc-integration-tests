@@ -32,7 +32,7 @@ def test_assign_release():
 
         """Invoke AssignResources() Command on TMC"""
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-
+        # The sleep solution is the temporary solution. Further investigation needed 
         time.sleep(3)
         @sync_assign_resources()
         def compose_sub():
