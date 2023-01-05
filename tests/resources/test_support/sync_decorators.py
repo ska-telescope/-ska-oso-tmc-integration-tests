@@ -87,7 +87,7 @@ def sync_assign_resources():
             the_waiter = waiter()
             the_waiter.set_wait_for_assign_resources()
             result = func(*args, **kwargs)
-            the_waiter.wait(200)
+            the_waiter.wait(210)
             return result
 
         return wrapper
