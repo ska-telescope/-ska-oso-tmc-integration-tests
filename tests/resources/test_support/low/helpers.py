@@ -422,13 +422,6 @@ class waiter:
             )
         )
 
-        # TODO: This is not in scope of PI #16
-        # self.waits.append(
-        #     watch(resource("low_d0001/elt/master")).to_become(
-        #         "pointingState", changed_to="TRACK"
-        #     )
-        # )
-
         self.waits.append(
             watch(resource(tmc_subarraynode1)).to_become(
                 "obsState", changed_to="READY"
@@ -446,14 +439,6 @@ class waiter:
                 "obsState", changed_to="IDLE"
             )
         )
-
-        # TODO: This is not in scope of PI #16
-        # self.waits.append(
-        #     watch(resource("low_d0001/elt/master")).to_become(
-        #         "pointingState", changed_to="READY"
-        #     )
-        # )
-
         self.waits.append(
             watch(resource(tmc_subarraynode1)).to_become(
                 "obsState", changed_to="IDLE"

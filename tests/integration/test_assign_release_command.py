@@ -3,15 +3,12 @@ from tests.resources.test_support.controls import telescope_is_in_standby_state,
 import tests.resources.test_support.tmc_helpers as tmc
 from tests.conftest import LOGGER
 from tests.resources.test_support.sync_decorators import sync_assign_resources
-from tests.resources.test_support.helpers import resource
+from tests.resources.test_support.helpers import resource, waiter
 from tango import DeviceProxy
 import time
 
-
 assign_resources_file = "command_AssignResources.json"
 release_resources_file  = "command_ReleaseResources.json"
-
-@pytest.mark.skip()
 @pytest.mark.SKA_mid
 def test_assign_release():
     """AssignResources and ReleaseResources is executed."""
@@ -32,9 +29,11 @@ def test_assign_release():
         """Verify State transitions after TelescopeOn"""
         assert telescope_is_in_on_state()
         fixture["state"] = "TelescopeOn"
-        #time.sleep(2)
+
         """Invoke AssignResources() Command on TMC"""
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
+        # The sleep solution is the temporary solution. Further investigation needed 
+        time.sleep(3)
         @sync_assign_resources()
         def compose_sub():
             resource("ska_mid/tm_subarray_node/1").assert_attribute("State").equals(
