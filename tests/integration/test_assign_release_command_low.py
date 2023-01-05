@@ -33,7 +33,7 @@ def test_assign_release_low(json_factory):
         assert telescope_is_in_on_state()
         fixture["state"] = "TelescopeOn"
         # The sleep solution is the temporary solution. Further investigation needed
-        time.sleep(2)
+        time.sleep(3)
         
         """Invoke AssignResources() Command on TMC"""
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
