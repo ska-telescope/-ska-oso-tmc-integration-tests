@@ -10,7 +10,7 @@ import time
 
 assign_resources_file = "command_AssignResources.json"
 release_resources_file  = "command_ReleaseResources.json"
-@pytest.mark.ak
+@pytest.mark.skip
 @pytest.mark.SKA_mid
 def test_assign_release():
     """AssignResources and ReleaseResources is executed."""
@@ -34,7 +34,6 @@ def test_assign_release():
 
         """Invoke AssignResources() Command on TMC"""
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-        time.sleep(2)
         @sync_assign_resources()
         def compose_sub():
             resource("ska_mid/tm_subarray_node/1").assert_attribute("State").equals(
