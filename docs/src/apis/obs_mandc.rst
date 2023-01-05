@@ -5,11 +5,11 @@ Observation Execution APIs
 
 The observation execution can be done by following a sequence of APIs as follows:
 
-#. |resource_assignment|
-#. |configure_scan_subarray_node|
-#. |scan_subarray_node|
-#. |end_subarray_node|
-#. |release_resources|
+#. |resource_allocation|
+#. |configure_scan|
+#. |perform_scan|
+#. |end_scan|
+#. |release_deallocation|
 
 Before performing any observation related operation it is necessary 
 that the telescope is in ON state.
