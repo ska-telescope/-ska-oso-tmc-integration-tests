@@ -1,12 +1,18 @@
 import pytest
-from tests.resources.test_support.low.controls import telescope_is_in_standby_state, telescope_is_in_on_state, telescope_is_in_off_state, subarray_obs_state_is_empty, subarray_obs_state_is_idle
 import tests.resources.test_support.low.tmc_helpers as tmc
 from tests.conftest import LOGGER
 from tests.resources.test_support.low.sync_decorators import sync_assign_resources
+from tests.resources.test_support.constant_low import (
+    DEVICE_STATE_STANDBY_INFO,
+    DEVICE_STATE_ON_INFO,
+    DEVICE_STATE_OFF_INFO, 
+    DEVICE_OBS_STATE_IDLE_INFO,
+    DEVICE_OBS_STATE_EMPTY_INFO,
+)
 from tests.resources.test_support.low.helpers import resource
 from tests.resources.test_support.constant_low import tmc_subarraynode1, centralnode
 from tango import DeviceProxy
-import time
+from tests.resources.test_support.low.telescope_controls_low import TelescopeControlLow
 
 
 @pytest.mark.skip(reason="Validate this test case after Image of Subarray Device is released with Assign and Release resource command")
@@ -14,6 +20,7 @@ import time
 def test_assign_release_low(json_factory):
     """AssignResources and ReleaseResources is executed."""
     try:
+        telescope_control = TelescopeControlLow()
         assign_json = json_factory("command_assign_resource_low")
         release_json = json_factory("command_release_resource_low")
         tmc.check_devices()
@@ -21,7 +28,7 @@ def test_assign_release_low(json_factory):
         fixture["state"] = "Unknown"
 
         """Verify Telescope is Off/Standby"""
-        assert telescope_is_in_standby_state()
+        assert telescope_control.is_in_valid_state(DEVICE_STATE_STANDBY_INFO, "State")
         LOGGER.info("Staring up the Telescope")
 
         """Invoke TelescopeOn() command on TMC"""
@@ -30,10 +37,9 @@ def test_assign_release_low(json_factory):
         LOGGER.info("TelescopeOn command is invoked successfully")
 
         """Verify State transitions after TelescopeOn"""
-        assert telescope_is_in_on_state()
+        assert telescope_control.is_in_valid_state(DEVICE_STATE_ON_INFO, "State")
         fixture["state"] = "TelescopeOn"
         # The sleep solution is the temporary solution. Further investigation needed
-        time.sleep(3)
         
         """Invoke AssignResources() Command on TMC"""
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
@@ -55,20 +61,20 @@ def test_assign_release_low(json_factory):
         LOGGER.info("AssignResources command is invoked successfully")
  
         """Verify ObsState is Idle"""
-        assert subarray_obs_state_is_idle()
+        assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_IDLE_INFO, "obsState")
         fixture["state"] ="AssignResources"
         
         """Invoke ReleaseResources() command on TMC"""
         tmc.invoke_releaseResources(release_json)
 
         fixture["state"] = "ReleaseResources"
-        assert subarray_obs_state_is_empty()
+        assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_EMPTY_INFO, "obsState")
 
         """Invoke TelescopeOff() command on TMC"""
         tmc.set_to_off()
 
         """Verify State transitions after TelescopeOff"""
-        assert telescope_is_in_off_state()
+        assert telescope_control.is_in_valid_state(DEVICE_STATE_OFF_INFO, "State")
         fixture["state"] = "TelescopeOff"
 
         LOGGER.info("Tests complete.")

@@ -1,6 +1,7 @@
 import functools
 from tests.resources.test_support.helpers import waiter, resource, WaitForScan
 from contextlib import contextmanager
+import tests.resources.test_support.tmc_helpers as tmc
 
 
 # pre checks
@@ -85,6 +86,8 @@ def sync_assign_resources():
         def wrapper(*args, **kwargs):
             check_going_out_of_empty()
             the_waiter = waiter()
+            # Added this check to ensure that devices are running to avoid random test failures.
+            tmc.check_devices()
             the_waiter.set_wait_for_assign_resources()
             result = func(*args, **kwargs)
             the_waiter.wait(200)
@@ -101,6 +104,8 @@ def sync_configure():
         def wrapper(*args, **kwargs):
             check_resources_assign()
             the_waiter = waiter()
+            # Added this check to ensure that devices are running to avoid random test failures.
+            tmc.check_devices()
             the_waiter.set_wait_for_configure()
             result = func(*args, **kwargs)
             the_waiter.wait(500)

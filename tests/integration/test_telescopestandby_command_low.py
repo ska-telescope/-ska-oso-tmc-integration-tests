@@ -1,11 +1,12 @@
 import pytest
 import tests.resources.test_support.low.tmc_helpers as tmc
-from tests.resources.test_support.constant_low import DEVICE_STATE_STANDBY_INFO, DEVICE_STATE_ON_INFO, DEVICE_STATE_OFF_INFO
+from tests.resources.test_support.constant_low import DEVICE_STATE_STANDBY_INFO, DEVICE_STATE_ON_INFO
 from tests.resources.test_support.low.telescope_controls_low import TelescopeControlLow
 from tests.conftest import LOGGER
+
 @pytest.mark.SKA_low
-def test_telescope_on():
-    """TelescopeOn() is executed."""
+def test_telescope_standby():
+    """TelescopeStandby() is executed."""
     try:
         telescope_control = TelescopeControlLow()
         fixture = {}
@@ -25,13 +26,14 @@ def test_telescope_on():
         fixture["state"] = "TelescopeOn"
 
         """Invoke TelescopeOff() command on TMC"""
-        tmc.set_to_off()
+        tmc.set_to_standby()
 
         """Verify State transitions after TelescopeOff"""
-        assert telescope_control.is_in_valid_state(DEVICE_STATE_OFF_INFO, "State")
+        assert telescope_control.is_in_valid_state(DEVICE_STATE_STANDBY_INFO, "State")
         fixture["state"] = "TelescopeOff"
 
         LOGGER.info("Tests complete.")
+        
 
     except:
         LOGGER.info("Exception occurred in the test for state = {}".format(fixture["state"]))
