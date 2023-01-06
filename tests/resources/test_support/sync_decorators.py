@@ -30,8 +30,6 @@ def sync_telescope_on(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         the_waiter = waiter()
-        # Added this check to ensure that devices are running to avoid random test failures.
-        tmc.check_devices()
         the_waiter.set_wait_for_telescope_on()
         result = func(*args, **kwargs)
         the_waiter.wait(200)
@@ -43,8 +41,6 @@ def sync_set_to_off(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         the_waiter = waiter()
-        # Added this check to ensure that devices are running to avoid random test failures.
-        tmc.check_devices()
         the_waiter.set_wait_for_going_to_off()
         result = func(*args, **kwargs)
         the_waiter.wait(200)
@@ -65,8 +61,6 @@ def sync_set_to_standby(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         the_waiter = waiter()
-        # Added this check to ensure that devices are running to avoid random test failures.
-        tmc.check_devices()
         the_waiter.set_wait_for_going_to_standby()
         result = func(*args, **kwargs)
         the_waiter.wait(200)
