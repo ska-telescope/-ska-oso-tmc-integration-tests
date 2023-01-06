@@ -403,7 +403,6 @@ class waiter:
             )
         )
 
-
         self.waits.append(
             watch(resource(tmc_subarraynode1)).to_become(
                 "obsState", changed_to="IDLE"
