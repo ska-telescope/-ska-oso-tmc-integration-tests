@@ -31,7 +31,7 @@ DEVICE_STATE_ON_INFO = {
     centralnode: ["ON"]
 }
 
-DEVICE_STATE_OFF_STATE = {
+DEVICE_STATE_OFF_INFO = {
     sdp_subarray1: ["OFF"],
     sdp_master: ["OFF"],
     csp_master: ["OFF"],

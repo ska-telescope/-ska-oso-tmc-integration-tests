@@ -1,7 +1,7 @@
 import pytest
 from tests.resources.test_support.low.controls import telescope_is_in_standby_state, telescope_is_in_on_state, telescope_is_in_off_state
 import tests.resources.test_support.low.tmc_helpers as tmc
-from tests.resources.test_support.constant_low import DEVICE_STATE_STANDBY_INFO, DEVICE_STATE_ON_INFO, DEVICE_STATE_OFF_STATE
+from tests.resources.test_support.constant_low import DEVICE_STATE_STANDBY_INFO, DEVICE_STATE_ON_INFO, DEVICE_STATE_OFF_INFO
 from tests.resources.test_support.low.telescope_controls_low import TelescopeControlLow
 from tests.conftest import LOGGER
 @pytest.mark.SKA_low
@@ -29,7 +29,7 @@ def test_telescope_on():
         tmc.set_to_off()
 
         """Verify State transitions after TelescopeOff"""
-        assert telescope_control.is_in_valid_state(DEVICE_STATE_OFF_STATE, "State")
+        assert telescope_control.is_in_valid_state(DEVICE_STATE_OFF_INFO, "State")
         fixture["state"] = "TelescopeOff"
 
         LOGGER.info("Tests complete.")
