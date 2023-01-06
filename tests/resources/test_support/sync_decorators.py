@@ -72,8 +72,6 @@ def sync_release_resources(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         the_waiter = waiter()
-        # Added this check to ensure that devices are running to avoid random test failures.
-        tmc.check_devices()
         the_waiter.set_wait_for_going_to_empty()
         result = func(*args, **kwargs)
         the_waiter.wait(200)
@@ -106,8 +104,6 @@ def sync_configure():
         def wrapper(*args, **kwargs):
             check_resources_assign()
             the_waiter = waiter()
-            # Added this check to ensure that devices are running to avoid random test failures.
-            tmc.check_devices()
             the_waiter.set_wait_for_configure()
             result = func(*args, **kwargs)
             the_waiter.wait(500)
@@ -122,8 +118,6 @@ def sync_scan(timeout = 300):
     def decorator_sync_scan(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            # Added this check to ensure that devices are running to avoid random test failures.
-            tmc.check_devices()
             check_going_out_of_configure()
             scan_wait = WaitForScan()
             result = func(*args, **kwargs)
@@ -141,8 +135,6 @@ def sync_end():
         def wrapper(*args, **kwargs):
             check_going_out_of_configure()
             the_waiter = waiter()
-            # Added this check to ensure that devices are running to avoid random test failures.
-            tmc.check_devices()
             the_waiter.set_wait_for_idle()
             result = func(*args, **kwargs)
             the_waiter.wait(500)
