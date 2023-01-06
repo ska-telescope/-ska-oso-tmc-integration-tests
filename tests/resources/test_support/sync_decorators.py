@@ -120,8 +120,6 @@ def sync_scan(timeout = 300):
     def decorator_sync_scan(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            # Added this check to ensure that devices are running to avoid random test failures.
-            tmc.check_devices()
             check_going_out_of_configure()
             scan_wait = WaitForScan()
             result = func(*args, **kwargs)
