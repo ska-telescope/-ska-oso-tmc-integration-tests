@@ -51,7 +51,6 @@ def telescope_is_in_on_state():
         'resource(csp_subarray1).get("State")'
         + str(resource(csp_subarray1).get("State"))
     )
-
     LOGGER.info(
         'resource(centralnode).get("State")'
         + str(resource(centralnode).get("State"))
@@ -83,7 +82,6 @@ def telescope_is_in_off_state():
         'resource(csp_subarray1).get("State")'
         + str(resource(csp_subarray1).get("State"))
     )
-
     return [
         resource(sdp_subarray1).get("State"),
         resource(sdp_master).get("State"),

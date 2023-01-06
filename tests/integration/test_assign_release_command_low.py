@@ -1,18 +1,21 @@
 import pytest
-from tests.resources.test_support.controls import telescope_is_in_standby_state, telescope_is_in_on_state, telescope_is_in_off_state, subarray_obs_state_is_empty, subarray_obs_state_is_idle
-import tests.resources.test_support.tmc_helpers as tmc
+from tests.resources.test_support.low.controls import telescope_is_in_standby_state, telescope_is_in_on_state, telescope_is_in_off_state, subarray_obs_state_is_empty, subarray_obs_state_is_idle
+import tests.resources.test_support.low.tmc_helpers as tmc
 from tests.conftest import LOGGER
-from tests.resources.test_support.sync_decorators import sync_assign_resources
-from tests.resources.test_support.helpers import resource, waiter
+from tests.resources.test_support.low.sync_decorators import sync_assign_resources
+from tests.resources.test_support.low.helpers import resource
+from tests.resources.test_support.constant_low import tmc_subarraynode1, centralnode
 from tango import DeviceProxy
 import time
 
-@pytest.mark.SKA_mid
-def test_assign_release(json_factory):
+
+@pytest.mark.skip(reason="Validate this test case after Image of Subarray Device is released with Assign and Release resource command")
+@pytest.mark.SKA_low
+def test_assign_release_low(json_factory):
     """AssignResources and ReleaseResources is executed."""
     try:
-        assign_json = json_factory("command_AssignResources")
-        release_json = json_factory("command_ReleaseResources")
+        assign_json = json_factory("command_assign_resource_low")
+        release_json = json_factory("command_release_resource_low")
         tmc.check_devices()
         fixture = {}
         fixture["state"] = "Unknown"
@@ -29,20 +32,20 @@ def test_assign_release(json_factory):
         """Verify State transitions after TelescopeOn"""
         assert telescope_is_in_on_state()
         fixture["state"] = "TelescopeOn"
-
+        # The sleep solution is the temporary solution. Further investigation needed
+        time.sleep(3)
+        
         """Invoke AssignResources() Command on TMC"""
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-        # The sleep solution is the temporary solution. Further investigation needed 
-        time.sleep(3)
         @sync_assign_resources()
         def compose_sub():
-            resource("ska_mid/tm_subarray_node/1").assert_attribute("State").equals(
+            resource(tmc_subarraynode1).assert_attribute("State").equals(
                 "ON"
             )
-            resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals(
+            resource(tmc_subarraynode1).assert_attribute("obsState").equals(
                 "EMPTY"
             )            
-            central_node = DeviceProxy("ska_mid/tm_central/central_node")
+            central_node = DeviceProxy(centralnode)
             tmc.check_devices()
             central_node.AssignResources(assign_json)
             LOGGER.info("Invoked AssignResources on CentralNode")
