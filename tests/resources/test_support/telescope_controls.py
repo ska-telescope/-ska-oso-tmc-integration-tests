@@ -4,10 +4,8 @@ from tests.resources.test_support.low.helpers import (
 from tests.conftest import LOGGER
 
 class BaseTelescopeControl(object):
-    """
-
-    Args:
-        object (_type_): _description_
+    """Base Telescope control class. 
+    Use this class to write method to check status of devices
     """
     def is_in_valid_state(self, device_state_info, state_str):
         """Validate device state is in desired state as per device state info
