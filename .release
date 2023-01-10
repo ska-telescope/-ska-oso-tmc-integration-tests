@@ -1,4 +1,21 @@
-release=0.6.4
-tag=0.6.4
-tag_description=Utilize ska-telmodel library in delay calculation on CspSubarrayLeafnode
-release_notes=Utilize ska-telmodel library in delay calculation on CspSubarrayLeafnode
+release=0.6.6
+tag=0.6.6
+tag_description=
+**Charts:**
+**1. ska-tmc-integration 0.6.5 - 0.6.6:**
+
+    **1.1 ska-tmc-low - 0.4.1 - 0.5.0:
+
+        a. Enable Central Node low in ska-tmc-integration chart with Operational Functionality.
+    
+    **1.2 ska-tmc-mid - 0.6.4
+
+release_notes=
+**Charts:**
+**1. ska-tmc-integration 0.6.5 - 0.6.6:**
+
+    **1.1 ska-tmc-low - 0.4.1 - 0.5.0:
+
+        a. Enable Central Node low in ska-tmc-integration chart with Operational Functionality.
+    
+    **1.2 ska-tmc-mid - 0.6.4
