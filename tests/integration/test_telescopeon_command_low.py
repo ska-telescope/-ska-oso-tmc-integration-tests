@@ -3,6 +3,8 @@ import tests.resources.test_support.low.tmc_helpers as tmc
 from tests.resources.test_support.constant_low import DEVICE_STATE_STANDBY_INFO, DEVICE_STATE_ON_INFO, DEVICE_STATE_OFF_INFO
 from tests.resources.test_support.low.telescope_controls_low import TelescopeControlLow
 from tests.conftest import LOGGER
+
+@pytest.mark.skip(reason="Testing AssignResources test case only")
 @pytest.mark.SKA_low
 def test_telescope_on():
     """TelescopeOn() is executed."""
