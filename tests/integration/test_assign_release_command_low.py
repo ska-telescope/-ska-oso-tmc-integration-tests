@@ -13,6 +13,7 @@ from tests.resources.test_support.low.helpers import resource
 from tests.resources.test_support.constant_low import tmc_subarraynode1, centralnode
 from tango import DeviceProxy
 from tests.resources.test_support.low.telescope_controls_low import TelescopeControlLow
+from tango import DeviceProxy
 
 
 @pytest.mark.SKA_low
@@ -64,13 +65,14 @@ def test_assign_release_low(json_factory):
         fixture["state"] ="AssignResources"
         
         """Invoke ReleaseResources() command on TMC"""
-        log_msg = resource(tmc_subarraynode1).read_attribute("assignedResources")
+        SA_node = DeviceProxy(tmc_subarraynode1)
+        log_msg = SA_node.read_attribute("assignedResources")
         LOGGER.info("Logging value of assignedResources attribute......before Release")
         LOGGER.info(log_msg)
         
         tmc.invoke_releaseResources(release_json)
 
-        log_msg = resource(tmc_subarraynode1).read_attribute("assignedResources")
+        log_msg = SA_node.read_attribute("assignedResources")
         LOGGER.info("Logging value of assignedResources attribute......after Release")
         LOGGER.info(log_msg)
 
