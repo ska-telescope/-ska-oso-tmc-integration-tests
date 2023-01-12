@@ -64,12 +64,13 @@ def test_assign_release_low(json_factory):
         fixture["state"] ="AssignResources"
         
         """Invoke ReleaseResources() command on TMC"""
-        log_msg = tmc_subarraynode1.read_attribute("assignedResources")
+        log_msg = resource(tmc_subarraynode1).read_attribute("assignedResources")
         LOGGER.info("Logging value of assignedResources attribute......before Release")
         LOGGER.info(log_msg)
         
         tmc.invoke_releaseResources(release_json)
 
+        log_msg = resource(tmc_subarraynode1).read_attribute("assignedResources")
         LOGGER.info("Logging value of assignedResources attribute......after Release")
         LOGGER.info(log_msg)
 
