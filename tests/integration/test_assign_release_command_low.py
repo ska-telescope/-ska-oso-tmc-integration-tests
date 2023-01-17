@@ -65,16 +65,7 @@ def test_assign_release_low(json_factory):
         fixture["state"] ="AssignResources"
         
         """Invoke ReleaseResources() command on TMC"""
-        SA_node = DeviceProxy(tmc_subarraynode1)
-        log_msg = SA_node.read_attribute("assignedResources")
-        LOGGER.info("Logging value of assignedResources attribute......before Release")
-        LOGGER.info(log_msg)
-        
         tmc.invoke_releaseResources(release_json)
-
-        log_msg = SA_node.read_attribute("assignedResources")
-        LOGGER.info("Logging value of assignedResources attribute......after Release")
-        LOGGER.info(log_msg)
 
         fixture["state"] = "ReleaseResources"
         assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_EMPTY_INFO, "obsState")
