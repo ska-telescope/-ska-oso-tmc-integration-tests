@@ -3,14 +3,14 @@ function: telescope-monitoring
 domain: general-monitoring
 instances: ["01"]
 entrypoints:
-  - name: "ska_tmc_cspsubarrayleafnode.csp_subarray_leaf_node.CspSubarrayLeafNode"
+  - name: "ska_tmc_cspsubarrayleafnode.csp_subarray_leaf_node_low.CspSubarrayLeafNodeLow"
 server:
-  name: "csp_subarray_leaf_node"
+  name: "csp_subarray_leaf_node_low"
   instances:
   {{- range  .Values.deviceServers.cspsubarrayleafnode.instances }}
     - name: "{{ . }}"
       classes:
-      - name: "CspSubarrayLeafNode"
+      - name: "CspSubarrayLeafNodeLow"
         devices:
           - name: "ska_low/tm_leaf_node/csp_subarray{{ . }}"
             properties:
