@@ -13,7 +13,6 @@ from tests.resources.test_support.low.helpers import resource
 from tests.resources.test_support.constant_low import tmc_subarraynode1, centralnode
 from tango import DeviceProxy
 from tests.resources.test_support.low.telescope_controls_low import TelescopeControlLow
-from tango import DeviceProxy
 
 
 @pytest.mark.SKA_low
