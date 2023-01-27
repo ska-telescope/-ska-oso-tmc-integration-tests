@@ -1,0 +1,14 @@
+{
+    "interface": "https://schema.skao.int/ska-low-tmc-scan/3.0",
+    "transaction_id": "txn-....-00001",
+    "scan_id": 1,
+    "csp": {
+      "common": {
+        "subarray_id": 1
+      },
+      "lowcbf": {
+        "scan_id": 987654321,
+        "scan_seconds": 30
+      }
+    }
+  }
