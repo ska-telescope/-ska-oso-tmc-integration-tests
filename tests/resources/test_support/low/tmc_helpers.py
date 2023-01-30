@@ -72,7 +72,7 @@ def set_to_standby():
             f"After invoking TelescopeStandBy command {central_node} State is: {central_node.State()}"
     )
 
-@sync_release_resources
+@sync_release_resources()
 def invoke_releaseResources(release_input_str):
     central_node = DeviceProxy(centralnode)
     central_node.ReleaseResources(release_input_str)
@@ -82,6 +82,9 @@ def invoke_releaseResources(release_input_str):
 
 @sync_end()
 def end():
+    resource(tmc_subarraynode1).assert_attribute("obsState").equals(
+                "READY"
+            )
     subarray_node = DeviceProxy(tmc_subarraynode1)
     subarray_node.End()
     LOGGER.info(
