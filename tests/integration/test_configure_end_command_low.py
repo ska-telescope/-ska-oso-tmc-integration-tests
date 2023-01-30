@@ -1,8 +1,6 @@
 import pytest
 import tests.resources.test_support.low.tmc_helpers as tmc
 from tests.conftest import LOGGER
-from tests.resources.test_support.low.sync_decorators import (
-    sync_assign_resources,sync_configure,sync_end)
 from tests.resources.test_support.constant_low import (
     DEVICE_STATE_STANDBY_INFO,
     DEVICE_STATE_ON_INFO,
@@ -11,12 +9,8 @@ from tests.resources.test_support.constant_low import (
     DEVICE_OBS_STATE_EMPTY_INFO,
     DEVICE_OBS_STATE_READY_INFO,
 )
-from tests.resources.test_support.low.helpers import resource
-from tests.resources.test_support.constant_low import tmc_subarraynode1, centralnode
-from tango import DeviceProxy
 from tests.resources.test_support.low.telescope_controls_low import TelescopeControlLow
 
-@pytest.mark.MS
 @pytest.mark.SKA_low
 def test_configure_end_low(json_factory):
     """Configure and End is executed."""
@@ -48,12 +42,12 @@ def test_configure_end_low(json_factory):
 
         LOGGER.info("AssignResources command is invoked successfully")
 
-        """Verify ObsState is Idle"""
+        """Verify ObsState is IDLE"""
         assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_IDLE_INFO, "obsState")
         fixture["state"] ="AssignResources"
 
         """Invoke Configure() Command on TMC"""
-        LOGGER.info("Invoking Configure command on TMC CentralNode")
+        LOGGER.info("Invoking Configure command on TMC SubarrayNode")
         tmc.configure_subarray(configure_json)
 
         """Verify ObsState is READY"""

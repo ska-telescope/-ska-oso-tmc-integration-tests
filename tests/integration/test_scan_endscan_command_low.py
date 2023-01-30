@@ -43,12 +43,12 @@ def test_scan_endscan_low(json_factory):
 
         LOGGER.info("AssignResources command is invoked successfully")
 
-        """Verify ObsState is Idle"""
+        """Verify ObsState is IDLE"""
         assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_IDLE_INFO, "obsState")
         fixture["state"] ="AssignResources"
 
         """Invoke Configure() Command on TMC"""
-        LOGGER.info("Invoking Configure command on TMC CentralNode")
+        LOGGER.info("Invoking Configure command on TMC SubarrayNode")
         tmc.configure_subarray(configure_json)
 
         """Verify ObsState is READY"""
