@@ -118,6 +118,9 @@ def test_configure_end_low(json_factory):
     except:
         if fixture["state"] == "AssignResources":
             tmc.invoke_releaseResources(release_json)
+        if fixture["state"] == "Configure":
+            tmc.end()
+            tmc.invoke_releaseResources(release_json)
         if fixture["state"] == "TelescopeOn":
             tmc.set_to_off()
         raise
