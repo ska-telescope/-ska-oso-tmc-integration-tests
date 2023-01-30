@@ -16,6 +16,7 @@ from tests.resources.test_support.constant_low import tmc_subarraynode1, central
 from tango import DeviceProxy
 from tests.resources.test_support.low.telescope_controls_low import TelescopeControlLow
 
+@pytest.mark.MS
 @pytest.mark.SKA_low
 def test_configure_end_low(json_factory):
     """Configure and End is executed."""
@@ -43,20 +44,7 @@ def test_configure_end_low(json_factory):
 
         """Invoke AssignResources() Command on TMC"""
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-        @sync_assign_resources()
-        def compose_sub():
-            resource(tmc_subarraynode1).assert_attribute("State").equals(
-                "ON"
-            )
-            resource(tmc_subarraynode1).assert_attribute("obsState").equals(
-                "EMPTY"
-            )
-            central_node = DeviceProxy(centralnode)
-            tmc.check_devices()
-            central_node.AssignResources(assign_json)
-            LOGGER.info("Invoked AssignResources on CentralNode")
-
-        compose_sub()
+        tmc.compose_sub(assign_json)
 
         LOGGER.info("AssignResources command is invoked successfully")
 
@@ -66,16 +54,7 @@ def test_configure_end_low(json_factory):
 
         """Invoke Configure() Command on TMC"""
         LOGGER.info("Invoking Configure command on TMC CentralNode")
-        @sync_configure()
-        def configure_subarray():
-            resource(tmc_subarraynode1).assert_attribute("obsState").equals(
-                "IDLE"
-            )
-            subarray_node = DeviceProxy(tmc_subarraynode1)
-            subarray_node.Configure(configure_json)
-            LOGGER.info("Invoked Configure on SubarrayNode")
-
-        configure_subarray()
+        tmc.configure_subarray(configure_json)
 
         """Verify ObsState is READY"""
         assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_READY_INFO, "obsState")
@@ -84,16 +63,7 @@ def test_configure_end_low(json_factory):
 
         """Invoke End() Command on TMC"""
         LOGGER.info("Invoking End command on TMC SubarrayNode")
-        @sync_end()
-        def end():
-            resource(tmc_subarraynode1).assert_attribute("obsState").equals(
-                "READY"
-            )
-            subarray_node = DeviceProxy(tmc_subarraynode1)
-            subarray_node.End()
-            LOGGER.info("Invoked End on SubarrayNode")
-
-        end()
+        tmc.end()
 
         """Verify ObsState is IDLE"""
         assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_IDLE_INFO, "obsState")
