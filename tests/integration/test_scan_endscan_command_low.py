@@ -16,7 +16,6 @@ from tests.resources.test_support.constant_low import tmc_subarraynode1, central
 from tango import DeviceProxy
 from tests.resources.test_support.low.telescope_controls_low import TelescopeControlLow
 
-@pytest.mark.MS
 @pytest.mark.SKA_low
 def test_scan_endscan_low(json_factory):
     """Scan and EndScan is executed."""
