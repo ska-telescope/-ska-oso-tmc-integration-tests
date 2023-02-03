@@ -15,6 +15,7 @@ url = 'https://artefact.skao.int/repository/pypi-internal/simple'
 
 [tool.poetry.dependencies]
 python = "^3.7"
+ska-control-model="0.3.1"
 
 [build-system]
 requires = ["poetry-core"]
