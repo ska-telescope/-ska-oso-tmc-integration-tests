@@ -13,7 +13,7 @@ from tests.resources.test_support.low.helpers import resource
 from tests.resources.test_support.constant_low import tmc_subarraynode1, centralnode
 from tango import DeviceProxy
 from tests.resources.test_support.low.telescope_controls_low import TelescopeControlLow
-
+from ska_control_model import HealthState
 
 @pytest.mark.SKA_low
 def test_assign_release_low(json_factory):
@@ -84,4 +84,18 @@ def test_assign_release_low(json_factory):
         if fixture["state"] == "TelescopeOn":
             tmc.set_to_off()
         raise
+
+@pytest.mark.SKA_low
+def test_health_chk():
+    """Health Check of CSP and SDP devices"""
+    
+    cspsubarrayleaf_node_dev = DeviceProxy("ska_low/tm_leaf_node/csp_subarray01")
+    csp_subarray_leafnode_healthState = (
+        cspsubarrayleaf_node_dev.read_attribute("healthState").value
+    )
+    LOGGER.info(
+        f"""Current CSP Subarray leaf node healthstate is
+        {csp_subarray_leafnode_healthState}"""
+    )
+    assert csp_subarray_leafnode_healthState == HealthState.OK
 
