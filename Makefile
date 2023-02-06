@@ -87,7 +87,7 @@ K8S_TEST_TEST_COMMAND ?= $(PYTHON_VARS_BEFORE_PYTEST) $(PYTHON_RUNNER) \
 -include .make/make.mk
 -include .make/help.mk
 -include PrivateRules.mak
--include alarmhandler.mk
+-include resources/alarmhandler.mk
 
 cred:
 	make k8s-namespace
