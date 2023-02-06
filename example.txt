@@ -1,4 +1,3 @@
-tag=test_CN_healthstate;formula=(ska_mid/tm_central/central_node/healthstate == 3);priority=log;group=none;message=(\"alarm for central node healthstate attribute\")
-tag=test_sdp_state;formula=(mid-sdp/control/0/state == 12);priority=log;group=none;message=(\"alarm for sdp  state attribute\")
-tag=test_SN_obsState;formula=(ska_mid/tm_subarray_node/1/obsState == 0);priority=log;group=none;message=(\"alarm for subarray node obsState attribute\")
-tag=test_CN_state;formula=(ska_mid/tm_central/central_node/state == 0);priority=log;group=none;message=(\"alarm for central node state attribute\")
+tag=CentralNode_healthstate_failed;formula=(ska_mid/tm_central/central_node/healthstate == 2);priority=log;group=none;message=(\"alarm for central node healthstate failed\")
+tag=SubarrayNode_obsState_fault;formula=(ska_mid/tm_subarray_node/1/obsState == 9);priority=log;group=none;message=(\"alarm for subarray node obsState fault\")
+tag=CentralNode_state_unknown;formula=(ska_mid/tm_central/central_node/state == 3);priority=log;group=none;message=(\"alarm for central node state Unknown\")
