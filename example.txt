@@ -1,0 +1,4 @@
+tag=test1;formula=(ska_mid/tm_central/central_node/healthstate == 3);priority=log;group=none;message=(\"alarm for cn attribute\")
+tag=test2;formula=(mid-sdp/control/0/state == 12);priority=log;group=none;message=(\"alarm for sdp attribute\")
+tag=test3;formula=(ska_mid/tm_subarray_node/1/obsState == 0);priority=log;group=none;message=(\"alarm for sn attribute\")
+tag=test4;formula=(ska_mid/tm_central/central_node/state == 0);priority=log;group=none;message=(\"alarm for cn attribute\")

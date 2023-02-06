@@ -1,6 +1,6 @@
 # Project makefile for a ska-tmc-integration project. You should normally only need to modify
 # CAR_OCI_REGISTRY_USER and PROJECT below.
-
+ALARM_HANDLER_FQDN= "alarm/handler/01"
 CAR_OCI_REGISTRY_HOST:=artefact.skao.int
 PROJECT = ska-tmc-integration
 TANGO_HOST ?= tango-databaseds:10000 ## TANGO_HOST connection to the Tango DS
@@ -13,6 +13,7 @@ MARK = $(shell echo $(TELESCOPE) | sed "s/-/_/g") ## What -m opt to pass to pyte
 # run one test with FILE=acceptance/test_subarray_node.py::test_check_internal_model_according_to_the_tango_ecosystem_deployed
 FILE ?= tests## A specific test file to pass to pytest
 ADD_ARGS ?= ## Additional args to pass to pytest
+FILE_NAME?= alarm_rules.txt
 
 # KUBE_NAMESPACE defines the Kubernetes Namespace that will be deployed to
 # using Helm.  If this does not already exist it will be created
@@ -86,6 +87,8 @@ K8S_TEST_TEST_COMMAND ?= $(PYTHON_VARS_BEFORE_PYTEST) $(PYTHON_RUNNER) \
 -include .make/make.mk
 -include .make/help.mk
 -include PrivateRules.mak
+-include alarmhandler.mk
+
 cred:
 	make k8s-namespace
 	curl -s https://gitlab.com/ska-telescope/templates-repository/-/raw/master/scripts/namespace_auth.sh | bash -s $(SERVICE_ACCOUNT) $(KUBE_NAMESPACE) || true

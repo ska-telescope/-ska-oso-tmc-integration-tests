@@ -56,3 +56,22 @@ ska-ser-skuid:
     use_pv: false
     config:
       generator_id: mvp01
+  
+ska-tango-alarmhandler:
+  labels: 
+    app: ska-tmc-integration
+  enabled: true
+
+ska-tmc-simulators:
+  labels: 
+    app: ska-tmc-integration
+  enabled: true
+  deviceServers:
+    cspmastersimulator:
+      enabled: false
+    
+    weatherstation:
+      enabled: true
+    
+    powersupplysimulator:
+      enabled: true
