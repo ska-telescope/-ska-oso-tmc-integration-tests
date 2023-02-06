@@ -86,6 +86,7 @@ def test_assign_release_low(json_factory):
         raise
 
 @pytest.mark.SKA_low
+@pytest.mark.SKA_mid
 def test_health_chk():
     """Health Check of CSP and SDP devices"""
 
@@ -93,9 +94,23 @@ def test_health_chk():
     csp_subarray_leafnode_healthState = (
         cspsubarrayleaf_node_dev.read_attribute("healthState").value
     )
-    LOGGER.info(
-        f"""Current CSP Subarray leaf node healthstate is
-        {csp_subarray_leafnode_healthState}"""
-    )
     assert csp_subarray_leafnode_healthState == HealthState.OK
+
+    central_node = DeviceProxy("ska_mid/tm_central/central_node")
+    central_node_healthState = (
+        central_node.read_attribute("healthState").value
+    )
+    assert central_node_healthState == HealthState.OK
+
+    csp_master_dev_name = "low-csp/control/0"
+
+    csp_master_dev = DeviceProxy(csp_master_dev_name)
+    csp_master_dev_healthState = (
+        csp_master_dev.read_attribute("healthState").value
+    )
+    assert csp_master_dev_healthState == HealthState.OK
+
+
+
+
 
