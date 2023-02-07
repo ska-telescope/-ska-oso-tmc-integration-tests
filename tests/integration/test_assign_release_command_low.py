@@ -86,8 +86,7 @@ def test_assign_release_low(json_factory):
         raise
 
 @pytest.mark.SKA_low
-@pytest.mark.SKA_mid
-def test_health_chk():
+def test_health_check():
     """Health Check of CSP and SDP devices"""
 
     cspsubarrayleaf_node_dev = DeviceProxy("ska_low/tm_leaf_node/csp_subarray01")
@@ -96,7 +95,7 @@ def test_health_chk():
     )
     assert csp_subarray_leafnode_healthState == HealthState.OK
 
-    central_node = DeviceProxy("ska_mid/tm_central/central_node")
+    central_node = DeviceProxy("ska_low/tm_central/central_node")
     central_node_healthState = (
         central_node.read_attribute("healthState").value
     )
@@ -109,6 +108,32 @@ def test_health_chk():
         csp_master_dev.read_attribute("healthState").value
     )
     assert csp_master_dev_healthState == HealthState.OK
+
+
+@pytest.mark.SKA_mid
+def test_health_check():
+    """Health Check of CSP and SDP devices"""
+
+    cspsubarrayleaf_node_dev = DeviceProxy("ska_mid/tm_leaf_node/csp_subarray01")
+    csp_subarray_leafnode_healthState = (
+        cspsubarrayleaf_node_dev.read_attribute("healthState").value
+    )
+    assert csp_subarray_leafnode_healthState == HealthState.OK
+
+    central_node = DeviceProxy("ska_mid/tm_central/central_node")
+    central_node_healthState = (
+        central_node.read_attribute("healthState").value
+    )
+    assert central_node_healthState == HealthState.OK
+
+    csp_master_dev_name = "mid-csp/control/0"
+
+    csp_master_dev = DeviceProxy(csp_master_dev_name)
+    csp_master_dev_healthState = (
+        csp_master_dev.read_attribute("healthState").value
+    )
+    assert csp_master_dev_healthState == HealthState.OK
+
 
 
 
