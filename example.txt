@@ -1,3 +1,1 @@
-tag=CentralNode_healthstate_failed;formula=(ska_mid/tm_central/central_node/healthstate == 2);priority=log;group=none;message=(\"alarm for central node healthstate failed\")
-tag=SubarrayNode_obsState_fault;formula=(ska_mid/tm_subarray_node/1/obsState == 9);priority=log;group=none;message=(\"alarm for subarray node obsState fault\")
-tag=CentralNode_state_unknown;formula=(ska_mid/tm_central/central_node/state == 3);priority=log;group=none;message=(\"alarm for central node state Unknown\")
+tag=CentralNode_telescopestate_standby;formula=(ska_mid/tm_central/central_node/telescopeState == 7);priority=log;group=none;message=(\"alarm for central node state standby\")
