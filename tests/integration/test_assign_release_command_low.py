@@ -14,7 +14,7 @@ from tests.resources.test_support.constant_low import tmc_subarraynode1, central
 from tango import DeviceProxy
 from tests.resources.test_support.low.telescope_controls_low import TelescopeControlLow
 from ska_control_model import HealthState
-
+import json
 @pytest.mark.SKA_low
 def test_assign_release_low(json_factory):
     """AssignResources and ReleaseResources is executed."""
@@ -52,7 +52,7 @@ def test_assign_release_low(json_factory):
             )            
             central_node = DeviceProxy(centralnode)
             tmc.check_devices()
-            central_node.AssignResources(assign_json)
+            central_node.AssignResources(json.dumps(assign_json))
             LOGGER.info("Invoked AssignResources on CentralNode")
 
         compose_sub()
