@@ -10,7 +10,7 @@ from tests.resources.test_support.constant_low import (
     DEVICE_OBS_STATE_READY_INFO,
 )
 from tests.resources.test_support.low.telescope_controls_low import TelescopeControlLow
-
+import json
 @pytest.mark.SKA_low
 def test_scan_endscan_low(json_factory):
     """Scan and EndScan is executed."""
@@ -39,7 +39,7 @@ def test_scan_endscan_low(json_factory):
 
         """Invoke AssignResources() Command on TMC"""
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-        tmc.compose_sub(assign_json)
+        tmc.compose_sub(json.dumps(assign_json))
 
         LOGGER.info("AssignResources command is invoked successfully")
 
@@ -49,7 +49,7 @@ def test_scan_endscan_low(json_factory):
 
         """Invoke Configure() Command on TMC"""
         LOGGER.info("Invoking Configure command on TMC SubarrayNode")
-        tmc.configure_subarray(configure_json)
+        tmc.configure_subarray(json.dumps(configure_json))
 
         """Verify ObsState is READY"""
         assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_READY_INFO, "obsState")
@@ -58,7 +58,7 @@ def test_scan_endscan_low(json_factory):
 
         """Invoke Scan() Command on TMC"""
         LOGGER.info("Invoking Scan command on TMC SubarrayNode")
-        tmc.scan(scan_json)
+        tmc.scan(json.dumps(scan_json))
 
         """Verify ObsState is READY"""
         assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_READY_INFO, "obsState")
@@ -75,7 +75,7 @@ def test_scan_endscan_low(json_factory):
         LOGGER.info("End command is invoked successfully")
 
         """Invoke ReleaseResources() command on TMC"""
-        tmc.invoke_releaseResources(release_json)
+        tmc.invoke_releaseResources(json.dumps(release_json))
 
         fixture["state"] = "ReleaseResources"
         assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_EMPTY_INFO, "obsState")
