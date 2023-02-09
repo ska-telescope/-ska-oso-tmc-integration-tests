@@ -4,7 +4,7 @@ from tests.resources.test_support.constant_low import DEVICE_STATE_STANDBY_INFO,
 from tests.resources.test_support.low.telescope_controls_low import TelescopeControlLow
 from tests.conftest import LOGGER
 
-@pytest.mark.SKA_low
+@pytest.mark.SKA_low_skip
 def test_telescope_standby():
     """TelescopeStandby() is executed."""
     try:

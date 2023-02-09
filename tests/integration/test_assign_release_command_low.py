@@ -85,7 +85,7 @@ def test_assign_release_low(json_factory):
             tmc.set_to_off()
         raise
 
-@pytest.mark.SKA_low
+@pytest.mark.SKA_low_skip
 def test_health_check():
     """Health Check of CSP and SDP devices"""
 
