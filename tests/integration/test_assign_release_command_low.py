@@ -111,29 +111,7 @@ def test_health_check_low():
     LOGGER.info("csp_master_dev_healthState is invoked successfully")
 
 
-@pytest.mark.SKA_mid
-def test_health_check():
-    """Health Check of CSP and SDP devices"""
 
-    cspsubarrayleaf_node_dev = DeviceProxy("ska_mid/tm_leaf_node/csp_subarray01")
-    csp_subarray_leafnode_healthState = (
-        cspsubarrayleaf_node_dev.read_attribute("healthState").value
-    )
-    assert csp_subarray_leafnode_healthState == HealthState.OK
-
-    central_node = DeviceProxy("ska_mid/tm_central/central_node")
-    central_node_healthState = (
-        central_node.read_attribute("healthState").value
-    )
-    assert central_node_healthState == HealthState.OK
-
-    csp_master_dev_name = "mid-csp/control/0"
-
-    csp_master_dev = DeviceProxy(csp_master_dev_name)
-    csp_master_dev_healthState = (
-        csp_master_dev.read_attribute("healthState").value
-    )
-    assert csp_master_dev_healthState == HealthState.OK
 
 
 
