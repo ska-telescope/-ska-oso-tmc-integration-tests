@@ -6,7 +6,7 @@ from tests.resources.test_support.sync_decorators import sync_assign_resources
 from tests.resources.test_support.helpers import resource, waiter
 from tango import DeviceProxy
 from ska_control_model import HealthState
-@pytest.mark.SKA_mid_skip
+@pytest.mark.SKA_mid
 def test_assign_release(json_factory):
     """AssignResources and ReleaseResources is executed."""
     try:
