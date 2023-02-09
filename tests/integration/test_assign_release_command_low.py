@@ -108,6 +108,7 @@ def test_health_check():
         csp_master_dev.read_attribute("healthState").value
     )
     assert csp_master_dev_healthState == HealthState.OK
+    LOGGER.info("csp_master_dev_healthState is invoked successfully")
 
 
 @pytest.mark.SKA_mid
