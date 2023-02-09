@@ -39,7 +39,7 @@ def test_scan_endscan_low(json_factory):
 
         """Invoke AssignResources() Command on TMC"""
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-        tmc.compose_sub(json.dumps(assign_json))
+        tmc.compose_sub(assign_json)
 
         LOGGER.info("AssignResources command is invoked successfully")
 
