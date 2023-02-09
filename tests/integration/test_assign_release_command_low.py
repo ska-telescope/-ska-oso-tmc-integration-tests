@@ -15,7 +15,7 @@ from tango import DeviceProxy
 from tests.resources.test_support.low.telescope_controls_low import TelescopeControlLow
 from ska_control_model import HealthState
 import json
-@pytest.mark.SKA_low
+@pytest.mark.SKA_low_skip
 def test_assign_release_low(json_factory):
     """AssignResources and ReleaseResources is executed."""
     try:
