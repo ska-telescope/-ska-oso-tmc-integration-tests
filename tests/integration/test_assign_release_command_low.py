@@ -86,7 +86,7 @@ def test_assign_release_low(json_factory):
         raise
 
 @pytest.mark.SKA_low
-def test_health_check():
+def test_health_check_low():
     """Health Check of CSP and SDP devices"""
 
     cspsubarrayleaf_node_dev = DeviceProxy("ska_low/tm_leaf_node/csp_subarray01")
