@@ -1,3 +1,5 @@
+import json
+
 import pytest
 from tests.resources.test_support.controls import telescope_is_in_standby_state, telescope_is_in_on_state, telescope_is_in_off_state, subarray_obs_state_is_empty, subarray_obs_state_is_idle
 import tests.resources.test_support.tmc_helpers as tmc
@@ -41,7 +43,7 @@ def test_assign_release(json_factory):
             )            
             central_node = DeviceProxy("ska_mid/tm_central/central_node")
             tmc.check_devices()
-            central_node.AssignResources(assign_json)
+            central_node.AssignResources(json.dumps(assign_json))
             LOGGER.info("Invoked AssignResources on CentralNode")
 
         compose_sub()
