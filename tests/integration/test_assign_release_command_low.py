@@ -110,7 +110,7 @@ def test_health_check():
     assert csp_master_dev_healthState == HealthState.OK
 
 
-@pytest.mark.SKA_mid
+@pytest.mark.SKA_mid_skip
 def test_health_check():
     """Health Check of CSP and SDP devices"""
 

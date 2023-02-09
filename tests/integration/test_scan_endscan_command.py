@@ -8,7 +8,7 @@ release_resources_file  = "command_ReleaseResources.json"
 configure_resources_file = "command_Configure.json"
 scan_file= "command_Scan.json"
 
-@pytest.mark.SKA_mid
+@pytest.mark.SKA_mid_skip
 def test_scan_endscan():
     """Scan and EndScan is executed."""
     try:

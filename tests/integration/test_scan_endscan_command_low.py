@@ -49,7 +49,7 @@ def test_scan_endscan_low(json_factory):
 
         """Invoke Configure() Command on TMC"""
         LOGGER.info("Invoking Configure command on TMC SubarrayNode")
-        tmc.configure_subarray(json.dumps(configure_json))
+        tmc.configure_subarray(configure_json)
 
         """Verify ObsState is READY"""
         assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_READY_INFO, "obsState")
