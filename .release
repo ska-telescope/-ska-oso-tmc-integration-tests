@@ -1,21 +1,21 @@
-release=0.6.8
-tag=0.6.8
+release=0.6.9
+tag=0.6.9
 tag_description=
 **Charts:**
-**1. ska-tmc-integration 0.6.7 - 0.6.8:**
+**1. ska-tmc-integration 0.6.8 - 0.6.9:**
 
-    **1.1 ska-tmc-low - 0.5.1 - 0.5.2:
+    **1.1 ska-tmc-low - 0.5.2 - 0.5.3:
 
-        a. Implement Configure and Scan Functionality on TMC Low.
+        a. Configure schema adjustment on SubarrayNode sent to CspSubarray to work Configure functionality on CBF.
 
     **1.2 ska-tmc-mid - 0.6.4
 
 release_notes=
 **Charts:**
-**1. ska-tmc-integration 0.6.7 - 0.6.8:**
+**1. ska-tmc-integration 0.6.8 - 0.6.9:**
 
-    **1.1 ska-tmc-low - 0.5.1 - 0.5.2:
+    **1.1 ska-tmc-low - 0.5.2 - 0.5.3:
 
-        a. Implement Configure and Scan Functionality on TMC Low.
+        a. Configure schema adjustment on SubarrayNode sent to CspSubarray to work Configure functionality on CBF.
 
     **1.2 ska-tmc-mid - 0.6.4
