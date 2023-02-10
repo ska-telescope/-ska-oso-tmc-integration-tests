@@ -480,6 +480,32 @@ class waiter:
             )
         )
 
+    def set_wait_for_aborted(self):
+        self.waits.append(
+            watch(resource(csp_subarray1)).to_become(
+                "obsState", changed_to="ABORTED"
+            )
+        )
+        self.waits.append(
+            watch(resource(sdp_subarray1)).to_become(
+                "obsState", changed_to="ABORTED"
+            )
+        )
+
+        # TODO: This is not in scope of PI #16
+        # self.waits.append(
+        #     watch(resource("mid_d0001/elt/master")).to_become(
+        #         "pointingState", changed_to="NONE"
+        #     )
+        # )
+
+        self.waits.append(
+            watch(resource(tmc_subarraynode1)).to_become(
+                "obsState", changed_to="ABORTED"
+            )
+        )
+
+
     def wait(self, timeout=30, resolution=0.1):
         self.logs = ""
         while self.waits:
