@@ -19,6 +19,12 @@ def check_resources_assign():
     resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals("IDLE")
 
 
+# def check_resourcing():
+#     # verify once for obstate = IDLE
+#     resource("mid-csp/subarray/01").assert_attribute("obsState").equals("IDLE")
+#     resource("mid-sdp/subarray/01").assert_attribute("obsState").equals("IDLE")
+#     resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals("IDLE")
+
 def check_going_out_of_configure():
     # verify once for obstate = READY
     resource("mid-csp/subarray/01").assert_attribute("obsState").equals("READY")

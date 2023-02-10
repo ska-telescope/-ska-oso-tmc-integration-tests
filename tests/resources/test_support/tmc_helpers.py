@@ -141,6 +141,7 @@ def scan(scan_input):
 
 @sync_abort()
 def invoke_abort():
+    # resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals("RESOURCING")
     subarray_node = DeviceProxy(tmc_subarraynode1)
     subarray_node.Abort()
     LOGGER.info("Invoked Abort on SubarrayNode")

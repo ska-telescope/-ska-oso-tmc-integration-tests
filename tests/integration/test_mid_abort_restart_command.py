@@ -9,6 +9,7 @@ from tests.resources.test_support.sync_decorators import sync_assign_resources
 from tests.resources.test_support.helpers import resource, waiter
 from tango import DeviceProxy
 
+@pytest.mark.shraddha
 @pytest.mark.SKA_mid
 def test_abort_restart(json_factory):
     """Abort and Restart is executed."""
