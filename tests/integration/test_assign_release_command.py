@@ -80,11 +80,11 @@ def test_assign_release(json_factory):
 def test_health_check():
     """Health Check of CSP and SDP devices"""
 
-    # cspsubarrayleaf_node_dev = DeviceProxy("ska_mid/tm_leaf_node/csp_subarray01")
-    # csp_subarray_leafnode_healthState = (
-    #     cspsubarrayleaf_node_dev.read_attribute("healthState").value
-    # )
-    # assert csp_subarray_leafnode_healthState == HealthState.OK
+    cspsubarrayleaf_node_dev = DeviceProxy("ska_mid/tm_leaf_node/csp_subarray01")
+    csp_subarray_leafnode_healthState = (
+        cspsubarrayleaf_node_dev.read_attribute("healthState").value
+    )
+    assert csp_subarray_leafnode_healthState == HealthState.OK
 
     central_node = DeviceProxy("ska_mid/tm_central/central_node")
     central_node_healthState = (
