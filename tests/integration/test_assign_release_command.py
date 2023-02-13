@@ -82,28 +82,6 @@ def test_assign_release(json_factory):
             tmc.set_to_off()
         raise
 
-@pytest.mark.SKA_mid
-def test_health_check():
-    """Health Check of CSP and SDP devices"""
-
-    cspsubarrayleaf_node_dev = DeviceProxy(tmc_csp_subarray_leaf_node)
-    csp_subarray_leafnode_healthState = (
-        cspsubarrayleaf_node_dev.read_attribute("healthState").value
-    )
-    assert csp_subarray_leafnode_healthState == HealthState.OK
-
-    central_node = DeviceProxy(centralnode)
-    central_node_healthState = (
-        central_node.read_attribute("healthState").value
-    )
-    assert central_node_healthState == HealthState.OK
-    csp_master_dev = DeviceProxy(csp_master)
-    csp_master_dev_healthState = (
-        csp_master_dev.read_attribute("healthState").value
-    )
-    assert csp_master_dev_healthState == HealthState.OK
-
-
 
 @pytest.mark.SKA_mid
 def test_health_check_mid():

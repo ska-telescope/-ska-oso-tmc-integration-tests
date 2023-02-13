@@ -11,7 +11,7 @@ assign_resources_file = "command_AssignResources.json"
 release_resources_file  = "command_ReleaseResources.json"
 configure_resources_file = "command_Configure.json" 
 
-@pytest.mark.SKA_mid_skip
+@pytest.mark.SKA_mid
 def test_configure_end():
     """Configure and End is executed."""
     try:
