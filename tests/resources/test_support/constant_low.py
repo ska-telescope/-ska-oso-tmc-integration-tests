@@ -58,3 +58,11 @@ DEVICE_OBS_STATE_READY_INFO = {
 
 
 
+DEVICE_HEALTH_STATE_OK_INFO = {
+    tmc_csp_subarray_leaf_node: ["OK"],
+    centralnode: ["OK"],
+    csp_master: ["OK"]
+}
+
+
+

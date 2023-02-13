@@ -5,16 +5,20 @@ from tests.resources.test_support.low.sync_decorators import sync_assign_resourc
 from tests.resources.test_support.constant_low import (
     DEVICE_STATE_STANDBY_INFO,
     DEVICE_STATE_ON_INFO,
-    DEVICE_STATE_OFF_INFO, 
+    DEVICE_STATE_OFF_INFO,
     DEVICE_OBS_STATE_IDLE_INFO,
     DEVICE_OBS_STATE_EMPTY_INFO,
+    DEVICE_HEALTH_STATE_OK_INFO
 )
 from tests.resources.test_support.low.helpers import resource
-from tests.resources.test_support.constant_low import tmc_subarraynode1, centralnode
+from tests.resources.test_support.constant_low import (
+    csp_master, tmc_subarraynode1, centralnode, tmc_csp_subarray_leaf_node)
 from tango import DeviceProxy
 from tests.resources.test_support.low.telescope_controls_low import TelescopeControlLow
 from ska_control_model import HealthState
 import json
+
+
 @pytest.mark.SKA_low_skip
 def test_assign_release_low(json_factory):
     """AssignResources and ReleaseResources is executed."""
@@ -39,9 +43,10 @@ def test_assign_release_low(json_factory):
         assert telescope_control.is_in_valid_state(DEVICE_STATE_ON_INFO, "State")
         fixture["state"] = "TelescopeOn"
         # The sleep solution is the temporary solution. Further investigation needed
-        
+
         """Invoke AssignResources() Command on TMC"""
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
+
         @sync_assign_resources()
         def compose_sub():
             resource(tmc_subarraynode1).assert_attribute("State").equals(
@@ -49,7 +54,7 @@ def test_assign_release_low(json_factory):
             )
             resource(tmc_subarraynode1).assert_attribute("obsState").equals(
                 "EMPTY"
-            )            
+            )
             central_node = DeviceProxy(centralnode)
             tmc.check_devices()
             central_node.AssignResources(json.dumps(assign_json))
@@ -58,11 +63,11 @@ def test_assign_release_low(json_factory):
         compose_sub()
 
         LOGGER.info("AssignResources command is invoked successfully")
- 
+
         """Verify ObsState is Idle"""
         assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_IDLE_INFO, "obsState")
-        fixture["state"] ="AssignResources"
-        
+        fixture["state"] = "AssignResources"
+
         """Invoke ReleaseResources() command on TMC"""
         tmc.invoke_releaseResources(release_json)
 
@@ -85,25 +90,24 @@ def test_assign_release_low(json_factory):
             tmc.set_to_off()
         raise
 
+
 @pytest.mark.SKA_low
 def test_health_check_low():
     """Health Check of CSP and SDP devices"""
 
-    cspsubarrayleaf_node_dev = DeviceProxy("ska_low/tm_leaf_node/csp_subarray01")
+    cspsubarrayleaf_node_dev = DeviceProxy(tmc_csp_subarray_leaf_node)
     csp_subarray_leafnode_healthState = (
         cspsubarrayleaf_node_dev.read_attribute("healthState").value
     )
     assert csp_subarray_leafnode_healthState == HealthState.OK
 
-    central_node = DeviceProxy("ska_low/tm_central/central_node")
+    central_node = DeviceProxy(centralnode)
     central_node_healthState = (
         central_node.read_attribute("healthState").value
     )
     assert central_node_healthState == HealthState.OK
 
-    csp_master_dev_name = "low-csp/control/0"
-
-    csp_master_dev = DeviceProxy(csp_master_dev_name)
+    csp_master_dev = DeviceProxy(csp_master)
     csp_master_dev_healthState = (
         csp_master_dev.read_attribute("healthState").value
     )
@@ -111,10 +115,7 @@ def test_health_check_low():
     LOGGER.info("csp_master_dev_healthState is invoked successfully")
 
 
-
-
-
-
-
-
-
+@pytest.mark.SKA_low
+def test_health_check_low_1():
+    telescope_control = TelescopeControlLow()
+    assert telescope_control.is_in_valid_state(DEVICE_HEALTH_STATE_OK_INFO, "healthState")
