@@ -43,7 +43,7 @@ def test_assign_release(json_factory):
             )            
             central_node = DeviceProxy("ska_mid/tm_central/central_node")
             tmc.check_devices()
-            central_node.AssignResources(json.dumps(assign_json))
+            central_node.AssignResources(assign_json)
             LOGGER.info("Invoked AssignResources on CentralNode")
 
         compose_sub()
