@@ -128,6 +128,24 @@ def sync_configure():
 
     return decorator_sync_configure
 
+def sync_configure_abort():
+    # defined as a decorator
+    def decorator_sync_configure_abort(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            check_resources_assign()
+            # the_waiter = waiter()
+            # Added this check to ensure that devices are running to avoid random test failures.
+            tmc.check_devices()
+            # the_waiter.set_wait_for_configure()
+            result = func(*args, **kwargs)
+            # the_waiter.wait(500)
+            return result
+
+        return wrapper
+
+    return decorator_sync_configure_abort
+
 def sync_scan(timeout = 300):
     # define as a decorator
     def decorator_sync_scan(func):
@@ -165,7 +183,7 @@ def sync_abort(timeout = 300):
     def decorator_sync_abort(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            check_resources_assign()
+            # check_resources_assign()
             the_waiter = waiter()
             the_waiter.set_wait_for_aborted()
             result = func(*args, **kwargs)

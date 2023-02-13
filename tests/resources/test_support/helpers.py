@@ -467,7 +467,7 @@ class waiter:
             )
         )
 
-        # TODO: This is not in scope of PI #16
+        # TODO: This is not in scope of PI #16RESOURCING
         # self.waits.append(
         #     watch(resource("mid_d0001/elt/master")).to_become(
         #         "pointingState", changed_to="READY"
