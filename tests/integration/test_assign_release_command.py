@@ -10,7 +10,10 @@ from tango import DeviceProxy
 from ska_control_model import HealthState
 from tests.resources.test_support.constant import (
     csp_master, tmc_subarraynode1, centralnode, tmc_csp_subarray_leaf_node)
-
+from tests.resources.test_support.telescope_controls import BaseTelescopeControl
+from tests.resources.test_support.constant import (
+    DEVICE_HEALTH_STATE_OK_INFO
+)
 @pytest.mark.SKA_mid
 def test_assign_release(json_factory):
     """AssignResources and ReleaseResources is executed."""
@@ -99,3 +102,10 @@ def test_health_check():
         csp_master_dev.read_attribute("healthState").value
     )
     assert csp_master_dev_healthState == HealthState.OK
+
+
+
+@pytest.mark.SKA_mid
+def test_health_check_mid():
+    telescope_control = BaseTelescopeControl()
+    assert telescope_control.is_in_valid_state(DEVICE_HEALTH_STATE_OK_INFO, "healthState")
