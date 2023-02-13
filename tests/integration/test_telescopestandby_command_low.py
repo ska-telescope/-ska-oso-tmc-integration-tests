@@ -13,7 +13,7 @@ def test_telescope_standby():
         fixture["state"] = "Unknown"
 
         """Verify Telescope is Off/Standby"""
-       # assert telescope_control.is_in_valid_state(DEVICE_STATE_STANDBY_INFO, "State")
+        assert telescope_control.is_in_valid_state(DEVICE_STATE_STANDBY_INFO, "State")
         LOGGER.info("Staring up the Telescope")
 
         """Invoke TelescopeOn() command on TMC"""
