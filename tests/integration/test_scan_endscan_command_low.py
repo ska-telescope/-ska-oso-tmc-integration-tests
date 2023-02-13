@@ -58,7 +58,7 @@ def test_scan_endscan_low(json_factory):
 
         """Invoke Scan() Command on TMC"""
         LOGGER.info("Invoking Scan command on TMC SubarrayNode")
-        tmc.scan((scan_json))
+        tmc.scan(scan_json)
 
         """Verify ObsState is READY"""
         assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_READY_INFO, "obsState")
@@ -75,7 +75,7 @@ def test_scan_endscan_low(json_factory):
         LOGGER.info("End command is invoked successfully")
 
         """Invoke ReleaseResources() command on TMC"""
-        tmc.invoke_releaseResources((release_json))
+        tmc.invoke_releaseResources(release_json)
 
         fixture["state"] = "ReleaseResources"
         assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_EMPTY_INFO, "obsState")
