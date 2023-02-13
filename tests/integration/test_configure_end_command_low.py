@@ -11,7 +11,7 @@ from tests.resources.test_support.constant_low import (
 )
 from tests.resources.test_support.low.telescope_controls_low import TelescopeControlLow
 import json
-@pytest.mark.SKA_low_skip
+@pytest.mark.SKA_low
 def test_configure_end_low(json_factory):
     """Configure and End is executed."""
     try:
@@ -48,7 +48,7 @@ def test_configure_end_low(json_factory):
 
         """Invoke Configure() Command on TMC"""
         LOGGER.info("Invoking Configure command on TMC SubarrayNode")
-        tmc.configure_subarray(json.dumps(configure_json))
+        tmc.configure_subarray(configure_json)
 
         """Verify ObsState is READY"""
         assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_READY_INFO, "obsState")
@@ -65,7 +65,7 @@ def test_configure_end_low(json_factory):
         LOGGER.info("End command is invoked successfully")
 
         """Invoke ReleaseResources() command on TMC"""
-        tmc.invoke_releaseResources(json.dumps(release_json))
+        tmc.invoke_releaseResources(release_json)
 
         fixture["state"] = "ReleaseResources"
         assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_EMPTY_INFO, "obsState")
