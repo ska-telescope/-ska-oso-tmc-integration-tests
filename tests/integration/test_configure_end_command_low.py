@@ -10,6 +10,7 @@ from tests.resources.test_support.constant_low import (
     DEVICE_OBS_STATE_READY_INFO,
 )
 from tests.resources.test_support.low.telescope_controls_low import TelescopeControlLow
+import json
 
 @pytest.mark.SKA_low
 def test_configure_end_low(json_factory):
@@ -38,7 +39,7 @@ def test_configure_end_low(json_factory):
 
         """Invoke AssignResources() Command on TMC"""
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-        tmc.compose_sub(assign_json)
+        tmc.compose_sub(json.dumps(assign_json))
 
         LOGGER.info("AssignResources command is invoked successfully")
 
