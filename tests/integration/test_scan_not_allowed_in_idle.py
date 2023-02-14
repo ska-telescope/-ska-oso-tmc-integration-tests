@@ -10,7 +10,6 @@ assign_resources_file = "command_AssignResources.json"
 release_resources_file  = "command_ReleaseResources.json"
 
 @pytest.mark.SKA_mid
-@pytest.mark.akii
 def test_scan_not_allowed_in_idle():  
     # try: 
     fixture = {}
@@ -59,10 +58,3 @@ def test_scan_not_allowed_in_idle():
     """Verify State transitions after TelescopeOff"""
     assert telescope_is_in_off_state()
     fixture["state"] = "TelescopeOff"
-
-    # except:
-    #     if fixture["state"] == "AssignResources":
-    #         tmc.invoke_releaseResources(release_input_str)
-    #     if fixture["state"] == "TelescopeOn":
-    #         tmc.set_to_off()
-    #     raise
