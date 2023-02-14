@@ -34,4 +34,3 @@ image:
   image: "{{.Values.cspsubarrayleafnode.image.image}}"
   tag: "{{.Values.cspsubarrayleafnode.image.tag}}"
   pullPolicy: "{{.Values.cspsubarrayleafnode.image.pullPolicy}}"
-

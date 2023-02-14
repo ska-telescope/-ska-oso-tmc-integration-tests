@@ -8,7 +8,7 @@ tag_description=
 
         a. Configure schema adjustment on SubarrayNode sent to CspSubarray to work Configure functionality on CBF.
 
-    **1.2 ska-tmc-mid - 0.6.4
+    **1.2 ska-tmc-mid - 0.6.5
 
 release_notes=
 **Charts:**
@@ -18,4 +18,4 @@ release_notes=
 
         a. Configure schema adjustment on SubarrayNode sent to CspSubarray to work Configure functionality on CBF.
 
-    **1.2 ska-tmc-mid - 0.6.4
+    **1.2 ska-tmc-mid - 0.6.5
