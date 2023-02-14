@@ -31,6 +31,3 @@ def test_configure_not_allowed_in_empty():
     assert "Configure command not permitted in observation state EMPTY" in str(info.value)
     # And TMC remains in EMPTY observation state
     assert subarray_obs_state_is_empty()
-
-
-
