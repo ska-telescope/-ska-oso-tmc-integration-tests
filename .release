@@ -6,7 +6,7 @@ tag_description=
 
     **1.1 ska-tmc-low - 0.5.2 - 0.5.3:
 
-        a. Implement Configure and Scan Functionality on TMC Low.
+        a.  Fix HealthState=unknown issue on initialisation of CentralNode and CspLeafnodes
 
     **1.2 ska-tmc-mid - 0.6.5
 
@@ -16,6 +16,7 @@ release_notes=
 
     **1.1 ska-tmc-low - 0.5.2 - 0.5.3:
 
-        a. Implement Configure and Scan Functionality on TMC Low.
+        a.  Fix HealthState=unknown issue on initialisation of CentralNode and CspLeafnodes
 
     **1.2 ska-tmc-mid - 0.6.5
+         a. Fix HealthState=unknown issue on initialisation of CentralNode and CspLeafnodes
