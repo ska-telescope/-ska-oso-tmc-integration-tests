@@ -5,10 +5,6 @@ from tests.resources.test_support.controls import (telescope_is_in_standby_state
         subarray_obs_state_is_aborted, subarray_obs_state_is_empty)
 import tests.resources.test_support.tmc_helpers as tmc
 from tests.conftest import LOGGER
-from tests.resources.test_support.sync_decorators import sync_assign_resources
-from tests.resources.test_support.helpers import resource
-from tango import DeviceProxy
-
 
 @pytest.mark.SKA_mid
 def test_abort_restart(json_factory):
@@ -60,14 +56,23 @@ def test_abort_restart(json_factory):
         """Verify State transitions after TelescopeOff"""
         assert telescope_is_in_off_state()
         fixture["state"] = "TelescopeOff"
-
         LOGGER.info("Tests complete.")
 
-    # TODO: Modify tear down
     except:
+        LOGGER.info("Tearing down failed test, state = {}".format(fixture["state"]))
         if fixture["state"] == "AssignResources":
             tmc.invoke_releaseResources(release_json)
+            tmc.set_to_off()
+            raise Exception("unable to teardown subarray from being in AssignResources")
+        if fixture["state"] == "Abort":
+            tmc.invoke_restart()
+            tmc.set_to_off()
+            raise Exception("unable to teardown subarray from being in Abort")
+        if fixture["state"] == "Restart":
+            tmc.set_to_off()
         if fixture["state"] == "TelescopeOn":
             tmc.set_to_off()
-        raise
+            raise Exception("unable to teardown subarray from being in TelescopeOn")
+        pytest.fail("unable to complete test without exceptions")
+
 

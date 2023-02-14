@@ -63,7 +63,6 @@ def test_skb_187_abort_restart(json_factory):
         fixture["state"] ="Configure"
         LOGGER.info("AssignResources command is invoked successfully")
 
-        # Test teardown, invoke Abort command
         """Invoke Abort() Command on TMC"""
         LOGGER.info("Invoking Abort command on TMC SubarrayNode")
         tmc.invoke_abort()
@@ -83,13 +82,17 @@ def test_skb_187_abort_restart(json_factory):
         fixture["state"] ="TelescopeOff"
 
     except:
+        LOGGER.info("Tearing down failed test, state = {}".format(fixture["state"]))
         if fixture["state"] == "AssignResources":
             tmc.invoke_releaseResources(release_json)
+            raise Exception("unable to teardown subarray from being in AssignResources")
         if fixture["state"] == "Configure":
             tmc.invoke_abort()
             tmc.invoke_restart()
             tmc.set_to_off()
+            raise Exception("unable to teardown subarray from being in Configure")
         if fixture["state"] == "TelescopeOn":
             tmc.set_to_off()
-        raise
+            raise Exception("unable to teardown subarray from being in TelescopeOn")
+        pytest.fail("unable to complete test without exceptions")
 
