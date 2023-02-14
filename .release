@@ -1,21 +1,24 @@
-release=0.6.9
-tag=0.6.9
+release=0.6.10
+tag=0.6.10
 tag_description=
 **Charts:**
-**1. ska-tmc-integration 0.6.8 - 0.6.9:**
+**1. ska-tmc-integration 0.6.9 - 0.6.10:**
 
-    **1.1 ska-tmc-low - 0.5.2 - 0.5.3:
+    **1.1 ska-tmc-low - 0.5.3 - 0.5.4:
 
-        a. Configure schema adjustment on SubarrayNode sent to CspSubarray to work Configure functionality on CBF.
+       a.  Fix HealthState=unknown issue on initialisation of CentralNode and CspLeafnodes
+
 
     **1.2 ska-tmc-mid - 0.6.5
+        a. Fix HealthState=unknown issue on initialisation of CentralNode and CspLeafnodes
 
 release_notes=
 **Charts:**
-**1. ska-tmc-integration 0.6.8 - 0.6.9:**
+**1. ska-tmc-integration 0.6.9 - 0.6.10:**
 
-    **1.1 ska-tmc-low - 0.5.2 - 0.5.3:
+    **1.1 ska-tmc-low - 0.5.3 - 0.5.4:
+       a.  Fix HealthState=unknown issue on initialisation of CentralNode and CspLeafnodes
 
-        a. Configure schema adjustment on SubarrayNode sent to CspSubarray to work Configure functionality on CBF.
 
     **1.2 ska-tmc-mid - 0.6.5
+         a. Fix HealthState=unknown issue on initialisation of CentralNode and CspLeafnodes

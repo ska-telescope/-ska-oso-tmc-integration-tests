@@ -57,7 +57,7 @@ def test_assign_release_low(json_factory):
             )
             central_node = DeviceProxy(centralnode)
             tmc.check_devices()
-            central_node.AssignResources(json.dumps(assign_json))
+            central_node.AssignResources(assign_json)
             LOGGER.info("Invoked AssignResources on CentralNode")
 
         compose_sub()
