@@ -10,12 +10,6 @@ from tests.resources.test_support.helpers import resource
 from tango import DeviceProxy
 
 
-@pytest.fixture
-def fixture():
-    return {}
-
-
-@pytest.mark.shraddha
 @pytest.mark.SKA_mid
 def test_skb_187_abort_restart(json_factory):
     """Unhappy scenario: Subarray stucks in Configuring with invalid json(SKB-187)

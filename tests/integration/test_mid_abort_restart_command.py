@@ -35,27 +35,13 @@ def test_abort_restart(json_factory):
 
         """Invoke AssignResources() Command on TMC"""
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-        @sync_assign_resources()
-        def compose_sub():
-            resource("ska_mid/tm_subarray_node/1").assert_attribute("State").equals(
-                "ON"
-            )
-            resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals(
-                "EMPTY"
-            )            
-            central_node = DeviceProxy("ska_mid/tm_central/central_node")
-            tmc.check_devices()
-            central_node.AssignResources(assign_json)
-            LOGGER.info("Invoked AssignResources on CentralNode")
-
-        compose_sub()
-
+        tmc.compose_sub(assign_json)
         LOGGER.info("AssignResources command is invoked successfully")
  
         """Verify ObsState is Idle"""
         assert subarray_obs_state_is_idle()
         fixture["state"] ="AssignResources"
-        
+
         """Invoke Abort() command on TMC"""
         tmc.invoke_abort()
 
