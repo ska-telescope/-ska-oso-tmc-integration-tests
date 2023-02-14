@@ -20,8 +20,6 @@ dish_master3 = "mid_d0003/elt/master"
 dish_master4 = "mid_d0004/elt/master"
 
 
-
-
 DEVICE_HEALTH_STATE_OK_INFO = {
     tmc_csp_subarray_leaf_node: "OK",
     centralnode: "OK",

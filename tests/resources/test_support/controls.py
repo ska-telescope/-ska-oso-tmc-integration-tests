@@ -2,11 +2,8 @@
 from tests.resources.test_support.helpers import (
     resource
 )
-import os
-from tests.conftest import LOGGER, TELESCOPE_ENV
+from tests.conftest import LOGGER
 from tests.resources.test_support.constant import *
-
-# Tango device fqdns used across to create device proxy
 
 
 def telescope_is_in_standby_state():

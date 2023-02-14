@@ -1,5 +1,4 @@
 from os.path import dirname, join
-# from ska_tango_base.control_model import ObsState
 from tests.resources.test_support.sync_decorators import (
     sync_telescope_on,
     sync_set_to_off,
@@ -112,14 +111,9 @@ def end():
     LOGGER.info(
             f"End command is invoked on {subarray_node}"
     )
-    # csp_subarray_1 = DeviceProxy(csp_subarray1)
-    # csp_subarray_1.SetDirectObsState(ObsState.IDLE)
-    # sdp_subarray_1 = DeviceProxy(sdp_subarray1)
-    # sdp_subarray_1.SetDirectObsState(ObsState.IDLE)
 
 @sync_assign_resources()
 def compose_sub(assign_res_input):
-    subarray_node = DeviceProxy(tmc_subarraynode1)
     resource(tmc_subarraynode1).assert_attribute("State").equals(
         "ON"
     )
@@ -128,11 +122,6 @@ def compose_sub(assign_res_input):
     )
     central_node = DeviceProxy(centralnode)
     central_node.AssignResources(assign_res_input)
-    # csp_subarray_1 = DeviceProxy(csp_subarray1)
-    # csp_subarray_1.SetDirectObsState(ObsState.IDLE)
-    # sdp_subarray_1 = DeviceProxy(sdp_subarray1)
-    # sdp_subarray_1.SetDirectObsState(ObsState.IDLE)
-
     LOGGER.info("Invoked AssignResources on CentralNode")
 
 
@@ -143,11 +132,6 @@ def configure_subarray(configure_input_str):
     )
     subarray_node = DeviceProxy(tmc_subarraynode1)
     subarray_node.Configure(configure_input_str)
-    # csp_subarray_1 = DeviceProxy(csp_subarray1)
-    # csp_subarray_1.SetDirectObsState(ObsState.READY)
-    # sdp_subarray_1 = DeviceProxy(sdp_subarray1)
-    # sdp_subarray_1.SetDirectObsState(ObsState.READY)
-
     LOGGER.info("Invoked Configure on SubarrayNode")
 
 
@@ -158,22 +142,13 @@ def scan(scan_input):
     )
     subarray_node = DeviceProxy(tmc_subarraynode1)
     subarray_node.Scan(scan_input)
-    # csp_subarray_1 = DeviceProxy(csp_subarray1)
-    # csp_subarray_1.SetDirectObsState(ObsState.READY)
-    # sdp_subarray_1 = DeviceProxy(sdp_subarray1)
-    # sdp_subarray_1.SetDirectObsState(ObsState.READY)
     LOGGER.info("Invoked Scan on SubarrayNode")
 
 
 @sync_abort()
 def invoke_abort():
-    # resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals("RESOURCING")
     subarray_node = DeviceProxy(tmc_subarraynode1)
     subarray_node.Abort()
-    # csp_subarray_1 = DeviceProxy(csp_subarray1)
-    # csp_subarray_1.SetDirectObsState(ObsState.ABORTED)
-    # sdp_subarray_1 = DeviceProxy(sdp_subarray1)
-    # sdp_subarray_1.SetDirectObsState(ObsState.ABORTED)
     LOGGER.info("Invoked Abort on SubarrayNode")
 
 
@@ -181,8 +156,4 @@ def invoke_abort():
 def invoke_restart():
     subarray_node = DeviceProxy(tmc_subarraynode1)
     subarray_node.Restart()
-    # csp_subarray_1 = DeviceProxy(csp_subarray1)
-    # csp_subarray_1.SetDirectObsState(ObsState.EMPTY)
-    # sdp_subarray_1 = DeviceProxy(sdp_subarray1)
-    # sdp_subarray_1.SetDirectObsState(ObsState.EMPTY)
     LOGGER.info("Invoked Restart on SubarrayNode")
