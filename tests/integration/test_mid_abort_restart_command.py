@@ -56,23 +56,13 @@ def test_abort_restart(json_factory):
         """Verify State transitions after TelescopeOff"""
         assert telescope_is_in_off_state()
         fixture["state"] = "TelescopeOff"
+
         LOGGER.info("Tests complete.")
 
     except:
-        LOGGER.info("Tearing down failed test, state = {}".format(fixture["state"]))
         if fixture["state"] == "AssignResources":
             tmc.invoke_releaseResources(release_json)
-            tmc.set_to_off()
-            raise Exception("unable to teardown subarray from being in AssignResources")
-        if fixture["state"] == "Abort":
-            tmc.invoke_restart()
-            tmc.set_to_off()
-            raise Exception("unable to teardown subarray from being in Abort")
-        if fixture["state"] == "Restart":
-            tmc.set_to_off()
         if fixture["state"] == "TelescopeOn":
             tmc.set_to_off()
-            raise Exception("unable to teardown subarray from being in TelescopeOn")
-        pytest.fail("unable to complete test without exceptions")
-
+        raise
 
