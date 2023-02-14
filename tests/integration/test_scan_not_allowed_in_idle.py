@@ -11,7 +11,6 @@ release_resources_file  = "command_ReleaseResources.json"
 
 @pytest.mark.SKA_mid
 def test_scan_not_allowed_in_idle():  
-
     try: 
         fixture = {}
         fixture["state"] = "Unknown"
@@ -50,7 +49,6 @@ def test_scan_not_allowed_in_idle():
         """Invoke ReleaseResources() command on TMC"""
         release_input_str = tmc.get_input_str(release_resources_file)
         tmc.invoke_releaseResources(release_input_str)
-
         fixture["state"] = "ReleaseResources"
         assert subarray_obs_state_is_empty()
 

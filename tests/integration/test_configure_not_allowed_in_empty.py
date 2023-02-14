@@ -24,7 +24,6 @@ def test_configure_not_allowed_in_empty():
     )
     configure_input = tmc.get_input_str(configure_resources_file)            
     subarray_node = DeviceProxy("ska_mid/tm_subarray_node/1")
-    
     with pytest.raises(Exception) as info:
         # When CONFIGURE command invoked
         subarray_node.Configure(configure_input)
