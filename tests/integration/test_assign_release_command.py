@@ -14,6 +14,7 @@ from tests.resources.test_support.telescope_controls import BaseTelescopeControl
 from tests.resources.test_support.constant import (
     DEVICE_HEALTH_STATE_OK_INFO
 )
+
 @pytest.mark.SKA_mid
 def test_assign_release(json_factory):
     """AssignResources and ReleaseResources is executed."""
@@ -81,7 +82,6 @@ def test_assign_release(json_factory):
         if fixture["state"] == "TelescopeOn":
             tmc.set_to_off()
         raise
-
 
 @pytest.mark.SKA_mid
 def test_health_check_mid():

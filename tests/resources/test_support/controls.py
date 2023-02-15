@@ -2,11 +2,8 @@
 from tests.resources.test_support.helpers import (
     resource
 )
-import os
-from tests.conftest import LOGGER, TELESCOPE_ENV
+from tests.conftest import LOGGER
 from tests.resources.test_support.constant import *
-
-# Tango device fqdns used across to create device proxy
 
 
 def telescope_is_in_standby_state():
@@ -171,3 +168,25 @@ def subarray_obs_state_is_ready():
         resource(tmc_subarraynode1).get("obsState"),
         resource(csp_subarray1).get("obsState"),
     ] == ["READY", "READY", "READY",]
+
+
+
+def subarray_obs_state_is_aborted():
+    LOGGER.info(
+        'resource(tmc_subarraynode1).get("obsState")'
+         + str(resource(tmc_subarraynode1).get("obsState"))
+    )
+    LOGGER.info(
+        'resource(sdp_subarray1).get("obsState")'
+         + str(resource(sdp_subarray1).get("obsState"))
+    )
+    LOGGER.info(
+        'resource(csp_subarray1).get("obsState")'
+         + str(resource(csp_subarray1).get("obsState"))
+    )
+
+    return [
+        resource(sdp_subarray1).get("obsState"),
+        resource(tmc_subarraynode1).get("obsState"),
+        resource(csp_subarray1).get("obsState"),
+    ] == ["ABORTED", "ABORTED", "ABORTED",]
