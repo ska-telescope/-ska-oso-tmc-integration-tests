@@ -10,7 +10,7 @@ from tests.resources.test_support.constant_low import (
     DEVICE_OBS_STATE_READY_INFO,
 )
 from tests.resources.test_support.low.telescope_controls_low import TelescopeControlLow
-
+import json
 @pytest.mark.SKA_low
 def test_scan_endscan_low(json_factory):
     """Scan and EndScan is executed."""

@@ -49,7 +49,7 @@ centralnode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-centralnode
-    tag: 0.4.0
+    tag: 0.4.2
     pullPolicy: IfNotPresent
 
 subarraynode:
@@ -70,14 +70,14 @@ cspmasterleafnode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-cspleafnodes
-    tag: 0.2.1
+    tag: 0.2.3
     pullPolicy: IfNotPresent
 
 cspsubarrayleafnode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-cspleafnodes
-    tag: 0.2.2
+    tag: 0.2.3
     pullPolicy: IfNotPresent
 
 resources:
