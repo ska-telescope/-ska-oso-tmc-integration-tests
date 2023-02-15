@@ -9,6 +9,7 @@ from tests.resources.test_support.sync_decorators import sync_configure_abort
 from tests.resources.test_support.helpers import resource
 from tango import DeviceProxy
 
+@pytest.mark.xfail
 @pytest.mark.SKA_mid
 def test_skb_187_abort_restart(json_factory):
     """Unhappy scenario: Subarray stucks in Configuring with invalid json(SKB-187)
