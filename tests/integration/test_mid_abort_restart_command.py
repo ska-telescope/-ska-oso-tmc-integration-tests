@@ -6,7 +6,6 @@ from tests.resources.test_support.controls import (telescope_is_in_standby_state
 import tests.resources.test_support.tmc_helpers as tmc
 from tests.conftest import LOGGER
 
-@pytest.mark.xfail
 @pytest.mark.SKA_mid
 def test_abort_restart(json_factory):
     """Abort and Restart is executed."""
