@@ -34,7 +34,7 @@ def test_abort_restart(json_factory):
         tmc.compose_sub(assign_json)
         LOGGER.info("AssignResources command is invoked successfully")
  
-        """Verify ObsState is Idle"""
+        """Verify ObsState is IDLE"""
         assert subarray_obs_state_is_idle()
         fixture["state"] ="AssignResources"
 
@@ -48,6 +48,7 @@ def test_abort_restart(json_factory):
         tmc.invoke_restart()
 
         fixture["state"] = "Restart"
+        """Verify ObsState is EMPTY"""
         assert subarray_obs_state_is_empty()
 
         """Invoke TelescopeOff() command on TMC"""
