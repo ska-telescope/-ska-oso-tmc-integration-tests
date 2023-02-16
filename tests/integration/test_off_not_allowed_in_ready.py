@@ -10,7 +10,7 @@ assign_resources_file = "command_AssignResources.json"
 release_resources_file  = "command_ReleaseResources.json"
 
 @pytest.mark.SKA_mid
-@pytest.mark.skip(reason="The test is xfailed as there is no exception raised for off command when called in idle state")
+@pytest.mark.skip(reason="The test is skipped as there is no exception raised for off command when called in idle state in current implementation")
 def test_off_not_allowed_in_idle():  
 
     # try: 
