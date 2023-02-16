@@ -7,7 +7,7 @@
       "0001"
     ]
   },
-  "sdp": {
+  "scs": {
     "interface": "https://schema.skao.int/ska-sdp-assignres/0.4",
     "execution_block": {
       "eb_id": "eb-mvp01-20200325-00001",
