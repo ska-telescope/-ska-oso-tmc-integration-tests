@@ -9,7 +9,7 @@ from tests.resources.test_support.constant import (
     tmc_subarraynode1, centralnode)
 
 
-@pytest.mark.aki
+@pytest.mark.akii
 @pytest.mark.SKA_mid
 def test_assign_invalid_json(json_factory):
     try:
@@ -73,7 +73,8 @@ def test_release_invalid_json(json_factory):
         """AssignResources and ReleaseResources is executed."""
 
         assign_json = json_factory("command_AssignResources")
-        release_json = json_factory("command_invalid_assign_release")
+        release_json = json_factory("command_ReleaseResources")
+        invalid_release_json = json_factory("command_invalid_assign_release")
         tmc.check_devices()
         fixture = {}
         fixture["state"] = "Unknown"
@@ -116,7 +117,7 @@ def test_release_invalid_json(json_factory):
         
         """Invoke ReleaseResources() command on TMC"""
         central_node = DeviceProxy(centralnode)
-        ret_code, message=central_node.ReleaseResources(release_json)
+        ret_code, message=central_node.ReleaseResources(invalid_release_json)
         #Assert with TaskStatus as REJECTED
         assert ret_code == 5
         LOGGER.info(message)
