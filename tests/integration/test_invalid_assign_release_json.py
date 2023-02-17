@@ -13,8 +13,7 @@ from tests.resources.test_support.constant import (
 @pytest.mark.SKA_mid
 def test_assign_invalid_json(json_factory):
     """AssignResources and ReleaseResources is executed."""
-    assign_json = json_factory("command_invalid_assign")
-    release_json = json_factory("command_ReleaseResources")
+    assign_json = json_factory("command_invalid_assign_release")
     tmc.check_devices()
     fixture = {}
     fixture["state"] = "Unknown"
@@ -108,13 +107,14 @@ def test_release_invalid_json(json_factory):
     fixture["state"] ="AssignResources"
     
     """Invoke ReleaseResources() command on TMC"""
-    ret_code, message=centralnode.ReleaseResources(release_json)
+    central_node = DeviceProxy(centralnode)
+    ret_code, message=central_node.ReleaseResources(release_json)
 
     assert ret_code == 5
     LOGGER.info(message)
 
     fixture["state"] = "ReleaseResources"
-    assert subarray_obs_state_is_empty()
+    assert subarray_obs_state_is_idle()
 
     """Invoke TelescopeOff() command on TMC"""
     tmc.set_to_off()
@@ -124,5 +124,3 @@ def test_release_invalid_json(json_factory):
     fixture["state"] = "TelescopeOff"
 
     LOGGER.info("Tests complete.")
-
-
