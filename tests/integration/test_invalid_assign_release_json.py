@@ -9,7 +9,6 @@ from tests.resources.test_support.constant import (
     tmc_subarraynode1, centralnode)
 
 
-@pytest.mark.akii
 @pytest.mark.SKA_mid
 def test_assign_invalid_json(json_factory):
     try:
@@ -66,7 +65,6 @@ def test_assign_invalid_json(json_factory):
             tmc.set_to_off()
         raise
 
-@pytest.mark.akii
 @pytest.mark.SKA_mid
 def test_release_invalid_json(json_factory):
     try:
