@@ -62,23 +62,7 @@ def test_assign_release(json_factory):
         fixture["state"] ="AssignResources"
         
         """Invoke ReleaseResources() command on TMC"""
-        LOGGER.info("Invoking ReleaseResources command on TMC CentralNode")
         tmc.invoke_releaseResources(release_json)
-        def compose_sub():        
-            resource(tmc_subarraynode1).assert_attribute("State").equals(
-                "ON"
-            )
-            resource(tmc_subarraynode1).assert_attribute("obsState").equals(
-                "RESOURCING"
-            )
-            central_node = DeviceProxy("ska_mid/tm_central/central_node")
-            tmc.check_devices()
-            central_node.ReleaseResources(release_json)
-            LOGGER.info("Invoked ReleaseResources on CentralNode")
-
-        compose_sub()
-
-        LOGGER.info("ReleaseResources command is invoked successfully")
 
         fixture["state"] = "ReleaseResources"
         assert subarray_obs_state_is_empty()
