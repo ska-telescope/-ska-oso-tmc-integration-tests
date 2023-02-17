@@ -6,10 +6,10 @@ import tests.resources.test_support.tmc_helpers as tmc
 from tests.conftest import LOGGER
 from tests.resources.test_support.sync_decorators import sync_assign_resources
 from tests.resources.test_support.helpers import resource, waiter
-from tango import DeviceProxy
+from tango import DeviceProxy, DevState
 from ska_control_model import HealthState
 from tests.resources.test_support.constant import (
-    csp_master, tmc_subarraynode1, centralnode, tmc_csp_subarray_leaf_node)
+    csp_master, tmc_subarraynode1, centralnode, tmc_csp_subarray_leaf_node, sdp_subarray1)
 from tests.resources.test_support.telescope_controls import BaseTelescopeControl
 from tests.resources.test_support.constant import (
     DEVICE_HEALTH_STATE_OK_INFO
@@ -20,6 +20,8 @@ from tests.resources.test_support.constant import (
 def test_assign_release(json_factory):
     """AssignResources and ReleaseResources is executed."""
     try:
+        sdp_subarray_1 = DeviceProxy(sdp_subarray1)
+        sdp_subarray_1.SetDirectState(DevState.FAULT)
         assign_json = json_factory("command_AssignResources")
         release_json = json_factory("command_ReleaseResources")
         tmc.check_devices()
