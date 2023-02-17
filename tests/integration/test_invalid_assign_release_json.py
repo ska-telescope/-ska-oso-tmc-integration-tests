@@ -5,12 +5,10 @@ from tests.conftest import LOGGER
 from tests.resources.test_support.helpers import resource, waiter
 from tango import DeviceProxy
 
-@pytest.mark.aki
 @pytest.mark.SKA_mid
 def test_assign_invalid_json(json_factory):
     """AssignResources and ReleaseResources is executed."""
-    assign_json = json_factory("command_invalid_assign")
-    release_json = json_factory("command_ReleaseResources")
+    assign_json = json_factory("command_invalid_assign_release")
     tmc.check_devices()
     fixture = {}
     fixture["state"] = "Unknown"
