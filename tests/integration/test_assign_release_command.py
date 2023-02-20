@@ -9,7 +9,9 @@ from tests.resources.test_support.helpers import resource, waiter
 from tango import DeviceProxy
 from ska_control_model import HealthState
 from tests.resources.test_support.constant import (
-    csp_master, tmc_subarraynode1, centralnode, tmc_csp_subarray_leaf_node)
+tmc_subarraynode1, 
+centralnode
+)
 from tests.resources.test_support.telescope_controls import BaseTelescopeControl
 from tests.resources.test_support.constant import (
     DEVICE_HEALTH_STATE_OK_INFO
