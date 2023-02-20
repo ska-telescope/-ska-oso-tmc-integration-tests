@@ -33,13 +33,13 @@ def test_assign_invalid_json(json_factory):
 
         """Invoke AssignResources() Command on TMC"""
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-        resource("ska_mid/tm_subarray_node/1").assert_attribute("State").equals(
+        resource( tmc_subarraynode1).assert_attribute("State").equals(
             "ON"
         )
-        resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals(
+        resource(tmc_subarraynode1).assert_attribute("obsState").equals(
             "EMPTY"
         )            
-        central_node = DeviceProxy("ska_mid/tm_central/central_node")
+        central_node = DeviceProxy(centralnode)
         tmc.check_devices()
         ret_code, message = central_node.AssignResources(assign_json)
 
