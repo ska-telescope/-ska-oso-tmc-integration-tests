@@ -12,7 +12,7 @@ from tests.resources.test_support.constant_low import (
 )
 from tests.resources.test_support.low.helpers import resource
 from tests.resources.test_support.constant_low import (
-    csp_master, tmc_subarraynode1, centralnode, tmc_csp_subarray_leaf_node)
+tmc_subarraynode1, centralnode)
 from tango import DeviceProxy
 from tests.resources.test_support.low.telescope_controls_low import TelescopeControlLow
 from ska_control_model import HealthState

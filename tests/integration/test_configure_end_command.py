@@ -5,6 +5,10 @@ from tests.conftest import LOGGER
 from tests.resources.test_support.sync_decorators import sync_assign_resources, sync_configure, sync_end
 from tests.resources.test_support.helpers import resource
 from tango import DeviceProxy
+from tests.resources.test_support.constant import (
+tmc_subarraynode1, 
+centralnode
+)
 
 
 assign_resources_file = "command_AssignResources.json"
@@ -35,14 +39,14 @@ def test_configure_end():
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
         @sync_assign_resources()
         def compose_sub():
-            resource("ska_mid/tm_subarray_node/1").assert_attribute("State").equals(
+            resource(tmc_subarraynode1).assert_attribute("State").equals(
                 "ON"
             )
-            resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals(
+            resource(tmc_subarraynode1).assert_attribute("obsState").equals(
                 "EMPTY"
             )
             assign_res_input = tmc.get_input_str(assign_resources_file)            
-            central_node = DeviceProxy("ska_mid/tm_central/central_node")
+            central_node = DeviceProxy(centralnode)
             central_node.AssignResources(assign_res_input)
             LOGGER.info("Invoked AssignResources on CentralNode")
 
@@ -57,7 +61,7 @@ def test_configure_end():
         LOGGER.info("Invoking Configure command on TMC CentralNode")
         @sync_configure()
         def configure_subarray():
-            resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals(
+            resource(tmc_subarraynode1).assert_attribute("obsState").equals(
                 "IDLE"
             )
             configure_input = tmc.get_input_str(configure_resources_file)            
@@ -76,10 +80,10 @@ def test_configure_end():
         LOGGER.info("Invoking End command on TMC SubarrayNode")
         @sync_end()
         def end():
-            resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals(
+            resource(tmc_subarraynode1).assert_attribute("obsState").equals(
                 "READY"
             )
-            subarray_node = DeviceProxy("ska_mid/tm_subarray_node/1")
+            subarray_node = DeviceProxy(tmc_subarraynode1)
             subarray_node.End()
             LOGGER.info("Invoked End on SubarrayNode")
 
