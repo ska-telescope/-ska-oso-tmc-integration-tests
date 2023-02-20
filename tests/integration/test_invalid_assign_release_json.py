@@ -47,8 +47,8 @@ def test_assign_invalid_json(json_factory):
         assert ret_code == 5
         LOGGER.info(message)
 
-        """Verify ObsState is Idle"""
-        assert telescope_is_in_on_state()
+        """Verify ObsState is EMPTY"""
+        assert subarray_obs_state_is_empty()
 
         # """Invoke TelescopeOff() command on TMC"""
         tmc.set_to_off()
