@@ -18,7 +18,7 @@ tag_description=
         a. Corrected the release version to deliver new Abort-Restart functionality for Tmc mid.
 
     **1.5 ska-tmc-mid - 0.7.0 - 0.7.1:
-        a. Corrected the release version to deliver new Abort-Restart functionality for Tmc mid.
+        a. Corrected the release version to deliver new Abort to be allowed  in  RESOURSING state for Tmc mid.
 
 
 release_notes=
