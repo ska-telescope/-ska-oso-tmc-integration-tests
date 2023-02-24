@@ -1,6 +1,7 @@
 import pytest
-from tests.resources.test_support.controls import (telescope_is_in_standby_state, 
-        telescope_is_in_on_state, telescope_is_in_off_state, 
+import json
+from tests.resources.test_support.controls import (telescope_is_in_standby_state,
+        telescope_is_in_on_state, telescope_is_in_off_state,
         subarray_obs_state_is_idle,
         subarray_obs_state_is_aborted, subarray_obs_state_is_empty)
 import tests.resources.test_support.tmc_helpers as tmc
@@ -35,9 +36,9 @@ def test_skb_187_abort_restart(json_factory):
 
         """Invoke AssignResources() Command on TMC"""
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-        tmc.compose_sub(assign_json)
+        tmc.compose_sub(json.dumps(assign_json))
         LOGGER.info("AssignResources command is invoked successfully")
- 
+
         """Verify ObsState is Idle"""
         assert subarray_obs_state_is_idle()
         fixture["state"] ="AssignResources"
@@ -54,7 +55,7 @@ def test_skb_187_abort_restart(json_factory):
             subarray_node.Configure("{}")
             LOGGER.info("Invoked Configure on SubarrayNode")
         configure_subarray()
-        
+
         # with invalid configure json, Tmc subarray stuck in Configuring
         resource("ska_mid/tm_subarray_node/1").assert_attribute("obsState").equals(
                 "CONFIGURING"
@@ -83,7 +84,7 @@ def test_skb_187_abort_restart(json_factory):
     except:
         LOGGER.info("Tearing down failed test, state = {}".format(fixture["state"]))
         if fixture["state"] == "AssignResources":
-            tmc.invoke_releaseResources(release_json)
+            tmc.invoke_releaseResources(json.dumps(release_json))
             raise Exception("unable to teardown subarray from being in AssignResources")
         if fixture["state"] == "Configure":
             tmc.invoke_abort()

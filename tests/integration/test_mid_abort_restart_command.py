@@ -1,6 +1,7 @@
 import pytest
-from tests.resources.test_support.controls import (telescope_is_in_standby_state, 
-        telescope_is_in_on_state, telescope_is_in_off_state, 
+import json
+from tests.resources.test_support.controls import (telescope_is_in_standby_state,
+        telescope_is_in_on_state, telescope_is_in_off_state,
         subarray_obs_state_is_idle,
         subarray_obs_state_is_aborted, subarray_obs_state_is_empty)
 import tests.resources.test_support.tmc_helpers as tmc
@@ -31,9 +32,9 @@ def test_abort_restart(json_factory):
 
         """Invoke AssignResources() Command on TMC"""
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-        tmc.compose_sub(assign_json)
+        tmc.compose_sub(json.dumps(assign_json))
         LOGGER.info("AssignResources command is invoked successfully")
- 
+
         """Verify ObsState is IDLE"""
         assert subarray_obs_state_is_idle()
         fixture["state"] ="AssignResources"
@@ -62,7 +63,7 @@ def test_abort_restart(json_factory):
 
     except:
         if fixture["state"] == "AssignResources":
-            tmc.invoke_releaseResources(release_json)
+            tmc.invoke_releaseResources(json.dumps(release_json))
         if fixture["state"] == "TelescopeOn":
             tmc.set_to_off()
         raise

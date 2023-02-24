@@ -1,4 +1,5 @@
 import pytest
+import json
 from tests.resources.test_support.controls import telescope_is_in_standby_state, telescope_is_in_on_state, telescope_is_in_off_state, subarray_obs_state_is_empty, subarray_obs_state_is_idle
 import tests.resources.test_support.tmc_helpers as tmc
 from tests.conftest import LOGGER
@@ -38,10 +39,10 @@ def test_assign_invalid_json(json_factory):
         )
         resource(tmc_subarraynode1).assert_attribute("obsState").equals(
             "EMPTY"
-        )            
+        )
         central_node = DeviceProxy(centralnode)
         tmc.check_devices()
-        ret_code, message = central_node.AssignResources(assign_json)
+        ret_code, message = central_node.AssignResources(json.dumps(assign_json))
 
         #Assert with TaskStatus as REJECTED
         assert ret_code == 5
@@ -102,7 +103,7 @@ def test_release_invalid_json(json_factory):
             )
             central_node = DeviceProxy(centralnode)
             tmc.check_devices()
-            central_node.AssignResources(assign_json)
+            central_node.AssignResources(json.dumps(assign_json))
             LOGGER.info("Invoked AssignResources on CentralNode")
 
         compose_sub()
@@ -112,10 +113,10 @@ def test_release_invalid_json(json_factory):
         """Verify ObsState is Idle"""
         assert subarray_obs_state_is_idle()
         fixture["state"] ="AssignResources"
-        
+
         """Invoke ReleaseResources() command on TMC"""
         central_node = DeviceProxy(centralnode)
-        ret_code, message=central_node.ReleaseResources(invalid_release_json)
+        ret_code, message=central_node.ReleaseResources(json.dumps(invalid_release_json))
         #Assert with TaskStatus as REJECTED
         assert ret_code == 5
         LOGGER.info(message)
@@ -124,7 +125,7 @@ def test_release_invalid_json(json_factory):
         assert subarray_obs_state_is_idle()
         #Invoke release resources
         """Invoke ReleaseResources() command on TMC"""
-        tmc.invoke_releaseResources(release_json)
+        tmc.invoke_releaseResources(json.dumps(release_json))
 
         fixture["state"] = "ReleaseResources"
         assert subarray_obs_state_is_empty()
@@ -140,7 +141,7 @@ def test_release_invalid_json(json_factory):
 
     except:
         if fixture["state"] == "AssignResources":
-            tmc.invoke_releaseResources(release_json)
+            tmc.invoke_releaseResources(json.dumps(release_json))
         if fixture["state"] == "TelescopeOn":
             tmc.set_to_off()
         raise
