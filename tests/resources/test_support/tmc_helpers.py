@@ -8,11 +8,11 @@ from tests.resources.test_support.sync_decorators import (
 )
 from tango import DeviceProxy, DevState
 from tests.resources.test_support.controls import (
-    centralnode, 
-    csp_subarray1, 
-    sdp_subarray1, 
-    dish_master1, 
-    tmc_subarraynode1, 
+    centralnode,
+    csp_subarray1,
+    sdp_subarray1,
+    dish_master1,
+    tmc_subarraynode1,
     tmc_csp_master_leaf_node,
     tmc_sdp_master_leaf_node,
     tmc_csp_subarray_leaf_node,

@@ -1,4 +1,5 @@
 import pytest
+import json
 from tests.resources.test_support.controls import telescope_is_in_standby_state, telescope_is_in_on_state, telescope_is_in_off_state, subarray_obs_state_is_empty, subarray_obs_state_is_idle, subarray_obs_state_is_ready
 import tests.resources.test_support.tmc_helpers as tmc
 from tests.conftest import LOGGER
@@ -6,14 +7,14 @@ from tests.resources.test_support.sync_decorators import sync_assign_resources, 
 from tests.resources.test_support.helpers import resource
 from tango import DeviceProxy
 from tests.resources.test_support.constant import (
-tmc_subarraynode1, 
+tmc_subarraynode1,
 centralnode
 )
 
 
 assign_resources_file = "command_AssignResources.json"
 release_resources_file  = "command_ReleaseResources.json"
-configure_resources_file = "command_Configure.json" 
+configure_resources_file = "command_Configure.json"
 
 @pytest.mark.SKA_mid
 def test_configure_end():
@@ -34,7 +35,7 @@ def test_configure_end():
         """Verify State transitions after TelescopeOn"""
         assert telescope_is_in_on_state()
         fixture["state"] = "TelescopeOn"
-    
+
         """Invoke AssignResources() Command on TMC"""
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
         @sync_assign_resources()
@@ -45,9 +46,9 @@ def test_configure_end():
             resource(tmc_subarraynode1).assert_attribute("obsState").equals(
                 "EMPTY"
             )
-            assign_res_input = tmc.get_input_str(assign_resources_file)            
+            assign_res_input = tmc.get_input_str(assign_resources_file)
             central_node = DeviceProxy(centralnode)
-            central_node.AssignResources(assign_res_input)
+            central_node.AssignResources(json.dumps(assign_res_input))
             LOGGER.info("Invoked AssignResources on CentralNode")
 
         compose_sub()
@@ -64,7 +65,7 @@ def test_configure_end():
             resource(tmc_subarraynode1).assert_attribute("obsState").equals(
                 "IDLE"
             )
-            configure_input = tmc.get_input_str(configure_resources_file)            
+            configure_input = tmc.get_input_str(configure_resources_file)
             subarray_node = DeviceProxy("ska_mid/tm_subarray_node/1")
             subarray_node.Configure(configure_input)
             LOGGER.info("Invoked Configure on SubarrayNode")
@@ -96,9 +97,9 @@ def test_configure_end():
 
 
         release_input_str = tmc.get_input_str(release_resources_file)
-        
+
         """Invoke ReleaseResources() command on TMC"""
-        tmc.invoke_releaseResources(release_input_str)
+        tmc.invoke_releaseResources(json.dumps(release_input_str))
 
         fixture["state"] = "ReleaseResources"
         assert subarray_obs_state_is_empty()
@@ -116,7 +117,7 @@ def test_configure_end():
         LOGGER.info("Exception occurred in the test for state = {}".format(fixture["state"]))
         LOGGER.info("Tearing down...")
         if fixture["state"] == "AssignResources":
-            tmc.invoke_releaseResources(release_input_str)
+            tmc.invoke_releaseResources(json.dumps(release_input_str))
         if fixture["state"] == "TelescopeOn":
             tmc.set_to_off()
         raise

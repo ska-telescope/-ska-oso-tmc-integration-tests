@@ -9,7 +9,7 @@ from tests.resources.test_support.helpers import resource, waiter
 from tango import DeviceProxy
 from ska_control_model import HealthState
 from tests.resources.test_support.constant import (
-tmc_subarraynode1, 
+tmc_subarraynode1,
 centralnode
 )
 from tests.resources.test_support.telescope_controls import BaseTelescopeControl
@@ -52,19 +52,19 @@ def test_assign_release(json_factory):
             )
             central_node = DeviceProxy(centralnode)
             tmc.check_devices()
-            central_node.AssignResources(assign_json)
+            central_node.AssignResources(json.dumps(assign_json))
             LOGGER.info("Invoked AssignResources on CentralNode")
 
         compose_sub()
 
         LOGGER.info("AssignResources command is invoked successfully")
- 
+
         """Verify ObsState is Idle"""
         assert subarray_obs_state_is_idle()
         fixture["state"] ="AssignResources"
-        
+
         """Invoke ReleaseResources() command on TMC"""
-        tmc.invoke_releaseResources(release_json)
+        tmc.invoke_releaseResources(json.dumps(release_json))
 
         fixture["state"] = "ReleaseResources"
         assert subarray_obs_state_is_empty()
