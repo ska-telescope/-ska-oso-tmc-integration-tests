@@ -1,39 +1,28 @@
-release=0.7.1
-tag=0.7.1
+release=0.7.2
+tag=0.7.2
 tag_description=
 **Charts:**
-**1. ska-tmc-integration 0.7.0 - 0.7.1:**
+**1. ska-tmc-integration 0.7.1 - 0.7.2:**
 
     **1.1 ska-tmc-low - 0.5.3 - 0.5.4:
 
        a.  Fix HealthState=unknown issue on initialisation of CentralNode and CspLeafnodes
 
-    **1.2 ska-tmc-mid - 0.6.4 - 0.6.5:
-        a. Fix HealthState=unknown issue on initialisation of CentralNode and CspLeafnodes
-   
-    **1.3 ska-tmc-mid - 0.6.5 - 0.6.6:
-        a. Implement Abort and Restart functionality on mid Tmc SubarrayNode and CspSubarrayLeafNode
-    
-    **1.4 ska-tmc-mid - 0.6.6 - 0.7.1:
-        a. Corrected the release version to deliver new Abort-Restart functionality for Tmc mid.
+    **1.2 ska-tmc-mid - 0.7.1 - 0.8.0:
+        a. Utilised CDM for AssignResources and ReleaseResources schema validation on CentralNode.
+        b. Utilised CDM for Configure and Scan schema validation on SubarrayNode.
 
-    **1.5 ska-tmc-mid - 0.7.0 - 0.7.1:
-        a. Corrected the release version to deliver new Abort to be allowed  in  RESOURSING state for Tmc mid.
+
 
 
 release_notes=
 **Charts:**
-**1. ska-tmc-integration 0.7.0 - 0.7.1:**
+**1. ska-tmc-integration 0.7.1 - 0.7.2:**
 
     **1.1 ska-tmc-low - 0.5.3 - 0.5.4:
        a.  Fix HealthState=unknown issue on initialisation of CentralNode and CspLeafnodes
 
 
-    **1.2 ska-tmc-mid - 0.6.4 - 0.6.5:
-        a. Fix HealthState=unknown issue on initialisation of CentralNode and CspLeafnodes
-
-    **1.3 ska-tmc-mid - 0.6.5 - 0.6.6:
-        a. Implement Abort and Restart functionality on mid Tmc SubarrayNode and CspSubarrayLeafNode
-
-    **1.4 ska-tmc-mid - 0.7.0 - 0.7.1:
-        a. Corrected the release version to deliver new Abort-Restart functionality for Tmc mid.
+    **1.2 ska-tmc-mid - 0.7.1 - 0.8.0:
+        a. Utilised CDM for AssignResources and ReleaseResources schema validation on CentralNode.
+        b. Utilised CDM for Configure and Scan schema validation on SubarrayNode.
