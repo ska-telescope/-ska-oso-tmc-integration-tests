@@ -42,7 +42,7 @@ def test_scan_not_allowed_in_idle():
     subarray_node = DeviceProxy("ska_mid/tm_subarray_node/1")
     with pytest.raises(Exception) as info:
     # When SCAN command invoked
-        subarray_node.Scan(json.dumps(scan_input))
+        subarray_node.Scan(scan_input)
     # Then it fails with Command not Allowed error
     assert "Scan command not permitted in observation state IDLE" in str(info.value)
     # And TMC remains in IDLE observation state

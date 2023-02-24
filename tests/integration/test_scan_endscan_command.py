@@ -41,7 +41,7 @@ def test_scan_endscan():
         """Invoke Configure() Command on TMC"""
         LOGGER.info("Invoking Configure command on TMC CentralNode")
         configure_input_str = tmc.get_input_str(configure_resources_file)
-        tmc.configure_subarray(json.dumps(configure_input_str))
+        tmc.configure_subarray(configure_input_str)
 
         """Verify ObsState is READY"""
         assert subarray_obs_state_is_ready()
@@ -50,7 +50,7 @@ def test_scan_endscan():
         """Invoke Scan() Command on TMC"""
         LOGGER.info("Invoking Scan command on TMC CentralNode")
         scan_input = tmc.get_input_str(scan_file)
-        tmc.scan(json.dumps(scan_input))
+        tmc.scan(scan_input)
 
         """Verify ObsState is READY"""
         assert subarray_obs_state_is_ready()
