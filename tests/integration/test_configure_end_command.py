@@ -67,7 +67,7 @@ def test_configure_end():
             )
             configure_input = tmc.get_input_str(configure_resources_file)
             subarray_node = DeviceProxy("ska_mid/tm_subarray_node/1")
-            subarray_node.Configure(json.dumps(configure_input))
+            subarray_node.Configure(configure_input)
             LOGGER.info("Invoked Configure on SubarrayNode")
 
         configure_subarray()
