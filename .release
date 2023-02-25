@@ -1,5 +1,5 @@
-release=0.7.2
-tag=0.7.2
+release=0.7.3
+tag=0.7.3
 tag_description=
 **Charts:**
 **1. ska-tmc-integration 0.7.1 - 0.7.2:**
@@ -8,9 +8,8 @@ tag_description=
 
        a.  Fix HealthState=unknown issue on initialisation of CentralNode and CspLeafnodes
 
-    **1.2 ska-tmc-mid - 0.7.1 - 0.8.0:
-        a. Utilised CDM for AssignResources and ReleaseResources schema validation on CentralNode.
-        b. Utilised CDM for Configure and Scan schema validation on SubarrayNode.
+    **1.2 ska-tmc-mid - 0.8.0 - 0.8.1:
+        a. Mid SubarrayNode aggregation bug fix for Abort-Restart commands.
 
 
 
@@ -23,6 +22,5 @@ release_notes=
        a.  Fix HealthState=unknown issue on initialisation of CentralNode and CspLeafnodes
 
 
-    **1.2 ska-tmc-mid - 0.7.1 - 0.8.0:
-        a. Utilised CDM for AssignResources and ReleaseResources schema validation on CentralNode.
-        b. Utilised CDM for Configure and Scan schema validation on SubarrayNode.
+    **1.2 ska-tmc-mid - 0.8.0 - 0.8.1:
+        a. Mid SubarrayNode aggregation bug fix for Abort-Restart commands.
