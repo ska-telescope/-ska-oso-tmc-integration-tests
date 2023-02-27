@@ -37,7 +37,7 @@ def test_skb_187_abort_restart(json_factory):
 
         """Invoke AssignResources() Command on TMC"""
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-        tmc.compose_sub(json.dumps(assign_json))
+        tmc.compose_sub(assign_json)
         LOGGER.info("AssignResources command is invoked successfully")
 
         """Verify ObsState is Idle"""
@@ -85,7 +85,7 @@ def test_skb_187_abort_restart(json_factory):
     except:
         LOGGER.info("Tearing down failed test, state = {}".format(fixture["state"]))
         if fixture["state"] == "AssignResources":
-            tmc.invoke_releaseResources(json.dumps(release_json))
+            tmc.invoke_releaseResources(release_json)
             raise Exception("unable to teardown subarray from being in AssignResources")
         if fixture["state"] == "Configure":
             tmc.invoke_abort()

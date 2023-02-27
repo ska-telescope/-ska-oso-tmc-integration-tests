@@ -32,7 +32,7 @@ def test_scan_not_allowed_in_idle():
     """Invoke AssignResources() Command on TMC"""
     LOGGER.info("Invoking AssignResources command on TMC CentralNode")
     assign_res_input = tmc.get_input_str(assign_resources_file)
-    tmc.compose_sub(json.dumps(assign_res_input))
+    tmc.compose_sub(assign_res_input)
 
     """Verify ObsState is Idle"""
     # Given a Subarray in IDLE observation state
@@ -49,7 +49,7 @@ def test_scan_not_allowed_in_idle():
     assert subarray_obs_state_is_idle()
     """Invoke ReleaseResources() command on TMC"""
     release_input_str = tmc.get_input_str(release_resources_file)
-    tmc.invoke_releaseResources(json.dumps(release_input_str))
+    tmc.invoke_releaseResources(release_input_str)
     fixture["state"] = "ReleaseResources"
     assert subarray_obs_state_is_empty()
 
