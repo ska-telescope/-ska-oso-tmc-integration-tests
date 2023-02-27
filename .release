@@ -1,28 +1,26 @@
-release=0.7.2
-tag=0.7.2
+release=0.7.3
+tag=0.7.3
 tag_description=
 **Charts:**
-**1. ska-tmc-integration 0.7.1 - 0.7.2:**
+**1. ska-tmc-integration 0.7.2 - 0.7.3:**
 
     **1.1 ska-tmc-low - 0.5.3 - 0.5.4:
 
        a.  Fix HealthState=unknown issue on initialisation of CentralNode and CspLeafnodes
 
-    **1.2 ska-tmc-mid - 0.7.1 - 0.8.0:
-        a. Utilised CDM for AssignResources and ReleaseResources schema validation on CentralNode.
-        b. Utilised CDM for Configure and Scan schema validation on SubarrayNode.
+    **1.2 ska-tmc-mid - 0.8.0 - 0.8.1:
+        a. Intermediate release for updates in CDM implementation on CentralNode.
 
 
 
 
 release_notes=
 **Charts:**
-**1. ska-tmc-integration 0.7.1 - 0.7.2:**
+**1. ska-tmc-integration 0.7.2 - 0.7.3:**
 
     **1.1 ska-tmc-low - 0.5.3 - 0.5.4:
        a.  Fix HealthState=unknown issue on initialisation of CentralNode and CspLeafnodes
 
 
-    **1.2 ska-tmc-mid - 0.7.1 - 0.8.0:
-        a. Utilised CDM for AssignResources and ReleaseResources schema validation on CentralNode.
-        b. Utilised CDM for Configure and Scan schema validation on SubarrayNode.
+    **1.2 ska-tmc-mid - 0.8.0 - 0.8.1:
+        a. Intermediate release for updates in CDM implementation on CentralNode.
