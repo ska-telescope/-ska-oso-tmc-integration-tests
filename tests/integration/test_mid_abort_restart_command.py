@@ -32,7 +32,7 @@ def test_abort_restart(json_factory):
 
         """Invoke AssignResources() Command on TMC"""
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-        tmc.compose_sub(json.dumps(assign_json))
+        tmc.compose_sub(assign_json)
         LOGGER.info("AssignResources command is invoked successfully")
 
         """Verify ObsState is IDLE"""
@@ -63,7 +63,7 @@ def test_abort_restart(json_factory):
 
     except:
         if fixture["state"] == "AssignResources":
-            tmc.invoke_releaseResources(json.dumps(release_json))
+            tmc.invoke_releaseResources(release_json)
         if fixture["state"] == "TelescopeOn":
             tmc.set_to_off()
         raise
