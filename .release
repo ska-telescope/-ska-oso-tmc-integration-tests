@@ -1,28 +1,26 @@
-release=0.7.5
-tag=0.7.5
+release=0.7.6
+tag=0.7.6
 tag_description=
 **Charts:**
-**1. ska-tmc-integration 0.7.1 - 0.7.2:**
+**1. ska-tmc-integration 0.7.5 - 0.7.6:**
 
     **1.1 ska-tmc-low - 0.5.3 - 0.5.4:
 
        a.  Fix HealthState=unknown issue on initialisation of CentralNode and CspLeafnodes
 
-    **1.2 ska-tmc-mid - 0.8.2 - 0.8.3:
-        a. Mid SubarrayNode aggregation bug fix for Abort-Restart commands.
-        b. Fix cdm validation error on CentralNode.
+    **1.2 ska-tmc-mid - 0.8.3 - 0.8.4:
+        a. Updated cenralnode to make transaction_id optional in schema validation.
 
 
 
 
 release_notes=
 **Charts:**
-**1. ska-tmc-integration 0.7.1 - 0.7.2:**
+**1. ska-tmc-integration 0.7.5 - 0.7.6:**
 
     **1.1 ska-tmc-low - 0.5.3 - 0.5.4:
        a.  Fix HealthState=unknown issue on initialisation of CentralNode and CspLeafnodes
 
 
-    **1.2 ska-tmc-mid - 0.8.2 - 0.8.3:
-        a. Mid SubarrayNode aggregation bug fix for Abort-Restart commands.
-        b. Fix cdm validation error on CentralNode.
+    **1.2 ska-tmc-mid - 0.8.3 - 0.8.4:
+        a. Updated cenralnode to make transaction_id optional in schema validation.
