@@ -1,26 +1,26 @@
-release=0.7.6
-tag=0.7.6
+release=0.7.7
+tag=0.7.7
 tag_description=
 **Charts:**
-**1. ska-tmc-integration 0.7.5 - 0.7.6:**
+**1. ska-tmc-integration 0.7.6 - 0.7.7:**
 
     **1.1 ska-tmc-low - 0.5.3 - 0.5.4:
 
        a.  Fix HealthState=unknown issue on initialisation of CentralNode and CspLeafnodes
 
-    **1.2 ska-tmc-mid - 0.8.3 - 0.8.4:
-        a. Updated cenralnode to make transaction_id optional in schema validation.
+    **1.2 ska-tmc-mid - 0.8.4 - 0.8.5:
+        a. Updated cspsubarrayleafnode to accept abort command in configuring observation state.
 
 
 
 
 release_notes=
 **Charts:**
-**1. ska-tmc-integration 0.7.5 - 0.7.6:**
+**1. ska-tmc-integration 0.7.6 - 0.7.7:**
 
     **1.1 ska-tmc-low - 0.5.3 - 0.5.4:
+
        a.  Fix HealthState=unknown issue on initialisation of CentralNode and CspLeafnodes
 
-
-    **1.2 ska-tmc-mid - 0.8.3 - 0.8.4:
-        a. Updated cenralnode to make transaction_id optional in schema validation.
+    **1.2 ska-tmc-mid - 0.8.4 - 0.8.5:
+        a. Updated cspsubarrayleafnode to accept abort command in configuring observation state.
