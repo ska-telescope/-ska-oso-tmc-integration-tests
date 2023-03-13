@@ -52,7 +52,7 @@ def test_assign_release(json_factory):
             )
             central_node = DeviceProxy(centralnode)
             tmc.check_devices()
-            central_node.AssignResources(json.dumps(assign_json))
+            central_node.AssignResources(assign_json)
             LOGGER.info("Invoked AssignResources on CentralNode")
 
         compose_sub()
@@ -64,7 +64,7 @@ def test_assign_release(json_factory):
         fixture["state"] ="AssignResources"
 
         """Invoke ReleaseResources() command on TMC"""
-        tmc.invoke_releaseResources(json.dumps(release_json))
+        tmc.invoke_releaseResources(release_json)
 
         fixture["state"] = "ReleaseResources"
         assert subarray_obs_state_is_empty()

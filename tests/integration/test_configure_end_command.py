@@ -48,7 +48,7 @@ def test_configure_end():
             )
             assign_res_input = tmc.get_input_str(assign_resources_file)
             central_node = DeviceProxy(centralnode)
-            central_node.AssignResources(json.dumps(assign_res_input))
+            central_node.AssignResources(assign_res_input)
             LOGGER.info("Invoked AssignResources on CentralNode")
 
         compose_sub()
@@ -99,7 +99,7 @@ def test_configure_end():
         release_input_str = tmc.get_input_str(release_resources_file)
 
         """Invoke ReleaseResources() command on TMC"""
-        tmc.invoke_releaseResources(json.dumps(release_input_str))
+        tmc.invoke_releaseResources(release_input_str)
 
         fixture["state"] = "ReleaseResources"
         assert subarray_obs_state_is_empty()
@@ -117,7 +117,7 @@ def test_configure_end():
         LOGGER.info("Exception occurred in the test for state = {}".format(fixture["state"]))
         LOGGER.info("Tearing down...")
         if fixture["state"] == "AssignResources":
-            tmc.invoke_releaseResources(json.dumps(release_input_str))
+            tmc.invoke_releaseResources(release_input_str)
         if fixture["state"] == "TelescopeOn":
             tmc.set_to_off()
         raise
