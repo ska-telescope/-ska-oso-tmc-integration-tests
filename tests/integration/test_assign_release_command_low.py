@@ -1,7 +1,7 @@
 import pytest
 import tests.resources.test_support.low.tmc_helpers as tmc
 from tests.conftest import LOGGER
-from tests.resources.test_support.low.sync_decorators import sync_assign_resources
+from tests.resources.test_support.sync_decorators import sync_assign_resources
 from tests.resources.test_support.constant_low import (
     DEVICE_STATE_STANDBY_INFO,
     DEVICE_STATE_ON_INFO,
