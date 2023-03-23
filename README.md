@@ -14,3 +14,21 @@ The documentation for this project, including how to get started with it,can be 
 * [CSP Leaf Node documentation](https://developer.skatelescope.org/projects/ska-tmc-cspleafnodes/en/latest/index.html "SKA Developer Portal: CSP Leaf Nodes documentation")
 * [SDP Leaf Node documentation](https://developer.skatelescope.org/projects/ska-tmc-sdpleafnodes/en/latest/index.html "SKA Developer Portal: SDP Leaf Nodes documentation")
 * [Dish Leaf Node documentation](https://developer.skatelescope.org/projects/ska-tmc-dishleafnode/en/latest/index.html "SKA Developer Portal: Dish Leaf Node documentation")
+
+TMC Components versions
+-----------------------
+WIP
+
+TMC Mid
+=======
+|Component| OCI Name | Version|
+| :-- | :-- | :-- |
+| Central Node| ska-tmc-centralnode |0.4.5|
+| Subarray Node| ska-tmc-subarraynode |0.1.2|
+
+TMC Low
+=======
+|Component| OCI Name | Version|
+| :-- | :-- | :-- |
+| Central Node| ska-tmc-centralnode |0.4.8|
+| Subarray Node| ska-tmc-subarraynode |0.2.0|
