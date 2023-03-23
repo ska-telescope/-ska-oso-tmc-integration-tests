@@ -2,8 +2,8 @@
 
 This project is used to integrate and release the TMC (Telescope Monitoring and Control) subsystem of the SKA telescopes. It includes both TMC Low and TMC Mid.
 
-Documentation
--------------
+## Documentation
+
 TODO: Fix the documentation link
 [![Documentation Status](https://readthedocs.org/projects/ska-telescope-ska-tmc-integration/badge/?version=latest)](https://developer.skatelescope.org/projects/ska-tmc-integration/en/master/?badge=latest)
 
@@ -15,19 +15,19 @@ The documentation for this project, including how to get started with it,can be 
 * [SDP Leaf Node documentation](https://developer.skatelescope.org/projects/ska-tmc-sdpleafnodes/en/latest/index.html "SKA Developer Portal: SDP Leaf Nodes documentation")
 * [Dish Leaf Node documentation](https://developer.skatelescope.org/projects/ska-tmc-dishleafnode/en/latest/index.html "SKA Developer Portal: Dish Leaf Node documentation")
 
-TMC Components versions
------------------------
+## TMC Components versions
+
 WIP
 
-TMC Mid
-=======
+### TMC Mid
+
 |Component| OCI Name | Version|
 | :-- | :-- | :-- |
 | Central Node| ska-tmc-centralnode |0.4.5|
 | Subarray Node| ska-tmc-subarraynode |0.1.2|
 
-TMC Low
-=======
+### TMC Low
+
 |Component| OCI Name | Version|
 | :-- | :-- | :-- |
 | Central Node| ska-tmc-centralnode |0.4.8|
