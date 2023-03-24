@@ -253,94 +253,104 @@ def watch(resource, implementation="polling"):
 
 # this is a composite type of waiting based on a set of predefined pre conditions expected to be true
 class Waiter:
-    def __init__(self):
+    def __init__(self, **kwargs):
+        """
+        Args:
+            kwargs (dict): device names
+        """
         self.waits = []
         self.logs = ""
         self.error_logs = ""
         self.timed_out = False
+        self.sdp_subarray1 = kwargs.get("sdp_subarray")
+        self.sdp_master = kwargs.get("sdp_master")
+        self.csp_subarray1 = kwargs.get("csp_subarray")
+        self.csp_master = kwargs.get("csp_master")
+        self.tmc_subarraynode1 = kwargs.get("tmc_subarraynode1")
+        
 
     def clear_watches(self):
         self.waits = []
 
     def set_wait_for_going_to_off(self):
         self.waits.append(
-            watch(resource(sdp_subarray1)).to_become(
+            watch(resource(self.sdp_subarray1)).to_become(
                 "State", changed_to="OFF"
             )
         )
         self.waits.append(
-            watch(resource(sdp_master)).to_become(
+            watch(resource(self.sdp_master)).to_become(
                 "State", changed_to="OFF"
             )
         )
         self.waits.append(
-            watch(resource(csp_subarray1)).to_become(
+            watch(resource(self.csp_subarray1)).to_become(
                 "State", changed_to="OFF"
             )
         )
         self.waits.append(
-            watch(resource(csp_master)).to_become(
+            watch(resource(self.csp_master)).to_become(
                 "State", changed_to="OFF"
             )
         )
     def set_wait_for_going_to_standby(self):
         self.waits.append(
-            watch(resource(sdp_subarray1)).to_become(
+            watch(resource(self.sdp_subarray1)).to_become(
                 "State", changed_to="OFF"
             )
         )
         self.waits.append(
-            watch(resource(sdp_master)).to_become(
+            watch(resource(self.sdp_master)).to_become(
                 "State", changed_to="STANDBY"
             )
         )
         self.waits.append(
-            watch(resource(csp_subarray1)).to_become(
+            watch(resource(self.csp_subarray1)).to_become(
                 "State", changed_to="OFF"
             )
         )
         self.waits.append(
-            watch(resource(csp_master)).to_become(
+            watch(resource(self.csp_master)).to_become(
                 "State", changed_to="STANDBY"
             )
         )
 
     def set_wait_for_telescope_on(self):
         self.waits.append(
-            watch(resource(sdp_master)).to_become("State", changed_to="ON")
+            watch(resource(self.sdp_master)).to_become("State", changed_to="ON")
         )
         self.waits.append(
-            watch(resource(sdp_subarray1)).to_become(
+            watch(resource(self.sdp_subarray1)).to_become(
                 "State", changed_to="ON"
             )
         )
         self.waits.append(
-            watch(resource(csp_master)).to_become("State", changed_to="ON")
+            watch(resource(self.csp_master)).to_become("State", changed_to="ON")
         )
         self.waits.append(
-            watch(resource(csp_subarray1)).to_become(
+            watch(resource(self.csp_subarray1)).to_become(
                 "State", changed_to="ON"
             )
         )
 
     def set_wait_for_going_to_empty(self):
         self.waits.append(
-            watch(resource(tmc_subarraynode1)).for_any_change_on(
+            watch(resource(self.tmc_subarraynode1)).for_any_change_on(
                 "assignedResources"
             )
         )
         self.waits.append(
-            watch(resource(sdp_subarray1)).to_become(
+            watch(resource(self.sdp_subarray1)).to_become(
                 "obsState", changed_to="EMPTY"
             )
         )
         self.waits.append(
-            watch(resource(csp_subarray1)).to_become(
+            watch(resource(self.csp_subarray1)).to_become(
                 "obsState", changed_to="EMPTY"
             )
         )
         self.waits.append(
-            watch(resource(tmc_subarraynode1)).to_become(
+            watch(resource(self.tmc_subarraynode1)).to_become(
                 "obsState", changed_to="EMPTY"
             )
         )

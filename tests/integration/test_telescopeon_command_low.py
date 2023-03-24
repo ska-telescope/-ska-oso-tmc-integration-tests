@@ -6,6 +6,8 @@ from tests.resources.test_support.constant_low import (
     DEVICE_STATE_OFF_INFO,
     centralnode,
     csp_subarray1,
+    csp_master,
+    sdp_master,
     sdp_subarray1,
     tmc_subarraynode1,
     tmc_csp_master_leaf_node,
@@ -43,7 +45,14 @@ def test_telescope_on():
 
         """Invoke TelescopeOn() command on TMC"""
         LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
-        tmc_helper.set_to_on([csp_subarray1, sdp_subarray1])
+        
+        tmc_helper.set_to_on([csp_subarray1, sdp_subarray1],
+                             sdp_subarray=sdp_subarray1,
+                             csp_subarray=csp_subarray1,
+                             csp_master=csp_master,
+                             tmc_subarraynode=tmc_subarraynode1,
+                             sdp_master=sdp_master
+                             )
         LOGGER.info("TelescopeOn command is invoked successfully")
 
         """Verify State transitions after TelescopeOn"""
@@ -51,7 +60,13 @@ def test_telescope_on():
         fixture["state"] = "TelescopeOn"
 
         """Invoke TelescopeOff() command on TMC"""
-        tmc_helper.set_to_off([csp_subarray1, sdp_subarray1])
+        tmc_helper.set_to_off([csp_subarray1, sdp_subarray1],
+                              sdp_subarray=sdp_subarray1,
+                              csp_subarray=csp_subarray1,
+                              csp_master=csp_master,
+                              tmc_subarraynode=tmc_subarraynode1,
+                              sdp_master=sdp_master
+                             )
 
         """Verify State transitions after TelescopeOff"""
         assert telescope_control.is_in_valid_state(DEVICE_STATE_OFF_INFO, "State")

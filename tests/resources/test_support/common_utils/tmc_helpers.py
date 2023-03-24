@@ -20,7 +20,7 @@ class TmcHelper(object):
             assert 0 < device_proxy.ping()
     
     @sync_telescope_on
-    def set_to_on(self, device_list):
+    def set_to_on(self, device_list, **kwargs):
         central_node = DeviceProxy(self.centralnode)
         LOGGER.info(
             f"Before Sending TelescopeOn command {central_node} State is: {central_node.State()}"
@@ -31,7 +31,7 @@ class TmcHelper(object):
             device_proxy.SetDirectState(DevState.ON)
             
     @sync_set_to_off
-    def set_to_off(self, device_info):
+    def set_to_off(self, device_info, **kwargs):
         central_node = DeviceProxy(self.centralnode)
         central_node.TelescopeOff()
         for device in device_info:

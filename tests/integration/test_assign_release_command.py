@@ -7,7 +7,6 @@ from tests.conftest import LOGGER
 from tests.resources.test_support.sync_decorators import sync_assign_resources
 from tests.resources.test_support.helpers import resource, waiter
 from tango import DeviceProxy
-from ska_control_model import HealthState
 from tests.resources.test_support.constant import (
 tmc_subarraynode1,
 centralnode

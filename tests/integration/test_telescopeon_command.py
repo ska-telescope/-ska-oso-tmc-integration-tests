@@ -1,6 +1,18 @@
 import pytest
 from tests.resources.test_support.controls import telescope_is_in_standby_state, telescope_is_in_on_state, telescope_is_in_off_state
-import tests.resources.test_support.tmc_helpers as tmc
+from tests.resources.test_support.constant import (
+    centralnode,
+    csp_subarray1,
+    csp_master,
+    sdp_master,
+    sdp_subarray1,
+    tmc_subarraynode1,
+    tmc_csp_master_leaf_node,
+    tmc_csp_subarray_leaf_node,
+    tmc_sdp_master_leaf_node,
+    tmc_sdp_subarray_leaf_node
+)
+from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
 from tests.conftest import LOGGER
 
 @pytest.mark.SKA_mid
@@ -8,6 +20,17 @@ def test_telescope_on():
     """TelescopeOn() is executed."""
     try:
         fixture = {}
+        tmc_helper = TmcHelper(centralnode, device_list=[
+            centralnode,
+            csp_subarray1,
+            sdp_subarray1,
+            tmc_subarraynode1,
+            tmc_csp_master_leaf_node,
+            tmc_csp_subarray_leaf_node,
+            tmc_sdp_master_leaf_node,
+            tmc_sdp_subarray_leaf_node
+            ]
+        )
         fixture["state"] = "Unknown"
 
         """Verify Telescope is Off/Standby"""
@@ -16,7 +39,13 @@ def test_telescope_on():
 
         """Invoke TelescopeOn() command on TMC"""
         LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
-        tmc.set_to_on()
+        tmc_helper.set_to_on([csp_subarray1, sdp_subarray1],
+                             sdp_subarray=sdp_subarray1,
+                             csp_subarray=csp_subarray1,
+                             csp_master=csp_master,
+                             tmc_subarraynode=tmc_subarraynode1,
+                             sdp_master=sdp_master
+                             )
         LOGGER.info("TelescopeOn command is invoked successfully")
 
         """Verify State transitions after TelescopeOn"""
@@ -24,7 +53,13 @@ def test_telescope_on():
         fixture["state"] = "TelescopeOn"
 
         """Invoke TelescopeOff() command on TMC"""
-        tmc.set_to_off()
+        tmc_helper.set_to_off([csp_subarray1, sdp_subarray1],
+                              sdp_subarray=sdp_subarray1,
+                              csp_subarray=csp_subarray1,
+                              csp_master=csp_master,
+                              tmc_subarraynode=tmc_subarraynode1,
+                              sdp_master=sdp_master
+                             )
 
         """Verify State transitions after TelescopeOff"""
         assert telescope_is_in_off_state()
@@ -36,5 +71,11 @@ def test_telescope_on():
         LOGGER.info("Exception occurred in the test for state = {}".format(fixture["state"]))
         LOGGER.info("Tearing down...")
         if fixture["state"] == "TelescopeOn":
-            tmc.set_to_off()
+            tmc_helper.set_to_off([csp_subarray1, sdp_subarray1],
+                                  sdp_subarray=sdp_subarray1,
+                                  csp_subarray=csp_subarray1,
+                                  csp_master=csp_master,
+                                  tmc_subarraynode=tmc_subarraynode1,
+                                  sdp_master=sdp_master
+                                  )
         raise
