@@ -1,14 +1,39 @@
 import pytest
 import tests.resources.test_support.low.tmc_helpers as tmc
-from tests.resources.test_support.constant_low import DEVICE_STATE_STANDBY_INFO, DEVICE_STATE_ON_INFO, DEVICE_STATE_OFF_INFO
+from tests.resources.test_support.constant_low import (
+    DEVICE_STATE_STANDBY_INFO,
+    DEVICE_STATE_ON_INFO,
+    DEVICE_STATE_OFF_INFO,
+    centralnode,
+    csp_subarray1,
+    sdp_subarray1,
+    tmc_subarraynode1,
+    tmc_csp_master_leaf_node,
+    tmc_csp_subarray_leaf_node,
+    tmc_sdp_master_leaf_node,
+    tmc_sdp_subarray_leaf_node
+)
 from tests.resources.test_support.low.telescope_controls_low import TelescopeControlLow
 from tests.conftest import LOGGER
+from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
+
 
 @pytest.mark.SKA_low
 def test_telescope_on():
     """TelescopeOn() is executed."""
     try:
         telescope_control = TelescopeControlLow()
+        tmc_helper = TmcHelper(centralnode, device_list=[
+            centralnode,
+            csp_subarray1,
+            sdp_subarray1,
+            tmc_subarraynode1,
+            tmc_csp_master_leaf_node,
+            tmc_csp_subarray_leaf_node,
+            tmc_sdp_master_leaf_node,
+            tmc_sdp_subarray_leaf_node
+            ]
+        )
         fixture = {}
         fixture["state"] = "Unknown"
 
@@ -18,7 +43,7 @@ def test_telescope_on():
 
         """Invoke TelescopeOn() command on TMC"""
         LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
-        tmc.set_to_on()
+        tmc_helper.set_to_on([csp_subarray1, sdp_subarray1])
         LOGGER.info("TelescopeOn command is invoked successfully")
 
         """Verify State transitions after TelescopeOn"""
@@ -26,7 +51,7 @@ def test_telescope_on():
         fixture["state"] = "TelescopeOn"
 
         """Invoke TelescopeOff() command on TMC"""
-        tmc.set_to_off()
+        tmc_helper.set_to_off([csp_subarray1, sdp_subarray1])
 
         """Verify State transitions after TelescopeOff"""
         assert telescope_control.is_in_valid_state(DEVICE_STATE_OFF_INFO, "State")

@@ -1,44 +1,21 @@
 import functools
-from tests.resources.test_support.helpers import waiter, resource, WaitForScan
+from tests.resources.test_support.helpers import resource, WaitForScan
+from tests.resources.test_support.common_utils.low_common_helpers import LowWaiter
+from tests.resources.test_support.common_utils.common_helpers import Waiter
 from contextlib import contextmanager
 import tests.resources.test_support.tmc_helpers as tmc
-# from tests.resources.test_support.constant import csp_subarray1, sdp_subarray1, tmc_subarraynode1
-from tests.settings import test_utils
+from tests.settings import test_utils, ENV
 
-
-# # pre checks
-# def check_going_out_of_empty():
-#     # verify once for obstate = EMPTY
-#     resource(csp_subarray1).assert_attribute("obsState").equals("EMPTY")
-#     resource(sdp_subarray1).assert_attribute("obsState").equals("EMPTY")
-#     resource(tmc_subarraynode1).assert_attribute("obsState").equals("EMPTY")
-
-
-# def check_resources_assign():
-#     # verify once for obstate = IDLE
-#     resource(csp_subarray1).assert_attribute("obsState").equals("IDLE")
-#     resource(sdp_subarray1).assert_attribute("obsState").equals("IDLE")
-#     resource(tmc_subarraynode1).assert_attribute("obsState").equals("IDLE")
-
-
-# def check_going_out_of_configure():
-#     # verify once for obstate = READY
-#     resource(csp_subarray1).assert_attribute("obsState").equals("READY")
-#     resource(sdp_subarray1).assert_attribute("obsState").equals("READY")
-#     resource(tmc_subarraynode1).assert_attribute("obsState").equals("READY")
-
-
-# def check_going_out_of_abort():
-#     # verify once for obstate = ABORTED
-#     resource(csp_subarray1).assert_attribute("obsState").equals("ABORTED")
-#     resource(sdp_subarray1).assert_attribute("obsState").equals("ABORTED")
-#     resource(tmc_subarraynode1).assert_attribute("obsState").equals("ABORTED")
-
+def get_waiter_object():
+    if ENV == "SKA-low":
+        return LowWaiter()
+    else:
+        return Waiter()
 
 def sync_telescope_on(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
-        the_waiter = waiter()
+        the_waiter = get_waiter_object()
         the_waiter.set_wait_for_telescope_on()
         result = func(*args, **kwargs)
         the_waiter.wait(200)
@@ -49,7 +26,7 @@ def sync_telescope_on(func):
 def sync_set_to_off(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
-        the_waiter = waiter()
+        the_waiter = get_waiter_object()
         the_waiter.set_wait_for_going_to_off()
         result = func(*args, **kwargs)
         the_waiter.wait(200)
@@ -60,7 +37,7 @@ def sync_set_to_off(func):
 # defined as a context manager
 @contextmanager
 def sync_going_to_off(timeout=50):
-    the_waiter = waiter()
+    the_waiter = get_waiter_object()
     the_waiter.set_wait_for_going_to_off()
     yield
     the_waiter.wait(timeout)
@@ -69,7 +46,7 @@ def sync_going_to_off(timeout=50):
 def sync_set_to_standby(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
-        the_waiter = waiter()
+        the_waiter = get_waiter_object()
         the_waiter.set_wait_for_going_to_standby()
         result = func(*args, **kwargs)
         the_waiter.wait(200)
@@ -80,7 +57,7 @@ def sync_set_to_standby(func):
 def sync_release_resources(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
-        the_waiter = waiter()
+        the_waiter = get_waiter_object()
         the_waiter.set_wait_for_going_to_empty()
         result = func(*args, **kwargs)
         the_waiter.wait(200)
@@ -95,7 +72,7 @@ def sync_assign_resources():
         def wrapper(*args, **kwargs):
             # check_going_out_of_empty()
             test_utils.check_going_out_of_obsState("EMPTY")
-            the_waiter = waiter()
+            the_waiter = get_waiter_object()
             # Added this check to ensure that devices are running to avoid random test failures.
             tmc.check_devices()
             the_waiter.set_wait_for_assign_resources()
@@ -114,7 +91,7 @@ def sync_configure():
         def wrapper(*args, **kwargs):
             # check_resources_assign()
             test_utils.check_going_out_of_obsState("IDLE")
-            the_waiter = waiter()
+            the_waiter = get_waiter_object()
             # Added this check to ensure that devices are running to avoid random test failures.
             tmc.check_devices()
             the_waiter.set_wait_for_configure()
@@ -165,7 +142,7 @@ def sync_end():
         def wrapper(*args, **kwargs):
             # check_going_out_of_configure()
             test_utils.check_going_out_of_obsState("READY")
-            the_waiter = waiter()
+            the_waiter = get_waiter_object()
             the_waiter.set_wait_for_idle()
             result = func(*args, **kwargs)
             the_waiter.wait(500)
@@ -181,7 +158,7 @@ def sync_abort(timeout = 300):
     def decorator_sync_abort(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            the_waiter = waiter()
+            the_waiter = get_waiter_object()
             the_waiter.set_wait_for_aborted()
             result = func(*args, **kwargs)
             the_waiter.wait(timeout)
@@ -199,7 +176,7 @@ def sync_restart(timeout = 300):
         def wrapper(*args, **kwargs):
             # check_going_out_of_abort()
             test_utils.check_going_out_of_obsState("ABORTED")
-            the_waiter = waiter()
+            the_waiter = get_waiter_object()
             the_waiter.set_wait_for_going_to_empty()
             result = func(*args, **kwargs)
             the_waiter.wait(timeout)
