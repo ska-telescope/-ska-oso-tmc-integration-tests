@@ -267,6 +267,7 @@ class Waiter:
         self.csp_subarray1 = kwargs.get("csp_subarray")
         self.csp_master = kwargs.get("csp_master")
         self.tmc_subarraynode1 = kwargs.get("tmc_subarraynode1")
+        self.dish_master1 = kwargs.get("dish_master")
         
 
     def clear_watches(self):
@@ -293,6 +294,13 @@ class Waiter:
                 "State", changed_to="OFF"
             )
         )
+        if self.dish_master1:
+            self.waits.append(
+                watch(resource(self.dish_master1)).to_become(
+                    "State", changed_to="STANDBY"
+                    )
+                )
+    
     def set_wait_for_going_to_standby(self):
         self.waits.append(
             watch(resource(self.sdp_subarray1)).to_become(
@@ -332,6 +340,10 @@ class Waiter:
                 "State", changed_to="ON"
             )
         )
+        if self.dish_master1:
+            self.waits.append(
+                watch(resource(self.dish_master1)).to_become("State", changed_to="ON")
+            )
 
     def set_wait_for_going_to_empty(self):
         self.waits.append(
