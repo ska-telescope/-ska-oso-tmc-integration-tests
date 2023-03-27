@@ -25,17 +25,19 @@ def test_telescope_on():
     """TelescopeOn() is executed."""
     try:
         telescope_control = TelescopeControlLow()
-        tmc_helper = TmcHelper(centralnode, device_list=[
+        tmc_helper = TmcHelper(
             centralnode,
-            csp_subarray1,
-            sdp_subarray1,
-            tmc_subarraynode1,
-            tmc_csp_master_leaf_node,
-            tmc_csp_subarray_leaf_node,
-            tmc_sdp_master_leaf_node,
-            tmc_sdp_subarray_leaf_node
-            ]
-        )
+            check_device_list=[
+                centralnode,
+                csp_subarray1,
+                sdp_subarray1,
+                tmc_subarraynode1,
+                tmc_csp_master_leaf_node,
+                tmc_csp_subarray_leaf_node,
+                tmc_sdp_master_leaf_node,
+                tmc_sdp_subarray_leaf_node
+                ]
+            )
         fixture = {}
         fixture["state"] = "Unknown"
 
@@ -46,8 +48,7 @@ def test_telescope_on():
         """Invoke TelescopeOn() command on TMC"""
         LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
         
-        tmc_helper.set_to_on([csp_subarray1, sdp_subarray1],
-                             sdp_subarray=sdp_subarray1,
+        tmc_helper.set_to_on(sdp_subarray=sdp_subarray1,
                              csp_subarray=csp_subarray1,
                              csp_master=csp_master,
                              tmc_subarraynode=tmc_subarraynode1,
@@ -60,8 +61,7 @@ def test_telescope_on():
         fixture["state"] = "TelescopeOn"
 
         """Invoke TelescopeOff() command on TMC"""
-        tmc_helper.set_to_off([csp_subarray1, sdp_subarray1],
-                              sdp_subarray=sdp_subarray1,
+        tmc_helper.set_to_off(sdp_subarray=sdp_subarray1,
                               csp_subarray=csp_subarray1,
                               csp_master=csp_master,
                               tmc_subarraynode=tmc_subarraynode1,
@@ -78,5 +78,10 @@ def test_telescope_on():
         LOGGER.info("Exception occurred in the test for state = {}".format(fixture["state"]))
         LOGGER.info("Tearing down...")
         if fixture["state"] == "TelescopeOn":
-            tmc.set_to_off()
+            tmc_helper.set_to_off(sdp_subarray=sdp_subarray1,
+                                  csp_subarray=csp_subarray1,
+                                  csp_master=csp_master,
+                                  tmc_subarraynode=tmc_subarraynode1,
+                                  sdp_master=sdp_master
+                                  )
         raise
