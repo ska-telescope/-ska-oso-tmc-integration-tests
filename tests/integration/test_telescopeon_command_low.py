@@ -1,15 +1,10 @@
 import pytest
-import tests.resources.test_support.low.tmc_helpers as tmc
 from tests.resources.test_support.constant_low import (
     DEVICE_STATE_STANDBY_INFO,
     DEVICE_STATE_ON_INFO,
     DEVICE_STATE_OFF_INFO,
-    centralnode,
-    csp_subarray1,
-    csp_master,
-    sdp_master,
-    sdp_subarray1,
-    tmc_subarraynode1
+    ON_OFF_DEVICE_COMMAND_DICT,
+    centralnode
 )
 from tests.resources.test_support.low.telescope_controls_low import TelescopeControlLow
 from tests.conftest import LOGGER
@@ -32,12 +27,7 @@ def test_telescope_on():
         """Invoke TelescopeOn() command on TMC"""
         LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
         
-        tmc_helper.set_to_on(sdp_subarray=sdp_subarray1,
-                             csp_subarray=csp_subarray1,
-                             csp_master=csp_master,
-                             tmc_subarraynode=tmc_subarraynode1,
-                             sdp_master=sdp_master
-                             )
+        tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("TelescopeOn command is invoked successfully")
 
         """Verify State transitions after TelescopeOn"""
@@ -45,12 +35,7 @@ def test_telescope_on():
         fixture["state"] = "TelescopeOn"
 
         """Invoke TelescopeOff() command on TMC"""
-        tmc_helper.set_to_off(sdp_subarray=sdp_subarray1,
-                              csp_subarray=csp_subarray1,
-                              csp_master=csp_master,
-                              tmc_subarraynode=tmc_subarraynode1,
-                              sdp_master=sdp_master
-                             )
+        tmc_helper.set_to_off(**ON_OFF_DEVICE_COMMAND_DICT)
         
         LOGGER.info("TelescopeOff command is invoked successfully")
 
@@ -64,10 +49,5 @@ def test_telescope_on():
         LOGGER.info("Exception occurred in the test for state = {}".format(fixture["state"]))
         LOGGER.info("Tearing down the Telescope")
         if fixture["state"] == "TelescopeOn":
-            tmc_helper.set_to_off(sdp_subarray=sdp_subarray1,
-                                  csp_subarray=csp_subarray1,
-                                  csp_master=csp_master,
-                                  tmc_subarraynode=tmc_subarraynode1,
-                                  sdp_master=sdp_master
-                                  )
+            tmc_helper.set_to_off(**ON_OFF_DEVICE_COMMAND_DICT)
         raise
