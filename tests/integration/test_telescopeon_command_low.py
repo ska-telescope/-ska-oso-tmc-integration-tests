@@ -25,19 +25,7 @@ def test_telescope_on():
     """TelescopeOn() is executed."""
     try:
         telescope_control = TelescopeControlLow()
-        tmc_helper = TmcHelper(
-            centralnode,
-            check_device_list=[
-                centralnode,
-                csp_subarray1,
-                sdp_subarray1,
-                tmc_subarraynode1,
-                tmc_csp_master_leaf_node,
-                tmc_csp_subarray_leaf_node,
-                tmc_sdp_master_leaf_node,
-                tmc_sdp_subarray_leaf_node
-                ]
-            )
+        tmc_helper = TmcHelper(centralnode)
         fixture = {}
         fixture["state"] = "Unknown"
 

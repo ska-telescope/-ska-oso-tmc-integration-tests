@@ -10,16 +10,14 @@ class TmcHelper(object):
     def __init__(self, central_node, **kwargs) -> None:
         """
         Args:
-            central_node (str) -> Name of Central Node
-            kwargs (dict) -> Provide 
+            central_node (str) -> Name of Central Node 
         """
-        self.check_device_list = kwargs.get("check_device_list")
         self.centralnode = central_node
     
-    def check_devices(self):
+    def check_devices(self, device_list):
         """
         """
-        for device in self.check_device_list:
+        for device in device_list:
             device_proxy = DeviceProxy(device)
             assert 0 < device_proxy.ping()
     
