@@ -21,20 +21,20 @@ class resource:
         self.device_name = device_name
 
     def get(self, attr):
-        p = DeviceProxy(self.device_name)
-        attrs = p.get_attribute_list()
+        device_proxy = DeviceProxy(self.device_name)
+        attrs = device_proxy.get_attribute_list()
         if attr not in attrs:
             return "attribute not found"
-        tp = p._get_attribute_config(attr).data_type
+        tp = device_proxy._get_attribute_config(attr).data_type
         if tp == CmdArgType.DevEnum:
-            return getattr(p, attr).name
+            return getattr(device_proxy, attr).name
         if tp == CmdArgType.DevState:
-            return str(p.read_attribute(attr).value)
+            return str(device_proxy.read_attribute(attr).value)
         else:
-            value = getattr(p, attr)
+            value = getattr(device_proxy, attr)
             if isinstance(value, ndarray):
                 return tuple(value)
-            return getattr(p, attr)
+            return getattr(device_proxy, attr)
 
     def assert_attribute(self, attr):
         return ObjectComparison("{}.{}".format(self.device_name, attr), self.get(attr))
@@ -140,7 +140,7 @@ class monitor(object):
                 if self.future_value is not None:
                     future_shim = f" to {self.future_value}"
                 raise Exception(
-                    "timed out waiting for {}.{} to change from {}{} in {:f}s (current val = {})".format(
+                    "Timed out waiting for {}.{} to change from {}{} in {:f}s (current val = {})".format(
                         self.resource.device_name,
                         self.attr,
                         self.previous_value,

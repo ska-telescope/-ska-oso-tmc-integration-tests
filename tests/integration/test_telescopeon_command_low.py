@@ -43,7 +43,7 @@ def test_telescope_on():
 
         """Verify Telescope is Off/Standby"""
         assert telescope_control.is_in_valid_state(DEVICE_STATE_STANDBY_INFO, "State")
-        LOGGER.info("Staring up the Telescope")
+        LOGGER.info("Starting up the Telescope")
 
         """Invoke TelescopeOn() command on TMC"""
         LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
@@ -67,16 +67,18 @@ def test_telescope_on():
                               tmc_subarraynode=tmc_subarraynode1,
                               sdp_master=sdp_master
                              )
+        
+        LOGGER.info("TelescopeOff command is invoked successfully")
 
         """Verify State transitions after TelescopeOff"""
         assert telescope_control.is_in_valid_state(DEVICE_STATE_OFF_INFO, "State")
         fixture["state"] = "TelescopeOff"
 
-        LOGGER.info("Tests complete.")
+        LOGGER.info("test_telescope_on Tests complete.")
 
     except:
         LOGGER.info("Exception occurred in the test for state = {}".format(fixture["state"]))
-        LOGGER.info("Tearing down...")
+        LOGGER.info("Tearing down the Telescope")
         if fixture["state"] == "TelescopeOn":
             tmc_helper.set_to_off(sdp_subarray=sdp_subarray1,
                                   csp_subarray=csp_subarray1,

@@ -1,6 +1,7 @@
 import functools
 from tests.resources.test_support.common_utils.common_helpers import Waiter
 from contextlib import contextmanager
+from tests.conftest import TIMEOUT
 
 
 def sync_telescope_on(func):
@@ -9,7 +10,7 @@ def sync_telescope_on(func):
         the_waiter = Waiter(**kwargs)
         the_waiter.set_wait_for_telescope_on()
         result = func(*args, **kwargs)
-        the_waiter.wait(200)
+        the_waiter.wait(TIMEOUT)
         return result
 
     return wrapper
@@ -20,7 +21,7 @@ def sync_set_to_off(func):
         the_waiter = Waiter(**kwargs)
         the_waiter.set_wait_for_going_to_off()
         result = func(*args, **kwargs)
-        the_waiter.wait(200)
+        the_waiter.wait(TIMEOUT)
         return result
 
     return wrapper
@@ -40,7 +41,7 @@ def sync_set_to_standby(func):
         the_waiter = Waiter(**kwargs)
         the_waiter.set_wait_for_going_to_standby()
         result = func(*args, **kwargs)
-        the_waiter.wait(200)
+        the_waiter.wait(TIMEOUT)
         return result
 
     return wrapper
@@ -51,7 +52,7 @@ def sync_release_resources(func):
         the_waiter = Waiter(**kwargs)
         the_waiter.set_wait_for_going_to_empty()
         result = func(*args, **kwargs)
-        the_waiter.wait(200)
+        the_waiter.wait(TIMEOUT)
         return result
 
     return wrapper

@@ -38,7 +38,7 @@ def test_telescope_on():
 
         """Verify Telescope is Off/Standby"""
         assert telescope_is_in_standby_state()
-        LOGGER.info("Staring up the Telescope")
+        LOGGER.info("Starting up the Telescope")
 
         """Invoke TelescopeOn() command on TMC"""
         LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
