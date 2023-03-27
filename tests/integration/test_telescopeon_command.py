@@ -74,8 +74,7 @@ def test_telescope_on():
         LOGGER.info("Exception occurred in the test for state = {}".format(fixture["state"]))
         LOGGER.info("Tearing down...")
         if fixture["state"] == "TelescopeOn":
-            tmc_helper.set_to_off([csp_subarray1, sdp_subarray1],
-                                  sdp_subarray=sdp_subarray1,
+            tmc_helper.set_to_off(sdp_subarray=sdp_subarray1,
                                   csp_subarray=csp_subarray1,
                                   csp_master=csp_master,
                                   tmc_subarraynode=tmc_subarraynode1,
