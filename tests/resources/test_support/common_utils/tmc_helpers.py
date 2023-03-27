@@ -14,8 +14,10 @@ class TmcHelper(object):
         """
         self.centralnode = central_node
     
-    def check_devices(self, device_list):
+    def check_devices(self, device_list: list) -> None:
         """
+        Args:
+            device_list (list): List of devices to check if it is ON.
         """
         for device in device_list:
             device_proxy = DeviceProxy(device)

@@ -9,11 +9,7 @@ from tests.resources.test_support.constant_low import (
     csp_master,
     sdp_master,
     sdp_subarray1,
-    tmc_subarraynode1,
-    tmc_csp_master_leaf_node,
-    tmc_csp_subarray_leaf_node,
-    tmc_sdp_master_leaf_node,
-    tmc_sdp_subarray_leaf_node
+    tmc_subarraynode1
 )
 from tests.resources.test_support.low.telescope_controls_low import TelescopeControlLow
 from tests.conftest import LOGGER
