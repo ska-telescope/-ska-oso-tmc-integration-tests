@@ -1,6 +1,5 @@
 import functools
 from tests.resources.test_support.helpers import resource, WaitForScan
-from tests.resources.test_support.common_utils.low_common_helpers import LowWaiter
 from tests.resources.test_support.common_utils.common_helpers import Waiter
 from contextlib import contextmanager
 import tests.resources.test_support.tmc_helpers as tmc
