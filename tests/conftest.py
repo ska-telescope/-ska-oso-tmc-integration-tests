@@ -59,3 +59,5 @@ def json_factory():
 
 TELESCOPE_ENV = os.getenv("TELESCOPE")
 
+TIMEOUT = 200
+

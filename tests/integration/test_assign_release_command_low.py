@@ -11,12 +11,9 @@ from tests.resources.test_support.constant_low import (
     DEVICE_HEALTH_STATE_OK_INFO
 )
 from tests.resources.test_support.low.helpers import resource
-from tests.resources.test_support.constant_low import (
-tmc_subarraynode1, centralnode)
+from tests.resources.test_support.constant_low import tmc_subarraynode1, centralnode
 from tango import DeviceProxy
 from tests.resources.test_support.low.telescope_controls_low import TelescopeControlLow
-from ska_control_model import HealthState
-import json
 
 
 @pytest.mark.SKA_low

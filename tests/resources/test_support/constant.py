@@ -27,3 +27,12 @@ DEVICE_HEALTH_STATE_OK_INFO = {
     tmc_sdp_master_leaf_node: "OK",
     tmc_sdp_subarray_leaf_node: "OK"
 }
+
+ON_OFF_DEVICE_COMMAND_DICT = {
+    "sdp_subarray": sdp_subarray1, #TODO use this as as list when multiple subarray considered in testing
+    "csp_subarray": csp_subarray1,
+    "csp_master": csp_master,
+    "tmc_subarraynode": tmc_subarraynode1,
+    "sdp_master": sdp_master,
+    "dish_master": dish_master1
+}
