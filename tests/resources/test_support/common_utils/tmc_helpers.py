@@ -10,7 +10,7 @@ class TmcHelper(object):
     def __init__(self, central_node, **kwargs) -> None:
         """
         Args:
-            central_node (str) -> Name of Central Node 
+            central_node (str) -> FQDN of Central Node
         """
         self.centralnode = central_node
     

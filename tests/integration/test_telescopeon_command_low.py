@@ -47,7 +47,7 @@ def test_telescope_on():
 
     except:
         LOGGER.info("Exception occurred in the test for state = {}".format(fixture["state"]))
-        LOGGER.info("Tearing down the Telescope")
+        LOGGER.info("Tearing Down test case")
         if fixture["state"] == "TelescopeOn":
             tmc_helper.set_to_off(**ON_OFF_DEVICE_COMMAND_DICT)
         raise

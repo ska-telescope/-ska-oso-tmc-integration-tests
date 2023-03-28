@@ -2,7 +2,7 @@
 """
 from tests.resources.test_support.helpers import resource
 
-class BaseTestUtils(object):
+class DeviceUtils(object):
     """This class implement method for checking obsState of provided devices
     """
     def __init__(self, **kwargs):
@@ -12,7 +12,7 @@ class BaseTestUtils(object):
         """
         self.obs_state_device_names = kwargs.get("obs_state_device_names", [])
 
-    def check_going_out_of_obsState(self, obs_state) -> None:
+    def check_devices_obsState(self, obs_state) -> None:
         """
         Args:
             obs_state (str): ObsState to check for device
