@@ -25,10 +25,10 @@ class resource:
         attrs = device_proxy.get_attribute_list()
         if attr not in attrs:
             return "attribute not found"
-        tp = device_proxy._get_attribute_config(attr).data_type
-        if tp == CmdArgType.DevEnum:
+        attr_data_type = device_proxy._get_attribute_config(attr).data_type
+        if attr_data_type == CmdArgType.DevEnum:
             return getattr(device_proxy, attr).name
-        if tp == CmdArgType.DevState:
+        if attr_data_type == CmdArgType.DevState:
             return str(device_proxy.read_attribute(attr).value)
         else:
             value = getattr(device_proxy, attr)
@@ -387,35 +387,35 @@ class Waiter:
 
     def set_wait_for_configure(self):
         self.waits.append(
-            watch(resource(csp_subarray1)).to_become(
+            watch(resource(self.csp_subarray1)).to_become(
                 "obsState", changed_to="READY"
             )
         )
         self.waits.append(
-            watch(resource(sdp_subarray1)).to_become(
+            watch(resource(self.sdp_subarray1)).to_become(
                 "obsState", changed_to="READY"
             )
         )
 
         self.waits.append(
-            watch(resource(tmc_subarraynode1)).to_become(
+            watch(resource(self.tmc_subarraynode1)).to_become(
                 "obsState", changed_to="READY"
             )
         )
 
     def set_wait_for_idle(self):
         self.waits.append(
-            watch(resource(csp_subarray1)).to_become(
+            watch(resource(self.csp_subarray1)).to_become(
                 "obsState", changed_to="IDLE"
             )
         )
         self.waits.append(
-            watch(resource(sdp_subarray1)).to_become(
+            watch(resource(self.sdp_subarray1)).to_become(
                 "obsState", changed_to="IDLE"
             )
         )
         self.waits.append(
-            watch(resource(tmc_subarraynode1)).to_become(
+            watch(resource(self.tmc_subarraynode1)).to_become(
                 "obsState", changed_to="IDLE"
             )
         )
@@ -466,11 +466,11 @@ class Waiter:
             )
 class WaitForScan(Waiter):
     def __init__(self):
-        self.tmc_subarraynode = watch(resource(tmc_subarraynode1)).for_a_change_on(
+        self.tmc_subarraynode = watch(resource(self.tmc_subarraynode1)).for_a_change_on(
             "obsState"
         )
-        self.csp_subarray = watch(resource(csp_subarray1)).for_a_change_on("obsState")
-        self.sdp_subarray = watch(resource(sdp_subarray1)).for_a_change_on("obsState")
+        self.csp_subarray = watch(resource(self.csp_subarray1)).for_a_change_on("obsState")
+        self.sdp_subarray = watch(resource(self.sdp_subarray1)).for_a_change_on("obsState")
 
     def wait(self, timeout):
         logging.info(
