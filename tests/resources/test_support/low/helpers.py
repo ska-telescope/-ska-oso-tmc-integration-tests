@@ -444,6 +444,24 @@ class waiter:
             )
         )
 
+    def set_wait_for_aborted(self):
+        self.waits.append(
+            watch(resource(csp_subarray1)).to_become(
+                "obsState", changed_to="ABORTED"
+            )
+        )
+        self.waits.append(
+            watch(resource(sdp_subarray1)).to_become(
+                "obsState", changed_to="ABORTED"
+            )
+        )
+
+        self.waits.append(
+            watch(resource(tmc_subarraynode1)).to_become(
+                "obsState", changed_to="ABORTED"
+            )
+        )
+
     def wait(self, timeout=30, resolution=0.1):
         self.logs = ""
         while self.waits:
@@ -488,6 +506,7 @@ class waiter:
                     self.error_logs, self.logs
                 )
             )
+
 class WaitForScan(waiter):
     def __init__(self):
         self.tmc_subarraynode = watch(resource(tmc_subarraynode1)).for_a_change_on(
