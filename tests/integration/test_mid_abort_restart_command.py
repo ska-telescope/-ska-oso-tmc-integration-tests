@@ -13,7 +13,7 @@ import tests.resources.test_support.tmc_helpers as tmc
 from tests.resources.test_support.constant import (
     centralnode,
     tmc_subarraynode1,
-    sdp_master,
+    sdp_subarray1,
 )
 from tests.resources.test_support.helpers import resource
 from tests.conftest import LOGGER
@@ -162,7 +162,7 @@ def test_abort_in_resourcing(json_factory):
         LOGGER.info("AssignResources command is invoked successfully")
 
         # Verify ObsState is RESOURCING
-        sdp = DeviceProxy(sdp_master)
+        sdp = DeviceProxy(sdp_subarray1)
         sdp.SetDirectObsState(0)
         resource(tmc_subarraynode1).assert_attribute("obsState").equals("RESOURCING")
 
