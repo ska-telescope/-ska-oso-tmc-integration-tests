@@ -161,14 +161,7 @@ def test_abort_in_resourcing(json_factory):
         LOGGER.info("AssignResources command is invoked successfully")
 
         # Verify ObsState is RESOURCING
-        timeout = 10
-        start_time = time.time()
-        while not resource(tmc_subarraynode1).assert_attribute("obsState").equals("RESOURCING"):
-            time.sleep(0.1)
-            elapsed_time = time.time()
-            if (elapsed_time - start_time) > timeout:
-                break
-
+        time.sleep(1)
         resource(tmc_subarraynode1).assert_attribute("obsState").equals("RESOURCING")
 
         # Invoke Abort() command on TMC
