@@ -87,7 +87,7 @@ def set_to_standby():
     dish_master_1 = DeviceProxy(dish_master1)
     dish_master_1.SetDirectState(DevState.STANDBY)
     LOGGER.info(
-            f"After invoking TelescopeStandBy command {central_node} State is: {central_node.State()}"
+        f"After invoking TelescopeStandBy command {central_node} State is: {central_node.State()}"
     )
 
 @sync_release_resources
@@ -95,7 +95,7 @@ def invoke_releaseResources(release_input_str):
     central_node = DeviceProxy(centralnode)
     central_node.ReleaseResources(release_input_str)
     LOGGER.info(
-            f"ReleaseResources command is invoked on {central_node}"
+        f"ReleaseResources command is invoked on {central_node}"
     )
     csp_subarray_1 = DeviceProxy(csp_subarray1)
     csp_subarray_1.SetDirectState(DevState.OFF)
@@ -109,7 +109,7 @@ def end():
     subarray_node = DeviceProxy(tmc_subarraynode1)
     subarray_node.End()
     LOGGER.info(
-            f"End command is invoked on {subarray_node}"
+        f"End command is invoked on {subarray_node}"
     )
 
 @sync_assign_resources()
