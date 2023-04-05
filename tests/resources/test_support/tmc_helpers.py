@@ -7,7 +7,7 @@ from tests.resources.test_support.sync_decorators import (
     sync_end, sync_assign_resources, sync_configure, sync_scan, sync_abort, sync_restart
 )
 from tango import DeviceProxy, DevState
-from tests.resources.test_support.controls import (
+from tests.resources.test_support.constant import (
     centralnode,
     csp_subarray1,
     sdp_subarray1,
@@ -73,7 +73,7 @@ def set_to_off():
     dish_master_1 = DeviceProxy(dish_master1)
     dish_master_1.SetDirectState(DevState.STANDBY)
     LOGGER.info(
-            f"After invoking TelescopeOff command {central_node} State is: {central_node.State()}"
+        f"After invoking TelescopeOff command {central_node} State is: {central_node.State()}"
     )
 
 @sync_set_to_standby
