@@ -129,7 +129,7 @@ def test_abort_in_empty():
 def test_abort_in_resourcing(json_factory):
     """Abort and Restart is executed."""
     fixture = {}
-    assign_json = json_factory("command_AssignResources_invalid_sdp")
+    assign_json = json_factory("command_AssignResources")
     release_json = json_factory("command_ReleaseResources")
     try:
         tmc.check_devices()
@@ -161,7 +161,7 @@ def test_abort_in_resourcing(json_factory):
         LOGGER.info("AssignResources command is invoked successfully")
 
         # Verify ObsState is RESOURCING
-        time.sleep(1)
+        time.sleep(0.1)
         resource(tmc_subarraynode1).assert_attribute("obsState").equals("RESOURCING")
 
         # Invoke Abort() command on TMC
