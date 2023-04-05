@@ -1,12 +1,12 @@
-release=0.7.7
-tag=0.7.7
+release=0.7.8
+tag=0.7.8
 tag_description=
 **Charts:**
-**1. ska-tmc-integration 0.7.6 - 0.7.7:**
+**1. ska-tmc-integration 0.7.7 - 0.7.8:**
 
-    **1.1 ska-tmc-low - 0.5.3 - 0.5.4:
+    **1.1 ska-tmc-low - 0.5.4 - 0.5.5:
 
-       a.  Fix HealthState=unknown issue on initialisation of CentralNode and CspLeafnodes
+       a.  Updated the abort and restart funcationality for low telescope.
 
     **1.2 ska-tmc-mid - 0.8.4 - 0.8.5:
         a. Updated cspsubarrayleafnode to accept abort command in configuring observation state.
@@ -16,11 +16,11 @@ tag_description=
 
 release_notes=
 **Charts:**
-**1. ska-tmc-integration 0.7.6 - 0.7.7:**
+**1. ska-tmc-integration 0.7.7 - 0.7.8:**
 
-    **1.1 ska-tmc-low - 0.5.3 - 0.5.4:
+    **1.1 ska-tmc-low - 0.5.4 - 0.5.5:
 
-       a.  Fix HealthState=unknown issue on initialisation of CentralNode and CspLeafnodes
+       a.   Updated the abort and restart funcationality for low telescope.
 
     **1.2 ska-tmc-mid - 0.8.4 - 0.8.5:
         a. Updated cspsubarrayleafnode to accept abort command in configuring observation state.
