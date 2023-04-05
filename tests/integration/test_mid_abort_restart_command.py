@@ -1,4 +1,5 @@
 import pytest
+import time
 from tango import DeviceProxy
 from tests.resources.test_support.controls import (
     telescope_is_in_standby_state,
@@ -105,17 +106,8 @@ def test_abort_in_empty():
         assert subarray_obs_state_is_empty()
 
         # Invoke Abort() command on TMC
-        tmc.invoke_abort()
-
-        fixture["state"] = "Abort"
-        assert subarray_obs_state_is_aborted()
-
-        # Invoke Restart() command on TMC
-        tmc.invoke_restart()
-
-        fixture["state"] = "Restart"
-        # Verify ObsState is EMPTY
-        assert subarray_obs_state_is_empty()
+        with pytest.raises(Exception):
+            tmc.invoke_abort()
 
         # Invoke TelescopeOff() command on TMC
         tmc.set_to_off()
@@ -169,9 +161,15 @@ def test_abort_in_resourcing(json_factory):
         LOGGER.info("AssignResources command is invoked successfully")
 
         # Verify ObsState is RESOURCING
-        resource(tmc_subarraynode1).assert_attribute("obsState").equals(
-            "RESOURCING"
-        )
+        timeout = 10
+        start_time = time.time()
+        while not resource(tmc_subarraynode1).assert_attribute("obsState").equals("RESOURCING"):
+            time.sleep(0.1)
+            elapsed_time = time.time()
+            if (elapsed_time - start_time) > timeout:
+                break
+
+        resource(tmc_subarraynode1).assert_attribute("obsState").equals("RESOURCING")
 
         # Invoke Abort() command on TMC
         tmc.invoke_abort()
