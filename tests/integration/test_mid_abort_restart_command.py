@@ -2,12 +2,12 @@ import pytest
 import time
 from tango import DeviceProxy
 from tests.resources.test_support.controls import (
-    telescope_is_in_standby_state,
     telescope_is_in_on_state,
     telescope_is_in_off_state,
     subarray_obs_state_is_idle,
     subarray_obs_state_is_aborted,
     subarray_obs_state_is_empty,
+    subarray_obs_state_is_ready,
 )
 import tests.resources.test_support.tmc_helpers as tmc
 from tests.resources.test_support.constant import (
@@ -132,6 +132,8 @@ def test_abort_in_resourcing(json_factory):
     fixture = {}
     assign_json = json_factory("command_AssignResources")
     release_json = json_factory("command_ReleaseResources")
+    config_json = json_factory("command_Configure")
+    scan_json = json_factory("command_Scan")
     try:
         tmc.check_devices()
         fixture["state"] = "Unknown"
@@ -162,8 +164,7 @@ def test_abort_in_resourcing(json_factory):
         LOGGER.info("AssignResources command is invoked successfully")
 
         # Verify ObsState is RESOURCING
-        sdp = DeviceProxy(sdp_subarray1)
-        sdp.SetDirectObsState(0)
+        time.sleep(0.1)
         resource(tmc_subarraynode1).assert_attribute("obsState").equals("RESOURCING")
 
         # Invoke Abort() command on TMC
@@ -179,6 +180,45 @@ def test_abort_in_resourcing(json_factory):
         # Verify ObsState is EMPTY
         assert subarray_obs_state_is_empty()
 
+        # Invoke AssignResources() Command on TMC
+        LOGGER.info("Invoking AssignResources command on TMC CentralNode")
+        tmc.compose_sub(assign_json)
+        LOGGER.info("AssignResources command is invoked successfully")
+
+        # Verify ObsState is IDLE
+        assert subarray_obs_state_is_idle()
+        fixture["state"] ="AssignResources"
+
+        # Invoke Configure() Command on TMC
+        LOGGER.info("Invoking Configure command on TMC CentralNode")
+        tmc.configure_subarray(config_json)
+
+        # Verify ObsState is READY
+        assert subarray_obs_state_is_ready()
+        fixture["state"] = "Configure"
+
+        # Invoke Scan() Command on TMC
+        LOGGER.info("Invoking Scan command on TMC CentralNode")
+        tmc.scan(scan_json)
+
+        # Verify ObsState is READY
+        assert subarray_obs_state_is_ready()
+        fixture["state"] ="Scan"
+
+        # Invoke End() Command on TMC
+        LOGGER.info("Invoking End command on TMC SubarrayNode")
+        tmc.end()
+
+        # Verify ObsState is IDLE
+        assert subarray_obs_state_is_idle()
+        fixture["state"] = "End"
+
+        # Invoke ReleaseResources() command on TMC
+        tmc.invoke_releaseResources(release_json)
+
+        fixture["state"] = "ReleaseResources"
+        assert subarray_obs_state_is_empty()
+
         # Invoke TelescopeOff() command on TMC
         tmc.set_to_off()
 
@@ -190,6 +230,12 @@ def test_abort_in_resourcing(json_factory):
 
     except:
         if fixture["state"] == "AssignResources":
+            tmc.invoke_releaseResources(release_json)
+        if fixture["state"] == "Configure":
+            tmc.end()
+            tmc.invoke_releaseResources(release_json)
+        if fixture["state"] == "Scan":
+            tmc.end()
             tmc.invoke_releaseResources(release_json)
         if fixture["state"] == "TelescopeOn":
             tmc.set_to_off()
