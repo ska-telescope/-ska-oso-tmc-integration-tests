@@ -6,7 +6,7 @@ tag_description=
 
     **1.1 ska-tmc-low - 0.5.4 - 0.5.5:
 
-       a.  Updated the abort and restart funcationality for low telescope.
+       a.  Intermediate chart for Abort and Restart functionality implementation on TMC Low
 
     **1.2 ska-tmc-mid - 0.8.4 - 0.8.5:
         a. Updated cspsubarrayleafnode to accept abort command in configuring observation state.
@@ -20,7 +20,7 @@ release_notes=
 
     **1.1 ska-tmc-low - 0.5.4 - 0.5.5:
 
-       a.   Updated the abort and restart funcationality for low telescope.
+       a.   Intermediate chart for Abort and Restart functionality implementation on TMC Low
 
     **1.2 ska-tmc-mid - 0.8.4 - 0.8.5:
         a. Updated cspsubarrayleafnode to accept abort command in configuring observation state.
