@@ -129,7 +129,7 @@ def test_abort_in_empty():
 def test_abort_in_resourcing(json_factory):
     """Abort and Restart is executed."""
     fixture = {}
-    assign_json = json_factory("command_AssignResources")
+    assign_json = json_factory("command_AssignResources_invalid_sdp")
     release_json = json_factory("command_ReleaseResources")
     try:
         tmc.check_devices()
