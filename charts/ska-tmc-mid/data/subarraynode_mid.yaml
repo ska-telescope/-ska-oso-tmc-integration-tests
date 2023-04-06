@@ -16,7 +16,7 @@ server:
           properties:
           - name: "DishLeafNodePrefix"
             values:
-            - "ska_mid/tm_leaf_node/d"
+            - "ska_mid/tm_leaf_node/d0"
           - name: "CspSubarrayLNFQDN"
             values:
             - "ska_mid/tm_leaf_node/csp_subarray{{ . }}"

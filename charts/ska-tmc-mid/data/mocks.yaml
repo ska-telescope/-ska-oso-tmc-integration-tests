@@ -28,10 +28,10 @@ server:
           - name: "mid-csp/subarray/03"
         - name: "HelperDishDevice"
           devices:
-          - name: "mid_d0001/elt/master"
-          - name: "mid_d0002/elt/master"
-          - name: "mid_d0003/elt/master"
-          - name: "mid_d0004/elt/master"
+          - name: "ska001/dish/master"
+          - name: "ska002/dish/master"
+          - name: "ska003/dish/master"
+          - name: "ska004/dish/master"
 depends_on:
   - device: sys/database/2
 image:

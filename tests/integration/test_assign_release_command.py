@@ -1,5 +1,4 @@
 import json
-
 import pytest
 from tests.resources.test_support.controls import telescope_is_in_standby_state, telescope_is_in_on_state, telescope_is_in_off_state, subarray_obs_state_is_empty, subarray_obs_state_is_idle
 import tests.resources.test_support.tmc_helpers as tmc
@@ -19,8 +18,14 @@ from tests.resources.test_support.constant import (
 @pytest.mark.SKA_mid
 def test_assign_release(json_factory):
     """AssignResources and ReleaseResources is executed."""
+    assign_json = json_factory("command_AssignResources") 
+    release_json = json_factory("command_ReleaseResources")
+    tmc.check_devices()
+    fixture = {}
+    fixture["state"] = "Unknown"
+
     try:
-        assign_json = json_factory("command_AssignResources")
+        assign_json = json_factory("command_AssignResources") 
         release_json = json_factory("command_ReleaseResources")
         tmc.check_devices()
         fixture = {}
@@ -88,3 +93,4 @@ def test_assign_release(json_factory):
 def test_health_check_mid():
     telescope_control = BaseTelescopeControl()
     assert telescope_control.is_in_valid_state(DEVICE_HEALTH_STATE_OK_INFO, "healthState")
+
