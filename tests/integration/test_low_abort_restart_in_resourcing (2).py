@@ -1,5 +1,4 @@
 import pytest
-import pytest
 from tango import DeviceProxy
 from tests.resources.test_support.constant_low import *
 from tests.resources.test_support.low.telescope_controls_low import TelescopeControlLow
@@ -9,13 +8,11 @@ from tests.conftest import LOGGER
 
 
 @pytest.mark.SKA_low
-def test_low_abort_restart_in_scanning(json_factory):
+def test_low_abort_restart_in_resourcing(json_factory):
     """Abort and Restart is executed."""
     telescope_control = TelescopeControlLow()
     assign_json = json_factory("command_assign_resource_low")
     release_json = json_factory("command_release_resource_low")
-    configure_json = json_factory("command_Configure_low")
-    scan_json = json_factory("command_scan_low")
     fixture = {}
     fixture["state"] = "Unknown"
     tmc_helper=TmcHelper(centralnode)
@@ -44,23 +41,9 @@ def test_low_abort_restart_in_scanning(json_factory):
         """Verify ObsState is IDLE"""
         assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_IDLE_INFO,"obsState")
         fixture["state"] ="AssignResources"
+        central_node = DeviceProxy(centralnode)
+        central_node.AssignResources(assign_json)
 
-        """Invoke Configure() Command on TMC"""
-        LOGGER.info("Invoking Configure command on TMC SubarrayNode")
-        tmc_helper.configure_subarray(configure_json,**ON_OFF_DEVICE_COMMAND_DICT)
-        
-        """Verify ObsState is READY"""
-        assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_READY_INFO,"obsState")
-        fixture["state"] ="Configure"
-
-        subarray_node = DeviceProxy(tmc_subarraynode1)
-        subarray_node.Scan(scan_json)
-
-        """Verify ObsState is SCANNING"""
-        assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_SCANNING_INFO,"obsState")
-        fixture["state"] ="Scan"
-
-        """Invoke Abort() command on TMC"""
         """Invoke Abort() command on TMC""" 
         tmc_helper.invoke_abort(**ON_OFF_DEVICE_COMMAND_DICT)
 
@@ -86,13 +69,6 @@ def test_low_abort_restart_in_scanning(json_factory):
     except:
         if fixture["state"] == "AssignResources":
             tmc_helper.invoke_releaseResources(release_json,**ON_OFF_DEVICE_COMMAND_DICT)
-        if fixture["state"] == "Configure":
-            tmc_helper.end()
-            tmc_helper.invoke_releaseResources(release_json,**ON_OFF_DEVICE_COMMAND_DICT)
-        if fixture["state"] == "Scan":
-            tmc_helper.end()
-            tmc_helper.invoke_releaseResources(release_json,**ON_OFF_DEVICE_COMMAND_DICT)
         if fixture["state"] == "TelescopeOn":
             tmc_helper.set_to_off(**ON_OFF_DEVICE_COMMAND_DICT)
         raise
-        

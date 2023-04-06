@@ -155,14 +155,3 @@ def invoke_restart():
     subarray_node.Restart()
     LOGGER.info("Invoked Restart on SubarrayNode")
 
-# @sync_assign_resources_resourcing()
-# def compose_sub_resourcing(assign_res_input):
-#     resource(tmc_subarraynode1).assert_attribute("State").equals(
-#         "ON"
-#     )
-#     resource(tmc_subarraynode1).assert_attribute("obsState").equals(
-#         "EMPTY"
-#     )
-#     central_node = DeviceProxy(centralnode)
-#     central_node.AssignResources(assign_res_input)
-#     LOGGER.info("Invoked AssignResources on CentralNode")
