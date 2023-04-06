@@ -27,7 +27,7 @@ server:
           - "mid-sdp/control/0"
         - name: "DishLeafNodePrefix"
           values:
-          - "ska_mid/tm_leaf_node/d"
+          - "ska_mid/tm_leaf_node/d0"
         - name: "NumDishes"
           values:
           - "4"

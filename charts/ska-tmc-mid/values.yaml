@@ -106,7 +106,7 @@ deviceServers:
     instances: ["01"]
     subarray_count: 3
     file: "data/centralnode_mid.yaml"
-    DishLeafNodePrefix: "ska_mid/tm_leaf_node/d"
+    DishLeafNodePrefix: "ska_mid/tm_leaf_node/d0"
     NumDishes: 4
 
   subarraynode:
