@@ -151,21 +151,19 @@ def test_abort_in_resourcing(json_factory):
         assert telescope_is_in_on_state()
         fixture["state"] = "TelescopeOn"
 
+        # Setting SDP subarray as defective
+        sdp_subarray_proxy = DeviceProxy(sdp_subarray1)
+        sdp_subarray_proxy.SetDefective(True)
+
         # Invoke AssignResources() Command on TMC
-        LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-        resource(tmc_subarraynode1).assert_attribute("State").equals(
-            "ON"
-        )
-        resource(tmc_subarraynode1).assert_attribute("obsState").equals(
-            "EMPTY"
-        )
-        central_node = DeviceProxy(centralnode)
-        central_node.AssignResources(assign_json)
-        LOGGER.info("AssignResources command is invoked successfully")
+        tmc.compose_sub(assign_json)
 
         # Verify ObsState is RESOURCING
         time.sleep(0.1)
         resource(tmc_subarraynode1).assert_attribute("obsState").equals("RESOURCING")
+
+        # Setting Sdp back to normal
+        sdp_subarray_proxy.SetDefective(False)
 
         # Invoke Abort() command on TMC
         tmc.invoke_abort()
