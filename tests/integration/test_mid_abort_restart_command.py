@@ -156,7 +156,15 @@ def test_abort_in_resourcing(json_factory):
         sdp_subarray_proxy.SetDefective(True)
 
         # Invoke AssignResources() Command on TMC
-        tmc.compose_sub(assign_json)
+        resource(tmc_subarraynode1).assert_attribute("State").equals(
+            "ON"
+        )
+        resource(tmc_subarraynode1).assert_attribute("obsState").equals(
+            "EMPTY"
+        )
+        central_node = DeviceProxy(centralnode)
+        central_node.AssignResources(assign_json)
+        LOGGER.info("Invoked AssignResources on CentralNode")
 
         # Verify ObsState is RESOURCING
         time.sleep(0.1)
@@ -241,7 +249,6 @@ def test_abort_in_resourcing(json_factory):
 
 
 @pytest.mark.SKA_mid
-@pytest.mark.Abort
 def test_abort_in_resourcing_with_second_abort(json_factory):
     """Abort and Restart is executed."""
     fixture = {}
@@ -271,7 +278,15 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
         sdp_subarray_proxy.SetDefective(True)
 
         # Invoke AssignResources() Command on TMC
-        tmc.compose_sub(assign_json)
+        resource(tmc_subarraynode1).assert_attribute("State").equals(
+            "ON"
+        )
+        resource(tmc_subarraynode1).assert_attribute("obsState").equals(
+            "EMPTY"
+        )
+        central_node = DeviceProxy(centralnode)
+        central_node.AssignResources(assign_json)
+        LOGGER.info("Invoked AssignResources on CentralNode")
 
         # Verify ObsState is RESOURCING
         time.sleep(0.1)
