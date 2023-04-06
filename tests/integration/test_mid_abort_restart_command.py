@@ -172,6 +172,7 @@ def test_abort_in_resourcing(json_factory):
 
         # Setting Sdp back to normal
         sdp_subarray_proxy.SetDefective(False)
+        time.sleep(0.5)
 
         # Invoke Abort() command on TMC
         tmc.invoke_abort()
@@ -293,7 +294,9 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
         resource(tmc_subarraynode1).assert_attribute("obsState").equals("RESOURCING")
 
         # Invoke Abort() command on TMC
-        tmc.invoke_abort()
+        subarray_node = DeviceProxy(tmc_subarraynode1)
+        subarray_node.Abort()
+        LOGGER.info("Invoked Abort on SubarrayNode")
 
         # Verify ObsState is ABORTING
         time.sleep(0.1)
@@ -301,6 +304,7 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
 
         # Setting Sdp back to normal
         sdp_subarray_proxy.SetDefective(False)
+        time.sleep(0.5)
 
         # Invoke Abort() command on TMC
         tmc.invoke_abort()
