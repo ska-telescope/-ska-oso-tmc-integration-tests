@@ -14,6 +14,7 @@ from tests.resources.test_support.constant import (
     centralnode,
     tmc_subarraynode1,
     csp_subarray1,
+    sdp_subarray1,
 )
 from tests.resources.test_support.helpers import resource
 from tests.conftest import LOGGER
@@ -150,6 +151,8 @@ def test_abort_in_resourcing(json_factory):
         fixture["state"] = "TelescopeOn"
 
         # Setting SDP subarray as defective
+        sdp_subarray_proxy = DeviceProxy(sdp_subarray1)
+        sdp_subarray_proxy.SetDirectObsState(1)
         csp_subarray_proxy = DeviceProxy(csp_subarray1)
         csp_subarray_proxy.SetDirectObsState(1)
         csp_subarray_proxy.SetDefective(True)
@@ -274,6 +277,8 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
         fixture["state"] = "TelescopeOn"
 
         # Setting SDP subarray as defective
+        sdp_subarray_proxy = DeviceProxy(sdp_subarray1)
+        sdp_subarray_proxy.SetDirectObsState(1)
         csp_subarray_proxy = DeviceProxy(csp_subarray1)
         csp_subarray_proxy.SetDirectObsState(1)
         csp_subarray_proxy.SetDefective(True)
