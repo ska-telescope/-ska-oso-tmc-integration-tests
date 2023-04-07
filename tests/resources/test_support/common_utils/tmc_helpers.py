@@ -120,16 +120,6 @@ class TmcHelper(object):
             f"End command is invoked on {subarray_node}"
         )
 
-    # @sync_scan()
-    # def scan(scan_input):
-    #     resource(tmc_subarraynode1).assert_attribute("obsState").equals(
-    #         "READY"
-    #     )
-    #     subarray_node = DeviceProxy(tmc_subarraynode1)
-    #     subarray_node.Scan(scan_input)
-    #     LOGGER.info("Invoked Scan on SubarrayNode")
-
-
     @sync_abort()
     def invoke_abort(self,**kwargs):
         subarray_node = DeviceProxy(kwargs.get("tmc_subarraynode"))
@@ -142,16 +132,3 @@ class TmcHelper(object):
         subarray_node = DeviceProxy(kwargs.get("tmc_subarraynode"))
         subarray_node.Restart()
         LOGGER.info("Invoked Restart on SubarrayNode")
-
-
-    # def set_device_obsstate_configuring():
-    #     csp_subarray = DeviceProxy(csp_subarray1)
-    #     csp_subarray.SetDirectObsState(ObsState.CONFIGURING)
-    #     sdp_subarray = DeviceProxy(sdp_subarray1)
-    #     sdp_subarray.SetDirectObsState(ObsState.CONFIGURING)
-
-    # def set_device_obsstate_resourcing():
-    #     csp_subarray = DeviceProxy(csp_subarray1)
-    #     csp_subarray.SetDirectObsState(ObsState.RESOURCING)
-    #     sdp_subarray = DeviceProxy(sdp_subarray1)
-    #     sdp_subarray.SetDirectObsState(ObsState.RESOURCING)
