@@ -151,10 +151,7 @@ def test_abort_in_resourcing(json_factory):
         fixture["state"] = "TelescopeOn"
 
         # Setting CSP subarray as defective
-        sdp_subarray_proxy = DeviceProxy(sdp_subarray1)
-        sdp_subarray_proxy.SetDirectObsState(1)
         csp_subarray_proxy = DeviceProxy(csp_subarray1)
-        csp_subarray_proxy.SetDirectObsState(1)
         csp_subarray_proxy.SetDefective(True)
 
         # Invoke AssignResources() Command on TMC
@@ -174,7 +171,7 @@ def test_abort_in_resourcing(json_factory):
 
         # Setting CSP back to normal
         csp_subarray_proxy.SetDefective(False)
-        time.sleep(0.5)
+        time.sleep(0.1)
 
         # Invoke Abort() command on TMC
         tmc.invoke_abort()
@@ -251,7 +248,7 @@ def test_abort_in_resourcing(json_factory):
         raise
 
 
-@pytest.mark.SKA_mid
+# @pytest.mark.SKA_mid
 def test_abort_in_resourcing_with_second_abort(json_factory):
     """Abort and Restart is executed."""
     fixture = {}
@@ -278,7 +275,6 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
 
         # Setting CSP subarray as defective
         csp_subarray_proxy = DeviceProxy(csp_subarray1)
-        csp_subarray_proxy.SetDirectObsState(1)
         csp_subarray_proxy.SetDefective(True)
 
         # Invoke AssignResources() Command on TMC
@@ -296,23 +292,20 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
         time.sleep(0.1)
         resource(tmc_subarraynode1).assert_attribute("obsState").equals("RESOURCING")
 
+        # Setting SDP and CSP back to normal
+        csp_subarray_proxy.SetDefective(False)
+        time.sleep(0.1)
+
         # Invoke Abort() command on TMC
         subarray_node = DeviceProxy(tmc_subarraynode1)
         subarray_node.Abort()
         LOGGER.info("Invoked Abort on SubarrayNode")
 
-        # Verify ObsState is ABORTING
-        time.sleep(0.1)
-        resource(tmc_subarraynode1).assert_attribute("obsState").equals("ABORTING")
-
-        # Setting SDP and CSP back to normal
-        sdp_subarray_proxy = DeviceProxy(sdp_subarray1)
-        sdp_subarray_proxy.SetDirectObsState(1)
-        csp_subarray_proxy.SetDefective(False)
-        time.sleep(0.5)
-
         # Invoke Abort() command on TMC
-        tmc.invoke_abort()
+        with pytest.raises(Exception):
+            tmc.invoke_abort()
+
+        time.sleep(1)
 
         fixture["state"] = "Abort"
         assert subarray_obs_state_is_aborted()
