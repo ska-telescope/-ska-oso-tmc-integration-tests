@@ -1,9 +1,10 @@
 import pytest
+import time
 from tango import DeviceProxy
 from tests.resources.test_support.constant_low import *
 from tests.resources.test_support.low.telescope_controls_low import TelescopeControlLow
 from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper                                                               
-
+from tests.resources.test_support.common_utils.common_helpers import  resource
 from tests.conftest import LOGGER
 
 
@@ -33,16 +34,37 @@ def test_low_abort_restart_in_resourcing(json_factory):
         assert telescope_control.is_in_valid_state(DEVICE_STATE_ON_INFO,"State")
         fixture["state"] = "TelescopeOn"
 
-        """Invoke AssignResources() Command on TMC"""
-        LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-        tmc_helper.compose_sub(assign_json,**ON_OFF_DEVICE_COMMAND_DICT)
-        LOGGER.info("AssignResources command is invoked successfully")
+        sdp_subarray_proxy = DeviceProxy(sdp_subarray1)
+        sdp_subarray_proxy.SetDirectObsState(1)
+        csp_subarray_proxy = DeviceProxy(csp_subarray1)
+        csp_subarray_proxy.SetDirectObsState(1)
+        csp_subarray_proxy.SetDefective(True)
 
-        """Verify ObsState is IDLE"""
-        assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_IDLE_INFO,"obsState")
-        fixture["state"] ="AssignResources"
+        # """Invoke AssignResources() Command on TMC"""
+        # LOGGER.info("Invoking AssignResources command on TMC CentralNode")
+        # tmc_helper.compose_sub(assign_json,**ON_OFF_DEVICE_COMMAND_DICT)
+        # LOGGER.info("AssignResources command is invoked successfully")
+
+        # """Verify ObsState is IDLE"""
+        # assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_IDLE_INFO,"obsState")
+        # fixture["state"] ="AssignResources"
+        resource(tmc_subarraynode1).assert_attribute("State").equals(
+            "ON"
+        )
+        resource(tmc_subarraynode1).assert_attribute("obsState").equals(
+            "EMPTY"
+        )
         central_node = DeviceProxy(centralnode)
         central_node.AssignResources(assign_json)
+        LOGGER.info("Invoked AssignResources on CentralNode")
+
+        # Verify ObsState is RESOURCING
+        time.sleep(0.1)
+        resource(tmc_subarraynode1).assert_attribute("obsState").equals("RESOURCING")
+
+        # Setting CSP back to normal
+        csp_subarray_proxy.SetDefective(False)
+        time.sleep(0.5)
 
         """Invoke Abort() command on TMC""" 
         tmc_helper.invoke_abort(**ON_OFF_DEVICE_COMMAND_DICT)

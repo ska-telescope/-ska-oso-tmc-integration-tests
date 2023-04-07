@@ -347,8 +347,8 @@ class Waiter:
 
     def set_wait_for_going_to_empty(self):
         self.waits.append(
-            watch(resource(self.tmc_subarraynode1)).for_any_change_on(
-                "assignedResources"
+            watch(resource(self.tmc_subarraynode1)).to_become(
+                "assignedResources", changed_to=None
             )
         )
         self.waits.append(
