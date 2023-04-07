@@ -5,9 +5,6 @@ from tests.resources.test_support.constant_low import *
 from tests.resources.test_support.low.telescope_controls_low import TelescopeControlLow
 from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper 
 
-
-
-
 @pytest.mark.SKA_low
 def test_low_abort_restart_in_idle(json_factory):
     """Abort and Restart is executed."""

@@ -189,22 +189,3 @@ def sync_restart(timeout=300):
         return wrapper
 
     return decorator_sync_restart
-
-#
-# def sync_assign_resources_resourcing():
-#     # defined as a decorator
-#     def decorator_sync_assign_resources_resourcing(func):
-#         @functools.wraps(func)
-#         def wrapper(*args, **kwargs):
-#             check_going_out_of_empty()
-#             the_waiter = waiter()
-#             # Added this check to ensure that devices are running to avoid random test failures.
-#             tmc.check_devices()
-#             the_waiter.set_wait_for_resourcing()
-#             result = func(*args, **kwargs)
-#             the_waiter.wait(200)
-#             return result
-#
-#         return wrapper
-#
-#     return decorator_sync_assign_resources_resourcing

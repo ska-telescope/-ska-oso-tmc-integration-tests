@@ -1,5 +1,4 @@
 import pytest
-import pytest
 from tango import DeviceProxy
 from tests.resources.test_support.constant_low import *
 from tests.resources.test_support.low.telescope_controls_low import TelescopeControlLow
