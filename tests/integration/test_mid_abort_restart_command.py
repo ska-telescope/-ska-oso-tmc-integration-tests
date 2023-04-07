@@ -150,7 +150,7 @@ def test_abort_in_resourcing(json_factory):
         assert telescope_is_in_on_state()
         fixture["state"] = "TelescopeOn"
 
-        # Setting SDP subarray as defective
+        # Setting CSP subarray as defective
         sdp_subarray_proxy = DeviceProxy(sdp_subarray1)
         sdp_subarray_proxy.SetDirectObsState(1)
         csp_subarray_proxy = DeviceProxy(csp_subarray1)
@@ -172,7 +172,7 @@ def test_abort_in_resourcing(json_factory):
         time.sleep(0.1)
         resource(tmc_subarraynode1).assert_attribute("obsState").equals("RESOURCING")
 
-        # Setting Sdp back to normal
+        # Setting CSP back to normal
         csp_subarray_proxy.SetDefective(False)
         time.sleep(0.5)
 
@@ -276,9 +276,7 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
         assert telescope_is_in_on_state()
         fixture["state"] = "TelescopeOn"
 
-        # Setting SDP subarray as defective
-        sdp_subarray_proxy = DeviceProxy(sdp_subarray1)
-        sdp_subarray_proxy.SetDirectObsState(1)
+        # Setting CSP subarray as defective
         csp_subarray_proxy = DeviceProxy(csp_subarray1)
         csp_subarray_proxy.SetDirectObsState(1)
         csp_subarray_proxy.SetDefective(True)
@@ -307,7 +305,9 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
         time.sleep(0.1)
         resource(tmc_subarraynode1).assert_attribute("obsState").equals("ABORTING")
 
-        # Setting Sdp back to normal
+        # Setting SDP and CSP back to normal
+        sdp_subarray_proxy = DeviceProxy(sdp_subarray1)
+        sdp_subarray_proxy.SetDirectObsState(1)
         csp_subarray_proxy.SetDefective(False)
         time.sleep(0.5)
 
