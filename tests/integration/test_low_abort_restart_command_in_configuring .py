@@ -49,26 +49,17 @@ def test_low_abort_restart_in_configuring(json_factory):
         csp_subarray_proxy = DeviceProxy(csp_subarray1)
         csp_subarray_proxy.SetDefective(True)
 
-        # """Invoke Configure() Command on TMC"""
-        # LOGGER.info("Invoking Configure command on TMC SubarrayNode")
-        # tmc_helper.configure_subarray(configure_json,**ON_OFF_DEVICE_COMMAND_DICT)
-        
-        # """Verify ObsState is READY"""
-        # assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_READY_INFO,"obsState")
-        # fixture["state"] ="Configure"
         resource(tmc_subarraynode1).assert_attribute("obsState").equals(
             "IDLE"
         )
         subarray_node = DeviceProxy(tmc_subarraynode1)
         subarray_node.Configure(configure_json)
         
-        time.sleep(0.1)
         resource(tmc_subarraynode1).assert_attribute("obsState").equals("CONFIGURING")
 
         # Setting CSP back to normal
         csp_subarray_proxy.SetDefective(False)
         sdp_subarray_proxy.SetDefective(False)
-        time.sleep(0.5)
 
         # """Verify ObsState is CONFIGURING"""
         # assert subarray_obs_state_is_ready()
