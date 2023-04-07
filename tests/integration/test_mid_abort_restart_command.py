@@ -13,13 +13,12 @@ import tests.resources.test_support.tmc_helpers as tmc
 from tests.resources.test_support.constant import (
     centralnode,
     tmc_subarraynode1,
-    sdp_subarray1,
+    csp_subarray1,
 )
 from tests.resources.test_support.helpers import resource
 from tests.conftest import LOGGER
 
 @pytest.mark.SKA_mid
-@pytest.mark.Abort
 def test_abort_restart(json_factory):
     """Abort and Restart is executed."""
     fixture = {}
@@ -82,7 +81,6 @@ def test_abort_restart(json_factory):
 
 
 @pytest.mark.SKA_mid
-@pytest.mark.Abort
 def test_abort_in_empty():
     """Abort and Restart is executed."""
     fixture = {}
@@ -152,8 +150,8 @@ def test_abort_in_resourcing(json_factory):
         fixture["state"] = "TelescopeOn"
 
         # Setting SDP subarray as defective
-        sdp_subarray_proxy = DeviceProxy(sdp_subarray1)
-        sdp_subarray_proxy.SetDefective(True)
+        csp_subarray_proxy = DeviceProxy(csp_subarray1)
+        csp_subarray_proxy.SetDefective(True)
 
         # Invoke AssignResources() Command on TMC
         resource(tmc_subarraynode1).assert_attribute("State").equals(
@@ -171,7 +169,7 @@ def test_abort_in_resourcing(json_factory):
         resource(tmc_subarraynode1).assert_attribute("obsState").equals("RESOURCING")
 
         # Setting Sdp back to normal
-        sdp_subarray_proxy.SetDefective(False)
+        csp_subarray_proxy.SetDefective(False)
         time.sleep(0.5)
 
         # Invoke Abort() command on TMC
@@ -275,8 +273,8 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
         fixture["state"] = "TelescopeOn"
 
         # Setting SDP subarray as defective
-        sdp_subarray_proxy = DeviceProxy(sdp_subarray1)
-        sdp_subarray_proxy.SetDefective(True)
+        csp_subarray_proxy = DeviceProxy(csp_subarray1)
+        csp_subarray_proxy.SetDefective(True)
 
         # Invoke AssignResources() Command on TMC
         resource(tmc_subarraynode1).assert_attribute("State").equals(
@@ -303,7 +301,7 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
         resource(tmc_subarraynode1).assert_attribute("obsState").equals("ABORTING")
 
         # Setting Sdp back to normal
-        sdp_subarray_proxy.SetDefective(False)
+        csp_subarray_proxy.SetDefective(False)
         time.sleep(0.5)
 
         # Invoke Abort() command on TMC
