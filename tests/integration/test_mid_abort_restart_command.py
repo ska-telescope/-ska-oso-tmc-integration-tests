@@ -151,6 +151,7 @@ def test_abort_in_resourcing(json_factory):
 
         # Setting SDP subarray as defective
         csp_subarray_proxy = DeviceProxy(csp_subarray1)
+        csp_subarray_proxy.SetDirectObsState(1)
         csp_subarray_proxy.SetDefective(True)
 
         # Invoke AssignResources() Command on TMC
@@ -274,6 +275,7 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
 
         # Setting SDP subarray as defective
         csp_subarray_proxy = DeviceProxy(csp_subarray1)
+        csp_subarray_proxy.SetDirectObsState(1)
         csp_subarray_proxy.SetDefective(True)
 
         # Invoke AssignResources() Command on TMC
