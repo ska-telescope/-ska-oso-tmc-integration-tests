@@ -43,6 +43,7 @@ def test_low_abort_restart_in_idle(json_factory):
         """Invoke Abort() command on TMC""" 
         tmc_helper.invoke_abort(**ON_OFF_DEVICE_COMMAND_DICT)
 
+        """Verify State transitions after Abort"""
         fixture["state"] = "Abort"
         assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_ABORT_INFO,"obsState")
 

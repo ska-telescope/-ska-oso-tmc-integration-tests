@@ -19,7 +19,7 @@ from tests.resources.test_support.low.sync_decorators import (
     sync_set_to_off,
     sync_set_to_standby,
     sync_release_resources,
-    sync_end, sync_assign_resources, sync_configure, sync_scan, sync_abort, sync_restart
+    sync_end, sync_assign_resources, sync_configure, sync_scan
 )
 
 LOGGER = logging.getLogger(__name__)
@@ -141,17 +141,4 @@ def scan(scan_input):
     subarray_node.Scan(scan_input)
     LOGGER.info("Invoked Scan on SubarrayNode")
 
-
-@sync_abort()
-def invoke_abort():
-    subarray_node = DeviceProxy(tmc_subarraynode1)
-    subarray_node.Abort()
-    LOGGER.info("Invoked Abort on SubarrayNode")
-
-
-@sync_restart()
-def invoke_restart():
-    subarray_node = DeviceProxy(tmc_subarraynode1)
-    subarray_node.Restart()
-    LOGGER.info("Invoked Restart on SubarrayNode")
 

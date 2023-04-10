@@ -43,9 +43,11 @@ def test_low_abort_restart_in_configuring(json_factory):
         assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_IDLE_INFO,"obsState")
         fixture["state"] ="AssignResources"
 
+        # Setting CSP to defective
         csp_subarray_proxy = DeviceProxy(csp_subarray1)
         csp_subarray_proxy.SetDefective(True)
 
+        """Invoke Configure() command on TMC"""
         resource(tmc_subarraynode1).assert_attribute("obsState").equals(
             "IDLE"
         )
@@ -60,6 +62,7 @@ def test_low_abort_restart_in_configuring(json_factory):
         """Invoke Abort() command on TMC""" 
         tmc_helper.invoke_abort(**ON_OFF_DEVICE_COMMAND_DICT)
 
+        """Verify State transitions after Abort"""
         fixture["state"] = "Abort"
         assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_ABORT_INFO,"obsState")
 

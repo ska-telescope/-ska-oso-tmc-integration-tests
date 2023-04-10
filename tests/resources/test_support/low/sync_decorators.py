@@ -26,14 +26,6 @@ def check_going_out_of_configure():
     resource(sdp_subarray1).assert_attribute("obsState").equals("READY")
     resource(tmc_subarraynode1).assert_attribute("obsState").equals("READY")
 
-
-def check_going_out_of_abort():
-    # verify once for obstate = ABORTED
-    resource(csp_subarray1).assert_attribute("obsState").equals("ABORTED")
-    resource(sdp_subarray1).assert_attribute("obsState").equals("ABORTED")
-    resource(tmc_subarraynode1).assert_attribute("obsState").equals("ABORTED")
-
-
 def sync_telescope_on(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
@@ -156,36 +148,3 @@ def sync_end():
         return wrapper
 
     return decorator_sync_end
-
-
-def sync_abort(timeout=300):
-    # define as a decorator
-    def decorator_sync_abort(func):
-        @functools.wraps(func)
-        def wrapper(*args, **kwargs):
-            the_waiter = waiter()
-            the_waiter.set_wait_for_aborted()
-            result = func(*args, **kwargs)
-            the_waiter.wait(timeout)
-            return result
-
-        return wrapper
-
-    return decorator_sync_abort
-
-
-def sync_restart(timeout=300):
-    # define as a decorator
-    def decorator_sync_restart(func):
-        @functools.wraps(func)
-        def wrapper(*args, **kwargs):
-            check_going_out_of_abort()
-            the_waiter = waiter()
-            the_waiter.set_wait_for_going_to_empty()
-            result = func(*args, **kwargs)
-            the_waiter.wait(timeout)
-            return result
-
-        return wrapper
-
-    return decorator_sync_restart

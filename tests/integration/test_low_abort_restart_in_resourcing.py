@@ -7,7 +7,6 @@ from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
 from tests.resources.test_support.common_utils.common_helpers import  resource
 from tests.conftest import LOGGER
 
-
 @pytest.mark.SKA_low
 def test_low_abort_restart_in_resourcing(json_factory):
     """Abort and Restart is executed."""
@@ -34,6 +33,7 @@ def test_low_abort_restart_in_resourcing(json_factory):
         assert telescope_control.is_in_valid_state(DEVICE_STATE_ON_INFO,"State")
         fixture["state"] = "TelescopeOn"
 
+        # Setting CSP to defective
         csp_subarray_proxy = DeviceProxy(csp_subarray1)
         csp_subarray_proxy.SetDefective(True)
 
@@ -51,6 +51,7 @@ def test_low_abort_restart_in_resourcing(json_factory):
         LOGGER.info("Invoked AssignResources on CentralNode")
 
         # Verify ObsState is RESOURCING
+        time.sleep(1)
         resource(tmc_subarraynode1).assert_attribute("obsState").equals("RESOURCING")
 
         # Setting CSP back to normal
@@ -60,6 +61,7 @@ def test_low_abort_restart_in_resourcing(json_factory):
         """Invoke Abort() command on TMC""" 
         tmc_helper.invoke_abort(**ON_OFF_DEVICE_COMMAND_DICT)
 
+        """Verify State transitions after Abort"""
         fixture["state"] = "Abort"
         assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_ABORT_INFO,"obsState")
 
