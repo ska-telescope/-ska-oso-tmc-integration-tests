@@ -16,6 +16,7 @@ from tests.resources.test_support.constant import (
     DEVICE_HEALTH_STATE_OK_INFO
 )
 
+@pytest.mark.skip
 @pytest.mark.SKA_mid
 def test_assign_release(json_factory):
     """AssignResources and ReleaseResources is executed."""

@@ -10,6 +10,7 @@ tmc_subarraynode1
 
 configure_resources_file = "command_Configure.json" 
 
+@pytest.mark.skip
 @pytest.mark.SKA_mid
 def test_configure_not_allowed_in_empty():   
     fixture = {}

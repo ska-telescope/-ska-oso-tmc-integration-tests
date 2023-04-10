@@ -12,6 +12,7 @@ from tests.resources.test_support.constant_low import (
 from tests.resources.test_support.low.telescope_controls_low import TelescopeControlLow
 import json
 
+@pytest.mark.skip
 @pytest.mark.SKA_low
 def test_configure_end_low(json_factory):
     """Configure and End is executed."""

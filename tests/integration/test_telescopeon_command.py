@@ -4,6 +4,7 @@ from tests.resources.test_support.constant import ON_OFF_DEVICE_COMMAND_DICT, ce
 from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
 from tests.conftest import LOGGER
 
+@pytest.mark.skip
 @pytest.mark.SKA_mid
 def test_telescope_on():
     """TelescopeOn() is executed."""

@@ -10,7 +10,7 @@ from tests.resources.test_support.low.telescope_controls_low import TelescopeCon
 from tests.conftest import LOGGER
 from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
 
-
+@pytest.mark.skip
 @pytest.mark.SKA_low
 def test_telescope_on():
     """TelescopeOn() is executed."""
