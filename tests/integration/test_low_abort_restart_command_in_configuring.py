@@ -16,7 +16,7 @@ def test_low_abort_restart_in_configuring(json_factory):
     configure_json = json_factory("command_Configure_low")
     fixture = {}
     fixture["state"] = "Unknown"
-    tmc_helper=TmcHelper(centralnode)
+    tmc_helper=TmcHelper(centralnode, tmc_subarraynode1)
     
     try:
         tmc_helper.check_devices(DEVICE_LIST_FOR_CHECK_DEVICES)

@@ -10,13 +10,14 @@ from tests.resources.test_support.common_utils.common_helpers import  resource
 LOGGER = logging.getLogger(__name__)
 
 class TmcHelper(object):
-    def __init__(self, central_node, **kwargs) -> None:
+    def __init__(self, central_node,subarray_node, **kwargs) -> None:
         """
         Args:
             central_node (str) -> FQDN of Central Node
         """
         self.centralnode = central_node
-    
+        self.subarray_node = subarray_node
+
     def check_devices(self, device_list: list) -> None:
         """
         Args:
@@ -92,10 +93,10 @@ class TmcHelper(object):
 
     @sync_assign_resources()
     def compose_sub(self,assign_res_input,**kwargs):
-        resource(kwargs.get("tmc_subarraynode")).assert_attribute("State").equals(
+        resource(self.subarray_node).assert_attribute("State").equals(
             "ON"
         )
-        resource(kwargs.get("tmc_subarraynode")).assert_attribute("obsState").equals(
+        resource(self.subarray_node).assert_attribute("obsState").equals(
             "EMPTY"
         )
         central_node = DeviceProxy(self.centralnode)
@@ -105,16 +106,16 @@ class TmcHelper(object):
     
     @sync_configure()
     def configure_subarray(self,configure_input_str,**kwargs):
-        resource(kwargs.get("tmc_subarraynode")).assert_attribute("obsState").equals(
+        resource(self.subarray_node).assert_attribute("obsState").equals(
             "IDLE"
         )
-        subarray_node = DeviceProxy(kwargs.get("tmc_subarraynode"))
+        subarray_node = DeviceProxy(self.subarray_node)
         subarray_node.Configure(configure_input_str)
         LOGGER.info("Invoked Configure on SubarrayNode")
 
     @sync_end()
-    def end(**kwargs):
-        subarray_node = DeviceProxy(kwargs.get("tmc_subarraynode"))
+    def end(self, **kwargs):
+        subarray_node = DeviceProxy(self.subarray_node)
         subarray_node.End()
         LOGGER.info(
             f"End command is invoked on {subarray_node}"
@@ -122,13 +123,13 @@ class TmcHelper(object):
 
     @sync_abort()
     def invoke_abort(self,**kwargs):
-        subarray_node = DeviceProxy(kwargs.get("tmc_subarraynode"))
+        subarray_node = DeviceProxy(self.subarray_node)
         subarray_node.Abort()
         LOGGER.info("Invoked Abort on SubarrayNode")
 
 
     @sync_restart()
     def invoke_restart(self,**kwargs):
-        subarray_node = DeviceProxy(kwargs.get("tmc_subarraynode"))
+        subarray_node = DeviceProxy(self.subarray_node)
         subarray_node.Restart()
         LOGGER.info("Invoked Restart on SubarrayNode")
