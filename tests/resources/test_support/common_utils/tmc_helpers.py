@@ -10,7 +10,7 @@ from tests.resources.test_support.common_utils.common_helpers import  resource
 LOGGER = logging.getLogger(__name__)
 
 class TmcHelper(object):
-    def __init__(self, central_node,subarray_node, **kwargs) -> None:
+    def __init__(self, central_node,subarray_node,**kwargs) -> None:
         """
         Args:
             central_node (str) -> FQDN of Central Node
@@ -63,7 +63,6 @@ class TmcHelper(object):
                 f"After invoking TelescopeOff command {central_node} State is: {central_node.State()}"
         )
 
-
     @sync_set_to_standby
     def set_to_standby(self, **kwargs):
         central_node = DeviceProxy(self.centralnode)
@@ -77,7 +76,6 @@ class TmcHelper(object):
             f"After invoking TelescopeStandBy command {central_node} State is: {central_node.State()}"
         )
 
-
     @sync_release_resources
     def invoke_releaseResources(self, release_input_str,**kwargs,):
         central_node = DeviceProxy(self.centralnode)
@@ -85,11 +83,6 @@ class TmcHelper(object):
         LOGGER.info(
             f"ReleaseResources command is invoked on {central_node}"
         )
-        device_to_standby_list = [kwargs.get("csp_subarray"), kwargs.get("sdp_subarray")]
-        for device in device_to_standby_list:
-            device_proxy = DeviceProxy(device)
-            device_proxy.SetDirectState(DevState.OFF)
-
 
     @sync_assign_resources()
     def compose_sub(self,assign_res_input,**kwargs):

@@ -139,7 +139,7 @@ def sync_end():
         def wrapper(*args, **kwargs):
             device = DeviceUtils(obs_state_device_names=[kwargs.get("csp_subarray"),
             kwargs.get("sdp_subarray"),kwargs.get("tmc_subarraynode")])
-            device.check_devices_obsState("CONFIGURE")
+            device.check_devices_obsState("READY")
             the_waiter = Waiter(**kwargs)
             the_waiter.set_wait_for_idle()
             result = func(*args, **kwargs)
