@@ -1,7 +1,7 @@
 import pytest
 import time
 from tango import DeviceProxy
-from tests.resources.test_support.constant_low import(centralnode, tmc_subarraynode1, DEVICE_LIST_FOR_CHECK_DEVICES,
+from tests.resources.test_support.constant_low import (centralnode, tmc_subarraynode1, DEVICE_LIST_FOR_CHECK_DEVICES,
 DEVICE_STATE_STANDBY_INFO, ON_OFF_DEVICE_COMMAND_DICT, DEVICE_STATE_ON_INFO, DEVICE_OBS_STATE_IDLE_INFO,
 csp_subarray1, DEVICE_OBS_STATE_ABORT_INFO, DEVICE_OBS_STATE_EMPTY_INFO, DEVICE_STATE_OFF_INFO)
 from tests.resources.test_support.low.telescope_controls_low import TelescopeControlLow

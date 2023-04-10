@@ -13,7 +13,6 @@ def sync_telescope_on(func):
         result = func(*args, **kwargs)
         the_waiter.wait(TIMEOUT)
         return result
-
     return wrapper
 
 def sync_set_to_off(func):
@@ -24,7 +23,6 @@ def sync_set_to_off(func):
         result = func(*args, **kwargs)
         the_waiter.wait(TIMEOUT)
         return result
-
     return wrapper
 
 # defined as a context manager
@@ -44,7 +42,6 @@ def sync_set_to_standby(func):
         result = func(*args, **kwargs)
         the_waiter.wait(TIMEOUT)
         return result
-
     return wrapper
 
 def sync_release_resources(func):
@@ -55,7 +52,6 @@ def sync_release_resources(func):
         result = func(*args, **kwargs)
         the_waiter.wait(TIMEOUT)
         return result
-
     return wrapper
 
 
@@ -72,9 +68,7 @@ def sync_assign_resources():
             result = func(*args, **kwargs)
             the_waiter.wait(200)
             return result
-
         return wrapper
-
     return decorator_sync_assign_resources
 
 
@@ -88,9 +82,7 @@ def sync_abort(timeout=300):
             result = func(*args, **kwargs)
             the_waiter.wait(timeout)
             return result
-
         return wrapper
-
     return decorator_sync_abort
 
 
@@ -107,9 +99,7 @@ def sync_restart(timeout=300):
             result = func(*args, **kwargs)
             the_waiter.wait(timeout)
             return result
-
         return wrapper
-
     return decorator_sync_restart
 
 
@@ -126,9 +116,7 @@ def sync_configure():
             result = func(*args, **kwargs)
             the_waiter.wait(500)
             return result
-
         return wrapper
-
     return decorator_sync_configure
 
 
@@ -144,7 +132,5 @@ def sync_end():
             the_waiter.set_wait_for_idle()
             result = func(*args, **kwargs)
             return result
-
         return wrapper
-
     return decorator_sync_end

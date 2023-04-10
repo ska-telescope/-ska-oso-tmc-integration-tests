@@ -86,6 +86,12 @@ ON_OFF_DEVICE_COMMAND_DICT = {
 
 
 DEVICE_LIST_FOR_CHECK_DEVICES=[
-    centralnode,csp_subarray1,sdp_subarray1,
-    tmc_subarraynode1,tmc_csp_master_leaf_node,tmc_csp_subarray_leaf_node,
-    tmc_sdp_master_leaf_node,tmc_sdp_subarray_leaf_node]
+    centralnode,
+    csp_subarray1,
+    sdp_subarray1,
+    tmc_subarraynode1,
+    tmc_csp_master_leaf_node,
+    tmc_csp_subarray_leaf_node,
+    tmc_sdp_master_leaf_node,
+    tmc_sdp_subarray_leaf_node
+    ]
