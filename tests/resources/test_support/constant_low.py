@@ -94,4 +94,4 @@ DEVICE_LIST_FOR_CHECK_DEVICES=[
     tmc_csp_subarray_leaf_node,
     tmc_sdp_master_leaf_node,
     tmc_sdp_subarray_leaf_node
-    ]
+]
