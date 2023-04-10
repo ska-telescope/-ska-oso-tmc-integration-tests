@@ -22,16 +22,16 @@ def test_low_abort_restart_in_resourcing(json_factory):
     try:
         tmc_helper.check_devices(DEVICE_LIST_FOR_CHECK_DEVICES)
 
-        """Verify Telescope is Off/Standby"""
+        # Verify Telescope is Off/Standby# 
         assert telescope_control.is_in_valid_state(DEVICE_STATE_STANDBY_INFO, "State")
         LOGGER.info("Staring up the Telescope")
 
-        """Invoke TelescopeOn() command on TMC"""
+        # Invoke TelescopeOn() command on TMC# 
         LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
         tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("TelescopeOn command is invoked successfully")
 
-        """Verify State transitions after TelescopeOn"""
+        # Verify State transitions after TelescopeOn# 
         assert telescope_control.is_in_valid_state(DEVICE_STATE_ON_INFO, "State")
         fixture["state"] = "TelescopeOn"
 
@@ -39,7 +39,7 @@ def test_low_abort_restart_in_resourcing(json_factory):
         csp_subarray_proxy = DeviceProxy(csp_subarray1)
         csp_subarray_proxy.SetDefective(True)
 
-        """Invoke AssignResources() Command on TMC"""
+        # Invoke AssignResources() Command on TMC# 
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
  
         resource(tmc_subarraynode1).assert_attribute("State").equals(
@@ -60,24 +60,24 @@ def test_low_abort_restart_in_resourcing(json_factory):
         csp_subarray_proxy.SetDefective(False)
     
 
-        """Invoke Abort() command on TMC""" 
+        # Invoke Abort() command on TMC#  
         tmc_helper.invoke_abort(**ON_OFF_DEVICE_COMMAND_DICT)
 
-        """Verify State transitions after Abort"""
+        # Verify State transitions after Abort# 
         fixture["state"] = "Abort"
         assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_ABORT_INFO, "obsState")
 
-        """Invoke Restart() command on TMC"""
+        # Invoke Restart() command on TMC# 
         tmc_helper.invoke_restart(**ON_OFF_DEVICE_COMMAND_DICT)
 
         fixture["state"] = "Restart"
-        """Verify ObsState is EMPTY"""
+        # Verify ObsState is EMPTY# 
         assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_EMPTY_INFO, "obsState")
 
-        """Invoke TelescopeOff() command on TMC"""
+        # Invoke TelescopeOff() command on TMC# 
         tmc_helper.set_to_off(**ON_OFF_DEVICE_COMMAND_DICT)
 
-        """Verify State transitions after TelescopeOff"""
+        # Verify State transitions after TelescopeOff# 
         assert telescope_control.is_in_valid_state(DEVICE_STATE_OFF_INFO, "State")
         fixture["state"] = "TelescopeOff"
 
