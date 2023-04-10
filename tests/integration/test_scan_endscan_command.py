@@ -17,7 +17,7 @@ def test_scan_endscan():
         fixture["state"] = "Unknown"
 
         """Verify Telescope is Off/Standby"""
-        assert telescope_is_in_standby_state()
+        assert telescope_is_in_off_state()
         LOGGER.info("Staring up the Telescope")
 
         """Invoke TelescopeOn() command on TMC"""

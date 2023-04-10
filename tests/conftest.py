@@ -34,7 +34,7 @@ def pytest_addoption(parser):
             "need to spin up a Tango test context"
         ),
     )
-    
+
 
 def get_input_str(path):
     """
@@ -60,4 +60,3 @@ def json_factory():
 TELESCOPE_ENV = os.getenv("TELESCOPE")
 
 TIMEOUT = 200
-

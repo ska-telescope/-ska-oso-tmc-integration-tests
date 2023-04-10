@@ -20,7 +20,7 @@ def test_assign_invalid_json(json_factory):
 
     try:
         """Verify Telescope is Off/Standby"""
-        assert telescope_is_in_standby_state()
+        assert telescope_is_in_off_state()
         LOGGER.info("Staring up the Telescope")
 
         """Invoke TelescopeOn() command on TMC"""
@@ -78,7 +78,7 @@ def test_release_invalid_json(json_factory):
 
     try:
         """Verify Telescope is Off/Standby"""
-        assert telescope_is_in_standby_state()
+        assert telescope_is_in_off_state()
         LOGGER.info("Staring up the Telescope")
 
         """Invoke TelescopeOn() command on TMC"""
@@ -147,7 +147,6 @@ def test_release_invalid_json(json_factory):
 
 
 @pytest.mark.SKA_mid
-@pytest.mark.MS
 def test_assign_resources_validate_receptor_ids(json_factory):
         
     """AssignResources and ReleaseResources is executed."""

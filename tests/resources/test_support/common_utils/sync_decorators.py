@@ -56,4 +56,3 @@ def sync_release_resources(func):
         return result
 
     return wrapper
-
