@@ -488,6 +488,7 @@ class waiter:
                     self.error_logs, self.logs
                 )
             )
+
 class WaitForScan(waiter):
     def __init__(self):
         self.tmc_subarraynode = watch(resource(tmc_subarraynode1)).for_a_change_on(

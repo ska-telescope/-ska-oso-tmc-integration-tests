@@ -1,4 +1,3 @@
-
 centralnode = "ska_low/tm_central/central_node"
 tmc_subarraynode1 = "ska_low/tm_subarray_node/1"
 tmc_subarraynode2 = "ska_low/tm_subarray_node/2"
@@ -56,6 +55,18 @@ DEVICE_OBS_STATE_READY_INFO = {
     csp_subarray1: ["READY"]
 }
 
+DEVICE_OBS_STATE_SCANNING_INFO = {
+    sdp_subarray1: ["SCANNING"],
+    tmc_subarraynode1: ["SCANNING"],
+    csp_subarray1: ["SCANNING"]
+}
+
+DEVICE_OBS_STATE_ABORT_INFO = {
+    sdp_subarray1: ["ABORTED"],
+    tmc_subarraynode1: ["ABORTED"],
+    csp_subarray1: ["ABORTED"]
+}
+
 DEVICE_HEALTH_STATE_OK_INFO = {
     tmc_csp_subarray_leaf_node: "OK",
     centralnode: "OK",
@@ -69,8 +80,18 @@ ON_OFF_DEVICE_COMMAND_DICT = {
     "csp_subarray": csp_subarray1,
     "csp_master": csp_master,
     "tmc_subarraynode": tmc_subarraynode1,
-    "sdp_master": sdp_master
+    "sdp_master": sdp_master,
+    "centralnode": centralnode 
 }
 
 
-
+DEVICE_LIST_FOR_CHECK_DEVICES=[
+    centralnode,
+    csp_subarray1,
+    sdp_subarray1,
+    tmc_subarraynode1,
+    tmc_csp_master_leaf_node,
+    tmc_csp_subarray_leaf_node,
+    tmc_sdp_master_leaf_node,
+    tmc_sdp_subarray_leaf_node
+]

@@ -266,7 +266,7 @@ class Waiter:
         self.sdp_master = kwargs.get("sdp_master")
         self.csp_subarray1 = kwargs.get("csp_subarray")
         self.csp_master = kwargs.get("csp_master")
-        self.tmc_subarraynode1 = kwargs.get("tmc_subarraynode1")
+        self.tmc_subarraynode1 = kwargs.get("tmc_subarraynode")
         self.dish_master1 = kwargs.get("dish_master")
         
 
@@ -347,8 +347,8 @@ class Waiter:
 
     def set_wait_for_going_to_empty(self):
         self.waits.append(
-            watch(resource(self.tmc_subarraynode1)).for_any_change_on(
-                "assignedResources"
+            watch(resource(self.tmc_subarraynode1)).to_become(
+                "assignedResources", changed_to=None
             )
         )
         self.waits.append(
@@ -369,18 +369,18 @@ class Waiter:
 
     def set_wait_for_assign_resources(self):
         self.waits.append(
-            watch(resource(csp_subarray1)).to_become(
+            watch(resource(self.csp_subarray1)).to_become(
                 "obsState", changed_to="IDLE"
             )
         )
         self.waits.append(
-            watch(resource(sdp_subarray1)).to_become(
+            watch(resource(self.sdp_subarray1)).to_become(
                 "obsState", changed_to="IDLE"
             )
         )
 
         self.waits.append(
-            watch(resource(tmc_subarraynode1)).to_become(
+            watch(resource(self.tmc_subarraynode1)).to_become(
                 "obsState", changed_to="IDLE"
             )
         )
@@ -417,6 +417,23 @@ class Waiter:
         self.waits.append(
             watch(resource(self.tmc_subarraynode1)).to_become(
                 "obsState", changed_to="IDLE"
+            )
+        )
+
+    def set_wait_for_aborted(self):
+        self.waits.append(
+            watch(resource(self.csp_subarray1)).to_become(
+                "obsState", changed_to="ABORTED"
+            )
+        )
+        self.waits.append(
+            watch(resource(self.sdp_subarray1)).to_become(
+                "obsState", changed_to="ABORTED"
+            )
+        )
+        self.waits.append(
+            watch(resource(self.tmc_subarraynode1)).to_become(
+                "obsState", changed_to="ABORTED"
             )
         )
 
