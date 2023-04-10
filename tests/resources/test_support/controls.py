@@ -42,7 +42,7 @@ def telescope_is_in_standby_state():
             resource(sdp_master).get("State") in ["DISABLE", "STANDBY"],
             resource(csp_master).get("State") in ["DISABLE", "STANDBY"],
             resource(csp_subarray1).get("State") in ["DISABLE", "OFF"],
-            resource(dish_master1).get("State") in ["DISABLE", "OFF"],
+            resource(dish_master1).get("State") in ["DISABLE", "STANDBY"],
         ]
     )
 
