@@ -9,7 +9,7 @@ from tests.resources.test_support.constant_low import (
 from tests.resources.test_support.low.telescope_controls_low import TelescopeControlLow
 from tests.conftest import LOGGER
 from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
-from tests.resources.test_support.constant_low import *
+from tests.resources.test_support.constant_low import centralnode, tmc_subarraynode1, DEVICE_STATE_STANDBY_INFO, ON_OFF_DEVICE_COMMAND_DICT
 
 
 @pytest.mark.SKA_low

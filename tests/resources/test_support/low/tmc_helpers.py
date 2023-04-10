@@ -80,7 +80,7 @@ def set_to_standby():
     sdp_subarray_1.SetDirectState(DevState.OFF)
 
     LOGGER.info(
-        f"After invoking TelescopeStandBy command {central_node} State is: {central_node.State()}"
+        f"After invoking TelescopeStandBy command {central_node}.State: {central_node.State()}"
     )
 
 

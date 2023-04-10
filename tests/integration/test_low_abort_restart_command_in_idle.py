@@ -1,7 +1,8 @@
 import pytest
-
 from tests.conftest import LOGGER
-from tests.resources.test_support.constant_low import *
+from tests.resources.test_support.constant_low import (centralnode, tmc_subarraynode1, DEVICE_LIST_FOR_CHECK_DEVICES,
+DEVICE_STATE_STANDBY_INFO, ON_OFF_DEVICE_COMMAND_DICT, DEVICE_STATE_ON_INFO, DEVICE_OBS_STATE_IDLE_INFO,
+csp_subarray1, DEVICE_OBS_STATE_ABORT_INFO, DEVICE_OBS_STATE_EMPTY_INFO, DEVICE_STATE_OFF_INFO)
 from tests.resources.test_support.low.telescope_controls_low import TelescopeControlLow
 from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper 
 
@@ -19,7 +20,7 @@ def test_low_abort_restart_in_idle(json_factory):
         tmc_helper.check_devices(DEVICE_LIST_FOR_CHECK_DEVICES)
 
         """Verify Telescope is Off/Standby"""
-        assert telescope_control.is_in_valid_state(DEVICE_STATE_STANDBY_INFO,"State")
+        assert telescope_control.is_in_valid_state(DEVICE_STATE_STANDBY_INFO, "State")
         LOGGER.info("Staring up the Telescope")
 
         """Invoke TelescopeOn() command on TMC"""
@@ -28,7 +29,7 @@ def test_low_abort_restart_in_idle(json_factory):
         LOGGER.info("TelescopeOn command is invoked successfully")
 
         """Verify State transitions after TelescopeOn"""
-        assert telescope_control.is_in_valid_state(DEVICE_STATE_ON_INFO,"State")
+        assert telescope_control.is_in_valid_state(DEVICE_STATE_ON_INFO, "State")
         fixture["state"] = "TelescopeOn"
 
         """Invoke AssignResources() Command on TMC"""
@@ -37,31 +38,31 @@ def test_low_abort_restart_in_idle(json_factory):
         LOGGER.info("AssignResources command is invoked successfully")
 
         """Verify ObsState is IDLE"""
-        assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_IDLE_INFO,"obsState")
-        fixture["state"] ="AssignResources"
+        assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_IDLE_INFO, "obsState")
+        fixture["state"] = "AssignResources"
 
         """Invoke Abort() command on TMC""" 
         tmc_helper.invoke_abort(**ON_OFF_DEVICE_COMMAND_DICT)
 
         """Verify State transitions after Abort"""
         fixture["state"] = "Abort"
-        assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_ABORT_INFO,"obsState")
+        assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_ABORT_INFO, "obsState")
 
         """Invoke Restart() command on TMC"""
         tmc_helper.invoke_restart(**ON_OFF_DEVICE_COMMAND_DICT)
 
         fixture["state"] = "Restart"
         """Verify ObsState is EMPTY"""
-        assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_EMPTY_INFO,"obsState")
+        assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_EMPTY_INFO, "obsState")
 
         """Invoke TelescopeOff() command on TMC"""
         tmc_helper.set_to_off(**ON_OFF_DEVICE_COMMAND_DICT)
 
         """Verify State transitions after TelescopeOff"""
-        assert telescope_control.is_in_valid_state(DEVICE_STATE_OFF_INFO,"State")
+        assert telescope_control.is_in_valid_state(DEVICE_STATE_OFF_INFO, "State")
         fixture["state"] = "TelescopeOff"
 
-        LOGGER.info("Tests complete.")
+        LOGGER.info("Test complete.")
 
     except:
         if fixture["state"] == "AssignResources":
