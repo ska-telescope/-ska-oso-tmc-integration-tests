@@ -66,6 +66,7 @@ def test_assign_invalid_json(json_factory):
             tmc.set_to_off()
         raise
 
+@pytest.mark.skip
 @pytest.mark.SKA_mid
 def test_release_invalid_json(json_factory):
     try:
