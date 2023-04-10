@@ -1,4 +1,3 @@
-
 centralnode = "ska_low/tm_central/central_node"
 tmc_subarraynode1 = "ska_low/tm_subarray_node/1"
 tmc_subarraynode2 = "ska_low/tm_subarray_node/2"
