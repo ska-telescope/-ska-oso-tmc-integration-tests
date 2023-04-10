@@ -3,17 +3,6 @@ from os.path import dirname, join
 
 from tango import DeviceProxy, DevState
 
-from tests.resources.test_support.low.controls import (
-    centralnode,
-    csp_subarray1,
-    sdp_subarray1,
-    tmc_subarraynode1,
-    tmc_csp_master_leaf_node,
-    tmc_sdp_master_leaf_node,
-    tmc_csp_subarray_leaf_node,
-    tmc_sdp_subarray_leaf_node
-)
-from tests.resources.test_support.low.helpers import resource
 from tests.resources.test_support.low.sync_decorators import (
     sync_telescope_on,
     sync_set_to_off,
@@ -21,6 +10,13 @@ from tests.resources.test_support.low.sync_decorators import (
     sync_release_resources,
     sync_end, sync_assign_resources, sync_configure, sync_scan
 )
+from tango import DeviceProxy, DevState
+from tests.resources.test_support.low.helpers import resource
+import logging
+from tests.resources.test_support.constant_low import( 
+centralnode, csp_subarray1, sdp_subarray1, tmc_subarraynode1,
+tmc_csp_master_leaf_node, tmc_csp_subarray_leaf_node, 
+tmc_sdp_master_leaf_node,tmc_sdp_subarray_leaf_node)
 
 LOGGER = logging.getLogger(__name__)
 
