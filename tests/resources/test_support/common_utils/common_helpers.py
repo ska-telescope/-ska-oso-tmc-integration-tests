@@ -268,7 +268,7 @@ class Waiter:
         self.csp_master = kwargs.get("csp_master")
         self.tmc_subarraynode1 = kwargs.get("tmc_subarraynode")
         self.dish_master1 = kwargs.get("dish_master")
-        
+
 
     def clear_watches(self):
         self.waits = []
@@ -300,7 +300,7 @@ class Waiter:
                     "State", changed_to="STANDBY"
                     )
                 )
-    
+
     def set_wait_for_going_to_standby(self):
         self.waits.append(
             watch(resource(self.sdp_subarray1)).to_become(
@@ -502,7 +502,7 @@ class WaitForScan(Waiter):
         self.tmc_subarraynode.wait_until_value_changed_to("READY", timeout)
         self.csp_subarray.wait_until_value_changed_to("READY", timeout)
         self.sdp_subarray.wait_until_value_changed_to("READY", timeout)
-        
+
 # Waiters based on tango DeviceProxy's ability to subscribe to events
 class AttributeWatcher:
     """listens to events in a device and enables waiting until a predicate is true or publish to a subscriber

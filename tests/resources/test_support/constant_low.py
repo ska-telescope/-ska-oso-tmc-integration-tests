@@ -46,7 +46,7 @@ DEVICE_OBS_STATE_IDLE_INFO = {
 DEVICE_OBS_STATE_EMPTY_INFO = {
     sdp_subarray1: ["EMPTY"],
     tmc_subarraynode1: ["EMPTY"],
-    csp_subarray1: ["EMPTY"] 
+    csp_subarray1: ["EMPTY"]
 }
 
 DEVICE_OBS_STATE_READY_INFO = {
@@ -81,7 +81,7 @@ ON_OFF_DEVICE_COMMAND_DICT = {
     "csp_master": csp_master,
     "tmc_subarraynode": tmc_subarraynode1,
     "sdp_master": sdp_master,
-    "centralnode": centralnode 
+    "centralnode": centralnode
 }
 
 
