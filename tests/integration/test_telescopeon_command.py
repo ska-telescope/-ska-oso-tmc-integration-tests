@@ -3,13 +3,14 @@ from tests.resources.test_support.controls import telescope_is_in_standby_state,
 from tests.resources.test_support.constant import ON_OFF_DEVICE_COMMAND_DICT, centralnode
 from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
 from tests.conftest import LOGGER
+from tests.resources.test_support.constant import centralnode, tmc_subarraynode1, ON_OFF_DEVICE_COMMAND_DICT
 
 @pytest.mark.SKA_mid
 def test_telescope_on():
     """TelescopeOn() is executed."""
     try:
         fixture = {}
-        tmc_helper = TmcHelper(centralnode)
+        tmc_helper = TmcHelper(centralnode, tmc_subarraynode1 )
         fixture["state"] = "Unknown"
 
         """Verify Telescope is Off/Standby"""
