@@ -576,6 +576,7 @@ def test_abort_in_configuring(json_factory):
 
         # Setting CSP back to normal
         csp_subarray_proxy.SetDefective(False)
+        time.sleep(0.5)
 
         # Invoke AssignResources() Command on TMC
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
@@ -709,6 +710,7 @@ def test_abort_in_scanning(json_factory):
 
         # Setting CSP back to normal
         csp_subarray_proxy.SetDefective(False)
+        time.sleep(0.5)
 
         # Verify ObsState is EMPTY
         assert subarray_obs_state_is_empty()
