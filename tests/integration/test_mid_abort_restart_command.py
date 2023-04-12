@@ -15,7 +15,6 @@ from tests.resources.test_support.constant import (
     centralnode,
     tmc_subarraynode1,
     csp_subarray1,
-    sdp_subarray1,
 )
 from tests.resources.test_support.helpers import resource
 from tests.conftest import LOGGER
