@@ -561,9 +561,6 @@ def test_abort_in_configuring(json_factory):
             "CONFIGURING"
         )
 
-        # Setting CSP back to normal
-        csp_subarray_proxy.SetDefective(False)
-
         # Invoke Abort() command on TMC
         tmc.invoke_abort()
 
@@ -576,6 +573,9 @@ def test_abort_in_configuring(json_factory):
         fixture["state"] = "Restart"
         # Verify ObsState is EMPTY
         assert subarray_obs_state_is_empty()
+
+        # Setting CSP back to normal
+        csp_subarray_proxy.SetDefective(False)
 
         # Invoke AssignResources() Command on TMC
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
@@ -698,9 +698,6 @@ def test_abort_in_scanning(json_factory):
             "SCANNING"
         )
 
-        # Setting CSP back to normal
-        csp_subarray_proxy.SetDefective(False)
-
         # Invoke Abort() command on TMC
         tmc.invoke_abort()
 
@@ -710,9 +707,12 @@ def test_abort_in_scanning(json_factory):
         # Invoke Restart() command on TMC
         tmc.invoke_restart()
 
-        fixture["state"] = "Restart"
+        # Setting CSP back to normal
+        csp_subarray_proxy.SetDefective(False)
+
         # Verify ObsState is EMPTY
         assert subarray_obs_state_is_empty()
+        fixture["state"] = "Restart"
 
         # Invoke AssignResources() Command on TMC
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
