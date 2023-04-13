@@ -1,10 +1,18 @@
 from os.path import dirname, join
+from typing import Optional
 from tests.resources.test_support.sync_decorators import (
     sync_telescope_on,
     sync_set_to_off,
     sync_set_to_standby,
     sync_release_resources,
     sync_end, sync_assign_resources, sync_configure, sync_scan, sync_abort, sync_restart
+)
+import tests.resources.test_support.tmc_helpers as tmc
+from tests.resources.test_support.controls import (
+    subarray_obs_state_is_aborted,
+    subarray_obs_state_is_empty,
+    subarray_obs_state_is_idle,
+    telescope_is_in_standby_state,
 )
 from tango import DeviceProxy, DevState
 from tests.resources.test_support.constant import (
@@ -157,3 +165,64 @@ def invoke_restart():
     subarray_node = DeviceProxy(tmc_subarraynode1)
     subarray_node.Restart()
     LOGGER.info("Invoked Restart on SubarrayNode")
+
+
+def tear_down(input_json: Optional[str] = None):
+    """Tears down the system after test run to get telescope back in standby state."""
+    subarray_node_obsstate = resource(tmc_subarraynode1).get("obsState")
+
+    if subarray_node_obsstate in ["RESOURCING", "CONFIGURING", "SCANNING"]:
+        LOGGER.info("Invoking Abort on TMC")
+        tmc.invoke_abort()
+
+        assert subarray_obs_state_is_aborted()
+
+        LOGGER.info("Invoking Restart on TMC")
+        tmc.invoke_restart()
+
+        assert subarray_obs_state_is_empty()
+
+        LOGGER.info("Invoking Telescope Standby on TMC")
+        tmc.set_to_standby()
+
+        assert telescope_is_in_standby_state()
+        LOGGER.info("Tear Down complete. Telescope is in Standby State")
+
+    elif subarray_node_obsstate == "EMPTY":
+        LOGGER.info("Invoking Telescope Standby on TMC")
+        tmc.set_to_standby()
+
+        assert telescope_is_in_standby_state()
+        LOGGER.info("Tear Down complete. Telescope is in Standby State")
+
+    elif subarray_node_obsstate == "IDLE":
+        LOGGER.info("Invoking ReleaseResources on TMC")
+        tmc.invoke_releaseResources(input_json)
+
+        LOGGER.info("Invoking Telescope Standby on TMC")
+        tmc.set_to_standby()
+
+        assert telescope_is_in_standby_state()
+        LOGGER.info("Tear Down complete. Telescope is in Standby State")
+
+    elif subarray_node_obsstate == "READY":
+        LOGGER.info("Invoking END on TMC")
+        tmc.end()
+
+        assert subarray_obs_state_is_idle()
+
+        LOGGER.info("Invoking ReleaseResources on TMC")
+        tmc.invoke_releaseResources(input_json)
+
+        LOGGER.info("Invoking Telescope Standby on TMC")
+        tmc.set_to_standby()
+
+        assert telescope_is_in_standby_state()
+        LOGGER.info("Tear Down complete. Telescope is in Standby State")
+
+    elif subarray_node_obsstate == "EMPTY":
+        LOGGER.info("Invoking Telescope Standby on TMC")
+        tmc.set_to_standby()
+
+        assert telescope_is_in_standby_state()
+        LOGGER.info("Tear Down complete. Telescope is in Standby State")

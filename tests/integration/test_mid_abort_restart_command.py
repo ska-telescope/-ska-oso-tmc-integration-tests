@@ -15,10 +15,10 @@ from tests.resources.test_support.constant import (
     centralnode,
     tmc_subarraynode1,
     csp_subarray1,
-    sdp_subarray1,
 )
 from tests.resources.test_support.helpers import resource, waiter
-from tests.conftest import LOGGER, tear_down
+from tests.conftest import LOGGER
+from tests.resources.test_support.tmc_helpers import tear_down
 
 @pytest.mark.SKA_mid
 def test_abort_restart(json_factory):

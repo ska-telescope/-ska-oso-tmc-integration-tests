@@ -9,7 +9,7 @@ from tango import DeviceProxy
 from tests.resources.test_support.constant import (
     tmc_subarraynode1, centralnode
 )
-from tests.conftest import tear_down
+from tests.resources.test_support.tmc_helpers import tear_down
 
 
 @pytest.mark.SKA_mid

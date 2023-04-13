@@ -2,7 +2,8 @@ import pytest
 import json
 from tests.resources.test_support.controls import telescope_is_in_standby_state ,telescope_is_in_on_state ,subarray_obs_state_is_idle ,subarray_obs_state_is_ready, subarray_obs_state_is_empty, telescope_is_in_off_state
 import tests.resources.test_support.tmc_helpers as tmc
-from tests.conftest import LOGGER, tear_down
+from tests.conftest import LOGGER
+from tests.resources.test_support.tmc_helpers import tear_down
 
 assign_resources_file = "command_AssignResources.json"
 release_resources_file  = "command_ReleaseResources.json"

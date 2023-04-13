@@ -1,7 +1,8 @@
 import pytest
 from tests.resources.test_support.controls import telescope_is_in_standby_state, telescope_is_in_on_state, telescope_is_in_off_state
 import tests.resources.test_support.tmc_helpers as tmc
-from tests.conftest import LOGGER, tear_down
+from tests.conftest import LOGGER
+from tests.resources.test_support.tmc_helpers import tear_down
 
 @pytest.mark.SKA_mid
 def test_telescope_standby():
