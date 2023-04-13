@@ -15,6 +15,7 @@ from tests.resources.test_support.constant import (
     centralnode,
     tmc_subarraynode1,
     csp_subarray1,
+    sdp_subarray1,
 )
 from tests.resources.test_support.helpers import resource
 from tests.conftest import LOGGER
@@ -553,11 +554,21 @@ def test_abort_in_configuring(json_factory):
         subarray_node.Configure(config_json)
         LOGGER.info("Invoked Configure on SubarrayNode")
 
-        time.sleep(0.5)
-
         # Verify ObsState is CONFIGURING
+        time.sleep(1)
         resource(tmc_subarraynode1).assert_attribute("obsState").equals(
             "CONFIGURING"
+        )
+        resource(csp_subarray1).assert_attribute("obsState").equals(
+            "CONFIGURING"
+        )
+
+        # Setting CSP back to normal
+        csp_subarray_proxy.SetDefective(False)
+        time.sleep(0.5)
+
+        resource(csp_subarray1).assert_attribute("defective").equals(
+            False
         )
 
         # Invoke Abort() command on TMC
@@ -572,10 +583,6 @@ def test_abort_in_configuring(json_factory):
         fixture["state"] = "Restart"
         # Verify ObsState is EMPTY
         assert subarray_obs_state_is_empty()
-
-        # Setting CSP back to normal
-        csp_subarray_proxy.SetDefective(False)
-        time.sleep(0.5)
 
         # Invoke AssignResources() Command on TMC
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
@@ -691,12 +698,16 @@ def test_abort_in_scanning(json_factory):
         subarray_node.Scan(scan_json)
         LOGGER.info("Invoked Scan on SubarrayNode")
 
-        time.sleep(0.5)
+        time.sleep(1)
 
         # Verify ObsState is SCANNING
         resource(tmc_subarraynode1).assert_attribute("obsState").equals(
             "SCANNING"
         )
+
+        # Setting CSP back to normal
+        csp_subarray_proxy.SetDefective(False)
+        time.sleep(0.5)
 
         # Invoke Abort() command on TMC
         tmc.invoke_abort()
@@ -706,10 +717,6 @@ def test_abort_in_scanning(json_factory):
 
         # Invoke Restart() command on TMC
         tmc.invoke_restart()
-
-        # Setting CSP back to normal
-        csp_subarray_proxy.SetDefective(False)
-        time.sleep(0.5)
 
         # Verify ObsState is EMPTY
         assert subarray_obs_state_is_empty()
