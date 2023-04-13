@@ -719,7 +719,7 @@ def test_abort_in_scanning(json_factory):
 
         # Verify ObsState is SCANNING
         the_waiter = waiter()
-        the_waiter.set_wait_for_intermediate_obsstate("CONFIGURING", [tmc_subarraynode1])
+        the_waiter.set_wait_for_intermediate_obsstate("SCANNING", [tmc_subarraynode1])
         the_waiter.wait(20)
 
         # Setting CSP back to normal
