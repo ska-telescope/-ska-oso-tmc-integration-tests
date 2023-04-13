@@ -50,13 +50,13 @@ def test_assign_invalid_json(json_factory):
         """Verify ObsState is EMPTY"""
         assert subarray_obs_state_is_empty()
 
-        # """Invoke TelescopeOff() command on TMC"""
-        tmc.set_to_off()
+        """Invoke TelescopeStandby() command on TMC"""
+        tmc.set_to_standby()
 
-        # """Verify State transitions after TelescopeOff"""
-        assert telescope_is_in_off_state()
+        """Verify State transitions after TelescopeStandby"""
+        assert telescope_is_in_standby_state()
 
-        # LOGGER.info("Tests complete.")
+        LOGGER.info("Tests complete.")
     except Exception:
         tear_down()
 
