@@ -504,7 +504,7 @@ class waiter:
                 result = wait.wait_until_conditions_met(
                     timeout=timeout, resolution=resolution
                 )
-            except Exception as _:
+            except Exception:
                 self.timed_out = True
                 future_value_shim = ""
                 timeout_shim = timeout * resolution
