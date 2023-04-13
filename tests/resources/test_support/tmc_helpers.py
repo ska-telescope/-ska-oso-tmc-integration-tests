@@ -226,3 +226,18 @@ def tear_down(input_json: Optional[str] = None):
 
         assert telescope_is_in_standby_state()
         LOGGER.info("Tear Down complete. Telescope is in Standby State")
+
+    elif subarray_node_obsstate == "ABORTED":
+        LOGGER.info("Invoking Restart on TMC")
+        tmc.invoke_restart()
+
+        assert subarray_obs_state_is_empty()
+
+        LOGGER.info("Invoking Telescope Standby on TMC")
+        tmc.set_to_standby()
+
+        assert telescope_is_in_standby_state()
+        LOGGER.info("Tear Down complete. Telescope is in Standby State")
+
+    LOGGER.info("Tear Down Successful, raising an exception for failure")
+    raise Exception("Test case failed")
