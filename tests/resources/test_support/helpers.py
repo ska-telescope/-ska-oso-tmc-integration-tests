@@ -417,7 +417,7 @@ class waiter:
                 "obsState", changed_to="IDLE"
             )
         )
-        
+
         self.waits.append(
             watch(resource(dish_master1)).to_become(
                 "pointingState", changed_to="READY"
@@ -484,6 +484,15 @@ class waiter:
             )
         )
 
+    def set_wait_for_intermediate_obsstate(self, obsstate: str, devices: list):
+        """Waits for intermidiate obsState change for given devices."""
+        for device in devices:
+            self.waits.append(
+                watch(resource(device)).to_become(
+                    "obsState", changed_to=obsstate
+                )
+            )
+
 
     def wait(self, timeout=30, resolution=0.1):
         self.logs = ""
@@ -495,7 +504,7 @@ class waiter:
                 result = wait.wait_until_conditions_met(
                     timeout=timeout, resolution=resolution
                 )
-            except:
+            except Exception as _:
                 self.timed_out = True
                 future_value_shim = ""
                 timeout_shim = timeout * resolution

@@ -17,7 +17,7 @@ from tests.resources.test_support.constant import (
     csp_subarray1,
     sdp_subarray1,
 )
-from tests.resources.test_support.helpers import resource
+from tests.resources.test_support.helpers import resource, waiter
 from tests.conftest import LOGGER
 
 @pytest.mark.SKA_mid
@@ -53,7 +53,9 @@ def test_abort_restart(json_factory):
         fixture["state"] ="AssignResources"
 
         # Invoke Abort() command on TMC
+        LOGGER.info("Invoking Abort command on TMC")
         tmc.invoke_abort()
+        LOGGER.info("Abort command is invoked successfully")
 
         fixture["state"] = "Abort"
         assert subarray_obs_state_is_aborted()
@@ -77,6 +79,8 @@ def test_abort_restart(json_factory):
     except:
         if fixture["state"] == "AssignResources":
             tmc.invoke_releaseResources(release_json)
+        if fixture["state"] == "Abort":
+            tmc.invoke_restart()
         if fixture["state"] == "TelescopeOn":
             tmc.set_to_off()
         raise
@@ -166,15 +170,18 @@ def test_abort_in_resourcing(json_factory):
         LOGGER.info("Invoked AssignResources on CentralNode")
 
         # Verify ObsState is RESOURCING
-        time.sleep(0.1)
-        resource(tmc_subarraynode1).assert_attribute("obsState").equals("RESOURCING")
+        the_waiter = waiter()
+        the_waiter.set_wait_for_intermediate_obsstate("RESOURCING", [tmc_subarraynode1])
+        the_waiter.wait(20)
 
         # Setting CSP back to normal
         csp_subarray_proxy.SetDefective(False)
         time.sleep(0.1)
 
         # Invoke Abort() command on TMC
+        LOGGER.info("Invoking Abort command on TMC")
         tmc.invoke_abort()
+        LOGGER.info("Abort command is invoked successfully")
 
         fixture["state"] = "Abort"
         assert subarray_obs_state_is_aborted()
@@ -243,6 +250,8 @@ def test_abort_in_resourcing(json_factory):
         if fixture["state"] == "Scan":
             tmc.end()
             tmc.invoke_releaseResources(release_json)
+        if fixture["state"] == "Abort":
+            tmc.invoke_restart()
         if fixture["state"] == "TelescopeOn":
             tmc.set_to_off()
         raise
@@ -296,15 +305,18 @@ def test_abort_in_resourcing_different_resources(json_factory):
         LOGGER.info("Invoked AssignResources on CentralNode")
 
         # Verify ObsState is RESOURCING
-        time.sleep(0.1)
-        resource(tmc_subarraynode1).assert_attribute("obsState").equals("RESOURCING")
+        the_waiter = waiter()
+        the_waiter.set_wait_for_intermediate_obsstate("RESOURCING", [tmc_subarraynode1])
+        the_waiter.wait(20)
 
         # Setting CSP back to normal
         csp_subarray_proxy.SetDefective(False)
         time.sleep(0.1)
 
         # Invoke Abort() command on TMC
+        LOGGER.info("Invoking Abort command on TMC")
         tmc.invoke_abort()
+        LOGGER.info("Abort command is invoked successfully")
 
         fixture["state"] = "Abort"
         assert subarray_obs_state_is_aborted()
@@ -373,6 +385,8 @@ def test_abort_in_resourcing_different_resources(json_factory):
         if fixture["state"] == "Scan":
             tmc.end()
             tmc.invoke_releaseResources(release_json)
+        if fixture["state"] == "Abort":
+            tmc.invoke_restart()
         if fixture["state"] == "TelescopeOn":
             tmc.set_to_off()
         raise
@@ -419,8 +433,9 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
         LOGGER.info("Invoked AssignResources on CentralNode")
 
         # Verify ObsState is RESOURCING
-        time.sleep(0.1)
-        resource(tmc_subarraynode1).assert_attribute("obsState").equals("RESOURCING")
+        the_waiter = waiter()
+        the_waiter.set_wait_for_intermediate_obsstate("RESOURCING", [tmc_subarraynode1])
+        the_waiter.wait(20)
 
         # Setting SDP and CSP back to normal
         csp_subarray_proxy.SetDefective(False)
@@ -504,6 +519,8 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
         if fixture["state"] == "Scan":
             tmc.end()
             tmc.invoke_releaseResources(release_json)
+        if fixture["state"] == "Abort":
+            tmc.invoke_restart()
         if fixture["state"] == "TelescopeOn":
             tmc.set_to_off()
         raise
@@ -555,13 +572,9 @@ def test_abort_in_configuring(json_factory):
         LOGGER.info("Invoked Configure on SubarrayNode")
 
         # Verify ObsState is CONFIGURING
-        time.sleep(1)
-        resource(tmc_subarraynode1).assert_attribute("obsState").equals(
-            "CONFIGURING"
-        )
-        resource(csp_subarray1).assert_attribute("obsState").equals(
-            "CONFIGURING"
-        )
+        the_waiter = waiter()
+        the_waiter.set_wait_for_intermediate_obsstate("CONFIGURING", [tmc_subarraynode1, csp_subarray1])
+        the_waiter.wait(20)
 
         # Setting CSP back to normal
         csp_subarray_proxy.SetDefective(False)
@@ -572,7 +585,9 @@ def test_abort_in_configuring(json_factory):
         )
 
         # Invoke Abort() command on TMC
+        LOGGER.info("Invoking Abort command on TMC")
         tmc.invoke_abort()
+        LOGGER.info("Abort command is invoked successfully")
 
         fixture["state"] = "Abort"
         assert subarray_obs_state_is_aborted()
@@ -641,6 +656,8 @@ def test_abort_in_configuring(json_factory):
         if fixture["state"] == "Scan":
             tmc.end()
             tmc.invoke_releaseResources(release_json)
+        if fixture["state"] == "Abort":
+            tmc.invoke_restart()
         if fixture["state"] == "TelescopeOn":
             tmc.set_to_off()
         raise
@@ -701,16 +718,18 @@ def test_abort_in_scanning(json_factory):
         time.sleep(1)
 
         # Verify ObsState is SCANNING
-        resource(tmc_subarraynode1).assert_attribute("obsState").equals(
-            "SCANNING"
-        )
+        the_waiter = waiter()
+        the_waiter.set_wait_for_intermediate_obsstate("CONFIGURING", [tmc_subarraynode1])
+        the_waiter.wait(20)
 
         # Setting CSP back to normal
         csp_subarray_proxy.SetDefective(False)
         time.sleep(0.5)
 
         # Invoke Abort() command on TMC
+        LOGGER.info("Invoking Abort command on TMC")
         tmc.invoke_abort()
+        LOGGER.info("Abort command is invoked successfully")
 
         fixture["state"] = "Abort"
         assert subarray_obs_state_is_aborted()
@@ -779,6 +798,8 @@ def test_abort_in_scanning(json_factory):
         if fixture["state"] == "Scan":
             tmc.end()
             tmc.invoke_releaseResources(release_json)
+        if fixture["state"] == "Abort":
+            tmc.invoke_restart()
         if fixture["state"] == "TelescopeOn":
             tmc.set_to_off()
         raise
