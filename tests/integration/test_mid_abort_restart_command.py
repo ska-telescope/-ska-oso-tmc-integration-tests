@@ -4,7 +4,7 @@ import time
 from tango import DeviceProxy
 from tests.resources.test_support.controls import (
     telescope_is_in_on_state,
-    telescope_is_in_off_state,
+    telescope_is_in_standby_state,
     subarray_obs_state_is_idle,
     subarray_obs_state_is_aborted,
     subarray_obs_state_is_empty,
@@ -18,20 +18,18 @@ from tests.resources.test_support.constant import (
     sdp_subarray1,
 )
 from tests.resources.test_support.helpers import resource, waiter
-from tests.conftest import LOGGER
+from tests.conftest import LOGGER, tear_down
 
 @pytest.mark.SKA_mid
 def test_abort_restart(json_factory):
     """Abort and Restart is executed."""
-    fixture = {}
     assign_json = json_factory("command_AssignResources")
     release_json = json_factory("command_ReleaseResources")
     try:
         tmc.check_devices()
-        fixture["state"] = "Unknown"
 
         # Verify Telescope is Off/Standby
-        assert telescope_is_in_off_state()
+        assert telescope_is_in_standby_state()
         LOGGER.info("Staring up the Telescope")
 
         # Invoke TelescopeOn() command on TMC
@@ -41,7 +39,6 @@ def test_abort_restart(json_factory):
 
         # Verify State transitions after TelescopeOn
         assert telescope_is_in_on_state()
-        fixture["state"] = "TelescopeOn"
 
         # Invoke AssignResources() Command on TMC
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
@@ -50,52 +47,40 @@ def test_abort_restart(json_factory):
 
         # Verify ObsState is IDLE
         assert subarray_obs_state_is_idle()
-        fixture["state"] ="AssignResources"
 
         # Invoke Abort() command on TMC
         LOGGER.info("Invoking Abort command on TMC")
         tmc.invoke_abort()
         LOGGER.info("Abort command is invoked successfully")
 
-        fixture["state"] = "Abort"
         assert subarray_obs_state_is_aborted()
 
         # Invoke Restart() command on TMC
         tmc.invoke_restart()
 
-        fixture["state"] = "Restart"
         # Verify ObsState is EMPTY
         assert subarray_obs_state_is_empty()
 
-        # Invoke TelescopeOff() command on TMC
-        tmc.set_to_off()
+        # Invoke TelescopeStandby() command on TMC
+        tmc.set_to_standby()
 
-        # Verify State transitions after TelescopeOff
-        assert telescope_is_in_off_state()
-        fixture["state"] = "TelescopeOff"
+        # Verify State transitions after TelescopeStandby
+        assert telescope_is_in_standby_state()
 
         LOGGER.info("Tests complete.")
 
-    except:
-        if fixture["state"] == "AssignResources":
-            tmc.invoke_releaseResources(release_json)
-        if fixture["state"] == "Abort":
-            tmc.invoke_restart()
-        if fixture["state"] == "TelescopeOn":
-            tmc.set_to_off()
-        raise
+    except Exception:
+        tear_down(release_json)
 
 
 @pytest.mark.SKA_mid
 def test_abort_in_empty():
     """Abort and Restart is executed."""
-    fixture = {}
     try:
         tmc.check_devices()
-        fixture["state"] = "Unknown"
 
         # Verify Telescope is Off/Standby
-        assert telescope_is_in_off_state()
+        assert telescope_is_in_standby_state()
         LOGGER.info("Staring up the Telescope")
 
         # Invoke TelescopeOn() command on TMC
@@ -105,7 +90,6 @@ def test_abort_in_empty():
 
         # Verify State transitions after TelescopeOn
         assert telescope_is_in_on_state()
-        fixture["state"] = "TelescopeOn"
 
         # Verify ObsState is EMPTY
         assert subarray_obs_state_is_empty()
@@ -114,35 +98,30 @@ def test_abort_in_empty():
         with pytest.raises(Exception):
             tmc.invoke_abort()
 
-        # Invoke TelescopeOff() command on TMC
-        tmc.set_to_off()
+        # Invoke TelescopeStandby() command on TMC
+        tmc.set_to_standby()
 
-        # Verify State transitions after TelescopeOff
-        assert telescope_is_in_off_state()
-        fixture["state"] = "TelescopeOff"
+        # Verify State transitions after TelescopeStandby
+        assert telescope_is_in_standby_state()
 
         LOGGER.info("Tests complete.")
 
-    except:
-        if fixture["state"] == "TelescopeOn":
-            tmc.set_to_off()
-        raise
+    except Exception:
+        tear_down()
 
 
 @pytest.mark.SKA_mid
 def test_abort_in_resourcing(json_factory):
     """Abort and Restart is executed."""
-    fixture = {}
     assign_json = json_factory("command_AssignResources")
     release_json = json_factory("command_ReleaseResources")
     config_json = json_factory("command_Configure")
     scan_json = json_factory("command_Scan")
     try:
         tmc.check_devices()
-        fixture["state"] = "Unknown"
 
         # Verify Telescope is Off/Standby
-        assert telescope_is_in_off_state()
+        assert telescope_is_in_standby_state()
         LOGGER.info("Staring up the Telescope")
 
         # Invoke TelescopeOn() command on TMC
@@ -152,7 +131,6 @@ def test_abort_in_resourcing(json_factory):
 
         # Verify State transitions after TelescopeOn
         assert telescope_is_in_on_state()
-        fixture["state"] = "TelescopeOn"
 
         # Setting CSP subarray as defective
         csp_subarray_proxy = DeviceProxy(csp_subarray1)
@@ -183,13 +161,11 @@ def test_abort_in_resourcing(json_factory):
         tmc.invoke_abort()
         LOGGER.info("Abort command is invoked successfully")
 
-        fixture["state"] = "Abort"
         assert subarray_obs_state_is_aborted()
 
         # Invoke Restart() command on TMC
         tmc.invoke_restart()
 
-        fixture["state"] = "Restart"
         # Verify ObsState is EMPTY
         assert subarray_obs_state_is_empty()
 
@@ -200,7 +176,6 @@ def test_abort_in_resourcing(json_factory):
 
         # Verify ObsState is IDLE
         assert subarray_obs_state_is_idle()
-        fixture["state"] ="AssignResources"
 
         # Invoke Configure() Command on TMC
         LOGGER.info("Invoking Configure command on TMC CentralNode")
@@ -208,7 +183,6 @@ def test_abort_in_resourcing(json_factory):
 
         # Verify ObsState is READY
         assert subarray_obs_state_is_ready()
-        fixture["state"] = "Configure"
 
         # Invoke Scan() Command on TMC
         LOGGER.info("Invoking Scan command on TMC CentralNode")
@@ -216,7 +190,6 @@ def test_abort_in_resourcing(json_factory):
 
         # Verify ObsState is READY
         assert subarray_obs_state_is_ready()
-        fixture["state"] ="Scan"
 
         # Invoke End() Command on TMC
         LOGGER.info("Invoking End command on TMC SubarrayNode")
@@ -224,43 +197,27 @@ def test_abort_in_resourcing(json_factory):
 
         # Verify ObsState is IDLE
         assert subarray_obs_state_is_idle()
-        fixture["state"] = "End"
 
         # Invoke ReleaseResources() command on TMC
         tmc.invoke_releaseResources(release_json)
 
-        fixture["state"] = "ReleaseResources"
         assert subarray_obs_state_is_empty()
 
-        # Invoke TelescopeOff() command on TMC
-        tmc.set_to_off()
+        # Invoke TelescopeStandby() command on TMC
+        tmc.set_to_standby()
 
-        # Verify State transitions after TelescopeOff
-        assert telescope_is_in_off_state()
-        fixture["state"] = "TelescopeOff"
+        # Verify State transitions after TelescopeStandby
+        assert telescope_is_in_standby_state()
 
         LOGGER.info("Tests complete.")
 
-    except:
-        if fixture["state"] == "AssignResources":
-            tmc.invoke_releaseResources(release_json)
-        if fixture["state"] == "Configure":
-            tmc.end()
-            tmc.invoke_releaseResources(release_json)
-        if fixture["state"] == "Scan":
-            tmc.end()
-            tmc.invoke_releaseResources(release_json)
-        if fixture["state"] == "Abort":
-            tmc.invoke_restart()
-        if fixture["state"] == "TelescopeOn":
-            tmc.set_to_off()
-        raise
+    except Exception:
+        tear_down(release_json)
 
 
 @pytest.mark.SKA_mid
 def test_abort_in_resourcing_different_resources(json_factory):
     """Abort and Restart is executed."""
-    fixture = {}
     assign_json = json_factory("command_AssignResources")
     assign_json2 = json_factory("command_AssignResources_2")
     release_json = json_factory("command_ReleaseResources")
@@ -274,10 +231,9 @@ def test_abort_in_resourcing_different_resources(json_factory):
 
     try:
         tmc.check_devices()
-        fixture["state"] = "Unknown"
 
         # Verify Telescope is Off/Standby
-        assert telescope_is_in_off_state()
+        assert telescope_is_in_standby_state()
         LOGGER.info("Staring up the Telescope")
 
         # Invoke TelescopeOn() command on TMC
@@ -287,7 +243,6 @@ def test_abort_in_resourcing_different_resources(json_factory):
 
         # Verify State transitions after TelescopeOn
         assert telescope_is_in_on_state()
-        fixture["state"] = "TelescopeOn"
 
         # Setting CSP subarray as defective
         csp_subarray_proxy = DeviceProxy(csp_subarray1)
@@ -318,13 +273,11 @@ def test_abort_in_resourcing_different_resources(json_factory):
         tmc.invoke_abort()
         LOGGER.info("Abort command is invoked successfully")
 
-        fixture["state"] = "Abort"
         assert subarray_obs_state_is_aborted()
 
         # Invoke Restart() command on TMC
         tmc.invoke_restart()
 
-        fixture["state"] = "Restart"
         # Verify ObsState is EMPTY
         assert subarray_obs_state_is_empty()
 
@@ -335,7 +288,6 @@ def test_abort_in_resourcing_different_resources(json_factory):
 
         # Verify ObsState is IDLE
         assert subarray_obs_state_is_idle()
-        fixture["state"] ="AssignResources"
 
         # Invoke Configure() Command on TMC
         LOGGER.info("Invoking Configure command on TMC CentralNode")
@@ -343,7 +295,6 @@ def test_abort_in_resourcing_different_resources(json_factory):
 
         # Verify ObsState is READY
         assert subarray_obs_state_is_ready()
-        fixture["state"] = "Configure"
 
         # Invoke Scan() Command on TMC
         LOGGER.info("Invoking Scan command on TMC CentralNode")
@@ -351,7 +302,6 @@ def test_abort_in_resourcing_different_resources(json_factory):
 
         # Verify ObsState is READY
         assert subarray_obs_state_is_ready()
-        fixture["state"] ="Scan"
 
         # Invoke End() Command on TMC
         LOGGER.info("Invoking End command on TMC SubarrayNode")
@@ -359,53 +309,36 @@ def test_abort_in_resourcing_different_resources(json_factory):
 
         # Verify ObsState is IDLE
         assert subarray_obs_state_is_idle()
-        fixture["state"] = "End"
 
         # Invoke ReleaseResources() command on TMC
         tmc.invoke_releaseResources(release_json)
 
-        fixture["state"] = "ReleaseResources"
         assert subarray_obs_state_is_empty()
 
-        # Invoke TelescopeOff() command on TMC
-        tmc.set_to_off()
+        # Invoke TelescopeStandby() command on TMC
+        tmc.set_to_standby()
 
-        # Verify State transitions after TelescopeOff
-        assert telescope_is_in_off_state()
-        fixture["state"] = "TelescopeOff"
+        # Verify State transitions after TelescopeStandby
+        assert telescope_is_in_standby_state()
 
         LOGGER.info("Tests complete.")
 
-    except:
-        if fixture["state"] == "AssignResources":
-            tmc.invoke_releaseResources(release_json)
-        if fixture["state"] == "Configure":
-            tmc.end()
-            tmc.invoke_releaseResources(release_json)
-        if fixture["state"] == "Scan":
-            tmc.end()
-            tmc.invoke_releaseResources(release_json)
-        if fixture["state"] == "Abort":
-            tmc.invoke_restart()
-        if fixture["state"] == "TelescopeOn":
-            tmc.set_to_off()
-        raise
+    except Exception:
+        tear_down(release_json)
 
 
 @pytest.mark.SKA_mid
 def test_abort_in_resourcing_with_second_abort(json_factory):
     """Abort and Restart is executed."""
-    fixture = {}
     assign_json = json_factory("command_AssignResources")
     release_json = json_factory("command_ReleaseResources")
     config_json = json_factory("command_Configure")
     scan_json = json_factory("command_Scan")
     try:
         tmc.check_devices()
-        fixture["state"] = "Unknown"
 
         # Verify Telescope is Off/Standby
-        assert telescope_is_in_off_state()
+        assert telescope_is_in_standby_state()
         LOGGER.info("Staring up the Telescope")
 
         # Invoke TelescopeOn() command on TMC
@@ -415,7 +348,6 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
 
         # Verify State transitions after TelescopeOn
         assert telescope_is_in_on_state()
-        fixture["state"] = "TelescopeOn"
 
         # Setting CSP subarray as defective
         csp_subarray_proxy = DeviceProxy(csp_subarray1)
@@ -452,13 +384,11 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
 
         time.sleep(1)
 
-        fixture["state"] = "Abort"
         assert subarray_obs_state_is_aborted()
 
         # Invoke Restart() command on TMC
         tmc.invoke_restart()
 
-        fixture["state"] = "Restart"
         # Verify ObsState is EMPTY
         assert subarray_obs_state_is_empty()
 
@@ -469,7 +399,6 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
 
         # Verify ObsState is IDLE
         assert subarray_obs_state_is_idle()
-        fixture["state"] ="AssignResources"
 
         # Invoke Configure() Command on TMC
         LOGGER.info("Invoking Configure command on TMC CentralNode")
@@ -477,7 +406,6 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
 
         # Verify ObsState is READY
         assert subarray_obs_state_is_ready()
-        fixture["state"] = "Configure"
 
         # Invoke Scan() Command on TMC
         LOGGER.info("Invoking Scan command on TMC CentralNode")
@@ -485,7 +413,6 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
 
         # Verify ObsState is READY
         assert subarray_obs_state_is_ready()
-        fixture["state"] ="Scan"
 
         # Invoke End() Command on TMC
         LOGGER.info("Invoking End command on TMC SubarrayNode")
@@ -493,53 +420,36 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
 
         # Verify ObsState is IDLE
         assert subarray_obs_state_is_idle()
-        fixture["state"] = "End"
 
         # Invoke ReleaseResources() command on TMC
         tmc.invoke_releaseResources(release_json)
 
-        fixture["state"] = "ReleaseResources"
         assert subarray_obs_state_is_empty()
 
-        # Invoke TelescopeOff() command on TMC
-        tmc.set_to_off()
+        # Invoke TelescopeStandby() command on TMC
+        tmc.set_to_standby()
 
-        # Verify State transitions after TelescopeOff
-        assert telescope_is_in_off_state()
-        fixture["state"] = "TelescopeOff"
+        # Verify State transitions after TelescopeStandby
+        assert telescope_is_in_standby_state()
 
         LOGGER.info("Tests complete.")
 
-    except:
-        if fixture["state"] == "AssignResources":
-            tmc.invoke_releaseResources(release_json)
-        if fixture["state"] == "Configure":
-            tmc.end()
-            tmc.invoke_releaseResources(release_json)
-        if fixture["state"] == "Scan":
-            tmc.end()
-            tmc.invoke_releaseResources(release_json)
-        if fixture["state"] == "Abort":
-            tmc.invoke_restart()
-        if fixture["state"] == "TelescopeOn":
-            tmc.set_to_off()
-        raise
+    except Exception:
+        tear_down(release_json)
 
 
 @pytest.mark.SKA_mid
 def test_abort_in_configuring(json_factory):
     """Abort and Restart is executed."""
-    fixture = {}
     assign_json = json_factory("command_AssignResources")
     release_json = json_factory("command_ReleaseResources")
     config_json = json_factory("command_Configure")
     scan_json = json_factory("command_Scan")
     try:
         tmc.check_devices()
-        fixture["state"] = "Unknown"
 
         # Verify Telescope is Off/Standby
-        assert telescope_is_in_off_state()
+        assert telescope_is_in_standby_state()
         LOGGER.info("Staring up the Telescope")
 
         # Invoke TelescopeOn() command on TMC
@@ -549,14 +459,11 @@ def test_abort_in_configuring(json_factory):
 
         # Verify State transitions after TelescopeOn
         assert telescope_is_in_on_state()
-        fixture["state"] = "TelescopeOn"
-
         # Invoke AssignResources() Command on TMC
         tmc.compose_sub(assign_json)
 
         # Verify ObsState is IDLE
         assert subarray_obs_state_is_idle()
-        fixture["state"] = "AssignResources"
 
         # Setting CSP subarray as defective
         csp_subarray_proxy = DeviceProxy(csp_subarray1)
@@ -589,13 +496,11 @@ def test_abort_in_configuring(json_factory):
         tmc.invoke_abort()
         LOGGER.info("Abort command is invoked successfully")
 
-        fixture["state"] = "Abort"
         assert subarray_obs_state_is_aborted()
 
         # Invoke Restart() command on TMC
         tmc.invoke_restart()
 
-        fixture["state"] = "Restart"
         # Verify ObsState is EMPTY
         assert subarray_obs_state_is_empty()
 
@@ -606,7 +511,6 @@ def test_abort_in_configuring(json_factory):
 
         # Verify ObsState is IDLE
         assert subarray_obs_state_is_idle()
-        fixture["state"] ="AssignResources"
 
         # Invoke Configure() Command on TMC
         LOGGER.info("Invoking Configure command on TMC CentralNode")
@@ -614,7 +518,6 @@ def test_abort_in_configuring(json_factory):
 
         # Verify ObsState is READY
         assert subarray_obs_state_is_ready()
-        fixture["state"] = "Configure"
 
         # Invoke Scan() Command on TMC
         LOGGER.info("Invoking Scan command on TMC CentralNode")
@@ -622,7 +525,6 @@ def test_abort_in_configuring(json_factory):
 
         # Verify ObsState is READY
         assert subarray_obs_state_is_ready()
-        fixture["state"] = "Scan"
 
         # Invoke End() Command on TMC
         LOGGER.info("Invoking End command on TMC SubarrayNode")
@@ -630,53 +532,36 @@ def test_abort_in_configuring(json_factory):
 
         # Verify ObsState is IDLE
         assert subarray_obs_state_is_idle()
-        fixture["state"] = "End"
 
         # Invoke ReleaseResources() command on TMC
         tmc.invoke_releaseResources(release_json)
 
-        fixture["state"] = "ReleaseResources"
         assert subarray_obs_state_is_empty()
 
-        # Invoke TelescopeOff() command on TMC
-        tmc.set_to_off()
+        # Invoke TelescopeStandby() command on TMC
+        tmc.set_to_standby()
 
-        # Verify State transitions after TelescopeOff
-        assert telescope_is_in_off_state()
-        fixture["state"] = "TelescopeOff"
+        # Verify State transitions after TelescopeStandby
+        assert telescope_is_in_standby_state()
 
         LOGGER.info("Tests complete.")
 
-    except:
-        if fixture["state"] == "AssignResources":
-            tmc.invoke_releaseResources(release_json)
-        if fixture["state"] == "Configure":
-            tmc.end()
-            tmc.invoke_releaseResources(release_json)
-        if fixture["state"] == "Scan":
-            tmc.end()
-            tmc.invoke_releaseResources(release_json)
-        if fixture["state"] == "Abort":
-            tmc.invoke_restart()
-        if fixture["state"] == "TelescopeOn":
-            tmc.set_to_off()
-        raise
+    except Exception:
+        tear_down(release_json)
 
 
 @pytest.mark.SKA_mid
 def test_abort_in_scanning(json_factory):
     """Abort and Restart is executed."""
-    fixture = {}
     assign_json = json_factory("command_AssignResources")
     release_json = json_factory("command_ReleaseResources")
     config_json = json_factory("command_Configure")
     scan_json = json_factory("command_Scan")
     try:
         tmc.check_devices()
-        fixture["state"] = "Unknown"
 
         # Verify Telescope is Off/Standby
-        assert telescope_is_in_off_state()
+        assert telescope_is_in_standby_state()
         LOGGER.info("Staring up the Telescope")
 
         # Invoke TelescopeOn() command on TMC
@@ -686,14 +571,12 @@ def test_abort_in_scanning(json_factory):
 
         # Verify State transitions after TelescopeOn
         assert telescope_is_in_on_state()
-        fixture["state"] = "TelescopeOn"
 
         # Invoke AssignResources() Command on TMC
         tmc.compose_sub(assign_json)
 
         # Verify ObsState is IDLE
         assert subarray_obs_state_is_idle()
-        fixture["state"] = "AssignResources"
 
         # Invoke Configure() Command on TMC
         LOGGER.info("Invoking Configure command on TMC CentralNode")
@@ -701,7 +584,6 @@ def test_abort_in_scanning(json_factory):
 
         # Verify ObsState is READY
         assert subarray_obs_state_is_ready()
-        fixture["state"] = "Configure"
 
         # Setting CSP subarray as defective
         csp_subarray_proxy = DeviceProxy(csp_subarray1)
@@ -731,7 +613,6 @@ def test_abort_in_scanning(json_factory):
         tmc.invoke_abort()
         LOGGER.info("Abort command is invoked successfully")
 
-        fixture["state"] = "Abort"
         assert subarray_obs_state_is_aborted()
 
         # Invoke Restart() command on TMC
@@ -739,7 +620,6 @@ def test_abort_in_scanning(json_factory):
 
         # Verify ObsState is EMPTY
         assert subarray_obs_state_is_empty()
-        fixture["state"] = "Restart"
 
         # Invoke AssignResources() Command on TMC
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
@@ -748,7 +628,6 @@ def test_abort_in_scanning(json_factory):
 
         # Verify ObsState is IDLE
         assert subarray_obs_state_is_idle()
-        fixture["state"] ="AssignResources"
 
         # Invoke Configure() Command on TMC
         LOGGER.info("Invoking Configure command on TMC CentralNode")
@@ -756,7 +635,6 @@ def test_abort_in_scanning(json_factory):
 
         # Verify ObsState is READY
         assert subarray_obs_state_is_ready()
-        fixture["state"] = "Configure"
 
         # Invoke Scan() Command on TMC
         LOGGER.info("Invoking Scan command on TMC CentralNode")
@@ -764,7 +642,6 @@ def test_abort_in_scanning(json_factory):
 
         # Verify ObsState is READY
         assert subarray_obs_state_is_ready()
-        fixture["state"] = "Scan"
 
         # Invoke End() Command on TMC
         LOGGER.info("Invoking End command on TMC SubarrayNode")
@@ -772,34 +649,19 @@ def test_abort_in_scanning(json_factory):
 
         # Verify ObsState is IDLE
         assert subarray_obs_state_is_idle()
-        fixture["state"] = "End"
 
         # Invoke ReleaseResources() command on TMC
         tmc.invoke_releaseResources(release_json)
 
-        fixture["state"] = "ReleaseResources"
         assert subarray_obs_state_is_empty()
 
-        # Invoke TelescopeOff() command on TMC
-        tmc.set_to_off()
+        # Invoke TelescopeStandby() command on TMC
+        tmc.set_to_standby()
 
-        # Verify State transitions after TelescopeOff
-        assert telescope_is_in_off_state()
-        fixture["state"] = "TelescopeOff"
+        # Verify State transitions after TelescopeStandby
+        assert telescope_is_in_standby_state()
 
         LOGGER.info("Tests complete.")
 
-    except:
-        if fixture["state"] == "AssignResources":
-            tmc.invoke_releaseResources(release_json)
-        if fixture["state"] == "Configure":
-            tmc.end()
-            tmc.invoke_releaseResources(release_json)
-        if fixture["state"] == "Scan":
-            tmc.end()
-            tmc.invoke_releaseResources(release_json)
-        if fixture["state"] == "Abort":
-            tmc.invoke_restart()
-        if fixture["state"] == "TelescopeOn":
-            tmc.set_to_off()
-        raise
+    except Exception:
+        tear_down(release_json)

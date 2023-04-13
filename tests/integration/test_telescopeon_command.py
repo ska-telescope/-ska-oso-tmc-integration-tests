@@ -2,19 +2,17 @@ import pytest
 from tests.resources.test_support.controls import telescope_is_in_standby_state, telescope_is_in_on_state, telescope_is_in_off_state
 from tests.resources.test_support.constant import ON_OFF_DEVICE_COMMAND_DICT, centralnode
 from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
-from tests.conftest import LOGGER
+from tests.conftest import LOGGER, tear_down
 from tests.resources.test_support.constant import centralnode, tmc_subarraynode1, ON_OFF_DEVICE_COMMAND_DICT
 
 @pytest.mark.SKA_mid
 def test_telescope_on():
     """TelescopeOn() is executed."""
     try:
-        fixture = {}
-        tmc_helper = TmcHelper(centralnode, tmc_subarraynode1 )
-        fixture["state"] = "Unknown"
+        tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 
         """Verify Telescope is Off/Standby"""
-        assert telescope_is_in_off_state()
+        assert telescope_is_in_standby_state()
         LOGGER.info("Starting up the Telescope")
 
         """Invoke TelescopeOn() command on TMC"""
@@ -24,20 +22,14 @@ def test_telescope_on():
 
         """Verify State transitions after TelescopeOn"""
         assert telescope_is_in_on_state()
-        fixture["state"] = "TelescopeOn"
 
-        """Invoke TelescopeOff() command on TMC"""
-        tmc_helper.set_to_off(**ON_OFF_DEVICE_COMMAND_DICT)
+        """Invoke TelescopeStandby() command on TMC"""
+        tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
 
-        """Verify State transitions after TelescopeOff"""
-        assert telescope_is_in_off_state()
-        fixture["state"] = "TelescopeOff"
+        """Verify State transitions after TelescopeStandby"""
+        assert telescope_is_in_standby_state()
 
         LOGGER.info("Tests complete.")
 
-    except:
-        LOGGER.info("Exception occurred in the test for state = {}".format(fixture["state"]))
-        LOGGER.info("Tearing Down test case")
-        if fixture["state"] == "TelescopeOn":
-            tmc_helper.set_to_off(**ON_OFF_DEVICE_COMMAND_DICT)
-        raise
+    except Exception:
+        tear_down()
