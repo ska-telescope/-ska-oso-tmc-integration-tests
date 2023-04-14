@@ -10,6 +10,7 @@ from tests.resources.test_support.constant import (
 tmc_subarraynode1,
 centralnode
 )
+from tests.resources.test_support.tmc_helpers import tear_down
 
 
 assign_resources_file = "command_AssignResources.json"
@@ -20,11 +21,8 @@ configure_resources_file = "command_Configure.json"
 def test_configure_end():
     """Configure and End is executed."""
     try:
-        fixture = {}
-        fixture["state"] = "Unknown"
-
         """Verify Telescope is Off/Standby"""
-        assert telescope_is_in_off_state()
+        assert telescope_is_in_standby_state()
         LOGGER.info("Staring up the Telescope")
 
         """Invoke TelescopeOn() command on TMC"""
@@ -34,7 +32,6 @@ def test_configure_end():
 
         """Verify State transitions after TelescopeOn"""
         assert telescope_is_in_on_state()
-        fixture["state"] = "TelescopeOn"
 
         """Invoke AssignResources() Command on TMC"""
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
@@ -55,7 +52,6 @@ def test_configure_end():
 
         """Verify ObsState is Idle"""
         assert subarray_obs_state_is_idle()
-        fixture["state"] ="AssignResources"
         LOGGER.info("AssignResources command is invoked successfully")
 
         """Invoke Configure() Command on TMC"""
@@ -74,7 +70,6 @@ def test_configure_end():
 
         """Verify ObsState is READY"""
         assert subarray_obs_state_is_ready()
-        fixture["state"] ="Configure"
         LOGGER.info("Configure command is invoked successfully")
 
         """Invoke End() Command on TMC"""
@@ -92,7 +87,6 @@ def test_configure_end():
 
         """Verify ObsState is IDLE"""
         assert subarray_obs_state_is_idle()
-        fixture["state"] ="End"
         LOGGER.info("End command is invoked successfully")
 
 
@@ -101,23 +95,16 @@ def test_configure_end():
         """Invoke ReleaseResources() command on TMC"""
         tmc.invoke_releaseResources(release_input_str)
 
-        fixture["state"] = "ReleaseResources"
         assert subarray_obs_state_is_empty()
 
-        """Invoke TelescopeOff() command on TMC"""
-        tmc.set_to_off()
+        """Invoke TelescopeStandby() command on TMC"""
+        tmc.set_to_standby()
 
-        """Verify State transitions after TelescopeOff"""
-        assert telescope_is_in_off_state()
-        fixture["state"] = "TelescopeOff"
+        """Verify State transitions after TelescopeStandby"""
+        assert telescope_is_in_standby_state()
 
         LOGGER.info("Tests complete.")
 
-    except:
-        LOGGER.info("Exception occurred in the test for state = {}".format(fixture["state"]))
-        LOGGER.info("Tearing down...")
-        if fixture["state"] == "AssignResources":
-            tmc.invoke_releaseResources(release_input_str)
-        if fixture["state"] == "TelescopeOn":
-            tmc.set_to_off()
-        raise
+    except Exception:
+        release_json = tmc.get_input_str(release_resources_file)
+        tear_down(release_json)

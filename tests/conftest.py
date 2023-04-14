@@ -1,4 +1,3 @@
-import json
 import pytest
 import logging
 from os.path import dirname, join

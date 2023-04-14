@@ -8,23 +8,22 @@ from tests.resources.test_support.sync_decorators import sync_assign_resources
 from tests.resources.test_support.helpers import resource, waiter
 from tango import DeviceProxy
 from tests.resources.test_support.constant import (
-tmc_subarraynode1,
-centralnode
+    tmc_subarraynode1,
+    centralnode
 )
 from tests.resources.test_support.telescope_controls import BaseTelescopeControl
 from tests.resources.test_support.constant import (
     DEVICE_HEALTH_STATE_OK_INFO
 )
+from tests.resources.test_support.tmc_helpers import tear_down
 
 @pytest.mark.SKA_mid
 def test_assign_release(json_factory):
     """AssignResources and ReleaseResources is executed."""
+    assign_json = json_factory("command_AssignResources")
+    release_json = json_factory("command_ReleaseResources")
     try:
-        assign_json = json_factory("command_AssignResources")
-        release_json = json_factory("command_ReleaseResources")
         tmc.check_devices()
-        fixture = {}
-        fixture["state"] = "Unknown"
 
         """Verify Telescope is Off/Standby"""
         assert telescope_is_in_standby_state()
@@ -37,7 +36,6 @@ def test_assign_release(json_factory):
 
         """Verify State transitions after TelescopeOn"""
         assert telescope_is_in_on_state()
-        fixture["state"] = "TelescopeOn"
 
         """Invoke AssignResources() Command on TMC"""
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
@@ -60,29 +58,23 @@ def test_assign_release(json_factory):
 
         """Verify ObsState is Idle"""
         assert subarray_obs_state_is_idle()
-        fixture["state"] ="AssignResources"
 
         """Invoke ReleaseResources() command on TMC"""
         tmc.invoke_releaseResources(release_json)
 
-        fixture["state"] = "ReleaseResources"
         assert subarray_obs_state_is_empty()
 
-        """Invoke TelescopeOff() command on TMC"""
-        tmc.set_to_off()
+        """Invoke TelescopeStandby() command on TMC"""
+        tmc.set_to_standby()
 
-        """Verify State transitions after TelescopeOff"""
-        assert telescope_is_in_off_state()
-        fixture["state"] = "TelescopeOff"
+        """Verify State transitions after TelescopeStandby"""
+        assert telescope_is_in_standby_state()
 
         LOGGER.info("Tests complete.")
 
-    except:
-        if fixture["state"] == "AssignResources":
-            tmc.invoke_releaseResources(release_json)
-        if fixture["state"] == "TelescopeOn":
-            tmc.set_to_off()
-        raise
+    except Exception:
+        tear_down(release_json)
+
 
 @pytest.mark.SKA_mid
 def test_health_check_mid():

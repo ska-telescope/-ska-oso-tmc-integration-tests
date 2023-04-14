@@ -14,6 +14,11 @@ MARK = $(shell echo $(TELESCOPE) | sed "s/-/_/g") ## What -m opt to pass to pyte
 FILE ?= tests## A specific test file to pass to pytest
 ADD_ARGS ?= ## Additional args to pass to pytest
 FILE_NAME?= alarm_rules.txt
+EXIT_AT_FAIL =false ## Flag for determining exit at failure. Set 'true' to exit at first failure.
+
+ifeq ($(EXIT_AT_FAIL),true)
+ADD_ARGS += -x
+endif
 
 # KUBE_NAMESPACE defines the Kubernetes Namespace that will be deployed to
 # using Helm.  If this does not already exist it will be created

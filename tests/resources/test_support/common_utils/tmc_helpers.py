@@ -26,7 +26,7 @@ class TmcHelper(object):
         for device in device_list:
             device_proxy = DeviceProxy(device)
             assert 0 < device_proxy.ping()
-    
+
     @sync_telescope_on
     def set_to_on(self, **kwargs) -> None:
         """
@@ -43,7 +43,7 @@ class TmcHelper(object):
             if device:
                 device_proxy = DeviceProxy(device)
                 device_proxy.SetDirectState(DevState.ON)
-            
+
     @sync_set_to_off
     def set_to_off(self, **kwargs):
         central_node = DeviceProxy(self.centralnode)
@@ -52,13 +52,13 @@ class TmcHelper(object):
         for device in device_to_off_list:
             device_proxy = DeviceProxy(device)
             device_proxy.SetDirectState(DevState.OFF)
-        
+
         # If Dish master provided then set it to standby
         dish_master = kwargs.get("dish_master")
         if dish_master:
             device_proxy = DeviceProxy(dish_master)
             device_proxy.SetDirectState(DevState.STANDBY)
-        
+
         LOGGER.info(
                 f"After invoking TelescopeOff command {central_node} State is: {central_node.State()}"
         )
@@ -96,7 +96,7 @@ class TmcHelper(object):
         central_node.AssignResources(assign_res_input)
         LOGGER.info("Invoked AssignResources on CentralNode")
 
-    
+
     @sync_configure()
     def configure_subarray(self,configure_input_str,**kwargs):
         resource(self.subarray_node).assert_attribute("obsState").equals(
