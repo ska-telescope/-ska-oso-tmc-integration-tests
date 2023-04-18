@@ -36,3 +36,24 @@ ON_OFF_DEVICE_COMMAND_DICT = {
     "sdp_master": sdp_master,
     "dish_master": dish_master1
 }
+
+DEVICE_STATE_STANDBY_INFO = {
+    sdp_subarray1: ["DISABLE" , "OFF"],
+    sdp_master: ["DISABLE", "STANDBY", "OFF"],
+    csp_master: ["DISABLE", "STANDBY", "OFF"],
+    csp_subarray1: ["DISABLE", "OFF"]
+}
+
+DEVICE_STATE_ON_INFO = {
+    sdp_subarray1: ["ON"],
+    sdp_master: ["ON"],
+    csp_master: ["ON"],
+    csp_subarray1: ["ON"],
+    centralnode: ["ON"]
+}
+
+DEVICE_OBS_STATE_EMPTY_INFO = {
+    sdp_subarray1: ["EMPTY"],
+    tmc_subarraynode1: ["EMPTY"],
+    csp_subarray1: ["EMPTY"]
+}
