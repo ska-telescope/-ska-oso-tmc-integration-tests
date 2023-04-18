@@ -21,10 +21,10 @@ from tests.resources.test_support.constant import (
 from tests.resources.test_support.tmc_helpers import tear_down
 
 
-@pytest.mark.hope
+@pytest.mark.SKA_mid
 @scenario("../features/transional_obsstate_check_allowed.feature", "Invalid unexpected commands not allowed in the current transitional obsState")
 def test_command_not_allowed():
-    """Configure the Subarray in RESOURCING obsState"""
+    """Assigning the resources in RESOURCING obsState"""
 
 
 @given(parsers.parse(
@@ -36,15 +36,11 @@ def given_tmc(json_factory):
 
     tmc.check_devices()
 
-    # fixture = {}
-    # fixture["state"] = "Unknown"
-
     assert telescope_control.is_in_valid_state(DEVICE_STATE_STANDBY_INFO, "State")
     LOGGER.info("Staring up the Telescope")
     tmc.set_to_on()
     assert telescope_control.is_in_valid_state(DEVICE_STATE_ON_INFO, "State")
     assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_EMPTY_INFO, "obsState")
-    # tmc.compose_sub(assign_json,**ON_OFF_DEVICE_COMMAND_DICT)
     central_node = DeviceProxy(centralnode)
     tmc.check_devices()
     central_node.AssignResources(assign_json)
@@ -59,7 +55,9 @@ def send_command(json_factory):
     assign_json = json_factory("command_AssignResources")
     central_node = DeviceProxy(centralnode)
     tmc.check_devices()
+    LOGGER.info("Invoking AssignResources from CentralNode in RESOURCING obsState")
     central_node.AssignResources(assign_json)
+    LOGGER.info("Invoked AssignResources from CentralNode")
 
 
 @then("the command {unexpected_command} shows an error")
