@@ -21,7 +21,7 @@ from tests.resources.test_support.constant import (
 from tests.resources.test_support.tmc_helpers import tear_down
 
 
-@pytest.mark.SKA_mid
+@pytest.mark.hope
 @scenario("../features/transional_obsstate_check_allowed.feature", "Invalid unexpected commands not allowed in the current transitional obsState")
 def test_command_not_allowed():
     """Assigning the resources in RESOURCING obsState"""
@@ -60,13 +60,15 @@ def send_command(json_factory):
     LOGGER.info("Invoked AssignResources from CentralNode")
 
 
-@then("the command {unexpected_command} shows an error")
+@then(parsers.parse("the command {unexpected_command} shows an error"))
 def command_responce():
     pass
+
 
 @then(parsers.parse("the TMC device remains in state=On, and obsState {initial_obsstate}"))
 def tmc_status():
    pass
+
 
 # @then(parsers.parse("TMC accepts correct/expected command {expected_command} and performs the operation"))
 # def tmc_accepts_next_commands():
