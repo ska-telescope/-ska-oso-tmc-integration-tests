@@ -22,7 +22,7 @@ from tests.resources.test_support.tmc_helpers import tear_down
 
 
 @pytest.mark.hope
-@scenario("../features/transitional_obsstate_check_allowed.feature", "Invalid unexpected commands not allowed in the current transitional obsState")
+@scenario("../features/transional_obsstate_check_allowed.feature", "Invalid unexpected commands not allowed in the current transitional obsState")
 def test_command_not_allowed():
     """Configure the Subarray in RESOURCING obsState"""
 
@@ -48,12 +48,13 @@ def given_tmc(json_factory):
     central_node = DeviceProxy(centralnode)
     tmc.check_devices()
     central_node.AssignResources(assign_json)
+    LOGGER.info("Invoked AssignResources from CentralNode")
+    LOGGER.info("Checking for SubarrayNode obsState")
     resource(tmc_subarraynode1).assert_attribute("obsState").equals("RESOURCING")
 
 
 @when(
     parsers.parse("the command {unexpected_command} is invoked"))
-
 def send_command(json_factory):
     assign_json = json_factory("command_AssignResources")
     central_node = DeviceProxy(centralnode)
