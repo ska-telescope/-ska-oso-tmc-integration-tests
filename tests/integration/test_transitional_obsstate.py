@@ -70,7 +70,7 @@ def command_responce():
 def tmc_status():
    pass
 
-@then(parsers.parse("TMC accepts correct/expected command {expected_command} and performs the operation"))
-def tmc_accepts_next_commands():
-    pass
+# @then(parsers.parse("TMC accepts correct/expected command {expected_command} and performs the operation"))
+# def tmc_accepts_next_commands():
+#     pass
 
