@@ -12,6 +12,7 @@ from tests.resources.test_support.constant import (
 )
 import tests.resources.test_support.tmc_helpers as tmc
 from tests.conftest import LOGGER
+from tests.resources.test_support.common_utils.common_file import send_commands 
 
 configure_resources_file = "command_Configure.json"
 assign_resources_file = "command_AssignResources.json"
@@ -44,36 +45,16 @@ def given_tmc():
 
 
 @when(
-    parsers.parse("the command {unexpected_command} is invoked"))
-def send_command():
-    """Invoke Configure() Command on TMC"""
-    try:
-        LOGGER.info("Invoking Configure command on TMC CentralNode")
-        configure_input = tmc.get_input_str(configure_resources_file)
-        subarray_node = DeviceProxy("ska_mid/tm_subarray_node/1")
-        subarray_node.Configure(configure_input)
-        LOGGER.info("Invoked Configure on SubarrayNode")
-    # except Exception as e:
-    #     LOGGER.info('HERE in EXPECTION')
-    #     LOGGER.info(e)
-    except:
-        LOGGER.info('CONFIGURE COMMAND NOT VALID IN EMPTY ObsState ')
-    finally:
-        LOGGER.info('Checking if telescope is ON and in EMPTY obsState')
-        assert telescope_is_in_on_state()
-        assert subarray_obs_state_is_empty()
-
-
-@then("the command {unexpected_command} shows an error")
-def command_responce():
-    # then +  catch error and make sure initial obs
-    pass
-
+    parsers.parse("the command <unexpected_command> is invoked , throws an error"))
+def send():
+    send_commands()
+    
 
 @then(parsers.parse("the TMC device remains in state=On, and obsState {initial_obsstate}"))
 def tmc_status():
     assert telescope_is_in_on_state()
     assert subarray_obs_state_is_empty()
+    
 
 # @then(parsers.parse("TMC accepts correct/expected command {expected_command} and performs the operation"))
 # def tmc_accepts_next_commands():
