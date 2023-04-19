@@ -45,7 +45,7 @@ def given_tmc():
 
 
 @when(
-    parsers.parse("the command <unexpected_command> is invoked , throws an error"))
+    parsers.parse("the command {unexpected_command} is invoked , throws an error"))
 def send():
     send_commands()
     
