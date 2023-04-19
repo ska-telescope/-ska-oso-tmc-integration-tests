@@ -8,12 +8,10 @@ from tests.resources.test_support.constant import (
 tmc_subarraynode1
 )
 
-configure_resources_file = "command_Configure.json" 
+configure_resources_file = "command_Configure.json"
 
 @pytest.mark.SKA_mid
-def test_configure_not_allowed_in_empty():   
-    fixture = {}
-    fixture["state"] = "Unknown"
+def test_configure_not_allowed_in_empty():
 
     # Given a SubarrayNode in EMPTY observation state
     """Verify Subarray is in EMPTY state"""
@@ -25,7 +23,7 @@ def test_configure_not_allowed_in_empty():
     resource(tmc_subarraynode1).assert_attribute("obsState").equals(
         "EMPTY"
     )
-    configure_input = tmc.get_input_str(configure_resources_file)            
+    configure_input = tmc.get_input_str(configure_resources_file)
     subarray_node = DeviceProxy(tmc_subarraynode1)
     with pytest.raises(Exception) as info:
         # When CONFIGURE command invoked
