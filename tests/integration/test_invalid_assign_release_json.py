@@ -19,7 +19,6 @@ def test_assign_invalid_json(json_factory):
         assign_json = json_factory("command_invalid_assign_release")
         tmc.check_devices()
 
-    try:
         """Verify Telescope is Off/Standby"""
         assert telescope_is_in_standby_state()
         LOGGER.info("Staring up the Telescope")
@@ -71,7 +70,6 @@ def test_release_invalid_json(json_factory):
         """AssignResources and ReleaseResources is executed."""
         tmc.check_devices()
 
-    try:
         """Verify Telescope is Off/Standby"""
         assert telescope_is_in_standby_state()
         LOGGER.info("Staring up the Telescope")
