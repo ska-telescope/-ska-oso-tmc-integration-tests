@@ -3,28 +3,36 @@ from os.path import dirname, join
 
 from tango import DeviceProxy, DevState
 
+from tests.resources.test_support.constant_low import (
+    centralnode,
+    csp_subarray1,
+    sdp_subarray1,
+    tmc_csp_master_leaf_node,
+    tmc_csp_subarray_leaf_node,
+    tmc_sdp_master_leaf_node,
+    tmc_sdp_subarray_leaf_node,
+    tmc_subarraynode1,
+)
+from tests.resources.test_support.low.helpers import resource
 from tests.resources.test_support.low.sync_decorators import (
-    sync_telescope_on,
+    sync_assign_resources,
+    sync_configure,
+    sync_end,
+    sync_release_resources,
+    sync_scan,
     sync_set_to_off,
     sync_set_to_standby,
-    sync_release_resources,
-    sync_end, sync_assign_resources, sync_configure, sync_scan
+    sync_telescope_on,
 )
-from tango import DeviceProxy, DevState
-from tests.resources.test_support.low.helpers import resource
-import logging
-
-from tests.resources.test_support.constant_low import ( 
-centralnode, csp_subarray1, sdp_subarray1, tmc_subarraynode1,
-tmc_csp_master_leaf_node, tmc_csp_subarray_leaf_node, 
-tmc_sdp_master_leaf_node,tmc_sdp_subarray_leaf_node)
 
 LOGGER = logging.getLogger(__name__)
+
 
 def get_input_str(input_file):
     path = join(dirname(__file__), "..", "..", "data", input_file)
     with open(path, "r") as f:
         return f.read()
+
 
 def check_devices():
     central_node = DeviceProxy(centralnode)
@@ -89,9 +97,7 @@ def set_to_standby():
 def invoke_releaseResources(release_input_str):
     central_node = DeviceProxy(centralnode)
     central_node.ReleaseResources(release_input_str)
-    LOGGER.info(
-        f"ReleaseResources command is invoked on {central_node}"
-    )
+    LOGGER.info(f"ReleaseResources command is invoked on {central_node}")
     csp_subarray_1 = DeviceProxy(csp_subarray1)
     csp_subarray_1.SetDirectState(DevState.OFF)
     sdp_subarray_1 = DeviceProxy(sdp_subarray1)
@@ -102,18 +108,13 @@ def invoke_releaseResources(release_input_str):
 def end():
     subarray_node = DeviceProxy(tmc_subarraynode1)
     subarray_node.End()
-    LOGGER.info(
-        f"End command is invoked on {subarray_node}"
-    )
+    LOGGER.info(f"End command is invoked on {subarray_node}")
+
 
 @sync_assign_resources()
 def compose_sub(assign_res_input):
-    resource(tmc_subarraynode1).assert_attribute("State").equals(
-        "ON"
-    )
-    resource(tmc_subarraynode1).assert_attribute("obsState").equals(
-        "EMPTY"
-    )
+    resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
+    resource(tmc_subarraynode1).assert_attribute("obsState").equals("EMPTY")
     central_node = DeviceProxy(centralnode)
     central_node.AssignResources(assign_res_input)
     LOGGER.info("Invoked AssignResources on CentralNode")
@@ -121,9 +122,7 @@ def compose_sub(assign_res_input):
 
 @sync_configure()
 def configure_subarray(configure_input_str):
-    resource(tmc_subarraynode1).assert_attribute("obsState").equals(
-        "IDLE"
-    )
+    resource(tmc_subarraynode1).assert_attribute("obsState").equals("IDLE")
     subarray_node = DeviceProxy(tmc_subarraynode1)
     subarray_node.Configure(configure_input_str)
     LOGGER.info("Invoked Configure on SubarrayNode")
@@ -131,11 +130,7 @@ def configure_subarray(configure_input_str):
 
 @sync_scan()
 def scan(scan_input):
-    resource(tmc_subarraynode1).assert_attribute("obsState").equals(
-        "READY"
-    )
+    resource(tmc_subarraynode1).assert_attribute("obsState").equals("READY")
     subarray_node = DeviceProxy(tmc_subarraynode1)
     subarray_node.Scan(scan_input)
     LOGGER.info("Invoked Scan on SubarrayNode")
-
-

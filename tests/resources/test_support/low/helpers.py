@@ -1,15 +1,20 @@
-from time import sleep
-import signal
-from numpy import ndarray
 import logging
-import threading
 import signal
-from tango import EventType
+import threading
+from time import sleep
+
+from numpy import ndarray
 
 # SUT frameworks
-from tango import DeviceProxy, CmdArgType, EventType
-from tests.resources.test_support.constant_low import sdp_subarray1, csp_subarray1, tmc_subarraynode1, csp_master, sdp_master
+from tango import CmdArgType, DeviceProxy, EventType
 
+from tests.resources.test_support.constant_low import (
+    csp_master,
+    csp_subarray1,
+    sdp_master,
+    sdp_subarray1,
+    tmc_subarraynode1,
+)
 
 LOGGER = logging.getLogger(__name__)
 
@@ -20,6 +25,7 @@ subarray_devices = [
     sdp_subarray1,
     csp_subarray1,
 ]
+
 
 class resource:
     device_name = None
@@ -44,7 +50,10 @@ class resource:
             return getattr(p, attr)
 
     def assert_attribute(self, attr):
-        return ObjectComparison("{}.{}".format(self.device_name, attr), self.get(attr))
+        return ObjectComparison(
+            "{}.{}".format(self.device_name, attr), self.get(attr)
+        )
+
 
 class ObjectComparison:
     def __init__(self, object, value):
@@ -122,7 +131,9 @@ class monitor(object):
             is_eq_to_future_comparison = True
         else:
             if self.predicate == None:
-                is_eq_to_future_comparison = self.current_value == self.future_value
+                is_eq_to_future_comparison = (
+                    self.current_value == self.future_value
+                )
             else:
                 is_eq_to_future_comparison = self.predicate(
                     self.current_value, self.future_value
@@ -242,7 +253,9 @@ class subscriber:
     def for_any_change_on(self, attr, predicate=None):
         if self.implementation == "polling":
             value_now = self.resource.get(attr)
-            return monitor(self.resource, value_now, attr, require_transition=True)
+            return monitor(
+                self.resource, value_now, attr, require_transition=True
+            )
         elif self.implementation == "tango_events":
             return AttributeWatcher(
                 self.resource,
@@ -310,30 +323,21 @@ class waiter:
 
     def set_wait_for_going_to_off(self):
         self.waits.append(
-            watch(resource(sdp_subarray1)).to_become(
-                "State", changed_to="OFF"
-            )
+            watch(resource(sdp_subarray1)).to_become("State", changed_to="OFF")
         )
         self.waits.append(
-            watch(resource(sdp_master)).to_become(
-                "State", changed_to="OFF"
-            )
+            watch(resource(sdp_master)).to_become("State", changed_to="OFF")
         )
         self.waits.append(
-            watch(resource(csp_subarray1)).to_become(
-                "State", changed_to="OFF"
-            )
+            watch(resource(csp_subarray1)).to_become("State", changed_to="OFF")
         )
         self.waits.append(
-            watch(resource(csp_master)).to_become(
-                "State", changed_to="OFF"
-            )
+            watch(resource(csp_master)).to_become("State", changed_to="OFF")
         )
+
     def set_wait_for_going_to_standby(self):
         self.waits.append(
-            watch(resource(sdp_subarray1)).to_become(
-                "State", changed_to="OFF"
-            )
+            watch(resource(sdp_subarray1)).to_become("State", changed_to="OFF")
         )
         self.waits.append(
             watch(resource(sdp_master)).to_become(
@@ -341,9 +345,7 @@ class waiter:
             )
         )
         self.waits.append(
-            watch(resource(csp_subarray1)).to_become(
-                "State", changed_to="OFF"
-            )
+            watch(resource(csp_subarray1)).to_become("State", changed_to="OFF")
         )
         self.waits.append(
             watch(resource(csp_master)).to_become(
@@ -356,17 +358,13 @@ class waiter:
             watch(resource(sdp_master)).to_become("State", changed_to="ON")
         )
         self.waits.append(
-            watch(resource(sdp_subarray1)).to_become(
-                "State", changed_to="ON"
-            )
+            watch(resource(sdp_subarray1)).to_become("State", changed_to="ON")
         )
         self.waits.append(
             watch(resource(csp_master)).to_become("State", changed_to="ON")
         )
         self.waits.append(
-            watch(resource(csp_subarray1)).to_become(
-                "State", changed_to="ON"
-            )
+            watch(resource(csp_subarray1)).to_become("State", changed_to="ON")
         )
 
     def set_wait_for_going_to_empty(self):
@@ -461,9 +459,7 @@ class waiter:
                 if isinstance(wait, AttributeWatcher):
                     timeout_shim = timeout
                 if wait.future_value is not None:
-                    future_value_shim = (
-                        f" to {wait.future_value} (current val={wait.current_value})"
-                    )
+                    future_value_shim = f" to {wait.future_value} (current val={wait.current_value})"
                 self.error_logs += "{} timed out whilst waiting for {} to change from {}{} in {:f}s\n".format(
                     wait.device_name,
                     wait.attr,
@@ -475,12 +471,14 @@ class waiter:
                 timeout_shim = (timeout - result) * resolution
                 if isinstance(wait, AttributeWatcher):
                     timeout_shim = result
-                self.logs += "{} changed {} from {} to {} after {:f}s \n".format(
-                    wait.device_name,
-                    wait.attr,
-                    wait.previous_value,
-                    wait.current_value,
-                    timeout_shim,
+                self.logs += (
+                    "{} changed {} from {} to {} after {:f}s \n".format(
+                        wait.device_name,
+                        wait.attr,
+                        wait.previous_value,
+                        wait.current_value,
+                        timeout_shim,
+                    )
                 )
         if self.timed_out:
             raise Exception(
@@ -489,13 +487,18 @@ class waiter:
                 )
             )
 
+
 class WaitForScan(waiter):
     def __init__(self):
-        self.tmc_subarraynode = watch(resource(tmc_subarraynode1)).for_a_change_on(
+        self.tmc_subarraynode = watch(
+            resource(tmc_subarraynode1)
+        ).for_a_change_on("obsState")
+        self.csp_subarray = watch(resource(csp_subarray1)).for_a_change_on(
             "obsState"
         )
-        self.csp_subarray = watch(resource(csp_subarray1)).for_a_change_on("obsState")
-        self.sdp_subarray = watch(resource(sdp_subarray1)).for_a_change_on("obsState")
+        self.sdp_subarray = watch(resource(sdp_subarray1)).for_a_change_on(
+            "obsState"
+        )
 
     def wait(self, timeout):
         logging.info(
@@ -510,6 +513,7 @@ class WaitForScan(waiter):
         self.tmc_subarraynode.wait_until_value_changed_to("READY", timeout)
         self.csp_subarray.wait_until_value_changed_to("READY", timeout)
         self.sdp_subarray.wait_until_value_changed_to("READY", timeout)
+
 
 # Waiters based on tango DeviceProxy's ability to subscribe to events
 class AttributeWatcher:
@@ -586,15 +590,21 @@ class AttributeWatcher:
         if self.future_value is None:
             # this means that it is only evaluating a change and not the end result of the evaluation
             if self.is_changed:
-                self.elapsed_time = event.reception_date.totime() - self.start_time
+                self.elapsed_time = (
+                    event.reception_date.totime() - self.start_time
+                )
                 self.result_available.set()
         elif self.predicate(self.current_value, self.future_value):
             if self.require_transition:
                 if self.is_changed:
-                    self.elapsed_time = event.reception_date.totime() - self.start_time
+                    self.elapsed_time = (
+                        event.reception_date.totime() - self.start_time
+                    )
                     self.result_available.set()
             else:
-                self.elapsed_time = event.reception_date.totime() - self.start_time
+                self.elapsed_time = (
+                    event.reception_date.totime() - self.start_time
+                )
                 self.result_available.set()
 
     def _handle_timeout(self, remaining_seconds, test):

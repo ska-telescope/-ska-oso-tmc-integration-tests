@@ -1,7 +1,7 @@
 {
-    "dish": {
-      "receptorIDList": [
-        "SKA001"
-      ]
-    }
+  "dish": {
+    "receptorIDList": [
+      "0001"
+    ]
   }
+}

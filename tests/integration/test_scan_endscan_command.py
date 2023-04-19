@@ -1,14 +1,24 @@
-import pytest
 import json
-from tests.resources.test_support.controls import telescope_is_in_standby_state ,telescope_is_in_on_state ,subarray_obs_state_is_idle ,subarray_obs_state_is_ready, subarray_obs_state_is_empty, telescope_is_in_off_state
+
+import pytest
+
 import tests.resources.test_support.tmc_helpers as tmc
 from tests.conftest import LOGGER
+from tests.resources.test_support.controls import (
+    subarray_obs_state_is_empty,
+    subarray_obs_state_is_idle,
+    subarray_obs_state_is_ready,
+    telescope_is_in_off_state,
+    telescope_is_in_on_state,
+    telescope_is_in_standby_state,
+)
 from tests.resources.test_support.tmc_helpers import tear_down
 
 assign_resources_file = "command_AssignResources.json"
-release_resources_file  = "command_ReleaseResources.json"
+release_resources_file = "command_ReleaseResources.json"
 configure_resources_file = "command_Configure.json"
-scan_file= "command_Scan.json"
+scan_file = "command_Scan.json"
+
 
 @pytest.mark.SKA_mid
 def test_scan_endscan():

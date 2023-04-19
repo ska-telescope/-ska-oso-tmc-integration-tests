@@ -1,8 +1,9 @@
-import pytest
 import logging
-from os.path import dirname, join
-import tango
 import os
+from os.path import dirname, join
+
+import pytest
+import tango
 
 LOGGER = logging.getLogger(__name__)
 
@@ -55,6 +56,7 @@ def json_factory():
         return get_input_str(join(dirname(__file__), "data", f"{slug}.json"))
 
     return _get_json
+
 
 TELESCOPE_ENV = os.getenv("TELESCOPE")
 

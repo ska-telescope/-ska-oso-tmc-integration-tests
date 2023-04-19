@@ -28,6 +28,10 @@ stages:
   - lifecycle
 
 include:
+# Python packages build,lint, test and publish
+- project: 'ska-telescope/templates-repository'
+  file: 'gitlab-ci/includes/python.gitlab-ci.yml'
+
 # # Helm Chart linting and Publish
 - project: 'ska-telescope/templates-repository'
   file: 'gitlab-ci/includes/helm-chart.gitlab-ci.yml'
@@ -44,7 +48,7 @@ include:
 # https://developer.skatelescope.org/en/latest/tools/continuousintegration.html#automated-collection-of-ci-health-metrics-as-part-of-the-ci-pipeline
 - project: 'ska-telescope/templates-repository'
   file: 'gitlab-ci/includes/finaliser.gitlab-ci.yml'
-# k8s-test: 
+# k8s-test:
 #   variables:
 #     SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA"
 #   before_script:
@@ -53,7 +57,7 @@ include:
 
 
 k8s-test:
-  variables: 
+  variables:
     SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA"
   before_script:
     - make cred SERVICE_ACCOUNT=$SERVICE_ACCOUNT

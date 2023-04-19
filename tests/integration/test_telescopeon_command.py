@@ -1,10 +1,19 @@
 import pytest
-from tests.resources.test_support.controls import telescope_is_in_standby_state, telescope_is_in_on_state, telescope_is_in_off_state
-from tests.resources.test_support.constant import ON_OFF_DEVICE_COMMAND_DICT, centralnode
-from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
+
 from tests.conftest import LOGGER
+from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
+from tests.resources.test_support.constant import (
+    ON_OFF_DEVICE_COMMAND_DICT,
+    centralnode,
+    tmc_subarraynode1,
+)
+from tests.resources.test_support.controls import (
+    telescope_is_in_off_state,
+    telescope_is_in_on_state,
+    telescope_is_in_standby_state,
+)
 from tests.resources.test_support.tmc_helpers import tear_down
-from tests.resources.test_support.constant import centralnode, tmc_subarraynode1, ON_OFF_DEVICE_COMMAND_DICT
+
 
 @pytest.mark.SKA_mid
 def test_telescope_on():

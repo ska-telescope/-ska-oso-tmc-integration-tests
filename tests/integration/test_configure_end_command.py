@@ -1,21 +1,34 @@
-import pytest
 import json
-from tests.resources.test_support.controls import telescope_is_in_standby_state, telescope_is_in_on_state, telescope_is_in_off_state, subarray_obs_state_is_empty, subarray_obs_state_is_idle, subarray_obs_state_is_ready
+
+import pytest
+from tango import DeviceProxy
+
 import tests.resources.test_support.tmc_helpers as tmc
 from tests.conftest import LOGGER
-from tests.resources.test_support.sync_decorators import sync_assign_resources, sync_configure, sync_end
-from tests.resources.test_support.helpers import resource
-from tango import DeviceProxy
 from tests.resources.test_support.constant import (
-tmc_subarraynode1,
-centralnode
+    centralnode,
+    tmc_subarraynode1,
+)
+from tests.resources.test_support.controls import (
+    subarray_obs_state_is_empty,
+    subarray_obs_state_is_idle,
+    subarray_obs_state_is_ready,
+    telescope_is_in_off_state,
+    telescope_is_in_on_state,
+    telescope_is_in_standby_state,
+)
+from tests.resources.test_support.helpers import resource
+from tests.resources.test_support.sync_decorators import (
+    sync_assign_resources,
+    sync_configure,
+    sync_end,
 )
 from tests.resources.test_support.tmc_helpers import tear_down
 
-
 assign_resources_file = "command_AssignResources.json"
-release_resources_file  = "command_ReleaseResources.json"
+release_resources_file = "command_ReleaseResources.json"
 configure_resources_file = "command_Configure.json"
+
 
 @pytest.mark.SKA_mid
 def test_configure_end():
@@ -35,11 +48,10 @@ def test_configure_end():
 
         """Invoke AssignResources() Command on TMC"""
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
+
         @sync_assign_resources()
         def compose_sub():
-            resource(tmc_subarraynode1).assert_attribute("State").equals(
-                "ON"
-            )
+            resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
             resource(tmc_subarraynode1).assert_attribute("obsState").equals(
                 "EMPTY"
             )
@@ -56,6 +68,7 @@ def test_configure_end():
 
         """Invoke Configure() Command on TMC"""
         LOGGER.info("Invoking Configure command on TMC CentralNode")
+
         @sync_configure()
         def configure_subarray():
             resource(tmc_subarraynode1).assert_attribute("obsState").equals(
@@ -74,6 +87,7 @@ def test_configure_end():
 
         """Invoke End() Command on TMC"""
         LOGGER.info("Invoking End command on TMC SubarrayNode")
+
         @sync_end()
         def end():
             resource(tmc_subarraynode1).assert_attribute("obsState").equals(
@@ -88,7 +102,6 @@ def test_configure_end():
         """Verify ObsState is IDLE"""
         assert subarray_obs_state_is_idle()
         LOGGER.info("End command is invoked successfully")
-
 
         release_input_str = tmc.get_input_str(release_resources_file)
 

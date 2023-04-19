@@ -1,24 +1,27 @@
-import pytest
 import json
 import time
+
+import pytest
 from tango import DeviceProxy
-from tests.resources.test_support.controls import (
-    telescope_is_in_on_state,
-    telescope_is_in_standby_state,
-    subarray_obs_state_is_idle,
-    subarray_obs_state_is_aborted,
-    subarray_obs_state_is_empty,
-    subarray_obs_state_is_ready,
-)
+
 import tests.resources.test_support.tmc_helpers as tmc
+from tests.conftest import LOGGER
 from tests.resources.test_support.constant import (
     centralnode,
-    tmc_subarraynode1,
     csp_subarray1,
+    tmc_subarraynode1,
+)
+from tests.resources.test_support.controls import (
+    subarray_obs_state_is_aborted,
+    subarray_obs_state_is_empty,
+    subarray_obs_state_is_idle,
+    subarray_obs_state_is_ready,
+    telescope_is_in_on_state,
+    telescope_is_in_standby_state,
 )
 from tests.resources.test_support.helpers import resource, waiter
-from tests.conftest import LOGGER
 from tests.resources.test_support.tmc_helpers import tear_down
+
 
 @pytest.mark.SKA_mid
 def test_abort_restart(json_factory):
@@ -137,9 +140,7 @@ def test_abort_in_resourcing(json_factory):
         csp_subarray_proxy.SetDefective(True)
 
         # Invoke AssignResources() Command on TMC
-        resource(tmc_subarraynode1).assert_attribute("State").equals(
-            "ON"
-        )
+        resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
         resource(tmc_subarraynode1).assert_attribute("obsState").equals(
             "EMPTY"
         )
@@ -149,7 +150,9 @@ def test_abort_in_resourcing(json_factory):
 
         # Verify ObsState is RESOURCING
         the_waiter = waiter()
-        the_waiter.set_wait_for_intermediate_obsstate("RESOURCING", [tmc_subarraynode1])
+        the_waiter.set_wait_for_intermediate_obsstate(
+            "RESOURCING", [tmc_subarraynode1]
+        )
         the_waiter.wait(20)
 
         # Setting CSP back to normal
@@ -249,9 +252,7 @@ def test_abort_in_resourcing_different_resources(json_factory):
         csp_subarray_proxy.SetDefective(True)
 
         # Invoke AssignResources() Command on TMC
-        resource(tmc_subarraynode1).assert_attribute("State").equals(
-            "ON"
-        )
+        resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
         resource(tmc_subarraynode1).assert_attribute("obsState").equals(
             "EMPTY"
         )
@@ -261,7 +262,9 @@ def test_abort_in_resourcing_different_resources(json_factory):
 
         # Verify ObsState is RESOURCING
         the_waiter = waiter()
-        the_waiter.set_wait_for_intermediate_obsstate("RESOURCING", [tmc_subarraynode1])
+        the_waiter.set_wait_for_intermediate_obsstate(
+            "RESOURCING", [tmc_subarraynode1]
+        )
         the_waiter.wait(20)
 
         # Setting CSP back to normal
@@ -354,9 +357,7 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
         csp_subarray_proxy.SetDefective(True)
 
         # Invoke AssignResources() Command on TMC
-        resource(tmc_subarraynode1).assert_attribute("State").equals(
-            "ON"
-        )
+        resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
         resource(tmc_subarraynode1).assert_attribute("obsState").equals(
             "EMPTY"
         )
@@ -366,7 +367,9 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
 
         # Verify ObsState is RESOURCING
         the_waiter = waiter()
-        the_waiter.set_wait_for_intermediate_obsstate("RESOURCING", [tmc_subarraynode1])
+        the_waiter.set_wait_for_intermediate_obsstate(
+            "RESOURCING", [tmc_subarraynode1]
+        )
         the_waiter.wait(20)
 
         # Setting SDP and CSP back to normal
@@ -471,25 +474,23 @@ def test_abort_in_configuring(json_factory):
 
         # Invoke Configure() Command on TMC
         LOGGER.info("Invoking Configure command on TMC CentralNode")
-        resource(tmc_subarraynode1).assert_attribute("obsState").equals(
-            "IDLE"
-        )
+        resource(tmc_subarraynode1).assert_attribute("obsState").equals("IDLE")
         subarray_node = DeviceProxy(tmc_subarraynode1)
         subarray_node.Configure(config_json)
         LOGGER.info("Invoked Configure on SubarrayNode")
 
         # Verify ObsState is CONFIGURING
         the_waiter = waiter()
-        the_waiter.set_wait_for_intermediate_obsstate("CONFIGURING", [tmc_subarraynode1, csp_subarray1])
+        the_waiter.set_wait_for_intermediate_obsstate(
+            "CONFIGURING", [tmc_subarraynode1, csp_subarray1]
+        )
         the_waiter.wait(20)
 
         # Setting CSP back to normal
         csp_subarray_proxy.SetDefective(False)
         time.sleep(0.5)
 
-        resource(csp_subarray1).assert_attribute("defective").equals(
-            False
-        )
+        resource(csp_subarray1).assert_attribute("defective").equals(False)
 
         # Invoke Abort() command on TMC
         LOGGER.info("Invoking Abort command on TMC")
@@ -601,7 +602,9 @@ def test_abort_in_scanning(json_factory):
 
         # Verify ObsState is SCANNING
         the_waiter = waiter()
-        the_waiter.set_wait_for_intermediate_obsstate("SCANNING", [tmc_subarraynode1])
+        the_waiter.set_wait_for_intermediate_obsstate(
+            "SCANNING", [tmc_subarraynode1]
+        )
         the_waiter.wait(20)
 
         # Setting CSP back to normal

@@ -1,10 +1,14 @@
 """_summary_
 """
-from tests.resources.test_support.telescope_controls import BaseTelescopeControl
+from tests.resources.test_support.telescope_controls import (
+    BaseTelescopeControl,
+)
+
 
 class TelescopeControlLow(BaseTelescopeControl):
     """
-        Now all method related to telescope control are common for both low and mid 
-        but created placeholder class for low so in case method required for low can be written here or overridden 
+    Now all method related to telescope control are common for both low and mid
+    but created placeholder class for low so in case method required for low can be written here or overridden
     """
+
     pass
