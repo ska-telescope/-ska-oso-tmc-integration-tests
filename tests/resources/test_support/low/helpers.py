@@ -515,7 +515,7 @@ class WaitForScan(waiter):
             "obsState"
         )
 
-    def wait(self, timeout):
+    def wait(self, timeout, resolution=None):
         logging.info(
             "scan command dispatched, checking that the state transitioned \
             to SCANNING"

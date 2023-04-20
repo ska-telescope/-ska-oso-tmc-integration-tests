@@ -30,7 +30,7 @@ LOGGER = logging.getLogger(__name__)
 
 def get_input_str(input_file):
     path = join(dirname(__file__), "..", "..", "data", input_file)
-    with open(path, "r") as f:
+    with open(path, "r", encoding="UTF-8") as f:
         return f.read()
 
 

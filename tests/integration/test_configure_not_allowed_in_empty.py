@@ -14,11 +14,11 @@ configure_resources_file = "command_Configure.json"
 def test_configure_not_allowed_in_empty():
 
     # Given a SubarrayNode in EMPTY observation state
-    """Verify Subarray is in EMPTY state"""
+    # Verify Subarray is in EMPTY state
     assert subarray_obs_state_is_empty()
     LOGGER.info("Subarray is in EMPTY state")
 
-    """Invoke Configure() Command on TMC"""
+    # Invoke Configure() Command on TMC
     LOGGER.info("Invoking Configure command on TMC CentralNode")
     resource(tmc_subarraynode1).assert_attribute("obsState").equals("EMPTY")
     configure_input = tmc.get_input_str(configure_resources_file)

@@ -41,7 +41,7 @@ LOGGER = logging.getLogger(__name__)
 
 def get_input_str(input_file):
     path = join(dirname(__file__), "..", "..", "data", input_file)
-    with open(path, "r") as f:
+    with open(path, "r", encoding="UTF-8") as f:
         return f.read()
 
 
@@ -256,6 +256,5 @@ def tear_down(input_json: Optional[str] = None):
 
     LOGGER.info("Tear Down Successful, raising an exception for failure")
     raise Exception(
-        "Test case failed and Subarray obsState was : %s",
-        subarray_node_obsstate,
+        f"Test case failed and Subarray obsState was: {subarray_node_obsstate}"
     )

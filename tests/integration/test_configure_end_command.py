@@ -31,19 +31,19 @@ configure_resources_file = "command_Configure.json"
 def test_configure_end():
     """Configure and End is executed."""
     try:
-        """Verify Telescope is Off/Standby"""
+        # Verify Telescope is Off/Standby
         assert telescope_is_in_standby_state()
         LOGGER.info("Staring up the Telescope")
 
-        """Invoke TelescopeOn() command on TMC"""
+        # Invoke TelescopeOn() command on TMC
         LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
         tmc.set_to_on()
         LOGGER.info("TelescopeOn command is invoked successfully")
 
-        """Verify State transitions after TelescopeOn"""
+        # Verify State transitions after TelescopeOn
         assert telescope_is_in_on_state()
 
-        """Invoke AssignResources() Command on TMC"""
+        # Invoke AssignResources() Command on TMC
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
 
         @sync_assign_resources()
@@ -59,11 +59,11 @@ def test_configure_end():
 
         compose_sub()
 
-        """Verify ObsState is Idle"""
+        # Verify ObsState is Idle
         assert subarray_obs_state_is_idle()
         LOGGER.info("AssignResources command is invoked successfully")
 
-        """Invoke Configure() Command on TMC"""
+        # Invoke Configure() Command on TMC
         LOGGER.info("Invoking Configure command on TMC CentralNode")
 
         @sync_configure()
@@ -78,11 +78,11 @@ def test_configure_end():
 
         configure_subarray()
 
-        """Verify ObsState is READY"""
+        # Verify ObsState is READY
         assert subarray_obs_state_is_ready()
         LOGGER.info("Configure command is invoked successfully")
 
-        """Invoke End() Command on TMC"""
+        # Invoke End() Command on TMC
         LOGGER.info("Invoking End command on TMC SubarrayNode")
 
         @sync_end()
@@ -96,21 +96,21 @@ def test_configure_end():
 
         end()
 
-        """Verify ObsState is IDLE"""
+        # Verify ObsState is IDLE
         assert subarray_obs_state_is_idle()
         LOGGER.info("End command is invoked successfully")
 
         release_input_str = tmc.get_input_str(release_resources_file)
 
-        """Invoke ReleaseResources() command on TMC"""
+        # Invoke ReleaseResources() command on TMC
         tmc.invoke_releaseResources(release_input_str)
 
         assert subarray_obs_state_is_empty()
 
-        """Invoke TelescopeStandby() command on TMC"""
+        # Invoke TelescopeStandby() command on TMC
         tmc.set_to_standby()
 
-        """Verify State transitions after TelescopeStandby"""
+        # Verify State transitions after TelescopeStandby
         assert telescope_is_in_standby_state()
 
         LOGGER.info("Tests complete.")

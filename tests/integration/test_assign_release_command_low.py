@@ -33,18 +33,18 @@ def test_assign_release_low(json_factory):
         fixture = {}
         fixture["state"] = "Unknown"
 
-        """Verify Telescope is Off/Standby"""
+        # Verify Telescope is Off/Standby
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_STANDBY_INFO, "State"
         )
         LOGGER.info("Staring up the Telescope")
 
-        """Invoke TelescopeOn() command on TMC"""
+        # Invoke TelescopeOn() command on TMC
         LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
         tmc.set_to_on()
         LOGGER.info("TelescopeOn command is invoked successfully")
 
-        """Verify State transitions after TelescopeOn"""
+        # Verify State transitions after TelescopeOn
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_ON_INFO, "State"
         )
@@ -52,7 +52,7 @@ def test_assign_release_low(json_factory):
         # The sleep solution is the temporary solution. Further investigation
         # needed
 
-        """Invoke AssignResources() Command on TMC"""
+        # Invoke AssignResources() Command on TMC
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
 
         @sync_assign_resources()
@@ -70,13 +70,13 @@ def test_assign_release_low(json_factory):
 
         LOGGER.info("AssignResources command is invoked successfully")
 
-        """Verify ObsState is Idle"""
+        # Verify ObsState is Idle
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_IDLE_INFO, "obsState"
         )
         fixture["state"] = "AssignResources"
 
-        """Invoke ReleaseResources() command on TMC"""
+        # Invoke ReleaseResources() command on TMC
         tmc.invoke_releaseResources(release_json)
 
         fixture["state"] = "ReleaseResources"
@@ -84,10 +84,10 @@ def test_assign_release_low(json_factory):
             DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
         )
 
-        """Invoke TelescopeOff() command on TMC"""
+        # Invoke TelescopeOff() command on TMC
         tmc.set_to_off()
 
-        """Verify State transitions after TelescopeOff"""
+        # Verify State transitions after TelescopeOff
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_OFF_INFO, "State"
         )

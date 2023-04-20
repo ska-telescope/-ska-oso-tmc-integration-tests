@@ -19,27 +19,27 @@ def test_telescope_standby():
         fixture = {}
         fixture["state"] = "Unknown"
 
-        """Verify Telescope is Off/Standby"""
+        # Verify Telescope is Off/Standby
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_STANDBY_INFO, "State"
         )
         LOGGER.info("Staring up the Telescope")
 
-        """Invoke TelescopeOn() command on TMC"""
+        # # Invoke TelescopeOn() command on TMC
         LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
         tmc.set_to_on()
         LOGGER.info("TelescopeOn command is invoked successfully")
 
-        """Verify State transitions after TelescopeOn"""
+        # # Verify State transitions after TelescopeOn
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_ON_INFO, "State"
         )
         fixture["state"] = "TelescopeOn"
 
-        """Invoke TelescopeOff() command on TMC"""
+        # # Invoke TelescopeOff() command on TMC
         tmc.set_to_standby()
 
-        """Verify State transitions after TelescopeOff"""
+        # # Verify State transitions after TelescopeOff
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_STANDBY_INFO, "State"
         )

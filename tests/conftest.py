@@ -41,7 +41,7 @@ def get_input_str(path):
     Returns input json string
     :rtype: String
     """
-    with open(path, "r") as f:
+    with open(path, "r", encoding="UTF-8") as f:
         input_arg = f.read()
     return input_arg
 

@@ -20,22 +20,22 @@ def test_telescope_on():
     try:
         tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 
-        """Verify Telescope is Off/Standby"""
+        # Verify Telescope is Off/Standby
         assert telescope_is_in_standby_state()
         LOGGER.info("Starting up the Telescope")
 
-        """Invoke TelescopeOn() command on TMC"""
+        # # Invoke TelescopeOn() command on TMC
         LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
         tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("TelescopeOn command is invoked successfully")
 
-        """Verify State transitions after TelescopeOn"""
+        # # Verify State transitions after TelescopeOn
         assert telescope_is_in_on_state()
 
-        """Invoke TelescopeStandby() command on TMC"""
+        # # Invoke TelescopeStandby() command on TMC
         tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
 
-        """Verify State transitions after TelescopeStandby"""
+        # # Verify State transitions after TelescopeStandby
         assert telescope_is_in_standby_state()
 
         LOGGER.info("Tests complete.")

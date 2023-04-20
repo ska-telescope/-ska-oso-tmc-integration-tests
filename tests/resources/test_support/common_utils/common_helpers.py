@@ -214,7 +214,7 @@ class subscriber:
                 predicate,
                 require_transition=True,
             )
-        elif self.implementation == "tango_events":
+        if self.implementation == "tango_events":
             return AttributeWatcher(
                 self.resource,
                 attr,
@@ -235,7 +235,7 @@ class subscriber:
                 predicate,
                 require_transition=False,
             )
-        elif self.implementation == "tango_events":
+        if self.implementation == "tango_events":
             return AttributeWatcher(
                 self.resource,
                 attr,
@@ -251,7 +251,7 @@ class subscriber:
             return monitor(
                 self.resource, value_now, attr, require_transition=True
             )
-        elif self.implementation == "tango_events":
+        if self.implementation == "tango_events":
             return AttributeWatcher(
                 self.resource,
                 attr,
@@ -519,7 +519,7 @@ class WaitForScan(Waiter):
             resource(self.sdp_subarray1)
         ).for_a_change_on("obsState")
 
-    def wait(self, timeout):
+    def wait(self, timeout, resolution=None):
         logging.info(
             "scan command dispatched, checking that the state transitioned to \
             SCANNING"
@@ -594,8 +594,7 @@ class AttributeWatcher:
         comparison = current_value == desired
         if isinstance(comparison, ndarray):
             return comparison.all()
-        else:
-            return comparison
+        return comparison
 
     def start_listening(self):
         if self.device_proxy.is_attribute_polled(self.attribute):

@@ -11,5 +11,3 @@ class TelescopeControlLow(BaseTelescopeControl):
     but created placeholder class for low so in case method required for low
     can be written here or overridden
     """
-
-    pass

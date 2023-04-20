@@ -19,24 +19,24 @@ release_resources_file = "command_ReleaseResources.json"
 @pytest.mark.SKA_mid
 def test_scan_not_allowed_in_idle():
     try:
-        """Verify Telescope is Off/Standby"""
+        # Verify Telescope is Off/Standby
         assert telescope_is_in_standby_state()
         LOGGER.info("Staring up the Telescope")
 
-        """Invoke TelescopeOn() command on TMC"""
+        # # Invoke TelescopeOn() command on TMC
         LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
         tmc.set_to_on()
         LOGGER.info("TelescopeOn command is invoked successfully")
 
-        """Verify State transitions after TelescopeOn"""
+        # # Verify State transitions after TelescopeOn
         assert telescope_is_in_on_state()
 
-        """Invoke AssignResources() Command on TMC"""
+        # # Invoke AssignResources() Command on TMC
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
         assign_res_input = tmc.get_input_str(assign_resources_file)
         tmc.compose_sub(assign_res_input)
 
-        """Verify ObsState is Idle"""
+        # # Verify ObsState is Idle
         # Given a Subarray in IDLE observation state
         assert subarray_obs_state_is_idle()
         scan_input = tmc.get_input_str(scan_file)
@@ -50,15 +50,15 @@ def test_scan_not_allowed_in_idle():
         )
         # And TMC remains in IDLE observation state
         assert subarray_obs_state_is_idle()
-        """Invoke ReleaseResources() command on TMC"""
+        # # Invoke ReleaseResources() command on TMC
         release_input_str = tmc.get_input_str(release_resources_file)
         tmc.invoke_releaseResources(release_input_str)
         assert subarray_obs_state_is_empty()
 
-        """Invoke TelescopeStandby() command on TMC"""
+        # # Invoke TelescopeStandby() command on TMC
         tmc.set_to_standby()
 
-        """Verify State transitions after TelescopeStandby"""
+        # # Verify State transitions after TelescopeStandby
         assert telescope_is_in_standby_state()
     except Exception:
         release_json = tmc.get_input_str(release_resources_file)

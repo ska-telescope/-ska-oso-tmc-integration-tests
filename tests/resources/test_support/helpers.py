@@ -558,10 +558,10 @@ class WaitForScan(waiter):
             "obsState"
         )
 
-    def wait(self, timeout):
+    def wait(self, timeout, resolution=None):
         LOGGER.info(
-            """Scan command dispatched, checking that the state transitioned to
-            SCANNING"""
+            "Scan command dispatched, checking that the state transitioned to \
+            SCANNING"
         )
         self.tmc_subarraynode.wait_until_value_changed_to("SCANNING", timeout)
         self.csp_subarray.wait_until_value_changed_to("SCANNING", timeout)
