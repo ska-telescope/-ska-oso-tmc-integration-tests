@@ -46,7 +46,8 @@ class TmcHelper(object):
         """
         central_node = DeviceProxy(self.centralnode)
         LOGGER.info(
-            f"Before Sending TelescopeOn command {central_node} State is: {central_node.State()}"
+            f"Before Sending TelescopeOn command {central_node} State is: \
+            {central_node.State()}"
         )
         central_node.TelescopeOn()
         device_to_on_list = [
@@ -78,7 +79,8 @@ class TmcHelper(object):
             device_proxy.SetDirectState(DevState.STANDBY)
 
         LOGGER.info(
-            f"After invoking TelescopeOff command {central_node} State is: {central_node.State()}"
+            f"After invoking TelescopeOff command {central_node} State is: \
+            {central_node.State()}"
         )
 
     @sync_set_to_standby
@@ -94,7 +96,8 @@ class TmcHelper(object):
             device_proxy.SetDirectState(DevState.OFF)
 
         LOGGER.info(
-            f"After invoking TelescopeStandBy command {central_node} State is: {central_node.State()}"
+            f"After invoking TelescopeStandBy command {central_node} State is \
+            {central_node.State()}"
         )
 
     @sync_release_resources

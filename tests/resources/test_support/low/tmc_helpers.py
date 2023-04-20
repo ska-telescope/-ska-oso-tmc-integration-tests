@@ -57,7 +57,8 @@ def check_devices():
 def set_to_on():
     central_node = DeviceProxy(centralnode)
     LOGGER.info(
-        f"Before Sending TelescopeOn command {central_node} State is: {central_node.State()}"
+        f"Before Sending TelescopeOn command {central_node} State is: \
+        {central_node.State()}"
     )
     central_node.TelescopeOn()
     csp_subarray_1 = DeviceProxy(csp_subarray1)
@@ -75,7 +76,8 @@ def set_to_off():
     sdp_subarray_1 = DeviceProxy(sdp_subarray1)
     sdp_subarray_1.SetDirectState(DevState.OFF)
     LOGGER.info(
-        f"After invoking TelescopeOff command {central_node} State is: {central_node.State()}"
+        f"After invoking TelescopeOff command {central_node} State is: \
+        {central_node.State()}"
     )
 
 
@@ -89,7 +91,8 @@ def set_to_standby():
     sdp_subarray_1.SetDirectState(DevState.OFF)
 
     LOGGER.info(
-        f"After invoking TelescopeStandBy command {central_node}.State: {central_node.State()}"
+        f"After invoking TelescopeStandBy command {central_node}.State: \
+        {central_node.State()}"
     )
 
 

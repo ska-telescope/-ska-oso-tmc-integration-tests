@@ -29,7 +29,8 @@ DEVICE_HEALTH_STATE_OK_INFO = {
 }
 
 ON_OFF_DEVICE_COMMAND_DICT = {
-    "sdp_subarray": sdp_subarray1,  # TODO use this as as list when multiple subarray considered in testing
+    # TODO use this as as list when multiple subarray considered in testing
+    "sdp_subarray": sdp_subarray1,
     "csp_subarray": csp_subarray1,
     "csp_master": csp_master,
     "tmc_subarraynode": tmc_subarraynode1,

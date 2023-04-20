@@ -1,4 +1,4 @@
-"""Simple class for checking device ObsState 
+"""Simple class for checking device ObsState
 """
 from tests.resources.test_support.helpers import resource
 
@@ -9,7 +9,8 @@ class DeviceUtils(object):
     def __init__(self, **kwargs):
         """
         Args:
-            kwargs (dict) - provide list of devices to check for obsState as value in dict
+            kwargs (dict) - provide list of devices to check for obsState as
+            value in dict
         """
         self.obs_state_device_names = kwargs.get("obs_state_device_names", [])
 

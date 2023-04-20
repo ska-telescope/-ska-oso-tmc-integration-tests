@@ -70,7 +70,9 @@ def check_devices():
 def set_to_on():
     central_node = DeviceProxy(centralnode)
     LOGGER.info(
-        f"Before Sending TelescopeOn command {central_node} State is: {central_node.State()}"
+        "Before Sending TelescopeOn command %s State is: %s",
+        central_node,
+        central_node.State(),
     )
     central_node.TelescopeOn()
     the_waiter = waiter()
@@ -97,7 +99,9 @@ def set_to_off():
     dish_master_1 = DeviceProxy(dish_master1)
     dish_master_1.SetDirectState(DevState.STANDBY)
     LOGGER.info(
-        f"After invoking TelescopeOff command {central_node} State is: {central_node.State()}"
+        "After invoking TelescopeOff command %s State is: %s",
+        central_node,
+        central_node.State(),
     )
 
 
@@ -112,7 +116,9 @@ def set_to_standby():
     dish_master_1 = DeviceProxy(dish_master1)
     dish_master_1.SetDirectState(DevState.STANDBY)
     LOGGER.info(
-        f"After invoking TelescopeStandBy command {central_node} State is: {central_node.State()}"
+        "After invoking TelescopeStandBy command  %s State is: %s",
+        central_node,
+        central_node.State(),
     )
 
 
@@ -176,7 +182,8 @@ def invoke_restart():
 
 
 def tear_down(input_json: Optional[str] = None):
-    """Tears down the system after test run to get telescope back in standby state."""
+    """Tears down the system after test run to get telescope back in standby
+    state."""
     subarray_node_obsstate = resource(tmc_subarraynode1).get("obsState")
 
     if subarray_node_obsstate in ["RESOURCING", "CONFIGURING", "SCANNING"]:
@@ -249,5 +256,6 @@ def tear_down(input_json: Optional[str] = None):
 
     LOGGER.info("Tear Down Successful, raising an exception for failure")
     raise Exception(
-        f"Test case failed and Subarray obsState was : {subarray_node_obsstate}"
+        "Test case failed and Subarray obsState was : %s",
+        subarray_node_obsstate,
     )

@@ -17,7 +17,7 @@ class BaseTelescopeControl(object):
             state_list = device_state_info.get(device)
             device_state = resource(device).get(state_str)
             LOGGER.info(
-                f'resource({device}).get("{state_str}") ' + device_state
+                f"resource({device}).get('{state_str}') : {device_state}"
             )
             state_result_list.append(
                 resource(device).get(state_str) in state_list
