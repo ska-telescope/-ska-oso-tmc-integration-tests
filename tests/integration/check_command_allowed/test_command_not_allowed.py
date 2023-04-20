@@ -12,7 +12,7 @@ from tests.resources.test_support.constant import (
 )
 import tests.resources.test_support.tmc_helpers as tmc
 from tests.conftest import LOGGER
-from tests.resources.test_support.common_utils.common_file import send_commands 
+from tests.resources.test_support.common_utils.common_file import send_commands
 
 configure_resources_file = "command_Configure.json"
 assign_resources_file = "command_AssignResources.json"
@@ -48,35 +48,35 @@ def given_tmc():
     parsers.parse("the command {unexpected_command} is invoked , throws an error"))
 def send():
     send_commands()
-    
+
 
 @then(parsers.parse("the TMC device remains in state=On, and obsState {initial_obsstate}"))
 def tmc_status():
     assert telescope_is_in_on_state()
     assert subarray_obs_state_is_empty()
-    
 
-# @then(parsers.parse("TMC accepts correct/expected command {expected_command} and performs the operation"))
-# def tmc_accepts_next_commands():
-#     """Invoke AssignResources() Command on TMC"""
-#     LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-#
-#     @sync_assign_resources()
-#     def compose_sub():
-#         resource(tmc_subarraynode1).assert_attribute("State").equals(
-#             "ON"
-#         )
-#         resource(tmc_subarraynode1).assert_attribute("obsState").equals(
-#             "EMPTY"
-#         )
-#         assign_res_input = tmc.get_input_str(assign_resources_file)
-#         central_node = DeviceProxy(centralnode)
-#         central_node.AssignResources(assign_res_input)
-#         LOGGER.info("Invoked AssignResources on CentralNode")
-#
-#     compose_sub()
-#     compose_sub()
-#
-#     """Verify ObsState is Idle"""
-#     assert subarray_obs_state_is_idle()
-#     LOGGER.info("AssignResources command is invoked successfully")
+
+@then(parsers.parse("TMC accepts correct/expected command {expected_command} and performs the operation"))
+def tmc_accepts_next_commands():
+    """Invoke AssignResources() Command on TMC"""
+    LOGGER.info("Invoking AssignResources command on TMC CentralNode")
+
+    @sync_assign_resources()
+    def compose_sub():
+        resource(tmc_subarraynode1).assert_attribute("State").equals(
+            "ON"
+        )
+        resource(tmc_subarraynode1).assert_attribute("obsState").equals(
+            "EMPTY"
+        )
+        assign_res_input = tmc.get_input_str(assign_resources_file)
+        central_node = DeviceProxy(centralnode)
+        central_node.AssignResources(assign_res_input)
+        LOGGER.info("Invoked AssignResources on CentralNode")
+
+    compose_sub()
+
+    """Verify ObsState is Idle"""
+    assert subarray_obs_state_is_idle()
+
+    LOGGER.info("AssignResources command is invoked successfully")
