@@ -68,7 +68,7 @@ class ObjectComparison:
                 assert self.value in value
             else:
                 assert self.value == value
-        except:
+        except Exception:
             raise Exception(
                 "{} is asserted to be {} but was instead {}".format(
                     self.object, value, self.value
@@ -136,10 +136,10 @@ class monitor(object):
         # comparison with future section (only if future value given)
         # if no future value was given it means you can ignore (or set to true)
         # comparison with a future
-        if self.future_value == None:
+        if self.future_value is None:
             is_eq_to_future_comparison = True
         else:
-            if self.predicate == None:
+            if self.predicate is None:
                 is_eq_to_future_comparison = (
                     self.current_value == self.future_value
                 )
@@ -464,7 +464,7 @@ class waiter:
                 result = wait.wait_until_conditions_met(
                     timeout=timeout, resolution=resolution
                 )
-            except:
+            except Exception:
                 self.timed_out = True
                 future_value_shim = ""
                 timeout_shim = timeout * resolution

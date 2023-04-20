@@ -11,11 +11,10 @@ from tests.resources.test_support.constant import (
 from tests.resources.test_support.controls import (
     subarray_obs_state_is_empty,
     subarray_obs_state_is_idle,
-    telescope_is_in_off_state,
     telescope_is_in_on_state,
     telescope_is_in_standby_state,
 )
-from tests.resources.test_support.helpers import resource, waiter
+from tests.resources.test_support.helpers import resource
 from tests.resources.test_support.sync_decorators import sync_assign_resources
 from tests.resources.test_support.telescope_controls import (
     BaseTelescopeControl,

@@ -10,7 +10,6 @@ from tests.resources.test_support.constant import (
 from tests.resources.test_support.controls import (
     subarray_obs_state_is_empty,
     subarray_obs_state_is_idle,
-    telescope_is_in_off_state,
     telescope_is_in_on_state,
     telescope_is_in_standby_state,
 )

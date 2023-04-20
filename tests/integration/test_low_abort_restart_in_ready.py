@@ -103,7 +103,7 @@ def test_low_abort_restart_in_ready(json_factory):
 
         LOGGER.info("Test complete.")
 
-    except:
+    except Exception:
         if fixture["state"] == "AssignResources":
             tmc_helper.invoke_releaseResources(
                 release_json, **ON_OFF_DEVICE_COMMAND_DICT

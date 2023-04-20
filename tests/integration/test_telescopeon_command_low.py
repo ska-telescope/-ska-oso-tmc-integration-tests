@@ -55,7 +55,7 @@ def test_telescope_on():
 
         LOGGER.info("test_telescope_on Tests complete.")
 
-    except:
+    except Exception:
         LOGGER.info(
             "Exception occurred in the test for state = {}".format(
                 fixture["state"]

@@ -8,7 +8,14 @@ from numpy import ndarray
 # SUT frameworks
 from tango import CmdArgType, DeviceProxy, EventType
 
-from tests.resources.test_support.constant import *
+from tests.resources.test_support.constant import (
+    csp_master,
+    csp_subarray1,
+    dish_master1,
+    sdp_master,
+    sdp_subarray1,
+    tmc_subarraynode1,
+)
 
 LOGGER = logging.getLogger(__name__)
 
@@ -62,7 +69,7 @@ class ObjectComparison:
                 assert self.value in value
             else:
                 assert self.value == value
-        except:
+        except Exception:
             raise Exception(
                 "{} is asserted to be {} but was instead {}".format(
                     self.object, value, self.value
@@ -130,10 +137,10 @@ class monitor(object):
         # comparison with future section (only if future value given)
         # if no future value was given it means you can ignore (or set to true)
         # comparison with a future
-        if self.future_value == None:
+        if self.future_value is None:
             is_eq_to_future_comparison = True
         else:
-            if self.predicate == None:
+            if self.predicate is None:
                 is_eq_to_future_comparison = (
                     self.current_value == self.future_value
                 )
@@ -278,9 +285,9 @@ class state_checker:
         self.timeout = timeout
         self.debug = debug
 
-    def to_be(
-        self, *premises
-    ):  # a dictionary specifying the rule e.g {"attr" : "obsState", "value" : "IDLE" }
+    # a dictionary specifying the rule e.g {"attr" : "obsState", "value" :
+    # "IDLE" }
+    def to_be(self, *premises):
         timeout = self.timeout
         result = "notOK"
         while timeout != 0:

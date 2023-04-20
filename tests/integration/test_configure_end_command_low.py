@@ -97,7 +97,7 @@ def test_configure_end_low(json_factory):
 
         LOGGER.info("Tests complete.")
 
-    except:
+    except Exception:
         if fixture["state"] == "AssignResources":
             tmc.invoke_releaseResources(release_json)
         if fixture["state"] == "Configure":

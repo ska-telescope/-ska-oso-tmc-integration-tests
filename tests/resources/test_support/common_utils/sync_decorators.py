@@ -3,10 +3,7 @@ from contextlib import contextmanager
 
 from tests.conftest import TIMEOUT
 from tests.resources.test_support.common_utils.base_utils import DeviceUtils
-from tests.resources.test_support.common_utils.common_helpers import (
-    Waiter,
-    resource,
-)
+from tests.resources.test_support.common_utils.common_helpers import Waiter
 
 
 def sync_telescope_on(func):

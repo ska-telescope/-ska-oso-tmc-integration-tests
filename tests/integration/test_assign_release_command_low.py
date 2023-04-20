@@ -95,7 +95,7 @@ def test_assign_release_low(json_factory):
 
         LOGGER.info("Tests complete.")
 
-    except:
+    except Exception:
         if fixture["state"] == "AssignResources":
             tmc.invoke_releaseResources(release_json)
         if fixture["state"] == "TelescopeOn":

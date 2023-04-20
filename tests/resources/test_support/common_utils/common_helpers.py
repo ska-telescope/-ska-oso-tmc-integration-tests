@@ -8,14 +8,6 @@ from numpy import ndarray
 # SUT frameworks
 from tango import CmdArgType, DeviceProxy, EventType
 
-from tests.resources.test_support.constant import (
-    csp_master,
-    csp_subarray1,
-    sdp_master,
-    sdp_subarray1,
-    tmc_subarraynode1,
-)
-
 LOGGER = logging.getLogger(__name__)
 
 
@@ -55,11 +47,12 @@ class ObjectComparison:
     def equals(self, value):
         try:
             if isinstance(value, list):
-                # a list is assumed to mean an or condition, a tuple is assumed to be  an and condition
+                # a list is assumed to mean an or condition, a tuple is assumed
+                # to be  an and condition
                 assert self.value in value
             else:
                 assert self.value == value
-        except:
+        except Exception:
             raise Exception(
                 "{} is asserted to be {} but was instead {}".format(
                     self.object, value, self.value
@@ -127,10 +120,10 @@ class monitor(object):
         # comparison with future section (only if future value given)
         # if no future value was given it means you can ignore (or set to true)
         # comparison with a future
-        if self.future_value == None:
+        if self.future_value is None:
             is_eq_to_future_comparison = True
         else:
-            if self.predicate == None:
+            if self.predicate is None:
                 is_eq_to_future_comparison = (
                     self.current_value == self.future_value
                 )
@@ -475,7 +468,7 @@ class Waiter:
                 result = wait.wait_until_conditions_met(
                     timeout=timeout, resolution=resolution
                 )
-            except:
+            except Exception:
                 self.timed_out = True
                 future_value_shim = ""
                 timeout_shim = timeout * resolution
