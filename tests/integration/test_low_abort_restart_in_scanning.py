@@ -17,7 +17,6 @@ from tests.resources.test_support.constant_low import (
     DEVICE_STATE_STANDBY_INFO,
     ON_OFF_DEVICE_COMMAND_DICT,
     centralnode,
-    csp_subarray1,
     tmc_subarraynode1,
 )
 from tests.resources.test_support.low.telescope_controls_low import (

@@ -1,5 +1,3 @@
-import json
-
 import pytest
 
 import tests.resources.test_support.low.tmc_helpers as tmc

@@ -1,5 +1,4 @@
 import pytest
-from tango import DeviceProxy
 
 from tests.conftest import LOGGER
 from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
@@ -14,7 +13,6 @@ from tests.resources.test_support.constant_low import (
     DEVICE_STATE_STANDBY_INFO,
     ON_OFF_DEVICE_COMMAND_DICT,
     centralnode,
-    csp_subarray1,
     tmc_subarraynode1,
 )
 from tests.resources.test_support.low.telescope_controls_low import (

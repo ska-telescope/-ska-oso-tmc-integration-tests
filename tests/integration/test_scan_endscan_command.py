@@ -1,5 +1,3 @@
-import json
-
 import pytest
 
 import tests.resources.test_support.tmc_helpers as tmc
@@ -8,7 +6,6 @@ from tests.resources.test_support.controls import (
     subarray_obs_state_is_empty,
     subarray_obs_state_is_idle,
     subarray_obs_state_is_ready,
-    telescope_is_in_off_state,
     telescope_is_in_on_state,
     telescope_is_in_standby_state,
 )

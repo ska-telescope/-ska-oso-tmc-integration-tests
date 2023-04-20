@@ -8,7 +8,6 @@ from tests.resources.test_support.constant import (
     tmc_subarraynode1,
 )
 from tests.resources.test_support.controls import (
-    telescope_is_in_off_state,
     telescope_is_in_on_state,
     telescope_is_in_standby_state,
 )

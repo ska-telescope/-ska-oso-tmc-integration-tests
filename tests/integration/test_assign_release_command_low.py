@@ -49,7 +49,8 @@ def test_assign_release_low(json_factory):
             DEVICE_STATE_ON_INFO, "State"
         )
         fixture["state"] = "TelescopeOn"
-        # The sleep solution is the temporary solution. Further investigation needed
+        # The sleep solution is the temporary solution. Further investigation
+        # needed
 
         """Invoke AssignResources() Command on TMC"""
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
