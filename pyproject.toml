@@ -35,6 +35,11 @@ pytest-mock = "^3.6.1"
 pytest-xdist = "^2.4.0"
 pytest-repeat = "^0.9.1"
 
+[tool.flake8]
+rst-directives = "literalinclude"
+rst-roles = ["py:attr", "py:class", "py:const", "py:exc", "py:func", "py:meth", "py:mod"]
+docstring-style = "sphinx"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
