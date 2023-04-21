@@ -49,6 +49,7 @@ def test_configure_end():
             LOGGER.info("Invoked AssignResources on CentralNode")
 
         compose_sub()
+        compose_sub()
 
         """Verify ObsState is Idle"""
         assert subarray_obs_state_is_idle()
