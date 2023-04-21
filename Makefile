@@ -8,6 +8,9 @@ TELESCOPE ?= SKA-mid
 PYTHON_VARS_BEFORE_PYTEST ?= PYTHONPATH=.:./src \
 							 TANGO_HOST=$(TANGO_HOST) \
 							 TELESCOPE=$(TELESCOPE)
+
+PYTHON_LINT_TARGET ?= tests/
+
 DEPLOYMENT_TYPE = $(shell echo $(TELESCOPE) | cut -d '-' -f2)
 MARK = $(shell echo $(TELESCOPE) | sed "s/-/_/g") ## What -m opt to pass to pytest
 # run one test with FILE=acceptance/test_subarray_node.py::test_check_internal_model_according_to_the_tango_ecosystem_deployed
@@ -86,6 +89,7 @@ K8S_TEST_TEST_COMMAND ?= $(PYTHON_VARS_BEFORE_PYTEST) $(PYTHON_RUNNER) \
 
 -include .make/k8s.mk
 -include .make/helm.mk
+-include .make/python.mk
 -include .make/oci.mk
 -include .make/docs.mk
 -include .make/release.mk
