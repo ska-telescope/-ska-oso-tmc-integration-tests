@@ -3,7 +3,7 @@
 import logging
 from tango import DeviceProxy, DevState
 from tests.resources.test_support.common_utils.sync_decorators import (
-    sync_telescope_on, sync_set_to_off, sync_set_to_standby,sync_release_resources,
+    sync_telescope_on, sync_set_to_off, sync_set_to_standby,sync_release_resources,sync_scan,
     sync_assign_resources,sync_abort,sync_restart,sync_configure,sync_end, sync_assigning, sync_configure_sub
 )
 from tests.resources.test_support.common_utils.common_helpers import  resource
@@ -145,3 +145,9 @@ class TmcHelper(object):
         subarray_node = DeviceProxy(self.subarray_node)
         subarray_node.Configure(configure_input_str)
         LOGGER.info("Invoked Configure on SubarrayNode")
+
+    @sync_scan()
+    def scan(self, scan_input_str, **kwargs):
+        subarray_node = DeviceProxy(self.subarray_node)
+        subarray_node.Scan(scan_input_str)
+        LOGGER.info("Invoked Scan on SubarrayNode")
