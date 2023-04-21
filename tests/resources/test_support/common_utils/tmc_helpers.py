@@ -4,7 +4,7 @@ import logging
 from tango import DeviceProxy, DevState
 from tests.resources.test_support.common_utils.sync_decorators import (
     sync_telescope_on, sync_set_to_off, sync_set_to_standby,sync_release_resources,
-    sync_assign_resources,sync_abort,sync_restart,sync_configure,sync_end
+    sync_assign_resources,sync_abort,sync_restart,sync_configure,sync_end, sync_assigning, sync_configure_sub
 )
 from tests.resources.test_support.common_utils.common_helpers import  resource
 LOGGER = logging.getLogger(__name__)
@@ -106,6 +106,7 @@ class TmcHelper(object):
         subarray_node.Configure(configure_input_str)
         LOGGER.info("Invoked Configure on SubarrayNode")
 
+
     @sync_end()
     def end(self, **kwargs):
         subarray_node = DeviceProxy(self.subarray_node)
@@ -126,3 +127,21 @@ class TmcHelper(object):
         subarray_node = DeviceProxy(self.subarray_node)
         subarray_node.Restart()
         LOGGER.info("Invoked Restart on SubarrayNode")
+
+    @sync_assigning()
+    def assign_resources(self,assign_res_input,**kwargs):
+        resource(self.subarray_node).assert_attribute("State").equals(
+            "ON"
+        )
+        central_node = DeviceProxy(self.centralnode)
+        central_node.AssignResources(assign_res_input)
+        LOGGER.info("Invoked AssignResources on CentralNode")
+
+    @sync_configure_sub()
+    def configure_sub(self,configure_input_str,**kwargs):
+        resource(self.subarray_node).assert_attribute("obsState").equals(
+            "IDLE"
+        )
+        subarray_node = DeviceProxy(self.subarray_node)
+        subarray_node.Configure(configure_input_str)
+        LOGGER.info("Invoked Configure on SubarrayNode")

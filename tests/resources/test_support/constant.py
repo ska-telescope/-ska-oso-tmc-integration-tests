@@ -57,3 +57,9 @@ DEVICE_OBS_STATE_EMPTY_INFO = {
     tmc_subarraynode1: ["EMPTY"],
     csp_subarray1: ["EMPTY"]
 }
+
+DEVICE_OBS_STATE_READY_INFO = {
+    sdp_subarray1: ["READY"],
+    tmc_subarraynode1: ["READY"],
+    csp_subarray1: ["READY"]
+}
