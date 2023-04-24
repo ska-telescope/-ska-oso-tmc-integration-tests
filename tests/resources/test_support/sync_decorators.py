@@ -1,8 +1,13 @@
 import functools
-from tests.resources.test_support.helpers import waiter, resource, WaitForScan
 from contextlib import contextmanager
+
 import tests.resources.test_support.tmc_helpers as tmc
-from tests.resources.test_support.constant import csp_subarray1, sdp_subarray1, tmc_subarraynode1
+from tests.resources.test_support.constant import (
+    csp_subarray1,
+    sdp_subarray1,
+    tmc_subarraynode1,
+)
+from tests.resources.test_support.helpers import WaitForScan, resource, waiter
 
 
 # pre checks
@@ -45,6 +50,7 @@ def sync_telescope_on(func):
 
     return wrapper
 
+
 def sync_set_to_off(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
@@ -55,6 +61,7 @@ def sync_set_to_off(func):
         return result
 
     return wrapper
+
 
 # defined as a context manager
 @contextmanager
@@ -76,6 +83,7 @@ def sync_set_to_standby(func):
 
     return wrapper
 
+
 def sync_release_resources(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
@@ -87,6 +95,7 @@ def sync_release_resources(func):
 
     return wrapper
 
+
 def sync_assign_resources():
     # defined as a decorator
     def decorator_sync_assign_resources(func):
@@ -94,7 +103,8 @@ def sync_assign_resources():
         def wrapper(*args, **kwargs):
             check_going_out_of_empty()
             the_waiter = waiter()
-            # Added this check to ensure that devices are running to avoid random test failures.
+            # Added this check to ensure that devices are running to avoid
+            # random test failures.
             tmc.check_devices()
             the_waiter.set_wait_for_assign_resources()
             result = func(*args, **kwargs)
@@ -105,6 +115,7 @@ def sync_assign_resources():
 
     return decorator_sync_assign_resources
 
+
 def sync_configure():
     # defined as a decorator
     def decorator_sync_configure(func):
@@ -112,7 +123,8 @@ def sync_configure():
         def wrapper(*args, **kwargs):
             check_resources_assign()
             the_waiter = waiter()
-            # Added this check to ensure that devices are running to avoid random test failures.
+            # Added this check to ensure that devices are running to avoid
+            # random test failures.
             tmc.check_devices()
             the_waiter.set_wait_for_configure()
             result = func(*args, **kwargs)
@@ -123,13 +135,15 @@ def sync_configure():
 
     return decorator_sync_configure
 
+
 def sync_configure_abort():
     # defined as a decorator
     def decorator_sync_configure_abort(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
             check_resources_assign()
-            # Added this check to ensure that devices are running to avoid random test failures.
+            # Added this check to ensure that devices are running to avoid
+            # random test failures.
             tmc.check_devices()
             result = func(*args, **kwargs)
             return result
@@ -138,7 +152,8 @@ def sync_configure_abort():
 
     return decorator_sync_configure_abort
 
-def sync_scan(timeout = 300):
+
+def sync_scan(timeout=300):
     # define as a decorator
     def decorator_sync_scan(func):
         @functools.wraps(func)
@@ -152,6 +167,7 @@ def sync_scan(timeout = 300):
         return wrapper
 
     return decorator_sync_scan
+
 
 def sync_end():
     # defined as a decorator
@@ -170,7 +186,7 @@ def sync_end():
     return decorator_sync_end
 
 
-def sync_abort(timeout = 300):
+def sync_abort(timeout=300):
     # define as a decorator
     def decorator_sync_abort(func):
         @functools.wraps(func)
@@ -186,7 +202,7 @@ def sync_abort(timeout = 300):
     return decorator_sync_abort
 
 
-def sync_restart(timeout = 300):
+def sync_restart(timeout=300):
     # define as a decorator
     def decorator_sync_restart(func):
         @functools.wraps(func)
