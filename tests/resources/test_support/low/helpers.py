@@ -418,7 +418,7 @@ class waiter:
                 "obsState", changed_to="IDLE"
             )
         )
-        
+
     def set_wait_for_configure(self):
         self.waits.append(
             watch(resource(csp_subarray1)).to_become(

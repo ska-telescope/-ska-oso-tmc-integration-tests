@@ -10,6 +10,7 @@ from tests.resources.test_support.constant import (
 from tests.resources.test_support.controls import (
     subarray_obs_state_is_empty,
     subarray_obs_state_is_idle,
+    telescope_is_in_off_state,
     telescope_is_in_on_state,
     telescope_is_in_standby_state,
 )
@@ -135,7 +136,7 @@ def test_release_invalid_json(json_factory):
 
 @pytest.mark.SKA_mid
 def test_assign_resources_validate_receptor_ids(json_factory):
-        
+
     """AssignResources and ReleaseResources is executed."""
     assign_json = json_factory("command_assign_resources_invalid_receptor_id")
     tmc.check_devices()
@@ -158,9 +159,7 @@ def test_assign_resources_validate_receptor_ids(json_factory):
 
         """Invoke AssignResources() Command on TMC"""
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-        resource( tmc_subarraynode1).assert_attribute("State").equals(
-            "ON"
-        )
+        resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
         resource(tmc_subarraynode1).assert_attribute("obsState").equals(
             "EMPTY"
         )
@@ -169,7 +168,7 @@ def test_assign_resources_validate_receptor_ids(json_factory):
         ret_code, message = central_node.AssignResources(assign_json)
         assert message == "Dish ID is getting rejected"
 
-        #Assert with TaskStatus as REJECTED
+        # Assert with TaskStatus as REJECTED
         assert ret_code == 5
         LOGGER.info(message)
 
@@ -184,9 +183,13 @@ def test_assign_resources_validate_receptor_ids(json_factory):
         fixture["state"] = "TelescopeOff"
 
         # LOGGER.info("Tests complete.")
-    except:
+    except Exception:
 
-        LOGGER.info("Exception occurred in the test for state = {}".format(fixture["state"]))
+        LOGGER.info(
+            "Exception occurred in the test for state = {}".format(
+                fixture["state"]
+            )
+        )
         LOGGER.info("Tearing down...")
         if fixture["state"] == "TelescopeOn":
             tmc.set_to_off()

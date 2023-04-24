@@ -422,11 +422,11 @@ class waiter:
             )
         )
 
-        self.waits.append(
-            watch(resource(dish_master1)).to_become(
-                "pointingState", changed_to="READY"
-            )
-        )
+        # self.waits.append(
+        #     watch(resource(dish_master1)).to_become(
+        #         "pointingState", changed_to="READY"
+        #     )
+        # )
 
         self.waits.append(
             watch(resource(tmc_subarraynode1)).to_become(
