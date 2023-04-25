@@ -168,7 +168,6 @@ def test_invalid_receptor_ids(json_factory):
         # Verify State transitions after TelescopeOff
         assert telescope_is_in_standby_state()
 
-        # LOGGER.info("Tests complete.")
     except Exception:
         LOGGER.info("Tearing down...")
         tear_down()
