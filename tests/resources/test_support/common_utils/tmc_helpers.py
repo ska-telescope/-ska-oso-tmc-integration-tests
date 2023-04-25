@@ -54,7 +54,6 @@ class TmcHelper(object):
         device_to_on_list = [
             kwargs.get("csp_subarray"),
             kwargs.get("sdp_subarray"),
-            kwargs.get("dish_master"),
         ]
         for device in device_to_on_list:
             if device:
