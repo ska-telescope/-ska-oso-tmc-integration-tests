@@ -1,14 +1,14 @@
 {
     "interface": "https://schema.skao.int/ska-tmc-assignresources/2.1",
-    "transaction_id": "txn-....-00002",
+    "transaction_id": "txn-....-00001",
     "subarray_id": 1,
     "dish": {
-        "receptor_ids": ["SKA001"]
+        "receptor_ids": ["0001"]
     },
     "sdp": {
         "interface": "https://schema.skao.int/ska-sdp-assignres/0.4",
         "execution_block": {
-            "eb_id": "eb-mvp01-20210623-00001",
+            "eb_id": "eb-mvp01-20210623-00000",
             "max_length": 100.0,
             "context": {},
             "beams": [{
@@ -141,8 +141,8 @@
             }]
         },
         "processing_blocks": [{
-            "pb_id": "pb-mvp01-20210623-00001",
-            "sbi_ids": ["sbi-mvp01-20200325-00002"],
+            "pb_id": "pb-mvp01-20210623-00000",
+            "sbi_ids": ["sbi-mvp01-20200325-00001"],
             "script": {
                 "kind": "realtime",
                 "name": "vis_receive",
@@ -150,8 +150,8 @@
             },
             "parameters": {}
         }, {
-            "pb_id": "pb-mvp01-20210623-00002",
-            "sbi_ids": ["sbi-mvp01-20200325-00002"],
+            "pb_id": "pb-mvp01-20210623-00001",
+            "sbi_ids": ["sbi-mvp01-20200325-00001"],
             "script": {
                 "kind": "realtime",
                 "name": "test_realtime",
@@ -159,8 +159,8 @@
             },
             "parameters": {}
         }, {
-            "pb_id": "pb-mvp01-20210623-00003",
-            "sbi_ids": ["sbi-mvp01-20200325-00003"],
+            "pb_id": "pb-mvp01-20210623-00002",
+            "sbi_ids": ["sbi-mvp01-20200325-00002"],
             "script": {
                 "kind": "batch",
                 "name": "ical",
@@ -168,12 +168,12 @@
             },
             "parameters": {},
             "dependencies": [{
-                "pb_id": "pb-mvp01-20210623-00001",
+                "pb_id": "pb-mvp01-20210623-00000",
                 "kind": ["visibilities"]
             }]
         }, {
-            "pb_id": "pb-mvp01-20210623-00004",
-            "sbi_ids": ["sbi-mvp01-20200325-00002", "sbi-mvp01-20200325-00003"],
+            "pb_id": "pb-mvp01-20210623-00003",
+            "sbi_ids": ["sbi-mvp01-20200325-00001", "sbi-mvp01-20200325-00002"],
             "script": {
                 "kind": "batch",
                 "name": "dpreb",
@@ -181,7 +181,7 @@
             },
             "parameters": {},
             "dependencies": [{
-                "pb_id": "pb-mvp01-20210623-00003",
+                "pb_id": "pb-mvp01-20210623-00002",
                 "kind": ["calibration"]
             }]
         }],
