@@ -16,6 +16,7 @@ from tests.resources.test_support.common_utils.sync_decorators import (
     sync_set_to_standby,
     sync_telescope_on,
 )
+from tests.resources.test_support.constant import dish_master1
 
 LOGGER = logging.getLogger(__name__)
 
@@ -139,6 +140,8 @@ class TmcHelper(object):
     def invoke_abort(self, **kwargs):
         subarray_node = DeviceProxy(self.subarray_node)
         subarray_node.Abort()
+        dish_master = DeviceProxy(dish_master1)
+        dish_master.SetDirectPointingState(1)
         LOGGER.info("Invoked Abort on SubarrayNode")
 
     @sync_restart()
