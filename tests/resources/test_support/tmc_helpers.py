@@ -86,6 +86,8 @@ def set_to_on():
     sdp_subarray_1.SetDirectState(DevState.ON)
     dish_master_1 = DeviceProxy(dish_master1)
     dish_master_1.SetDirectState(DevState.ON)
+    dish_master_1.SetDirectPointingState(int(1))
+
 
 
 @sync_set_to_off
