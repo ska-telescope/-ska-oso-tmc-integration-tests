@@ -15,6 +15,7 @@ from tests.resources.test_support.tmc_helpers import tear_down
 
 
 @pytest.mark.SKA_mid
+@pytest.mark.MS
 def test_telescope_on():
     """TelescopeOn() is executed."""
     try:
