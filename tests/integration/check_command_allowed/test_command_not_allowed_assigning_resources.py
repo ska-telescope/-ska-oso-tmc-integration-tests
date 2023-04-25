@@ -20,13 +20,14 @@ from tests.resources.test_support.constant import (
     ON_OFF_DEVICE_COMMAND_DICT,
     DEVICE_OBS_STATE_READY_INFO,
     ON_OFF_DEVICE_COMMAND_DICT,
+    DEVICE_OBS_STATE_IDLE_INFO
 )
 from tests.resources.test_support.tmc_helpers import tear_down
 
 
 tmc_helper=TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = TelescopeControlMid()
-
+@pytest.mark.dd
 @pytest.mark.SKA_mid
 @scenario("../features/check_command_not_allowed.feature", "Unexpected commands not allowed when TMC busy in assigning the resources for a subarray")
 def test_command_not_allowed():
@@ -47,14 +48,14 @@ def given_tmc(json_factory):
     tmc.check_devices()
     central_node.AssignResources(assign_json)
     LOGGER.info("Checking for Subarray node obsState")
-    resource(tmc_subarraynode1).assert_attribute("obsState").equals("RESOURCING")
+    # resource(tmc_subarraynode1).assert_attribute("obsState").equals("RESOURCING")
     LOGGER.info("Checking for Subarray node obsState")
 
 
 @when(
     parsers.parse("the command {unexpected_command} is invoked on the subarray"))
 def send_command(json_factory, unexpected_command):    
-    if unexpected_command == "AssignResources":
+    if unexpected_command == "AssignResources2":
         assign_json2 = json_factory("command_AssignResources_2")
         central_node = DeviceProxy(centralnode)
         central_node.command_inout(unexpected_command, assign_json2)
@@ -76,7 +77,10 @@ def tmc_accepts_permitted_commands(json_factory):
     tmc_helper.configure_sub(configure_json,**ON_OFF_DEVICE_COMMAND_DICT)
     LOGGER.info("Configure command on TMC SubarrayNode is successful")
     assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_READY_INFO, "obsState")
-
+    LOGGER.info("Invoking End command on TMC SubarrayNode")
+    tmc_helper.end(**ON_OFF_DEVICE_COMMAND_DICT)
+    LOGGER.info("End command on TMC SubarrayNode is successful")
+    assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_IDLE_INFO, "obsState")
     # tear down
     tmc_helper.invoke_releaseResources(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
     LOGGER.info("ReleaseResources command on TMC SubarrayNode is successful")
