@@ -33,14 +33,14 @@ def test_command_not_valid_in_idle():
 
 @given("the TMC is in ON state and the subarray is in IDLE")
 def given_tmc(json_factory):
-    # """Verify Telescope is Off/Standby
+    # Verify Telescope is Off/Standby
     tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 
     """Verify Telescope is Off/Standby"""
     assert telescope_is_in_standby_state()
     LOGGER.info("Starting up the Telescope")
 
-    # Invoke TelescopeOn() command on TMC"""
+    # Invoke TelescopeOn() command on TMC
     LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
     tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
     LOGGER.info("TelescopeOn command is invoked successfully")
@@ -81,10 +81,10 @@ def send(json_factory, unexpected_command):
     Scan_json = json_factory("command_Scan")
     try:
         if unexpected_command == 'Scan':
-            LOGGER.info("Invoking Scan command on TMC CentralNode")
+            LOGGER.info("Invoking Scan command on TMC SubarrayNode")
             tmc_helper.scan(Scan_json, **ON_OFF_DEVICE_COMMAND_DICT)
         elif unexpected_command == 'End':
-            LOGGER.info("Invoking Scan command on TMC CentralNode")
+            LOGGER.info("Invoking Scan command on TMC SubarrayNode")
             tmc_helper.end()
         else:
             LOGGER.info("Other invalid commands")
@@ -106,20 +106,9 @@ def tmc_status():
 
 @then("TMC executes the RealeaseResources command successfully")
 def tmc_accepts_next_commands(json_factory):
-    # """Invoke AssignResource() Command on TMC"""
-    # # Invoke AssignResources() Command on TMC
-    #
+    
     tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
     telescope_control = TelescopeControlMid()
-    #
-    # assign_json = json_factory("command_AssignResources")
-    # # Invoke AssignResources() Command on TMC#
-    # LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-    # tmc_helper.compose_sub(assign_json, **ON_OFF_DEVICE_COMMAND_DICT)
-    # LOGGER.info("AssignResources command is invoked successfully")
-
-    # --> asserted 'EMPTY' while device is in 'IDLE' error --> checked that in syncdecorators checks if on;y
-    # "EMPTY" then only assign resources
 
     # Invoke RealeaseResources() Command on TMC
     release_json = json_factory("command_ReleaseResources")

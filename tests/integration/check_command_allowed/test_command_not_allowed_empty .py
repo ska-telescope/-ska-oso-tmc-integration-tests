@@ -32,19 +32,19 @@ def test_command_not_valid_in_empty():
 
 @given("the TMC is in ON state and the subarray is in EMPTY obsstate")
 def given_tmc():
-    """Verify Telescope is Off/Standby"""
+    # Verify Telescope is Off/Stand
     tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 
-    """Verify Telescope is Off/Standby"""
+    # Verify Telescope is Off/Stand
     assert telescope_is_in_standby_state()
     LOGGER.info("Starting up the Telescope")
 
-    """Invoke TelescopeOn() command on TMC"""
+    # Invoke TelescopeOn() command on T
     LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
     tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
     LOGGER.info("TelescopeOn command is invoked successfully")
 
-    """Verify State transitions after TelescopeOn"""
+    # Verify State transitions after Telescope
     assert telescope_is_in_on_state()
     assert subarray_obs_state_is_empty()
 
@@ -87,7 +87,7 @@ def tmc_status():
 
 @then("TMC executes the AssignResources command successfully")
 def tmc_accepts_next_commands(json_factory):
-    """Invoke AssignResources() Command on TMC"""
+    # Invoke AssignResources() Command on T
 
     tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
     telescope_control = TelescopeControlMid()
@@ -112,6 +112,6 @@ def tmc_accepts_next_commands(json_factory):
     assert telescope_control.is_in_valid_state(DEVICE_STATE_OFF_INFO, "State")
     assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_EMPTY_INFO, "obsState")
 
-    """Invoke TelescopeStandby() command on TMC"""
+    # Invoke TelescopeStandby() command on T
     tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
 
