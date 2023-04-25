@@ -167,14 +167,12 @@ def sync_assigning():
         return wrapper
     return decorator_sync_assign_resources
 
+# added for command_not_allowed test scenario
 def sync_configure_sub():
     # defined as a decorator
     def decorator_sync_configure(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            # device = DeviceUtils(obs_state_device_names=[kwargs.get("csp_subarray"),
-            # kwargs.get("sdp_subarray"),kwargs.get("tmc_subarraynode")])
-            # device.check_devices_obsState("IDLE")
             the_waiter = Waiter(**kwargs)
             the_waiter.set_wait_for_idle()
             the_waiter.wait(500)

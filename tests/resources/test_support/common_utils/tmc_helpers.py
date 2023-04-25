@@ -137,6 +137,7 @@ class TmcHelper(object):
         central_node.AssignResources(assign_res_input)
         LOGGER.info("Invoked AssignResources on CentralNode")
 
+    # added for command_not_allowed test scenario
     @sync_configure_sub()
     def configure_sub(self,configure_input_str,**kwargs):
         resource(self.subarray_node).assert_attribute("obsState").equals(

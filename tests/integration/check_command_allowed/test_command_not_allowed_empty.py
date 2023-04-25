@@ -101,7 +101,7 @@ def tmc_accepts_next_commands(json_factory):
     # tear down
     LOGGER.info("Invoking ReleaseResources command on TMC CentralNode")
     tmc_helper.invoke_releaseResources(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
-    # Invoke TelescopeOff() command on TMC#
+    # Invoke TelescopeOff() command on TMC
     tmc_helper.set_to_off(**ON_OFF_DEVICE_COMMAND_DICT)
 
     # Verify State transitions after TelescopeOff#
