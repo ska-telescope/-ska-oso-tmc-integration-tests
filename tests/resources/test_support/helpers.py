@@ -472,7 +472,8 @@ class waiter:
                 "obsState", changed_to="IDLE"
             )
         )
-        self.waits.append(watch(resource(dish_master1)).to_become(
+        self.waits.append(
+            watch(resource(dish_master1)).to_become(
                 "pointingState", changed_to="READY"
             )
         )

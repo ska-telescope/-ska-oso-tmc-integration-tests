@@ -9,6 +9,7 @@ from tests.conftest import LOGGER
 from tests.resources.test_support.constant import (
     centralnode,
     csp_subarray1,
+    dish_master1,
     tmc_subarraynode1,
 )
 from tests.resources.test_support.controls import (
@@ -484,7 +485,7 @@ def test_abort_in_configuring(json_factory):
         the_waiter.set_wait_for_intermediate_obsstate(
             "CONFIGURING", [tmc_subarraynode1, csp_subarray1]
         )
-        the_waiter.wait(20)
+        the_waiter.wait(60)
 
         # Setting CSP back to normal
         csp_subarray_proxy.SetDefective(False)
@@ -507,6 +508,8 @@ def test_abort_in_configuring(json_factory):
 
         # Invoke AssignResources() Command on TMC
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
+        dish_master_1 = DeviceProxy(dish_master1)
+        dish_master_1.SetDirectPointingState(int(1))
         tmc.compose_sub(assign_json)
         LOGGER.info("AssignResources command is invoked successfully")
 
