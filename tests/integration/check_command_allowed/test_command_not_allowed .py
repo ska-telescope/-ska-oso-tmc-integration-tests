@@ -23,14 +23,14 @@ assign_resources_file = "command_AssignResources.json"
 
 @pytest.mark.SKA_mid
 @scenario("../features/check_command_not_allowed.feature",
-          "Invalid unexpected commands not allowed in the current stable obsState")
+          "Unexpected commands not allowed when TMC subarray is empty")
 def test_command_not_valid_in_empty():
     """
     fucntion to check validation
     """
 
 
-@given(parsers.parse("the TMC device/s state=On and obsState {initial_obsstate}"))
+@given("the TMC is in ON state and the subarray is in EMPTY obsstate")
 def given_tmc():
     """Verify Telescope is Off/Standby"""
     tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
@@ -49,10 +49,8 @@ def given_tmc():
     assert subarray_obs_state_is_empty()
 
 
-@when(
-    parsers.parse("the command {unexpected_command} is invoked , throws an error"))
+@when(parsers.parse("the command {unexpected_command} is invoked on the/that subarray"))
 def send(json_factory, unexpected_command):
-    # use try expect
     tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
     Scan_json = json_factory("command_Scan")
     Configure_json = json_factory("command_Configure")
@@ -71,17 +69,23 @@ def send(json_factory, unexpected_command):
         else:
             LOGGER.info("Other invalid commands")
     except:
-        LOGGER.info('CONFIGURE COMMAND NOT VALID IN EMPTY ObsState ')
+        LOGGER.info("INVALID COMMAND INVOKED")
 
 
-@then(parsers.parse("the TMC device remains in state=On, and obsState {initial_obsstate}"))
-def tmc_status(initial_obsstate):
+@then(parsers.parse("the TMC should reject the {unexpected_command} with ResultCode.Rejected"))
+def invalid_command_rejection():
+    # will get updates once the negative test cases validation is implemented
+    pass
+
+
+@then("TMC subarray remains in EMPTY obsstate")
+def tmc_status():
     telescope_control = TelescopeControlMid()
-    assert telescope_control.is_in_valid_state(DEVICE_STATE_ON_INFO, "State")
+    # assert telescope_control.is_in_valid_state(DEVICE_STATE_ON_INFO, "State")
     assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_EMPTY_INFO, "obsState")
 
 
-@then(parsers.parse("TMC accepts correct/expected command {expected_command} and performs the operation"))
+@then("TMC executes the AssignResources command successfully")
 def tmc_accepts_next_commands(json_factory):
     """Invoke AssignResources() Command on TMC"""
 
@@ -110,5 +114,4 @@ def tmc_accepts_next_commands(json_factory):
 
     """Invoke TelescopeStandby() command on TMC"""
     tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
-
 

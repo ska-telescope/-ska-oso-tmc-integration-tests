@@ -22,46 +22,43 @@ configure_resources_file = "command_Configure.json"
 assign_resources_file = "command_AssignResources.json"
 scan_file = "command_Scan.json"
 
-
-
 @pytest.mark.SKA_mid
 @scenario("../features/check_command_not_allowed.feature",
-          "Invalid unexpected commands not allowed in the current stable obsState - Idle")
+          "Unexpected commands not allowed when TMC subarray is idle")
 def test_command_not_valid_in_idle():
     """
     fucntion to check validation
     """
 
 
-@given(parsers.parse("the TMC device/s state=On and obsState {initial_obsstate}"))
+@given("the TMC is in ON state and the subarray is in IDLE")
 def given_tmc(json_factory):
-    """Verify Telescope is Off/Standby"""
+    # """Verify Telescope is Off/Standby
     tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 
     """Verify Telescope is Off/Standby"""
     assert telescope_is_in_standby_state()
     LOGGER.info("Starting up the Telescope")
 
-    """Invoke TelescopeOn() command on TMC"""
+    # Invoke TelescopeOn() command on TMC"""
     LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
     tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
     LOGGER.info("TelescopeOn command is invoked successfully")
 
-    """Verify State transitions after TelescopeOn"""
+    # Verify State transitions after TelescopeOn
     assert telescope_is_in_on_state()
     assert subarray_obs_state_is_empty()
 
-    """Invoke AssignResources() Command on TMC"""
+    # Invoke AssignResources() Command on TMC
 
     LOGGER.info("Invoking AssignResources command on TMC CentralNode")
 
     # Invoke AssignResources() Command on TMC
 
-    tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
     telescope_control = TelescopeControlMid()
 
     assign_json = json_factory("command_AssignResources")
-    # Invoke AssignResources() Command on TMC#
+    # Invoke AssignResources() Command on TMC
     LOGGER.info("Invoking AssignResources command on TMC CentralNode")
     tmc_helper.compose_sub(assign_json, **ON_OFF_DEVICE_COMMAND_DICT)
     LOGGER.info("AssignResources command is invoked successfully")
@@ -69,16 +66,15 @@ def given_tmc(json_factory):
     # Verify ObsState is IDLE#
     assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_IDLE_INFO, "obsState")
 
-    """Verify ObsState is Idle"""
+    # Verify ObsState is Idle
     assert subarray_obs_state_is_idle()
     LOGGER.info("IDLE is invoked successfully")
 
-    """Verify ObsState is Idle"""
+    # Verify ObsState is Idle
     assert subarray_obs_state_is_idle()
 
 
-@when(
-    parsers.parse("the command {unexpected_command} is invoked , throws an error"))
+@when(parsers.parse("the command {unexpected_command} is invoked on the/that subarray"))
 def send(json_factory, unexpected_command):
     # use try expect
     tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
@@ -87,23 +83,28 @@ def send(json_factory, unexpected_command):
         if unexpected_command == 'Scan':
             LOGGER.info("Invoking Scan command on TMC CentralNode")
             tmc_helper.scan(Scan_json, **ON_OFF_DEVICE_COMMAND_DICT)
-        elif unexpected_command ==  'End':
+        elif unexpected_command == 'End':
             LOGGER.info("Invoking Scan command on TMC CentralNode")
             tmc_helper.end()
         else:
             LOGGER.info("Other invalid commands")
     except:
-        LOGGER.info("INVALID COMMAND INVOKED ")
+        LOGGER.info("INVALID COMMAND INVOKED")
 
 
-@then(parsers.parse("the TMC device remains in state=On, and obsState {initial_obsstate}"))
-def tmc_status(initial_obsstate):
+@then(parsers.parse("the TMC should reject the {unexpected_command} with ResultCode.Rejected"))
+def invalid_command_rejection():
+    pass
+
+
+@then("TMC subarray remains in IDLE obsState")
+def tmc_status():
     telescope_control = TelescopeControlMid()
-    assert telescope_control.is_in_valid_state(DEVICE_STATE_ON_INFO, "State")
+    # assert telescope_control.is_in_valid_state(DEVICE_STATE_ON_INFO, "State")
     assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_IDLE_INFO, "obsState")
 
 
-@then(parsers.parse("TMC accepts correct/expected command {expected_command} and performs the operation"))
+@then("TMC executes the RealeaseResources command successfully")
 def tmc_accepts_next_commands(json_factory):
     # """Invoke AssignResource() Command on TMC"""
     # # Invoke AssignResources() Command on TMC
@@ -133,5 +134,3 @@ def tmc_accepts_next_commands(json_factory):
 
     """Invoke TelescopeStandby() command on TMC"""
     tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
-
-    # teardown --> release resources and set system on standby

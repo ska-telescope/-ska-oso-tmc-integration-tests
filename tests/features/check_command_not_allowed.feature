@@ -1,22 +1,25 @@
 Feature:  Invalid unexpected commands
+    Scenario: Unexpected commands not allowed when TMC subarray is empty
+        Given the TMC is in ON state and the subarray is in EMPTY obsstate
+        When the command <unexpected_command> is invoked on the/that subarray
+        Then the TMC should reject the <unexpected_command> with ResultCode.Rejected
+        And TMC subarray remains in EMPTY obsstate
+        And TMC executes the AssignResources command successfully
+        Examples:
+            | unexpected_command   |
+            | Configure            |
+            | Scan                 |
+            | End                  |
 
-	Scenario: Invalid unexpected commands not allowed in the current stable obsState
-		Given the TMC device/s state=On and obsState <initial_obsstate>
-		When the command <unexpected_command> is invoked , throws an error
-		Then the TMC device remains in state=On, and obsState <initial_obsstate>
-		Then TMC accepts correct/expected command <expected_command> and performs the operation
-		Examples:  
-            | initial_obsstate | unexpected_command      | expected_command |
-            | EMPTY            | Configure               | AssignResources  |
-            | EMPTY            | Scan                    | AssignResources  |
-			| EMPTY			   | End					 | AssignResources	|
+    Scenario: Unexpected commands not allowed when TMC subarray is idle
+        Given the TMC is in ON state and the subarray is in IDLE
+        When the command <unexpected_command> is invoked on the/that subarray
+        Then the TMC should reject the <unexpected_command> with ResultCode.Rejected
+        And TMC subarray remains in IDLE obsState
+        And TMC executes the RealeaseResources command successfully
+        Examples:
+            | unexpected_command  |
+            | Scan                |
+            | End                 |
 
-	Scenario: Invalid unexpected commands not allowed in the current stable obsState - Idle
-		Given the TMC device/s state=On and obsState <initial_obsstate>
-		When the command <unexpected_command> is invoked , throws an error
-		Then the TMC device remains in state=On, and obsState <initial_obsstate>
-		Then TMC accepts correct/expected command <expected_command> and performs the operation
-		Examples:  
-            | initial_obsstate | unexpected_command      | expected_command  |
-            | IDLE            | Scan                     | ReleaseResources  |
-            | IDLE            | End                      | ReleaseResources  |
+
