@@ -444,13 +444,17 @@ class waiter:
             watch(resource(sdp_subarray1)).to_become(
                 "obsState", changed_to="READY"
             )
-        )
-
+        )        
+        self.waits.append(watch(resource(dish_master1).to_become(
+                "pointingState", changed_to="TRACK")
+                )
+            )
         self.waits.append(
             watch(resource(tmc_subarraynode1)).to_become(
                 "obsState", changed_to="READY"
             )
         )
+        
 
     def set_wait_for_idle(self):
         self.waits.append(
@@ -463,12 +467,18 @@ class waiter:
                 "obsState", changed_to="IDLE"
             )
         )
-
         self.waits.append(
             watch(resource(tmc_subarraynode1)).to_become(
                 "obsState", changed_to="IDLE"
             )
         )
+        self.waits.append(
+            watch(resource(dish_master1)).to_become(
+                "pointingState", changed_to="READY"
+            )
+        )
+        
+        
 
     def set_wait_for_aborted(self):
         self.waits.append(
@@ -557,6 +567,13 @@ class WaitForScan(waiter):
         self.sdp_subarray = watch(resource(sdp_subarray1)).for_a_change_on(
             "obsState"
         )
+        self.dish_master_pointState = watch(resource(sdp_subarray1)).for_a_change_on(
+            "pointingState"
+        )
+        self.dish_master_dishMode = watch(resource(sdp_subarray1)).for_a_change_on(
+            "dishMode"
+        )
+
 
     def wait(self, timeout, resolution=None):
         LOGGER.info(
@@ -572,6 +589,8 @@ class WaitForScan(waiter):
         self.tmc_subarraynode.wait_until_value_changed_to("READY", timeout)
         self.csp_subarray.wait_until_value_changed_to("READY", timeout)
         self.sdp_subarray.wait_until_value_changed_to("READY", timeout)
+        #self.dish_master_dishMode.wait_until_value_changed_to("OPERATE",timeout)
+        #self.dish_master_pointState.wait_until_value_changed_to("TRACK",timeout)
 
 
 # Waiters based on tango DeviceProxy's ability to subscribe to events
