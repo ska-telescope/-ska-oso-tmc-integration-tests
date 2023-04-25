@@ -140,8 +140,10 @@ class TmcHelper(object):
     def invoke_abort(self, **kwargs):
         subarray_node = DeviceProxy(self.subarray_node)
         subarray_node.Abort()
-        dish_master = DeviceProxy(dish_master1)
-        dish_master.SetDirectPointingState(1)
+        dish_master = kwargs.get("dish_master")
+        if dish_master:
+            dish_master = DeviceProxy(dish_master1)
+            dish_master.SetDirectPointingState(1)
         LOGGER.info("Invoked Abort on SubarrayNode")
 
     @sync_restart()
