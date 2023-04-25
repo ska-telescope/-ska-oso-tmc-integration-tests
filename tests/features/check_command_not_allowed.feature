@@ -1,7 +1,7 @@
 Feature:  Invalid unexpected commands
     Scenario: Unexpected commands not allowed when TMC subarray is empty
         Given the TMC is in ON state and the subarray is in EMPTY obsstate
-        When the command <unexpected_command> is invoked on the/that subarray
+        When the command <unexpected_command> is invoked on that subarray
         Then the TMC should reject the <unexpected_command> with ResultCode.Rejected
         And TMC subarray remains in EMPTY obsstate
         And TMC executes the AssignResources command successfully
@@ -13,13 +13,16 @@ Feature:  Invalid unexpected commands
 
     Scenario: Unexpected commands not allowed when TMC subarray is idle
         Given the TMC is in ON state and the subarray is in IDLE
-        When the command <unexpected_command> is invoked on the/that subarray
+        When the command <unexpected_command> is invoked on that subarray
         Then the TMC should reject the <unexpected_command> with ResultCode.Rejected
         And TMC subarray remains in IDLE obsState
-        And TMC executes the RealeaseResources command successfully
+        And TMC executes the <permitted_command> command successfully
         Examples:
-            | unexpected_command  |
-            | Scan                |
-            | End                 |
+            | unexpected_command  | permitted_command  |
+            | Scan                |   Configure        |   
+            | Scan                |   ReleaseResources |
+            |   End               |    Configure       |
+            |   End               |   ReleaseResources |
+
 
 

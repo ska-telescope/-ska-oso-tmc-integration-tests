@@ -107,7 +107,7 @@ def test_release_invalid_json(json_factory):
         """Invoke ReleaseResources() command on TMC"""
         central_node = DeviceProxy(centralnode)
         ret_code, message=central_node.ReleaseResources(invalid_release_json)
-        #Assert with TaskStatus as REJECTED
+        # Assert with TaskStatus as REJECTED
         assert ret_code == 5
         LOGGER.info(message)
         # Check if telescope is in previous state
