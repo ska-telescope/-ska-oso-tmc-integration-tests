@@ -60,8 +60,6 @@ def send_command(json_factory, unexpected_command):
         central_node = DeviceProxy(centralnode)
         central_node.command_inout(unexpected_command, assign_json2)
         LOGGER.info("Invoked AssignResources2 from CentralNode")
-    else:
-        LOGGER.info("Other invalid commands")
   
 
 # TODO: Current version of TMC does not support ResultCode.REJECTED, 
