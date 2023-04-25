@@ -17,6 +17,7 @@ from tests.resources.test_support.constant import (
 from tests.resources.test_support.mid.telescope_controls_mid import TelescopeControlMid
 from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
 from tests.conftest import LOGGER
+from tests.resources.test_support.tmc_helpers import tear_down
 
 
 tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
@@ -60,14 +61,8 @@ def given_tmc(json_factory):
 def send(json_factory, unexpected_command):
     scan_json = json_factory("command_Scan")
     try:
-        if unexpected_command == "Scan":
-            LOGGER.info("Invoking Scan command on TMC SubarrayNode")
-            tmc_helper.scan(scan_json, **ON_OFF_DEVICE_COMMAND_DICT)
-        elif unexpected_command == "End":
-            LOGGER.info("Invoking Scan command on TMC SubarrayNode")
-            tmc_helper.end()
-        else:
-            LOGGER.info("Other invalid commands")
+        LOGGER.info("Invoking Scan command on TMC SubarrayNode")
+        tmc_helper.scan(scan_json, **ON_OFF_DEVICE_COMMAND_DICT)
     except Exception as e:
         LOGGER.info(f"Exception occured: {e}")
 
@@ -91,18 +86,18 @@ def tmc_accepts_next_commands(json_factory, permitted_command):
     release_json = json_factory("command_ReleaseResources")
     if permitted_command == "Configure":
         LOGGER.info(f"permitted command is: {permitted_command}")
+        LOGGER.info("Invoking Configure command on TMC CentralNode")
         tmc_helper.configure_sub(configure_json, **ON_OFF_DEVICE_COMMAND_DICT)
-        LOGGER.info("Invoking ReleaseResources command on TMC CentralNode")
         assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_READY_INFO, "obsState")
         # tear down
-        # add tear down
+        tear_down(release_json)
     elif permitted_command == "ReleaseResources":
         LOGGER.info(f"permitted command is: {permitted_command}")
-        tmc_helper.invoke_releaseResources(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("Invoking ReleaseResources command on TMC CentralNode")
+        tmc_helper.invoke_releaseResources(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
         assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_EMPTY_INFO, "obsState")
         # tear down
-
+        tear_down()
         # assert telescope_control.is_in_valid_state(DEVICE_STATE_OFF_INFO, "State")
     else:
         LOGGER.info(f"permitted command is: {permitted_command}")

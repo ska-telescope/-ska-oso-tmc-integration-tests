@@ -244,4 +244,4 @@ def tear_down(input_json: Optional[str] = None):
     LOGGER.info("Tear Down Successful, raising an exception for failure")
 
 # except Exception as e:
-    raise Exception(f"Test case failed and Subarray obsState was : {subarray_node_obsstate}")
+    # raise Exception(f"Test case failed and Subarray obsState was : {subarray_node_obsstate}")

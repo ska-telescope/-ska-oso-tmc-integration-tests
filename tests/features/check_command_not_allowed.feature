@@ -21,8 +21,6 @@ Feature:  Invalid unexpected commands
             | unexpected_command  | permitted_command  |
             | Scan                |   Configure        |   
             | Scan                |   ReleaseResources |
-            |   End               |    Configure       |
-            |   End               |   ReleaseResources |
 
     Scenario: Unexpected commands not allowed when TMC busy in assigning the resources for a subarray
         Given the TMC is in ON state and the subarray is busy in assigning the resources

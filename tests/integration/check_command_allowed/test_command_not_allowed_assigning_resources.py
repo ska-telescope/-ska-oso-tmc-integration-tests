@@ -27,7 +27,6 @@ from tests.resources.test_support.tmc_helpers import tear_down
 tmc_helper=TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = TelescopeControlMid()
 
-
 @pytest.mark.SKA_mid
 @scenario("../features/check_command_not_allowed.feature", "Unexpected commands not allowed when TMC busy in assigning the resources for a subarray")
 def test_command_not_allowed():

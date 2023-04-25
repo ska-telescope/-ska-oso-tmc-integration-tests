@@ -14,6 +14,7 @@ from tests.resources.test_support.constant import (
 )
 from tests.resources.test_support.controls import telescope_is_in_standby_state
 from tests.resources.test_support.mid.telescope_controls_mid import TelescopeControlMid
+from tests.resources.test_support.tmc_helpers import tear_down
 
 configure_resources_file = "command_Configure.json"
 assign_resources_file = "command_AssignResources.json"
@@ -21,7 +22,6 @@ assign_resources_file = "command_AssignResources.json"
 
 tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = TelescopeControlMid()
-
 
 @pytest.mark.SKA_mid
 @scenario("../features/check_command_not_allowed.feature",
@@ -66,8 +66,6 @@ def send(json_factory, unexpected_command):
         elif unexpected_command == "Abort":
             LOGGER.info("Invoking Abort command on TMC SubarrayNode")
             tmc_helper.invoke_abort(**ON_OFF_DEVICE_COMMAND_DICT)
-        else:
-            LOGGER.info("Other invalid commands")
     except Exception as e:
         LOGGER.info(f"Exception occured: {e}")
 
@@ -99,15 +97,5 @@ def tmc_accepts_next_commands(json_factory):
     assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_IDLE_INFO, "obsState")
 
     # tear down
-    LOGGER.info("Invoking ReleaseResources command on TMC CentralNode")
-    tmc_helper.invoke_releaseResources(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
-    # Invoke TelescopeOff() command on TMC
-    tmc_helper.set_to_off(**ON_OFF_DEVICE_COMMAND_DICT)
-
-    # Verify State transitions after TelescopeOff#
-    assert telescope_control.is_in_valid_state(DEVICE_STATE_OFF_INFO, "State")
-    assert telescope_control.is_in_valid_state(DEVICE_OBS_STATE_EMPTY_INFO, "obsState")
-
-    # Invoke TelescopeStandby() command on T
-    tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
+    tear_down(release_json)
 
