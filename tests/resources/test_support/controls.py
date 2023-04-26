@@ -71,7 +71,7 @@ def telescope_is_in_on_state():
         resource(csp_subarray1).get("State"),
         resource(dish_master1).get("State"),
         resource(centralnode).get("State"),
-    ] == ["ON", "ON", "ON", "ON", "ON", "ON"]
+    ] == ["ON", "ON", "ON", "ON", "STANDBY", "ON"]
 
 
 def telescope_is_in_off_state():

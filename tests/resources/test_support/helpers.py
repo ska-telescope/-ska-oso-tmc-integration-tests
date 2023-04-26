@@ -344,7 +344,7 @@ class waiter:
         )
         self.waits.append(
             watch(resource(dish_master1)).to_become(
-                "State", changed_to="STANDBY"
+                "dishMode", changed_to="STANDBY_LP"
             )
         )
 
@@ -385,7 +385,9 @@ class waiter:
             watch(resource(csp_subarray1)).to_become("State", changed_to="ON")
         )
         self.waits.append(
-            watch(resource(dish_master1)).to_become("State", changed_to="ON")
+            watch(resource(dish_master1)).to_become(
+                "dishMode", changed_to="STANDBY_FP"
+            )
         )
 
     def set_wait_for_going_to_empty(self):
@@ -421,13 +423,6 @@ class waiter:
                 "obsState", changed_to="IDLE"
             )
         )
-
-        self.waits.append(
-            watch(resource(dish_master1)).to_become(
-                "pointingState", changed_to="READY"
-            )
-        )
-
         self.waits.append(
             watch(resource(tmc_subarraynode1)).to_become(
                 "obsState", changed_to="IDLE"

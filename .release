@@ -1,26 +1,26 @@
-release=0.7.8
-tag=0.7.8
+release=0.6.11
+tag=0.6.11
 tag_description=
 **Charts:**
-**1. ska-tmc-integration 0.7.7 - 0.7.8:**
+**1. ska-tmc-integration 0.6.10 - 0.6.11:**
 
     **1.1 ska-tmc-low - 0.5.4 - 0.5.5:
 
        a.  Intermediate chart for Abort and Restart functionality implementation on TMC Low
 
-    **1.2 ska-tmc-mid - 0.8.4 - 0.8.5:
-        a. Updated cspsubarrayleafnode to accept abort command in configuring observation state.
+    **1.2 ska-tmc-mid - 0.8.5 - 0.8.6:
+        a. Updated Central Node, Subarray Node and Dish Leaf Node to use latest DishID formats.
 
 
 
 
 release_notes=
 **Charts:**
-**1. ska-tmc-integration 0.7.7 - 0.7.8:**
+**1. ska-tmc-integration 0.6.10 - 0.6.11:**
 
     **1.1 ska-tmc-low - 0.5.4 - 0.5.5:
 
        a.   Intermediate chart for Abort and Restart functionality implementation on TMC Low
 
-    **1.2 ska-tmc-mid - 0.8.4 - 0.8.5:
-        a. Updated cspsubarrayleafnode to accept abort command in configuring observation state.
+    **1.2 ska-tmc-mid - 0.8.5 - 0.8.6:
+        a. Updated Central Node, Subarray Node and Dish Leaf Node to use latest DishID formats.

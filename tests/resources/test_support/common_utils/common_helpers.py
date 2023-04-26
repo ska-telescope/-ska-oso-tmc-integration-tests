@@ -312,7 +312,7 @@ class Waiter:
         if self.dish_master1:
             self.waits.append(
                 watch(resource(self.dish_master1)).to_become(
-                    "State", changed_to="STANDBY"
+                    "dishMode", changed_to="STANDBY_LP"
                 )
             )
 
@@ -362,7 +362,7 @@ class Waiter:
         if self.dish_master1:
             self.waits.append(
                 watch(resource(self.dish_master1)).to_become(
-                    "State", changed_to="ON"
+                    "State", changed_to="STANDBY"
                 )
             )
 

@@ -131,3 +131,43 @@ def test_release_invalid_json(json_factory):
 
     except Exception:
         tear_down(release_json)
+
+
+@pytest.mark.SKA_mid
+def test_invalid_receptor_ids(json_factory):
+    """AssignResources and ReleaseResources is executed."""
+    assign_json = json_factory("command_assign_resources_invalid_receptor_id")
+    tmc.check_devices()
+
+    try:
+        # Verify Telescope is Off/Standby
+        assert telescope_is_in_standby_state()
+        LOGGER.info("Staring up the Telescope")
+
+        # # Invoke TelescopeOn() command on TMC
+        LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
+        tmc.set_to_on()
+        LOGGER.info("TelescopeOn command is invoked successfully")
+
+        # # Verify State transitions after TelescopeOn
+        assert telescope_is_in_on_state()
+
+        # # Invoke AssignResources() Command on TMC
+        LOGGER.info("Invoking AssignResources command on TMC CentralNode")
+        resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
+        resource(tmc_subarraynode1).assert_attribute("obsState").equals(
+            "EMPTY"
+        )
+        central_node = DeviceProxy(centralnode)
+        with pytest.raises(Exception):
+            central_node.AssignResources(assign_json)
+
+        # Invoke TelescopeStandby() command on TMC
+        tmc.set_to_standby()
+
+        # Verify State transitions after TelescopeOff
+        assert telescope_is_in_standby_state()
+
+    except Exception:
+        LOGGER.info("Tearing down...")
+        tear_down()
