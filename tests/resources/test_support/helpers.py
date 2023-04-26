@@ -576,6 +576,7 @@ class WaitForScan(waiter):
         self.csp_subarray.wait_until_value_changed_to("READY", timeout)
         self.sdp_subarray.wait_until_value_changed_to("READY", timeout)
 
+
 # Waiters based on tango DeviceProxy's ability to subscribe to events
 class AttributeWatcher:
     """Listens to events in a device and enables waiting until a predicate is
