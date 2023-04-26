@@ -560,12 +560,6 @@ class WaitForScan(waiter):
         self.sdp_subarray = watch(resource(sdp_subarray1)).for_a_change_on(
             "obsState"
         )
-        self.dish_master_pointState = watch(
-            resource(sdp_subarray1)
-        ).for_a_change_on("pointingState")
-        self.dish_master_dishMode = watch(
-            resource(sdp_subarray1)
-        ).for_a_change_on("dishMode")
 
     def wait(self, timeout, resolution=None):
         LOGGER.info(
@@ -581,9 +575,6 @@ class WaitForScan(waiter):
         self.tmc_subarraynode.wait_until_value_changed_to("READY", timeout)
         self.csp_subarray.wait_until_value_changed_to("READY", timeout)
         self.sdp_subarray.wait_until_value_changed_to("READY", timeout)
-        # self.dish_master_dishMode.wait_until_value_changed_to("OPERATE",timeout)
-        # self.dish_master_pointState.wait_until_value_changed_to("TRACK",timeout)
-
 
 # Waiters based on tango DeviceProxy's ability to subscribe to events
 class AttributeWatcher:
