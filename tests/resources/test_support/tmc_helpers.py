@@ -174,7 +174,6 @@ def invoke_abort():
 def invoke_restart():
     subarray_node = DeviceProxy(tmc_subarraynode1)
     subarray_node.Restart()
-    DeviceProxy(dish_master1).SetDirectPointingState(int(1))
     LOGGER.info("Invoked Restart on SubarrayNode")
 
 
