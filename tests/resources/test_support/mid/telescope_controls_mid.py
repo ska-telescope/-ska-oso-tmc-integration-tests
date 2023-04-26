@@ -8,7 +8,8 @@ from tests.resources.test_support.telescope_controls import (
 class TelescopeControlMid(BaseTelescopeControl):
     """
     Now all method related to telescope control are common for both low and mid
-    but created placeholder class for mid so in case method required for low can be written here or overridden
+    but created placeholder class for mid so in case \
+    method required for low can be written here or overridden
     """
 
     pass
