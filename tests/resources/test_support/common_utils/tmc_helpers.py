@@ -1,16 +1,31 @@
 """This module implement base helper class for tmc
 """
 import logging
+
 from tango import DeviceProxy, DevState
+
+from tests.resources.test_support.common_utils.common_helpers import resource
 from tests.resources.test_support.common_utils.sync_decorators import (
-    sync_telescope_on, sync_set_to_off, sync_set_to_standby,sync_release_resources,sync_scan,
-    sync_assign_resources,sync_abort,sync_restart,sync_configure,sync_end, sync_assigning, sync_configure_sub
+    sync_abort,
+    sync_assign_resources,
+    sync_configure,
+    sync_end,
+    sync_release_resources,
+    sync_restart,
+    sync_set_to_off,
+    sync_set_to_standby,
+    sync_telescope_on,
+    sync_assigning,
+    sync_configure_sub,
+    sync_scan
 )
-from tests.resources.test_support.common_utils.common_helpers import  resource
+from tests.resources.test_support.constant import dish_master1
+
 LOGGER = logging.getLogger(__name__)
 
+
 class TmcHelper(object):
-    def __init__(self, central_node,subarray_node,**kwargs) -> None:
+    def __init__(self, central_node, subarray_node, **kwargs) -> None:
         """
         Args:
             central_node (str) -> FQDN of Central Node
@@ -35,10 +50,14 @@ class TmcHelper(object):
         """
         central_node = DeviceProxy(self.centralnode)
         LOGGER.info(
-            f"Before Sending TelescopeOn command {central_node} State is: {central_node.State()}"
+            f"Before Sending TelescopeOn command {central_node} State is: \
+            {central_node.State()}"
         )
         central_node.TelescopeOn()
-        device_to_on_list = [kwargs.get("csp_subarray"), kwargs.get("sdp_subarray"), kwargs.get("dish_master")]
+        device_to_on_list = [
+            kwargs.get("csp_subarray"),
+            kwargs.get("sdp_subarray"),
+        ]
         for device in device_to_on_list:
             if device:
                 device_proxy = DeviceProxy(device)
@@ -48,7 +67,10 @@ class TmcHelper(object):
     def set_to_off(self, **kwargs):
         central_node = DeviceProxy(self.centralnode)
         central_node.TelescopeOff()
-        device_to_off_list = [kwargs.get("csp_subarray"), kwargs.get("sdp_subarray")]
+        device_to_off_list = [
+            kwargs.get("csp_subarray"),
+            kwargs.get("sdp_subarray"),
+        ]
         for device in device_to_off_list:
             device_proxy = DeviceProxy(device)
             device_proxy.SetDirectState(DevState.OFF)
@@ -60,35 +82,40 @@ class TmcHelper(object):
             device_proxy.SetDirectState(DevState.STANDBY)
 
         LOGGER.info(
-                f"After invoking TelescopeOff command {central_node} State is: {central_node.State()}"
+            f"After invoking TelescopeOff command {central_node} State is: \
+            {central_node.State()}"
         )
 
     @sync_set_to_standby
     def set_to_standby(self, **kwargs):
         central_node = DeviceProxy(self.centralnode)
         central_node.TelescopeStandBy()
-        device_to_standby_list = [kwargs.get("csp_subarray"), kwargs.get("sdp_subarray")]
+        device_to_standby_list = [
+            kwargs.get("csp_subarray"),
+            kwargs.get("sdp_subarray"),
+        ]
         for device in device_to_standby_list:
             device_proxy = DeviceProxy(device)
             device_proxy.SetDirectState(DevState.OFF)
 
         LOGGER.info(
-            f"After invoking TelescopeStandBy command {central_node} State is: {central_node.State()}"
+            f"After invoking TelescopeStandBy command {central_node} State is \
+            {central_node.State()}"
         )
 
     @sync_release_resources
-    def invoke_releaseResources(self, release_input_str,**kwargs,):
+    def invoke_releaseResources(
+        self,
+        release_input_str,
+        **kwargs,
+    ):
         central_node = DeviceProxy(self.centralnode)
         central_node.ReleaseResources(release_input_str)
-        LOGGER.info(
-            f"ReleaseResources command is invoked on {central_node}"
-        )
+        LOGGER.info(f"ReleaseResources command is invoked on {central_node}")
 
     @sync_assign_resources()
-    def compose_sub(self,assign_res_input,**kwargs):
-        resource(self.subarray_node).assert_attribute("State").equals(
-            "ON"
-        )
+    def compose_sub(self, assign_res_input, **kwargs):
+        resource(self.subarray_node).assert_attribute("State").equals("ON")
         resource(self.subarray_node).assert_attribute("obsState").equals(
             "EMPTY"
         )
@@ -96,9 +123,8 @@ class TmcHelper(object):
         central_node.AssignResources(assign_res_input)
         LOGGER.info("Invoked AssignResources on CentralNode")
 
-
     @sync_configure()
-    def configure_subarray(self,configure_input_str,**kwargs):
+    def configure_subarray(self, configure_input_str, **kwargs):
         resource(self.subarray_node).assert_attribute("obsState").equals(
             "IDLE"
         )
@@ -111,19 +137,20 @@ class TmcHelper(object):
     def end(self, **kwargs):
         subarray_node = DeviceProxy(self.subarray_node)
         subarray_node.End()
-        LOGGER.info(
-            f"End command is invoked on {subarray_node}"
-        )
+        LOGGER.info(f"End command is invoked on {subarray_node}")
 
     @sync_abort()
-    def invoke_abort(self,**kwargs):
+    def invoke_abort(self, **kwargs):
         subarray_node = DeviceProxy(self.subarray_node)
         subarray_node.Abort()
+        dish_master = kwargs.get("dish_master")
+        if dish_master:
+            dish_master = DeviceProxy(dish_master1)
+            dish_master.SetDirectPointingState(1)
         LOGGER.info("Invoked Abort on SubarrayNode")
 
-
     @sync_restart()
-    def invoke_restart(self,**kwargs):
+    def invoke_restart(self, **kwargs):
         subarray_node = DeviceProxy(self.subarray_node)
         subarray_node.Restart()
         LOGGER.info("Invoked Restart on SubarrayNode")

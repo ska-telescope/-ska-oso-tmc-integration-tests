@@ -1,44 +1,37 @@
 # local depencies
-from tests.resources.test_support.helpers import (
-    resource
-)
 from tests.conftest import LOGGER
 from tests.resources.test_support.constant import (
-    sdp_master,
+    centralnode,
     csp_master,
-    sdp_subarray1,
     csp_subarray1,
     dish_master1,
+    sdp_master,
+    sdp_subarray1,
     tmc_subarraynode1,
-    centralnode,
 )
+from tests.resources.test_support.helpers import resource
 
 
 def telescope_is_in_standby_state():
     LOGGER.info(
-        f'{sdp_master}.State : '
-        + str(resource(sdp_master).get("State"))
+        f"{sdp_master}.State : " + str(resource(sdp_master).get("State"))
     )
     LOGGER.info(
-        f'{sdp_subarray1}.State : '
-        + str(resource(sdp_subarray1).get("State"))
+        f"{sdp_subarray1}.State : " + str(resource(sdp_subarray1).get("State"))
     )
     LOGGER.info(
-        f'{csp_master}.State : '
-        + str(resource(csp_master).get("State"))
+        f"{csp_master}.State : " + str(resource(csp_master).get("State"))
     )
     LOGGER.info(
-        f'{csp_subarray1}.State : '
-        + str(resource(csp_subarray1).get("State"))
+        f"{csp_subarray1}.State : " + str(resource(csp_subarray1).get("State"))
     )
     LOGGER.info(
-        f'{dish_master1}.State : '
-        + str(resource(dish_master1).get("State"))
+        f"{dish_master1}.State : " + str(resource(dish_master1).get("State"))
     )
 
     return all(
         [
-            resource(sdp_subarray1).get("State") in ["DISABLE" , "OFF"],
+            resource(sdp_subarray1).get("State") in ["DISABLE", "OFF"],
             resource(sdp_master).get("State") in ["DISABLE", "STANDBY"],
             resource(csp_master).get("State") in ["DISABLE", "STANDBY"],
             resource(csp_subarray1).get("State") in ["DISABLE", "OFF"],
@@ -49,32 +42,26 @@ def telescope_is_in_standby_state():
 
 def telescope_is_in_on_state():
     LOGGER.info(
-        f'{tmc_subarraynode1}.State : '
+        f"{tmc_subarraynode1}.State : "
         + str(resource(tmc_subarraynode1).get("State"))
     )
     LOGGER.info(
-        f'{sdp_master}.State : '
-        + str(resource(sdp_master).get("State"))
+        f"{sdp_master}.State : " + str(resource(sdp_master).get("State"))
     )
     LOGGER.info(
-        f'{sdp_subarray1}.State : '
-        + str(resource(sdp_subarray1).get("State"))
+        f"{sdp_subarray1}.State : " + str(resource(sdp_subarray1).get("State"))
     )
     LOGGER.info(
-        f'{csp_master}.State : '
-        + str(resource(csp_master).get("State"))
+        f"{csp_master}.State : " + str(resource(csp_master).get("State"))
     )
     LOGGER.info(
-        f'{csp_subarray1}.State : '
-        + str(resource(csp_subarray1).get("State"))
+        f"{csp_subarray1}.State : " + str(resource(csp_subarray1).get("State"))
     )
     LOGGER.info(
-        f'{dish_master1}.State : '
-        + str(resource(dish_master1).get("State"))
+        f"{dish_master1}.State : " + str(resource(dish_master1).get("State"))
     )
     LOGGER.info(
-        f'{centralnode}.State : '
-        + str(resource(centralnode).get("State"))
+        f"{centralnode}.State : " + str(resource(centralnode).get("State"))
     )
 
     return [
@@ -84,29 +71,24 @@ def telescope_is_in_on_state():
         resource(csp_subarray1).get("State"),
         resource(dish_master1).get("State"),
         resource(centralnode).get("State"),
-    ] == ["ON", "ON", "ON", "ON", "ON", "ON"]
+    ] == ["ON", "ON", "ON", "ON", "STANDBY", "ON"]
 
 
 def telescope_is_in_off_state():
     LOGGER.info(
-        f'{sdp_master}.State : '
-        + str(resource(sdp_master).get("State"))
+        f"{sdp_master}.State : " + str(resource(sdp_master).get("State"))
     )
     LOGGER.info(
-        f'{sdp_subarray1}.State : '
-        + str(resource(sdp_subarray1).get("State"))
+        f"{sdp_subarray1}.State : " + str(resource(sdp_subarray1).get("State"))
     )
     LOGGER.info(
-        f'{csp_master}.State : '
-        + str(resource(csp_master).get("State"))
+        f"{csp_master}.State : " + str(resource(csp_master).get("State"))
     )
     LOGGER.info(
-        f'{csp_subarray1}.State : '
-        + str(resource(csp_subarray1).get("State"))
+        f"{csp_subarray1}.State : " + str(resource(csp_subarray1).get("State"))
     )
     LOGGER.info(
-        f'{dish_master1}.State : '
-        + str(resource(dish_master1).get("State"))
+        f"{dish_master1}.State : " + str(resource(dish_master1).get("State"))
     )
 
     return [
@@ -120,83 +102,99 @@ def telescope_is_in_off_state():
 
 def subarray_obs_state_is_idle():
     LOGGER.info(
-            f'{tmc_subarraynode1}.obsState : '
-            + str(resource(tmc_subarraynode1).get("obsState"))
-        )
+        f"{tmc_subarraynode1}.obsState : "
+        + str(resource(tmc_subarraynode1).get("obsState"))
+    )
     LOGGER.info(
-            f'{sdp_subarray1}.obsState : '
-            + str(resource(sdp_subarray1).get("obsState"))
-        )
+        f"{sdp_subarray1}.obsState : "
+        + str(resource(sdp_subarray1).get("obsState"))
+    )
     LOGGER.info(
-            f'{csp_subarray1}.obsState : '
-            + str(resource(csp_subarray1).get("obsState"))
-        )
+        f"{csp_subarray1}.obsState : "
+        + str(resource(csp_subarray1).get("obsState"))
+    )
 
     return [
         resource(sdp_subarray1).get("obsState"),
         resource(tmc_subarraynode1).get("obsState"),
         resource(csp_subarray1).get("obsState"),
-    ] == ["IDLE", "IDLE", "IDLE",]
+    ] == [
+        "IDLE",
+        "IDLE",
+        "IDLE",
+    ]
 
 
 def subarray_obs_state_is_empty():
     LOGGER.info(
-            f'{tmc_subarraynode1}.obsState : '
-            + str(resource(tmc_subarraynode1).get("obsState"))
-        )
+        f"{tmc_subarraynode1}.obsState : "
+        + str(resource(tmc_subarraynode1).get("obsState"))
+    )
     LOGGER.info(
-            f'{sdp_subarray1}.obsState : '
-            + str(resource(sdp_subarray1).get("obsState"))
-        )
+        f"{sdp_subarray1}.obsState : "
+        + str(resource(sdp_subarray1).get("obsState"))
+    )
     LOGGER.info(
-            f'{csp_subarray1}.obsState : '
-            + str(resource(csp_subarray1).get("obsState"))
-        )
+        f"{csp_subarray1}.obsState : "
+        + str(resource(csp_subarray1).get("obsState"))
+    )
 
     return [
         resource(sdp_subarray1).get("obsState"),
         resource(tmc_subarraynode1).get("obsState"),
         resource(csp_subarray1).get("obsState"),
-    ] == ["EMPTY", "EMPTY", "EMPTY",]
+    ] == [
+        "EMPTY",
+        "EMPTY",
+        "EMPTY",
+    ]
 
 
 def subarray_obs_state_is_ready():
     LOGGER.info(
-            f'{tmc_subarraynode1}.obsState : '
-            + str(resource(tmc_subarraynode1).get("obsState"))
-        )
+        f"{tmc_subarraynode1}.obsState : "
+        + str(resource(tmc_subarraynode1).get("obsState"))
+    )
     LOGGER.info(
-            f'{sdp_subarray1}.obsState : '
-            + str(resource(sdp_subarray1).get("obsState"))
-        )
+        f"{sdp_subarray1}.obsState : "
+        + str(resource(sdp_subarray1).get("obsState"))
+    )
     LOGGER.info(
-            f'{csp_subarray1}.obsState : '
-            + str(resource(csp_subarray1).get("obsState"))
-        )
+        f"{csp_subarray1}.obsState : "
+        + str(resource(csp_subarray1).get("obsState"))
+    )
 
     return [
         resource(sdp_subarray1).get("obsState"),
         resource(tmc_subarraynode1).get("obsState"),
         resource(csp_subarray1).get("obsState"),
-    ] == ["READY", "READY", "READY",]
+    ] == [
+        "READY",
+        "READY",
+        "READY",
+    ]
 
 
 def subarray_obs_state_is_aborted():
     LOGGER.info(
-        f'{tmc_subarraynode1}.obsState : '
-         + str(resource(tmc_subarraynode1).get("obsState"))
+        f"{tmc_subarraynode1}.obsState : "
+        + str(resource(tmc_subarraynode1).get("obsState"))
     )
     LOGGER.info(
-        f'{sdp_subarray1}.obsState : '
-         + str(resource(sdp_subarray1).get("obsState"))
+        f"{sdp_subarray1}.obsState : "
+        + str(resource(sdp_subarray1).get("obsState"))
     )
     LOGGER.info(
-        f'{csp_subarray1}.obsState : '
-         + str(resource(csp_subarray1).get("obsState"))
+        f"{csp_subarray1}.obsState : "
+        + str(resource(csp_subarray1).get("obsState"))
     )
 
     return [
         resource(sdp_subarray1).get("obsState"),
         resource(tmc_subarraynode1).get("obsState"),
         resource(csp_subarray1).get("obsState"),
-    ] == ["ABORTED", "ABORTED", "ABORTED",]
+    ] == [
+        "ABORTED",
+        "ABORTED",
+        "ABORTED",
+    ]
