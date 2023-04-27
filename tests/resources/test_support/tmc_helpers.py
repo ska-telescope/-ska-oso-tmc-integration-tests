@@ -167,8 +167,8 @@ def scan(scan_input):
 def invoke_abort():
     subarray_node = DeviceProxy(tmc_subarraynode1)
     subarray_node.Abort()
-    # dish_master = DeviceProxy(dish_master1)
-    # dish_master.SetDirectPointingState(1)
+    dish_master = DeviceProxy(dish_master1)
+    dish_master.TrackStop()
     LOGGER.info("Invoked Abort on SubarrayNode")
 
 
@@ -241,34 +241,6 @@ def tear_down(input_json: Optional[str] = None):
         LOGGER.info("Tear Down complete. Telescope is in Standby State")
 
     elif subarray_node_obsstate in ["ABORTED", "FAULT"]:
-        LOGGER.info("Invoking Restart on TMC")
-        tmc.invoke_restart()
-
-        assert subarray_obs_state_is_empty()
-
-        LOGGER.info("Invoking Telescope Standby on TMC")
-        tmc.set_to_standby()
-
-        assert telescope_is_in_standby_state()
-        LOGGER.info("Tear Down complete. Telescope is in Standby State")
-
-    elif subarray_node_obsstate == "ABORTING":
-        LOGGER.info("Setting subsystems to ABORTED")
-        csp_subarray = DeviceProxy(csp_subarray1)
-        csp_subarray.SetDirectObsState(7)
-        sdp_subarray = DeviceProxy(sdp_subarray1)
-        sdp_subarray.SetDirectObsState(7)
-        dish_master = DeviceProxy(dish_master1)
-        dish_master.SetDirectPointingState(1)
-
-        LOGGER.info("Waiting for Subarray ObsState to be ABORTED")
-        the_waiter = waiter()
-        the_waiter.set_wait_for_aborted()
-        the_waiter.wait(200)
-
-        LOGGER.info("Asserting Subarray node in ABORTED state")
-        assert subarray_obs_state_is_aborted()
-
         LOGGER.info("Invoking Restart on TMC")
         tmc.invoke_restart()
 
