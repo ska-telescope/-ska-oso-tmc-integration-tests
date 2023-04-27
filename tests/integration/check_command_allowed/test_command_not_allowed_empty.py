@@ -1,17 +1,18 @@
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 
+import tests.resources.test_support.tmc_helpers as tmc
 from tests.conftest import LOGGER
 from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
 from tests.resources.test_support.constant import (
     DEVICE_OBS_STATE_EMPTY_INFO,
     DEVICE_OBS_STATE_IDLE_INFO,
     DEVICE_STATE_ON_INFO,
+    DEVICE_STATE_STANDBY_INFO,
     ON_OFF_DEVICE_COMMAND_DICT,
     centralnode,
     tmc_subarraynode1,
 )
-from tests.resources.test_support.controls import telescope_is_in_standby_state
 from tests.resources.test_support.mid.telescope_controls_mid import (
     TelescopeControlMid,
 )
@@ -40,7 +41,10 @@ def test_command_not_valid_in_empty_obsState():
 @given("the TMC is in ON state and the subarray is in EMPTY obsstate")
 def given_tmc():
     # Verify Telescope is Off/Standby
-    assert telescope_is_in_standby_state()
+    tmc.check_devices()
+    assert telescope_control.is_in_valid_state(
+        DEVICE_STATE_STANDBY_INFO, "State"
+    )
     LOGGER.info("Starting up the Telescope")
 
     # Invoke TelescopeOn() command on TMC CentralNode
