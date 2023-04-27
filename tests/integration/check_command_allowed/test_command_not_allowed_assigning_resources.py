@@ -22,6 +22,7 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = TelescopeControlMid()
 
 
+@pytest.mark.mm
 @pytest.mark.SKA_mid
 @scenario(
     "../features/check_command_not_allowed.feature",
@@ -46,7 +47,6 @@ def given_tmc(json_factory):
     assert telescope_control.is_in_valid_state(
         DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
     )
-
     central_node = DeviceProxy(centralnode)
     tmc.check_devices()
     central_node.AssignResources(assign_json)
