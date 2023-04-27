@@ -166,8 +166,9 @@ def scan(scan_input):
 @sync_abort()
 def invoke_abort():
     subarray_node = DeviceProxy(tmc_subarraynode1)
-    DeviceProxy(dish_master1).TrackStop()
     subarray_node.Abort()
+    dish_master = DeviceProxy(dish_master1)
+    dish_master.SetDirectPointingState(1)
     LOGGER.info("Invoked Abort on SubarrayNode")
 
 
