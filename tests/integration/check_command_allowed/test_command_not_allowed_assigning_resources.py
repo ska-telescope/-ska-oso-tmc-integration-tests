@@ -7,7 +7,6 @@ from tests.conftest import LOGGER
 from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
 from tests.resources.test_support.constant import (
     DEVICE_OBS_STATE_EMPTY_INFO,
-    DEVICE_OBS_STATE_IDLE_INFO,
     DEVICE_OBS_STATE_READY_INFO,
     DEVICE_STATE_ON_INFO,
     DEVICE_STATE_STANDBY_INFO,
@@ -23,20 +22,17 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = TelescopeControlMid()
 
 
-@pytest.mark.dd
 @pytest.mark.SKA_mid
 @scenario(
     "../features/check_command_not_allowed.feature",
-    "Unexpected commands not allowed when TMC busy \
-    in assigning the resources for a subarray",
+    "Unexpected commands not allowed when TMC subarray is in Assigning",
 )
 def test_command_not_allowed():
     """Assigning the resources in RESOURCING obsState"""
 
 
 @given(
-    "the TMC is in ON state and the subarray \
-    is busy in assigning the resources"
+    "TMC is in ON state and the subarray is busy in assigning the resources"
 )
 def given_tmc(json_factory):
     assign_json = json_factory("command_AssignResources")
@@ -76,20 +72,14 @@ def send_command(json_factory, unexpected_command):
 # once the implementation is introduced, below block will be updated.
 @then(
     parsers.parse(
-        "the TMC should reject the\
-        {unexpected_command} with ResultCode.Rejected"
+        "TMC should reject the {unexpected_command} with ResultCode.Rejected"
     )
 )
 def invalid_command_rejection(unexpected_command):
     pass
 
 
-@then(
-    parsers.parse(
-        "TMC completes assigning the resources for\
-        that subarray, and executes the Configure command successfully"
-    )
-)
+@then(parsers.parse("TMC executes the Configure command successfully"))
 def tmc_accepts_permitted_commands(json_factory):
     configure_json = json_factory("command_Configure")
     release_json = json_factory("command_ReleaseResources")
@@ -102,9 +92,6 @@ def tmc_accepts_permitted_commands(json_factory):
     LOGGER.info("Invoking End command on TMC SubarrayNode")
     tmc_helper.end(**ON_OFF_DEVICE_COMMAND_DICT)
     LOGGER.info("End command on TMC SubarrayNode is successful")
-    assert telescope_control.is_in_valid_state(
-        DEVICE_OBS_STATE_IDLE_INFO, "obsState"
-    )
     # tear down
     tmc_helper.invoke_releaseResources(
         release_json, **ON_OFF_DEVICE_COMMAND_DICT

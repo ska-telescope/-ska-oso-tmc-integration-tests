@@ -80,8 +80,7 @@ def send(json_factory, unexpected_command):
 # once the implementation is introduced, below block will be updated.
 @then(
     parsers.parse(
-        "the TMC should reject the\
-         {unexpected_command} with ResultCode.Rejected"
+        "TMC should reject the {unexpected_command} with ResultCode.Rejected"
     )
 )
 def invalid_command_rejection(unexpected_command):
@@ -122,7 +121,5 @@ def tmc_accepts_next_commands(json_factory, permitted_command):
         )
         # tear down
         tear_down()
-        # assert telescope_control.is_in_valid_state
-        # (DEVICE_STATE_OFF_INFO, "State")
-    else:
-        LOGGER.info(f"permitted command is: {permitted_command}")
+    # else:
+    #     LOGGER.info(f"permitted command is: {permitted_command}")
