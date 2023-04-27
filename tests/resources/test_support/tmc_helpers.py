@@ -2,6 +2,7 @@ import logging
 from os.path import dirname, join
 from typing import Optional
 
+from ska_tmc_common import DishMode
 from tango import DeviceProxy, DevState
 
 import tests.resources.test_support.tmc_helpers as tmc
@@ -81,7 +82,7 @@ def set_to_on():
     sdp_subarray_1.SetDirectState(DevState.ON)
     dish_master_1 = DeviceProxy(dish_master1)
     dish_master_1.SetDirectState(DevState.STANDBY)
-    dish_master_1.SetDirectDishMode(3)
+    dish_master_1.SetDirectDishMode(DishMode.STANDBY_FP)
 
 
 @sync_set_to_off
