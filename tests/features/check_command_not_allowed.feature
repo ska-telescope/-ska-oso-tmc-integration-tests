@@ -10,6 +10,7 @@ Feature:  Invalid unexpected commands
             | Configure            |
             | Scan                 |
             | End                  |
+            | Abort                |
 
     Scenario: Unexpected commands not allowed when TMC subarray is idle
         Given the TMC is in ON state and the subarray is in IDLE
