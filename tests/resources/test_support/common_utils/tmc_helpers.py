@@ -12,6 +12,7 @@ from tests.resources.test_support.common_utils.sync_decorators import (
     sync_end,
     sync_release_resources,
     sync_restart,
+    sync_scan,
     sync_set_to_off,
     sync_set_to_standby,
     sync_telescope_on,
@@ -128,6 +129,15 @@ class TmcHelper(object):
         subarray_node = DeviceProxy(self.subarray_node)
         subarray_node.Configure(configure_input_str)
         LOGGER.info("Invoked Configure on SubarrayNode")
+
+    @sync_scan()
+    def scan(self, scan_input, **kwargs):
+        resource(self.subarray_node).assert_attribute("obsState").equals(
+            "READY"
+        )
+        subarray_node = DeviceProxy(self.subarray_node)
+        subarray_node.Scan(scan_input)
+        LOGGER.info("Invoked Scan on SubarrayNode")
 
     @sync_end()
     def end(self, **kwargs):
