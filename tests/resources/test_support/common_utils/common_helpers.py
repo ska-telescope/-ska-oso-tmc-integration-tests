@@ -428,11 +428,13 @@ class Waiter:
                 "obsState", changed_to="READY"
             )
         )
-        self.waits.append(
-            watch(resource(self.dish_master1)).to_become(
-                "pointingState", changed_to="TRACK"
+        dish_master = self.dish_master1
+        if dish_master:
+            self.waits.append(
+                watch(resource(self.dish_master1)).to_become(
+                    "pointingState", changed_to="TRACK"
+                )
             )
-        )
 
     def set_wait_for_idle(self):
         self.waits.append(
