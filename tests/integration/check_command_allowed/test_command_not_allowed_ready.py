@@ -115,7 +115,7 @@ def send(json_factory, unexpected_command):
 # once the implementation is introduced, below block will be updated.
 @then(
     parsers.parse(
-        "the TMC should reject the {unexpected_command} with ResultCode.Rejected"
+        "TMC should reject the {unexpected_command} with ResultCode.Rejected"
     )
 )
 def invalid_command_rejection(unexpected_command):

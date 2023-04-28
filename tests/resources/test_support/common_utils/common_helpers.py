@@ -52,10 +52,10 @@ class ObjectComparison:
                 assert self.value in value
             else:
                 assert self.value == value
-        except:
+        except Exception as ex:
             raise Exception(
-                "{} is asserted to be {} but was instead {}".format(
-                    self.object, value, self.value
+                "{} is asserted to be {} but was instead {} {}".format(
+                    self.object, value, self.value, ex
                 )
             )
 
@@ -119,10 +119,10 @@ class monitor(object):
         # comparison with future section (only if future value given)
         # if no future value was given it means you can ignore (or set to true)
         # comparison with a future
-        if self.future_value == None:
+        if self.future_value is None:
             is_eq_to_future_comparison = True
         else:
-            if self.predicate == None:
+            if self.predicate is None:
                 is_eq_to_future_comparison = (
                     self.current_value == self.future_value
                 )
@@ -450,11 +450,6 @@ class Waiter:
                 "obsState", changed_to="IDLE"
             )
         )
-        self.waits.append(
-            watch(resource(self.dish_master1)).to_become(
-                "pointingState", changed_to="READY"
-            )
-        )
 
     def set_wait_for_aborted(self):
         self.waits.append(
@@ -483,7 +478,7 @@ class Waiter:
                 result = wait.wait_until_conditions_met(
                     timeout=timeout, resolution=resolution
                 )
-            except:
+            except Exception as ex:
                 self.timed_out = True
                 future_value_shim = ""
                 timeout_shim = timeout * resolution
@@ -493,12 +488,13 @@ class Waiter:
                     future_value_shim = f" to {wait.future_value} \
                         (current val={wait.current_value})"
                 self.error_logs += "{} timed out whilst waiting for {} to \
-                change from {}{} in {:f}s\n".format(
+                change from {}{} in {:f}s and raised {}\n".format(
                     wait.device_name,
                     wait.attr,
                     wait.previous_value,
                     future_value_shim,
                     timeout_shim,
+                    ex,
                 )
             else:
                 timeout_shim = (timeout - result) * resolution

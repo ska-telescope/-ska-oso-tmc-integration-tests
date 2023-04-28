@@ -27,7 +27,7 @@ Feature:  Invalid unexpected commands
     Scenario: Unexpected commands not allowed when TMC subarray is READY
         Given the TMC is in ON state and the subarray is in READY obsState
         When the command <unexpected_command> is invoked on that subarray
-        Then the TMC should reject the <unexpected_command> with ResultCode.Rejected
+        Then TMC should reject the <unexpected_command> with ResultCode.Rejected
         And TMC subarray remains in READY obsState
         And TMC executes the <permitted_command> command successfully
         Examples:
