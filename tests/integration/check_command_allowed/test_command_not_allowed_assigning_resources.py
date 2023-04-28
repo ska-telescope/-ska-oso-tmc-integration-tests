@@ -3,6 +3,9 @@ from pytest_bdd import given, parsers, scenario, then, when
 from tango import DeviceProxy
 
 from tests.conftest import LOGGER
+from tests.resources.test_support.common_utils.telescope_controls import (
+    BaseTelescopeControl,
+)
 from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
 from tests.resources.test_support.constant import (
     DEVICE_LIST_FOR_CHECK_DEVICES,
@@ -13,9 +16,6 @@ from tests.resources.test_support.constant import (
     ON_OFF_DEVICE_COMMAND_DICT,
     centralnode,
     tmc_subarraynode1,
-)
-from tests.resources.test_support.common_utils.telescope_controls import (
-    BaseTelescopeControl
 )
 
 tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
