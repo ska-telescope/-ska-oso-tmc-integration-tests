@@ -2,10 +2,10 @@ import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from tango import DeviceProxy
 
-import tests.resources.test_support.tmc_helpers as tmc
 from tests.conftest import LOGGER
 from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
 from tests.resources.test_support.constant import (
+    DEVICE_LIST_FOR_CHECK_DEVICES,
     DEVICE_OBS_STATE_EMPTY_INFO,
     DEVICE_OBS_STATE_READY_INFO,
     DEVICE_STATE_ON_INFO,
@@ -14,15 +14,14 @@ from tests.resources.test_support.constant import (
     centralnode,
     tmc_subarraynode1,
 )
-from tests.resources.test_support.mid.telescope_controls_mid import (
-    TelescopeControlMid,
+from tests.resources.test_support.common_utils.telescope_controls import (
+    BaseTelescopeControl
 )
 
 tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
-telescope_control = TelescopeControlMid()
+telescope_control = BaseTelescopeControl()
 
 
-@pytest.mark.mm
 @pytest.mark.SKA_mid
 @scenario(
     "../features/check_command_not_allowed.feature",
@@ -37,18 +36,18 @@ def test_command_not_allowed():
 )
 def given_tmc(json_factory):
     assign_json = json_factory("command_AssignResources")
-    tmc.check_devices()
+    tmc_helper.check_devices(DEVICE_LIST_FOR_CHECK_DEVICES)
     assert telescope_control.is_in_valid_state(
         DEVICE_STATE_STANDBY_INFO, "State"
     )
     LOGGER.info("Staring up the Telescope")
-    tmc.set_to_on()
+    tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
     assert telescope_control.is_in_valid_state(DEVICE_STATE_ON_INFO, "State")
     assert telescope_control.is_in_valid_state(
         DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
     )
     central_node = DeviceProxy(centralnode)
-    tmc.check_devices()
+    tmc_helper.check_devices(DEVICE_LIST_FOR_CHECK_DEVICES)
     central_node.AssignResources(assign_json)
     LOGGER.info("Checking for Subarray node obsState")
     # resource(tmc_subarraynode1).assert_attribute("obsState").equals("RESOURCING")
@@ -66,6 +65,8 @@ def send_command(json_factory, unexpected_command):
         central_node = DeviceProxy(centralnode)
         central_node.command_inout(unexpected_command, assign_json2)
         LOGGER.info("Invoked AssignResources2 from CentralNode")
+    else:
+        LOGGER.info("Other invalid commands")
 
 
 # TODO: Current version of TMC does not support ResultCode.REJECTED,
@@ -100,8 +101,9 @@ def tmc_accepts_permitted_commands(json_factory):
     assert telescope_control.is_in_valid_state(
         DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
     )
-    tmc_helper.set_to_off(**ON_OFF_DEVICE_COMMAND_DICT)
+    tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
     LOGGER.info("ReleaseResources command on TMC SubarrayNode is successful")
     assert telescope_control.is_in_valid_state(
         DEVICE_STATE_STANDBY_INFO, "State"
     )
+    LOGGER.info("Tear Down complete. Telescope is in Standby State")

@@ -77,3 +77,20 @@ DEVICE_STATE_OFF_INFO = {
     csp_master: ["OFF"],
     csp_subarray1: ["OFF"],
 }
+
+DEVICE_OBS_STATE_ABORT_INFO = {
+    sdp_subarray1: ["ABORTED"],
+    tmc_subarraynode1: ["ABORTED"],
+    csp_subarray1: ["ABORTED"],
+}
+
+DEVICE_LIST_FOR_CHECK_DEVICES = [
+    centralnode,
+    csp_subarray1,
+    sdp_subarray1,
+    tmc_subarraynode1,
+    tmc_csp_master_leaf_node,
+    tmc_csp_subarray_leaf_node,
+    tmc_sdp_master_leaf_node,
+    tmc_sdp_subarray_leaf_node,
+]

@@ -170,6 +170,7 @@ def sync_end():
             the_waiter = Waiter(**kwargs)
             the_waiter.set_wait_for_idle()
             result = func(*args, **kwargs)
+            the_waiter.wait(200)
             return result
 
         return wrapper
