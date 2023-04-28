@@ -81,6 +81,8 @@ def set_to_on():
     sdp_subarray_1.SetDirectState(DevState.ON)
     dish_master_1 = DeviceProxy(dish_master1)
     dish_master_1.SetDirectState(DevState.STANDBY)
+    # Setting DishMode to STANDBY_FP
+    dish_master_1.SetDirectDishMode(3)
 
 
 @sync_set_to_off
@@ -165,8 +167,9 @@ def scan(scan_input):
 @sync_abort()
 def invoke_abort():
     subarray_node = DeviceProxy(tmc_subarraynode1)
-    DeviceProxy(dish_master1).TrackStop()
     subarray_node.Abort()
+    dish_master = DeviceProxy(dish_master1)
+    dish_master.TrackStop()
     LOGGER.info("Invoked Abort on SubarrayNode")
 
 
