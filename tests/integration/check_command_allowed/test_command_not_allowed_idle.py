@@ -2,6 +2,7 @@ import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 
 from tests.conftest import LOGGER
+from tests.resources.test_support.common_utils.result_code import ResultCode
 from tests.resources.test_support.common_utils.telescope_controls import (
     BaseTelescopeControl,
 )
@@ -23,8 +24,10 @@ from tests.resources.test_support.constant import (
 
 tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
+result, message = "", ""
 
 
+@pytest.mark.xfail(reason="This functionality is not implemented yet in TMC")
 @pytest.mark.SKA_mid
 @scenario(
     "../features/check_command_not_allowed.feature",
@@ -77,20 +80,27 @@ def send(json_factory, unexpected_command):
     scan_json = json_factory("command_Scan")
     try:
         LOGGER.info("Invoking Scan command on TMC SubarrayNode")
-        tmc_helper.scan(scan_json, **ON_OFF_DEVICE_COMMAND_DICT)
+        result, message = tmc_helper.scan(
+            scan_json, **ON_OFF_DEVICE_COMMAND_DICT
+        )
+        assert f"command {unexpected_command} is not allowed \
+            in current subarray obsState"
     except Exception as e:
         LOGGER.info(f"Exception occured: {e}")
 
 
-# TODO: Current version of TMC does not support ResultCode.REJECTED,
-# once the implementation is introduced, below block will be updated.
 @then(
     parsers.parse(
         "TMC should reject the {unexpected_command} with ResultCode.Rejected"
     )
 )
 def invalid_command_rejection(unexpected_command):
-    pass
+    assert (
+        f"command {unexpected_command} is not allowed \
+        in current subarray obsState"
+        in message[0]
+    )
+    assert result[0] == ResultCode.REJECTED
 
 
 @then("TMC subarray remains in IDLE obsState")

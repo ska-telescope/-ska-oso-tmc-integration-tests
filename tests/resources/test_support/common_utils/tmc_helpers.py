@@ -33,6 +33,7 @@ from tests.resources.test_support.constant import (
     dish_master1,
 )
 
+resutl, message = "", ""
 LOGGER = logging.getLogger(__name__)
 
 
@@ -141,24 +142,27 @@ class TmcHelper(object):
             "IDLE"
         )
         subarray_node = DeviceProxy(self.subarray_node)
-        subarray_node.Configure(configure_input_str)
+        result, message = subarray_node.Configure(configure_input_str)
         LOGGER.info("Invoked Configure on SubarrayNode")
+        return result, message
 
     @sync_end()
     def end(self, **kwargs):
         subarray_node = DeviceProxy(self.subarray_node)
-        subarray_node.End()
+        result, message = subarray_node.End()
         LOGGER.info(f"End command is invoked on {subarray_node}")
+        return result, message
 
     @sync_abort()
     def invoke_abort(self, **kwargs):
         subarray_node = DeviceProxy(self.subarray_node)
-        subarray_node.Abort()
+        result, message = subarray_node.Abort()
         dish_master = kwargs.get("dish_master")
         if dish_master:
             dish_master = DeviceProxy(dish_master1)
             dish_master.SetDirectPointingState(1)
         LOGGER.info("Invoked Abort on SubarrayNode")
+        return result, message
 
     @sync_restart()
     def invoke_restart(self, **kwargs):
@@ -186,8 +190,9 @@ class TmcHelper(object):
     @sync_scan()
     def scan(self, scan_input_str, **kwargs):
         subarray_node = DeviceProxy(self.subarray_node)
-        subarray_node.Scan(scan_input_str)
+        result, message = subarray_node.Scan(scan_input_str)
         LOGGER.info("Invoked Scan on SubarrayNode")
+        return result, message
 
 
 def tear_down(input_json: Optional[str] = None, **kwargs):

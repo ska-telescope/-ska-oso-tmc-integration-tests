@@ -4,6 +4,7 @@
 #
 # Distributed under the terms of the BSD 3-clause new license.
 # See LICENSE.txt for more info.
+#
 """This module defines an enumerated type for a command result code."""
 
 import enum

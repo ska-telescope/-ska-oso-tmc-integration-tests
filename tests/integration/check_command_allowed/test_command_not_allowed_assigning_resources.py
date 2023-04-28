@@ -3,6 +3,7 @@ from pytest_bdd import given, parsers, scenario, then, when
 from tango import DeviceProxy
 
 from tests.conftest import LOGGER
+from tests.resources.test_support.common_utils.result_code import ResultCode
 from tests.resources.test_support.common_utils.telescope_controls import (
     BaseTelescopeControl,
 )
@@ -20,8 +21,10 @@ from tests.resources.test_support.constant import (
 
 tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
+result, message = "", ""
 
 
+@pytest.mark.xfail(reason="This functionality is not implemented yet in TMC")
 @pytest.mark.SKA_mid
 @scenario(
     "../features/check_command_not_allowed.feature",
@@ -65,19 +68,24 @@ def send_command(json_factory, unexpected_command):
         central_node = DeviceProxy(centralnode)
         central_node.command_inout(unexpected_command, assign_json2)
         LOGGER.info("Invoked AssignResources2 from CentralNode")
+        result, message = central_node.AssignResources(assign_json2)
+
     else:
         LOGGER.info("Other invalid commands")
 
 
-# TODO: Current version of TMC does not support ResultCode.REJECTED,
-# once the implementation is introduced, below block will be updated.
 @then(
     parsers.parse(
         "TMC should reject the {unexpected_command} with ResultCode.Rejected"
     )
 )
 def invalid_command_rejection(unexpected_command):
-    pass
+    assert (
+        f"command {unexpected_command} is not allowed \
+        in current subarray obsState"
+        in message[0]
+    )
+    assert result[0] == ResultCode.REJECTED
 
 
 @then(parsers.parse("TMC executes the Configure command successfully"))
