@@ -510,11 +510,8 @@ class Waiter:
 class WaitForScan(Waiter):
     def __init__(self, **kwargs):
         self.sdp_subarray1 = kwargs.get("sdp_subarray")
-        self.sdp_master = kwargs.get("sdp_master")
         self.csp_subarray1 = kwargs.get("csp_subarray")
-        self.csp_master = kwargs.get("csp_master")
         self.tmc_subarraynode1 = kwargs.get("tmc_subarraynode")
-        self.dish_master1 = kwargs.get("dish_master")
         self.tmc_subarraynode = watch(
             resource(self.tmc_subarraynode1)
         ).for_a_change_on("obsState")

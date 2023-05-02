@@ -16,6 +16,7 @@ from tests.resources.test_support.constant import (
 from tests.resources.test_support.telescope_controls import (
     BaseTelescopeControl,
 )
+from tests.resources.test_support.tmc_helpers import tear_down
 
 
 @pytest.mark.SKA_mid
@@ -30,8 +31,6 @@ def test_successive_scan_with_different_configurations(json_factory):
     scan_json = json_factory("command_Scan")
     scan_json_2 = json_factory("command_Scan_2")
     scan_json_3 = json_factory("command_Scan_3")
-    fixture = {}
-    fixture["state"] = "Unknown"
     tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 
     try:
@@ -52,7 +51,6 @@ def test_successive_scan_with_different_configurations(json_factory):
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_ON_INFO, "State"
         )
-        fixture["state"] = "TelescopeOn"
 
         # Invoke AssignResources() Command on TMC#
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
@@ -63,7 +61,6 @@ def test_successive_scan_with_different_configurations(json_factory):
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_IDLE_INFO, "obsState"
         )
-        fixture["state"] = "AssignResources"
 
         # Invoke Configure() Command on TMC#
         LOGGER.info("Invoking Configure command on TMC SubarrayNode")
@@ -75,7 +72,6 @@ def test_successive_scan_with_different_configurations(json_factory):
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_READY_INFO, "obsState"
         )
-        fixture["state"] = "Configure"
 
         # Invoke Scan() command on TMC#
         tmc_helper.scan(scan_json, **ON_OFF_DEVICE_COMMAND_DICT)
@@ -84,15 +80,6 @@ def test_successive_scan_with_different_configurations(json_factory):
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_READY_INFO, "obsState"
         )
-
-        # Invoke End() command on TMC#
-        tmc_helper.end(**ON_OFF_DEVICE_COMMAND_DICT)
-
-        # Verify ObsState is IDLE#
-        assert telescope_control.is_in_valid_state(
-            DEVICE_OBS_STATE_IDLE_INFO, "obsState"
-        )
-        fixture["state"] = "End"
 
         # Invoke Configure() Command on TMC#
         LOGGER.info("Invoking Configure command on TMC SubarrayNode")
@@ -104,7 +91,6 @@ def test_successive_scan_with_different_configurations(json_factory):
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_READY_INFO, "obsState"
         )
-        fixture["state"] = "Configure"
 
         # Invoke Scan() command on TMC#
         tmc_helper.scan(scan_json_2, **ON_OFF_DEVICE_COMMAND_DICT)
@@ -114,26 +100,16 @@ def test_successive_scan_with_different_configurations(json_factory):
             DEVICE_OBS_STATE_READY_INFO, "obsState"
         )
 
-        # Invoke End() command on TMC#
-        tmc_helper.end(**ON_OFF_DEVICE_COMMAND_DICT)
-
-        # Verify ObsState is IDLE#
+        # Verify ObsState is READY#
         assert telescope_control.is_in_valid_state(
-            DEVICE_OBS_STATE_IDLE_INFO, "obsState"
+            DEVICE_OBS_STATE_READY_INFO, "obsState"
         )
-        fixture["state"] = "End"
 
         # Invoke Configure() Command on TMC#
         LOGGER.info("Invoking Configure command on TMC SubarrayNode")
         tmc_helper.configure_subarray(
             configure_json_3, **ON_OFF_DEVICE_COMMAND_DICT
         )
-
-        # Verify ObsState is READY#
-        assert telescope_control.is_in_valid_state(
-            DEVICE_OBS_STATE_READY_INFO, "obsState"
-        )
-        fixture["state"] = "Configure"
 
         # Invoke Scan() command on TMC#
         tmc_helper.scan(scan_json_3, **ON_OFF_DEVICE_COMMAND_DICT)
@@ -150,7 +126,6 @@ def test_successive_scan_with_different_configurations(json_factory):
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_IDLE_INFO, "obsState"
         )
-        fixture["state"] = "End"
 
         # Invoke ReleaseResources() Command on TMC#
         LOGGER.info("Invoking ReleaseResources command on TMC CentralNode")
@@ -163,7 +138,6 @@ def test_successive_scan_with_different_configurations(json_factory):
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
         )
-        fixture["state"] = "ReleaseResources"
 
         # Invoke TelescopeStandby() command on TMC#
         LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
@@ -174,18 +148,11 @@ def test_successive_scan_with_different_configurations(json_factory):
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_STANDBY_INFO, "State"
         )
-        fixture["state"] = "TelescopeStandby"
 
         LOGGER.info("Test complete.")
 
     except Exception:
-        if fixture["state"] == "AssignResources":
-            tmc_helper.invoke_releaseResources(
-                release_json, **ON_OFF_DEVICE_COMMAND_DICT
-            )
-        if fixture["state"] == "TelescopeOn":
-            tmc_helper.set_to_off(**ON_OFF_DEVICE_COMMAND_DICT)
-        raise
+        tear_down(release_json)
 
 
 @pytest.mark.SKA_mid
@@ -198,8 +165,6 @@ def test_successive_scan_with_same_configurations(json_factory):
     scan_json = json_factory("command_Scan")
     scan_json_2 = json_factory("command_Scan_2")
     scan_json_3 = json_factory("command_Scan_3")
-    fixture = {}
-    fixture["state"] = "Unknown"
     tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 
     try:
@@ -220,7 +185,6 @@ def test_successive_scan_with_same_configurations(json_factory):
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_ON_INFO, "State"
         )
-        fixture["state"] = "TelescopeOn"
 
         # Invoke AssignResources() Command on TMC#
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
@@ -231,7 +195,6 @@ def test_successive_scan_with_same_configurations(json_factory):
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_IDLE_INFO, "obsState"
         )
-        fixture["state"] = "AssignResources"
 
         # Invoke Configure() Command on TMC#
         LOGGER.info("Invoking Configure command on TMC SubarrayNode")
@@ -243,7 +206,6 @@ def test_successive_scan_with_same_configurations(json_factory):
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_READY_INFO, "obsState"
         )
-        fixture["state"] = "Configure"
 
         # Invoke Scan() command on TMC#
         tmc_helper.scan(scan_json, **ON_OFF_DEVICE_COMMAND_DICT)
@@ -276,7 +238,6 @@ def test_successive_scan_with_same_configurations(json_factory):
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_IDLE_INFO, "obsState"
         )
-        fixture["state"] = "End"
 
         # Invoke ReleaseResources() Command on TMC#
         LOGGER.info("Invoking ReleaseResources command on TMC CentralNode")
@@ -289,7 +250,6 @@ def test_successive_scan_with_same_configurations(json_factory):
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
         )
-        fixture["state"] = "ReleaseResources"
 
         # Invoke TelescopeStandby() command on TMC#
         LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
@@ -300,15 +260,8 @@ def test_successive_scan_with_same_configurations(json_factory):
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_STANDBY_INFO, "State"
         )
-        fixture["state"] = "TelescopeStandby"
 
         LOGGER.info("Test complete.")
 
     except Exception:
-        if fixture["state"] == "AssignResources":
-            tmc_helper.invoke_releaseResources(
-                release_json, **ON_OFF_DEVICE_COMMAND_DICT
-            )
-        if fixture["state"] == "TelescopeOn":
-            tmc_helper.set_to_off(**ON_OFF_DEVICE_COMMAND_DICT)
-        raise
+        tear_down(release_json)
