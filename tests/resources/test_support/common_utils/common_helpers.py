@@ -213,7 +213,7 @@ class subscriber:
                 predicate,
                 require_transition=True,
             )
-        elif self.implementation == "tango_events":
+        if self.implementation == "tango_events":
             return AttributeWatcher(
                 self.resource,
                 attr,
@@ -428,8 +428,7 @@ class Waiter:
                 "obsState", changed_to="READY"
             )
         )
-        dish_master = self.dish_master1
-        if dish_master:
+        if self.dish_master1:
             self.waits.append(
                 watch(resource(self.dish_master1)).to_become(
                     "pointingState", changed_to="TRACK"
@@ -523,11 +522,8 @@ class Waiter:
 class WaitForScan(Waiter):
     def __init__(self, **kwargs):
         self.sdp_subarray1 = kwargs.get("sdp_subarray")
-        self.sdp_master = kwargs.get("sdp_master")
         self.csp_subarray1 = kwargs.get("csp_subarray")
-        self.csp_master = kwargs.get("csp_master")
         self.tmc_subarraynode1 = kwargs.get("tmc_subarraynode")
-        self.dish_master1 = kwargs.get("dish_master")
         self.tmc_subarraynode = watch(
             resource(self.tmc_subarraynode1)
         ).for_a_change_on("obsState")

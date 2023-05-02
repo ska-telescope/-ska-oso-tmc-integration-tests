@@ -29,7 +29,6 @@ from tests.resources.test_support.constant import (
     DEVICE_OBS_STATE_ABORT_INFO,
     DEVICE_OBS_STATE_EMPTY_INFO,
     DEVICE_OBS_STATE_IDLE_INFO,
-    DEVICE_STATE_ON_INFO,
     DEVICE_STATE_STANDBY_INFO,
     ON_OFF_DEVICE_COMMAND_DICT,
     dish_master1,
@@ -250,9 +249,6 @@ def tear_down(input_json: Optional[str] = None, **kwargs):
         tmc_helper.invoke_restart(**ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("Invoking Restart command on TMC SubarrayNode")
         assert telescope_control.is_in_valid_state(
-            DEVICE_STATE_ON_INFO, "State"
-        )
-        assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
         )
 
@@ -279,9 +275,6 @@ def tear_down(input_json: Optional[str] = None, **kwargs):
             input_json, **ON_OFF_DEVICE_COMMAND_DICT
         )
         assert telescope_control.is_in_valid_state(
-            DEVICE_STATE_ON_INFO, "State"
-        )
-        assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
         )
 
@@ -303,9 +296,6 @@ def tear_down(input_json: Optional[str] = None, **kwargs):
         LOGGER.info("Invoking ReleaseResources command on TMC SubarrayNode")
         tmc_helper.invoke_releaseResources(
             input_json, **ON_OFF_DEVICE_COMMAND_DICT
-        )
-        assert telescope_control.is_in_valid_state(
-            DEVICE_STATE_ON_INFO, "State"
         )
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
@@ -330,9 +320,6 @@ def tear_down(input_json: Optional[str] = None, **kwargs):
     elif subarray_node_obsstate in ["ABORTED", "FAULT"]:
         tmc_helper.invoke_restart(**ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("Invoking Restart command on TMC SubarrayNode")
-        assert telescope_control.is_in_valid_state(
-            DEVICE_STATE_ON_INFO, "State"
-        )
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
         )

@@ -88,13 +88,6 @@ DEVICE_OBS_STATE_ABORT_INFO = {
     csp_subarray1: ["ABORTED"],
 }
 
-DEVICE_STATE_STANDBY_INFO = {
-    sdp_subarray1: ["DISABLE", "OFF"],
-    sdp_master: ["DISABLE", "STANDBY", "OFF"],
-    csp_master: ["DISABLE", "STANDBY", "OFF"],
-    csp_subarray1: ["DISABLE", "OFF"],
-}
-
 DEVICE_STATE_ON_INFO = {
     sdp_subarray1: ["ON"],
     sdp_master: ["ON"],
