@@ -28,14 +28,64 @@ DEVICE_HEALTH_STATE_OK_INFO = {
     tmc_sdp_subarray_leaf_node: "OK",
 }
 
+# TODO use this as as list when multiple subarray considered in testing
 ON_OFF_DEVICE_COMMAND_DICT = {
-    # TODO use this as as list when multiple subarray considered in testing
     "sdp_subarray": sdp_subarray1,
     "csp_subarray": csp_subarray1,
     "csp_master": csp_master,
     "tmc_subarraynode": tmc_subarraynode1,
     "sdp_master": sdp_master,
     "dish_master": dish_master1,
+    "central_node": centralnode,
+}
+
+DEVICE_STATE_STANDBY_INFO = {
+    sdp_subarray1: ["DISABLE", "OFF"],
+    sdp_master: ["DISABLE", "STANDBY", "OFF"],
+    csp_master: ["DISABLE", "STANDBY", "OFF"],
+    csp_subarray1: ["DISABLE", "OFF"],
+    dish_master1: ["DISABLE", "STANDBY"],
+}
+
+DEVICE_STATE_ON_INFO = {
+    sdp_subarray1: ["ON"],
+    sdp_master: ["ON"],
+    csp_master: ["ON"],
+    csp_subarray1: ["ON"],
+    centralnode: ["ON"],
+    dish_master1: ["STANDBY"],
+}
+
+DEVICE_OBS_STATE_EMPTY_INFO = {
+    sdp_subarray1: ["EMPTY"],
+    tmc_subarraynode1: ["EMPTY"],
+    csp_subarray1: ["EMPTY"],
+}
+
+DEVICE_OBS_STATE_READY_INFO = {
+    sdp_subarray1: ["READY"],
+    tmc_subarraynode1: ["READY"],
+    csp_subarray1: ["READY"],
+}
+
+DEVICE_OBS_STATE_IDLE_INFO = {
+    sdp_subarray1: ["IDLE"],
+    tmc_subarraynode1: ["IDLE"],
+    csp_subarray1: ["IDLE"],
+}
+
+DEVICE_STATE_OFF_INFO = {
+    sdp_subarray1: ["OFF"],
+    sdp_master: ["OFF"],
+    csp_master: ["OFF"],
+    csp_subarray1: ["OFF"],
+    dish_master1: ["STANDBY"],
+}
+
+DEVICE_OBS_STATE_ABORT_INFO = {
+    sdp_subarray1: ["ABORTED"],
+    tmc_subarraynode1: ["ABORTED"],
+    csp_subarray1: ["ABORTED"],
 }
 
 DEVICE_STATE_STANDBY_INFO = {
