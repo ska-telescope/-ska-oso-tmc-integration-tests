@@ -117,8 +117,9 @@ class TmcHelper(object):
             "EMPTY"
         )
         central_node = DeviceProxy(self.centralnode)
-        central_node.AssignResources(assign_res_input)
+        result_code, message = central_node.AssignResources(assign_res_input)
         LOGGER.info("Invoked AssignResources on CentralNode")
+        return result_code, message
 
     @sync_configure()
     def configure_subarray(self, configure_input_str, **kwargs):

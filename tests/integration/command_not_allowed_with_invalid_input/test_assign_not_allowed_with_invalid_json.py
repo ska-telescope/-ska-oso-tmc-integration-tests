@@ -2,8 +2,7 @@ import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 
 from tests.conftest import LOGGER
-
-# from tests.resources.test_support.common_utils.result_code import ResultCode
+from tests.resources.test_support.common_utils.result_code import ResultCode
 from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
 from tests.resources.test_support.constant import (
     DEVICE_OBS_STATE_EMPTY_INFO,
@@ -25,10 +24,11 @@ assign_resources_file = "command_AssignResources.json"
 
 tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
-result_code, message = "", ""
+result_code = ""
+message = ""
 
 
-@pytest.mark.assigntest
+@pytest.mark.xfail(reason="This functionality is not implemented yet in TMC")
 @pytest.mark.SKA_mid
 @scenario(
     "../features/invalid_json_not_allowed.feature",
@@ -68,25 +68,21 @@ def given_tmc():
 )
 def send(json_factory, invalid_json):
     try:
-        assign_invalid_json1 = json_factory(invalid_json)
+        assign_invalid_json = json_factory(invalid_json)
         # Invoke AssignResources() Command on TMC
-
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-        result_code, message = tmc_helper.compose_sub(
-            assign_invalid_json1, **ON_OFF_DEVICE_COMMAND_DICT
+        tmc_helper.compose_sub(
+            assign_invalid_json, **ON_OFF_DEVICE_COMMAND_DICT
         )
-        LOGGER.info(f"result_code:{result_code[0]}")
-        LOGGER.info(f"message:{message[0]}")
     except Exception as e:
         LOGGER.info(f"Exception occured: {e}")
 
 
 # TODO: Current version of TMC does not support ResultCode.REJECTED,
 # once the implementation is introduced, below block will be updated.
-@then("TMC should reject the AssignResources command")
+@then(parsers.parse("TMC should reject the AssignResources command"))
 def invalid_command_rejection():
-    # assert result_code[0] == ResultCode.REJECTED
-    pass
+    assert result_code == ResultCode.REJECTED
 
 
 @then("TMC subarray remains in EMPTY obsState")
