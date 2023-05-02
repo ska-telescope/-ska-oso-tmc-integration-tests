@@ -26,7 +26,8 @@ Feature:  Invalid unexpected commands
             | Scan                |   ReleaseResources |
 
     Scenario: Unexpected commands not allowed when TMC subarray is in Assigning
-        Given TMC is in ON state and the subarray is busy in assigning the resources
+        Given TMC is in ON state
+        And the subarray is busy in assigning the resources
         When the command <unexpected_command> is invoked on the subarray
         Then TMC should reject the <unexpected_command> with ResultCode.Rejected
         And TMC executes the Configure command successfully

@@ -34,11 +34,8 @@ def test_command_not_allowed():
     """Assigning the resources in RESOURCING obsState"""
 
 
-@given(
-    "TMC is in ON state and the subarray is busy in assigning the resources"
-)
-def given_tmc(json_factory):
-    assign_json = json_factory("command_AssignResources")
+@given("TMC is in ON state ")
+def given_tmc():
     tmc_helper.check_devices(DEVICE_LIST_FOR_CHECK_DEVICES)
     assert telescope_control.is_in_valid_state(
         DEVICE_STATE_STANDBY_INFO, "State"
@@ -49,6 +46,11 @@ def given_tmc(json_factory):
     assert telescope_control.is_in_valid_state(
         DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
     )
+
+
+@given("the subarray is busy in assigning the resources")
+def given_tmc_obsState(json_factory):
+    assign_json = json_factory("command_AssignResources")
     central_node = DeviceProxy(centralnode)
     tmc_helper.check_devices(DEVICE_LIST_FOR_CHECK_DEVICES)
     central_node.AssignResources(assign_json)

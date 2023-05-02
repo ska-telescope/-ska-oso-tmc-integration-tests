@@ -122,8 +122,9 @@ class TmcHelper(object):
         **kwargs,
     ):
         central_node = DeviceProxy(self.centralnode)
-        central_node.ReleaseResources(release_input_str)
+        result, message = central_node.ReleaseResources(release_input_str)
         LOGGER.info(f"ReleaseResources command is invoked on {central_node}")
+        return result, message
 
     @sync_assign_resources()
     def compose_sub(self, assign_res_input, **kwargs):
@@ -177,8 +178,9 @@ class TmcHelper(object):
             "IDLE"
         )
         subarray_node = DeviceProxy(self.subarray_node)
-        subarray_node.Configure(configure_input_str)
+        result, message = subarray_node.Configure(configure_input_str)
         LOGGER.info("Invoked Configure on SubarrayNode")
+        return result, message
 
     @sync_scan()
     def scan(self, scan_input_str, **kwargs):

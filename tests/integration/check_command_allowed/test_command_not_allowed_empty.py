@@ -59,7 +59,7 @@ def given_tmc():
 
 
 @given(" the subarray is in EMPTY obsstate")
-def given_tmc_obs():
+def given_tmc_obsState():
     # Verify ObsState is IDLE
     assert telescope_control.is_in_valid_state(
         DEVICE_OBS_STATE_EMPTY_INFO, "obsState"

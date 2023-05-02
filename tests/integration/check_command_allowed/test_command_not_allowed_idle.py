@@ -67,7 +67,7 @@ def given_tmc(json_factory):
 
 
 @given(" the subarray is in IDLE obsstate")
-def given_tmc_obs():
+def given_tmc_obsState():
     # Verify ObsState is IDLE
     assert telescope_control.is_in_valid_state(
         DEVICE_OBS_STATE_IDLE_INFO, "obsState"
