@@ -6,10 +6,10 @@ Feature: Commands with invalid json input
         And TMC subarray remains in EMPTY obsState
         And the command AssignResources is invoked with valid_json input
         Examples:
-            | invalid_json         |
-            | invalid_assign_json1 |
-            | invalid_assign_json2 |
-            | invalid_assign_json3 |
-            | invalid_assign_json4 |
+            | invalid_json                             |
+            | invalid_assign_json_without_pb_id        |
+            | invalid_assign_json_without_scan_type_id |
+            | invalid_assign_json_without_channel_keys |
+            | invalid_assign_json_without_receiptor_id |
             
 
