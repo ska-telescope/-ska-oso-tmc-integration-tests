@@ -66,12 +66,8 @@ def send_command(json_factory, unexpected_command):
     if unexpected_command == "AssignResources2":
         assign_json2 = json_factory("command_AssignResources_2")
         central_node = DeviceProxy(centralnode)
-        central_node.command_inout(unexpected_command, assign_json2)
         LOGGER.info("Invoked AssignResources2 from CentralNode")
         result, message = central_node.AssignResources(assign_json2)
-
-    else:
-        LOGGER.info("Other invalid commands")
 
 
 @then(

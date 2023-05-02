@@ -40,7 +40,7 @@ def test_command_not_valid_in_idle_obsState():
     """
 
 
-@given("the TMC is in ON state and the subarray is in IDLE")
+@given("the TMC is in ON state")
 def given_tmc(json_factory):
     # Verify Telescope is Off/Standby
     tmc_helper.check_devices(DEVICE_LIST_FOR_CHECK_DEVICES)
@@ -65,6 +65,9 @@ def given_tmc(json_factory):
     tmc_helper.compose_sub(assign_json, **ON_OFF_DEVICE_COMMAND_DICT)
     LOGGER.info("AssignResources command is invoked successfully")
 
+
+@given(" the subarray is in IDLE obsstate")
+def given_tmc_obs():
     # Verify ObsState is IDLE
     assert telescope_control.is_in_valid_state(
         DEVICE_OBS_STATE_IDLE_INFO, "obsState"

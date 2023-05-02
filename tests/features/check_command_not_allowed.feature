@@ -1,6 +1,7 @@
 Feature:  Invalid unexpected commands
     Scenario: Unexpected commands not allowed when TMC subarray is empty
-        Given the TMC is in ON state and the subarray is in EMPTY obsstate
+        Given the TMC is in ON state 
+        And the subarray is in EMPTY obsstate
         When the command <unexpected_command> is invoked on that subarray
         Then TMC should reject the <unexpected_command> with ResultCode.Rejected
         And TMC subarray remains in EMPTY obsstate
@@ -13,7 +14,8 @@ Feature:  Invalid unexpected commands
             | Abort                |
 
     Scenario: Unexpected commands not allowed when TMC subarray is idle
-        Given the TMC is in ON state and the subarray is in IDLE
+        Given the TMC is in ON state 
+        And the subarray is in IDLE
         When the command <unexpected_command> is invoked on that subarray
         Then TMC should reject the <unexpected_command> with ResultCode.Rejected
         And TMC subarray remains in IDLE obsState

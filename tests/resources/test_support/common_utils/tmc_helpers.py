@@ -9,7 +9,6 @@ from tests.resources.test_support.common_utils.common_helpers import resource
 from tests.resources.test_support.common_utils.sync_decorators import (
     sync_abort,
     sync_assign_resources,
-    sync_assigning,
     sync_configure,
     sync_configure_sub,
     sync_end,
@@ -133,8 +132,9 @@ class TmcHelper(object):
             "EMPTY"
         )
         central_node = DeviceProxy(self.centralnode)
-        central_node.AssignResources(assign_res_input)
+        result, message = central_node.AssignResources(assign_res_input)
         LOGGER.info("Invoked AssignResources on CentralNode")
+        return result, message
 
     @sync_configure()
     def configure_subarray(self, configure_input_str, **kwargs):
@@ -169,13 +169,6 @@ class TmcHelper(object):
         subarray_node = DeviceProxy(self.subarray_node)
         subarray_node.Restart()
         LOGGER.info("Invoked Restart on SubarrayNode")
-
-    @sync_assigning()
-    def assign_resources(self, assign_res_input, **kwargs):
-        resource(self.subarray_node).assert_attribute("State").equals("ON")
-        central_node = DeviceProxy(self.centralnode)
-        central_node.AssignResources(assign_res_input)
-        LOGGER.info("Invoked AssignResources on CentralNode")
 
     # added for command_not_allowed test scenario
     @sync_configure_sub()

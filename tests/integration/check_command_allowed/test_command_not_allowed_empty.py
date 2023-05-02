@@ -40,7 +40,7 @@ def test_command_not_valid_in_empty_obsState():
     """
 
 
-@given("the TMC is in ON state and the subarray is in EMPTY obsstate")
+@given("the TMC is in ON state")
 def given_tmc():
     # Verify Telescope is Off/Standby
     tmc_helper.check_devices(DEVICE_LIST_FOR_CHECK_DEVICES)
@@ -56,6 +56,11 @@ def given_tmc():
 
     # Verify State transitions after TelescopeOn
     assert telescope_control.is_in_valid_state(DEVICE_STATE_ON_INFO, "State")
+
+
+@given(" the subarray is in EMPTY obsstate")
+def given_tmc_obs():
+    # Verify ObsState is IDLE
     assert telescope_control.is_in_valid_state(
         DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
     )
