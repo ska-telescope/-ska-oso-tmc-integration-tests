@@ -74,7 +74,7 @@ def tmc_check_status(json_factory):
     parsers.parse("the command Configure is invoked with {invalid_json} input")
 )
 def send(json_factory, invalid_json):
-    invalid_configure_json = json_factory("invalid_json")
+    invalid_configure_json = json_factory(invalid_json)
     LOGGER.info("Invoking Configure command on TMC SubarrayNode")
     result_code, message = tmc_helper.configure_subarray(
         invalid_configure_json, **ON_OFF_DEVICE_COMMAND_DICT
