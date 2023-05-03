@@ -22,7 +22,6 @@ from tests.resources.test_support.tmc_helpers import tear_down
 
 tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
-assign_resources_file = "command_AssignResources"
 
 
 @pytest.mark.xfail(reason="This functionality is not implemented yet in TMC")
@@ -66,7 +65,8 @@ def given_tmc_obsstate():
 )
 def send(json_factory, invalid_json):
     try:
-        assign_invalid_json = json_factory(assign_resources_file)
+        assign_invalid_json = json_factory("command_AssignResources")
+        release_json = json_factory("command_ReleaseResources")
         assign_invalid_json = json.loads(assign_invalid_json)
         if invalid_json == "pb_id":
             del assign_invalid_json["sdp"]["processing_blocks"][0]["pb_id"]
@@ -103,6 +103,7 @@ def send(json_factory, invalid_json):
 
     except Exception as e:
         LOGGER.exception(f"Exception occured: {e}")
+        tear_down(release_json)
 
 
 # TODO: Current version of TMC does not support ResultCode.REJECTED,
