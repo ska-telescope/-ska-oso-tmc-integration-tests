@@ -10,6 +10,10 @@ Feature:  Invalid unexpected jsons
         Examples:
             | invalid_json                        |
             | command_Configure_invalid1          |
+            | command_Configure_invalid2          |
+            | command_Configure_invalid3          |
+            | command_Configure_invalid4          |
+            | command_Configure_invalid5          |
 
 
 

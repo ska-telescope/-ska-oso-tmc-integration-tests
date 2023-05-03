@@ -1,6 +1,5 @@
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
-from tango import DeviceProxy
 
 from tests.conftest import LOGGER
 from tests.resources.test_support.common_utils.result_code import ResultCode
@@ -78,14 +77,13 @@ def tmc_check_status(json_factory):
 def send(json_factory, invalid_json):
     invalid_configure_json = json_factory(invalid_json)
     LOGGER.info("Invoking Configure command on TMC SubarrayNode")
-    subarray_node = DeviceProxy(tmc_subarraynode1)
-    result_code1, message1 = subarray_node.Configure(invalid_configure_json)
-    LOGGER.info(f"result code is {result_code1} {type({message1[0]})}")
-    result_code.append(result_code1)
-    message.append(message1)
+    result, msg = tmc_helper.configure_subarray(
+        invalid_configure_json, **ON_OFF_DEVICE_COMMAND_DICT
+    )
+    result_code.append(result)
+    message.append(msg)
 
 
-# TODO: Current version of TMC does not support ResultCode.REJECTED,
 # once the implementation is introduced, below block will be updated.
 @then(
     parsers.parse(
@@ -94,14 +92,11 @@ def send(json_factory, invalid_json):
 )
 def invalid_command_rejection():
     # validation msg assert invalid_command_rejection(result_code, message)
-    LOGGER.info(f"RESULT {result_code}")
+    LOGGER.info(f"Asserting {result_code} ")
     assert result_code[0] == ResultCode.REJECTED
-    # assert message[0] is "Malformed input string.
-    # Please check the JSON format.Full exception info:
-    # FSP ID must be in range 1..27. Got 30"
-    # pass
 
 
+# TODO: Current version of TMC - subarray is remaining in Configuring
 @then("TMC subarray remains in IDLE obsState")
 def tmc_status():
     # Verify obsState transitions
