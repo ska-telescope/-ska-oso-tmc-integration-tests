@@ -25,6 +25,7 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
+@pytest.mark.kk
 @pytest.mark.SKA_mid
 @scenario(
     "../features/check_command_not_allowed.feature",
@@ -37,10 +38,8 @@ def test_command_not_valid_in_ready_obsState():
     """
 
 
-@given("the TMC is in ON state and the subarray is in READY obsState")
+@given("the TMC is in ON state")
 def given_tmc(json_factory):
-    assign_json = json_factory("command_AssignResources")
-    configure_json = json_factory("command_Configure")
     release_json = json_factory("command_ReleaseResources")
     try:
         # Verify Telescope is Off/Standby
@@ -61,7 +60,17 @@ def given_tmc(json_factory):
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
         )
+    except Exception:
+        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
+        LOGGER.info("Tear Down complete. Telescope is in Standby State")
 
+
+@given("the subarray is in READY obsState")
+def given_tmc_obsState(json_factory):
+    assign_json = json_factory("command_AssignResources")
+    configure_json = json_factory("command_Configure")
+    release_json = json_factory("command_ReleaseResources")
+    try:
         # Invoke AssignResources() Command on TMC
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
         tmc_helper.compose_sub(assign_json, **ON_OFF_DEVICE_COMMAND_DICT)
@@ -180,7 +189,6 @@ def tmc_accepts_next_commands(json_factory, permitted_command):
         #     )
 
         if permitted_command == "Scan":
-            LOGGER.info(f"permitted command is: {permitted_command}")
             tmc_helper.scan(scan_file, **ON_OFF_DEVICE_COMMAND_DICT)
             LOGGER.info("Invoking Scan command on TMC SubarrayNode")
             assert telescope_control.is_in_valid_state(
