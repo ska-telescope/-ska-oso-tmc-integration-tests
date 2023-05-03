@@ -233,7 +233,7 @@ def sync_configure_sub():
             the_waiter = Waiter(**kwargs)
             the_waiter.set_wait_for_configure()
             result = func(*args, **kwargs)
-            the_waiter.wait(500)
+            the_waiter.wait(200)
             return result
 
         return wrapper

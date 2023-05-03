@@ -48,7 +48,6 @@ def given_tmc(json_factory):
         LOGGER.info("Staring up the Telescope")
 
         # Invoke TelescopeOn() command on TMC
-        LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
         tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("TelescopeOn command is invoked successfully")
 
@@ -71,7 +70,6 @@ def given_tmc_obsState(json_factory):
     release_json = json_factory("command_ReleaseResources")
     try:
         # Invoke AssignResources() Command on TMC
-        LOGGER.info("Invoking AssignResources command on TMC CentralNode")
         tmc_helper.compose_sub(assign_json, **ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("AssignResources command is invoked successfully")
 
@@ -81,7 +79,6 @@ def given_tmc_obsState(json_factory):
         )
 
         # Invoke Configure() Command on TMC
-        LOGGER.info("Invoking Configure command on TMC SubarrayNode")
         tmc_helper.configure_subarray(
             configure_json, **ON_OFF_DEVICE_COMMAND_DICT
         )
@@ -112,19 +109,19 @@ def send(json_factory, unexpected_command):
                 assign_json, **ON_OFF_DEVICE_COMMAND_DICT
             )
         LOGGER.info("AssignResources command failed with exception %s", e)
-    if unexpected_command == "ReleaseResources":
+    elif unexpected_command == "ReleaseResources":
         with pytest.raises(Exception) as e:
             LOGGER.info("Invoking ReleaseResources command on TMC CentralNode")
             tmc_helper.invoke_releaseResources(
                 release_json, **ON_OFF_DEVICE_COMMAND_DICT
             )
         LOGGER.info("ReleaseResources command failed with exception %s", e)
-    if unexpected_command == "EndScan":
+    elif unexpected_command == "EndScan":
         with pytest.raises(Exception) as e:
             LOGGER.info("Invoking EndScan command on TMC SubarrayNode")
             tmc_helper.invoke_endscan(**ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("EndScan command failed with exception %s", e)
-    # if unexpected_command == "EndScan":
+    # elif unexpected_command == "EndScan":
     #     with pytest.raises(Exception) as e:
     #         LOGGER.info("Invoking EndScan command on TMC SubarrayNode")
     #         tmc_helper.invoke_endscan(**ON_OFF_DEVICE_COMMAND_DICT)
@@ -159,7 +156,6 @@ def tmc_accepts_next_commands(json_factory, permitted_command):
     release_json = json_factory("command_ReleaseResources")
     try:
         # if permitted_command == "Configure":
-        #     LOGGER.info(f"permitted command is: {permitted_command}")
         #     tmc_helper.configure_ready(
         #         configure_json, **ON_OFF_DEVICE_COMMAND_DICT
         #     )
