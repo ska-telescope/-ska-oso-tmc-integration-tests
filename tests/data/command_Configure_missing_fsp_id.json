@@ -24,7 +24,7 @@
     "cbf": {
       "fsp": [
         {
-          "fsp_id": 1,
+          "fsp_id": 30,
           "function_mode": "CORR",
           "frequency_slice_id": 1,
           "integration_factor": 1,
