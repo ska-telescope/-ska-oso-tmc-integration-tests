@@ -36,7 +36,6 @@ message = []
 def test_invalid_json_in_configure_obsState():
     """
     Test invalid json in SubarrayNode obsState. CONFIGURE
-
     """
 
 

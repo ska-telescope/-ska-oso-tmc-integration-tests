@@ -15,7 +15,3 @@ Feature:  Invalid unexpected jsons
             | command_Configure_invalid4          |
             | command_Configure_invalid5          |
 
-
-
-
-
