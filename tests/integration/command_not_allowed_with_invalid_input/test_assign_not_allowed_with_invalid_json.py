@@ -18,14 +18,8 @@ from tests.resources.test_support.telescope_controls import (
 )
 from tests.resources.test_support.tmc_helpers import tear_down
 
-configure_resources_file = "command_Configure.json"
-assign_resources_file = "command_AssignResources.json"
-
-
 tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
-result_code = ""
-message = ""
 
 
 @pytest.mark.xfail(reason="This functionality is not implemented yet in TMC")
@@ -71,7 +65,7 @@ def send(json_factory, invalid_json):
         assign_invalid_json = json_factory(invalid_json)
         # Invoke AssignResources() Command on TMC
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-        tmc_helper.compose_sub(
+        pytest.command_result = tmc_helper.compose_sub(
             assign_invalid_json, **ON_OFF_DEVICE_COMMAND_DICT
         )
     except Exception as e:
@@ -82,7 +76,15 @@ def send(json_factory, invalid_json):
 # once the implementation is introduced, below block will be updated.
 @then(parsers.parse("TMC should reject the AssignResources command"))
 def invalid_command_rejection():
-    assert result_code == ResultCode.REJECTED
+    assert (
+        (
+            """JSON validation error: data is not compliant with \
+            https://schema.skao.int/ska-tmc-assignresources"""
+        )
+        in pytest.command_result[1][0]
+    )
+
+    assert pytest.command_result[0][0] == ResultCode.REJECTED
 
 
 @then("TMC subarray remains in EMPTY obsState")
