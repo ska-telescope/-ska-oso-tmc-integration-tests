@@ -44,7 +44,7 @@ def test_command_not_valid_in_empty_obsState():
 
 
 @given("the TMC is in ON state")
-def given_tmc():
+def given_tmc(json_factory):
     try:
         # Verify Telescope is Off/Standby
         tmc_helper.check_devices(DEVICE_LIST_FOR_CHECK_DEVICES)
@@ -63,7 +63,7 @@ def given_tmc():
             DEVICE_STATE_ON_INFO, "State"
         )
     except Exception:
-        release_json = "command_ReleaseResources.json"
+        release_json = json_factory("command_ReleaseResources")
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("Tear Down complete. Telescope is in Standby State")
 

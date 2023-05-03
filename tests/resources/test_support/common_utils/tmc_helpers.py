@@ -189,8 +189,9 @@ class TmcHelper(object):
     def assign_resources(self, assign_res_input, **kwargs):
         resource(self.subarray_node).assert_attribute("State").equals("ON")
         central_node = DeviceProxy(self.centralnode)
-        central_node.AssignResources(assign_res_input)
+        result, message = central_node.AssignResources(assign_res_input)
         LOGGER.info("Invoked AssignResources on CentralNode")
+        return result, message
 
     @sync_configure_sub()
     def configure_sub(self, configure_input_str, **kwargs):
@@ -222,8 +223,9 @@ class TmcHelper(object):
     @sync_endscan()
     def invoke_endscan(self, **kwargs):
         subarray_node = DeviceProxy(self.subarray_node)
-        subarray_node.EndScan()
+        result, message = subarray_node.EndScan()
         LOGGER.info("Invoked EndScan on SubarrayNode")
+        return result, message
 
 
 def tear_down(input_json: Optional[str] = None, **kwargs):

@@ -2,6 +2,8 @@ import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 
 from tests.conftest import LOGGER
+
+# from tests.resources.test_support.common_utils.result_code import ResultCode
 from tests.resources.test_support.common_utils.tmc_helpers import (
     TmcHelper,
     tear_down,
@@ -23,6 +25,7 @@ from tests.resources.test_support.telescope_controls import (
 
 tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
+result, message = "", ""
 
 
 @pytest.mark.SKA_mid
@@ -105,26 +108,29 @@ def send(json_factory, unexpected_command):
     if unexpected_command == "AssignResources":
         with pytest.raises(Exception) as e:
             LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-            tmc_helper.assign_resources(
+            result, message = tmc_helper.assign_resources(
                 assign_json, **ON_OFF_DEVICE_COMMAND_DICT
             )
         LOGGER.info("AssignResources command failed with exception %s", e)
     elif unexpected_command == "ReleaseResources":
         with pytest.raises(Exception) as e:
             LOGGER.info("Invoking ReleaseResources command on TMC CentralNode")
-            tmc_helper.invoke_releaseResources(
+            result, message = tmc_helper.invoke_releaseResources(
                 release_json, **ON_OFF_DEVICE_COMMAND_DICT
             )
         LOGGER.info("ReleaseResources command failed with exception %s", e)
     elif unexpected_command == "EndScan":
         with pytest.raises(Exception) as e:
             LOGGER.info("Invoking EndScan command on TMC SubarrayNode")
-            tmc_helper.invoke_endscan(**ON_OFF_DEVICE_COMMAND_DICT)
+            result, message = tmc_helper.invoke_endscan(
+                **ON_OFF_DEVICE_COMMAND_DICT
+            )
         LOGGER.info("EndScan command failed with exception %s", e)
     # elif unexpected_command == "EndScan":
     #     with pytest.raises(Exception) as e:
     #         LOGGER.info("Invoking EndScan command on TMC SubarrayNode")
-    #         tmc_helper.invoke_endscan(**ON_OFF_DEVICE_COMMAND_DICT)
+    #         result, message = tmc_helper.invoke_endscan(
+    #             **ON_OFF_DEVICE_COMMAND_DICT)
     #     LOGGER.info("EndScan command failed with exception %s", e)
 
 
@@ -136,6 +142,12 @@ def send(json_factory, unexpected_command):
     )
 )
 def invalid_command_rejection(unexpected_command):
+    # assert (
+    #     f"command {unexpected_command} is not allowed \
+    #     in current subarray obsState"
+    #     in message
+    # )
+    # assert result == ResultCode.REJECTED
     pass
 
 
