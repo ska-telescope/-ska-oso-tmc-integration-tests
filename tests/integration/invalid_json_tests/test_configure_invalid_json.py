@@ -23,8 +23,8 @@ assign_resources_file = "command_AssignResources.json"
 
 tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
-result_code = []
-message = []
+result_code = ""
+message = ""
 
 
 @pytest.mark.xfail(reason="This functionality is not implemented yet in TMC")
@@ -74,16 +74,15 @@ def tmc_check_status(json_factory):
     parsers.parse("the command Configure is invoked with {invalid_json} input")
 )
 def send(json_factory, invalid_json):
-    invalid_configure_json = json_factory(invalid_json)
+    invalid_configure_json = json_factory("invalid_json")
     LOGGER.info("Invoking Configure command on TMC SubarrayNode")
-    result, msg = tmc_helper.configure_subarray(
+    result_code, message = tmc_helper.configure_subarray(
         invalid_configure_json, **ON_OFF_DEVICE_COMMAND_DICT
     )
-    result_code.append(result)
-    message.append(msg)
+    result_code.append(result_code)
+    message.append(message)
 
 
-# once the implementation is introduced, below block will be updated.
 @then(
     parsers.parse(
         "the TMC should reject the {invalid_json} with ResultCode.Rejected"
