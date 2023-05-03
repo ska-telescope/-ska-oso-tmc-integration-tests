@@ -23,8 +23,6 @@ assign_resources_file = "command_AssignResources.json"
 
 tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
-result_code = ""
-message = ""
 
 
 @pytest.mark.xfail(reason="This functionality is not implemented yet in TMC")
@@ -76,25 +74,36 @@ def tmc_check_status(json_factory):
 def send(json_factory, invalid_json):
     invalid_configure_json = json_factory(invalid_json)
     LOGGER.info("Invoking Configure command on TMC SubarrayNode")
-    result_code, message = tmc_helper.configure_subarray(
+    pytest.command_result = tmc_helper.configure_subarray(
         invalid_configure_json, **ON_OFF_DEVICE_COMMAND_DICT
     )
-    result_code.append(result_code)
-    message.append(message)
 
 
+# TODO : Will get updated as per other invalid jsons rejected message
 @then(
     parsers.parse(
         "the TMC should reject the {invalid_json} with ResultCode.Rejected"
     )
 )
-def invalid_command_rejection():
+def invalid_command_rejection(invalid_json):
     # validation msg assert invalid_command_rejection(result_code, message)
-    LOGGER.info(f"Asserting {result_code} ")
-    assert result_code[0] == ResultCode.REJECTED
+    assert pytest.command_result[0][0] == ResultCode.REJECTED
+    if invalid_json == "command_Configure_missing_fsp_id":
+        assert (
+            (
+                """Malformed input string. Please check the JSON format.\
+                    Full exception info: FSP ID must be\
+                          in range 1..27. Got 30"""
+            )
+            in pytest.command_result[1][0]
+        )
+    else:
+        LOGGER.info("Other invalid jsons assertions")
 
 
-# TODO: Current version of TMC - subarray is remaining in Configuring
+# TODO: In current version of subarray after invoking Configure \
+#  through invalid json instead of going back to Idle\
+#  state remains in Configuring.
 @then("TMC subarray remains in IDLE obsState")
 def tmc_status():
     # Verify obsState transitions

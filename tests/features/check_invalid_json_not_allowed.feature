@@ -8,10 +8,9 @@ Feature:  Invalid unexpected jsons
         And TMC successfully executes the Configure command for the subarray with a valid json
 
         Examples:
-            | invalid_json                        |
-            | command_Configure_invalid1          |
-            | command_Configure_invalid2          |
-            | command_Configure_invalid3          |
-            | command_Configure_invalid4          |
-            | command_Configure_invalid5          |
-
+            | invalid_json                                 |
+            | command_Configure_missing_config_id          |
+            | command_Configure_missing_fsp_id             |
+            | command_Configure_missing_frequency_slice_id |
+            | command_Configure_missing_zoom_factor        |
+            | command_Configure_missing_integration_factor |
