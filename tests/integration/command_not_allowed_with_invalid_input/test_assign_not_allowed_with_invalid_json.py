@@ -5,7 +5,10 @@ from pytest_bdd import given, parsers, scenario, then, when
 
 from tests.conftest import LOGGER
 from tests.resources.test_support.common_utils.result_code import ResultCode
-from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
+from tests.resources.test_support.common_utils.tmc_helpers import (
+    TmcHelper,
+    tear_down,
+)
 from tests.resources.test_support.constant import (
     DEVICE_OBS_STATE_EMPTY_INFO,
     DEVICE_OBS_STATE_IDLE_INFO,
@@ -18,7 +21,6 @@ from tests.resources.test_support.constant import (
 from tests.resources.test_support.telescope_controls import (
     BaseTelescopeControl,
 )
-from tests.resources.test_support.tmc_helpers import tear_down
 
 tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
@@ -38,16 +40,22 @@ def test_assign_resource_with_invalid_json():
 
 
 @given("the TMC is in ON state")
-def given_tmc():
-    # Verify Telescope is Off/Standby
-    assert telescope_control.is_in_valid_state(
-        DEVICE_STATE_STANDBY_INFO, "State"
-    )
-    # Invoke TelescopeOn() command on TMC CentralNode
-    LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
-    tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
-    # Verify State transitions after TelescopeOn
-    assert telescope_control.is_in_valid_state(DEVICE_STATE_ON_INFO, "State")
+def given_tmc(json_factory):
+    try:
+        release_json = json_factory("command_ReleaseResources")
+        # Verify Telescope is Off/Standby
+        assert telescope_control.is_in_valid_state(
+            DEVICE_STATE_STANDBY_INFO, "State"
+        )
+        # Invoke TelescopeOn() command on TMC CentralNode
+        LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
+        tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
+        # Verify State transitions after TelescopeOn
+        assert telescope_control.is_in_valid_state(
+            DEVICE_STATE_ON_INFO, "State"
+        )
+    except Exception:
+        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
 @given("the subarray is in EMPTY obsState")
@@ -102,7 +110,7 @@ def send(json_factory, invalid_json):
 
     except Exception as e:
         LOGGER.exception(f"Exception occured: {e}")
-        tear_down(release_json)
+        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
 # TODO: Current version of TMC does not support ResultCode.REJECTED,
@@ -158,4 +166,4 @@ def tmc_accepts_next_commands(json_factory):
         )
         LOGGER.info("Tests complete.")
     except Exception:
-        tear_down(release_json)
+        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
