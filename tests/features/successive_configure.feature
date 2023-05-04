@@ -1,5 +1,5 @@
 Feature: TMC executes successive configure commands
-    Scenario: TMC validates multiple/reconfigure functionality - different configuration
+    Scenario: TMC validates multiple/reconfigure functionality-different configuration
         Given the TMC is On
         And the subarray is in IDLE obsState
         When the first command Configure is issued  
@@ -9,7 +9,7 @@ Feature: TMC executes successive configure commands
         And tear down
 
 Feature: TMC executes successive configure commands
-    Scenario: TMC validates multiple/reconfigure functionality - same configuration
+    Scenario: TMC validates multiple/reconfigure functionality-same configuration
         Given the TMC is On
         And the subarray is in IDLE obsState
         When the first command Configure is issued  
