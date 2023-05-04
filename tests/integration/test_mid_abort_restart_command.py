@@ -381,7 +381,9 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
         subarray_node = DeviceProxy(tmc_subarraynode1)
         subarray_node.Abort()
         LOGGER.info("Invoked Abort on SubarrayNode")
-
+        
+        dish_master = DeviceProxy(dish_master1)
+        assert dish_master.pointingState == 1
         # Invoke Abort() command on TMC
         with pytest.raises(Exception):
             tmc.invoke_abort()
@@ -497,9 +499,6 @@ def test_abort_in_configuring(json_factory):
         LOGGER.info("Invoking Abort command on TMC")
         tmc.invoke_abort()
         LOGGER.info("Abort command is invoked successfully")
-
-        dish = DeviceProxy(dish_master1)
-        assert dish.pointingState == 1
 
         assert subarray_obs_state_is_aborted()
 
