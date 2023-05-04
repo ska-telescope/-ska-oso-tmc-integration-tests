@@ -11,6 +11,7 @@ Feature:  Invalid unexpected jsons
             | invalid_json                                 |
             | command_Configure_missing_config_id          |
             | command_Configure_missing_fsp_id             |
+            | command_Configure_incorrect_fsp_id           |
             | command_Configure_missing_frequency_slice_id |
             | command_Configure_missing_zoom_factor        |
             | command_Configure_missing_integration_factor |

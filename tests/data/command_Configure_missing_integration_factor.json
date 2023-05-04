@@ -28,7 +28,6 @@
           "fsp_id": 1,
           "function_mode": "CORR",
           "frequency_slice_id": 1,
-          "integration_factor": 1,
           "zoom_factor": 0,
           "channel_averaging_map": [
             [

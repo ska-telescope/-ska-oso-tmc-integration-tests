@@ -9,17 +9,14 @@ from tests.resources.test_support.constant import (
     DEVICE_OBS_STATE_IDLE_INFO,
     DEVICE_OBS_STATE_READY_INFO,
     DEVICE_STATE_ON_INFO,
+    DEVICE_STATE_STANDBY_INFO,
     ON_OFF_DEVICE_COMMAND_DICT,
     centralnode,
     tmc_subarraynode1,
 )
-from tests.resources.test_support.controls import telescope_is_in_standby_state
 from tests.resources.test_support.telescope_controls import (
     BaseTelescopeControl,
 )
-
-configure_resources_file = "command_Configure.json"
-assign_resources_file = "command_AssignResources.json"
 
 tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
@@ -40,13 +37,15 @@ def test_invalid_json_in_configure_obsState():
 @given("the TMC is On")
 def given_tmc():
     # Verify Telescope is Off/Standby
-    assert telescope_is_in_standby_state()
+    assert telescope_control.is_in_valid_state(
+        DEVICE_STATE_STANDBY_INFO, "State"
+    )
+
     LOGGER.info("Starting up the Telescope")
 
     # Invoke TelescopeOn() command on TMC CentralNode
     LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
     tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
-    LOGGER.info("TelescopeOn command is invoked successfully")
 
     # Verify State transitions after TelescopeOn
     assert telescope_control.is_in_valid_state(DEVICE_STATE_ON_INFO, "State")
@@ -60,7 +59,6 @@ def tmc_check_status(json_factory):
     assign_json = json_factory("command_AssignResources")
     LOGGER.info("Invoking AssignResources command on TMC CentralNode")
     tmc_helper.compose_sub(assign_json, **ON_OFF_DEVICE_COMMAND_DICT)
-    LOGGER.info("AssignResources command is invoked successfully")
 
     # Verify ObsState is IDLE
     assert telescope_control.is_in_valid_state(
@@ -79,26 +77,38 @@ def send(json_factory, invalid_json):
     )
 
 
-# TODO : Will get updated as per other invalid jsons rejected message
 @then(
     parsers.parse(
         "the TMC should reject the {invalid_json} with ResultCode.Rejected"
     )
 )
 def invalid_command_rejection(invalid_json):
-    # validation msg assert invalid_command_rejection(result_code, message)
+    # asserting validation resultcode
     assert pytest.command_result[0][0] == ResultCode.REJECTED
-    if invalid_json == "command_Configure_missing_fsp_id":
+
+    # asserting validations message as per invalid json
+    if invalid_json == "command_Configure_missing_config_id":
         assert (
-            (
-                """Malformed input string. Please check the JSON format.\
-                    Full exception info: FSP ID must be\
-                          in range 1..27. Got 30"""
-            )
+            "{'csp': {'common': {'config_id':\
+                  ['Missing data for required field.']}}}"
             in pytest.command_result[1][0]
         )
-    else:
-        LOGGER.info("Other invalid jsons assertions")
+    elif invalid_json == "command_Configure_incorrect_fsp_id":
+        assert (
+            "FSP ID must be in range 1..27. Got 30"
+            in pytest.command_result[1][0]
+        )
+    elif invalid_json in [
+        "command_Configure_missing_fsp_id",
+        "command_Configure_missing_frequency_slice_id",
+        "command_Configure_missing_zoom_factor",
+        "command_Configure_missing_integration_factor",
+    ]:
+        assert (
+            "data is not compliant with\
+                  https://schema.skao.int/ska-csp-configure/2.0"
+            in pytest.command_result[1][0]
+        )
 
 
 # TODO: In current version of subarray after invoking Configure \
@@ -147,5 +157,7 @@ def tmc_accepts_next_commands(json_factory):
     LOGGER.info("Invoking Telescope Standby on TMC")
     tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
 
-    assert telescope_is_in_standby_state()
+    assert telescope_control.is_in_valid_state(
+        DEVICE_STATE_STANDBY_INFO, "State"
+    )
     LOGGER.info("Tear Down complete. Telescope is in Standby State")
