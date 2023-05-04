@@ -172,3 +172,27 @@ def sync_end():
         return wrapper
 
     return decorator_sync_end
+
+def sync_reconfigure(timeout=500):
+    # defined as a decorator
+    def decorator_sync_reconfigure(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            device = DeviceUtils(
+                obs_state_device_names=[
+                    kwargs.get("csp_subarray"),
+                    kwargs.get("sdp_subarray"),
+                    kwargs.get("tmc_subarraynode"),
+                ]
+            )
+            device.check_devices_obsState("READY")
+            print("sync reconfigure, Ready check success")
+            the_waiter = Waiter(**kwargs)
+            # the_waiter.set_wait_for_configuring()
+            the_waiter.set_wait_for_configure()
+            result = func(*args, **kwargs)
+            the_waiter.wait(timeout)
+            print("sync reconfigure, Ready check success")
+            return result
+        return wrapper
+    return decorator_sync_reconfigure

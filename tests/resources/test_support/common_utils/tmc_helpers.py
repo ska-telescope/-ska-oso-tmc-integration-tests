@@ -15,6 +15,7 @@ from tests.resources.test_support.common_utils.sync_decorators import (
     sync_set_to_off,
     sync_set_to_standby,
     sync_telescope_on,
+    sync_reconfigure,
 )
 from tests.resources.test_support.constant import dish_master1
 
@@ -150,3 +151,12 @@ class TmcHelper(object):
         subarray_node = DeviceProxy(self.subarray_node)
         subarray_node.Restart()
         LOGGER.info("Invoked Restart on SubarrayNode")
+
+    @sync_reconfigure()
+    def reconfigure_subarray(self, configure_input_str, **kwargs):
+        resource(self.subarray_node).assert_attribute("obsState").equals(
+            "READY"
+        )
+        subarray_node = DeviceProxy(self.subarray_node)
+        subarray_node.Configure(configure_input_str)
+        LOGGER.info("Invoked Configure2 on SubarrayNode")
