@@ -19,12 +19,10 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = TelescopeControlMid()
 
 
-
-@pytest.mark.hope
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successive_configure.feature",
-    "TMC validates multiple/reconfigure functionality",
+    "TMC validates multiple/reconfigure functionality - different configuration",
 )
 def test_multiple_configure_functionality():
     """
