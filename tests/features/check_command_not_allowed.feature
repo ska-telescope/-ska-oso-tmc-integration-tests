@@ -45,7 +45,7 @@ Feature:  Invalid unexpected commands
         And TMC executes the <permitted_command> command successfully
         Examples:
             | unexpected_command   | permitted_command |
-            | AssignResources      | Scan              |
-            | ReleaseResources     | End               |
-            | EndScan              | Abort             |
-                                                
+            | AssignResources      | Configure         |
+            | ReleaseResources     | Scan              |
+            | EndScan              | End               |
+            | EndScan              | Abort             |                  
