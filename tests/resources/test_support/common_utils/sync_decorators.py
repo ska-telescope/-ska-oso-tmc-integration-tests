@@ -64,7 +64,7 @@ def sync_release_resources(func):
 
 
 def sync_assign_resources():
-    # defined as a decoratorW
+    # defined as a decorator
     def decorator_sync_assign_resources(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
@@ -167,11 +167,13 @@ def sync_end():
             the_waiter = Waiter(**kwargs)
             the_waiter.set_wait_for_idle()
             result = func(*args, **kwargs)
+            the_waiter.wait(200)
             return result
 
         return wrapper
 
     return decorator_sync_end
+
 
 def sync_reconfigure(timeout=500):
     # defined as a decorator
@@ -194,5 +196,7 @@ def sync_reconfigure(timeout=500):
             the_waiter.wait(timeout)
             print("sync reconfigure, Ready check success")
             return result
+
         return wrapper
+
     return decorator_sync_reconfigure
