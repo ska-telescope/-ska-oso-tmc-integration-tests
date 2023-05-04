@@ -381,7 +381,7 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
         subarray_node = DeviceProxy(tmc_subarraynode1)
         subarray_node.Abort()
         LOGGER.info("Invoked Abort on SubarrayNode")
-        
+
         dish_master = DeviceProxy(dish_master1)
         assert dish_master.pointingState == 1
         # Invoke Abort() command on TMC
