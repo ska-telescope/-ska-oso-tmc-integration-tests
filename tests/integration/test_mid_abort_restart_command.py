@@ -9,7 +9,6 @@ from tests.conftest import LOGGER
 from tests.resources.test_support.constant import (
     centralnode,
     csp_subarray1,
-    dish_master1,
     tmc_subarraynode1,
 )
 from tests.resources.test_support.controls import (
@@ -380,8 +379,6 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
         # Invoke Abort() command on TMC
         subarray_node = DeviceProxy(tmc_subarraynode1)
         subarray_node.Abort()
-        dish_master = DeviceProxy(dish_master1)
-        dish_master.SetDirectPointingState(1)
         LOGGER.info("Invoked Abort on SubarrayNode")
 
         # Invoke Abort() command on TMC

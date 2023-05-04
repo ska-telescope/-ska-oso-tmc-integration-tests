@@ -168,8 +168,6 @@ def scan(scan_input):
 def invoke_abort():
     subarray_node = DeviceProxy(tmc_subarraynode1)
     subarray_node.Abort()
-    dish_master = DeviceProxy(dish_master1)
-    dish_master.TrackStop()
     LOGGER.info("Invoked Abort on SubarrayNode")
 
 
