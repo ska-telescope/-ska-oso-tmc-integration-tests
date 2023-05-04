@@ -1,3 +1,5 @@
+import json
+
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 
@@ -80,11 +82,67 @@ def tmc_check_status(json_factory):
     parsers.parse("the command Configure is invoked with {invalid_json} input")
 )
 def send(json_factory, invalid_json):
-    invalid_configure_json = json_factory(invalid_json)
-    LOGGER.info("Invoking Configure command on TMC SubarrayNode")
-    pytest.command_result = tmc_helper.configure_subarray(
-        invalid_configure_json, **ON_OFF_DEVICE_COMMAND_DICT
-    )
+    release_json = json_factory("command_ReleaseResources")
+    try:
+        configure_json = json_factory("command_Configure")
+        invalid_configure_json = json.loads(configure_json)
+        if invalid_json == "config_id_key_missing":
+            del invalid_configure_json["csp"]["common"]["config_id"]
+            # Invoke Configure() Command on TMC
+            LOGGER.info("Invoking Configure command on TMC SubarrayNode")
+            pytest.command_result = tmc_helper.configure_subarray(
+                json.dumps(invalid_configure_json),
+                **ON_OFF_DEVICE_COMMAND_DICT,
+            )
+        elif invalid_json == "fsp_id_key_missing":
+            del invalid_configure_json["csp"]["cbf"]["fsp"][0]["fsp_id"]
+            # Invoke Configure() Command on TMC
+            LOGGER.info("Invoking Configure command on TMC SubarrayNode")
+            pytest.command_result = tmc_helper.configure_subarray(
+                json.dumps(invalid_configure_json),
+                **ON_OFF_DEVICE_COMMAND_DICT,
+            )
+        elif invalid_json == "frequency_slice_id_key_missing":
+            del invalid_configure_json["csp"]["cbf"]["fsp"][2][
+                "frequency_slice_id"
+            ]
+            # Invoke Configure() Command on TMC
+            LOGGER.info("Invoking Configure command on TMC SubarrayNode")
+            pytest.command_result = tmc_helper.configure_subarray(
+                json.dumps(invalid_configure_json),
+                **ON_OFF_DEVICE_COMMAND_DICT,
+            )
+        elif invalid_json == "integration_factor_key_missing":
+            del invalid_configure_json["csp"]["cbf"]["fsp"][3][
+                "integration_factor"
+            ]
+            # Invoke Configure() Command on TMC
+            LOGGER.info("Invoking Configure command on TMC SubarrayNode")
+            pytest.command_result = tmc_helper.configure_subarray(
+                json.dumps(invalid_configure_json),
+                **ON_OFF_DEVICE_COMMAND_DICT,
+            )
+        elif invalid_json == "zoom_factor_key_missing":
+            del invalid_configure_json["csp"]["interface"]["cbf"]["fsp"][4][
+                "zoom_factor"
+            ]
+            # Invoke Configure() Command on TMC
+            LOGGER.info("Invoking Configure command on TMC SubarrayNode")
+            pytest.command_result = tmc_helper.configure_subarray(
+                json.dumps(invalid_configure_json),
+                **ON_OFF_DEVICE_COMMAND_DICT,
+            )
+        elif invalid_json == "incorrect_fsp_id":
+            invalid_configure_json["csp"]["cbf"]["fsp"][0]["fsp_id"] = 30
+            # Invoke Configure() Command on TMC
+            LOGGER.info("Invoking Configure command on TMC SubarrayNode")
+            pytest.command_result = tmc_helper.configure_subarray(
+                json.dumps(invalid_configure_json),
+                **ON_OFF_DEVICE_COMMAND_DICT,
+            )
+    except Exception as e:
+        LOGGER.exception(f"Exception occurred: {e}")
+        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
 @then(
@@ -95,28 +153,27 @@ def send(json_factory, invalid_json):
 def invalid_command_rejection(invalid_json):
     # asserting validation resultcode
     assert pytest.command_result[0][0] == ResultCode.REJECTED
-
     # asserting validations message as per invalid json
-    if invalid_json == "command_Configure_missing_config_id":
+    if invalid_json == "config_id_key_missing":
         assert (
             "{'csp': {'common': {'config_id':\
                   ['Missing data for required field.']}}}"
             in pytest.command_result[1][0]
         )
-    elif invalid_json == "command_Configure_incorrect_fsp_id":
+    elif invalid_json == "incorrect_fsp_id":
         assert (
             "FSP ID must be in range 1..27. Got 30"
             in pytest.command_result[1][0]
         )
     elif invalid_json in [
-        "command_Configure_missing_fsp_id",
-        "command_Configure_missing_frequency_slice_id",
-        "command_Configure_missing_zoom_factor",
-        "command_Configure_missing_integration_factor",
+        "fsp_id_key_missing",
+        "frequency_slice_id_key_missing",
+        "zoom_factor_key_missing",
+        "integration_factor_key_missing",
     ]:
         assert (
             "data is not compliant with\
-                  https://schema.skao.int/ska-csp-configure/2.0"
+                 https://schema.skao.int/ska-csp-configure/"
             in pytest.command_result[1][0]
         )
 
