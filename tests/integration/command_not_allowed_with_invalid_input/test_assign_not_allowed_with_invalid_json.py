@@ -41,8 +41,8 @@ def test_assign_resource_with_invalid_json():
 
 @given("the TMC is in ON state")
 def given_tmc(json_factory):
+    release_json = json_factory("command_ReleaseResources")
     try:
-        release_json = json_factory("command_ReleaseResources")
         # Verify Telescope is Off/Standby
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_STANDBY_INFO, "State"
@@ -59,7 +59,7 @@ def given_tmc(json_factory):
 
 
 @given("the subarray is in EMPTY obsState")
-def given_tmc_obsstate():
+def given_subarray_obsstate():
     assert telescope_control.is_in_valid_state(
         DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
     )
@@ -72,40 +72,40 @@ def given_tmc_obsstate():
 )
 def send(json_factory, invalid_json):
     try:
-        assign_invalid_json = json_factory("command_AssignResources")
+        assign_json = json_factory("command_AssignResources")
         release_json = json_factory("command_ReleaseResources")
-        assign_invalid_json = json.loads(assign_invalid_json)
-        if invalid_json == "pb_id":
-            del assign_invalid_json["sdp"]["processing_blocks"][0]["pb_id"]
+        assign_json = json.loads(assign_json)
+        if invalid_json == "missing_pb_id_key":
+            del assign_json["sdp"]["processing_blocks"][0]["pb_id"]
             # Invoke AssignResources() Command on TMC
             LOGGER.info("Invoking AssignResources command on TMC CentralNode")
             pytest.command_result = tmc_helper.compose_sub(
-                json.dumps(assign_invalid_json), **ON_OFF_DEVICE_COMMAND_DICT
+                json.dumps(assign_json), **ON_OFF_DEVICE_COMMAND_DICT
             )
-        elif invalid_json == "scan_type_id":
-            del assign_invalid_json["sdp"]["execution_block"]["scan_types"][0][
+        elif invalid_json == "missing_scan_type_id_key":
+            del assign_json["sdp"]["execution_block"]["scan_types"][0][
                 "scan_type_id"
             ]
             # Invoke AssignResources() Command on TMC
-            LOGGER.info("Invoking AssignResources command on TMC CentralNode")
+            LOGGER.info("Invoking AssignResources command on TMC")
             pytest.command_result = tmc_helper.compose_sub(
-                json.dumps(assign_invalid_json), **ON_OFF_DEVICE_COMMAND_DICT
+                json.dumps(assign_json), **ON_OFF_DEVICE_COMMAND_DICT
             )
-        elif invalid_json == "count":
-            del assign_invalid_json["sdp"]["execution_block"]["channels"][0][
+        elif invalid_json == "missing_count_key":
+            del assign_json["sdp"]["execution_block"]["channels"][0][
                 "channels_id"
             ]
             # Invoke AssignResources() Command on TMC
-            LOGGER.info("Invoking AssignResources command on TMC CentralNode")
+            LOGGER.info("Invoking AssignResources command on TMC")
             pytest.command_result = tmc_helper.compose_sub(
-                json.dumps(assign_invalid_json), **ON_OFF_DEVICE_COMMAND_DICT
+                json.dumps(assign_json), **ON_OFF_DEVICE_COMMAND_DICT
             )
-        elif invalid_json == "receptor_id ":
-            del assign_invalid_json["dish"]["receptor_id"]
+        elif invalid_json == "missing_receptor_id_key":
+            del assign_json["dish"]["receptor_id"]
             # Invoke AssignResources() Command on TMC
-            LOGGER.info("Invoking AssignResources command on TMC CentralNode")
+            LOGGER.info("Invoking AssignResources command on TMC")
             pytest.command_result = tmc_helper.compose_sub(
-                json.dumps(assign_invalid_json), **ON_OFF_DEVICE_COMMAND_DICT
+                json.dumps(assign_json), **ON_OFF_DEVICE_COMMAND_DICT
             )
 
     except Exception as e:
@@ -113,8 +113,6 @@ def send(json_factory, invalid_json):
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-# TODO: Current version of TMC does not support ResultCode.REJECTED,
-# once the implementation is introduced, below block will be updated.
 @then(parsers.parse("TMC should reject the AssignResources command"))
 def invalid_command_rejection():
     assert (
@@ -126,7 +124,6 @@ def invalid_command_rejection():
     )
 
     assert pytest.command_result[0][0] == ResultCode.REJECTED
-    pass
 
 
 @then("TMC subarray remains in EMPTY obsState")
@@ -137,8 +134,11 @@ def tmc_status():
     )
 
 
-@then("the command AssignResources is invoked with valid_json input")
-def tmc_accepts_next_commands(json_factory):
+@then(
+    "TMC successfully executes AssignResources for \
+        subarray with a valid input json"
+)
+def tmc_accepts_command_with_valid_json(json_factory):
     try:
         assign_json = json_factory("command_AssignResources")
         release_json = json_factory("command_ReleaseResources")
