@@ -46,7 +46,6 @@ def given_tmc():
     # Invoke TelescopeOn() command on TMC CentralNode
     LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
     tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
-    LOGGER.info("TelescopeOn command is invoked successfully")
     # Verify State transitions after TelescopeOn
     assert telescope_control.is_in_valid_state(DEVICE_STATE_ON_INFO, "State")
 
