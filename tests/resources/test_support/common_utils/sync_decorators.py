@@ -196,7 +196,9 @@ def sync_reconfigure(timeout=500):
             result = func(*args, **kwargs)
             the_waiter.wait(timeout)
             return result
+
         return wrapper
+
     return decorator_sync_reconfigure
 
 
