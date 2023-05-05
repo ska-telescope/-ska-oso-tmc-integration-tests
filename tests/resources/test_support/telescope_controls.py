@@ -1,5 +1,3 @@
-import time
-
 from tests.conftest import LOGGER
 from tests.resources.test_support.low.helpers import resource
 
