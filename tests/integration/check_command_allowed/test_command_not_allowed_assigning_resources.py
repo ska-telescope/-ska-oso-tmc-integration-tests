@@ -24,7 +24,7 @@ telescope_control = BaseTelescopeControl()
 result, message = "", ""
 
 
-@pytest.mark.xfail(reason="This functionality is not implemented yet in TMC")
+@pytest.mark.skip(reason="This functionality is not implemented yet in TMC")
 @pytest.mark.SKA_mid
 @scenario(
     "../features/check_command_not_allowed.feature",
