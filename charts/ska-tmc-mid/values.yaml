@@ -33,7 +33,7 @@ global:
     - "cspsubarrayleafnode"
     - "sdpsubarrayleafnode"
     - "subarraynode"
-  subarray_count: 1
+  subarray_count: 3
 
 dsconfig:
   configuration_file: data/tmc-mid-config.json
@@ -111,12 +111,12 @@ deviceServers:
 
   subarraynode:
     enabled: true
-    instances: ["01"]
+    instances: ["01", "02", "03"]
     file: "data/subarraynode_mid.yaml"
 
   sdpsubarrayleafnode:
     enabled: true
-    instances: ["01"]
+    instances: ["01", "02", "03"]
     file: "data/sdpsubarrayleafnode.yaml"
 
   sdpmasterleafnode:
@@ -133,7 +133,7 @@ deviceServers:
 
   cspsubarrayleafnode:
     enabled: true
-    instances: ["01"]
+    instances: ["01", "02", "03"]
     file: "data/cspsubarrayleafnode.yaml"
 
   dishleafnode:
