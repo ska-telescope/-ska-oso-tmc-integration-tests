@@ -73,18 +73,18 @@ def given_subarray_in_idle(json_factory):
 @when(parsers.parse("the command configure is issued with {input_json1}"))
 def send_configure(json_factory, input_json1):
     configure_json1 = json_factory(input_json1)
-    LOGGER.info("Invoking Configure command with configure_json1")
+    LOGGER.info("Invoking Configure command with input_json1")
     # Invoke Configure() command
     tmc_helper.configure_subarray(
         configure_json1, **ON_OFF_DEVICE_COMMAND_DICT
     )
-    LOGGER.info("Configure command is invoked successfully")
+    LOGGER.info("Configure1 is invoked successfully")
 
 
 @then("the subarray transitions to obsState READY")
 def check_for_ready():
     # Verify ObsState is READY
-    LOGGER.info("Verifying obsState READY after first Configure")
+    LOGGER.info("Verifying obsState READY after Configure1")
     assert telescope_control.is_in_valid_state(
         DEVICE_OBS_STATE_READY_INFO, "obsState", wait_time=10
     )
@@ -97,19 +97,18 @@ def check_for_ready():
 )
 def send_next_configure(json_factory, input_json2):
     configure_json2 = json_factory(input_json2)
-    LOGGER.info("Invoking Configure2 command with configure_json2")
+    LOGGER.info("Invoking Configure command with input_json2")
     # Invoke successive Configure() command
     tmc_helper.reconfigure_subarray(
         configure_json2, **ON_OFF_DEVICE_COMMAND_DICT
     )
-    LOGGER.info("Configure2 command is invoked successfully")
-    LOGGER.info("Verifying obsState READY after Reconfigures")
+    LOGGER.info("Configure2 is invoked successfully")
 
 
 @then("the subarray reconfigures changing its obsState to READY")
 def check_for_reconfigure_ready():
     # Verify ObsState is READY
-    LOGGER.info("Verifying obsState READY after Reconfigures")
+    LOGGER.info("Verifying obsState READY after Configure2")
     assert telescope_control.is_in_valid_state(
         DEVICE_OBS_STATE_READY_INFO, "obsState", wait_time=10
     )
