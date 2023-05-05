@@ -26,6 +26,7 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = TelescopeControlMid()
 
 
+@pytest.mark.hope
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successive_configure.feature",
@@ -45,7 +46,7 @@ def given_tmc(json_factory):
         tmc.check_devices()
         # Verify Telescope is Off/Standby
         assert telescope_control.is_in_valid_state(
-            DEVICE_STATE_STANDBY_INFO, "State", wait_time=10
+            DEVICE_STATE_STANDBY_INFO, "State"
         )
         LOGGER.info("Staring up the Telescope")
 
@@ -53,11 +54,11 @@ def given_tmc(json_factory):
         LOGGER.info("TelescopeOn command is invoked successfully")
 
         assert telescope_control.is_in_valid_state(
-            DEVICE_STATE_ON_INFO, "State", wait_time=10
+            DEVICE_STATE_ON_INFO, "State"
         )
 
         assert telescope_control.is_in_valid_state(
-            DEVICE_OBS_STATE_EMPTY_INFO, "obsState", wait_time=10
+            DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
         )
     except Exception:
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
@@ -76,7 +77,7 @@ def given_subarray_in_idle(json_factory):
 
         # Verify ObsState is IDLE
         assert telescope_control.is_in_valid_state(
-            DEVICE_OBS_STATE_IDLE_INFO, "obsState", wait_time=10
+            DEVICE_OBS_STATE_IDLE_INFO, "obsState"
         )
     except Exception:
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
@@ -104,7 +105,7 @@ def check_for_ready():
     # Verify ObsState is READY
     LOGGER.info("Verifying obsState READY after Configure1")
     assert telescope_control.is_in_valid_state(
-        DEVICE_OBS_STATE_READY_INFO, "obsState", wait_time=10
+        DEVICE_OBS_STATE_READY_INFO, "obsState"
     )
 
 
@@ -133,7 +134,7 @@ def check_for_reconfigure_ready():
     # Verify ObsState is READY
     LOGGER.info("Verifying obsState READY after Configure2")
     assert telescope_control.is_in_valid_state(
-        DEVICE_OBS_STATE_READY_INFO, "obsState", wait_time=10
+        DEVICE_OBS_STATE_READY_INFO, "obsState"
     )
 
 
@@ -147,7 +148,7 @@ def check_for_tear_down(json_factory):
 
         # Verify ObsState is IDLE
         assert telescope_control.is_in_valid_state(
-            DEVICE_OBS_STATE_IDLE_INFO, "obsState", wait_time=10
+            DEVICE_OBS_STATE_IDLE_INFO, "obsState"
         )
         LOGGER.info("End command is invoked successfully")
 
@@ -157,7 +158,7 @@ def check_for_tear_down(json_factory):
         )
 
         assert telescope_control.is_in_valid_state(
-            DEVICE_OBS_STATE_EMPTY_INFO, "obsState", wait_time=10
+            DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
         )
 
         # Invoke TelescopeOff() command
@@ -165,7 +166,7 @@ def check_for_tear_down(json_factory):
 
         # Verify State transitions after TelescopeOff
         assert telescope_control.is_in_valid_state(
-            DEVICE_STATE_OFF_INFO, "State", wait_time=10
+            DEVICE_STATE_OFF_INFO, "State"
         )
     except Exception:
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
