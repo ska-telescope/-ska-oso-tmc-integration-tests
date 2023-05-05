@@ -136,12 +136,12 @@ def sync_configure():
     def decorator_sync_configure(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            flag = False
+            invoked_from_ready = False
             the_waiter = Waiter(**kwargs)
             if resource(kwargs.get("tmc_subarraynode")) == "READY":
-                flag = True
+                invoked_from_ready = True
             result = func(*args, **kwargs)
-            if flag:
+            if invoked_from_ready:
                 the_waiter.set_wait_for_configuring()
                 the_waiter.wait(500)
             the_waiter.set_wait_for_configure()

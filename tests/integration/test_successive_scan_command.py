@@ -1,3 +1,5 @@
+import json
+
 import pytest
 
 from tests.conftest import LOGGER
@@ -20,18 +22,13 @@ from tests.resources.test_support.tmc_helpers import tear_down
 
 
 @pytest.mark.SKA_mid
-@pytest.mark.MS
 def test_successive_scan_with_different_configurations(json_factory):
     """Successive Scan command with different configurations."""
     telescope_control = BaseTelescopeControl()
     assign_json = json_factory("command_AssignResources")
     release_json = json_factory("command_ReleaseResources")
     configure_json = json_factory("command_Configure")
-    configure_json_2 = json_factory("command_Configure_2")
-    configure_json_3 = json_factory("command_Configure_3")
     scan_json = json_factory("command_Scan")
-    scan_json_2 = json_factory("command_Scan_2")
-    scan_json_3 = json_factory("command_Scan_3")
     tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 
     try:
@@ -82,38 +79,54 @@ def test_successive_scan_with_different_configurations(json_factory):
             DEVICE_OBS_STATE_READY_INFO, "obsState"
         )
 
-        # Invoke Configure() Command on TMC#
-        LOGGER.info("Invoking Configure command on TMC SubarrayNode")
-        tmc_helper.configure_subarray(
-            configure_json_2, **ON_OFF_DEVICE_COMMAND_DICT
-        )
-
-        # Verify ObsState is READY#
-        assert telescope_control.is_in_valid_state(
-            DEVICE_OBS_STATE_READY_INFO, "obsState"
-        )
-
-        # Invoke Scan() command on TMC#
-        tmc_helper.scan(scan_json_2, **ON_OFF_DEVICE_COMMAND_DICT)
-
-        # Verify ObsState is READY#
-        assert telescope_control.is_in_valid_state(
-            DEVICE_OBS_STATE_READY_INFO, "obsState"
-        )
-
-        # Verify ObsState is READY#
-        assert telescope_control.is_in_valid_state(
-            DEVICE_OBS_STATE_READY_INFO, "obsState"
-        )
+        configure_json_string = json.loads(configure_json)
+        configure_json_string["transaction_id"] = "txn-....-00002"
 
         # Invoke Configure() Command on TMC#
         LOGGER.info("Invoking Configure command on TMC SubarrayNode")
         tmc_helper.configure_subarray(
-            configure_json_3, **ON_OFF_DEVICE_COMMAND_DICT
+            json.dumps(configure_json_string), **ON_OFF_DEVICE_COMMAND_DICT
         )
 
+        # Verify ObsState is READY#
+        assert telescope_control.is_in_valid_state(
+            DEVICE_OBS_STATE_READY_INFO, "obsState"
+        )
+
+        scan_json_string = json.loads(scan_json)
+        scan_json_string["transaction_id"] = "txn-....-00002"
+
         # Invoke Scan() command on TMC#
-        tmc_helper.scan(scan_json_3, **ON_OFF_DEVICE_COMMAND_DICT)
+        tmc_helper.scan(
+            json.dumps(scan_json_string), **ON_OFF_DEVICE_COMMAND_DICT
+        )
+
+        # Verify ObsState is READY#
+        assert telescope_control.is_in_valid_state(
+            DEVICE_OBS_STATE_READY_INFO, "obsState"
+        )
+
+        # Verify ObsState is READY#
+        assert telescope_control.is_in_valid_state(
+            DEVICE_OBS_STATE_READY_INFO, "obsState"
+        )
+
+        configure_json_string = json.loads(configure_json)
+        configure_json_string["transaction_id"] = "txn-....-00002"
+
+        # Invoke Configure() Command on TMC#
+        LOGGER.info("Invoking Configure command on TMC SubarrayNode")
+        tmc_helper.configure_subarray(
+            json.dumps(configure_json_string), **ON_OFF_DEVICE_COMMAND_DICT
+        )
+
+        scan_json_string = json.loads(scan_json)
+        scan_json_string["transaction_id"] = "txn-....-00002"
+
+        # Invoke Scan() command on TMC#
+        tmc_helper.scan(
+            json.dumps(scan_json_string), **ON_OFF_DEVICE_COMMAND_DICT
+        )
 
         # Verify ObsState is READY#
         assert telescope_control.is_in_valid_state(
@@ -164,8 +177,6 @@ def test_successive_scan_with_same_configurations(json_factory):
     release_json = json_factory("command_ReleaseResources")
     configure_json = json_factory("command_Configure")
     scan_json = json_factory("command_Scan")
-    scan_json_2 = json_factory("command_Scan_2")
-    scan_json_3 = json_factory("command_Scan_3")
     tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 
     try:
@@ -216,16 +227,26 @@ def test_successive_scan_with_same_configurations(json_factory):
             DEVICE_OBS_STATE_READY_INFO, "obsState"
         )
 
+        scan_json_string = json.loads(scan_json)
+        scan_json_string["transaction_id"] = "txn-....-00002"
+
         # Invoke Scan() command on TMC#
-        tmc_helper.scan(scan_json_2, **ON_OFF_DEVICE_COMMAND_DICT)
+        tmc_helper.scan(
+            json.dumps(scan_json_string), **ON_OFF_DEVICE_COMMAND_DICT
+        )
 
         # Verify ObsState is READY#
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_READY_INFO, "obsState"
         )
 
+        scan_json_string = json.loads(scan_json)
+        scan_json_string["transaction_id"] = "txn-....-00002"
+
         # Invoke Scan() command on TMC#
-        tmc_helper.scan(scan_json_3, **ON_OFF_DEVICE_COMMAND_DICT)
+        tmc_helper.scan(
+            json.dumps(scan_json_string), **ON_OFF_DEVICE_COMMAND_DICT
+        )
 
         # Verify ObsState is READY#
         assert telescope_control.is_in_valid_state(
