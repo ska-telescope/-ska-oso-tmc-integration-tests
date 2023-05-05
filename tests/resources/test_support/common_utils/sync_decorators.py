@@ -191,17 +191,12 @@ def sync_reconfigure(timeout=500):
                 ]
             )
             device.check_devices_obsState("READY")
-            print("sync reconfigure, Ready check success")
             the_waiter = Waiter(**kwargs)
-            # the_waiter.set_wait_for_configuring()
             the_waiter.set_wait_for_configure()
             result = func(*args, **kwargs)
             the_waiter.wait(timeout)
-            print("sync reconfigure, Ready check success")
             return result
-
         return wrapper
-
     return decorator_sync_reconfigure
 
 

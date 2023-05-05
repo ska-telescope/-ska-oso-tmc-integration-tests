@@ -27,7 +27,6 @@ class BaseTelescopeControl(object):
                 state_result_list.append(
                     resource(device).get(state_str) in state_list
                 )
-            print(all(state_result_list), state_result_list)
             if all(state_result_list):
                 return True
             elapsed_time = time.time() - start_time
