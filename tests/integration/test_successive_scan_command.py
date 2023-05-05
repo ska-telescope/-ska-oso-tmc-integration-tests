@@ -112,7 +112,7 @@ def test_successive_scan_with_different_configurations(json_factory):
         )
 
         configure_json_string = json.loads(configure_json)
-        configure_json_string["transaction_id"] = "txn-....-00002"
+        configure_json_string["transaction_id"] = "txn-....-00003"
 
         # Invoke Configure() Command on TMC#
         LOGGER.info("Invoking Configure command on TMC SubarrayNode")
@@ -121,7 +121,7 @@ def test_successive_scan_with_different_configurations(json_factory):
         )
 
         scan_json_string = json.loads(scan_json)
-        scan_json_string["transaction_id"] = "txn-....-00002"
+        scan_json_string["transaction_id"] = "txn-....-00003"
 
         # Invoke Scan() command on TMC#
         tmc_helper.scan(
@@ -241,7 +241,7 @@ def test_successive_scan_with_same_configurations(json_factory):
         )
 
         scan_json_string = json.loads(scan_json)
-        scan_json_string["transaction_id"] = "txn-....-00002"
+        scan_json_string["transaction_id"] = "txn-....-00003"
 
         # Invoke Scan() command on TMC#
         tmc_helper.scan(
