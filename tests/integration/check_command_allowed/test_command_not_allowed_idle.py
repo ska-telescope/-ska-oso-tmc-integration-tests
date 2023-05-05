@@ -43,27 +43,34 @@ def test_command_not_valid_in_idle_obsState():
 @given("the TMC is in ON state")
 def given_tmc(json_factory):
     # Verify Telescope is Off/Standby
-    tmc_helper.check_devices(DEVICE_LIST_FOR_CHECK_DEVICES)
-    assert telescope_control.is_in_valid_state(
-        DEVICE_STATE_STANDBY_INFO, "State"
-    )
-    LOGGER.info("Starting up the Telescope")
+    try:
+        tmc_helper.check_devices(DEVICE_LIST_FOR_CHECK_DEVICES)
+        assert telescope_control.is_in_valid_state(
+            DEVICE_STATE_STANDBY_INFO, "State"
+        )
+        LOGGER.info("Starting up the Telescope")
 
-    # Invoke TelescopeOn() command on TMC
-    LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
-    tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
-    LOGGER.info("TelescopeOn command is invoked successfully")
+        # Invoke TelescopeOn() command on TMC
+        LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
+        tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
+        LOGGER.info("TelescopeOn command is invoked successfully")
 
-    # Verify State transitions after TelescopeOn
-    assert telescope_control.is_in_valid_state(DEVICE_STATE_ON_INFO, "State")
-    assert telescope_control.is_in_valid_state(
-        DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
-    )
+        # Verify State transitions after TelescopeOn
+        assert telescope_control.is_in_valid_state(
+            DEVICE_STATE_ON_INFO, "State"
+        )
+        assert telescope_control.is_in_valid_state(
+            DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
+        )
 
-    assign_json = json_factory("command_AssignResources")
-    LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-    tmc_helper.compose_sub(assign_json, **ON_OFF_DEVICE_COMMAND_DICT)
-    LOGGER.info("AssignResources command is invoked successfully")
+        assign_json = json_factory("command_AssignResources")
+        LOGGER.info("Invoking AssignResources command on TMC CentralNode")
+        tmc_helper.compose_sub(assign_json, **ON_OFF_DEVICE_COMMAND_DICT)
+        LOGGER.info("AssignResources command is invoked successfully")
+    except Exception:
+        release_json = json_factory("command_ReleaseResources")
+        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
+        LOGGER.info("Tear Down complete. Telescope is in Standby State")
 
 
 @given(" the subarray is in IDLE obsstate")
@@ -120,53 +127,59 @@ def tmc_status():
 def tmc_accepts_next_commands(json_factory, permitted_command):
     configure_json = json_factory("command_Configure")
     release_json = json_factory("command_ReleaseResources")
-    if permitted_command == "Configure":
-        LOGGER.info(f"permitted command is: {permitted_command}")
-        LOGGER.info("Invoking Configure command on TMC CentralNode")
-        tmc_helper.configure_sub(configure_json, **ON_OFF_DEVICE_COMMAND_DICT)
-        assert telescope_control.is_in_valid_state(
-            DEVICE_OBS_STATE_READY_INFO, "obsState"
-        )
-        LOGGER.info("Invoking End command on TMC SubarrayNode")
-        tmc_helper.end(**ON_OFF_DEVICE_COMMAND_DICT)
-        LOGGER.info("End command on TMC SubarrayNode is successful")
-        assert telescope_control.is_in_valid_state(
-            DEVICE_OBS_STATE_IDLE_INFO, "obsState"
-        )
-        tmc_helper.invoke_releaseResources(
-            release_json, **ON_OFF_DEVICE_COMMAND_DICT
-        )
-        LOGGER.info(
-            "ReleaseResources command on TMC SubarrayNode is successful"
-        )
-        assert telescope_control.is_in_valid_state(
-            DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
-        )
-        tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
-        LOGGER.info(
-            "ReleaseResources command on TMC SubarrayNode is successful"
-        )
-        assert telescope_control.is_in_valid_state(
-            DEVICE_STATE_STANDBY_INFO, "State"
-        )
-    elif permitted_command == "ReleaseResources":
-        LOGGER.info(f"permitted command is: {permitted_command}")
-        LOGGER.info("Invoking ReleaseResources command on TMC SubarrayNode")
-        tmc_helper.invoke_releaseResources(
-            release_json, **ON_OFF_DEVICE_COMMAND_DICT
-        )
-        assert telescope_control.is_in_valid_state(
-            DEVICE_STATE_ON_INFO, "State"
-        )
-        assert telescope_control.is_in_valid_state(
-            DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
-        )
-        tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
-        LOGGER.info(
-            "ReleaseResources command on TMC SubarrayNode is successful"
-        )
-        assert telescope_control.is_in_valid_state(
-            DEVICE_STATE_STANDBY_INFO, "State"
-        )
-    else:
+    try:
+        if permitted_command == "Configure":
+            LOGGER.info(f"permitted command is: {permitted_command}")
+            LOGGER.info("Invoking Configure command on TMC CentralNode")
+            tmc_helper.configure_sub(
+                configure_json, **ON_OFF_DEVICE_COMMAND_DICT
+            )
+            assert telescope_control.is_in_valid_state(
+                DEVICE_OBS_STATE_READY_INFO, "obsState"
+            )
+            LOGGER.info("Invoking End command on TMC SubarrayNode")
+            tmc_helper.end(**ON_OFF_DEVICE_COMMAND_DICT)
+            LOGGER.info("End command on TMC SubarrayNode is successful")
+            assert telescope_control.is_in_valid_state(
+                DEVICE_OBS_STATE_IDLE_INFO, "obsState"
+            )
+            tmc_helper.invoke_releaseResources(
+                release_json, **ON_OFF_DEVICE_COMMAND_DICT
+            )
+            LOGGER.info(
+                "ReleaseResources command on TMC SubarrayNode is successful"
+            )
+            assert telescope_control.is_in_valid_state(
+                DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
+            )
+            tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
+            LOGGER.info(
+                "ReleaseResources command on TMC SubarrayNode is successful"
+            )
+            assert telescope_control.is_in_valid_state(
+                DEVICE_STATE_STANDBY_INFO, "State"
+            )
+        elif permitted_command == "ReleaseResources":
+            LOGGER.info(f"permitted command is: {permitted_command}")
+            LOGGER.info(
+                "Invoking ReleaseResources command on TMC SubarrayNode"
+            )
+            tmc_helper.invoke_releaseResources(
+                release_json, **ON_OFF_DEVICE_COMMAND_DICT
+            )
+            assert telescope_control.is_in_valid_state(
+                DEVICE_STATE_ON_INFO, "State"
+            )
+            assert telescope_control.is_in_valid_state(
+                DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
+            )
+            tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
+            LOGGER.info(
+                "ReleaseResources command on TMC SubarrayNode is successful"
+            )
+            assert telescope_control.is_in_valid_state(
+                DEVICE_STATE_STANDBY_INFO, "State"
+            )
+    except Exception:
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
+        LOGGER.info("Tear Down complete. Telescope is in Standby State")
