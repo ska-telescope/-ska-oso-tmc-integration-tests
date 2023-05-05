@@ -139,9 +139,6 @@ class TmcHelper(object):
 
     @sync_configure()
     def configure_subarray(self, configure_input_str, **kwargs):
-        resource(self.subarray_node).assert_attribute("obsState").equals(
-            "IDLE"
-        )
         subarray_node = DeviceProxy(self.subarray_node)
         result, message = subarray_node.Configure(configure_input_str)
         LOGGER.info("Invoked Configure on SubarrayNode")

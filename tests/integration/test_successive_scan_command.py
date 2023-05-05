@@ -20,6 +20,7 @@ from tests.resources.test_support.tmc_helpers import tear_down
 
 
 @pytest.mark.SKA_mid
+@pytest.mark.MS
 def test_successive_scan_with_different_configurations(json_factory):
     """Successive Scan command with different configurations."""
     telescope_control = BaseTelescopeControl()

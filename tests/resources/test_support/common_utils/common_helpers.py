@@ -406,6 +406,13 @@ class Waiter:
             )
         )
 
+    def set_wait_for_configuring(self):
+        self.waits.append(
+            watch(resource(self.tmc_subarraynode1)).to_become(
+                "obsState", changed_to="CONFIGURING"
+            )
+        )
+
     def set_wait_for_configure(self):
         self.waits.append(
             watch(resource(self.csp_subarray1)).to_become(
