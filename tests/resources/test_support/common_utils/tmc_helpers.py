@@ -11,7 +11,6 @@ from tests.resources.test_support.common_utils.sync_decorators import (
     sync_assign_resources,
     sync_assigning,
     sync_configure,
-    sync_configure_ready,
     sync_configure_sub,
     sync_end,
     sync_endscan,
@@ -153,9 +152,6 @@ class TmcHelper(object):
 
     @sync_configure()
     def configure_subarray(self, configure_input_str, **kwargs):
-        resource(self.subarray_node).assert_attribute("obsState").equals(
-            "IDLE"
-        )
         subarray_node = DeviceProxy(self.subarray_node)
         result, message = subarray_node.Configure(configure_input_str)
         LOGGER.info("Invoked Configure on SubarrayNode")
@@ -208,16 +204,6 @@ class TmcHelper(object):
         subarray_node = DeviceProxy(self.subarray_node)
         result, message = subarray_node.Scan(scan_input_str)
         LOGGER.info("Invoked Scan on SubarrayNode")
-        return result, message
-
-    @sync_configure_ready()
-    def configure_ready(self, configure_input_str, **kwargs):
-        resource(self.subarray_node).assert_attribute("obsState").equals(
-            "READY"
-        )
-        subarray_node = DeviceProxy(self.subarray_node)
-        result, message = subarray_node.Configure(configure_input_str)
-        LOGGER.info("Invoked Configure on SubarrayNode")
         return result, message
 
     @sync_endscan()

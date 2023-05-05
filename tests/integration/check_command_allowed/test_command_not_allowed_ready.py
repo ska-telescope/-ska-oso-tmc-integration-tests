@@ -28,7 +28,6 @@ telescope_control = BaseTelescopeControl()
 result, message = "", ""
 
 
-@pytest.mark.kk
 @pytest.mark.SKA_mid
 @scenario(
     "../features/check_command_not_allowed.feature",
@@ -168,7 +167,7 @@ def tmc_accepts_next_commands(json_factory, permitted_command):
     release_json = json_factory("command_ReleaseResources")
     try:
         if permitted_command == "Configure":
-            tmc_helper.configure_ready(
+            tmc_helper.configure_subarray(
                 configure_json, **ON_OFF_DEVICE_COMMAND_DICT
             )
             LOGGER.info(
