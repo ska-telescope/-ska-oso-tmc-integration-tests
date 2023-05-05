@@ -664,9 +664,9 @@ class AttributeWatcher:
         self.stop_listening()
         raise Exception(
             f"Timed out waiting for an change on {self.device_proxy.name()}.\
-                {self.attribute} to change from {self.previous_value} to \
-                    {self.desired} in {self.timeout}s (current value is \
-                    {self.current_value}"
+            {self.attribute} to change from {self.previous_value} to \
+            {self.desired} in {self.timeout}s (current value is \
+            {self.current_value}"
         )
 
     def _wait(self, timeout):
