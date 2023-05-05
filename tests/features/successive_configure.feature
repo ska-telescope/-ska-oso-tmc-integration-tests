@@ -1,5 +1,5 @@
 Feature:  TMC executes successive configure commands
-    Scenario: TMC validates reconfigure functionality with different configuration
+    Scenario: TMC validates reconfigure functionality
         Given the TMC is On
         And the subarray is in IDLE obsState
         When the command configure is issued with <input_json1>
