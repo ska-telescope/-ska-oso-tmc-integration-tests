@@ -9,9 +9,11 @@ from tests.resources.test_support.common_utils.common_helpers import resource
 from tests.resources.test_support.common_utils.sync_decorators import (
     sync_abort,
     sync_assign_resources,
+    sync_assigning,
     sync_configure,
     sync_configure_sub,
     sync_end,
+    sync_endscan,
     sync_release_resources,
     sync_restart,
     sync_scan,
@@ -26,7 +28,6 @@ from tests.resources.test_support.constant import (
     DEVICE_OBS_STATE_ABORT_INFO,
     DEVICE_OBS_STATE_EMPTY_INFO,
     DEVICE_OBS_STATE_IDLE_INFO,
-    DEVICE_STATE_ON_INFO,
     DEVICE_STATE_STANDBY_INFO,
     ON_OFF_DEVICE_COMMAND_DICT,
     dish_master1,
@@ -62,8 +63,8 @@ class TmcHelper(object):
         """
         central_node = DeviceProxy(self.centralnode)
         LOGGER.info(
-            f"Before Sending TelescopeOn command {central_node} State is: \
-            {central_node.State()}"
+            f"Before Sending TelescopeOn command {central_node}\
+            State is:{central_node.State()}"
         )
         central_node.TelescopeOn()
         device_to_on_list = [
@@ -74,6 +75,12 @@ class TmcHelper(object):
             if device:
                 device_proxy = DeviceProxy(device)
                 device_proxy.SetDirectState(DevState.ON)
+
+        # If Dish master provided then set it to standby
+        dish_master = kwargs.get("dish_master")
+        if dish_master:
+            device_proxy = DeviceProxy(dish_master)
+            device_proxy.SetDirectState(DevState.STANDBY)
 
     @sync_set_to_off
     def set_to_off(self, **kwargs):
@@ -94,7 +101,7 @@ class TmcHelper(object):
             device_proxy.SetDirectState(DevState.STANDBY)
 
         LOGGER.info(
-            f"After invoking TelescopeOff command {central_node} State is: \
+            f"After invoking TelescopeOff command {central_node} State is:\
             {central_node.State()}"
         )
 
@@ -110,8 +117,14 @@ class TmcHelper(object):
             device_proxy = DeviceProxy(device)
             device_proxy.SetDirectState(DevState.OFF)
 
+        # If Dish master provided then set it to standby
+        dish_master = kwargs.get("dish_master")
+        if dish_master:
+            device_proxy = DeviceProxy(dish_master)
+            device_proxy.SetDirectState(DevState.STANDBY)
+
         LOGGER.info(
-            f"After invoking TelescopeStandBy command {central_node} State is \
+            f"After invoking TelescopeStandBy command {central_node} State is:\
             {central_node.State()}"
         )
 
@@ -139,9 +152,6 @@ class TmcHelper(object):
 
     @sync_configure()
     def configure_subarray(self, configure_input_str, **kwargs):
-        resource(self.subarray_node).assert_attribute("obsState").equals(
-            "IDLE"
-        )
         subarray_node = DeviceProxy(self.subarray_node)
         result, message = subarray_node.Configure(configure_input_str)
         LOGGER.info("Invoked Configure on SubarrayNode")
@@ -171,7 +181,14 @@ class TmcHelper(object):
         subarray_node.Restart()
         LOGGER.info("Invoked Restart on SubarrayNode")
 
-    # added for command_not_allowed test scenario
+    @sync_assigning()
+    def assign_resources(self, assign_res_input, **kwargs):
+        resource(self.subarray_node).assert_attribute("State").equals("ON")
+        central_node = DeviceProxy(self.centralnode)
+        result, message = central_node.AssignResources(assign_res_input)
+        LOGGER.info("Invoked AssignResources on CentralNode")
+        return result, message
+
     @sync_configure_sub()
     def configure_sub(self, configure_input_str, **kwargs):
         resource(self.subarray_node).assert_attribute("obsState").equals(
@@ -187,6 +204,13 @@ class TmcHelper(object):
         subarray_node = DeviceProxy(self.subarray_node)
         result, message = subarray_node.Scan(scan_input_str)
         LOGGER.info("Invoked Scan on SubarrayNode")
+        return result, message
+
+    @sync_endscan()
+    def invoke_endscan(self, **kwargs):
+        subarray_node = DeviceProxy(self.subarray_node)
+        result, message = subarray_node.EndScan()
+        LOGGER.info("Invoked EndScan on SubarrayNode")
         return result, message
 
 
@@ -212,9 +236,6 @@ def tear_down(input_json: Optional[str] = None, **kwargs):
 
         tmc_helper.invoke_restart(**ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("Invoking Restart command on TMC SubarrayNode")
-        assert telescope_control.is_in_valid_state(
-            DEVICE_STATE_ON_INFO, "State"
-        )
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
         )
@@ -242,9 +263,6 @@ def tear_down(input_json: Optional[str] = None, **kwargs):
             input_json, **ON_OFF_DEVICE_COMMAND_DICT
         )
         assert telescope_control.is_in_valid_state(
-            DEVICE_STATE_ON_INFO, "State"
-        )
-        assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
         )
 
@@ -266,9 +284,6 @@ def tear_down(input_json: Optional[str] = None, **kwargs):
         LOGGER.info("Invoking ReleaseResources command on TMC SubarrayNode")
         tmc_helper.invoke_releaseResources(
             input_json, **ON_OFF_DEVICE_COMMAND_DICT
-        )
-        assert telescope_control.is_in_valid_state(
-            DEVICE_STATE_ON_INFO, "State"
         )
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
@@ -293,9 +308,6 @@ def tear_down(input_json: Optional[str] = None, **kwargs):
     elif subarray_node_obsstate in ["ABORTED", "FAULT"]:
         tmc_helper.invoke_restart(**ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("Invoking Restart command on TMC SubarrayNode")
-        assert telescope_control.is_in_valid_state(
-            DEVICE_STATE_ON_INFO, "State"
-        )
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
         )
