@@ -99,7 +99,7 @@ def send_next_configure(json_factory, input_json2):
     configure_json2 = json_factory(input_json2)
     LOGGER.info("Invoking Configure command with input_json2")
     # Invoke successive Configure() command
-    tmc_helper.reconfigure_subarray(
+    tmc_helper.configure_subarray(
         configure_json2, **ON_OFF_DEVICE_COMMAND_DICT
     )
     LOGGER.info("Configure2 is invoked successfully")
