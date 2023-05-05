@@ -2,8 +2,7 @@ import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 
 from tests.conftest import LOGGER
-
-# from tests.resources.test_support.common_utils.result_code import ResultCode
+from tests.resources.test_support.common_utils.result_code import ResultCode
 from tests.resources.test_support.common_utils.tmc_helpers import (
     TmcHelper,
     tear_down,
@@ -28,6 +27,7 @@ telescope_control = BaseTelescopeControl()
 result, message = "", ""
 
 
+@pytest.mark.xfail(reason="This functionality is not implemented yet in TMC")
 @pytest.mark.SKA_mid
 @scenario(
     "../features/check_command_not_allowed.feature",
@@ -141,13 +141,12 @@ def send(json_factory, unexpected_command):
     )
 )
 def invalid_command_rejection(unexpected_command):
-    # assert (
-    #     f"command {unexpected_command} is not allowed \
-    #     in current subarray obsState"
-    #     in message
-    # )
-    # assert result == ResultCode.REJECTED
-    pass
+    assert (
+        f"command {unexpected_command} is not allowed \
+        in current subarray obsState"
+        in message
+    )
+    assert result == ResultCode.REJECTED
 
 
 @then("TMC subarray remains in READY obsState")
