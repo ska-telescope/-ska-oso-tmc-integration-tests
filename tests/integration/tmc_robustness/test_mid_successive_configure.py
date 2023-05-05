@@ -26,7 +26,7 @@ telescope_control = TelescopeControlMid()
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successive_configure.feature",
-    "TMC validates reconfigure functionality with different configuration",
+    "TMC validates reconfigure functionality",
 )
 def test_multiple_configure_functionality():
     """
