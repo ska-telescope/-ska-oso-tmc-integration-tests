@@ -24,7 +24,6 @@ from tests.resources.test_support.telescope_controls import (
 
 tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
-result, message = "", ""
 
 
 @pytest.mark.xfail(reason="This functionality is not implemented yet in TMC")
@@ -108,28 +107,28 @@ def send(json_factory, unexpected_command):
     if unexpected_command == "AssignResources":
         with pytest.raises(Exception) as e:
             LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-            result, message = tmc_helper.assign_resources(
+            pytest.command_result = tmc_helper.assign_resources(
                 assign_json, **ON_OFF_DEVICE_COMMAND_DICT
             )
         LOGGER.info("AssignResources command failed with exception %s", e)
     elif unexpected_command == "ReleaseResources":
         with pytest.raises(Exception) as e:
             LOGGER.info("Invoking ReleaseResources command on TMC CentralNode")
-            result, message = tmc_helper.invoke_releaseResources(
+            pytest.command_result = tmc_helper.invoke_releaseResources(
                 release_json, **ON_OFF_DEVICE_COMMAND_DICT
             )
         LOGGER.info("ReleaseResources command failed with exception %s", e)
     elif unexpected_command == "EndScan":
         with pytest.raises(Exception) as e:
             LOGGER.info("Invoking EndScan command on TMC SubarrayNode")
-            result, message = tmc_helper.invoke_endscan(
+            pytest.command_result = tmc_helper.invoke_endscan(
                 **ON_OFF_DEVICE_COMMAND_DICT
             )
         LOGGER.info("EndScan command failed with exception %s", e)
     elif unexpected_command == "EndScan":
         with pytest.raises(Exception) as e:
             LOGGER.info("Invoking EndScan command on TMC SubarrayNode")
-            result, message = tmc_helper.invoke_endscan(
+            pytest.command_result = tmc_helper.invoke_endscan(
                 **ON_OFF_DEVICE_COMMAND_DICT
             )
         LOGGER.info("EndScan command failed with exception %s", e)
@@ -144,9 +143,9 @@ def invalid_command_rejection(unexpected_command):
     assert (
         f"command {unexpected_command} is not allowed \
         in current subarray obsState"
-        in message
+        in pytest.command_result[1][0]
     )
-    assert result == ResultCode.REJECTED
+    assert pytest.command_result[0][0] == ResultCode.REJECTED
 
 
 @then("TMC subarray remains in READY obsState")
