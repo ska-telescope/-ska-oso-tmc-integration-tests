@@ -6,6 +6,7 @@ from tests.resources.test_support.common_utils.base_utils import DeviceUtils
 from tests.resources.test_support.common_utils.common_helpers import (
     Waiter,
     WaitForScan,
+    resource,
 )
 
 
@@ -135,10 +136,14 @@ def sync_configure():
     def decorator_sync_configure(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
+            flag = False
             the_waiter = Waiter(**kwargs)
+            if resource(kwargs.get("tmc_subarraynode")) == "READY":
+                flag = True
             result = func(*args, **kwargs)
-            the_waiter.set_wait_for_configuring()
-            the_waiter.wait(500)
+            if flag:
+                the_waiter.set_wait_for_configuring()
+                the_waiter.wait(500)
             the_waiter.set_wait_for_configure()
             the_waiter.wait(500)
             return result
