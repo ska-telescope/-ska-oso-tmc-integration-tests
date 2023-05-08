@@ -47,8 +47,6 @@ def given_tmc(json_factory):
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_STANDBY_INFO, "State"
         )
-        LOGGER.info("Staring up the Telescope")
-
         tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("TelescopeOn command is invoked successfully")
 
@@ -61,7 +59,6 @@ def given_tmc(json_factory):
         )
     except Exception:
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
-        LOGGER.info("Tear Down complete. Telescope is in Standby State")
 
 
 @given("the subarray is in IDLE obsState")
@@ -72,7 +69,6 @@ def given_subarray_in_idle(json_factory):
         # Invoke AssignResources() Command on TMC
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
         tmc_helper.compose_sub(assign_json, **ON_OFF_DEVICE_COMMAND_DICT)
-        LOGGER.info("AssignResources command is invoked successfully")
 
         # Verify ObsState is IDLE
         assert telescope_control.is_in_valid_state(
@@ -80,7 +76,6 @@ def given_subarray_in_idle(json_factory):
         )
     except Exception:
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
-        LOGGER.info("Tear Down complete. Telescope is in Standby State")
 
 
 @when(parsers.parse("the command configure is issued with {input_json1}"))
@@ -96,7 +91,6 @@ def send_configure(json_factory, input_json1):
         LOGGER.info("Configure1 is invoked successfully")
     except Exception:
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
-        LOGGER.info("Tear Down complete. Telescope is in Standby State")
 
 
 @then("the subarray transitions to obsState READY")
@@ -125,7 +119,6 @@ def send_next_configure(json_factory, input_json2):
         LOGGER.info("Configure2 is invoked successfully")
     except Exception:
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
-        LOGGER.info("Tear Down complete. Telescope is in Standby State")
 
 
 @then("the subarray reconfigures changing its obsState to READY")
@@ -149,8 +142,6 @@ def check_for_tear_down(json_factory):
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_IDLE_INFO, "obsState"
         )
-        LOGGER.info("End command is invoked successfully")
-
         # Invoke ReleaseResources() command
         tmc_helper.invoke_releaseResources(
             release_json, **ON_OFF_DEVICE_COMMAND_DICT
@@ -169,4 +160,3 @@ def check_for_tear_down(json_factory):
         )
     except Exception:
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
-        LOGGER.info("Tear Down complete. Telescope is in Standby State")
