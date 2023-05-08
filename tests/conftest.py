@@ -71,6 +71,9 @@ def update_configure_json(
     scan_type: str,
     config_id: str,
 ) -> str:
+    """
+    Returns a json with updated values for the given keys
+    """
     config_dict = json.loads(configure_json)
 
     config_dict["tmc"]["scan_duration"] = scan_duration
@@ -81,6 +84,9 @@ def update_configure_json(
 
 
 def update_scan_json(scan_json: str, scan_id: int, transaction_id: str) -> str:
+    """
+    Returns a json with updated values for the given keys
+    """
     scan_dict = json.loads(scan_json)
 
     scan_dict["scan_id"] = scan_id
