@@ -41,7 +41,6 @@ def test_successive_scan_with_different_configurations(json_factory):
         LOGGER.info("Staring up the Telescope")
 
         # Invoke TelescopeOn() command on TMC#
-        LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
         tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("TelescopeOn command is invoked successfully")
 
@@ -51,7 +50,6 @@ def test_successive_scan_with_different_configurations(json_factory):
         )
 
         # Invoke AssignResources() Command on TMC#
-        LOGGER.info("Invoking AssignResources command on TMC CentralNode")
         tmc_helper.compose_sub(assign_json, **ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("AssignResources command is invoked successfully")
 
@@ -61,7 +59,6 @@ def test_successive_scan_with_different_configurations(json_factory):
         )
 
         # Invoke Configure() Command on TMC#
-        LOGGER.info("Invoking Configure command on TMC SubarrayNode")
         tmc_helper.configure_subarray(
             configure_json, **ON_OFF_DEVICE_COMMAND_DICT
         )
@@ -83,7 +80,6 @@ def test_successive_scan_with_different_configurations(json_factory):
         configure_json_string["transaction_id"] = "txn-....-00002"
 
         # Invoke Configure() Command on TMC#
-        LOGGER.info("Invoking Configure command on TMC SubarrayNode")
         tmc_helper.configure_subarray(
             json.dumps(configure_json_string), **ON_OFF_DEVICE_COMMAND_DICT
         )
@@ -115,7 +111,6 @@ def test_successive_scan_with_different_configurations(json_factory):
         configure_json_string["transaction_id"] = "txn-....-00003"
 
         # Invoke Configure() Command on TMC#
-        LOGGER.info("Invoking Configure command on TMC SubarrayNode")
         tmc_helper.configure_subarray(
             json.dumps(configure_json_string), **ON_OFF_DEVICE_COMMAND_DICT
         )
@@ -142,7 +137,6 @@ def test_successive_scan_with_different_configurations(json_factory):
         )
 
         # Invoke ReleaseResources() Command on TMC#
-        LOGGER.info("Invoking ReleaseResources command on TMC CentralNode")
         tmc_helper.invoke_releaseResources(
             release_json, **ON_OFF_DEVICE_COMMAND_DICT
         )
@@ -154,7 +148,6 @@ def test_successive_scan_with_different_configurations(json_factory):
         )
 
         # Invoke TelescopeStandby() command on TMC#
-        LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
         tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("TelescopeStandby command is invoked successfully")
 
