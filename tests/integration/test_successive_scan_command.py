@@ -1,8 +1,6 @@
-import json
-
 import pytest
 
-from tests.conftest import LOGGER
+from tests.conftest import LOGGER, update_configure_json, update_scan_json
 from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
 from tests.resources.test_support.constant import (
     DEVICE_LIST_FOR_CHECK_DEVICES,
@@ -76,12 +74,17 @@ def test_successive_scan_with_different_configurations(json_factory):
             DEVICE_OBS_STATE_READY_INFO, "obsState"
         )
 
-        configure_json_string = json.loads(configure_json)
-        configure_json_string["transaction_id"] = "txn-....-00002"
+        configure_json_string = update_configure_json(
+            configure_json,
+            scan_duration=12,
+            transaction_id="txn-....-00003",
+            scan_type="calibration:b",
+            config_id="sbi-mvp01-20200325-00001-calibration:b",
+        )
 
         # Invoke Configure() Command on TMC#
         tmc_helper.configure_subarray(
-            json.dumps(configure_json_string), **ON_OFF_DEVICE_COMMAND_DICT
+            configure_json_string, **ON_OFF_DEVICE_COMMAND_DICT
         )
 
         # Verify ObsState is READY#
@@ -89,13 +92,12 @@ def test_successive_scan_with_different_configurations(json_factory):
             DEVICE_OBS_STATE_READY_INFO, "obsState"
         )
 
-        scan_json_string = json.loads(scan_json)
-        scan_json_string["transaction_id"] = "txn-....-00002"
+        scan_json_string = update_scan_json(
+            scan_json, scan_id=2, transaction_id="txn-....-00002"
+        )
 
         # Invoke Scan() command on TMC#
-        tmc_helper.scan(
-            json.dumps(scan_json_string), **ON_OFF_DEVICE_COMMAND_DICT
-        )
+        tmc_helper.scan(scan_json_string, **ON_OFF_DEVICE_COMMAND_DICT)
 
         # Verify ObsState is READY#
         assert telescope_control.is_in_valid_state(
@@ -107,21 +109,25 @@ def test_successive_scan_with_different_configurations(json_factory):
             DEVICE_OBS_STATE_READY_INFO, "obsState"
         )
 
-        configure_json_string = json.loads(configure_json)
-        configure_json_string["transaction_id"] = "txn-....-00003"
+        configure_json_string = update_configure_json(
+            configure_json,
+            scan_duration=20,
+            transaction_id="txn-....-00003",
+            scan_type="target:a",
+            config_id="sbi-mvp01-20200325-00001-target:a",
+        )
 
         # Invoke Configure() Command on TMC#
         tmc_helper.configure_subarray(
-            json.dumps(configure_json_string), **ON_OFF_DEVICE_COMMAND_DICT
+            configure_json_string, **ON_OFF_DEVICE_COMMAND_DICT
         )
 
-        scan_json_string = json.loads(scan_json)
-        scan_json_string["transaction_id"] = "txn-....-00003"
+        scan_json_string = update_scan_json(
+            scan_json, scan_id=3, transaction_id="txn-....-00003"
+        )
 
         # Invoke Scan() command on TMC#
-        tmc_helper.scan(
-            json.dumps(scan_json_string), **ON_OFF_DEVICE_COMMAND_DICT
-        )
+        tmc_helper.scan(scan_json_string, **ON_OFF_DEVICE_COMMAND_DICT)
 
         # Verify ObsState is READY#
         assert telescope_control.is_in_valid_state(
@@ -220,26 +226,23 @@ def test_successive_scan_with_same_configurations(json_factory):
             DEVICE_OBS_STATE_READY_INFO, "obsState"
         )
 
-        scan_json_string = json.loads(scan_json)
-        scan_json_string["transaction_id"] = "txn-....-00002"
-
-        # Invoke Scan() command on TMC#
-        tmc_helper.scan(
-            json.dumps(scan_json_string), **ON_OFF_DEVICE_COMMAND_DICT
+        scan_json_string = update_scan_json(
+            scan_json, scan_id=2, transaction_id="txn-....-00002"
         )
+        # Invoke Scan() command on TMC#
+        tmc_helper.scan(scan_json_string, **ON_OFF_DEVICE_COMMAND_DICT)
 
         # Verify ObsState is READY#
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_READY_INFO, "obsState"
         )
 
-        scan_json_string = json.loads(scan_json)
-        scan_json_string["transaction_id"] = "txn-....-00003"
+        scan_json_string = update_scan_json(
+            scan_json, scan_id=3, transaction_id="txn-....-00003"
+        )
 
         # Invoke Scan() command on TMC#
-        tmc_helper.scan(
-            json.dumps(scan_json_string), **ON_OFF_DEVICE_COMMAND_DICT
-        )
+        tmc_helper.scan(scan_json_string, **ON_OFF_DEVICE_COMMAND_DICT)
 
         # Verify ObsState is READY#
         assert telescope_control.is_in_valid_state(

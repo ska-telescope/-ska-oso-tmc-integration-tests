@@ -1,3 +1,4 @@
+import json
 import logging
 import os
 from os.path import dirname, join
@@ -61,3 +62,27 @@ def json_factory():
 TELESCOPE_ENV = os.getenv("TELESCOPE")
 
 TIMEOUT = 200
+
+
+def update_configure_json(
+    configure_json: str,
+    scan_duration: float,
+    transaction_id: str,
+    scan_type: str,
+    config_id: str,
+) -> str:
+    config_dict = json.loads(configure_json)
+
+    config_dict["tmc"]["scan_duration"] = scan_duration
+    config_dict["transaction_id"] = transaction_id
+    config_dict["sdp"]["scan_type"] = scan_type
+    config_dict["csp"]["common"]["config_id"] = config_id
+    return json.dumps(config_dict)
+
+
+def update_scan_json(scan_json: str, scan_id: int, transaction_id: str) -> str:
+    scan_dict = json.loads(scan_json)
+
+    scan_dict["scan_id"] = scan_id
+    scan_dict["transaction_id"] = transaction_id
+    return json.dumps(scan_dict)
