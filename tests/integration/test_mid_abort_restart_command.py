@@ -225,7 +225,7 @@ def test_abort_in_resourcing_different_resources(json_factory):
     assign_json = json_factory("command_AssignResources")
     assign_json2 = json_factory("command_AssignResources_2")
     release_json = json_factory("command_ReleaseResources")
-    config_json = json_factory("command_Configure")
+    config_json = json_factory("command_Configure_2")
     scan_json = json_factory("command_Scan")
 
     # Modify release json
@@ -336,7 +336,7 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
     """Abort and Restart is executed."""
     assign_json = json_factory("command_AssignResources")
     release_json = json_factory("command_ReleaseResources")
-    config_json = json_factory("command_Configure_2")
+    config_json = json_factory("command_Configure")
     scan_json = json_factory("command_Scan")
     try:
         tmc.check_devices()
