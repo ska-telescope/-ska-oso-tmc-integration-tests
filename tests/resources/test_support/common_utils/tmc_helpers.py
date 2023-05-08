@@ -157,6 +157,13 @@ class TmcHelper(object):
         LOGGER.info("Invoked Configure on SubarrayNode")
         return result, message
 
+    @sync_scan()
+    def scan(self, scan_input_str, **kwargs):
+        subarray_node = DeviceProxy(self.subarray_node)
+        result, message = subarray_node.Scan(scan_input_str)
+        LOGGER.info("Invoked Scan on SubarrayNode")
+        return result, message
+
     @sync_end()
     def end(self, **kwargs):
         subarray_node = DeviceProxy(self.subarray_node)
@@ -197,13 +204,6 @@ class TmcHelper(object):
         subarray_node = DeviceProxy(self.subarray_node)
         result, message = subarray_node.Configure(configure_input_str)
         LOGGER.info("Invoked Configure on SubarrayNode")
-        return result, message
-
-    @sync_scan()
-    def scan(self, scan_input_str, **kwargs):
-        subarray_node = DeviceProxy(self.subarray_node)
-        result, message = subarray_node.Scan(scan_input_str)
-        LOGGER.info("Invoked Scan on SubarrayNode")
         return result, message
 
     @sync_endscan()
