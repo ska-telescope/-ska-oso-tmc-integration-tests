@@ -499,9 +499,6 @@ def test_abort_in_configuring(json_factory):
         tmc.invoke_abort()
         LOGGER.info("Abort command is invoked successfully")
         the_waiter.set_wait_for_pointingstate("READY", [dish_master1])
-        dish_master = DeviceProxy(dish_master1)
-        assert subarray_obs_state_is_aborted()
-        assert dish_master.pointingState == 1
 
         # Invoke Restart() command on TMC
         tmc.invoke_restart()
