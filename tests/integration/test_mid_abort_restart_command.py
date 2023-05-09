@@ -486,8 +486,9 @@ def test_abort_in_configuring(json_factory):
             "CONFIGURING", [tmc_subarraynode1, csp_subarray1]
         )
         the_waiter.wait(100)
-        the_waiter.set_wait_for_pointingstate("TRACK", [dish_master1])
 
+        the_waiter.set_wait_for_pointingstate("TRACK", [dish_master1])
+        the_waiter.wait(100)
         # Setting CSP back to normal
         csp_subarray_proxy.SetDefective(False)
         time.sleep(0.5)
@@ -499,6 +500,7 @@ def test_abort_in_configuring(json_factory):
         tmc.invoke_abort()
         LOGGER.info("Abort command is invoked successfully")
         the_waiter.set_wait_for_pointingstate("READY", [dish_master1])
+        the_waiter.wait(100)
 
         # Invoke Restart() command on TMC
         tmc.invoke_restart()
