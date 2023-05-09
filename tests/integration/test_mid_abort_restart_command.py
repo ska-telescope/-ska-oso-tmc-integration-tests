@@ -441,7 +441,7 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
     except Exception:
         tear_down(release_json)
 
-
+@pytest.mark.aki
 @pytest.mark.SKA_mid
 def test_abort_in_configuring(json_factory):
     """Abort and Restart is executed."""
@@ -486,6 +486,7 @@ def test_abort_in_configuring(json_factory):
             "CONFIGURING", [tmc_subarraynode1, csp_subarray1]
         )
         the_waiter.wait(100)
+        the_waiter.set_wait_for_pointingstate("TRACK", [dish_master1])
 
         # Setting CSP back to normal
         csp_subarray_proxy.SetDefective(False)
@@ -497,10 +498,9 @@ def test_abort_in_configuring(json_factory):
         LOGGER.info("Invoking Abort command on TMC")
         tmc.invoke_abort()
         LOGGER.info("Abort command is invoked successfully")
-
-        assert subarray_obs_state_is_aborted()
-
+        the_waiter.set_wait_for_pointingstate("READY", [dish_master1])
         dish_master = DeviceProxy(dish_master1)
+        assert subarray_obs_state_is_aborted()
         assert dish_master.pointingState == 1
 
         # Invoke Restart() command on TMC
