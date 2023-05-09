@@ -502,6 +502,8 @@ def test_abort_in_configuring(json_factory):
         the_waiter.set_wait_for_pointingstate("READY", [dish_master1])
         the_waiter.wait(100)
 
+        assert subarray_obs_state_is_aborted()
+
         # Invoke Restart() command on TMC
         tmc.invoke_restart()
 
