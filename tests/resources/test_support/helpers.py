@@ -490,12 +490,6 @@ class waiter:
                 "obsState", changed_to="ABORTED"
             )
         )
-        if dish_master1.pointingState:
-            self.waits.append(
-                watch(resource(dish_master1)).to_become(
-                    "pointingState", changed_to="READY"
-                )
-            )
 
     def set_wait_for_intermediate_obsstate(self, obsstate: str, devices: list):
         """Waits for intermidiate obsState change for given devices."""

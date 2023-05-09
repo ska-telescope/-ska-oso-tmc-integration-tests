@@ -9,6 +9,7 @@ from tests.conftest import LOGGER
 from tests.resources.test_support.constant import (
     centralnode,
     csp_subarray1,
+    dish_master1,
     tmc_subarraynode1,
 )
 from tests.resources.test_support.controls import (
@@ -496,6 +497,10 @@ def test_abort_in_configuring(json_factory):
         LOGGER.info("Invoking Abort command on TMC")
         tmc.invoke_abort()
         LOGGER.info("Abort command is invoked successfully")
+
+        # TODO: move this to set_wait_for_aborted
+        the_waiter.set_wait_for_pointingstate("READY", [dish_master1])
+        the_waiter.wait(100)
 
         assert subarray_obs_state_is_aborted()
 
