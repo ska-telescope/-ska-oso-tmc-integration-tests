@@ -9,7 +9,6 @@ from tests.conftest import LOGGER
 from tests.resources.test_support.constant import (
     centralnode,
     csp_subarray1,
-    dish_master1,
     tmc_subarraynode1,
 )
 from tests.resources.test_support.controls import (
