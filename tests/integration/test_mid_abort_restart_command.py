@@ -441,7 +441,7 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
     except Exception:
         tear_down(release_json)
 
-@pytest.mark.aki
+
 @pytest.mark.SKA_mid
 def test_abort_in_configuring(json_factory):
     """Abort and Restart is executed."""
