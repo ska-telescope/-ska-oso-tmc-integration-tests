@@ -500,6 +500,15 @@ class waiter:
                 )
             )
 
+    def set_wait_for_pointingstate(self, pointingstate: str, devices: list):
+        """Waits for intermidiate obsState change for given devices."""
+        for device in devices:
+            self.waits.append(
+                watch(resource(device)).to_become(
+                    "pointingState", changed_to=pointingstate
+                )
+            )
+
     def wait(self, timeout=30, resolution=0.1):
         self.logs = ""
         while self.waits:

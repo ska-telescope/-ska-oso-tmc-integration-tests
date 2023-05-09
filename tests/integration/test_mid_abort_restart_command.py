@@ -380,8 +380,6 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
         # Invoke Abort() command on TMC
         subarray_node = DeviceProxy(tmc_subarraynode1)
         subarray_node.Abort()
-        dish_master = DeviceProxy(dish_master1)
-        dish_master.SetDirectPointingState(1)
         LOGGER.info("Invoked Abort on SubarrayNode")
 
         # Invoke Abort() command on TMC
@@ -499,6 +497,10 @@ def test_abort_in_configuring(json_factory):
         LOGGER.info("Invoking Abort command on TMC")
         tmc.invoke_abort()
         LOGGER.info("Abort command is invoked successfully")
+
+        # TODO: move this to set_wait_for_aborted
+        the_waiter.set_wait_for_pointingstate("READY", [dish_master1])
+        the_waiter.wait(100)
 
         assert subarray_obs_state_is_aborted()
 

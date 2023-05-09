@@ -30,7 +30,6 @@ from tests.resources.test_support.constant import (
     DEVICE_OBS_STATE_IDLE_INFO,
     DEVICE_STATE_STANDBY_INFO,
     ON_OFF_DEVICE_COMMAND_DICT,
-    dish_master1,
 )
 
 resutl, message = "", ""
@@ -175,10 +174,6 @@ class TmcHelper(object):
     def invoke_abort(self, **kwargs):
         subarray_node = DeviceProxy(self.subarray_node)
         result, message = subarray_node.Abort()
-        dish_master = kwargs.get("dish_master")
-        if dish_master:
-            dish_master = DeviceProxy(dish_master1)
-            dish_master.SetDirectPointingState(1)
         LOGGER.info("Invoked Abort on SubarrayNode")
         return result, message
 
