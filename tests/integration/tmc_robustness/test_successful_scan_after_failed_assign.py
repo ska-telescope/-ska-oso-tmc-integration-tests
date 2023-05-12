@@ -31,6 +31,7 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
+
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_failed_assigned.feature",
@@ -221,8 +222,7 @@ def data_recorded_as_expected(json_factory):
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_failed_assigned.feature",
-    "Successfully execute a scan after a successive failed attempt to assign \
-resources",
+    "Successfully execute a scan after a successive failed attempt to assign resources",
 )
 def test_assign_resource_after_successive_assign_failure():
     """
