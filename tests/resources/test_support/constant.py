@@ -98,3 +98,9 @@ DEVICE_LIST_FOR_CHECK_DEVICES = [
     tmc_sdp_master_leaf_node,
     tmc_sdp_subarray_leaf_node,
 ]
+
+DEVICE_OBS_STATE_SCANNING_INFO = {
+    sdp_subarray1: ["SCANNING"],
+    tmc_subarraynode1: ["SCANNING"],
+    csp_subarray1: ["SCANNING"],
+}
