@@ -19,6 +19,10 @@ Feature: Successfully execute a scan after a failed assign resources
         Given a subarray with resources in obsState EMPTY
         When I issue the command AssignResources passing an invalid JSON script to the subarray 
         Then the subarray returns an error message
+        When I issue the command AssignResources passing an invalid JSON script to the subarray 
+        Then the subarray returns an error message
+        When I issue the command AssignResources passing an invalid JSON script to the subarray 
+        Then the subarray returns an error message
         And the subarray remains in obsState EMPTY 
         When I issue the command AssignResources passing a correct JSON script
         Then the subarray transitions to obsState IDLE

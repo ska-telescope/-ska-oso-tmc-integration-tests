@@ -68,7 +68,7 @@ def given_tmc(json_factory):
 
 @when(
     "I issue the command AssignResources passing an invalid JSON script to \
-        the subarray"
+the subarray"
 )
 def send(
     json_factory,
