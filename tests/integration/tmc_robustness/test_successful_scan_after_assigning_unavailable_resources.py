@@ -221,3 +221,16 @@ def teardown_tmc(json_factory):
     assert telescope_control.is_in_valid_state(
         DEVICE_STATE_STANDBY_INFO, "State"
     )
+
+
+@pytest.mark.xfail(reason="This exceptions is not yet handled in TMC")
+@pytest.mark.SKA_mid
+@scenario(
+    "../features/successful_scan_after_assigning_unavailable_resources.feature",  # noqa: E501
+    "Successfully execute a scan after invoking successive assign resources with unavailable resources",  # noqa: E501
+)
+def test_assign_resource_successive_invokation_with_unavailable_resources():
+    """
+    Test AssignResource command with unavailable resources.
+
+    """
