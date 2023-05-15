@@ -32,7 +32,6 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
-@pytest.mark.kk
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_failed_assigned.feature",
@@ -204,7 +203,7 @@ def tmc_accepts_endscan_command(json_factory):
 
 
 @then("implements the teardown")
-def data_recorded_as_expected(json_factory):
+def teardown_the_tmc(json_factory):
     release_json = json_factory("command_ReleaseResources")
     tmc_helper.end(**ON_OFF_DEVICE_COMMAND_DICT)
     LOGGER.info("Invoking End command on TMC SubarrayNode")
@@ -225,7 +224,6 @@ def data_recorded_as_expected(json_factory):
     )
 
 
-@pytest.mark.kk
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_failed_assigned.feature",
