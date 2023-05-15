@@ -231,6 +231,5 @@ def teardown_tmc(json_factory):
 )
 def test_assign_resource_successive_invokation_with_unavailable_resources():
     """
-    Test AssignResource command with unavailable resources.
-
+    Test  AssignResource command with unavailable resources.
     """
