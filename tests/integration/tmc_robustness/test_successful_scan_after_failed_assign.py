@@ -203,7 +203,7 @@ def tmc_accepts_endscan_command(json_factory):
 # @then("the subarray transitions to obsState READY")
 
 
-@then("the data is recorded as expected")
+@then("implements the teardown")
 def data_recorded_as_expected(json_factory):
     release_json = json_factory("command_ReleaseResources")
     tmc_helper.end(**ON_OFF_DEVICE_COMMAND_DICT)
@@ -236,3 +236,53 @@ def test_assign_resource_after_successive_assign_failure():
     Test AssignResource command with input as invalid json.
 
     """
+
+
+@when(
+    parsers.parse(
+        "I issue the command AssignResources passing an invalid JSON script2 to the subarray {subarray_id}"  # noqa: E501
+    )
+)
+def send_assignresource_with_invalid_json2(
+    json_factory,
+):
+    try:
+        assign_json = json_factory("command_AssignResources")
+        release_json = json_factory("command_ReleaseResources")
+        assign_json = json.loads(assign_json)
+        del assign_json["sdp"]["execution_block"]["scan_types"][0][
+            "scan_type_id"
+        ]
+        # Invoke AssignResources() Command on TMC
+        LOGGER.info("Invoking AssignResources command on TMC CentralNode")
+        central_node = DeviceProxy(centralnode)
+        pytest.command_result = central_node.AssignResources(
+            json.dumps(assign_json)
+        )
+    except Exception as e:
+        LOGGER.info("The Exception is %s", e)
+        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
+
+
+@when(
+    parsers.parse(
+        "I issue the command AssignResources passing an invalid JSON script3 to the subarray {subarray_id}"  # noqa: E501
+    )
+)
+def send_assignresource_with_invalid_json3(
+    json_factory,
+):
+    try:
+        assign_json = json_factory("command_AssignResources")
+        release_json = json_factory("command_ReleaseResources")
+        assign_json = json.loads(assign_json)
+        del assign_json["sdp"]["execution_block"]["channels"][0]["channels_id"]
+        # Invoke AssignResources() Command on TMC
+        LOGGER.info("Invoking AssignResources command on TMC CentralNode")
+        central_node = DeviceProxy(centralnode)
+        pytest.command_result = central_node.AssignResources(
+            json.dumps(assign_json)
+        )
+    except Exception as e:
+        LOGGER.info("The Exception is %s", e)
+        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)

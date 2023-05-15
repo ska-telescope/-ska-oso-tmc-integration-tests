@@ -12,7 +12,7 @@ Feature: Successfully execute a scan after a failed assign resources
         Then the subarray transitions to obsState SCANNING
         When I issue the command EndScan 
         Then the subarray transitions to obsState READY
-        And the data is recorded as expected
+        And implements the teardown
         Examples:
         | subarray_id  | resources_list |
         | 1            | "SKA001"       |
@@ -22,9 +22,9 @@ Feature: Successfully execute a scan after a failed assign resources
         Given a subarray <subarray_id> with resources <resources_list> in obsState EMPTY
         When I issue the command AssignResources passing an invalid JSON script to the subarray <subarray_id>
         Then the subarray <subarray_id> returns an error message
-        When I issue the command AssignResources passing an invalid JSON script to the subarray <subarray_id>
+        When I issue the command AssignResources passing an invalid JSON script2 to the subarray <subarray_id>
         Then the subarray <subarray_id> returns an error message
-        When I issue the command AssignResources passing an invalid JSON script to the subarray <subarray_id>
+        When I issue the command AssignResources passing an invalid JSON script3 to the subarray <subarray_id>
         Then the subarray <subarray_id> returns an error message
         And the subarray <subarray_id> remains in obsState EMPTY 
         When I issue the command AssignResources passing a correct JSON script
@@ -35,7 +35,7 @@ Feature: Successfully execute a scan after a failed assign resources
         Then the subarray transitions to obsState SCANNING
         When I issue the command EndScan 
         Then the subarray transitions to obsState READY
-        And the data is recorded as expected
+        And implements the teardown
         Examples:
         | subarray_id  | resources_list |
         | 1            | "SKA001"       |
