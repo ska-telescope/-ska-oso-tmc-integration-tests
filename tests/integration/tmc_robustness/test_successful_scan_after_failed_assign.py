@@ -2,7 +2,7 @@ import json
 import time
 
 import pytest
-from pytest_bdd import given, scenario, then, when
+from pytest_bdd import given, parsers, scenario, then, when
 from tango import DeviceProxy
 
 from tests.conftest import LOGGER
@@ -27,10 +27,12 @@ from tests.resources.test_support.telescope_controls import (
     BaseTelescopeControl,
 )
 
+# noqa: E501
 tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
+@pytest.mark.kk
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_failed_assigned.feature",
@@ -43,7 +45,11 @@ def test_assign_resource_with_invalid_json():
     """
 
 
-@given("a subarray with resources in obsState EMPTY")
+@given(
+    parsers.parse(
+        "a subarray {subarray_id} with resources {resources_list} in obsState EMPTY"  # noqa: E501
+    )
+)
 def given_tmc(json_factory):
     release_json = json_factory("command_ReleaseResources")
     try:
@@ -66,8 +72,9 @@ def given_tmc(json_factory):
 
 
 @when(
-    "I issue the command AssignResources passing an invalid JSON script to \
-the subarray"
+    parsers.parse(
+        "I issue the command AssignResources passing an invalid JSON script to the subarray {subarray_id}"  # noqa: E501
+    )
 )
 def send(
     json_factory,
@@ -88,13 +95,13 @@ def send(
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-@then("the subarray returns an error message")
+@then(parsers.parse("the subarray {subarray_id} returns an error message"))
 def invalid_command_rejection():
     assert "JSON validation error" in pytest.command_result[1][0]
     assert pytest.command_result[0][0] == ResultCode.REJECTED
 
 
-@then("the subarray remains in obsState EMPTY")
+@then(parsers.parse("the subarray {subarray_id} remains in obsState EMPTY"))
 def tmc_status():
     # Verify obsState transitions
     assert telescope_control.is_in_valid_state(
@@ -183,6 +190,7 @@ def tmc_accepts_endscan_command(json_factory):
         subarray_node = DeviceProxy(tmc_subarraynode1)
         subarray_node.EndScan()
         LOGGER.info("Invoking EndScan command on TMC SubarrayNode")
+        time.sleep(1)
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_READY_INFO, "obsState"
         )
@@ -221,8 +229,7 @@ def data_recorded_as_expected(json_factory):
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_failed_assigned.feature",
-    "Successfully execute a scan after a successive failed attempt to assign \
-resources",
+    "Successfully execute a scan after a successive failed attempt to assign resources",  # noqa: E501
 )
 def test_assign_resource_after_successive_assign_failure():
     """
