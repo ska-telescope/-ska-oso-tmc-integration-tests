@@ -6,8 +6,11 @@ from tests.resources.test_support.common_utils.common_helpers import (
     Waiter,
     resource,
 )
-from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
-from tests.resources.test_support.constant import (
+from tests.resources.test_support.common_utils.tmc_helpers import (
+    TmcHelper,
+    tear_down,
+)
+from tests.resources.test_support.constant_low import (
     DEVICE_LIST_FOR_CHECK_DEVICES,
     DEVICE_OBS_STATE_ABORT_INFO,
     DEVICE_OBS_STATE_EMPTY_INFO,
@@ -19,18 +22,17 @@ from tests.resources.test_support.constant import (
     centralnode,
     tmc_subarraynode1,
 )
-from tests.resources.test_support.telescope_controls import (
-    BaseTelescopeControl,
+from tests.resources.test_support.low.telescope_controls_low import (
+    TelescopeControlLow,
 )
-from tests.resources.test_support.tmc_helpers import tear_down
 
 
-@pytest.mark.SKA_mid
-def test_mid_abort_restart_in_restarting(json_factory):
+@pytest.mark.SKA_low
+def test_low_abort_restart_in_restarting(json_factory):
     """Abort and Restart is executed."""
-    telescope_control = BaseTelescopeControl()
-    assign_json = json_factory("command_AssignResources")
-    release_json = json_factory("command_ReleaseResources")
+    telescope_control = TelescopeControlLow()
+    assign_json = json_factory("command_assign_resource_low")
+    release_json = json_factory("command_release_resource_low")
     tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 
     try:
@@ -103,4 +105,4 @@ def test_mid_abort_restart_in_restarting(json_factory):
         LOGGER.info("Test complete.")
 
     except Exception:
-        tear_down(release_json)
+        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
