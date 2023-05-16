@@ -27,7 +27,6 @@ from tests.resources.test_support.telescope_controls import (
     BaseTelescopeControl,
 )
 
-# noqa: E501
 tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
