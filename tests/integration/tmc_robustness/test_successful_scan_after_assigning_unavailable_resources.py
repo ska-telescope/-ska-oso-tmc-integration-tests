@@ -31,7 +31,6 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
-@pytest.mark.xfail(reason="This exceptions is not yet handled in TMC")
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_assigning_unavailable_resources.feature",  # noqa: E501
@@ -94,7 +93,10 @@ def send(json_factory, resources_list):
 
 @then(parsers.parse("the subarray {subarray_id} returns an error message"))
 def invalid_command_rejection():
-    assert "JSON validation error" in pytest.command_result[1][0]
+    assert (
+        "The following Receptor id(s) do not exist"
+        in pytest.command_result[1][0]
+    )
     assert pytest.command_result[0][0] == ResultCode.REJECTED
 
 
@@ -202,6 +204,9 @@ def tmc_accepts_endscan_command(json_factory):
 
 @then("implements the teardown")
 def teardown_tmc(json_factory):
+    """
+    This method will invoke the teardown on tmc
+    """
     release_json = json_factory("command_ReleaseResources")
     tmc_helper.end(**ON_OFF_DEVICE_COMMAND_DICT)
     LOGGER.info("Invoking End command on TMC SubarrayNode")
@@ -222,7 +227,6 @@ def teardown_tmc(json_factory):
     )
 
 
-@pytest.mark.xfail(reason="This exceptions is not yet handled in TMC")
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_assigning_unavailable_resources.feature",  # noqa: E501
@@ -230,5 +234,6 @@ def teardown_tmc(json_factory):
 )
 def test_assign_resource_successive_invokation_with_unavailable_resources():
     """
-    Test  AssignResource command with unavailable resources.
+    Test  AssignResource command with successive invokation of assign
+    resources with unavailable resources.
     """
