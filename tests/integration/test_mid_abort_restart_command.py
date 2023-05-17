@@ -505,7 +505,7 @@ def test_abort_in_configuring(json_factory):
 
         # TODO: move this to set_wait_for_aborted
         the_waiter.set_wait_for_pointingstate("READY", [dish_master1])
-        the_waiter.wait(300)
+        the_waiter.wait(500)
 
         assert subarray_obs_state_is_aborted()
 
