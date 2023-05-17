@@ -12,7 +12,6 @@ from tests.resources.test_support.constant import (
     DEVICE_OBS_STATE_ABORT_INFO,
     DEVICE_OBS_STATE_EMPTY_INFO,
     DEVICE_OBS_STATE_IDLE_INFO,
-    DEVICE_STATE_OFF_INFO,
     DEVICE_STATE_ON_INFO,
     DEVICE_STATE_STANDBY_INFO,
     ON_OFF_DEVICE_COMMAND_DICT,
@@ -93,11 +92,11 @@ def test_mid_abort_restart_in_restarting(json_factory):
         )
 
         # Invoke TelescopeOff() command on TMC#
-        tmc_helper.set_to_off(**ON_OFF_DEVICE_COMMAND_DICT)
+        tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
 
         # Verify State transitions after TelescopeOff#
         assert telescope_control.is_in_valid_state(
-            DEVICE_STATE_OFF_INFO, "State"
+            DEVICE_STATE_STANDBY_INFO, "State"
         )
 
         LOGGER.info("Test complete.")

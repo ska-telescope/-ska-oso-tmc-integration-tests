@@ -386,7 +386,12 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
         with pytest.raises(Exception):
             tmc.invoke_abort()
 
-        time.sleep(1)
+        # Verify ObsState is Aborted
+        the_waiter = waiter()
+        the_waiter.set_wait_for_intermediate_obsstate(
+            "ABORTED", [tmc_subarraynode1]
+        )
+        the_waiter.wait(200)
 
         assert subarray_obs_state_is_aborted()
 
@@ -500,7 +505,7 @@ def test_abort_in_configuring(json_factory):
 
         # TODO: move this to set_wait_for_aborted
         the_waiter.set_wait_for_pointingstate("READY", [dish_master1])
-        the_waiter.wait(100)
+        the_waiter.wait(300)
 
         assert subarray_obs_state_is_aborted()
 
