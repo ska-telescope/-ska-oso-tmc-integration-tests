@@ -70,7 +70,8 @@ def given_tmc(json_factory):
 
 
 @when(
-    parsers.parse("I issue the command AssignResources passing an invalid JSON script to the subarray {subarray_id}"  # noqa: E501
+    parsers.parse(
+        "I issue the command AssignResources passing an invalid JSON script to the subarray {subarray_id}"  # noqa: E501
     )
 )
 def invoke_assign_resources_one(
@@ -228,7 +229,7 @@ def teardown_the_tmc(json_factory):
 )
 def test_assign_resource_after_successive_assign_failure():
     """
-    Test successful Scan after after invoking AssignResource command with 
+    Test successful Scan after after invoking AssignResource command with
     different invalid json.
 
     """
@@ -291,7 +292,7 @@ def send_assignresource_with_invalid_json3(
 )
 def test_assign_resource_with_unavailable_resources():
     """
-    Test successful Scan after invoking AssignResource command with 
+    Test successful Scan after invoking AssignResource command with
     unavailable resources.
 
     """
@@ -347,12 +348,12 @@ def test_assign_resource_successive_invokation_with_unavailable_resources():
 )
 def test_assign_resource_with_combination():
     """
-    Test successful Scan after invoking AssignResource with combination of 
+    Test successful Scan after invoking AssignResource with combination of
     invalid json and unavailable resources.
     Sequence
     1. Unavailable Resources
     2. Invalid json
-    """ 
+    """
 
 
 @pytest.mark.SKA_mid
@@ -362,7 +363,7 @@ def test_assign_resource_with_combination():
 )
 def test_assign_resource_with_second_combination():
     """
-    Test successful Scan after invoking AssignResource command with 
+    Test successful Scan after invoking AssignResource command with
     combination of invalid json and unavailable resources.
     Sequence:
     1. Invalid json
