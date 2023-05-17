@@ -70,11 +70,10 @@ def given_tmc(json_factory):
 
 
 @when(
-    parsers.parse(
-        "I issue the command AssignResources passing an invalid JSON script to the subarray {subarray_id}"  # noqa: E501
+    parsers.parse("I issue the command AssignResources passing an invalid JSON script to the subarray {subarray_id}"  # noqa: E501
     )
 )
-def send(
+def invoke_assign_resources_one(
     json_factory,
 ):
     try:
@@ -93,7 +92,7 @@ def send(
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-@then(parsers.parse("the subarray {subarray_id} returns an error message"))
+@then(parsers.parse("the subarray {subarray_id} returns an error message one"))
 def invalid_command_rejection():
     assert "JSON validation error" in pytest.command_result[1][0]
     assert pytest.command_result[0][0] == ResultCode.REJECTED
@@ -116,7 +115,6 @@ def tmc_accepts_command_with_valid_json(json_factory):
         # Invoke AssignResources() Command on TMC
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
         tmc_helper.compose_sub(assign_json, **ON_OFF_DEVICE_COMMAND_DICT)
-        LOGGER.info("AssignResources command is invoked successfully")
 
         # Verify obsState is IDLE
         assert telescope_control.is_in_valid_state(
@@ -230,7 +228,8 @@ def teardown_the_tmc(json_factory):
 )
 def test_assign_resource_after_successive_assign_failure():
     """
-    Test AssignResource command with input as invalid json.
+    Test successful Scan after after invoking AssignResource command with 
+    different invalid json.
 
     """
 
@@ -283,3 +282,89 @@ def send_assignresource_with_invalid_json3(
     except Exception as e:
         LOGGER.info("The Exception is %s", e)
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
+
+
+@pytest.mark.SKA_mid
+@scenario(
+    "../features/successful_scan_after_assigning_unavailable_resources.feature",  # noqa: E501
+    "Successfully execute a scan after invoking assign resources with unavailable resources",  # noqa: E501
+)
+def test_assign_resource_with_unavailable_resources():
+    """
+    Test successful Scan after invoking AssignResource command with 
+    unavailable resources.
+
+    """
+
+
+@when(
+    parsers.parse(
+        "I issue the command AssignResources with unavailable resources {resources_list} to the subarray {subarray_id}"  # noqa: E501
+    )
+)
+def invoke_assign_resources_two(json_factory, resources_list):
+    try:
+        assign_json = json_factory("command_AssignResources")
+        release_json = json_factory("command_ReleaseResources")
+        assign_json = json.loads(assign_json)
+        assign_json["dish"]["receptor_ids"][0] = resources_list
+        # Invoke AssignResources() Command on TMC
+        LOGGER.info("Invoking AssignResources command on TMC CentralNode")
+        central_node = DeviceProxy(centralnode)
+        pytest.command_result = central_node.AssignResources(
+            json.dumps(assign_json)
+        )
+    except Exception as e:
+        LOGGER.info("The Exception is %s", e)
+        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
+
+
+@then(parsers.parse("the subarray {subarray_id} returns an error message two"))
+def invalid_command_rejection_two():
+    assert (
+        "The following Receptor id(s) do not exist"
+        in pytest.command_result[1][0]
+    )
+    assert pytest.command_result[0][0] == ResultCode.REJECTED
+
+
+@pytest.mark.SKA_mid
+@scenario(
+    "../features/successful_scan_after_assigning_unavailable_resources.feature",  # noqa: E501
+    "Successfully execute a scan after invoking successive assign resources with unavailable resources",  # noqa: E501
+)
+def test_assign_resource_successive_invokation_with_unavailable_resources():
+    """
+    Test successful execution of Scan after successful invokation of
+    AssignResource command with unavailable resources.
+    """
+
+
+@pytest.mark.SKA_mid
+@scenario(
+    "../features/successful_scan_after_combination_of_failed_assign_resources.feature",  # noqa: E501
+    "Successfully execute a scan after combination of failed assign resources",  # noqa: E501
+)
+def test_assign_resource_with_combination():
+    """
+    Test successful Scan after invoking AssignResource with combination of 
+    invalid json and unavailable resources.
+    Sequence
+    1. Unavailable Resources
+    2. Invalid json
+    """ 
+
+
+@pytest.mark.SKA_mid
+@scenario(
+    "../features/successful_scan_after_combination_of_failed_assign_resources.feature",  # noqa: E501
+    "Successfully execute a scan after second combination of failed assign resources",  # noqa: E501
+)
+def test_assign_resource_with_second_combination():
+    """
+    Test successful Scan after invoking AssignResource command with 
+    combination of invalid json and unavailable resources.
+    Sequence:
+    1. Invalid json
+    2. Unavailable Resources
+    """

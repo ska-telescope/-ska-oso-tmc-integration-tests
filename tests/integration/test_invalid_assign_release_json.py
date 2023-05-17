@@ -66,7 +66,6 @@ def test_assign_invalid_json(json_factory):
         tear_down()
 
 
-@pytest.mark.kk
 @pytest.mark.SKA_mid
 def test_release_invalid_json(json_factory):
     assign_json = json_factory("command_AssignResources")
