@@ -54,7 +54,6 @@ def test_low_abort_restart_in_restarting(json_factory):
         )
 
         # Invoke AssignResources() Command on TMC#
-        LOGGER.info("Invoking AssignResources command on TMC CentralNode")
         tmc_helper.compose_sub(assign_json, **ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("AssignResources command is invoked successfully")
 
@@ -84,9 +83,7 @@ def test_low_abort_restart_in_restarting(json_factory):
 
         # Verify ObsState is EMPTY
         the_waiter = Waiter()
-        the_waiter.set_wait_for_intermediate_obsstate(
-            "EMPTY", [tmc_subarraynode1]
-        )
+        the_waiter.set_wait_for_specific_obsstate("EMPTY", [tmc_subarraynode1])
         the_waiter.wait(100)
 
         # Verify ObsState is EMPTY#

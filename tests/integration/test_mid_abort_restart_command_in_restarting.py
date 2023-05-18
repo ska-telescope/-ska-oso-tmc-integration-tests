@@ -51,7 +51,6 @@ def test_mid_abort_restart_in_restarting(json_factory):
         )
 
         # Invoke AssignResources() Command on TMC#
-        LOGGER.info("Invoking AssignResources command on TMC CentralNode")
         tmc_helper.compose_sub(assign_json, **ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("AssignResources command is invoked successfully")
 
@@ -81,9 +80,7 @@ def test_mid_abort_restart_in_restarting(json_factory):
 
         # Verify ObsState is EMPTY
         the_waiter = Waiter()
-        the_waiter.set_wait_for_intermediate_obsstate(
-            "EMPTY", [tmc_subarraynode1]
-        )
+        the_waiter.set_wait_for_specific_obsstate("EMPTY", [tmc_subarraynode1])
         the_waiter.wait(100)
 
         # Verify ObsState is EMPTY#
@@ -91,10 +88,10 @@ def test_mid_abort_restart_in_restarting(json_factory):
             DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
         )
 
-        # Invoke TelescopeOff() command on TMC#
+        # Invoke TelescopeStandby() command on TMC#
         tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
 
-        # Verify State transitions after TelescopeOff#
+        # Verify State transitions after TelescopeStandby#
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_STANDBY_INFO, "State"
         )

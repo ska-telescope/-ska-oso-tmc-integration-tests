@@ -39,7 +39,6 @@ def test_mid_abort_restart_in_ready(json_factory):
         LOGGER.info("Staring up the Telescope")
 
         # Invoke TelescopeOn() command on TMC#
-        LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
         tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("TelescopeOn command is invoked successfully")
 
@@ -49,7 +48,6 @@ def test_mid_abort_restart_in_ready(json_factory):
         )
 
         # Invoke AssignResources() Command on TMC#
-        LOGGER.info("Invoking AssignResources command on TMC CentralNode")
         tmc_helper.compose_sub(assign_json, **ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("AssignResources command is invoked successfully")
 
@@ -85,10 +83,10 @@ def test_mid_abort_restart_in_ready(json_factory):
             DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
         )
 
-        # Invoke TelescopeOff() command on TMC#
+        # Invoke TelescopeStandby() command on TMC#
         tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
 
-        # Verify State transitions after TelescopeOff#
+        # Verify State transitions after TelescopeStandby#
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_STANDBY_INFO, "State"
         )

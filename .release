@@ -6,7 +6,7 @@ tag_description=
 
     **1.1 ska-tmc-low - 0.5.4 - 0.5.5:
 
-       a.  Intermediate chart for Abort and Restart functionality implementation on TMC Low
+       a.  specific chart for Abort and Restart functionality implementation on TMC Low
 
     **1.2 ska-tmc-mid - 0.8.7 - 0.8.8:
         a. Updated Central Node, Subarray Node and Dish Leaf Node to use latest DishID formats.
@@ -20,7 +20,7 @@ release_notes=
 
     **1.1 ska-tmc-low - 0.5.4 - 0.5.5:
 
-       a.   Intermediate chart for Abort and Restart functionality implementation on TMC Low
+       a.   specific chart for Abort and Restart functionality implementation on TMC Low
 
     **1.2 ska-tmc-mid - 0.8.7 - 0.8.8:
         a. Updated Central Node, Subarray Node and Dish Leaf Node to use latest DishID formats.

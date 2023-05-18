@@ -151,7 +151,7 @@ def test_abort_in_resourcing(json_factory):
 
         # Verify ObsState is RESOURCING
         the_waiter = waiter()
-        the_waiter.set_wait_for_intermediate_obsstate(
+        the_waiter.set_wait_for_specific_obsstate(
             "RESOURCING", [tmc_subarraynode1]
         )
         the_waiter.wait(20)
@@ -263,7 +263,7 @@ def test_abort_in_resourcing_different_resources(json_factory):
 
         # Verify ObsState is RESOURCING
         the_waiter = waiter()
-        the_waiter.set_wait_for_intermediate_obsstate(
+        the_waiter.set_wait_for_specific_obsstate(
             "RESOURCING", [tmc_subarraynode1]
         )
         the_waiter.wait(20)
@@ -368,7 +368,7 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
 
         # Verify ObsState is RESOURCING
         the_waiter = waiter()
-        the_waiter.set_wait_for_intermediate_obsstate(
+        the_waiter.set_wait_for_specific_obsstate(
             "RESOURCING", [tmc_subarraynode1]
         )
         the_waiter.wait(20)
@@ -388,7 +388,7 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
 
         # Verify ObsState is Aborted
         the_waiter = waiter()
-        the_waiter.set_wait_for_intermediate_obsstate(
+        the_waiter.set_wait_for_specific_obsstate(
             "ABORTED", [tmc_subarraynode1]
         )
         the_waiter.wait(200)
@@ -487,7 +487,7 @@ def test_abort_in_configuring(json_factory):
 
         # Verify ObsState is CONFIGURING
         the_waiter = waiter()
-        the_waiter.set_wait_for_intermediate_obsstate(
+        the_waiter.set_wait_for_specific_obsstate(
             "CONFIGURING", [tmc_subarraynode1, csp_subarray1]
         )
         the_waiter.wait(100)
@@ -615,7 +615,7 @@ def test_abort_in_scanning(json_factory):
 
         # Verify ObsState is SCANNING
         the_waiter = waiter()
-        the_waiter.set_wait_for_intermediate_obsstate(
+        the_waiter.set_wait_for_specific_obsstate(
             "SCANNING", [tmc_subarraynode1]
         )
         the_waiter.wait(20)
