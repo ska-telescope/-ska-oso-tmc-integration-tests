@@ -1,26 +1,26 @@
-release=0.6.12
-tag=0.6.12
+release=0.7.13
+tag=0.7.13
 tag_description=
 **Charts:**
-**1. ska-tmc-integration 0.6.11 - 0.6.12:**
+**1. ska-tmc-integration 0.6.12 - 0.7.13:**
 
     **1.1 ska-tmc-low - 0.5.4 - 0.5.5:
 
        a.  Intermediate chart for Abort and Restart functionality implementation on TMC Low
 
-    **1.2 ska-tmc-mid - 0.8.7 - 0.8.8:
-        a. Updated Central Node, Subarray Node and Dish Leaf Node to use latest DishID formats.
+    **1.2 ska-tmc-mid - 0.8.8 - 0.8.9:
+        a. Updated Dish Leaf Node with Abort functionality implementation. 
 
 
 
 
 release_notes=
 **Charts:**
-**1. ska-tmc-integration 0.6.11 - 0.6.12:**
+**1. ska-tmc-integration 0.6.12 - 0.7.13:**
 
     **1.1 ska-tmc-low - 0.5.4 - 0.5.5:
 
        a.   Intermediate chart for Abort and Restart functionality implementation on TMC Low
 
-    **1.2 ska-tmc-mid - 0.8.7 - 0.8.8:
-        a. Updated Central Node, Subarray Node and Dish Leaf Node to use latest DishID formats.
+    **1.2 ska-tmc-mid - 0.8.8 - 0.8.9:
+        a. Updated Dish Leaf Node with Abort functionality implementation. 
