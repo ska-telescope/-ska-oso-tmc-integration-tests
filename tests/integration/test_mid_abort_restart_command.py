@@ -492,6 +492,9 @@ def test_abort_in_configuring(json_factory):
         )
         the_waiter.wait(100)
 
+        the_waiter.set_wait_for_pointingstate("TRACK", [dish_master1])
+        the_waiter.wait(200)
+
         # Setting CSP back to normal
         csp_subarray_proxy.SetDefective(False)
         time.sleep(0.5)
@@ -505,7 +508,7 @@ def test_abort_in_configuring(json_factory):
 
         # TODO: move this to set_wait_for_aborted
         the_waiter.set_wait_for_pointingstate("READY", [dish_master1])
-        the_waiter.wait(500)
+        the_waiter.wait(200)
 
         assert subarray_obs_state_is_aborted()
 
