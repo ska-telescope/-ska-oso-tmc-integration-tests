@@ -6,7 +6,7 @@ from pytest_bdd import given, parsers, scenario, then, when
 from tango import DeviceProxy
 
 from tests.conftest import LOGGER
-from tests.resources.test_support.common_utils.common_helpers import resource
+from tests.resources.test_support.common_utils.common_helpers import Waiter
 from tests.resources.test_support.common_utils.result_code import ResultCode
 from tests.resources.test_support.common_utils.tmc_helpers import (
     TmcHelper,
@@ -77,9 +77,9 @@ def given_tmc(json_factory):
 def invoke_assign_resources_one(
     json_factory,
 ):
+    assign_json = json_factory("command_AssignResources")
+    release_json = json_factory("command_ReleaseResources")
     try:
-        assign_json = json_factory("command_AssignResources")
-        release_json = json_factory("command_ReleaseResources")
         assign_json = json.loads(assign_json)
         del assign_json["sdp"]["processing_blocks"][0]["pb_id"]
         # Invoke AssignResources() Command on TMC
@@ -109,24 +109,20 @@ def tmc_status():
 
 @when("I issue the command AssignResources passing a correct JSON script")
 def tmc_accepts_command_with_valid_json(json_factory):
+    assign_json = json_factory("command_AssignResources")
+    release_json = json_factory("command_ReleaseResources")
     try:
-        assign_json = json_factory("command_AssignResources")
-        release_json = json_factory("command_ReleaseResources")
-
         # Invoke AssignResources() Command on TMC
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
         tmc_helper.compose_sub(assign_json, **ON_OFF_DEVICE_COMMAND_DICT)
-
-        # Verify obsState is IDLE
-        assert telescope_control.is_in_valid_state(
-            DEVICE_OBS_STATE_IDLE_INFO, "obsState"
-        )
-    except Exception:
+    except Exception as e:
+        LOGGER.info("The Exception is %s", e)
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
 @then("the subarray transitions to obsState IDLE")
 def tmc_status_idle(json_factory):
+    # Verify obsState is IDLE
     assert telescope_control.is_in_valid_state(
         DEVICE_OBS_STATE_IDLE_INFO, "obsState"
     )
@@ -140,17 +136,14 @@ def tmc_accepts_configure_command_with_valid_json(json_factory):
         tmc_helper.configure_subarray(
             configure_json, **ON_OFF_DEVICE_COMMAND_DICT
         )
-        LOGGER.info("Invoking Configure command on TMC CentralNode")
-        assert telescope_control.is_in_valid_state(
-            DEVICE_OBS_STATE_READY_INFO, "obsState"
-        )
+        LOGGER.info("Invoked Configure command on TMC CentralNode")
     except Exception:
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
-        LOGGER.info("Tear Down complete. Telescope is in Standby State")
 
 
 @then("the subarray transitions to obsState READY")
 def tmc_status_ready():
+    # Verify that the obstate is READY
     assert telescope_control.is_in_valid_state(
         DEVICE_OBS_STATE_READY_INFO, "obsState"
     )
@@ -163,14 +156,15 @@ def tmc_accepts_scan_command(json_factory):
     try:
         subarray_node = DeviceProxy(tmc_subarraynode1)
         subarray_node.Scan(scan_json)
-        time.sleep(1)
-        LOGGER.info("Invoking Scan command on TMC Subarray Node")
-        resource(tmc_subarraynode1).assert_attribute("obsState").equals(
-            "SCANNING"
+        the_waiter = Waiter()
+        the_waiter.set_wait_for_specific_obsstate(
+            "SCANNING", [tmc_subarraynode1]
         )
-    except Exception:
+        the_waiter.wait(40)
+        LOGGER.info("Invoked Scan command on TMC Subarray Node")
+    except Exception as e:
+        LOGGER.info("The Exception is %s", e)
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
-        LOGGER.info("Tear Down complete. Telescope is in Standby State")
 
 
 @then("the subarray transitions to obsState SCANNING")
@@ -243,9 +237,9 @@ def test_assign_resource_after_successive_assign_failure():
 def send_assignresource_with_invalid_json2(
     json_factory,
 ):
+    assign_json = json_factory("command_AssignResources")
+    release_json = json_factory("command_ReleaseResources")
     try:
-        assign_json = json_factory("command_AssignResources")
-        release_json = json_factory("command_ReleaseResources")
         assign_json = json.loads(assign_json)
         del assign_json["sdp"]["execution_block"]["scan_types"][0][
             "scan_type_id"
@@ -269,9 +263,9 @@ def send_assignresource_with_invalid_json2(
 def send_assignresource_with_invalid_json3(
     json_factory,
 ):
+    assign_json = json_factory("command_AssignResources")
+    release_json = json_factory("command_ReleaseResources")
     try:
-        assign_json = json_factory("command_AssignResources")
-        release_json = json_factory("command_ReleaseResources")
         assign_json = json.loads(assign_json)
         del assign_json["sdp"]["execution_block"]["channels"][0]["channels_id"]
         # Invoke AssignResources() Command on TMC
@@ -285,6 +279,7 @@ def send_assignresource_with_invalid_json3(
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
+@pytest.mark.kk
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_assigning_unavailable_resources.feature",  # noqa: E501
@@ -304,9 +299,9 @@ def test_assign_resource_with_unavailable_resources():
     )
 )
 def invoke_assign_resources_two(json_factory, resources_list):
+    assign_json = json_factory("command_AssignResources")
+    release_json = json_factory("command_ReleaseResources")
     try:
-        assign_json = json_factory("command_AssignResources")
-        release_json = json_factory("command_ReleaseResources")
         assign_json = json.loads(assign_json)
         assign_json["dish"]["receptor_ids"][0] = resources_list
         # Invoke AssignResources() Command on TMC
@@ -320,10 +315,12 @@ def invoke_assign_resources_two(json_factory, resources_list):
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-@then(parsers.parse("the subarray {subarray_id} returns an error message two"))
-def invalid_command_rejection_two():
+@then(
+    parsers.parse("the subarray {subarray_id} returns an error message two")
+)  # noqa: E501
+def invalid_command_rejection_two(resources_list):
     assert (
-        "The following Receptor id(s) do not exist"
+        "The following Receptor id(s) do not exist:"
         in pytest.command_result[1][0]
     )
     assert pytest.command_result[0][0] == ResultCode.REJECTED
