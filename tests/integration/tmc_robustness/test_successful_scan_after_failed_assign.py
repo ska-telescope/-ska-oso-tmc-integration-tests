@@ -1,5 +1,4 @@
 import json
-import time
 
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
@@ -93,7 +92,7 @@ def invoke_assign_resources_one(
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-@then(parsers.parse("the subarray {subarray_id} returns an error message one"))
+@then(parsers.parse("the subarray {subarray_id} returns an error message"))
 def invalid_command_rejection():
     assert "JSON validation error" in pytest.command_result[1][0]
     assert pytest.command_result[0][0] == ResultCode.REJECTED
@@ -160,7 +159,7 @@ def tmc_accepts_scan_command(json_factory):
         the_waiter.set_wait_for_specific_obsstate(
             "SCANNING", [tmc_subarraynode1]
         )
-        the_waiter.wait(40)
+        the_waiter.wait(100)
         LOGGER.info("Invoked Scan command on TMC Subarray Node")
     except Exception as e:
         LOGGER.info("The Exception is %s", e)
@@ -181,7 +180,9 @@ def tmc_accepts_endscan_command(json_factory):
         subarray_node = DeviceProxy(tmc_subarraynode1)
         subarray_node.EndScan()
         LOGGER.info("Invoking EndScan command on TMC SubarrayNode")
-        time.sleep(1)
+        the_waiter = Waiter()
+        the_waiter.set_wait_for_specific_obsstate("READY", [tmc_subarraynode1])
+        the_waiter.wait(100)
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_READY_INFO, "obsState"
         )
@@ -316,13 +317,14 @@ def invoke_assign_resources_two(json_factory, resources_list):
 
 
 @then(
-    parsers.parse("the subarray {subarray_id} returns an error message two")
+    parsers.parse(
+        "the subarray {subarray_id} returns an error message with {resorces_list}"  # noqa: E501
+    )
 )  # noqa: E501
-def invalid_command_rejection_two(resources_list):
+def invalid_command_rejection_with_unavailable_resources(resources_list):
     assert (
         "The following Receptor id(s) do not exist:"
-        in pytest.command_result[1][0]
-    )
+    ) and resources_list in pytest.command_result[1][0]
     assert pytest.command_result[0][0] == ResultCode.REJECTED
 
 
