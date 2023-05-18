@@ -135,7 +135,7 @@ def tmc_accepts_configure_command_with_valid_json(json_factory):
         tmc_helper.configure_subarray(
             configure_json, **ON_OFF_DEVICE_COMMAND_DICT
         )
-        LOGGER.info("Invoked Configure command on TMC CentralNode")
+        LOGGER.info("Invoked Configure command on TMC SubarrayNode")
     except Exception:
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
@@ -159,7 +159,7 @@ def tmc_accepts_scan_command(json_factory):
         the_waiter.set_wait_for_specific_obsstate(
             "SCANNING", [tmc_subarraynode1]
         )
-        the_waiter.wait(100)
+        the_waiter.wait(40)
         LOGGER.info("Invoked Scan command on TMC Subarray Node")
     except Exception as e:
         LOGGER.info("The Exception is %s", e)
@@ -182,7 +182,7 @@ def tmc_accepts_endscan_command(json_factory):
         LOGGER.info("Invoking EndScan command on TMC SubarrayNode")
         the_waiter = Waiter()
         the_waiter.set_wait_for_specific_obsstate("READY", [tmc_subarraynode1])
-        the_waiter.wait(100)
+        the_waiter.wait(40)
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_READY_INFO, "obsState"
         )
