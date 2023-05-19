@@ -31,6 +31,7 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
+@pytest.mark.test1
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_failed_configure.feature",
@@ -122,7 +123,6 @@ def tmc_accepts_command_with_valid_json(json_factory):
     try:
         configure_json = json_factory("command_Configure")
         # Invoke Configure() Command on TMC
-        LOGGER.info("Invoking Configure command on TMC Subarray")
         tmc_helper.configure_subarray(
             configure_json, **ON_OFF_DEVICE_COMMAND_DICT
         )
@@ -164,10 +164,8 @@ def tmc_status_scanning():
 def tmc_accepts_endscan_command(json_factory):
     release_json = json_factory("command_ReleaseResources")
     try:
-        subarray_node = DeviceProxy(tmc_subarraynode1)
-        subarray_node.EndScan()
+        tmc_helper.invoke_endscan(**ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("Invoking EndScan command on TMC SubarrayNode")
-        time.sleep(1)
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_READY_INFO, "obsState"
         )
