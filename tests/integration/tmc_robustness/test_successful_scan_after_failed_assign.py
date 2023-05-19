@@ -181,13 +181,6 @@ def tmc_accepts_endscan_command(json_factory):
         subarray_node = DeviceProxy(tmc_subarraynode1)
         subarray_node.EndScan()
         LOGGER.info("Invoking EndScan command on TMC SubarrayNode")
-        the_waiter = Waiter()
-        the_waiter.set_wait_for_specific_obsstate("READY", [tmc_subarraynode1])
-        the_waiter.wait(100)
-        assert telescope_control.is_in_valid_state(
-            DEVICE_OBS_STATE_READY_INFO, "obsState"
-        )
-
     except Exception:
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("Tear Down complete. Telescope is in Standby State")

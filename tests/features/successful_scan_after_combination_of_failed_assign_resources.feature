@@ -1,4 +1,4 @@
-    XTP-XTP-20320
+    @XTP-20320
     Feature: Successfully execute a scan after a failed assign resources
         Scenario: Successfully execute a scan after combination of failed assign resources
             Given a subarray <subarray_id> with resources <resources_list> in obsState EMPTY
