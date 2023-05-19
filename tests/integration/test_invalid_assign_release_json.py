@@ -164,7 +164,7 @@ def test_invalid_receptor_ids(json_factory):
             central_node = DeviceProxy(centralnode)
             pytest.command_result = central_node.AssignResources(assign_json)
         except Exception as e:
-            LOGGER.info("The Exception is %s", e)
+            LOGGER.exception("The Exception is %s", e)
             tear_down(release_json)
 
         assert (

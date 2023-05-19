@@ -77,9 +77,9 @@ def test_low_abort_restart_in_restarting(json_factory):
             "RESTARTING"
         )
 
-        # Invoke Restart() command on TMC
+        # Invoke Abort() command on TMC
         with pytest.raises(Exception):
-            tmc_helper.invoke_restart()
+            tmc_helper.invoke_abort()
 
         # Verify ObsState is EMPTY
         the_waiter = Waiter()
