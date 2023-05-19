@@ -120,7 +120,7 @@ def tmc_accepts_command_with_valid_json(json_factory):
 
 
 @then("the subarray transitions to obsState IDLE")
-def tmc_status_idle(json_factory):
+def tmc_status_idle():
     # Verify obsState is IDLE
     assert telescope_control.is_in_valid_state(
         DEVICE_OBS_STATE_IDLE_INFO, "obsState"
@@ -167,7 +167,7 @@ def tmc_accepts_scan_command(json_factory):
 
 
 @then("the subarray transitions to obsState SCANNING")
-def tmc_status_scanning(json_factory):
+def tmc_status_scanning():
     the_waiter = Waiter()
     the_waiter.set_wait_for_specific_obsstate("SCANNING", [tmc_subarraynode1])
     the_waiter.wait(100)
@@ -234,9 +234,7 @@ def test_assign_resource_after_successive_assign_failure():
         "I issue the command AssignResources passing an invalid JSON script2 to the subarray {subarray_id}"  # noqa: E501
     )
 )
-def send_assignresource_with_invalid_json2(
-    json_factory,
-):
+def send_assignresource_with_invalid_json2(json_factory):
     assign_json = json_factory("command_AssignResources")
     release_json = json_factory("command_ReleaseResources")
     try:
@@ -260,9 +258,7 @@ def send_assignresource_with_invalid_json2(
         "I issue the command AssignResources passing an invalid JSON script3 to the subarray {subarray_id}"  # noqa: E501
     )
 )
-def send_assignresource_with_invalid_json3(
-    json_factory,
-):
+def send_assignresource_with_invalid_json3(json_factory):
     assign_json = json_factory("command_AssignResources")
     release_json = json_factory("command_ReleaseResources")
     try:
@@ -279,7 +275,6 @@ def send_assignresource_with_invalid_json3(
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-@pytest.mark.kk
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_assigning_unavailable_resources.feature",  # noqa: E501
