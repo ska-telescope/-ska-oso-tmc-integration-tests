@@ -132,6 +132,7 @@ def tmc_accepts_configure_command_with_valid_json(json_factory):
     configure_json = json_factory("command_Configure")
     release_json = json_factory("command_ReleaseResources")
     try:
+        # Invoke Configure() Command on TMC
         tmc_helper.configure_subarray(
             configure_json, **ON_OFF_DEVICE_COMMAND_DICT
         )
@@ -156,6 +157,7 @@ def tmc_accepts_scan_command(json_factory):
     scan_json = json_factory("command_Scan")
     release_json = json_factory("command_ReleaseResources")
     try:
+        # Invoke Scan() Command on TMC
         subarray_node = DeviceProxy(tmc_subarraynode1)
         subarray_node.Scan(scan_json)
         LOGGER.info("Invoked Scan command on TMC Subarray Node")
@@ -192,11 +194,13 @@ def tmc_accepts_endscan_command(json_factory):
 @then("implements the teardown")
 def teardown_the_tmc(json_factory):
     release_json = json_factory("command_ReleaseResources")
+    # Invoke End Command on TMC
     tmc_helper.end(**ON_OFF_DEVICE_COMMAND_DICT)
     LOGGER.info("Invoking End command on TMC SubarrayNode")
     assert telescope_control.is_in_valid_state(
         DEVICE_OBS_STATE_IDLE_INFO, "obsState"
     )
+    # Invoke ReleaseResources() Command on TMC
     tmc_helper.invoke_releaseResources(
         release_json, **ON_OFF_DEVICE_COMMAND_DICT
     )
@@ -204,6 +208,7 @@ def teardown_the_tmc(json_factory):
     assert telescope_control.is_in_valid_state(
         DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
     )
+    # Invoke Standby() Command on TMC
     tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
     LOGGER.info("Invoking Standby command on TMC SubarrayNode")
     assert telescope_control.is_in_valid_state(
