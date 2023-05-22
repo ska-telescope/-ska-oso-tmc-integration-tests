@@ -121,14 +121,14 @@ def send(json_factory, unexpected_command):
     elif unexpected_command == "EndScan":
         with pytest.raises(Exception) as e:
             LOGGER.info("Invoking EndScan command on TMC SubarrayNode")
-            pytest.command_result = tmc_helper.invoke_endscan(
+            pytest.command_result = tmc_helper.invoke_endscan_in_ready(
                 **ON_OFF_DEVICE_COMMAND_DICT
             )
         LOGGER.info("EndScan command failed with exception %s", e)
     elif unexpected_command == "EndScan":
         with pytest.raises(Exception) as e:
             LOGGER.info("Invoking EndScan command on TMC SubarrayNode")
-            pytest.command_result = tmc_helper.invoke_endscan(
+            pytest.command_result = tmc_helper.invoke_endscan_in_ready(
                 **ON_OFF_DEVICE_COMMAND_DICT
             )
         LOGGER.info("EndScan command failed with exception %s", e)

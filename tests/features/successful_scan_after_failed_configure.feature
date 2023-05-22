@@ -1,3 +1,4 @@
+@XTP-2031
 Feature: Successfully execute a scan after a failed configure
     Scenario: Successfully execute a scan after a failed attempt to configure
         Given a subarray <subarray_id> with resources <resources_list> in obsState IDLE

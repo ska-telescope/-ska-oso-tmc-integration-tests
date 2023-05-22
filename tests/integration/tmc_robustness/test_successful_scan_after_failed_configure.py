@@ -31,7 +31,6 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
-@pytest.mark.test1
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_failed_configure.feature",
@@ -170,8 +169,7 @@ def tmc_accepts_endscan_command(json_factory):
     release_json = json_factory("command_ReleaseResources")
     try:
         LOGGER.info("Invoking EndScan command on TMC SubarrayNode")
-        subarray_node = DeviceProxy(tmc_subarraynode1)
-        subarray_node.EndScan()
+        tmc_helper.invoke_endscan(**ON_OFF_DEVICE_COMMAND_DICT)
     except Exception:
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("Tear Down complete. Telescope is in Standby State")

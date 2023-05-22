@@ -14,6 +14,7 @@ from tests.resources.test_support.common_utils.sync_decorators import (
     sync_configure_sub,
     sync_end,
     sync_endscan,
+    sync_endscan_in_ready,
     sync_release_resources,
     sync_restart,
     sync_scan,
@@ -203,6 +204,13 @@ class TmcHelper(object):
 
     @sync_endscan()
     def invoke_endscan(self, **kwargs):
+        subarray_node = DeviceProxy(self.subarray_node)
+        result, message = subarray_node.EndScan()
+        LOGGER.info("Invoked EndScan on SubarrayNode")
+        return result, message
+
+    @sync_endscan_in_ready()
+    def invoke_endscan_in_ready(self, **kwargs):
         subarray_node = DeviceProxy(self.subarray_node)
         result, message = subarray_node.EndScan()
         LOGGER.info("Invoked EndScan on SubarrayNode")
