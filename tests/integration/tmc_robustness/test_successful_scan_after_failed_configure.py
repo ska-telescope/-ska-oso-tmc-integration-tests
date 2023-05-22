@@ -1,11 +1,11 @@
 import json
-import time
 
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from tango import DeviceProxy
 
 from tests.conftest import LOGGER
+from tests.resources.test_support.common_utils.common_helpers import Waiter
 from tests.resources.test_support.common_utils.result_code import ResultCode
 from tests.resources.test_support.common_utils.tmc_helpers import (
     TmcHelper,
@@ -123,10 +123,10 @@ def tmc_accepts_command_with_valid_json(json_factory):
     try:
         configure_json = json_factory("command_Configure")
         # Invoke Configure() Command on TMC
+        LOGGER.info("Invoking Configure command on TMC subarray")
         tmc_helper.configure_subarray(
             configure_json, **ON_OFF_DEVICE_COMMAND_DICT
         )
-        LOGGER.info("Configure command is invoked successfully")
 
     except Exception:
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
@@ -134,6 +134,9 @@ def tmc_accepts_command_with_valid_json(json_factory):
 
 @then("the subarray transitions to obsState READY")
 def tmc_status_ready():
+    the_waiter = Waiter()
+    the_waiter.set_wait_for_specific_obsstate("READY", [tmc_subarraynode1])
+    the_waiter.wait(100)
     assert telescope_control.is_in_valid_state(
         DEVICE_OBS_STATE_READY_INFO, "obsState"
     )
@@ -147,7 +150,6 @@ def tmc_accepts_scan_command(json_factory):
         LOGGER.info("Invoking Scan command on TMC Subarray Node")
         subarray_node = DeviceProxy(tmc_subarraynode1)
         subarray_node.Scan(scan_json)
-        time.sleep(1)
     except Exception:
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("Tear Down complete. Telescope is in Standby State")
@@ -155,6 +157,9 @@ def tmc_accepts_scan_command(json_factory):
 
 @then("the subarray transitions to obsState SCANNING")
 def tmc_status_scanning():
+    the_waiter = Waiter()
+    the_waiter.set_wait_for_specific_obsstate("SCANNING", [tmc_subarraynode1])
+    the_waiter.wait(100)
     assert telescope_control.is_in_valid_state(
         DEVICE_OBS_STATE_SCANNING_INFO, "obsState"
     )
@@ -164,25 +169,19 @@ def tmc_status_scanning():
 def tmc_accepts_endscan_command(json_factory):
     release_json = json_factory("command_ReleaseResources")
     try:
-        tmc_helper.invoke_endscan(**ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("Invoking EndScan command on TMC SubarrayNode")
-        assert telescope_control.is_in_valid_state(
-            DEVICE_OBS_STATE_READY_INFO, "obsState"
-        )
+        subarray_node = DeviceProxy(tmc_subarraynode1)
+        subarray_node.EndScan()
     except Exception:
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("Tear Down complete. Telescope is in Standby State")
 
 
 # @then("the subarray transitions to obsState READY")
-# def tmc_status_ready():
-#     assert telescope_control.is_in_valid_state(
-#         DEVICE_OBS_STATE_READY_INFO, "obsState"
-#     )
 
 
-@then("the data is recorded as expected")
-def data_recorded_as_expected(json_factory):
+@then("implements the teardown")
+def teardown_the_tmc(json_factory):
     release_json = json_factory("command_ReleaseResources")
     tmc_helper.end(**ON_OFF_DEVICE_COMMAND_DICT)
     LOGGER.info("Invoking End command on TMC SubarrayNode")

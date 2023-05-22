@@ -10,7 +10,7 @@ Feature: Successfully execute a scan after a failed configure
         Then the subarray transitions to obsState SCANNING
         When I issue the command EndScan
         Then the subarray transitions to obsState READY
-        And the data is recorded as expected
+        And implements the teardown
 
         Examples:
             | subarray_id  | resources_list |
