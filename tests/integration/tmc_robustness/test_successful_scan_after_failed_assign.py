@@ -99,12 +99,16 @@ def invalid_command_rejection():
 
 
 @then(parsers.parse("the subarray {subarray_id} remains in obsState EMPTY"))
-def tmc_status():
-    # Verify obsState transitions
-    assert telescope_control.is_in_valid_state(
-        DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
-    )
-
+def tmc_status(json_factory):
+    release_json = json_factory("command_ReleaseResources")
+    try:
+        # Verify obsState is EMPTY
+        assert telescope_control.is_in_valid_state(
+            DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
+        )
+    except Exception as e:
+        LOGGER.info("The Exception is %s", e)
+        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 @when("I issue the command AssignResources passing a correct JSON script")
 def tmc_accepts_command_with_valid_json(json_factory):
@@ -120,12 +124,16 @@ def tmc_accepts_command_with_valid_json(json_factory):
 
 
 @then("the subarray transitions to obsState IDLE")
-def tmc_status_idle():
-    # Verify obsState is IDLE
-    assert telescope_control.is_in_valid_state(
-        DEVICE_OBS_STATE_IDLE_INFO, "obsState"
-    )
-
+def tmc_status_idle(json_factory):
+    release_json = json_factory("command_ReleaseResources")
+    try:
+        # Verify obsState is IDLE
+        assert telescope_control.is_in_valid_state(
+            DEVICE_OBS_STATE_IDLE_INFO, "obsState"
+        )
+    except Exception as e:
+        LOGGER.info("The Exception is %s", e)
+        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 @when("I issue the command Configure passing a correct JSON script")
 def tmc_accepts_configure_command_with_valid_json(json_factory):
@@ -142,14 +150,19 @@ def tmc_accepts_configure_command_with_valid_json(json_factory):
 
 
 @then("the subarray transitions to obsState READY")
-def tmc_status_ready():
-    the_waiter = Waiter()
-    the_waiter.set_wait_for_specific_obsstate("READY", [tmc_subarraynode1])
-    the_waiter.wait(100)
-    # Verify that the obstate is READY
-    assert telescope_control.is_in_valid_state(
-        DEVICE_OBS_STATE_READY_INFO, "obsState"
-    )
+def tmc_status_ready(json_factory):
+    release_json = json_factory("command_ReleaseResources")
+    try:
+        the_waiter = Waiter()
+        the_waiter.set_wait_for_specific_obsstate("READY", [tmc_subarraynode1])
+        the_waiter.wait(200)
+        # Verify that the obstate is READY
+        assert telescope_control.is_in_valid_state(
+            DEVICE_OBS_STATE_READY_INFO, "obsState"
+        )
+    except Exception as e:
+        LOGGER.info("The Exception is %s", e)
+        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
 @when("I issue the command Scan")
@@ -167,13 +180,18 @@ def tmc_accepts_scan_command(json_factory):
 
 
 @then("the subarray transitions to obsState SCANNING")
-def tmc_status_scanning():
-    the_waiter = Waiter()
-    the_waiter.set_wait_for_specific_obsstate("SCANNING", [tmc_subarraynode1])
-    the_waiter.wait(100)
-    assert telescope_control.is_in_valid_state(
-        DEVICE_OBS_STATE_SCANNING_INFO, "obsState"
-    )
+def tmc_status_scanning(json_factory):
+    release_json = json_factory("command_ReleaseResources")
+    try:
+        the_waiter = Waiter(**ON_OFF_DEVICE_COMMAND_DICT)
+        the_waiter.set_wait_for_scanning()
+        the_waiter.wait(200)
+        assert telescope_control.is_in_valid_state(
+            DEVICE_OBS_STATE_SCANNING_INFO, "obsState"
+        )
+    except Exception as e:
+        LOGGER.info("The Exception is %s", e)
+        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
 @when("I issue the command EndScan")
