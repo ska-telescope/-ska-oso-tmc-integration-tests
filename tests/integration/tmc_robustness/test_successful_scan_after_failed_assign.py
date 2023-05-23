@@ -30,7 +30,6 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
-@pytest.mark.kk
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_failed_assigned.feature",
@@ -179,15 +178,14 @@ def tmc_status_scanning():
 
 @when("I issue the command EndScan")
 def tmc_accepts_endscan_command(json_factory):
-    pass
-    # release_json = json_factory("command_ReleaseResources")
-    # try:
-    #     subarray_node = DeviceProxy(tmc_subarraynode1)
-    #     subarray_node.EndScan()
-    #     LOGGER.info("Invoking EndScan command on TMC SubarrayNode")
-    # except Exception:
-    #     tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
-    #     LOGGER.info("Tear Down complete. Telescope is in Standby State")
+    release_json = json_factory("command_ReleaseResources")
+    try:
+        subarray_node = DeviceProxy(tmc_subarraynode1)
+        subarray_node.EndScan()
+        LOGGER.info("Invoking EndScan command on TMC SubarrayNode")
+    except Exception:
+        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
+        LOGGER.info("Tear Down complete. Telescope is in Standby State")
 
 
 # @then("the subarray transitions to obsState READY")
@@ -218,7 +216,6 @@ def teardown_the_tmc(json_factory):
     )
 
 
-@pytest.mark.kk
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_failed_assigned.feature",
@@ -278,7 +275,6 @@ def send_assignresource_with_invalid_json3(json_factory):
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-@pytest.mark.kk
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_assigning_unavailable_resources.feature",  # noqa: E501
@@ -326,7 +322,6 @@ def invalid_command_rejection_with_unavailable_resources(resources_list):
     assert pytest.command_result[0][0] == ResultCode.REJECTED
 
 
-@pytest.mark.kk
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_assigning_unavailable_resources.feature",  # noqa: E501
@@ -339,7 +334,6 @@ def test_assign_resource_successive_invokation_with_unavailable_resources():
     """
 
 
-@pytest.mark.kk
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_combination_of_failed_assign_resources.feature",  # noqa: E501
@@ -355,7 +349,6 @@ def test_assign_resource_with_combination():
     """
 
 
-@pytest.mark.kk
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_combination_of_failed_assign_resources.feature",  # noqa: E501
