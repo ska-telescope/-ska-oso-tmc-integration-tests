@@ -110,6 +110,7 @@ def tmc_status(json_factory):
         LOGGER.info("The Exception is %s", e)
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
+
 @when("I issue the command AssignResources passing a correct JSON script")
 def tmc_accepts_command_with_valid_json(json_factory):
     assign_json = json_factory("command_AssignResources")
@@ -134,6 +135,7 @@ def tmc_status_idle(json_factory):
     except Exception as e:
         LOGGER.info("The Exception is %s", e)
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
+
 
 @when("I issue the command Configure passing a correct JSON script")
 def tmc_accepts_configure_command_with_valid_json(json_factory):
