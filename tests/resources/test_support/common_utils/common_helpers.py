@@ -476,6 +476,23 @@ class Waiter:
             )
         )
 
+    def set_wait_for_ready(self):
+        self.waits.append(
+            watch(resource(self.csp_subarray1)).to_become(
+                "obsState", changed_to="READY"
+            )
+        )
+        self.waits.append(
+            watch(resource(self.sdp_subarray1)).to_become(
+                "obsState", changed_to="READY"
+            )
+        )
+        self.waits.append(
+            watch(resource(self.tmc_subarraynode1)).to_become(
+                "obsState", changed_to="READY"
+            )
+        )
+
     def set_wait_for_specific_obsstate(self, obsstate: str, devices: list):
         """Waits for intermediate obsState change for given devices."""
         for device in devices:
