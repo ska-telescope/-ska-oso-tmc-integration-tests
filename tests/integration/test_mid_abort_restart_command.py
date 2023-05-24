@@ -490,6 +490,7 @@ def test_abort_in_configuring(json_factory):
         the_waiter.set_wait_for_specific_obsstate(
             "CONFIGURING", [tmc_subarraynode1, csp_subarray1]
         )
+
         the_waiter.wait(100)
 
         the_waiter.set_wait_for_pointingstate("TRACK", [dish_master1])
