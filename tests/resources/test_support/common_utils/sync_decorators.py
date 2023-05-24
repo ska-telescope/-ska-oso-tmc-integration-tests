@@ -81,10 +81,10 @@ def sync_assign_resources():
             )
             device.check_devices_obsState("EMPTY")
             set_wait_for_obsstate = kwargs.get("set_wait_for_obsstate", True)
+            result = func(*args, **kwargs)
             if set_wait_for_obsstate:
                 the_waiter = Waiter(**kwargs)
                 the_waiter.set_wait_for_assign_resources()
-                result = func(*args, **kwargs)
                 the_waiter.wait(200)
             return result
 
