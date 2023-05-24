@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 import pytest
 from tango import DeviceProxy, EventType
 
@@ -12,6 +14,7 @@ from tests.resources.test_support.constant import (
     ON_OFF_DEVICE_COMMAND_DICT,
     centralnode,
     csp_subarray1,
+    tmc_csp_subarray_leaf_node,
     tmc_subarraynode1,
 )
 from tests.resources.test_support.controls import (
@@ -92,9 +95,9 @@ def test_assign_release(json_factory):
 @pytest.mark.assignme
 @pytest.mark.SKA_mid
 def test_assign_release_timeout(json_factory, change_event_callbacks):
-    """AssignResources and ReleaseResources is executed."""
-    assign_json = json_factory("command_assign_resource_low")
-    release_json = json_factory("command_release_resource_low")
+    """Verify timeout exception raised when csp set to defective."""
+    assign_json = json_factory("command_AssignResources")
+    release_json = json_factory("command_ReleaseResources")
     try:
         telescope_control = TelescopeControlMid()
         tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
@@ -132,19 +135,36 @@ def test_assign_release_timeout(json_factory, change_event_callbacks):
 
         csp_subarray = DeviceProxy(csp_subarray1)
         csp_subarray.SetDefective(True)
-        result, unique_id = tmc_helper.compose_sub(
-            assign_json, **ON_OFF_DEVICE_COMMAND_DICT
+
+        device_params = deepcopy(ON_OFF_DEVICE_COMMAND_DICT)
+        device_params["set_wait_for_finish"] = False
+        unique_id, result = tmc_helper.compose_sub(
+            assign_json, **device_params
         )
+
+        LOGGER.info(f"Command result {result} and unique id {unique_id}")
 
         assert result[0].endswith("AssignResources")
-        assert result[0] == ResultCode.QUEUED
+        assert unique_id[0] == ResultCode.QUEUED
+
+        exception_message = (
+            f"Exception occured on device: "
+            f"{tmc_subarraynode1}: Exception occured on device"
+            f": {tmc_csp_subarray_leaf_node}: Timeout has "
+            f"occured, command failed"
+        )
 
         change_event_callbacks["longRunningCommandResult"].assert_change_event(
-            (unique_id[0], "Timeout has occured, command failed"),
-            lookahead=4,
+            (result[0], exception_message),
+            lookahead=7,
         )
         csp_subarray.SetDefective(False)
-    except Exception:
+
+        # Do not raise exception
+        tear_down(release_json, raise_exception=False)
+
+    except Exception as e:
+        LOGGER.info(f"Exception occurred {e}")
         tear_down(release_json)
 
 

@@ -178,7 +178,9 @@ def invoke_restart():
     LOGGER.info("Invoked Restart on SubarrayNode")
 
 
-def tear_down(input_json: Optional[str] = None):
+def tear_down(
+    input_json: Optional[str] = None, raise_exception: Optional[bool] = True
+):
     """Tears down the system after test run to get telescope back in standby
     state."""
     subarray_node_obsstate = resource(tmc_subarraynode1).get("obsState")
@@ -255,6 +257,8 @@ def tear_down(input_json: Optional[str] = None):
 
     LOGGER.info("Tear Down Successful, raising an exception for failure")
 
-    raise Exception(
-        f"Test case failed and Subarray obsState was: {subarray_node_obsstate}"
-    )
+    if raise_exception:
+        raise Exception(
+            f"Test case failed and Subarray obsState was: "
+            f"{subarray_node_obsstate}"
+        )
