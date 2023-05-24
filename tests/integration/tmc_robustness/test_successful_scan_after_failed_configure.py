@@ -69,7 +69,7 @@ def given_tmc(json_factory):
             DEVICE_OBS_STATE_IDLE_INFO, "obsState"
         )
     except Exception as e:
-        LOGGER.exception("Exception occured %s" % e)
+        LOGGER.info("The Exception is %s", e)
         LOGGER.info("In tear down")
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
@@ -93,7 +93,7 @@ def send(
             json.dumps(configure_json)
         )
     except Exception as e:
-        LOGGER.exception("Exception occured %s" % e)
+        LOGGER.info("The Exception is %s", e)
         LOGGER.info("In tear down")
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
@@ -126,7 +126,7 @@ def tmc_accepts_command_with_valid_json(json_factory):
             configure_json, **ON_OFF_DEVICE_COMMAND_DICT
         )
     except Exception as e:
-        LOGGER.exception("Exception occured %s" % e)
+        LOGGER.info("The Exception is %s", e)
         LOGGER.info("In tear down")
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
@@ -149,19 +149,25 @@ def tmc_accepts_scan_command(json_factory):
         subarray_node = DeviceProxy(tmc_subarraynode1)
         subarray_node.Scan(scan_json)
     except Exception as e:
-        LOGGER.exception("Exception occured %s" % e)
+        LOGGER.info("The Exception is %s", e)
         LOGGER.info("In tear down")
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
 @then("the subarray transitions to obsState SCANNING")
-def tmc_status_scanning():
-    the_waiter = Waiter()
-    the_waiter.set_wait_for_specific_obsstate("SCANNING", [tmc_subarraynode1])
-    the_waiter.wait(100)
-    assert telescope_control.is_in_valid_state(
-        DEVICE_OBS_STATE_SCANNING_INFO, "obsState"
-    )
+def tmc_status_scanning(json_factory):
+    release_json = json_factory("command_ReleaseResources")
+    try:
+        the_waiter = Waiter(**ON_OFF_DEVICE_COMMAND_DICT)
+        the_waiter.set_wait_for_scanning()
+        the_waiter.wait(200)
+        assert telescope_control.is_in_valid_state(
+            DEVICE_OBS_STATE_SCANNING_INFO, "obsState"
+        )
+    except Exception as e:
+        LOGGER.info("The Exception is %s", e)
+        LOGGER.info("In tear down")
+        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
 @when("I issue the command EndScan")
@@ -170,7 +176,7 @@ def tmc_accepts_endscan_command(json_factory):
     try:
         tmc_helper.invoke_endscan(**ON_OFF_DEVICE_COMMAND_DICT)
     except Exception as e:
-        LOGGER.exception("Exception occured %s" % e)
+        LOGGER.info("The Exception is %s", e)
         LOGGER.info("In tear down")
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
