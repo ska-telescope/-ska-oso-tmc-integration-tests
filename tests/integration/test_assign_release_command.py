@@ -137,7 +137,7 @@ def test_assign_release_timeout(json_factory, change_event_callbacks):
         csp_subarray.SetDefective(True)
 
         device_params = deepcopy(ON_OFF_DEVICE_COMMAND_DICT)
-        device_params["set_wait_for_finish"] = False
+        device_params["set_wait_for_obsstate"] = False
         unique_id, result = tmc_helper.compose_sub(
             assign_json, **device_params
         )
