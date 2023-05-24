@@ -83,7 +83,9 @@ def sync_assign_resources():
             the_waiter = Waiter(**kwargs)
             the_waiter.set_wait_for_assign_resources()
             result = func(*args, **kwargs)
-            the_waiter.wait(200)
+            set_wait_for_complete = kwargs.get("set_wait_for_finish", True)
+            if set_wait_for_complete:
+                the_waiter.wait(200)
             return result
 
         return wrapper
