@@ -502,6 +502,23 @@ class Waiter:
                 )
             )
 
+    def set_wait_for_scanning(self):
+        self.waits.append(
+            watch(resource(self.csp_subarray1)).to_become(
+                "obsState", changed_to="SCANNING"
+            )
+        )
+        self.waits.append(
+            watch(resource(self.sdp_subarray1)).to_become(
+                "obsState", changed_to="SCANNING"
+            )
+        )
+        self.waits.append(
+            watch(resource(self.tmc_subarraynode1)).to_become(
+                "obsState", changed_to="SCANNING"
+            )
+        )
+
     def wait(self, timeout=30, resolution=0.1):
         self.logs = ""
         while self.waits:
