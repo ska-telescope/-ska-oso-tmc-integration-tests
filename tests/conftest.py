@@ -5,6 +5,9 @@ from os.path import dirname, join
 
 import pytest
 import tango
+from ska_tango_testing.mock.tango.event_callback import (
+    MockTangoEventCallbackGroup,
+)
 
 LOGGER = logging.getLogger(__name__)
 
@@ -92,3 +95,20 @@ def update_scan_json(scan_json: str, scan_id: int, transaction_id: str) -> str:
     scan_dict["scan_id"] = scan_id
     scan_dict["transaction_id"] = transaction_id
     return json.dumps(scan_dict)
+
+
+@pytest.fixture()
+def change_event_callbacks() -> MockTangoEventCallbackGroup:
+    """
+    Return a dictionary of Tango device change event callbacks with
+    asynchrony support.
+
+    :return: a collections.defaultdict that returns change event
+        callbacks by name.
+    """
+    return MockTangoEventCallbackGroup(
+        "longRunningCommandStatus",
+        "longRunningCommandsInQueue",
+        "longRunningCommandResult",
+        timeout=30.0,
+    )
