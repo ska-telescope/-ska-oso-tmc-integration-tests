@@ -94,7 +94,6 @@ def test_assign_release(json_factory):
         tear_down(release_json)
 
 
-@pytest.mark.assignme
 @pytest.mark.SKA_mid
 def test_assign_release_timeout(json_factory, change_event_callbacks):
     """Verify timeout exception raised when csp set to defective."""
@@ -170,7 +169,6 @@ def test_assign_release_timeout(json_factory, change_event_callbacks):
         tear_down(release_json)
 
 
-@pytest.mark.aki
 @pytest.mark.SKA_mid
 def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
     """Verify timeout exception raised when sdpp set to defective."""
