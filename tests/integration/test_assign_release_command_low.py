@@ -9,6 +9,7 @@ from tests.resources.test_support.common_utils.result_code import ResultCode
 from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
 from tests.resources.test_support.constant_low import (
     DEVICE_HEALTH_STATE_OK_INFO,
+    DEVICE_OBS_STATE_ABORT_INFO,
     DEVICE_OBS_STATE_EMPTY_INFO,
     DEVICE_OBS_STATE_IDLE_INFO,
     DEVICE_STATE_OFF_INFO,
@@ -29,6 +30,32 @@ from tests.resources.test_support.low.sync_decorators import (
 from tests.resources.test_support.low.telescope_controls_low import (
     TelescopeControlLow,
 )
+
+
+# TODO:Create generic one tear down which can be utilized for both low and mid.
+def tear_down_for_resourcing(tmc_helper, telescope_control):
+
+    LOGGER.info("Invoking Abort on TMC")
+
+    tmc_helper.invoke_abort(**ON_OFF_DEVICE_COMMAND_DICT)
+    LOGGER.info("Invoking Abort command on TMC SubarrayNode")
+    assert telescope_control.is_in_valid_state(
+        DEVICE_OBS_STATE_ABORT_INFO, "obsState"
+    )
+
+    tmc_helper.invoke_restart(**ON_OFF_DEVICE_COMMAND_DICT)
+    LOGGER.info("Invoking Restart command on TMC SubarrayNode")
+    assert telescope_control.is_in_valid_state(
+        DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
+    )
+
+    tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
+    LOGGER.info("Invoking Standby command on TMC SubarrayNode")
+    assert telescope_control.is_in_valid_state(
+        DEVICE_STATE_STANDBY_INFO, "State"
+    )
+
+    LOGGER.info("Tear Down complete. Telescope is in Standby State")
 
 
 @pytest.mark.SKA_low
@@ -179,7 +206,7 @@ def test_assign_release_timeout(json_factory, change_event_callbacks):
         )
         csp_subarray.SetDefective(False)
 
-        tmc.invoke_releaseResources(release_json)
+        tear_down_for_resourcing(tmc_helper, telescope_control)
 
     except Exception:
         if fixture["state"] == "AssignResources":
@@ -256,7 +283,7 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         )
         sdp_subarray.SetDefective(False)
 
-        tmc.invoke_releaseResources(release_json)
+        tear_down_for_resourcing(tmc_helper, telescope_control)
 
     except Exception:
         if fixture["state"] == "AssignResources":
