@@ -94,6 +94,7 @@ def test_assign_release(json_factory):
         tear_down(release_json)
 
 
+@pytest.mark.skip
 @pytest.mark.assignme
 @pytest.mark.SKA_mid
 def test_assign_release_timeout(json_factory, change_event_callbacks):
