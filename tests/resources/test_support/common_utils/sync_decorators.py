@@ -266,6 +266,22 @@ def sync_endscan():
     def decorator_sync_end_scan(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
+            the_waiter = Waiter(**kwargs)
+            the_waiter.set_wait_for_ready()
+            result = func(*args, **kwargs)
+            the_waiter.wait(200)
+            return result
+
+        return wrapper
+
+    return decorator_sync_end_scan
+
+
+def sync_endscan_in_ready():
+    # defined as a decorator when endscan is invoked as invalid command
+    def decorator_sync_end_scan(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
             device = DeviceUtils(
                 obs_state_device_names=[
                     kwargs.get("csp_subarray"),
