@@ -15,8 +15,8 @@ from tests.resources.test_support.constant import (
     centralnode,
     csp_subarray1,
     sdp_subarray1,
-    tmc_sdp_subarray_leaf_node,
     tmc_csp_subarray_leaf_node,
+    tmc_sdp_subarray_leaf_node,
     tmc_subarraynode1,
 )
 from tests.resources.test_support.controls import (
@@ -170,7 +170,6 @@ def test_assign_release_timeout(json_factory, change_event_callbacks):
         tear_down(release_json)
 
 
-@pytest.mark.aki
 @pytest.mark.SKA_mid
 def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
     """Verify timeout exception raised when sdpp set to defective."""
@@ -244,6 +243,7 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
     except Exception as e:
         LOGGER.info(f"Exception occurred {e}")
         tear_down(release_json)
+
 
 @pytest.mark.SKA_mid
 def test_health_check_mid():
