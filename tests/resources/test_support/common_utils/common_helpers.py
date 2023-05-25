@@ -494,7 +494,8 @@ class Waiter:
         )
 
     def set_wait_for_specific_obsstate(self, obsstate: str, devices: list):
-        """Waits for intermediate obsState change for given devices."""
+        """Waits for the obsState of given devices
+        to change to specified value."""
         for device in devices:
             self.waits.append(
                 watch(resource(device)).to_become(

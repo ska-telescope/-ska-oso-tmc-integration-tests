@@ -31,6 +31,7 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
+@pytest.mark.test1
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_failed_configure.feature",
@@ -69,8 +70,8 @@ def given_tmc(json_factory):
             DEVICE_OBS_STATE_IDLE_INFO, "obsState"
         )
     except Exception as e:
-        LOGGER.info("The Exception is %s", e)
-        LOGGER.info("In tear down")
+        LOGGER.info("In tear down. \nThe Exception is %s", e)
+
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
@@ -93,8 +94,8 @@ def invoke_configure_one(
             json.dumps(configure_json)
         )
     except Exception as e:
-        LOGGER.info("The Exception is %s", e)
-        LOGGER.info("In tear down")
+        LOGGER.info("In tear down. \nThe Exception is %s", e)
+
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
@@ -126,8 +127,8 @@ def tmc_accepts_command_with_valid_json(json_factory):
             configure_json, **ON_OFF_DEVICE_COMMAND_DICT
         )
     except Exception as e:
-        LOGGER.info("The Exception is %s", e)
-        LOGGER.info("In tear down")
+        LOGGER.info("In tear down. \nThe Exception is %s", e)
+
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
@@ -149,8 +150,8 @@ def tmc_accepts_scan_command(json_factory):
         subarray_node = DeviceProxy(tmc_subarraynode1)
         subarray_node.Scan(scan_json)
     except Exception as e:
-        LOGGER.info("The Exception is %s", e)
-        LOGGER.info("In tear down")
+        LOGGER.info("In tear down. \nThe Exception is %s", e)
+
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
@@ -165,8 +166,8 @@ def tmc_status_scanning(json_factory):
             DEVICE_OBS_STATE_SCANNING_INFO, "obsState"
         )
     except Exception as e:
-        LOGGER.info("The Exception is %s", e)
-        LOGGER.info("In tear down")
+        LOGGER.info("In tear down. \nThe Exception is %s", e)
+
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
@@ -176,12 +177,9 @@ def tmc_accepts_endscan_command(json_factory):
     try:
         tmc_helper.invoke_endscan(**ON_OFF_DEVICE_COMMAND_DICT)
     except Exception as e:
-        LOGGER.info("The Exception is %s", e)
-        LOGGER.info("In tear down")
+        LOGGER.info("In tear down. \nThe Exception is %s", e)
+
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
-
-
-# @then("the subarray transitions to obsState READY")
 
 
 @then("implements the teardown")
@@ -203,6 +201,7 @@ def teardown_the_tmc(json_factory):
     )
 
 
+@pytest.mark.test1
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_failed_configure.feature",
@@ -229,14 +228,13 @@ def invoke_configure_with_unassigned_resources(
         configure_json = json_factory("command_Configure")
         configure_json = json.loads(configure_json)
         configure_json["dish"]["receiver_band"] = "9"
-        LOGGER.info("invoking configure by unassigned resources")
         subarray_node = DeviceProxy(tmc_subarraynode1)
         pytest.command_result = subarray_node.Configure(
             json.dumps(configure_json)
         )
     except Exception as e:
-        LOGGER.info("The Exception is %s", e)
-        LOGGER.info("In tear down")
+        LOGGER.info("In tear down. \nThe Exception is %s", e)
+
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
