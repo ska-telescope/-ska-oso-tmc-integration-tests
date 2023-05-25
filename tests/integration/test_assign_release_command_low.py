@@ -112,7 +112,6 @@ def test_assign_release_low(json_factory):
         raise
 
 
-@pytest.mark.skip
 @pytest.mark.assignlow
 @pytest.mark.SKA_low
 def test_assign_release_timeout(json_factory, change_event_callbacks):
