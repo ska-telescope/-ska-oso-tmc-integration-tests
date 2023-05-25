@@ -31,6 +31,7 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
+@pytest.mark.test2
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_failed_configure.feature",
@@ -79,7 +80,7 @@ def given_tmc(json_factory):
         "I issue the command Configure passing an invalid JSON script to the subarray {subarray_id}"  # noqa: E501
     )
 )
-def send(
+def invoke_configure_one(
     json_factory,
 ):
     release_json = json_factory("command_ReleaseResources")
@@ -201,3 +202,51 @@ def teardown_the_tmc(json_factory):
     assert telescope_control.is_in_valid_state(
         DEVICE_STATE_STANDBY_INFO, "State"
     )
+
+
+@pytest.mark.test2
+@pytest.mark.SKA_mid
+@scenario(
+    "../features/successful_scan_after_failed_configure.feature",
+    "Invoke Configure command by passing a JSON script that uses resources which are not assigned to the subarray",  # noqa: E501
+)
+def test_configure_resource_with_unassigned_resources():
+    """
+    Test Configure command with input as json
+    with resources that are not assigned.
+
+    """
+
+
+@when(
+    parsers.parse(
+        "I issue the command Configure passing an JSON script that uses resources which are not assigned to the subarray"  # noqa: E501
+    )
+)
+def invoke_configure_with_unassigned_resources(
+    json_factory,
+):
+    release_json = json_factory("command_ReleaseResources")
+    try:
+        configure_json = json_factory("command_Configure")
+        configure_json = json.loads(configure_json)
+        configure_json["dish"]["receiver_band"] = "9"
+        LOGGER.info("invoking configure by unassigned resources")
+        subarray_node = DeviceProxy(tmc_subarraynode1)
+        pytest.command_result = subarray_node.Configure(
+            json.dumps(configure_json)
+        )
+    except Exception as e:
+        LOGGER.info("The Exception is %s", e)
+        LOGGER.info("In tear down")
+        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
+
+
+@then(parsers.parse("the subarray {subarray_id} returns an error message 2"))
+def invalid_command_rejection_with_unassigned_resources():
+    # asserting error message and result code received from subarray
+    assert (
+        "{'dish': {'receiver_band': ['Must be one of: 1, 2, 5a, 5b.']}}"  # noqa: E501
+        in pytest.command_result[1][0]
+    )
+    assert pytest.command_result[0][0] == ResultCode.REJECTED
