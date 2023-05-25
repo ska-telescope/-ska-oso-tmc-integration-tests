@@ -170,6 +170,7 @@ def test_assign_release_timeout(json_factory, change_event_callbacks):
         tear_down(release_json)
 
 
+@pytest.mark.aki
 @pytest.mark.SKA_mid
 def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
     """Verify timeout exception raised when sdpp set to defective."""
@@ -214,7 +215,7 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         sdp_subarray.SetDefective(True)
 
         device_params = deepcopy(ON_OFF_DEVICE_COMMAND_DICT)
-        device_params["set_wait_for_finish"] = False
+        device_params["set_wait_for_obsstate"] = False
         unique_id, result = tmc_helper.compose_sub(
             assign_json, **device_params
         )
