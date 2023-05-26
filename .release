@@ -6,21 +6,21 @@ tag_description=
 
     **1.1 ska-tmc-low - 0.5.5 - 0.6.0:
 
-       a.  Error Propogation and timeout for assign resource command implementation on TMC Low
+       a.  Implementation of Error propagation and timeout for assign resource command in TMC Low
 
     **1.2 ska-tmc-mid - 0.8.9 - 0.9.0:
-        a. Error Propogation and timeout for assign resource command implementation on TMC Mid 
+        a. Implementation of Error propagation and timeout for assign resource command in TMC Mid 
 
 
 
 
 release_notes=
 **Charts:**
-**1. ska-tmc-integration 0.7.12 - 0.7.13:**
+**1. ska-tmc-integration 0.7.13 - 0.8.0:**
 
-    **1.1 ska-tmc-low - 0.5.4 - 0.5.5:
+    **1.1 ska-tmc-low - 0.5.5 - 0.6.0:
 
-       a.   Intermediate chart for Abort and Restart functionality implementation on TMC Low
+       a.  Implementation of Error propagation and timeout for assign resource command in TMC Low
 
-    **1.2 ska-tmc-mid - 0.8.8 - 0.8.9:
-        a. Updated Dish Leaf Node with Abort functionality implementation. 
+    **1.2 ska-tmc-mid - 0.8.9 - 0.9.0:
+        a. Implementation of Error propagation and timeout for assign resource command in TMC Mid 
