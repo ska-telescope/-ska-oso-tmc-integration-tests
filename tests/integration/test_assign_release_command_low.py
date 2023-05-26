@@ -155,7 +155,6 @@ def test_assign_release_timeout(json_factory, change_event_callbacks):
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_STANDBY_INFO, "State"
         )
-        LOGGER.info("Staring up the Telescope")
 
         # Invoke TelescopeOn() command on TMC
         LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
@@ -184,14 +183,14 @@ def test_assign_release_timeout(json_factory, change_event_callbacks):
 
         device_params = deepcopy(ON_OFF_DEVICE_COMMAND_DICT)
         device_params["set_wait_for_obsstate"] = False
-        unique_id, result = tmc_helper.compose_sub(
+        result, unique_id = tmc_helper.compose_sub(
             assign_json, **device_params
         )
 
         LOGGER.info(f"Command result {result} and unique id {unique_id}")
 
-        assert result[0].endswith("AssignResources")
-        assert unique_id[0] == ResultCode.QUEUED
+        assert unique_id[0].endswith("AssignResources")
+        assert result[0] == ResultCode.QUEUED
 
         exception_message = (
             f"Exception occured on device: "
@@ -201,7 +200,7 @@ def test_assign_release_timeout(json_factory, change_event_callbacks):
         )
 
         change_event_callbacks["longRunningCommandResult"].assert_change_event(
-            (result[0], exception_message),
+            (unique_id[0], exception_message),
             lookahead=7,
         )
         csp_subarray.SetDefective(False)
@@ -232,7 +231,6 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_STANDBY_INFO, "State"
         )
-        LOGGER.info("Staring up the Telescope")
 
         # Invoke TelescopeOn() command on TMC
         LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
@@ -261,14 +259,14 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
 
         device_params = deepcopy(ON_OFF_DEVICE_COMMAND_DICT)
         device_params["set_wait_for_obsstate"] = False
-        unique_id, result = tmc_helper.compose_sub(
+        result, unique_id = tmc_helper.compose_sub(
             assign_json, **device_params
         )
 
         LOGGER.info(f"Command result {result} and unique id {unique_id}")
 
-        assert result[0].endswith("AssignResources")
-        assert unique_id[0] == ResultCode.QUEUED
+        assert unique_id[0].endswith("AssignResources")
+        assert result[0] == ResultCode.QUEUED
 
         exception_message = (
             f"Exception occured on device: "
@@ -278,7 +276,7 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         )
 
         change_event_callbacks["longRunningCommandResult"].assert_change_event(
-            (result[0], exception_message),
+            (unique_id[0], exception_message),
             lookahead=7,
         )
         sdp_subarray.SetDefective(False)
