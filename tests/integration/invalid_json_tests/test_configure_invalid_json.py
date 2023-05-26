@@ -123,9 +123,7 @@ def send(json_factory, invalid_json):
                 **ON_OFF_DEVICE_COMMAND_DICT,
             )
         elif invalid_json == "zoom_factor_key_missing":
-            del invalid_configure_json["csp"]["interface"]["cbf"]["fsp"][4][
-                "zoom_factor"
-            ]
+            del invalid_configure_json["csp"]["cbf"]["fsp"][4]["zoom_factor"]
             # Invoke Configure() Command on TMC
             LOGGER.info("Invoking Configure command on TMC SubarrayNode")
             pytest.command_result = tmc_helper.configure_subarray(
