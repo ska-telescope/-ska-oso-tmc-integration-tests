@@ -103,9 +103,6 @@ def test_assign_release_timeout(json_factory, change_event_callbacks):
         telescope_control = TelescopeControlMid()
         tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 
-        fixture = {}
-        fixture["state"] = "Unknown"
-
         # Verify Telescope is Off/Standby
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_STANDBY_INFO, "State"
@@ -121,7 +118,6 @@ def test_assign_release_timeout(json_factory, change_event_callbacks):
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_ON_INFO, "State"
         )
-        fixture["state"] = "TelescopeOn"
 
         # Invoke AssignResources() Command on TMC
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
@@ -178,9 +174,6 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         telescope_control = TelescopeControlMid()
         tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 
-        fixture = {}
-        fixture["state"] = "Unknown"
-
         # Verify Telescope is Off/Standby
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_STANDBY_INFO, "State"
@@ -196,7 +189,6 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_ON_INFO, "State"
         )
-        fixture["state"] = "TelescopeOn"
 
         # Invoke AssignResources() Command on TMC
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
