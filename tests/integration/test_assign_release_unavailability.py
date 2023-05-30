@@ -37,7 +37,7 @@ def test_assign_release(json_factory):
             subarray_node = DeviceProxy(tmc_subarraynode1)
             value = subarray_node.read_attribute("isSubarrayAvailable").value
             LOGGER.info(f"Attribute value::{value}")
-            ret_code, message = subarray_node.AssignResources(assign_json)
+            ret_code = subarray_node.AssignResources(assign_json)
 
         LOGGER.info(f"resultcode::{ret_code}")
 
