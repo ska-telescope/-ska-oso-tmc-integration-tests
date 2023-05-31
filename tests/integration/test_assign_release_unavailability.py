@@ -1,4 +1,3 @@
-import time
 
 import pytest
 from tango import DeviceProxy
@@ -11,6 +10,7 @@ from tests.resources.test_support.controls import (
     telescope_is_in_standby_state,
 )
 from tests.resources.test_support.exception import CommandNotAllowed
+
 
 @pytest.mark.skip(reason="Test case needs to be executed manually by deleting pods")
 @pytest.mark.SKA_mid
@@ -39,6 +39,9 @@ def test_assign_release(json_factory):
             value = subarray_node.read_attribute("isSubarrayAvailable").value
             LOGGER.info(f"Attribute value::{value}")
             ret_code = subarray_node.AssignResources(assign_json)
+
+
+        LOGGER.info(f"resultcode::{ret_code}")
 
         LOGGER.info("AssignResources command is invoked successfully")
 
