@@ -280,6 +280,8 @@ charts/ska-tmc-testing/Chart.lock
 charts/ska-tmc-testing/charts/
 code-coverage
 pytest-logs.txt
+kubeconfig
+KUBECONFIG
 .make/
 
 # Ignore legacy dependency and release systems
