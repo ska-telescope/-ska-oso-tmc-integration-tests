@@ -8,6 +8,8 @@ import tango
 from ska_tango_testing.mock.tango.event_callback import (
     MockTangoEventCallbackGroup,
 )
+from tests.resources.test_harness.central_node import CentralNode
+from tests.resources.test_harness.subarray_node import SubarrayNode
 
 LOGGER = logging.getLogger(__name__)
 
@@ -110,3 +112,17 @@ def change_event_callbacks() -> MockTangoEventCallbackGroup:
         "longRunningCommandResult",
         timeout=30.0,
     )
+
+
+@pytest.fixture()
+def central_node() -> CentralNode:
+    """
+    """ 
+    return CentralNode()
+
+
+@pytest.fixture()
+def subarray_node() -> SubarrayNode:
+    """
+    """ 
+    return SubarrayNode()
