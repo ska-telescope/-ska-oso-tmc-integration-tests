@@ -45,6 +45,7 @@ tmc-low:
   labels:
     app: ska-tmc-integration
   enabled: true
+  legacy_compatibility: true
   deviceServers:
     mocks:
       enabled: true
@@ -54,6 +55,7 @@ ska-ser-skuid:
   labels:
     app: ska-tmc-integration
   enabled: true
+  legacy_compatibility: true
   skuid:
     use_pv: false
     config:
