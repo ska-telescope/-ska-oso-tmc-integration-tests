@@ -21,7 +21,9 @@ server:
         - name: "HelperSubArrayDevice"
           devices:
           - name: "mid-sdp/subarray/01"
+          - name: "mid-sdp/subarray/02"
           - name: "mid-csp/subarray/01"
+          - name: "mid-csp/subarray/02"
 
         - name: "HelperDishDevice"
           devices:

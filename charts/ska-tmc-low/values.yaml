@@ -28,7 +28,7 @@ global:
     - "cspsubarrayleafnode"
     - "sdpsubarrayleafnode"
     - "subarraynode"
-  subarray_count: 3
+  subarray_count: 2
 
 dsconfig:
   configuration_file: data/tmc-low-config.json
@@ -97,12 +97,12 @@ deviceServers:
 
   subarraynode:
     enabled: true
-    instances: ["01", "02", "03"]
+    instances: ["01", "02"]
     file: "data/subarraynode.yaml"
 
   sdpsubarrayleafnode:
     enabled: true
-    instances: ["01", "02", "03"]
+    instances: ["01", "02"]
     file: "data/sdpsubarrayleafnode.yaml"
 
   sdpmasterleafnode:
@@ -119,7 +119,7 @@ deviceServers:
 
   cspsubarrayleafnode:
     enabled: true
-    instances: ["01", "02", "03"]
+    instances: ["01", "02"]
     file: "data/cspsubarrayleafnode.yaml"
 
   mocks:
