@@ -1,4 +1,5 @@
 import logging
+from os.path import dirname, join, abspath
 
 from tango import DeviceProxy, DevState
 
@@ -7,23 +8,28 @@ from tests.resources.test_harness.constant import (
     dish_master1,
     sdp_subarray1,
     tmc_subarraynode1,
+    csp_master,
+    sdp_master,
+    centralnode
 )
 from tests.resources.test_support.helpers import resource
-from tests.resources.test_support.sync_decorators import (
-    sync_abort,
-    sync_assign_resources,
-    sync_configure,
+from tests.resources.test_harness.utils.sync_decorators import (
     sync_end,
-    sync_release_resources,
-    sync_restart,
-    sync_scan,
-    sync_set_to_off,
-    sync_set_to_standby,
-    sync_telescope_on,
+    sync_configure,
+    sync_assign_resources,
 )
 
 LOGGER = logging.getLogger(__name__)
 
+device_dict = {
+    # TODO use this as as list when multiple subarray considered in testing
+    "sdp_subarray": sdp_subarray1,
+    "csp_subarray": csp_subarray1,
+    "csp_master": csp_master,
+    "tmc_subarraynode": tmc_subarraynode1,
+    "sdp_master": sdp_master,
+    "centralnode": centralnode,
+}
 
 class SubarrayNode(object):
     """
@@ -32,6 +38,7 @@ class SubarrayNode(object):
     """
 
     def __init__(self) -> None:
+        super().__init__()
         self.subarray_node = DeviceProxy(tmc_subarraynode1)
         self.subarray_devices = {
             "csp_subarray": csp_subarray1,
@@ -71,6 +78,7 @@ class SubarrayNode(object):
         """
         self._obs_state = value
 
+    @sync_configure(device_dict=device_dict)
     def invoke_configure(self, input_string):
         resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
         resource(tmc_subarraynode1).assert_attribute("obsState").equals("IDLE")
@@ -78,6 +86,7 @@ class SubarrayNode(object):
         LOGGER.info("Invoked Configure on SubarrayNode")
         return result, message
 
+    @sync_end(device_dict=device_dict)
     def invoke_end(self):
         resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
         resource(tmc_subarraynode1).assert_attribute("obsState").equals(
@@ -107,17 +116,33 @@ class SubarrayNode(object):
         result, message = self.subarray_node.Restart()
         LOGGER.info("Invoked Restart on SubarrayNode")
         return result, message
+    
+    @sync_assign_resources(device_dict)
+    def invoke_assign_resources(self, assign_json):
+        """
+        Args:
+            assign_json (_type_): _description_
+        """
+        result, message = self.subarray_node.AssignResources(assign_json)
+        LOGGER.info("Invoked Restart on SubarrayNode")
+        return result, message
 
-    # def execute_obsstate_transitions(self, obs_state_value, input_string):
-    #     """_summary_
-
-    #     Args:
-    #         obs_state_value (_type_): _description_
-    #     """
-    #     if obs_state_value == "READY":
-    #         self.invoke_configure(input_string)
-    #     elif obs_state_value == "EMPTY":
-    #         if self.obs_state in [0, 1, 2, 3, 4]:
-    #             self.invoke_abort()
-    #             self.invoke_restart()
-    #     elif obs_state_value
+    def force_change_obs_state(self, obs_state_to_change):
+        """Force change obs state to provided state
+        Args:
+            obs_state (str): Obs State
+        """
+        if obs_state_to_change == "IDLE":
+            if self.obs_state == "READY":
+                # Invoke end command
+                self.invoke_end()
+            elif self.obs_state == "EMPTY":
+                # invoke assign_resource
+                assign_json_file_path = join(
+                    dirname(__file__), "..", "..", 
+                    "data", "subarray", "assign_resource_mid.json" # TODO Get this json based on mid or low
+                )
+                with open(assign_json_file_path, "r", encoding="UTF-8") as f:
+                    assign_json = f.read()
+                self.invoke_assign_resources(assign_json)
+        # TODO handle other obs state

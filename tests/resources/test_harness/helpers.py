@@ -13,7 +13,8 @@ from tests.resources.test_support.constant import (
 from tests.resources.test_support.helpers import resource
 
 
-def check_state(state=None):
+
+def check_subarray_state(state=None):
     #
     LOGGER.info(
         f"{sdp_master}.State : " + str(resource(sdp_master).get("State"))

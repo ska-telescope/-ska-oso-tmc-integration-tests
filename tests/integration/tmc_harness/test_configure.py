@@ -14,10 +14,10 @@ def test_configure(subarray_node, json_factory):
     configure_json = json_factory("command_Configure")
 
     check_state(state="ON")
-    #    if not check_obs_state(obs_state = "IDLE"):
-    #       subarray_node.force_obs_state(obs_state = "EMPTY", input = assign_json)
+    if not check_obs_state(obs_state = "IDLE"):
+        subarray_node.force_change_obs_state("IDLE")
 
-    check_obs_state(obs_state="IDLE")
+    assert check_obs_state(obs_state="IDLE")
 
     subarray_node.invoke_configure(configure_json)
 

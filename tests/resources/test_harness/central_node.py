@@ -6,9 +6,23 @@ from tests.resources.test_harness.constant import (
     dish_master1,
     sdp_subarray1,
     tmc_subarraynode1,
+    csp_master,
+    sdp_master
 )
 from tests.resources.test_support.helpers import resource
+from tests.resources.test_harness.utils.sync_decorators import (
+    sync_assign_resources,
+)
 
+device_dict = {
+    # TODO use this as as list when multiple subarray considered in testing
+    "sdp_subarray": sdp_subarray1,
+    "csp_subarray": csp_subarray1,
+    "csp_master": csp_master,
+    "tmc_subarraynode": tmc_subarraynode1,
+    "sdp_master": sdp_master,
+    "centralnode": centralnode,
+}
 # from tests.conftest import LOGGER
 # from tests.resources.test_support.sync_decorators import sync_assign_resources
 
@@ -111,6 +125,7 @@ class CentralNode(object):
         device_proxy = DeviceProxy(dish_master)
         device_proxy.SetDirectState(DevState.STANDBY)
 
+    @sync_assign_resources(device_dict=device_dict)
     def invoke_assign_resources(self, input_string):
         resource(self.subarray_node).assert_attribute("State").equals("ON")
         resource(self.subarray_node).assert_attribute("obsState").equals(
