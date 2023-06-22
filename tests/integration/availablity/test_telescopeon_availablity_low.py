@@ -15,8 +15,8 @@ from tests.resources.test_support.constant_low import (
 # done
 
 
-# @pytest.mark.skip(reason="Manual deletion of pods is required ")
-@pytest.mark.SKA_low11
+@pytest.mark.skip(reason="Manual deletion of pods is required ")
+@pytest.mark.SKA_low
 def test_assign(json_factory):
     """AssignResources and ReleaseResources is executed."""
 
@@ -27,8 +27,8 @@ def test_assign(json_factory):
     assert "not available" in str(message)
 
 
-# @pytest.mark.skip(reason="Manual deletion of pods is required ")
-@pytest.mark.SKA_low11
+@pytest.mark.skip(reason="Manual deletion of pods is required ")
+@pytest.mark.SKA_low
 def test_release(json_factory):
     """ReleaseResources is executed."""
 
@@ -40,8 +40,8 @@ def test_release(json_factory):
     assert "not available" in str(message)
 
 
-# @pytest.mark.skip(reason="Manual deletion of pods is required ")
-@pytest.mark.SKA_low11
+@pytest.mark.skip(reason="Manual deletion of pods is required ")
+@pytest.mark.SKA_low
 def test_telescope_on():
 
     LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
@@ -60,8 +60,8 @@ def test_telescope_on():
     LOGGER.info("TelescopeOn command is invoked successfully")
 
 
-# @pytest.mark.skip(reason="Manual deletion of pods is required ")
-@pytest.mark.SKA_low11
+@pytest.mark.skip(reason="Manual deletion of pods is required ")
+@pytest.mark.SKA_low
 def test_assign_sn_entrypoint_low(json_factory):
     """AssignResources and ReleaseResources is executed."""
     assign_json = json_factory("command_assign_resource_low")
@@ -74,8 +74,8 @@ def test_assign_sn_entrypoint_low(json_factory):
     assert "Tmc Subarray is not available" in str(info.value)
 
 
-# @pytest.mark.skip(reason="Manual deletion of pods is required ")
-@pytest.mark.SKA_low11
+@pytest.mark.skip(reason="Manual deletion of pods is required ")
+@pytest.mark.SKA_low
 def test_release_sn_entrypoint_low(json_factory):
     """AssignResources and ReleaseResources is executed."""
 

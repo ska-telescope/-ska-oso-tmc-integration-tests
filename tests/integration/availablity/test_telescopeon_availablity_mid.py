@@ -14,8 +14,8 @@ from tests.resources.test_support.constant import (
 # while true;
 # do kubectl delete pod/subarraynode-02-0 -n ska-tmc-integration; sleep 3;
 # done
-# @pytest.mark.skip(reason="Manual deletion of pods is required ")
-@pytest.mark.SKA_mid11
+@pytest.mark.skip(reason="Manual deletion of pods is required ")
+@pytest.mark.SKA_mid
 def test_telescope_on_mid():
     """TelescopeOn() is executed."""
     LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
@@ -34,8 +34,8 @@ def test_telescope_on_mid():
     LOGGER.info("TelescopeOn command is invoked successfully")
 
 
-# @pytest.mark.skip(reason="Manual deletion of pods is required ")
-@pytest.mark.SKA_mid11
+@pytest.mark.skip(reason="Manual deletion of pods is required ")
+@pytest.mark.SKA_mid
 def test_assign_sn_entrypoint(json_factory):
     """AssignResources and ReleaseResources is executed."""
     assign_json = json_factory("command_AssignResources")
@@ -48,8 +48,8 @@ def test_assign_sn_entrypoint(json_factory):
     assert "Tmc Subarray is not available" in str(info.value)
 
 
-# @pytest.mark.skip(reason="Manual deletion of pods is required ")
-@pytest.mark.SKA_mid11
+@pytest.mark.skip(reason="Manual deletion of pods is required ")
+@pytest.mark.SKA_mid
 def test_release_sn_entrypoint(json_factory):
     """AssignResources and ReleaseResources is executed."""
 
@@ -64,8 +64,8 @@ def test_release_sn_entrypoint(json_factory):
 # Rest of the command can not be automated.
 
 
-# @pytest.mark.skip(reason="Manual deletion of pods is required ")
-@pytest.mark.SKA_mid11
+@pytest.mark.skip(reason="Manual deletion of pods is required ")
+@pytest.mark.SKA_mid
 def test_assign_mid(json_factory):
     """AssignResources and ReleaseResources is executed."""
     assign_json = json_factory("command_AssignResources")
@@ -78,8 +78,8 @@ def test_assign_mid(json_factory):
     )
 
 
-# @pytest.mark.skip(reason="Manual deletion of pods is required ")
-@pytest.mark.SKA_mid11
+@pytest.mark.skip(reason="Manual deletion of pods is required ")
+@pytest.mark.SKA_mid
 def test_release_mid(json_factory):
     """AssignResources and ReleaseResources is executed."""
 
