@@ -1,3 +1,5 @@
+from typing import Optional
+
 from tests.conftest import LOGGER
 from tests.resources.test_support.constant import (
     centralnode,
@@ -9,11 +11,10 @@ from tests.resources.test_support.constant import (
     tmc_subarraynode1,
 )
 from tests.resources.test_support.helpers import resource
-from typing import Optional
 
 
-def check_state(state = None):
-    # 
+def check_state(state=None):
+    #
     LOGGER.info(
         f"{sdp_master}.State : " + str(resource(sdp_master).get("State"))
     )
@@ -40,7 +41,8 @@ def check_state(state = None):
         ]
     )
 
-def check_obs_state(obs_state = None):
+
+def check_obs_state(obs_state=None):
     LOGGER.info(
         f"{tmc_subarraynode1}.obsState : "
         + str(resource(tmc_subarraynode1).get("obsState"))
@@ -54,15 +56,19 @@ def check_obs_state(obs_state = None):
         + str(resource(csp_subarray1).get("obsState"))
     )
 
-    return all ([
-        resource(sdp_subarray1).get("obsState") == obs_state,
-        resource(tmc_subarraynode1).get("obsState") == obs_state,
-        resource(csp_subarray1).get("obsState") == obs_state
-    ] )
+    return all(
+        [
+            resource(sdp_subarray1).get("obsState") == obs_state,
+            resource(tmc_subarraynode1).get("obsState") == obs_state,
+            resource(csp_subarray1).get("obsState") == obs_state,
+        ]
+    )
 
 
 def tear_down(
-    central_node, input_json: Optional[str] = None, raise_exception: Optional[bool] = True
+    central_node,
+    input_json: Optional[str] = None,
+    raise_exception: Optional[bool] = True,
 ):
     """Tears down the system after test run to get telescope back in standby
     state."""
