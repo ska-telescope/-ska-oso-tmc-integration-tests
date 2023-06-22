@@ -71,14 +71,14 @@ cspmasterleafnode:
     registry: artefact.skao.int
     image: ska-tmc-cspleafnodes
     tag: 0.6.1
-    pullPolicy: Never
+    pullPolicy: IfNotPresent
 
 cspsubarrayleafnode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-cspleafnodes
     tag: 0.6.1
-    pullPolicy: Never
+    pullPolicy: IfNotPresent
 
 resources:
   limits:
