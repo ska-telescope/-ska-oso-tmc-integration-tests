@@ -9,4 +9,3 @@ class InvalidObsStateError(ValueError):
 
 class CommandNotAllowed(Exception):
     """Raised when a command is not allowed."""
-
