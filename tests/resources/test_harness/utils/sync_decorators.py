@@ -98,12 +98,12 @@ def sync_assign_resources(device_dict):
     return decorator_sync_assign_resources
 
 
-def sync_abort(timeout=300):
+def sync_abort(device_dict, timeout=300):
     # define as a decorator
     def decorator_sync_abort(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            the_waiter = Waiter(**kwargs)
+            the_waiter = Waiter(**device_dict)
             the_waiter.set_wait_for_aborted()
             result = func(*args, **kwargs)
             the_waiter.wait(timeout)
@@ -114,7 +114,7 @@ def sync_abort(timeout=300):
     return decorator_sync_abort
 
 
-def sync_restart(timeout=300):
+def sync_restart(device_dict, timeout=300):
     # define as a decorator
     def decorator_sync_restart(func):
         @functools.wraps(func)
@@ -127,7 +127,7 @@ def sync_restart(timeout=300):
                 ]
             )
             device.check_devices_obsState("ABORTED")
-            the_waiter = Waiter(**kwargs)
+            the_waiter = Waiter(**device_dict)
             the_waiter.set_wait_for_going_to_empty()
             result = func(*args, **kwargs)
             the_waiter.wait(timeout)

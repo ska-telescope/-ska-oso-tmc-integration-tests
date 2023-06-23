@@ -13,11 +13,13 @@ from tests.resources.test_harness.constant import (
     tmc_subarraynode1,
 )
 from tests.resources.test_harness.utils.sync_decorators import (
+    sync_abort,
     sync_assign_resources,
     sync_configure,
     sync_end,
     sync_endscan,
     sync_release_resources,
+    sync_restart,
 )
 from tests.resources.test_support.helpers import resource
 
@@ -157,13 +159,15 @@ class SubarrayNode(object):
         LOGGER.info("Invoked Scan on SubarrayNode")
         return result, message
 
-    def invoke_abort(self):
+    @sync_abort(device_dict=device_dict)
+    def abort_subarray(self):
         resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
         result, message = self.subarray_node.Abort()
         LOGGER.info("Invoked Abort on SubarrayNode")
         return result, message
 
-    def invoke_restart(self):
+    @sync_restart(device_dict=device_dict)
+    def restart_subarray(self):
         resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
         result, message = self.subarray_node.Restart()
         LOGGER.info("Invoked Restart on SubarrayNode")
@@ -219,3 +223,14 @@ class SubarrayNode(object):
             elif self.obs_state == "SCANNING":
                 self.end_scanning()
         LOGGER.info(f"Obs state is changed to {self.obs_state}")
+
+    def tear_down(self):
+        """Tear down after each test run"""
+        LOGGER.info("Calling Tear down for subarray")
+        if self.obs_state in ("RESOURCING", "CONFIGURING", "SCANNING"):
+            """Invoke Abort and Restart"""
+            LOGGER.info("Invokinng Abort on Subarray")
+            self.abort_subarray()
+            self.restart_subarray()
+        else:
+            self.force_change_obs_state("EMPTY")

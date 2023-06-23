@@ -124,4 +124,6 @@ def central_node() -> CentralNode:
 @pytest.fixture()
 def subarray_node() -> SubarrayNode:
     """ """
-    return SubarrayNode()
+    subarray = SubarrayNode()
+    yield subarray
+    subarray.tear_down()
