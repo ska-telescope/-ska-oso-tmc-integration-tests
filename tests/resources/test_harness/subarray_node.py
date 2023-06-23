@@ -215,7 +215,7 @@ class SubarrayNode(object):
                 self.assign_resources_to_subarray(get_subarray_assign_json())
                 self.configure_subarray(get_configure_json())
             elif self.obs_state == "IDLE":
-                self.invoke_configure(get_configure_json())
+                self.configure_subarray(get_configure_json())
             elif self.obs_state == "SCANNING":
                 self.end_scanning()
         LOGGER.info(f"Obs state is changed to {self.obs_state}")
