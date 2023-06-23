@@ -9,6 +9,8 @@ from tests.resources.test_support.common_utils.common_helpers import (
     resource,
 )
 
+TIMEOUT = 200
+
 
 def sync_telescope_on(func):
     @functools.wraps(func)
