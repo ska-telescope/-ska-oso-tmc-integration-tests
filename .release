@@ -1,15 +1,15 @@
-release=0.9.0
-tag=0.9.0
+release=0.8.1
+tag=0.8.1
 tag_description=
 **Charts:**
-**1. ska-tmc-integration 0.8.0 - 0.9.0:**
+**1. ska-tmc-integration 0.8.0 - 0.8.1:**
 
-    **1.1 ska-tmc-low - 0.6.0 - 0.7.0:
+    **1.1 ska-tmc-low - 0.6.0 - 0.6.1:
 
        a.Update tango base chart version to v0.4.4
        b.Updae tango util chart version to v0.4.5
 
-    **1.2 ska-tmc-mid - 0.9.0 - 0.10.0:
+    **1.2 ska-tmc-mid - 0.9.0 - 0.9.1:
        a.Update tango base chart version to v0.4.4
        b.Updae tango util chart version to v0.4.5
 
@@ -18,13 +18,13 @@ tag_description=
 
 release_notes=
 **Charts:**
-**1. ska-tmc-integration 0.8.0 - 0.9.0:**
+**1. ska-tmc-integration 0.8.0 - 0.8.1:**
 
-    **1.1 ska-tmc-low - 0.6.0 - 0.7.0:
+    **1.1 ska-tmc-low - 0.6.0 - 0.6.1:
 
        a.Update tango base chart version to v0.4.4
        b.Updae tango util chart version to v0.4.5
 
-    **1.2 ska-tmc-mid - 0.9.0 - 0.10.0:
+    **1.2 ska-tmc-mid - 0.9.0 - 0.9.1:
        a.Update tango base chart version to v0.4.4
        b.Updae tango util chart version to v0.4.5
