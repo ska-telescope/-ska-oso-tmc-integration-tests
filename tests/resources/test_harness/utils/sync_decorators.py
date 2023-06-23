@@ -165,14 +165,6 @@ def sync_end(device_dict):
     def decorator_sync_end(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            device = DeviceUtils(
-                obs_state_device_names=[
-                    device_dict.get("csp_subarray"),
-                    device_dict.get("sdp_subarray"),
-                    device_dict.get("tmc_subarraynode"),
-                ]
-            )
-            device.check_devices_obsState("READY")
             the_waiter = Waiter(**device_dict)
             the_waiter.set_wait_for_idle()
             result = func(*args, **kwargs)
@@ -268,7 +260,7 @@ def sync_scan(timeout=300):
     return decorator_sync_scan
 
 
-def sync_endscan():
+def sync_endscan(device_dict):
     # defined as a decorator
     def decorator_sync_end_scan(func):
         @functools.wraps(func)

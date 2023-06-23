@@ -16,6 +16,7 @@ from tests.resources.test_harness.utils.sync_decorators import (
     sync_assign_resources,
     sync_configure,
     sync_end,
+    sync_endscan,
     sync_release_resources,
 )
 from tests.resources.test_support.helpers import resource
@@ -72,6 +73,15 @@ class SubarrayNode(object):
         self._state = DevState.OFF
         # TBD, since ObsState.EMPTY  difficult to import, need a thinking
         self.obs_state = 0
+        # setup subarray
+        self._setup()
+
+    def _setup(self):
+        """ """
+        dish_master_1 = DeviceProxy(dish_master1)
+        dish_master_1.SetDirectState(DevState.STANDBY)
+        # Setting DishMode to STANDBY_FP
+        dish_master_1.SetDirectDishMode(3)
 
     @property
     def state(self) -> DevState:
@@ -105,10 +115,6 @@ class SubarrayNode(object):
 
     @sync_configure(device_dict=device_dict)
     def invoke_configure(self, input_string):
-        dish_master_1 = DeviceProxy(dish_master1)
-        dish_master_1.SetDirectState(DevState.STANDBY)
-        # Setting DishMode to STANDBY_FP
-        dish_master_1.SetDirectDishMode(3)
         resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
         resource(tmc_subarraynode1).assert_attribute("obsState").equals("IDLE")
         result, message = self.subarray_node.Configure(input_string)
@@ -123,6 +129,13 @@ class SubarrayNode(object):
         )
         result, message = self.subarray_node.End()
         LOGGER.info("Invoked End on SubarrayNode")
+        return result, message
+
+    @sync_endscan(device_dict)
+    def end_scanning(self):
+        """ """
+        result, message = self.subarray_node.EndScan()
+        LOGGER.info("Invoked End Scan on SubarrayNode")
         return result, message
 
     def invoke_scan(self, input_string):
@@ -147,7 +160,7 @@ class SubarrayNode(object):
         return result, message
 
     @sync_assign_resources(device_dict)
-    def invoke_assign_resources(self, assign_json, device_dict=None):
+    def assign_resources_to_subarray(self, assign_json, device_dict=None):
         """
         Args:
             assign_json (_type_): _description_
@@ -171,6 +184,7 @@ class SubarrayNode(object):
         Args:
             obs_state (str): Obs State
         """
+        LOGGER.info(f"Current Obs state is  {self.obs_state}")
         if obs_state_to_change == "IDLE":
             if self.obs_state == "READY":
                 # Invoke end command
@@ -192,5 +206,6 @@ class SubarrayNode(object):
                 self.invoke_configure(get_configure_json())
             elif self.obs_state == "IDLE":
                 self.invoke_configure(get_configure_json())
-
-        # TODO handle Resourcing, Configuring, SCANNING
+            elif self.obs_state == "SCANNING":
+                self.end_scanning()
+        LOGGER.info(f"Obs state is changed to {self.obs_state}")
