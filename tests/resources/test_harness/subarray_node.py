@@ -17,6 +17,7 @@ from tests.resources.test_harness.utils.sync_decorators import (
     sync_end,
     sync_configure,
     sync_assign_resources,
+    sync_release_resources,
 )
 
 LOGGER = logging.getLogger(__name__)
@@ -30,6 +31,26 @@ device_dict = {
     "sdp_master": sdp_master,
     "centralnode": centralnode,
 }
+
+def get_subarray_assign_json():
+    assign_json_file_path = join(
+        dirname(__file__), "..", "..", 
+        "data", "subarray", "assign_resource_mid.json" # TODO Get this json based on mid or low
+    )
+    with open(assign_json_file_path, "r", encoding="UTF-8") as f:
+        assign_json = f.read()
+    return assign_json
+
+def get_configure_json():
+    configure_file_path = join(
+        dirname(__file__), "..", "..", 
+        "data", "command_Configure.json" # TODO Get this json based on mid or low
+    )
+    with open(configure_file_path, "r", encoding="UTF-8") as f:
+        assign_json = f.read()
+    return assign_json
+    
+
 
 class SubarrayNode(object):
     """
@@ -87,7 +108,7 @@ class SubarrayNode(object):
         return result, message
 
     @sync_end(device_dict=device_dict)
-    def invoke_end(self):
+    def end_observation(self):
         resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
         resource(tmc_subarraynode1).assert_attribute("obsState").equals(
             "READY"
@@ -118,13 +139,23 @@ class SubarrayNode(object):
         return result, message
     
     @sync_assign_resources(device_dict)
-    def invoke_assign_resources(self, assign_json):
+    def assign_resources_to_subarray(self, assign_json):
         """
         Args:
             assign_json (_type_): _description_
         """
         result, message = self.subarray_node.AssignResources(assign_json)
         LOGGER.info("Invoked Restart on SubarrayNode")
+        return result, message
+    
+    @sync_release_resources(device_dict)
+    def release_resources_subarray(self):
+        """
+        Args:
+            assign_json (_type_): _description_
+        """
+        result, message = self.subarray_node.ReleaseAllResources()
+        LOGGER.info("Invoked Release Resource on SubarrayNode")
         return result, message
 
     def force_change_obs_state(self, obs_state_to_change):
@@ -135,14 +166,24 @@ class SubarrayNode(object):
         if obs_state_to_change == "IDLE":
             if self.obs_state == "READY":
                 # Invoke end command
-                self.invoke_end()
+                self.end_observation()
             elif self.obs_state == "EMPTY":
                 # invoke assign_resource
-                assign_json_file_path = join(
-                    dirname(__file__), "..", "..", 
-                    "data", "subarray", "assign_resource_mid.json" # TODO Get this json based on mid or low
-                )
-                with open(assign_json_file_path, "r", encoding="UTF-8") as f:
-                    assign_json = f.read()
-                self.invoke_assign_resources(assign_json)
-        # TODO handle other obs state
+                self.assign_resources_to_subarray(get_subarray_assign_json())
+        elif obs_state_to_change == "EMPTY":
+            if self.obs_state == "IDLE":
+                # Invoke Release resource
+                self.release_resources_subarray()
+            elif self.obs_state == "READY":
+                # Invoke End to bring it to IDLE and then invoke Release
+                self.end_observation()
+                self.release_resources_subarray()
+        elif obs_state_to_change == "READY":
+            if self.obs_state == "EMPTY":
+                self.assign_resources_to_subarray(get_subarray_assign_json())
+                self.invoke_configure(get_configure_json())
+            elif self.obs_state == "IDLE":
+                self.invoke_configure(get_configure_json())
+                
+        # TODO handle Resourcing, Configuring, SCANNING
+
