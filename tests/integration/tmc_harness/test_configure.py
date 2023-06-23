@@ -1,9 +1,6 @@
 import pytest
 
-from tests.resources.test_harness.helpers import (
-    check_obs_state,
-    check_subarray_state,
-)
+from tests.resources.test_harness.helpers import check_subarray_obs_state
 
 
 @pytest.mark.hope
@@ -21,10 +18,10 @@ def test_configure(subarray_node, json_factory):
     if subarray_node.obs_state != "IDLE":
         subarray_node.force_change_obs_state("IDLE")
 
-    assert check_obs_state(obs_state="IDLE")
+    assert check_subarray_obs_state(obs_state="IDLE")
 
     subarray_node.configure_subarray(configure_json)
 
-    check_obs_state(obs_state="READY")
+    check_subarray_obs_state(obs_state="READY")
 
     # tear_down(release_json)

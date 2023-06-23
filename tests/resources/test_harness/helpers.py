@@ -9,16 +9,7 @@ from tests.resources.test_support.constant import (
 from tests.resources.test_support.helpers import resource
 
 
-def check_subarray_state(state=None):
-    LOGGER.info(
-        f"{tmc_subarraynode1}.State : "
-        + str(resource(tmc_subarraynode1).get("State"))
-    )
-
-    return resource(tmc_subarraynode1).get("State") in ["DISABLE", state]
-
-
-def check_obs_state(obs_state=None):
+def check_subarray_obs_state(obs_state=None):
     LOGGER.info(
         f"{tmc_subarraynode1}.obsState : "
         + str(resource(tmc_subarraynode1).get("obsState"))
