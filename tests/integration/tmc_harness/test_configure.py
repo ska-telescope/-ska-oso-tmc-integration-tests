@@ -10,7 +10,8 @@ from tests.resources.test_harness.helpers import (
 @pytest.mark.SKA_Mid
 def test_configure(subarray_node, json_factory):
     """
-    Test module to verify Configure command, obsState transitions from IDLE to READY
+    Test module to verify Configure command, obsState transitions from
+    IDLE to READY
     """
     configure_json = json_factory("command_Configure")
 
