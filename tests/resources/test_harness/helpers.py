@@ -13,34 +13,13 @@ from tests.resources.test_support.constant import (
 from tests.resources.test_support.helpers import resource
 
 
-
 def check_subarray_state(state=None):
-    #
     LOGGER.info(
-        f"{sdp_master}.State : " + str(resource(sdp_master).get("State"))
-    )
-    LOGGER.info(
-        f"{sdp_subarray1}.State : " + str(resource(sdp_subarray1).get("State"))
-    )
-    LOGGER.info(
-        f"{csp_master}.State : " + str(resource(csp_master).get("State"))
-    )
-    LOGGER.info(
-        f"{csp_subarray1}.State : " + str(resource(csp_subarray1).get("State"))
-    )
-    LOGGER.info(
-        f"{dish_master1}.State : " + str(resource(dish_master1).get("State"))
+        f"{tmc_subarraynode1}.State : "
+        + str(resource(tmc_subarraynode1).get("State"))
     )
 
-    return all(
-        [
-            resource(sdp_subarray1).get("State") in ["DISABLE", state],
-            resource(sdp_master).get("State") in ["DISABLE", "STANDBY"],
-            resource(csp_master).get("State") in ["DISABLE", "STANDBY"],
-            resource(csp_subarray1).get("State") in ["DISABLE", state],
-            resource(dish_master1).get("State") in ["DISABLE", "STANDBY"],
-        ]
-    )
+    return resource(tmc_subarraynode1).get("State") in ["DISABLE", state]
 
 
 def check_obs_state(obs_state=None):
