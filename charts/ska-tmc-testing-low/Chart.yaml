@@ -12,13 +12,13 @@ maintainers:
     email: shraddhab.ska@gmail.com
 dependencies:
   - name: ska-tango-util
-    version: 0.3.17
+    version: 0.4.5
     repository: https://artefact.skao.int/repository/helm-internal
   - name: ska-tango-base
-    version: 0.3.17
+    version: 0.4.4
     repository: https://artefact.skao.int/repository/helm-internal
   - name: ska-tmc-low
-    version: 0.6.0
+    version: 0.6.1
     repository: file://../ska-tmc-low
     alias: tmc-low
     condition: tmc-low.enabled

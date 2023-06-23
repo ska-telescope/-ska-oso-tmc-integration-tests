@@ -3,6 +3,8 @@ xauthority: "~/.Xauthority"
 
 enabled: true
 
+legacy_compatibility: true
+
 system: TM-low
 telescope: SKA-low
 subsystem: ska-tmc-low
