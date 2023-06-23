@@ -29,23 +29,22 @@ global:
       tag: 9.3.10
       pullPolicy: IfNotPresent
 
-# ska-tango-base:
-#   enabled: true
-#   vnc:
-#     replicas: 1
-#     enabled: true
-#   tangorest:
-#     enabled: true
-#     replicas: 1
-#   tangodb:
-#     use_pv: false
+ska-tango-base:
+  enabled: true
+  vnc:
+    replicas: 1
+    enabled: true
+  tangorest:
+    enabled: true
+    replicas: 1
+  tangodb:
+    use_pv: false
 
 #TMC-low
-ska-tmc-low:
+tmc-low:
   labels:
     app: ska-tmc-integration
   enabled: true
-  legacy_compatibility: true
   deviceServers:
     mocks:
       enabled: true
@@ -55,7 +54,6 @@ ska-ser-skuid:
   labels:
     app: ska-tmc-integration
   enabled: true
-  legacy_compatibility: true
   skuid:
     use_pv: false
     config:
