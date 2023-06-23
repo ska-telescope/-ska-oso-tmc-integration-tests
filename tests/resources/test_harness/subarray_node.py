@@ -36,29 +36,16 @@ device_dict = {
 }
 
 
-def get_subarray_assign_json():
+def get_input_json(slug):
     assign_json_file_path = join(
         dirname(__file__),
         "..",
         "..",
         "data",
         "subarray",
-        "assign_resource_mid.json",  # TODO Get this json based on mid or low
+        f"{slug}.json",  # TODO Get this json based on mid or low
     )
     with open(assign_json_file_path, "r", encoding="UTF-8") as f:
-        assign_json = f.read()
-    return assign_json
-
-
-def get_configure_json():
-    configure_file_path = join(
-        dirname(__file__),
-        "..",
-        "..",
-        "data",
-        "command_Configure.json",  # TODO Get this json based on mid or low
-    )
-    with open(configure_file_path, "r", encoding="UTF-8") as f:
         assign_json = f.read()
     return assign_json
 
@@ -205,7 +192,9 @@ class SubarrayNode(object):
                 self.end_observation()
             elif self.obs_state == "EMPTY":
                 # invoke assign_resource
-                self.assign_resources_to_subarray(get_subarray_assign_json())
+                self.assign_resources_to_subarray(
+                    get_input_json("assign_resource_mid")
+                )
         elif obs_state_to_change == "EMPTY":
             if self.obs_state == "IDLE":
                 # Invoke Release resource
@@ -216,10 +205,12 @@ class SubarrayNode(object):
                 self.release_resources_subarray()
         elif obs_state_to_change == "READY":
             if self.obs_state == "EMPTY":
-                self.assign_resources_to_subarray(get_subarray_assign_json())
-                self.configure_subarray(get_configure_json())
+                self.assign_resources_to_subarray(
+                    get_input_json("assign_resource_mid")
+                )
+                self.configure_subarray(get_input_json("configure_mid"))
             elif self.obs_state == "IDLE":
-                self.configure_subarray(get_configure_json())
+                self.configure_subarray(get_input_json("configure_mid"))
             elif self.obs_state == "SCANNING":
                 self.end_scanning()
         LOGGER.info(f"Obs state is changed to {self.obs_state}")

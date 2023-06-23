@@ -23,5 +23,3 @@ def test_configure(subarray_node, json_factory):
     subarray_node.configure_subarray(configure_json)
 
     check_subarray_obs_state(obs_state="READY")
-
-    # tear_down(release_json)
