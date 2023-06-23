@@ -2,17 +2,17 @@ from tango import DeviceProxy, DevState
 
 from tests.resources.test_harness.constant import (
     centralnode,
+    csp_master,
     csp_subarray1,
     dish_master1,
+    sdp_master,
     sdp_subarray1,
     tmc_subarraynode1,
-    csp_master,
-    sdp_master
 )
-from tests.resources.test_support.helpers import resource
 from tests.resources.test_harness.utils.sync_decorators import (
     sync_assign_resources,
 )
+from tests.resources.test_support.helpers import resource
 
 device_dict = {
     # TODO use this as as list when multiple subarray considered in testing
