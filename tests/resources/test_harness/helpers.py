@@ -2,11 +2,7 @@ from typing import Optional
 
 from tests.conftest import LOGGER
 from tests.resources.test_support.constant import (
-    centralnode,
-    csp_master,
     csp_subarray1,
-    dish_master1,
-    sdp_master,
     sdp_subarray1,
     tmc_subarraynode1,
 )

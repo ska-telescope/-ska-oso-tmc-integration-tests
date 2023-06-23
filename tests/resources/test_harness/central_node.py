@@ -23,8 +23,6 @@ device_dict = {
     "sdp_master": sdp_master,
     "centralnode": centralnode,
 }
-# from tests.conftest import LOGGER
-# from tests.resources.test_support.sync_decorators import sync_assign_resources
 
 
 class CentralNode(object):

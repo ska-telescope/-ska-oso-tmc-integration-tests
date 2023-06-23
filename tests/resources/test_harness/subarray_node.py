@@ -1,5 +1,5 @@
 import logging
-from os.path import abspath, dirname, join
+from os.path import dirname, join
 
 from tango import DeviceProxy, DevState
 
@@ -70,7 +70,8 @@ class SubarrayNode(object):
         super().__init__()
         self.subarray_node = DeviceProxy(tmc_subarraynode1)
         self._state = DevState.OFF
-        self.obs_state = 0  # TBD, since ObsState.EMPTY  difficult to import, need a thinking
+        # TBD, since ObsState.EMPTY  difficult to import, need a thinking
+        self.obs_state = 0
 
     @property
     def state(self) -> DevState:
