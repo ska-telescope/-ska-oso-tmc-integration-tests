@@ -1,26 +1,30 @@
-release=0.8.0
-tag=0.8.0
+release=0.9.0
+tag=0.9.0
 tag_description=
 **Charts:**
-**1. ska-tmc-integration 0.7.13 - 0.8.0:**
+**1. ska-tmc-integration 0.8.0 - 0.9.0:**
 
-    **1.1 ska-tmc-low - 0.5.5 - 0.6.0:
+    **1.1 ska-tmc-low - 0.6.0 - 0.7.0:
 
-       a.  Implementation of Error propagation and timeout for assign resource command in TMC Low
+       a.Update tango base chart version to v0.4.4
+       b.Updae tango util chart version to v0.4.5
 
-    **1.2 ska-tmc-mid - 0.8.9 - 0.9.0:
-        a. Implementation of Error propagation and timeout for assign resource command in TMC Mid 
+    **1.2 ska-tmc-mid - 0.9.0 - 0.10.0:
+       a.Update tango base chart version to v0.4.4
+       b.Updae tango util chart version to v0.4.5
 
 
 
 
 release_notes=
 **Charts:**
-**1. ska-tmc-integration 0.7.13 - 0.8.0:**
+**1. ska-tmc-integration 0.8.0 - 0.9.0:**
 
-    **1.1 ska-tmc-low - 0.5.5 - 0.6.0:
+    **1.1 ska-tmc-low - 0.6.0 - 0.7.0:
 
-       a.  Implementation of Error propagation and timeout for assign resource command in TMC Low
+       a.Update tango base chart version to v0.4.4
+       b.Updae tango util chart version to v0.4.5
 
-    **1.2 ska-tmc-mid - 0.8.9 - 0.9.0:
-        a. Implementation of Error propagation and timeout for assign resource command in TMC Mid 
+    **1.2 ska-tmc-mid - 0.9.0 - 0.10.0:
+       a.Update tango base chart version to v0.4.4
+       b.Updae tango util chart version to v0.4.5
