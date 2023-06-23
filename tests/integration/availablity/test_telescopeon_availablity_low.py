@@ -15,8 +15,8 @@ from tests.resources.test_support.constant_low import (
 # done
 
 
-@pytest.mark.skip(reason="Manual deletion of pods is required ")
-@pytest.mark.SKA_low
+# @pytest.mark.skip(reason="Manual deletion of pods is required ")
+@pytest.mark.SKA_low123
 def test_assign(json_factory):
     """AssignResources and ReleaseResources is executed."""
 
@@ -24,11 +24,14 @@ def test_assign(json_factory):
     central_node = DeviceProxy(centralnode)
 
     result, message = central_node.AssignResources(assign_json)
-    assert "not available" in str(message)
+    # assert "not available" in str(message)
+    assert "Subarray ska_low/tm_subarray_node/1 is not available" in str(
+        message
+    )
 
 
-@pytest.mark.skip(reason="Manual deletion of pods is required ")
-@pytest.mark.SKA_low
+# @pytest.mark.skip(reason="Manual deletion of pods is required ")
+@pytest.mark.SKA_low123
 def test_release(json_factory):
     """ReleaseResources is executed."""
 
@@ -37,7 +40,9 @@ def test_release(json_factory):
 
     result, message = central_node.ReleaseResources(release_json)
 
-    assert "not available" in str(message)
+    assert "Subarray ska_low/tm_subarray_node/1 is not available" in str(
+        message
+    )
 
 
 @pytest.mark.skip(reason="Manual deletion of pods is required ")
