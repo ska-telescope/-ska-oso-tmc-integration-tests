@@ -9,6 +9,8 @@ from tests.resources.test_support.common_utils.common_helpers import (
     resource,
 )
 
+TIMEOUT = 200
+
 
 def sync_telescope_on(func):
     @functools.wraps(func)
@@ -66,7 +68,7 @@ def sync_release_resources(device_dict, timeout=200):
             return result
 
         return wrapper
-    
+
     return decorator_sync_release_resources
 
 
@@ -88,7 +90,7 @@ def sync_assign_resources(device_dict):
             if set_wait_for_obsstate:
                 the_waiter = Waiter(**device_dict)
                 the_waiter.set_wait_for_assign_resources()
-                the_waiter.wait(200)
+                the_waiter.wait(500)
             return result
 
         return wrapper

@@ -1,24 +1,24 @@
 import logging
-from os.path import dirname, join, abspath
+from os.path import abspath, dirname, join
 
 from tango import DeviceProxy, DevState
 
 from tests.resources.test_harness.constant import (
+    centralnode,
+    csp_master,
     csp_subarray1,
     dish_master1,
+    sdp_master,
     sdp_subarray1,
     tmc_subarraynode1,
-    csp_master,
-    sdp_master,
-    centralnode
 )
-from tests.resources.test_support.helpers import resource
 from tests.resources.test_harness.utils.sync_decorators import (
-    sync_end,
-    sync_configure,
     sync_assign_resources,
+    sync_configure,
+    sync_end,
     sync_release_resources,
 )
+from tests.resources.test_support.helpers import resource
 
 LOGGER = logging.getLogger(__name__)
 
@@ -32,24 +32,32 @@ device_dict = {
     "centralnode": centralnode,
 }
 
+
 def get_subarray_assign_json():
     assign_json_file_path = join(
-        dirname(__file__), "..", "..", 
-        "data", "subarray", "assign_resource_mid.json" # TODO Get this json based on mid or low
+        dirname(__file__),
+        "..",
+        "..",
+        "data",
+        "subarray",
+        "assign_resource_mid.json",  # TODO Get this json based on mid or low
     )
     with open(assign_json_file_path, "r", encoding="UTF-8") as f:
         assign_json = f.read()
     return assign_json
 
+
 def get_configure_json():
     configure_file_path = join(
-        dirname(__file__), "..", "..", 
-        "data", "command_Configure.json" # TODO Get this json based on mid or low
+        dirname(__file__),
+        "..",
+        "..",
+        "data",
+        "command_Configure.json",  # TODO Get this json based on mid or low
     )
     with open(configure_file_path, "r", encoding="UTF-8") as f:
         assign_json = f.read()
     return assign_json
-    
 
 
 class SubarrayNode(object):
@@ -61,11 +69,6 @@ class SubarrayNode(object):
     def __init__(self) -> None:
         super().__init__()
         self.subarray_node = DeviceProxy(tmc_subarraynode1)
-        self.subarray_devices = {
-            "csp_subarray": csp_subarray1,
-            "sdp_subarray": sdp_subarray1,
-            "dish_master": dish_master1,
-        }
         self._state = DevState.OFF
         self.obs_state = 0  # TBD, since ObsState.EMPTY  difficult to import, need a thinking
 
@@ -101,6 +104,10 @@ class SubarrayNode(object):
 
     @sync_configure(device_dict=device_dict)
     def invoke_configure(self, input_string):
+        dish_master_1 = DeviceProxy(dish_master1)
+        dish_master_1.SetDirectState(DevState.STANDBY)
+        # Setting DishMode to STANDBY_FP
+        dish_master_1.SetDirectDishMode(3)
         resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
         resource(tmc_subarraynode1).assert_attribute("obsState").equals("IDLE")
         result, message = self.subarray_node.Configure(input_string)
@@ -137,17 +144,17 @@ class SubarrayNode(object):
         result, message = self.subarray_node.Restart()
         LOGGER.info("Invoked Restart on SubarrayNode")
         return result, message
-    
+
     @sync_assign_resources(device_dict)
-    def assign_resources_to_subarray(self, assign_json):
+    def invoke_assign_resources(self, assign_json, device_dict=None):
         """
         Args:
             assign_json (_type_): _description_
         """
         result, message = self.subarray_node.AssignResources(assign_json)
-        LOGGER.info("Invoked Restart on SubarrayNode")
+        LOGGER.info("Invoked AssignResources on SubarrayNode")
         return result, message
-    
+
     @sync_release_resources(device_dict)
     def release_resources_subarray(self):
         """
@@ -184,6 +191,5 @@ class SubarrayNode(object):
                 self.invoke_configure(get_configure_json())
             elif self.obs_state == "IDLE":
                 self.invoke_configure(get_configure_json())
-                
-        # TODO handle Resourcing, Configuring, SCANNING
 
+        # TODO handle Resourcing, Configuring, SCANNING
