@@ -15,7 +15,7 @@ from tests.resources.test_support.constant_low import (
 # done
 
 
-# @pytest.mark.skip(reason="Manual deletion of pods is required ")
+@pytest.mark.skip(reason="Manual deletion of pods is required ")
 @pytest.mark.SKA_low123
 def test_assign(json_factory):
     """AssignResources and ReleaseResources is executed."""
@@ -30,7 +30,7 @@ def test_assign(json_factory):
     )
 
 
-# @pytest.mark.skip(reason="Manual deletion of pods is required ")
+@pytest.mark.skip(reason="Manual deletion of pods is required ")
 @pytest.mark.SKA_low123
 def test_release(json_factory):
     """ReleaseResources is executed."""

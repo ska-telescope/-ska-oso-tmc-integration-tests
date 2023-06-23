@@ -105,7 +105,7 @@ deviceServers:
   centralnode:
     enabled: true
     instances: ["01"]
-    subarray_count: 1
+    subarray_count: 2
     file: "data/centralnode_mid.yaml"
     DishLeafNodePrefix: "ska_mid/tm_leaf_node/d0"
     NumDishes: 4
