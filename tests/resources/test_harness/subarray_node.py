@@ -103,8 +103,14 @@ class SubarrayNode(object):
         """
         self._obs_state = value
 
+    def move_to_on(self):
+        resource(tmc_subarraynode1).assert_attribute("State").equals("OFF")
+        result, message = self.subarray_node.On()
+        LOGGER.info("Invoked ON on SubarrayNode")
+        return result, message
+
     @sync_configure(device_dict=device_dict)
-    def invoke_configure(self, input_string):
+    def configure_subarray(self, input_string):
         dish_master_1 = DeviceProxy(dish_master1)
         dish_master_1.SetDirectState(DevState.STANDBY)
         # Setting DishMode to STANDBY_FP
@@ -147,7 +153,7 @@ class SubarrayNode(object):
         return result, message
 
     @sync_assign_resources(device_dict)
-    def invoke_assign_resources(self, assign_json, device_dict=None):
+    def assign_resources_to_subarray(self, assign_json, device_dict=None):
         """
         Args:
             assign_json (_type_): _description_
@@ -189,8 +195,7 @@ class SubarrayNode(object):
         elif obs_state_to_change == "READY":
             if self.obs_state == "EMPTY":
                 self.assign_resources_to_subarray(get_subarray_assign_json())
-                self.invoke_configure(get_configure_json())
+                self.configure_subarray(get_configure_json())
             elif self.obs_state == "IDLE":
-                self.invoke_configure(get_configure_json())
-
+                self.configure_subarray(get_configure_json())
         # TODO handle Resourcing, Configuring, SCANNING
