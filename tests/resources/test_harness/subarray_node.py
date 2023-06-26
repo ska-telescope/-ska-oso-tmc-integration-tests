@@ -94,6 +94,12 @@ class SubarrayNode(object):
         LOGGER.info("Invoked ON on SubarrayNode")
         return result, message
 
+    def move_to_off(self):
+        resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
+        result, message = self.subarray_node.Off()
+        LOGGER.info("Invoked OFF on SubarrayNode")
+        return result, message
+
     @sync_configure(device_dict=device_dict)
     def configure_subarray(self, input_string):
         resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
@@ -212,3 +218,6 @@ class SubarrayNode(object):
             self.restart_subarray()
         else:
             self.force_change_obs_state("EMPTY")
+
+        # Move Subarray to OFF state
+        self.move_to_off()
