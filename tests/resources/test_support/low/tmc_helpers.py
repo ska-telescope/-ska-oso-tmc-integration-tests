@@ -1,4 +1,5 @@
 import logging
+import re
 from os.path import dirname, join
 
 from tango import DeviceProxy, DevState
@@ -137,3 +138,29 @@ def scan(scan_input):
     subarray_node = DeviceProxy(tmc_subarraynode1)
     subarray_node.Scan(scan_input)
     LOGGER.info("Invoked Scan on SubarrayNode")
+
+
+def check_telescope_availability() -> None:
+    """
+    Checks of Telescope availability is set to True
+    CSP , SDP Master should be True
+    At least one of the Subarry node should be available
+    """
+    # Check if at least 1 subarry node is true
+
+    central_node = DeviceProxy(centralnode)
+    telescopeavailability = central_node.read_attribute(
+        "telescopeAvailability"
+    ).value
+    nodes = re.findall(
+        r"tmc_subarrays\": {(.*?)}", telescopeavailability, re.DOTALL
+    )
+    assert "true" in re.findall(r": (\w*)", nodes[0], re.DOTALL)
+
+    # Check if CSP/SDP master nodes are true in telescopeavailability
+    assert "true" in re.findall(
+        r"csp_master_leaf_node\": (.*),", telescopeavailability, re.DOTALL
+    )
+    assert "true" in re.findall(
+        r"sdp_master_leaf_node\": (.*)}", telescopeavailability, re.DOTALL
+    )

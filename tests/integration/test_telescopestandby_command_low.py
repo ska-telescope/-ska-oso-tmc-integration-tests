@@ -36,7 +36,9 @@ def test_telescope_standby():
         )
         fixture["state"] = "TelescopeOn"
 
-        # # Invoke TelescopeOff() command on TMC
+        tmc.check_telescope_availability()
+
+        # Invoke TelescopeOff() command on TMC
         tmc.set_to_standby()
 
         # # Verify State transitions after TelescopeOff

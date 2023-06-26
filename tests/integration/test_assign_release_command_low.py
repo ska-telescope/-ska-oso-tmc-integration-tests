@@ -99,6 +99,7 @@ def test_assign_release_low(json_factory):
             )
             central_node = DeviceProxy(centralnode)
             tmc.check_devices()
+            tmc.check_telescope_availability()
             central_node.AssignResources(assign_json)
             LOGGER.info("Invoked AssignResources on CentralNode")
 
@@ -113,6 +114,7 @@ def test_assign_release_low(json_factory):
         fixture["state"] = "AssignResources"
 
         # Invoke ReleaseResources() command on TMC
+        tmc.check_telescope_availability()
         tmc.invoke_releaseResources(release_json)
 
         fixture["state"] = "ReleaseResources"
@@ -120,6 +122,7 @@ def test_assign_release_low(json_factory):
             DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
         )
 
+        tmc.check_telescope_availability()
         # Invoke TelescopeOff() command on TMC
         tmc.set_to_off()
 
