@@ -222,4 +222,5 @@ class SubarrayNode(object):
 
         # Move Subarray to OFF state
         self.move_to_off()
-        self.dish_master_1.Off()
+        self.dish_master_1.SetDirectDishMode(DishMode.STANDBY_LP)
+        self.dish_master_1.SetDirectState(DevState.STANDBY)
