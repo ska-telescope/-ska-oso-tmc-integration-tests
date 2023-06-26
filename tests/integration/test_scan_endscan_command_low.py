@@ -9,7 +9,9 @@ from tests.resources.test_support.constant_low import (
     DEVICE_STATE_OFF_INFO,
     DEVICE_STATE_ON_INFO,
     DEVICE_STATE_STANDBY_INFO,
+    tmc_subarraynode1,
 )
+from tests.resources.test_support.controls import check_subarray1_availability
 from tests.resources.test_support.low.telescope_controls_low import (
     TelescopeControlLow,
 )
@@ -44,6 +46,9 @@ def test_scan_endscan_low(json_factory):
             DEVICE_STATE_ON_INFO, "State"
         )
         fixture["state"] = "TelescopeOn"
+
+        # Check Subarray1 availability
+        assert check_subarray1_availability(tmc_subarraynode1)
 
         # # Invoke AssignResources() Command on TMC
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")

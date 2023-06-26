@@ -14,6 +14,7 @@ from tests.resources.test_support.constant import (
     centralnode,
     tmc_subarraynode1,
 )
+from tests.resources.test_support.controls import check_subarray1_availability
 from tests.resources.test_support.telescope_controls import (
     BaseTelescopeControl,
 )
@@ -46,6 +47,9 @@ def test_mid_abort_restart_in_ready(json_factory):
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_ON_INFO, "State"
         )
+
+        # Check Subarray1 availability
+        assert check_subarray1_availability(tmc_subarraynode1)
 
         # Invoke AssignResources() Command on TMC#
         tmc_helper.compose_sub(assign_json, **ON_OFF_DEVICE_COMMAND_DICT)
