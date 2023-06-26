@@ -6,7 +6,8 @@ from enum import IntEnum, unique
 @unique
 class DishMode(IntEnum):
     # ska-mid-dish-manager is having dependency conflicts with ska-tmc-common
-    # So redefined DishMode enum, which reflects the ska-mid-dish-manager DishMode enum.
+    # So redefined DishMode enum, which reflects the ska-mid-dish-manager
+    # DishMode enum.
     # We will work out on this separately once dish manager is sorted.
     STARTUP = 0
     SHUTDOWN = 1
