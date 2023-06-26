@@ -12,6 +12,7 @@ from tests.resources.test_harness.constant import (
     tmc_subarraynode1,
 )
 from tests.resources.test_harness.utils.common_utils import JsonFactory
+from tests.resources.test_harness.utils.enums import DishMode
 from tests.resources.test_harness.utils.sync_decorators import (
     sync_abort,
     sync_assign_resources,
@@ -45,6 +46,7 @@ class SubarrayNode(object):
     def __init__(self) -> None:
         super().__init__()
         self.subarray_node = DeviceProxy(tmc_subarraynode1)
+        self.dish_master_1 = DeviceProxy(dish_master1)
         self._state = DevState.OFF
         # TBD, since ObsState.EMPTY  difficult to import, need a thinking
         self.obs_state = 0
@@ -53,10 +55,9 @@ class SubarrayNode(object):
 
     def _setup(self):
         """ """
-        dish_master_1 = DeviceProxy(dish_master1)
-        dish_master_1.SetDirectState(DevState.STANDBY)
+        self.dish_master_1.SetDirectState(DevState.STANDBY)
         # Setting DishMode to STANDBY_FP
-        dish_master_1.SetDirectDishMode(3)
+        self.dish_master_1.SetDirectDishMode(DishMode.STANDBY_FP)
 
     @property
     def state(self) -> DevState:
@@ -221,3 +222,4 @@ class SubarrayNode(object):
 
         # Move Subarray to OFF state
         self.move_to_off()
+        self.dish_master_1.Off()
