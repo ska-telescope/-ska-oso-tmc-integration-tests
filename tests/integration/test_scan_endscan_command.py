@@ -2,7 +2,9 @@ import pytest
 
 import tests.resources.test_support.tmc_helpers as tmc
 from tests.conftest import LOGGER
+from tests.resources.test_support.constant import tmc_subarraynode1
 from tests.resources.test_support.controls import (
+    check_subarray1_availability,
     subarray_obs_state_is_empty,
     subarray_obs_state_is_idle,
     subarray_obs_state_is_ready,
@@ -33,6 +35,9 @@ def test_scan_endscan():
 
         # # Verify State transitions after TelescopeOn
         assert telescope_is_in_on_state()
+
+        # Check Subarray1 availability
+        assert check_subarray1_availability(tmc_subarraynode1)
 
         # # Invoke AssignResources() Command on TMC
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
