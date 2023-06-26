@@ -34,7 +34,6 @@ def test_release(json_factory):
 
     release_json = json_factory("command_release_resource_low")
     central_node = DeviceProxy(centralnode)
-
     result, message = central_node.ReleaseResources(release_json)
 
     assert "Subarray ska_low/tm_subarray_node/1 is not available" in str(
@@ -50,6 +49,7 @@ def test_telescope_on():
 
     # works fine when pods are deleted
     with pytest.raises(Exception) as info:
+        # tmc.set_to_on()
         central_node.TelescopeOn()
 
     assert "not available" in str(info.value)
