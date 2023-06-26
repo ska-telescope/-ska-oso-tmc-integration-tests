@@ -11,6 +11,7 @@ from ska_tango_testing.mock.tango.event_callback import (
 
 from tests.resources.test_harness.central_node import CentralNode
 from tests.resources.test_harness.subarray_node import SubarrayNode
+from tests.resources.test_harness.utils.common_utils import JsonFactory
 
 LOGGER = logging.getLogger(__name__)
 
@@ -126,4 +127,11 @@ def subarray_node() -> SubarrayNode:
     """ """
     subarray = SubarrayNode()
     yield subarray
+    # this will call after test complete
     subarray.tear_down()
+
+
+@pytest.fixture()
+def command_input_factory() -> JsonFactory:
+    """Return Json Factory"""
+    return JsonFactory()

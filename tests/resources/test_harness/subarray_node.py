@@ -1,5 +1,4 @@
 import logging
-from os.path import dirname, join
 
 from tango import DeviceProxy, DevState
 
@@ -12,6 +11,7 @@ from tests.resources.test_harness.constant import (
     sdp_subarray1,
     tmc_subarraynode1,
 )
+from tests.resources.test_harness.utils.common_utils import JsonFactory
 from tests.resources.test_harness.utils.sync_decorators import (
     sync_abort,
     sync_assign_resources,
@@ -34,20 +34,6 @@ device_dict = {
     "sdp_master": sdp_master,
     "centralnode": centralnode,
 }
-
-
-def get_input_json(slug):
-    assign_json_file_path = join(
-        dirname(__file__),
-        "..",
-        "..",
-        "data",
-        "subarray",
-        f"{slug}.json",  # TODO Get this json based on mid or low
-    )
-    with open(assign_json_file_path, "r", encoding="UTF-8") as f:
-        assign_json = f.read()
-    return assign_json
 
 
 class SubarrayNode(object):
@@ -110,10 +96,6 @@ class SubarrayNode(object):
 
     @sync_configure(device_dict=device_dict)
     def configure_subarray(self, input_string):
-        dish_master_1 = DeviceProxy(dish_master1)
-        dish_master_1.SetDirectState(DevState.STANDBY)
-        # Setting DishMode to STANDBY_FP
-        dish_master_1.SetDirectDishMode(3)
         resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
         resource(tmc_subarraynode1).assert_attribute("obsState").equals("IDLE")
         result, message = self.subarray_node.Configure(input_string)
@@ -185,6 +167,7 @@ class SubarrayNode(object):
         Args:
             obs_state (str): Obs State
         """
+        json_factory = JsonFactory()
         LOGGER.info(f"Current Obs state is  {self.obs_state}")
         if obs_state_to_change == "IDLE":
             if self.obs_state == "READY":
@@ -193,7 +176,7 @@ class SubarrayNode(object):
             elif self.obs_state == "EMPTY":
                 # invoke assign_resource
                 self.assign_resources_to_subarray(
-                    get_input_json("assign_resource_mid")
+                    json_factory.create_assign_resource("assign_resource_mid")
                 )
         elif obs_state_to_change == "EMPTY":
             if self.obs_state == "IDLE":
@@ -206,11 +189,15 @@ class SubarrayNode(object):
         elif obs_state_to_change == "READY":
             if self.obs_state == "EMPTY":
                 self.assign_resources_to_subarray(
-                    get_input_json("assign_resource_mid")
+                    json_factory.create_assign_resource("assign_resource_mid")
                 )
-                self.configure_subarray(get_input_json("configure_mid"))
+                self.configure_subarray(
+                    json_factory.create_subarray_configuration("configure_mid")
+                )
             elif self.obs_state == "IDLE":
-                self.configure_subarray(get_input_json("configure_mid"))
+                self.configure_subarray(
+                    json_factory.create_subarray_configuration("configure_mid")
+                )
             elif self.obs_state == "SCANNING":
                 self.end_scanning()
         LOGGER.info(f"Obs state is changed to {self.obs_state}")
