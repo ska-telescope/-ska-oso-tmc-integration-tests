@@ -3,7 +3,6 @@ from assertpy import assert_that
 
 
 class TestSubarrayNodeObsStateTransitions(object):
-    @pytest.mark.hope
     @pytest.mark.SKA_mid
     def test_ready_to_idle_valid_data(self, subarray_node):
         if subarray_node.state != subarray_node.ON_STATE:
