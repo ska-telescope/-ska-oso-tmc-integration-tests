@@ -1,10 +1,11 @@
 import pytest
-# from assertpy import assert_that
 
 from tests.resources.test_harness.helpers import check_subarray_obs_state
 
-class TestSubarrayNodeObsStateTransitions(object):
+# from assertpy import assert_that
 
+
+class TestSubarrayNodeObsStateTransitions(object):
     @pytest.mark.SKA_mid
     def test_idle_to_ready_valid_data(
         self, subarray_node, command_input_factory
