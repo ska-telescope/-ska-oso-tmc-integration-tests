@@ -1,9 +1,10 @@
 import pytest
-from assertpy import assert_that
+# from assertpy import assert_that
 
+from tests.resources.test_harness.helpers import check_subarray_obs_state
 
 class TestSubarrayNodeObsStateTransitions(object):
-    @pytest.mark.hope
+
     @pytest.mark.SKA_mid
     def test_idle_to_ready_valid_data(
         self, subarray_node, command_input_factory
@@ -39,11 +40,11 @@ class TestSubarrayNodeObsStateTransitions(object):
 
         subarray_node.configure_subarray(configure_json)
 
-        # check_subarray_obs_state(obs_state="READY")  #
+        check_subarray_obs_state(obs_state="READY")  #
 
-        assert_that(subarray_node.obs_state).equals(
-            subarray_node.READY_OBS_STATE
-        )
+        # assert_that(subarray_node.obs_state).equals(
+        #     subarray_node.READY_OBS_STATE
+        # )
         # GB shouldn't we make an assertion here?
         # in case:
         # GB I'm very fond of using assertpy
