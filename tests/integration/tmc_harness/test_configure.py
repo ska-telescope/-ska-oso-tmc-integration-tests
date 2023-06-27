@@ -1,18 +1,18 @@
 import pytest
-
-from tests.resources.test_harness.helpers import check_subarray_obs_state
+from assertpy import assert_that
 
 
 class TestSubarrayNodeObsStateTransitions(object):
+    @pytest.mark.hope
     @pytest.mark.SKA_mid
     def test_idle_to_ready_valid_data(
         self, subarray_node, command_input_factory
     ):
         # GB put tests in a class, that can be named as
-        # "WithSubarrayNodeTransitions"
+        # "WithSubarrayNodeTransitions" ----> Done
 
         # GB if you name the test in an evocative way then you
-        # can rmove this description string
+        # can rmove this description string   ----> done
         configure_json = command_input_factory.create_subarray_configuration(
             "configure_mid"
         )
@@ -25,21 +25,25 @@ class TestSubarrayNodeObsStateTransitions(object):
         # (< args to specify types of config string to be generated>)
 
         if (
-            subarray_node.state != "ON"
+            subarray_node.state != subarray_node.ON_STATE
         ):  # GB do we have to use literals or can we use constants
             # defined somewhere?
             # like subarray_node.ON_STATE
             subarray_node.move_to_on()
 
-        if subarray_node.obs_state != "IDLE":
-            subarray_node.force_change_obs_state("IDLE")
+        if subarray_node.obs_state != subarray_node.IDLE_OBS_STATE:
+            subarray_node.force_change_obs_state(subarray_node.IDLE_OBS_STATE)
 
         # GB why do we need to assret this? isn't it guaranteed
-        # by the previous method?
+        # by the previous method? --> Done
 
         subarray_node.configure_subarray(configure_json)
 
-        check_subarray_obs_state(obs_state="READY")  #
+        # check_subarray_obs_state(obs_state="READY")  #
+
+        assert_that(subarray_node.obs_state).equals(
+            subarray_node.READY_OBS_STATE
+        )
         # GB shouldn't we make an assertion here?
         # in case:
         # GB I'm very fond of using assertpy

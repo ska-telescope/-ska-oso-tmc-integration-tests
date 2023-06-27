@@ -18,3 +18,22 @@ class DishMode(IntEnum):
     CONFIG = 6
     OPERATE = 7
     UNKNOWN = 8
+
+
+@unique
+class SubarrayState(IntEnum):
+    ON = 0
+    OFF = 1
+    FAULT = 8
+    INIT = 9
+    UNKNOWN = 13
+
+
+@unique
+class SubarrayObsState(IntEnum):
+    EMPTY = 0
+    RESOURCING = 1
+    IDLE = 2
+    CONFIGURING = 3
+    READY = 4
+    SCANNING = 5
