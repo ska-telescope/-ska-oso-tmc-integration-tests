@@ -5,6 +5,7 @@ from tests.resources.test_support.constant import (
     centralnode,
     tmc_subarraynode1,
 )
+from tests.resources.test_support.tmc_helpers import tear_down
 
 
 # These test case will pass only when any of the node is deleted explicitly
@@ -73,11 +74,14 @@ def test_assign_mid(json_factory):
 @pytest.mark.SKA_mid
 def test_release_mid(json_factory):
     """ReleaseResources is executed while pods are deleted."""
+    try:
+        release_json = json_factory("command_ReleaseResources")
+        central_node = DeviceProxy(centralnode)
+        result, message = central_node.ReleaseResources(release_json)
 
-    release_json = json_factory("command_ReleaseResources")
-    central_node = DeviceProxy(centralnode)
-    result, message = central_node.ReleaseResources(release_json)
+        assert "Subarray ska_mid/tm_subarray_node/1 is not available" in str(
+            message
+        )
 
-    assert "Subarray ska_mid/tm_subarray_node/1 is not available" in str(
-        message
-    )
+    except Exception:
+        tear_down(release_json)
