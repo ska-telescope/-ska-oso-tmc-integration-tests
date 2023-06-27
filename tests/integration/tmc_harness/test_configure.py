@@ -1,8 +1,7 @@
 import pytest
+from assertpy import assert_that
 
-from tests.resources.test_harness.helpers import check_subarray_obs_state
-
-# from assertpy import assert_that
+# from tests.resources.test_harness.helpers import check_subarray_obs_state
 
 
 class TestSubarrayNodeObsStateTransitions(object):
@@ -41,11 +40,10 @@ class TestSubarrayNodeObsStateTransitions(object):
 
         subarray_node.configure_subarray(configure_json)
 
-        check_subarray_obs_state(obs_state="READY")  #
+        assert_that(subarray_node.obs_state).is_equal_to(
+            subarray_node.READY_OBS_STATE
+        )
 
-        # assert_that(subarray_node.obs_state).equals(
-        #     subarray_node.READY_OBS_STATE
-        # )
         # GB shouldn't we make an assertion here?
         # in case:
         # GB I'm very fond of using assertpy
