@@ -1,6 +1,7 @@
 """This module implement base helper class for tmc
 """
 import logging
+import re
 from typing import Optional
 
 from tango import DeviceProxy, DevState
@@ -55,12 +56,38 @@ class TmcHelper(object):
             device_proxy = DeviceProxy(device)
             assert 0 < device_proxy.ping()
 
+    def check_telescope_availability(self) -> None:
+        """
+        Checks of Telescope availability is set to True
+        CSP , SDP Master should be True
+        At least one of the Subarray node should be available
+        """
+        # Check if at least 1 subarry node is true
+
+        central_node = DeviceProxy(self.centralnode)
+        telescopeavailability = central_node.read_attribute(
+            "telescopeAvailability"
+        ).value
+        nodes = re.findall(
+            r"tmc_subarrays\": {(.*?)}", telescopeavailability, re.DOTALL
+        )
+        assert "true" in re.findall(r": (\w*)", nodes[0], re.DOTALL)
+
+        # Check if CSP/SDP master nodes are true in telescopeavailability
+        assert "true" in re.findall(
+            r"csp_master_leaf_node\": (.*),", telescopeavailability, re.DOTALL
+        )
+        assert "true" in re.findall(
+            r"sdp_master_leaf_node\": (.*)}", telescopeavailability, re.DOTALL
+        )
+
     @sync_telescope_on
     def set_to_on(self, **kwargs) -> None:
         """
         Args:
             kwargs (dict): device info which needs set to ON
         """
+
         central_node = DeviceProxy(self.centralnode)
         LOGGER.info(
             f"Before Sending TelescopeOn command {central_node}\
