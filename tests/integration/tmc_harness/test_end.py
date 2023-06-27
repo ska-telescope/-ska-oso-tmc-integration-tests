@@ -1,26 +1,19 @@
 import pytest
+from assertpy import assert_that
 
-from tests.resources.test_harness.helpers import check_subarray_obs_state
 
+class TestSubarrayNodeObsStateTransitions(object):
+    @pytest.mark.hope
+    @pytest.mark.SKA_mid
+    def test_ready_to_idle_valid_data(self, subarray_node):
+        if subarray_node.state != subarray_node.ON_STATE:
+            subarray_node.move_to_on()
 
-@pytest.mark.end
-@pytest.mark.SKA_mid
-def test_end(subarray_node):
-    """
-    Test module to verify End command, obsState transitions from
-    READY TO IDLE
-    """
+        if subarray_node.obs_state != subarray_node.READY_OBS_STATE:
+            subarray_node.force_change_obs_state(subarray_node.READY_OBS_STATE)
 
-    if subarray_node.state != "ON":
-        subarray_node.move_to_on()
+        subarray_node.end_observation()
 
-    if subarray_node.obs_state != "READY":
-        subarray_node.force_change_obs_state("READY")
-
-    # assert check_obs_state(obs_state="READY")
-
-    subarray_node.end_observation()
-
-    check_subarray_obs_state(obs_state="IDLE")
-
-    # tear_down(release_json)
+        assert_that(subarray_node.obs_state).is_equal_to(
+            subarray_node.IDLE_OBS_STATE
+        )
