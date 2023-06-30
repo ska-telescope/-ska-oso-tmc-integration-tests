@@ -10,6 +10,7 @@ from ska_tango_testing.mock.tango.event_callback import (
 )
 
 from tests.resources.test_harness.central_node import CentralNode
+from tests.resources.test_harness.mock_factory import MockFactory
 from tests.resources.test_harness.subarray_node import SubarrayNode
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 
@@ -135,3 +136,9 @@ def subarray_node() -> SubarrayNode:
 def command_input_factory() -> JsonFactory:
     """Return Json Factory"""
     return JsonFactory()
+
+
+@pytest.fixture()
+def mock_factory() -> MockFactory:
+    """Return Mock Factory"""
+    return MockFactory()
