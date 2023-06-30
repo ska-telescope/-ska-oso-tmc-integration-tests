@@ -3,6 +3,7 @@
 from tango import DeviceProxy
 
 from tests.resources.test_harness.constant import csp_subarray1, sdp_subarray1
+from tests.resources.test_harness.utils.enums import MockDeviceType
 
 
 class MockFactory(object):
@@ -22,9 +23,9 @@ class MockFactory(object):
         Returns:
             mock_device_proxy: Device Proxy of mock device
         """
-        if device_type == "SDP":
+        if device_type == MockDeviceType.SDP_DEVICE:
             mock_device = DeviceProxy(sdp_subarray1)
-        elif device_type == "CSP":
+        elif device_type == MockDeviceType.CSP_DEVICE:
             mock_device = DeviceProxy(csp_subarray1)
 
         if obs_state_transition_duration:

@@ -37,3 +37,9 @@ class SubarrayObsState(IntEnum):
     CONFIGURING = 3
     READY = 4
     SCANNING = 5
+
+
+@unique
+class MockDeviceType(IntEnum):
+    CSP_DEVICE = 0
+    SDP_DEVICE = 1
