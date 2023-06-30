@@ -4,6 +4,7 @@ from tests.resources.test_harness.helpers import check_subarray_obs_state
 
 
 class TestSubarrayNodeObsStateTransitions(object):
+    @pytest.mark.skip(reason="Scenario is covered in another file")
     @pytest.mark.SKA_mid
     def test_ready_to_idle_valid_data(self, subarray_node):
         if subarray_node.state != subarray_node.ON_STATE:
