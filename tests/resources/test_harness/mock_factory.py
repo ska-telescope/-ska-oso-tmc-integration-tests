@@ -1,13 +1,14 @@
 """Implement Class related to mock device
 """
-from ska_tmc_common.adapters import AdapterFactory
 from tango import DeviceProxy
 
 from tests.resources.test_harness.constant import csp_subarray1, sdp_subarray1
 
 
 class MockFactory(object):
-    """This Mock factory used to implement method for creating Tango mock object"""
+    """This Mock factory used to implement method for creating
+    Tango mock object
+    """
 
     def create_mock_device(
         self, device_type, obs_state_transition_duration=None
