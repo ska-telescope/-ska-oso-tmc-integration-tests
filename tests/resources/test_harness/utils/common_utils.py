@@ -4,6 +4,12 @@ from os.path import dirname, join
 
 
 def get_subarray_input_json(slug):
+    """
+    Args:
+        slug (str): base name of file
+    Return:
+        Read and return content of file
+    """
     assign_json_file_path = join(
         dirname(__file__),
         "..",
@@ -22,9 +28,19 @@ class JsonFactory(object):
     """Implement methods required for getting json"""
 
     def create_subarray_configuration(self, json_type):
-        """Return configuration json"""
+        """Read and return configuration json file from tests/data folder
+        Args:
+            json_type (str): Base name of file which is stored in data folder
+        Return:
+            config_json (str): Return configure json based json type provided
+        """
         return get_subarray_input_json(json_type)
 
     def create_assign_resource(self, json_type):
-        """Return Assign Resource Json"""
+        """Read and return configuration json file from tests/data folder
+        Args:
+            json_type (str): Base name of file which is stored in data folder
+        Return:
+            config_json (str): Return configure json based json type provided
+        """
         return get_subarray_input_json(json_type)
