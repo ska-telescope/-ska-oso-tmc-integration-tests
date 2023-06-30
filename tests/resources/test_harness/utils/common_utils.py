@@ -23,6 +23,7 @@ class JsonFactory(object):
 
     def create_subarray_configuration(self, json_type):
         """Return configuration json"""
+        # TODO: improve doc strings for readability
         return get_subarray_input_json(json_type)
 
     def create_assign_resource(self, json_type):
