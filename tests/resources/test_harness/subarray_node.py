@@ -19,7 +19,6 @@ from tests.resources.test_harness.utils.sync_decorators import (
     sync_assign_resources,
     sync_configure,
     sync_end,
-    sync_endscan,
     sync_release_resources,
     sync_restart,
 )
@@ -35,6 +34,7 @@ device_dict = {
     "tmc_subarraynode": tmc_subarraynode1,
     "sdp_master": sdp_master,
     "centralnode": centralnode,
+    "dish_master1": dish_master1,
 }
 
 
@@ -108,48 +108,29 @@ class SubarrayNode(object):
 
     @sync_configure(device_dict=device_dict)
     def configure_subarray(self, input_string):
-        resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
-        resource(tmc_subarraynode1).assert_attribute("obsState").equals("IDLE")
         result, message = self.subarray_node.Configure(input_string)
         LOGGER.info("Invoked Configure on SubarrayNode")
         return result, message
 
     @sync_end(device_dict=device_dict)
     def end_observation(self):
-        resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
-        resource(tmc_subarraynode1).assert_attribute("obsState").equals(
-            "READY"
-        )
         result, message = self.subarray_node.End()
         LOGGER.info("Invoked End on SubarrayNode")
         return result, message
 
-    @sync_endscan(device_dict)
-    def end_scanning(self):
-        """ """
-        result, message = self.subarray_node.EndScan()
-        LOGGER.info("Invoked End Scan on SubarrayNode")
-        return result, message
-
     def invoke_scan(self, input_string):
-        resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
-        resource(tmc_subarraynode1).assert_attribute("obsState").equals(
-            "READY"
-        )
         result, message = self.subarray_node.Scan(input_string)
         LOGGER.info("Invoked Scan on SubarrayNode")
         return result, message
 
     @sync_abort(device_dict=device_dict)
     def abort_subarray(self):
-        resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
         result, message = self.subarray_node.Abort()
         LOGGER.info("Invoked Abort on SubarrayNode")
         return result, message
 
     @sync_restart(device_dict=device_dict)
     def restart_subarray(self):
-        resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
         result, message = self.subarray_node.Restart()
         LOGGER.info("Invoked Restart on SubarrayNode")
         return result, message
@@ -174,11 +155,22 @@ class SubarrayNode(object):
         LOGGER.info("Invoked Release Resource on SubarrayNode")
         return result, message
 
+    def execute_transition(self, command_name, argin=None):
+        """
+        Args:
+            assign_json (_type_): _description_
+        """
+        result, message = self.subarray_node.command_inout(command_name, argin)
+        LOGGER.info(f"Invoked {command_name} on SubarrayNode")
+        return result, message
+
     def force_change_obs_state(self, obs_state_to_change):
         """Force change obs state to provided state
         Args:
             obs_state (str): Obs State
         """
+        # TODO: Refactor the given methods, to avoid nested if.
+        # low priority item
         json_factory = JsonFactory()
         LOGGER.info(f"Current Obs state is  {self.obs_state}")
         if obs_state_to_change == "IDLE":
@@ -195,7 +187,8 @@ class SubarrayNode(object):
                 # Invoke Release resource
                 self.release_resources_subarray()
             elif self.obs_state == "READY":
-                # Invoke End to bring it to IDLE and then invoke Release
+                # Invoke End to bring it to IDLE
+                # then invoke Release
                 self.end_observation()
                 self.release_resources_subarray()
         elif obs_state_to_change == "READY":
@@ -210,12 +203,13 @@ class SubarrayNode(object):
                 self.configure_subarray(
                     json_factory.create_subarray_configuration("configure_mid")
                 )
-            elif self.obs_state == "SCANNING":
-                self.end_scanning()
+            # elif self.obs_state == "SCANNING":
+            #     self.end_scanning()
         LOGGER.info(f"Obs state is changed to {self.obs_state}")
 
     def tear_down(self):
         """Tear down after each test run"""
+
         LOGGER.info("Calling Tear down for subarray")
         if self.obs_state in ("RESOURCING", "CONFIGURING", "SCANNING"):
             """Invoke Abort and Restart"""

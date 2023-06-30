@@ -418,6 +418,30 @@ class Waiter:
             )
         )
 
+    def set_wait_for_obs_state(self, obs_state=None):
+        self.waits.append(
+            watch(resource(self.csp_subarray1)).to_become(
+                "obsState", changed_to=obs_state
+            )
+        )
+        self.waits.append(
+            watch(resource(self.sdp_subarray1)).to_become(
+                "obsState", changed_to=obs_state
+            )
+        )
+
+        self.waits.append(
+            watch(resource(self.tmc_subarraynode1)).to_become(
+                "obsState", changed_to=obs_state
+            )
+        )
+        if self.dish_master1:
+            self.waits.append(
+                watch(resource(self.dish_master1)).to_become(
+                    "pointingState", changed_to="TRACK"
+                )
+            )
+
     def set_wait_for_configure(self):
         self.waits.append(
             watch(resource(self.csp_subarray1)).to_become(

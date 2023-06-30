@@ -1,15 +1,26 @@
 from typing import Optional
 
 from tests.conftest import LOGGER
+from tests.resources.test_support.common_utils.common_helpers import (
+    Waiter,
+    resource,
+)
 from tests.resources.test_support.constant import (
     csp_subarray1,
+    dish_master1,
     sdp_subarray1,
     tmc_subarraynode1,
 )
-from tests.resources.test_support.helpers import resource
 
 
-def check_subarray_obs_state(obs_state=None):
+def check_subarray_obs_state(obs_state=None, timeout=500):
+
+    device_dict = {
+        "sdp_subarray": sdp_subarray1,
+        "csp_subarray": csp_subarray1,
+        "tmc_subarraynode": tmc_subarraynode1,
+    }
+
     LOGGER.info(
         f"{tmc_subarraynode1}.obsState : "
         + str(resource(tmc_subarraynode1).get("obsState"))
@@ -22,6 +33,11 @@ def check_subarray_obs_state(obs_state=None):
         f"{csp_subarray1}.obsState : "
         + str(resource(csp_subarray1).get("obsState"))
     )
+    if obs_state == "READY":
+        device_dict["dish_master"] = dish_master1
+    the_waiter = Waiter(**device_dict)
+    the_waiter.set_wait_for_obs_state(obs_state=obs_state)
+    the_waiter.wait(timeout)
 
     return all(
         [
