@@ -6,10 +6,11 @@ from tests.resources.test_harness.utils.enums import MockDeviceType
 
 class TestSubarrayNodeObsStateTransitions(object):
     @pytest.mark.parametrize(
-        "source_obs_state, trigger, args_to_the_command, destination_obs_state",
+        "source_obs_state, trigger, args_for_command, destination_obs_state",
         [
             ("IDLE", "Configure", "configure_mid", "READY"),
             ("READY", "End", None, "IDLE"),
+            ("EMPTY", "AssignResources", "assign_resources_mid", "IDLE"),
         ],
     )
     @pytest.mark.SKA_mid
@@ -20,7 +21,7 @@ class TestSubarrayNodeObsStateTransitions(object):
         mock_factory,
         source_obs_state,
         trigger,
-        args_to_the_command,
+        args_for_command,
         destination_obs_state,
     ):
 
@@ -32,9 +33,9 @@ class TestSubarrayNodeObsStateTransitions(object):
             MockDeviceType.CSP_DEVICE, obs_state_transition_duration=30
         )
 
-        if args_to_the_command is not None:
+        if args_for_command is not None:
             input_json = command_input_factory.create_subarray_configuration(
-                args_to_the_command
+                args_for_command
             )
         else:
             input_json = None
