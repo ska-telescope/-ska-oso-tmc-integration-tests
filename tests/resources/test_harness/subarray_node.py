@@ -180,7 +180,7 @@ class SubarrayNode(object):
             elif self.obs_state == "EMPTY":
                 # invoke assign_resource
                 self.assign_resources_to_subarray(
-                    json_factory.create_assign_resource("assign_resource_mid")
+                    json_factory.create_assign_resource("assign_resources_mid")
                 )
         elif obs_state_to_change == "EMPTY":
             if self.obs_state == "IDLE":
@@ -194,7 +194,7 @@ class SubarrayNode(object):
         elif obs_state_to_change == "READY":
             if self.obs_state == "EMPTY":
                 self.assign_resources_to_subarray(
-                    json_factory.create_assign_resource("assign_resource_mid")
+                    json_factory.create_assign_resource("assign_resources_mid")
                 )
                 self.configure_subarray(
                     json_factory.create_subarray_configuration("configure_mid")
@@ -220,7 +220,7 @@ class SubarrayNode(object):
         LOGGER.info("Calling Tear down for subarray")
         if self.obs_state in ("RESOURCING", "CONFIGURING", "SCANNING"):
             """Invoke Abort and Restart"""
-            LOGGER.info("Invokinng Abort on Subarray")
+            LOGGER.info("Invoking Abort on Subarray")
             self.abort_subarray()
             self.restart_subarray()
         else:
