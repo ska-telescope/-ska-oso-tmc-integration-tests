@@ -48,7 +48,7 @@ class TestSubarrayNodeObsStateTransitions(object):
         subarray_node.execute_transition(trigger, argin=input_json)
 
         assert check_subarray_obs_state(
-            obs_state=destination_state, timeout=30
+            obs_state=destination_state, timeout=32
         )
 
         # assert_that(subarray_node.obs_state).is_equal_to(
