@@ -28,6 +28,7 @@ release_resources_file = "command_ReleaseResources.json"
 configure_resources_file = "command_Configure.json"
 
 
+@pytest.mark.skip(reason="Configure command is not implement on Sdpleafnode.")
 @pytest.mark.SKA_mid
 def test_configure_end():
     """Configure and End is executed."""

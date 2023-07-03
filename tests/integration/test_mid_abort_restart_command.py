@@ -25,6 +25,7 @@ from tests.resources.test_support.helpers import resource, waiter
 from tests.resources.test_support.tmc_helpers import tear_down
 
 
+@pytest.mark.skip(reason="Abort command is not implement on Sdpleafnode.")
 @pytest.mark.SKA_mid
 def test_abort_restart(json_factory):
     """Abort and Restart is executed."""
@@ -81,6 +82,7 @@ def test_abort_restart(json_factory):
         tear_down(release_json)
 
 
+@pytest.mark.skip(reason="Abort command is not implement on Sdpleafnode.")
 @pytest.mark.SKA_mid
 def test_abort_in_empty():
     """Abort and Restart is executed."""
@@ -118,6 +120,7 @@ def test_abort_in_empty():
         tear_down()
 
 
+@pytest.mark.skip(reason="Abort command is not implement on Sdpleafnode.")
 @pytest.mark.SKA_mid
 def test_abort_in_resourcing(json_factory):
     """Abort and Restart is executed."""
@@ -223,6 +226,7 @@ def test_abort_in_resourcing(json_factory):
         tear_down(release_json)
 
 
+@pytest.mark.skip(reason="Abort command is not implement on Sdpleafnode.")
 @pytest.mark.SKA_mid
 def test_abort_in_resourcing_different_resources(json_factory):
     """Abort and Restart is executed."""
@@ -335,6 +339,7 @@ def test_abort_in_resourcing_different_resources(json_factory):
         tear_down(release_json)
 
 
+@pytest.mark.skip(reason="Abort command is not implement on Sdpleafnode.")
 @pytest.mark.SKA_mid
 def test_abort_in_resourcing_with_second_abort(json_factory):
     """Abort and Restart is executed."""
@@ -451,6 +456,7 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
         tear_down(release_json)
 
 
+@pytest.mark.skip(reason="Abort command is not implement on Sdpleafnode.")
 @pytest.mark.SKA_mid
 def test_abort_in_configuring(json_factory):
     """Abort and Restart is executed."""
@@ -569,6 +575,7 @@ def test_abort_in_configuring(json_factory):
         tear_down(release_json)
 
 
+@pytest.mark.skip(reason="Abort command is not implement on Sdpleafnode.")
 @pytest.mark.SKA_mid
 def test_abort_in_scanning(json_factory):
     """Abort and Restart is executed."""

@@ -20,6 +20,7 @@ from tests.resources.test_support.low.telescope_controls_low import (
 )
 
 
+@pytest.mark.skip(reason="Abort command is not implement on Sdpleafnode.")
 @pytest.mark.SKA_low
 def test_low_abort_restart_in_idle(json_factory):
     """Abort and Restart is executed."""

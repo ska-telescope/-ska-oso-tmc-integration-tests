@@ -25,6 +25,7 @@ from tests.resources.test_support.telescope_controls import (
 from tests.resources.test_support.tmc_helpers import tear_down
 
 
+@pytest.mark.skip(reason="Abort command is not implement on Sdpleafnode.")
 @pytest.mark.SKA_mid
 def test_mid_abort_restart_in_restarting(json_factory):
     """Abort and Restart is executed."""
