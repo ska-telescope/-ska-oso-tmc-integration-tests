@@ -5,7 +5,7 @@ from tests.resources.test_harness.helpers import check_subarray_obs_state
 
 class TestSubarrayNodeObsStateTransitions(object):
     @pytest.mark.parametrize(
-        "source_state, trigger, args_to_the_command, destination_state",
+        "source_obs_state, trigger, args_to_the_command, destination_obs_state",
         [
             ("IDLE", "Configure", "configure_mid", "READY"),
             ("READY", "End", None, "IDLE"),
@@ -16,10 +16,10 @@ class TestSubarrayNodeObsStateTransitions(object):
         self,
         subarray_node,
         command_input_factory,
-        source_state,
+        source_obs_state,
         trigger,
         args_to_the_command,
-        destination_state,
+        destination_obs_state,
     ):
         # TODO: WIP
         # sdp_mock = mock_factory.create_sdp_mock("configure", duration = 20)
@@ -34,13 +34,13 @@ class TestSubarrayNodeObsStateTransitions(object):
         if subarray_node.state != subarray_node.ON_STATE:
             subarray_node.move_to_on()
 
-        if subarray_node.obs_state != source_state:
-            subarray_node.force_change_obs_state(source_state)
+        if subarray_node.obs_state != source_obs_state:
+            subarray_node.force_change_obs_state(source_obs_state)
 
         subarray_node.execute_transition(trigger, argin=input_json)
 
         assert check_subarray_obs_state(
-            obs_state=destination_state, timeout=500
+            obs_state=destination_obs_state, timeout=500
         )
 
         # assert_that(subarray_node.obs_state).is_equal_to(
