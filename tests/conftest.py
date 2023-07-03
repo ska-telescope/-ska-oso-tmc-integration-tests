@@ -138,7 +138,7 @@ def command_input_factory() -> JsonFactory:
     return JsonFactory()
 
 
-@pytest.fixture()
+@pytest.fixture(scope="module")
 def mock_factory() -> MockFactory:
     """Return Mock Factory"""
     return MockFactory()

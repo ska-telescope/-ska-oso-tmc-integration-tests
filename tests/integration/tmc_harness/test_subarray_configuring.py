@@ -24,11 +24,11 @@ class TestSubarrayNodeObsStateTransitions(object):
         intermediate_obs_state,
     ):
 
-        # mock_factory.create_mock_device(
+        # mock_factory.get_or_create_mock_device(
         #     MockDeviceType.SDP_DEVICE, obs_state_transition_duration=500
         # )
 
-        # mock_factory.create_mock_device(
+        # mock_factory.get_or_create_mock_device(
         #     MockDeviceType.CSP_DEVICE, obs_state_transition_duration=500
         # )
 

@@ -1,9 +1,12 @@
 """Implement Class related to mock device
 """
+import logging
+
 from tango import DeviceProxy
 
-from tests.resources.test_harness.constant import csp_subarray1, sdp_subarray1
-from tests.resources.test_harness.utils.enums import MockDeviceType
+from tests.resources.test_harness.constant import MOCK_DEVICE_FQDN_DICT
+
+LOGGER = logging.getLogger(__name__)
 
 
 class MockFactory(object):
@@ -11,10 +14,14 @@ class MockFactory(object):
     Tango mock object
     """
 
-    def create_mock_device(
+    def __init__(self):
+        """Initialize mock object dict"""
+        self._mock_dev = {}
+
+    def get_or_create_mock_device(
         self, device_type, obs_state_transition_duration=None
     ):
-        """This method create mock object based on mock type provided
+        """This method create or get mock object based on device type provided
         Args:
             device_type (str): Device type for which Mock need to be created
             obs_state_transition_duration (int): Obs State transition
@@ -23,12 +30,20 @@ class MockFactory(object):
         Returns:
             mock_device_proxy: Device Proxy of mock device
         """
-        if device_type == MockDeviceType.SDP_DEVICE:
-            mock_device = DeviceProxy(sdp_subarray1)
-        elif device_type == MockDeviceType.CSP_DEVICE:
-            mock_device = DeviceProxy(csp_subarray1)
+        if device_type in self._mock_dev:
+            LOGGER.info(f"Found existing mock devcie for {device_type}")
+            mock_device = self._mock_dev[device_type]
+        else:
+            mock_fqdn = MOCK_DEVICE_FQDN_DICT.get(device_type)
+            LOGGER.info(f"Initializing mock device for {mock_fqdn}")
+            mock_device = DeviceProxy(mock_fqdn)
+            self._mock_dev[device_type] = mock_device
 
         if obs_state_transition_duration:
+            LOGGER.info(
+                f"Setting delay {obs_state_transition_duration} "
+                f"for {mock_device}"
+            )
             mock_device.setDelay(obs_state_transition_duration)
 
         return mock_device
