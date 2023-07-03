@@ -207,6 +207,13 @@ class SubarrayNode(object):
             #     self.end_scanning()
         LOGGER.info(f"Obs state is changed to {self.obs_state}")
 
+    def _reset_mock_devices(self):
+        """Reset Mock devices to it's original state"""
+        sdp_mock_device = DeviceProxy(sdp_subarray1)
+        csp_mock_device = DeviceProxy(csp_subarray1)
+        sdp_mock_device.setDelay(2)
+        csp_mock_device.setDelay(2)
+
     def tear_down(self):
         """Tear down after each test run"""
 
@@ -223,3 +230,4 @@ class SubarrayNode(object):
         self.move_to_off()
         self.dish_master_1.SetDirectDishMode(DishMode.STANDBY_LP)
         self.dish_master_1.SetDirectState(DevState.STANDBY)
+        self._reset_mock_devices()
