@@ -119,14 +119,6 @@ def sync_restart(device_dict, timeout=300):
     def decorator_sync_restart(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            device = DeviceUtils(
-                obs_state_device_names=[
-                    kwargs.get("csp_subarray"),
-                    kwargs.get("sdp_subarray"),
-                    kwargs.get("tmc_subarraynode"),
-                ]
-            )
-            device.check_devices_obsState("ABORTED")
             the_waiter = Waiter(**device_dict)
             the_waiter.set_wait_for_going_to_empty()
             result = func(*args, **kwargs)
