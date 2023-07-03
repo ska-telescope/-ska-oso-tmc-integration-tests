@@ -1,6 +1,7 @@
 import pytest
 
 from tests.resources.test_harness.helpers import check_subarray_obs_state
+from tests.resources.test_harness.utils.enums import MockDeviceType
 
 
 class TestSubarrayNodeObsStateTransitions(object):
@@ -16,13 +17,20 @@ class TestSubarrayNodeObsStateTransitions(object):
         self,
         subarray_node,
         command_input_factory,
+        mock_factory,
         source_state,
         trigger,
         args_to_the_command,
         destination_state,
     ):
-        # TODO: WIP
-        # sdp_mock = mock_factory.create_sdp_mock("configure", duration = 20)
+
+        mock_factory.create_mock_device(
+            MockDeviceType.SDP_DEVICE, obs_state_transition_duration=30
+        )
+
+        mock_factory.create_mock_device(
+            MockDeviceType.CSP_DEVICE, obs_state_transition_duration=30
+        )
 
         if args_to_the_command is not None:
             input_json = command_input_factory.create_subarray_configuration(
@@ -40,7 +48,7 @@ class TestSubarrayNodeObsStateTransitions(object):
         subarray_node.execute_transition(trigger, argin=input_json)
 
         assert check_subarray_obs_state(
-            obs_state=destination_state, timeout=500
+            obs_state=destination_state, timeout=30
         )
 
         # assert_that(subarray_node.obs_state).is_equal_to(
