@@ -11,6 +11,7 @@ class TestSubarrayNodeObsStateTransitions(object):
             ("IDLE", "Configure", "configure_mid", "READY"),
             ("READY", "End", None, "IDLE"),
             ("EMPTY", "AssignResources", "assign_resources_mid", "IDLE"),
+            ("CONFIGURING", None, None, "READY"),
         ],
     )
     @pytest.mark.SKA_mid

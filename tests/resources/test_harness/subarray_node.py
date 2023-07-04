@@ -160,9 +160,12 @@ class SubarrayNode(object):
         Args:
             assign_json (_type_): _description_
         """
-        result, message = self.subarray_node.command_inout(command_name, argin)
-        LOGGER.info(f"Invoked {command_name} on SubarrayNode")
-        return result, message
+        if command_name is not None:
+            result, message = self.subarray_node.command_inout(
+                command_name, argin
+            )
+            LOGGER.info(f"Invoked {command_name} on SubarrayNode")
+            return result, message
 
     def force_change_obs_state(self, obs_state_to_change):
         """Force change obs state to provided state
@@ -205,6 +208,24 @@ class SubarrayNode(object):
                 )
             # elif self.obs_state == "SCANNING":
             #     self.end_scanning()
+        elif obs_state_to_change == "CONFIGURING":
+            if self.obs_state == "EMPTY":
+                self.assign_resources_to_subarray(
+                    json_factory.create_assign_resource("assign_resources_mid")
+                )
+                self.execute_transition(
+                    command_name="Configure",
+                    argin=json_factory.create_subarray_configuration(
+                        "configure_mid"
+                    ),
+                )
+            elif self.obs_state == "IDLE":
+                self.execute_transition(
+                    command_name="Configure",
+                    argin=json_factory.create_subarray_configuration(
+                        "configure_mid"
+                    ),
+                )
         LOGGER.info(f"Obs state is changed to {self.obs_state}")
 
     def _reset_mock_devices(self):
