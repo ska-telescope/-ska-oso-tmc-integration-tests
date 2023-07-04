@@ -32,7 +32,7 @@ telescope_control = BaseTelescopeControl()
 
 
 @pytest.mark.skip(
-    reason="Configure command is not implemented on SDP Subarray Leaf Node.."
+    reason="Configure command is not implemented on SDP Subarray Leaf Node."
 )
 @pytest.mark.SKA_mid
 @scenario(
@@ -204,7 +204,7 @@ def teardown_the_tmc(json_factory):
 
 
 @pytest.mark.skip(
-    reason="Configure command is not implemented on SDP Subarray Leaf Node.."
+    reason="Configure command is not implemented on SDP Subarray Leaf Node."
 )
 @pytest.mark.SKA_mid
 @scenario(

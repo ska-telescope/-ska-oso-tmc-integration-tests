@@ -31,7 +31,7 @@ telescope_control = BaseTelescopeControl()
 
 
 @pytest.mark.skip(
-    reason="Scan command is not implemented on SDP Subarray Leaf Node.."
+    reason="Scan command is not implemented on SDP Subarray Leaf Node."
 )
 @pytest.mark.SKA_mid
 @scenario(
@@ -240,7 +240,7 @@ def teardown_the_tmc(json_factory):
 
 
 @pytest.mark.skip(
-    reason="Scan command is not implemented on SDP Subarray Leaf Node.."
+    reason="Scan command is not implemented on SDP Subarray Leaf Node."
 )
 @pytest.mark.SKA_mid
 @scenario(
@@ -302,7 +302,7 @@ def send_assignresource_with_invalid_json3(json_factory):
 
 
 @pytest.mark.skip(
-    reason="Scan command is not implemented on SDP Subarray Leaf Node.."
+    reason="Scan command is not implemented on SDP Subarray Leaf Node."
 )
 @pytest.mark.SKA_mid
 @scenario(
@@ -352,7 +352,7 @@ def invalid_command_rejection_with_unavailable_resources(resources_list):
 
 
 @pytest.mark.skip(
-    reason="Scan command is not implemented on SDP Subarray Leaf Node.."
+    reason="Scan command is not implemented on SDP Subarray Leaf Node."
 )
 @pytest.mark.SKA_mid
 @scenario(
@@ -367,7 +367,7 @@ def test_assign_resource_successive_invokation_with_unavailable_resources():
 
 
 @pytest.mark.skip(
-    reason="Scan command is not implemented on SDP Subarray Leaf Node.."
+    reason="Scan command is not implemented on SDP Subarray Leaf Node."
 )
 @pytest.mark.SKA_mid
 @scenario(
@@ -385,7 +385,7 @@ def test_assign_resource_with_combination():
 
 
 @pytest.mark.skip(
-    reason="Scan command is not implemented on SDP Subarray Leaf Node.."
+    reason="Scan command is not implemented on SDP Subarray Leaf Node."
 )
 @pytest.mark.SKA_mid
 @scenario(
