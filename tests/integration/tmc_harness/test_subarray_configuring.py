@@ -5,10 +5,12 @@ from tests.resources.test_harness.utils.enums import MockDeviceType
 
 
 class TestSubarrayNodeObsStateTransitions(object):
+    @pytest.mark.hope
     @pytest.mark.parametrize(
         "source_obs_state, trigger, args_for_command, intermediate_obs_state",
         [
             ("IDLE", "Configure", "configure_mid", "CONFIGURING"),
+            ("READY", "Scan", "scan_mid", "SCANNING"),
         ],
     )
     @pytest.mark.SKA_mid
