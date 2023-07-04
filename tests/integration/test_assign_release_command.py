@@ -232,6 +232,9 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         tear_down(release_json)
 
 
+@pytest.mark.skip(
+    reason="will be enabled when new tag of sdpleafnode will release"
+)
 @pytest.mark.SKA_mid
 def test_health_check_mid():
     telescope_control = BaseTelescopeControl()
