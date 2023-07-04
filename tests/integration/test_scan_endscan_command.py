@@ -19,6 +19,9 @@ configure_resources_file = "command_Configure.json"
 scan_file = "command_Scan.json"
 
 
+@pytest.mark.skip(
+    reason="Scan command is not implemented on SDP Subarray Leaf Node."
+)
 @pytest.mark.SKA_mid
 def test_scan_endscan():
     """Scan and EndScan is executed."""

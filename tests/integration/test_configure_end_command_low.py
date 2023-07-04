@@ -17,6 +17,9 @@ from tests.resources.test_support.low.telescope_controls_low import (
 )
 
 
+@pytest.mark.skip(
+    reason="Configure command is not implemented on SDP Subarray Leaf Node."
+)
 @pytest.mark.SKA_low
 def test_configure_end_low(json_factory):
     """Configure and End is executed."""

@@ -86,7 +86,7 @@ graph = ["objgraph (>=1.7.2)"]
 
 [[package]]
 name = "exceptiongroup"
-version = "1.1.1"
+version = "1.1.2"
 description = "Backport of PEP 654 (exception groups)"
 category = "dev"
 optional = false
@@ -234,7 +234,7 @@ python-versions = "*"
 
 [[package]]
 name = "parse-type"
-version = "0.6.0"
+version = "0.6.1"
 description = "Simplifies to build parse types based on the parse module"
 category = "dev"
 optional = false
@@ -242,11 +242,12 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*"
 
 [package.dependencies]
 parse = {version = ">=1.18.0", markers = "python_version >= \"3.0\""}
-six = ">=1.11"
+six = ">=1.15"
 
 [package.extras]
-develop = ["coverage (>=4.4)", "pytest (<5.0)", "pytest (>=5.0)", "pytest-cov", "pytest-html (>=1.19.0)", "tox (>=2.8)"]
-docs = ["sphinx (>=1.2)"]
+develop = ["build (>=0.5.1)", "coverage (>=4.4)", "pylint", "pytest (<5.0)", "pytest (>=5.0)", "pytest-cov", "pytest-html (>=1.19.0)", "ruff", "tox (>=2.8,<4.0)", "twine (>=1.13.0)", "virtualenv (<20.22.0)", "virtualenv (>=20.0.0)"]
+docs = ["Sphinx (>=1.6)", "sphinx-bootstrap-theme (>=0.6.0)"]
+testing = ["pytest (<5.0)", "pytest (>=5.0)", "pytest-html (>=1.19.0)"]
 
 [[package]]
 name = "pathspec"
@@ -620,7 +621,7 @@ test = ["pytest"]
 
 [[package]]
 name = "typing-extensions"
-version = "4.6.3"
+version = "4.7.1"
 description = "Backported and Experimental Type Hints for Python 3.7+"
 category = "main"
 optional = false
@@ -743,8 +744,8 @@ dill = [
     {file = "dill-0.3.6.tar.gz", hash = "sha256:e5db55f3687856d8fbdab002ed78544e1c4559a130302693d839dfe8f93f2373"},
 ]
 exceptiongroup = [
-    {file = "exceptiongroup-1.1.1-py3-none-any.whl", hash = "sha256:232c37c63e4f682982c8b6459f33a8981039e5fb8756b2074364e5055c498c9e"},
-    {file = "exceptiongroup-1.1.1.tar.gz", hash = "sha256:d484c3090ba2889ae2928419117447a14daf3c1231d5e30d0aae34f354f01785"},
+    {file = "exceptiongroup-1.1.2-py3-none-any.whl", hash = "sha256:e346e69d186172ca7cf029c8c1d16235aa0e04035e5750b4b95039e65204328f"},
+    {file = "exceptiongroup-1.1.2.tar.gz", hash = "sha256:12c3e887d6485d16943a309616de20ae5582633e0a2eda17f4e10fd61c1e8af5"},
 ]
 execnet = [
     {file = "execnet-1.9.0-py2.py3-none-any.whl", hash = "sha256:a295f7cc774947aac58dde7fdc85f4aa00c42adf5d8f5468fc630c1acf30a142"},
@@ -904,8 +905,8 @@ parse = [
     {file = "parse-1.19.1.tar.gz", hash = "sha256:cc3a47236ff05da377617ddefa867b7ba983819c664e1afe46249e5b469be464"},
 ]
 parse-type = [
-    {file = "parse_type-0.6.0-py2.py3-none-any.whl", hash = "sha256:c148e88436bd54dab16484108e882be3367f44952c649c9cd6b82a7370b650cb"},
-    {file = "parse_type-0.6.0.tar.gz", hash = "sha256:20b43c660e48ed47f433bce5873a2a3d4b9b6a7ba47bd7f7d2a7cec4bec5551f"},
+    {file = "parse_type-0.6.1-py2.py3-none-any.whl", hash = "sha256:696502e748843a1a26bd47367ad248f790b825d6b2ea8b8208ef7cd37d6f3ddd"},
+    {file = "parse_type-0.6.1.tar.gz", hash = "sha256:c909b884f065c46a81feadbf63dbf5d82da94ad61780fcf219d3f5c295fe455c"},
 ]
 pathspec = [
     {file = "pathspec-0.11.1-py3-none-any.whl", hash = "sha256:d8af70af76652554bd134c22b3e8a1cc46ed7d91edcdd721ef1a0c51a84a5293"},
@@ -955,20 +956,12 @@ pylint-junit = [
     {file = "pylint_junit-0.3.2.tar.gz", hash = "sha256:c6dbe956e55bb9b365d86e2ec77b58df6b95262b5515d187ac54b8359507174b"},
 ]
 pytango = [
-    {file = "pytango-9.4.1-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:947c75256efd1c02f59d8b1a5dd5e2b2e0c844fadf6439681f02b71f12f22dec"},
-    {file = "pytango-9.4.1-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:32372e2e90319d20d2a0ae528efbdce1bd073aca8f7975dc35229b94e1d95033"},
     {file = "pytango-9.4.1-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:a7ebe56ceae2b7e4506e41cdbd59069f5eb534fa3fd535b4d54a78a36dee8a6d"},
     {file = "pytango-9.4.1-cp310-cp310-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:724cbcffd64453572940be36ff1f4c68ab1c9df476d4c4fe34a2fa203cdc710a"},
     {file = "pytango-9.4.1-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:e021f67c4808a8e9df0a37c8a2aedb018c981a4a2d849d5c91e512b2e1c9962e"},
-    {file = "pytango-9.4.1-cp310-cp310-win32.whl", hash = "sha256:de18e33b498b38bd7fa59d4b9d3c69dd0aeacc4ba0d9e4280781e4fb7fa69a42"},
-    {file = "pytango-9.4.1-cp310-cp310-win_amd64.whl", hash = "sha256:b461dbd917e01f2f8b198f839d2e265f50dfbbf368c052f8fe57d0c14272296b"},
-    {file = "pytango-9.4.1-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:18a0e5fd08bbc35b15c476d204e18fdea4e0a114c0c3dab035ef7aeb6f2f3f64"},
-    {file = "pytango-9.4.1-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:a263b3643547c6ee77da583010c79f67d9f2a4f08c598a199bd82f650605ea28"},
     {file = "pytango-9.4.1-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:0a7af4fa1d42d34a7b19813e0f3119b933da09ec180b4e50a17f4e28d6592001"},
     {file = "pytango-9.4.1-cp311-cp311-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:debcb97e11df24a2df378650251463a19a6c1406a23e5961cfc82ecd929e6f74"},
     {file = "pytango-9.4.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:e6a3d3f13a26d91fb405c420e6505b72649ea692ec0e109bd7b89b6a55dccbb5"},
-    {file = "pytango-9.4.1-cp311-cp311-win32.whl", hash = "sha256:fc39cb204f3461bf381287b6299c8216b6058e98a43bd8b34f72c411c801c979"},
-    {file = "pytango-9.4.1-cp311-cp311-win_amd64.whl", hash = "sha256:6f50540e910940f19ba7247259d0b4c1170ac274c4a04abb077b8eb2404686fc"},
     {file = "pytango-9.4.1-cp36-cp36m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:d45fadf901b1582db63d441725fdeb720623723f39451eb4c78ac9ac452bbf7d"},
     {file = "pytango-9.4.1-cp36-cp36m-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:3774963a750efae336e1c60f270b59d42235636f338c6ee29b16e134fb25058a"},
     {file = "pytango-9.4.1-cp36-cp36m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:d9d651ec79181b9703dd5d3445c08cece05519c9340a082b88e1468941990056"},
@@ -984,13 +977,9 @@ pytango = [
     {file = "pytango-9.4.1-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:77fa4f7b47b3f5ea74a1e977ec8d9d7a77c28362d22522aa92e0bd87b4d731b3"},
     {file = "pytango-9.4.1-cp38-cp38-win32.whl", hash = "sha256:5ea169973a6e911227103c9e830e958a2ab40f0564a3c7a9b8ae23c03607b139"},
     {file = "pytango-9.4.1-cp38-cp38-win_amd64.whl", hash = "sha256:163486feae12cf46ba2a4756443da7a91df0e37e29a27ca1512b5d72f1b75c24"},
-    {file = "pytango-9.4.1-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:6e189213e46389acf82549ad08dd79e157b5b1bb4d78067e40b33c3f014151e7"},
-    {file = "pytango-9.4.1-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:0710341f02036990fff86b2db1aec45fcc6eaaed62d76bd9392ded5f52d51a28"},
     {file = "pytango-9.4.1-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:d9f576180d7f117c9f44d424c33cdabe8e5b35ca24966f6c59f627622d671c87"},
     {file = "pytango-9.4.1-cp39-cp39-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:a0f929ac79071a71672b5eb0d6f3d2fbbb8753afe46dd1fdc29c42c445b1d613"},
     {file = "pytango-9.4.1-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:456ad94d755081080ece3c0761980114bab3f61b0704db778df56ee81014a68d"},
-    {file = "pytango-9.4.1-cp39-cp39-win32.whl", hash = "sha256:5418ec2cab46dee3d921a8f5effadd20e51b41599ba1c122bad5affc0a0a9779"},
-    {file = "pytango-9.4.1-cp39-cp39-win_amd64.whl", hash = "sha256:ed3f5dddd2ef63aaae6c02178ab79853135a93377756be36bf8aead584d851ee"},
     {file = "pytango-9.4.1.tar.gz", hash = "sha256:f00198e9d150a222a9711fafebbee7c688c79814128956e6c92f8c0e7f1605b7"},
 ]
 pytest = [
@@ -1066,8 +1055,8 @@ transitions = [
     {file = "transitions-0.9.0.tar.gz", hash = "sha256:2f54d11bdb225779d7e729011e93a9fb717668ce3dc65f8d4f5a5d7ba2f48e10"},
 ]
 typing-extensions = [
-    {file = "typing_extensions-4.6.3-py3-none-any.whl", hash = "sha256:88a4153d8505aabbb4e13aacb7c486c2b4a33ca3b3f807914a9b4c844c471c26"},
-    {file = "typing_extensions-4.6.3.tar.gz", hash = "sha256:d91d5919357fe7f681a9f2b5b4cb2a5f1ef0a1e9f59c4d8ff0d3491e05c0ffd5"},
+    {file = "typing_extensions-4.7.1-py3-none-any.whl", hash = "sha256:440d5dd3af93b060174bf433bccd69b0babc3b15b1a8dca43789fd7f61514b36"},
+    {file = "typing_extensions-4.7.1.tar.gz", hash = "sha256:b75ddc264f0ba5615db7ba217daeb99701ad295353c45f9e95963337ceeeffb2"},
 ]
 wrapt = [
     {file = "wrapt-1.15.0-cp27-cp27m-macosx_10_9_x86_64.whl", hash = "sha256:ca1cccf838cd28d5a0883b342474c630ac48cac5df0ee6eacc9c7290f76b11c1"},
