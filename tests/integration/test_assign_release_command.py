@@ -36,7 +36,6 @@ from tests.resources.test_support.telescope_controls import (
 from tests.resources.test_support.tmc_helpers import tear_down
 
 
-@pytest.mark.ms
 @pytest.mark.SKA_mid
 def test_assign_release(json_factory):
     """AssignResources and ReleaseResources is executed."""
