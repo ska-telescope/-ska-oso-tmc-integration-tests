@@ -31,7 +31,9 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
-@pytest.mark.skip(reason="Configure command is not implement on Sdpleafnode.")
+@pytest.mark.skip(
+    reason="Configure command is not implemented on SDP Subarray Leaf Node.."
+)
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_failed_configure.feature",
@@ -201,7 +203,9 @@ def teardown_the_tmc(json_factory):
     )
 
 
-@pytest.mark.skip(reason="Configure command is not implement on Sdpleafnode.")
+@pytest.mark.skip(
+    reason="Configure command is not implemented on SDP Subarray Leaf Node.."
+)
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_failed_configure.feature",

@@ -41,60 +41,62 @@ def test_assign_release(json_factory):
     """AssignResources and ReleaseResources is executed."""
     assign_json = json_factory("command_AssignResources")
     release_json = json_factory("command_ReleaseResources")
-    # try:
-    tmc.check_devices()
-
-    # Verify Telescope is Off/Standby
-    assert telescope_is_in_standby_state()
-    LOGGER.info("Staring up the Telescope")
-
-    # Invoke TelescopeOn() command on TMC
-    LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
-    tmc.set_to_on()
-    LOGGER.info("TelescopeOn command is invoked successfully")
-
-    # Verify State transitions after TelescopeOn
-    assert telescope_is_in_on_state()
-
-    # Invoke AssignResources() Command on TMC
-    LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-
-    @sync_assign_resources()
-    def compose_sub():
-        resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
-        resource(tmc_subarraynode1).assert_attribute("obsState").equals(
-            "EMPTY"
-        )
-        central_node = DeviceProxy(centralnode)
+    try:
         tmc.check_devices()
-        central_node.AssignResources(assign_json)
-        LOGGER.info("Invoked AssignResources on CentralNode")
 
-    compose_sub()
+        # Verify Telescope is Off/Standby
+        assert telescope_is_in_standby_state()
+        LOGGER.info("Staring up the Telescope")
 
-    LOGGER.info("AssignResources command is invoked successfully")
+        # Invoke TelescopeOn() command on TMC
+        LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
+        tmc.set_to_on()
+        LOGGER.info("TelescopeOn command is invoked successfully")
 
-    # Verify ObsState is Idle
-    assert subarray_obs_state_is_idle()
+        # Verify State transitions after TelescopeOn
+        assert telescope_is_in_on_state()
 
-    # Invoke ReleaseResources() command on TMC
-    tmc.invoke_releaseResources(release_json)
+        # Invoke AssignResources() Command on TMC
+        LOGGER.info("Invoking AssignResources command on TMC CentralNode")
 
-    assert subarray_obs_state_is_empty()
+        @sync_assign_resources()
+        def compose_sub():
+            resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
+            resource(tmc_subarraynode1).assert_attribute("obsState").equals(
+                "EMPTY"
+            )
+            central_node = DeviceProxy(centralnode)
+            tmc.check_devices()
+            central_node.AssignResources(assign_json)
+            LOGGER.info("Invoked AssignResources on CentralNode")
 
-    # Invoke TelescopeStandby() command on TMC
-    tmc.set_to_standby()
+        compose_sub()
 
-    # Verify State transitions after TelescopeStandby
-    assert telescope_is_in_standby_state()
+        LOGGER.info("AssignResources command is invoked successfully")
 
-    LOGGER.info("Tests complete.")
+        # Verify ObsState is Idle
+        assert subarray_obs_state_is_idle()
 
-    # except Exception:
-    #     tear_down(release_json)
+        # Invoke ReleaseResources() command on TMC
+        tmc.invoke_releaseResources(release_json)
+
+        assert subarray_obs_state_is_empty()
+
+        # Invoke TelescopeStandby() command on TMC
+        tmc.set_to_standby()
+
+        # Verify State transitions after TelescopeStandby
+        assert telescope_is_in_standby_state()
+
+        LOGGER.info("Tests complete.")
+
+    except Exception:
+        tear_down(release_json)
 
 
-@pytest.mark.skip(reason="Abort command is not implement on Sdpleafnode.")
+@pytest.mark.skip(
+    reason="Abort command is not implemented on SDP Subarray Leaf Node."
+)
 @pytest.mark.SKA_mid
 def test_assign_release_timeout(json_factory, change_event_callbacks):
     """Verify timeout exception raised when csp set to defective."""
@@ -163,7 +165,9 @@ def test_assign_release_timeout(json_factory, change_event_callbacks):
         tear_down(release_json)
 
 
-@pytest.mark.skip(reason="Abort command is not implement on Sdpleafnode.")
+@pytest.mark.skip(
+    reason="Abort command is not implemented on SDP Subarray Leaf Node."
+)
 @pytest.mark.SKA_mid
 def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
     """Verify timeout exception raised when sdpp set to defective."""
@@ -233,7 +237,8 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
 
 
 @pytest.mark.skip(
-    reason="will be enabled when new tag of sdpleafnode will release"
+    reason="will be enabled when new tag of \
+        SDP Subarray Leaf Node will release"
 )
 @pytest.mark.SKA_mid
 def test_health_check_mid():

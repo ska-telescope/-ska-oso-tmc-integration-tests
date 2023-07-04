@@ -17,7 +17,9 @@ from tests.resources.test_support.low.telescope_controls_low import (
 )
 
 
-@pytest.mark.skip(reason="Scan command is not implement on Sdpleafnode.")
+@pytest.mark.skip(
+    reason="Scan command is not implemented on SDP Subarray Leaf Node."
+)
 @pytest.mark.SKA_low
 def test_scan_endscan_low(json_factory):
     """Scan and EndScan is executed."""
