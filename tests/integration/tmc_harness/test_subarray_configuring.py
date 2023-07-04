@@ -5,7 +5,6 @@ from tests.resources.test_harness.utils.enums import MockDeviceType
 
 
 class TestSubarrayNodeObsStateTransitions(object):
-    @pytest.mark.hope
     @pytest.mark.parametrize(
         "source_obs_state, trigger, args_for_command, intermediate_obs_state",
         [
@@ -14,7 +13,7 @@ class TestSubarrayNodeObsStateTransitions(object):
         ],
     )
     @pytest.mark.SKA_mid
-    def test_subarray_obs_transitions_valid_data(
+    def test_subarray_intermediate_obs_transitions_valid_data(
         self,
         subarray_node,
         command_input_factory,
