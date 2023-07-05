@@ -82,7 +82,7 @@ def test_csp_sdp_ln_obstate_low(json_factory, change_event_callbacks):
         )
 
         # Invoke TelescopeOff() command on TMC
-        tmc_helper.set_to_off()
+        tmc_helper.set_to_off(**ON_OFF_DEVICE_COMMAND_DICT)
 
         # Verify State transitions after TelescopeOff
         assert telescope_control.is_in_valid_state(

@@ -77,7 +77,7 @@ def test_csp_sdp_ln_obstate_mid(json_factory, change_event_callbacks):
             DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
         )
         # Do not raise exception
-        tear_down(release_json)
+        tear_down(release_json, raise_exception=False)
 
     except Exception as e:
         LOGGER.info(f"Exception occurred {e}")
