@@ -211,8 +211,8 @@ class SubarrayNode(object):
         """Reset Mock devices to it's original state"""
         sdp_mock_device = DeviceProxy(sdp_subarray1)
         csp_mock_device = DeviceProxy(csp_subarray1)
-        sdp_mock_device.setDelay(2)
-        csp_mock_device.setDelay(2)
+        sdp_mock_device.ResetDelay()
+        csp_mock_device.ResetDelay()
 
     def tear_down(self):
         """Tear down after each test run"""

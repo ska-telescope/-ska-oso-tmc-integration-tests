@@ -5,6 +5,7 @@ from tests.resources.test_harness.utils.enums import MockDeviceType
 
 
 class TestSubarrayNodeObsStateTransitions(object):
+    @pytest.mark.configure
     @pytest.mark.parametrize(
         "source_obs_state, trigger, args_for_command, destination_obs_state",
         [
@@ -25,13 +26,17 @@ class TestSubarrayNodeObsStateTransitions(object):
         destination_obs_state,
     ):
 
-        mock_factory.get_or_create_mock_device(
-            MockDeviceType.SDP_DEVICE, obs_state_transition_duration=30
+        sdp_mock = mock_factory.get_or_create_mock_device(
+            MockDeviceType.SDP_DEVICE
         )
 
-        mock_factory.get_or_create_mock_device(
-            MockDeviceType.CSP_DEVICE, obs_state_transition_duration=30
+        sdp_mock.setDelay('{"Configure": 30}')
+
+        csp_mock = mock_factory.get_or_create_mock_device(
+            MockDeviceType.CSP_DEVICE
         )
+
+        csp_mock.setDelay('{"Configure": 30}')
 
         if args_for_command is not None:
             input_json = command_input_factory.create_subarray_configuration(

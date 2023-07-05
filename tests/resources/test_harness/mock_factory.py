@@ -39,11 +39,4 @@ class MockFactory(object):
             mock_device = DeviceProxy(mock_fqdn)
             self._mock_dev[device_type] = mock_device
 
-        if obs_state_transition_duration:
-            LOGGER.info(
-                f"Setting delay {obs_state_transition_duration} "
-                f"for {mock_device}"
-            )
-            mock_device.setDelay(obs_state_transition_duration)
-
         return mock_device
