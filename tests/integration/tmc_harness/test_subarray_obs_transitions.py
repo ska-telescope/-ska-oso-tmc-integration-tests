@@ -12,6 +12,7 @@ class TestSubarrayNodeObsStateTransitions(object):
             ("IDLE", "Configure", "configure_mid", "READY"),
             ("READY", "End", None, "IDLE"),
             ("EMPTY", "AssignResources", "assign_resources_mid", "IDLE"),
+            ("CONFIGURING", None, None, "READY"),
         ],
     )
     @pytest.mark.SKA_mid
@@ -49,7 +50,7 @@ class TestSubarrayNodeObsStateTransitions(object):
             subarray_node.move_to_on()
 
         if subarray_node.obs_state != source_obs_state:
-            subarray_node.force_change_obs_state(source_obs_state)
+            subarray_node.force_change_of_obs_state(source_obs_state)
 
         subarray_node.execute_transition(trigger, argin=input_json)
 
