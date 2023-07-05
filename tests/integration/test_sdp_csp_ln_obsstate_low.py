@@ -2,10 +2,14 @@ import pytest
 from ska_tango_base.control_model import ObsState
 
 from tests.conftest import LOGGER
-from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
+from tests.resources.test_support.common_utils.tmc_helpers import (
+    TmcHelper,
+    tear_down,
+)
 from tests.resources.test_support.constant_low import (
     DEVICE_OBS_STATE_EMPTY_INFO,
     DEVICE_OBS_STATE_IDLE_INFO,
+    DEVICE_STATE_OFF_INFO,
     DEVICE_STATE_ON_INFO,
     DEVICE_STATE_STANDBY_INFO,
     ON_OFF_DEVICE_COMMAND_DICT,
@@ -77,9 +81,15 @@ def test_csp_sdp_ln_obstate_low(json_factory, change_event_callbacks):
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
         )
-        # Do not raise exception
-        tear_down(release_json, raise_exception=False)
 
-    except Exception as e:
-        LOGGER.info(f"Exception occurred {e}")
-        tear_down(release_json)
+        # Invoke TelescopeOff() command on TMC
+        tmc_helper.set_to_off()
+
+        # Verify State transitions after TelescopeOff
+        assert telescope_control.is_in_valid_state(
+            DEVICE_STATE_OFF_INFO, "State"
+        )
+
+        LOGGER.info("Tests complete.")
+    except Exception:
+        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
