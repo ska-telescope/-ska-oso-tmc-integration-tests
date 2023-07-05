@@ -22,7 +22,6 @@ from tests.resources.test_support.helpers import resource
 from tests.resources.test_support.low.telescope_controls_low import (
     TelescopeControlLow,
 )
-from tests.resources.test_support.tmc_helpers import tear_down
 
 
 @pytest.mark.SKA_low
