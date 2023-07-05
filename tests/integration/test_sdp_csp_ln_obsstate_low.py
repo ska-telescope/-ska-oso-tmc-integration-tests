@@ -24,8 +24,8 @@ from tests.resources.test_support.tmc_helpers import tear_down
 @pytest.mark.SKA_low
 def test_csp_sdp_ln_obstate_low(json_factory, change_event_callbacks):
     """Verify timeout exception raised when csp set to defective."""
-    assign_json = json_factory("command_AssignResources")
-    release_json = json_factory("command_ReleaseResources")
+    assign_json = json_factory("command_assign_resource_low")
+    release_json = json_factory("command_release_resource_low")
     try:
         telescope_control = TelescopeControlLow()
         tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
