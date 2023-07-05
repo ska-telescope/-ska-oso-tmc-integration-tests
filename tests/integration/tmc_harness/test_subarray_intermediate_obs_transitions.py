@@ -4,7 +4,7 @@ from assertpy import assert_that
 from tests.resources.test_harness.utils.enums import MockDeviceType
 
 
-class TestSubarrayNodeObsStateTransitions(object):
+class TestSubarrayNodeIntermediateObsStateTransitions(object):
     @pytest.mark.parametrize(
         "source_obs_state, trigger, args_for_command, intermediate_obs_state",
         [
@@ -43,7 +43,7 @@ class TestSubarrayNodeObsStateTransitions(object):
             subarray_node.move_to_on()
 
         if subarray_node.obs_state != source_obs_state:
-            subarray_node.force_change_obs_state(source_obs_state)
+            subarray_node.force_change_of_obs_state(source_obs_state)
 
         subarray_node.execute_transition(trigger, argin=input_json)
 

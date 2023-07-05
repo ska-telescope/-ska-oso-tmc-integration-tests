@@ -107,7 +107,7 @@ class SubarrayNode(object):
         return result, message
 
     @sync_configure(device_dict=device_dict)
-    def configure_subarray(self, input_string):
+    def store_configuration_data(self, input_string):
         result, message = self.subarray_node.Configure(input_string)
         LOGGER.info("Invoked Configure on SubarrayNode")
         return result, message
@@ -136,7 +136,7 @@ class SubarrayNode(object):
         return result, message
 
     @sync_assign_resources(device_dict)
-    def assign_resources_to_subarray(self, assign_json, device_dict=None):
+    def store_resources(self, assign_json):
         """
         Args:
             assign_json (_type_): _description_
@@ -167,66 +167,67 @@ class SubarrayNode(object):
             LOGGER.info(f"Invoked {command_name} on SubarrayNode")
             return result, message
 
-    def force_change_obs_state(self, obs_state_to_change):
-        """Force change obs state to provided state
-        Args:
-            obs_state (str): Obs State
-        """
-        # TODO: Refactor the given methods, to avoid nested if.
-        # low priority item
-        json_factory = JsonFactory()
-        LOGGER.info(f"Current Obs state is  {self.obs_state}")
-        if obs_state_to_change == "IDLE":
-            if self.obs_state == "READY":
-                # Invoke end command
-                self.end_observation()
-            elif self.obs_state == "EMPTY":
-                # invoke assign_resource
-                self.assign_resources_to_subarray(
-                    json_factory.create_assign_resource("assign_resources_mid")
-                )
-        elif obs_state_to_change == "EMPTY":
-            if self.obs_state == "IDLE":
-                # Invoke Release resource
-                self.release_resources_subarray()
-            elif self.obs_state == "READY":
-                # Invoke End to bring it to IDLE
-                # then invoke Release
-                self.end_observation()
-                self.release_resources_subarray()
-        elif obs_state_to_change == "READY":
-            if self.obs_state == "EMPTY":
-                self.assign_resources_to_subarray(
-                    json_factory.create_assign_resource("assign_resources_mid")
-                )
-                self.configure_subarray(
-                    json_factory.create_subarray_configuration("configure_mid")
-                )
-            elif self.obs_state == "IDLE":
-                self.configure_subarray(
-                    json_factory.create_subarray_configuration("configure_mid")
-                )
-            # elif self.obs_state == "SCANNING":
-            #     self.end_scanning()
-        elif obs_state_to_change == "CONFIGURING":
-            if self.obs_state == "EMPTY":
-                self.assign_resources_to_subarray(
-                    json_factory.create_assign_resource("assign_resources_mid")
-                )
-                self.execute_transition(
-                    command_name="Configure",
-                    argin=json_factory.create_subarray_configuration(
-                        "configure_mid"
-                    ),
-                )
-            elif self.obs_state == "IDLE":
-                self.execute_transition(
-                    command_name="Configure",
-                    argin=json_factory.create_subarray_configuration(
-                        "configure_mid"
-                    ),
-                )
-        LOGGER.info(f"Obs state is changed to {self.obs_state}")
+    # TODO: Code cleanup
+    # def force_change_obs_state(self, obs_state_to_change):
+    #     """Force change obs state to provided state
+    #     Args:
+    #         obs_state (str): Obs State
+    #     """
+    #     # TODO: Refactor the given methods, to avoid nested if.
+    #     # low priority item
+    #     json_factory = JsonFactory()
+    #     LOGGER.info(f"Current Obs state is  {self.obs_state}")
+    #     if obs_state_to_change == "IDLE":
+    #         if self.obs_state == "READY":
+    #             # Invoke end command
+    #             self.end_observation()
+    #         elif self.obs_state == "EMPTY":
+    #             # invoke assign_resource
+    #             self.assign_resources_to_subarray(
+    #                 json_factory.create_assign_resource("assign_resources_mid")
+    #             )
+    #     elif obs_state_to_change == "EMPTY":
+    #         if self.obs_state == "IDLE":
+    #             # Invoke Release resource
+    #             self.release_resources_subarray()
+    #         elif self.obs_state == "READY":
+    #             # Invoke End to bring it to IDLE
+    #             # then invoke Release
+    #             self.end_observation()
+    #             self.release_resources_subarray()
+    #     elif obs_state_to_change == "READY":
+    #         if self.obs_state == "EMPTY":
+    #             self.assign_resources_to_subarray(
+    #                 json_factory.create_assign_resource("assign_resources_mid")
+    #             )
+    #             self.configure_subarray(
+    #                 json_factory.create_subarray_configuration("configure_mid")
+    #             )
+    #         elif self.obs_state == "IDLE":
+    #             self.configure_subarray(
+    #                 json_factory.create_subarray_configuration("configure_mid")
+    #             )
+    #         # elif self.obs_state == "SCANNING":
+    #         #     self.end_scanning()
+    #     elif obs_state_to_change == "CONFIGURING":
+    #         if self.obs_state == "EMPTY":
+    #             self.assign_resources_to_subarray(
+    #                 json_factory.create_assign_resource("assign_resources_mid")
+    #             )
+    #             self.execute_transition(
+    #                 command_name="Configure",
+    #                 argin=json_factory.create_subarray_configuration(
+    #                     "configure_mid"
+    #                 ),
+    #             )
+    #         elif self.obs_state == "IDLE":
+    #             self.execute_transition(
+    #                 command_name="Configure",
+    #                 argin=json_factory.create_subarray_configuration(
+    #                     "configure_mid"
+    #                 ),
+    #             )
+    #     LOGGER.info(f"Obs state is changed to {self.obs_state}")
 
     def _reset_mock_devices(self):
         """Reset Mock devices to it's original state"""
@@ -245,10 +246,118 @@ class SubarrayNode(object):
             self.abort_subarray()
             self.restart_subarray()
         else:
-            self.force_change_obs_state("EMPTY")
+            self.force_change_of_obs_state("EMPTY")
 
         # Move Subarray to OFF state
         self.move_to_off()
         self.dish_master_1.SetDirectDishMode(DishMode.STANDBY_LP)
         self.dish_master_1.SetDirectState(DevState.STANDBY)
         self._reset_mock_devices()
+
+    def clear_all_data(self):
+        """Method to clear data"""
+        if self.obs_state in [
+            "IDLE",
+            "RESOURCING",
+            "READY",
+            "CONFIGURING",
+            "SCANNING",
+        ]:
+            self.abort_subarray()
+            self.restart_subarray()
+
+    def force_change_of_obs_state(self, dest_state_name):
+        """Force SubarrayNode obsState to provided obsState
+
+        Args:
+            dest_state_name (str): Destination obsState
+        """
+        factory_obj = Factory()
+        state_resetter = factory_obj.create_state_resetter(
+            dest_state_name, self
+        )
+        state_resetter.reset()
+
+
+# state_resetters are instances of classes like
+class StateResetter(SubarrayNode):
+    def __init__(self, name, device):
+        self.name = name
+        self.device = device
+        print("self.name is::::::::", self.name)
+        print("self.device is::::::::", self.device)
+
+        self.json_factory = JsonFactory()
+        self.assign_input = self.json_factory.create_assign_resource(
+            "assign_resources_mid"
+        )
+        self.configure_input = self.json_factory.create_subarray_configuration(
+            "configure_mid"
+        )
+
+
+class ReadyStateResetter(StateResetter):
+    """
+    Put self.device into the "READY" state
+    and reset the relevant values (resources and configurations)
+    """
+
+    state_name = "READY"
+
+    def reset(self):
+        self.device.clear_all_data()
+        self.device.store_resources(self.assign_input)
+        self.device.store_configuration_data(self.configure_input)
+
+
+class IdleStateResetter(StateResetter):
+    """
+    Put self.device into the "IDLE" state
+    and reset the relevant values (resources)
+    """
+
+    state_name = "IDLE"
+
+    def reset(self):
+        self.device.clear_all_data()
+        self.device.store_resources(self.assign_input)
+
+
+class EmptyStateResetter(StateResetter):
+    """
+    Put self.device into the "EMPTY" state
+    """
+
+    state_name = "EMPTY"
+
+    def reset(self):
+        self.device.clear_all_data()
+
+
+class ConfiguringStateResetter(StateResetter):
+    """
+    Put self.device into the "CONFIGURING" state
+    """
+
+    state_name = "CONFIGURING"
+
+    def reset(self):
+        self.device.clear_all_data()
+        self.device.store_resources(self.assign_input)
+        self.device.execute_transition(
+            command_name="Configure", argin=self.configure_input
+        )
+
+
+class Factory:
+    table = {
+        "EMPTY": EmptyStateResetter,
+        "IDLE": IdleStateResetter,
+        "READY": ReadyStateResetter,
+        "CONFIGURING": ConfiguringStateResetter,
+    }
+
+    def create_state_resetter(self, state_name, device):
+        sr = self.table[state_name](state_name, device)
+        return sr
+        # TODO some error handling should be added
