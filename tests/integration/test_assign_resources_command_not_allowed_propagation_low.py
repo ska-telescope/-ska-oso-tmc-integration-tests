@@ -4,10 +4,14 @@ import pytest
 from ska_tango_testing.mock.placeholders import Anything
 from tango import DeviceProxy, EventType
 
+import tests.resources.test_support.low.tmc_helpers as tmc
 from tests.conftest import LOGGER
+from tests.integration.test_assign_release_command_low import (
+    tear_down_for_resourcing,
+)
 from tests.resources.test_support.common_utils.result_code import ResultCode
 from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
-from tests.resources.test_support.constant import (
+from tests.resources.test_support.constant_low import (
     DEVICE_STATE_ON_INFO,
     DEVICE_STATE_STANDBY_INFO,
     ON_OFF_DEVICE_COMMAND_DICT,
@@ -16,26 +20,28 @@ from tests.resources.test_support.constant import (
     sdp_subarray1,
     tmc_subarraynode1,
 )
-from tests.resources.test_support.mid.telescope_controls_mid import (
-    TelescopeControlMid,
+from tests.resources.test_support.low.telescope_controls_low import (
+    TelescopeControlLow,
 )
-from tests.resources.test_support.tmc_helpers import tear_down
 
 
 @pytest.mark.skip(
     reason="Abort command is not implemented on SDP Subarray Leaf Node. \
         The functionality is verified and will work."
 )
-@pytest.mark.SKA_mid
-def test_assign_release_command_not_allowed_propagation_csp_ln(
+@pytest.mark.SKA_low
+def test_assign_release_command_not_allowed_propagation_csp_ln_low(
     json_factory, change_event_callbacks
 ):
     """Verify command not allowed exception propagation from leaf nodes"""
-    assign_json = json_factory("command_AssignResources")
-    release_json = json_factory("command_ReleaseResources")
+    assign_json = json_factory("command_assign_resource_low")
+    release_json = json_factory("command_release_resource_low")
     try:
-        telescope_control = TelescopeControlMid()
+        telescope_control = TelescopeControlLow()
         tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
+
+        fixture = {}
+        fixture["state"] = "Unknown"
 
         # Verify Telescope is Off/Standby
         assert telescope_control.is_in_valid_state(
@@ -49,6 +55,7 @@ def test_assign_release_command_not_allowed_propagation_csp_ln(
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_ON_INFO, "State"
         )
+        fixture["state"] = "TelescopeOn"
 
         # Invoke AssignResources() Command on TMC
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
@@ -62,7 +69,6 @@ def test_assign_release_command_not_allowed_propagation_csp_ln(
         )
 
         csp_subarray = DeviceProxy(csp_subarray1)
-        # Setting CSP Subarray ObsState to RESOURCING to imulate failure.
         csp_subarray.SetDirectObsState(1)
 
         device_params = deepcopy(ON_OFF_DEVICE_COMMAND_DICT)
@@ -88,28 +94,33 @@ def test_assign_release_command_not_allowed_propagation_csp_ln(
             in assertion_data["attribute_value"][1]
         )
 
-        # Do not raise exception
-        tear_down(release_json, raise_exception=False)
+        tear_down_for_resourcing(tmc_helper, telescope_control)
 
-    except Exception as e:
-        LOGGER.info(f"Exception occurred {e}")
-        tear_down(release_json)
+    except Exception:
+        if fixture["state"] == "AssignResources":
+            tmc.invoke_releaseResources(release_json)
+        if fixture["state"] == "TelescopeOn":
+            tmc.set_to_off()
+        raise
 
 
 @pytest.mark.skip(
     reason="Abort command is not implemented on SDP Subarray Leaf Node. \
         The functionality is verified and will work."
 )
-@pytest.mark.SKA_mid
-def test_assign_release_command_not_allowed_propagation_sdp_ln(
+@pytest.mark.SKA_low
+def test_assign_release_command_not_allowed_propagation_sdp_ln_low(
     json_factory, change_event_callbacks
 ):
     """Verify command not allowed exception propagation from leaf nodes"""
-    assign_json = json_factory("command_AssignResources")
-    release_json = json_factory("command_ReleaseResources")
+    assign_json = json_factory("command_assign_resource_low")
+    release_json = json_factory("command_release_resource_low")
     try:
-        telescope_control = TelescopeControlMid()
+        telescope_control = TelescopeControlLow()
         tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
+
+        fixture = {}
+        fixture["state"] = "Unknown"
 
         # Verify Telescope is Off/Standby
         assert telescope_control.is_in_valid_state(
@@ -123,6 +134,7 @@ def test_assign_release_command_not_allowed_propagation_sdp_ln(
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_ON_INFO, "State"
         )
+        fixture["state"] = "TelescopeOn"
 
         # Invoke AssignResources() Command on TMC
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
@@ -136,7 +148,6 @@ def test_assign_release_command_not_allowed_propagation_sdp_ln(
         )
 
         sdp_subarray = DeviceProxy(sdp_subarray1)
-        # Setting CSP Subarray ObsState to RESOURCING to imulate failure.
         sdp_subarray.SetDirectObsState(1)
 
         device_params = deepcopy(ON_OFF_DEVICE_COMMAND_DICT)
@@ -162,9 +173,11 @@ def test_assign_release_command_not_allowed_propagation_sdp_ln(
             in assertion_data["attribute_value"][1]
         )
 
-        # Do not raise exception
-        tear_down(release_json, raise_exception=False)
+        tear_down_for_resourcing(tmc_helper, telescope_control)
 
-    except Exception as e:
-        LOGGER.info(f"Exception occurred {e}")
-        tear_down(release_json)
+    except Exception:
+        if fixture["state"] == "AssignResources":
+            tmc.invoke_releaseResources(release_json)
+        if fixture["state"] == "TelescopeOn":
+            tmc.set_to_off()
+        raise
