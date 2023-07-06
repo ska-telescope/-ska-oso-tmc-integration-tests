@@ -167,68 +167,6 @@ class SubarrayNode(object):
             LOGGER.info(f"Invoked {command_name} on SubarrayNode")
             return result, message
 
-    # TODO: Code cleanup
-    # def force_change_obs_state(self, obs_state_to_change):
-    #     """Force change obs state to provided state
-    #     Args:
-    #         obs_state (str): Obs State
-    #     """
-    #     # TODO: Refactor the given methods, to avoid nested if.
-    #     # low priority item
-    #     json_factory = JsonFactory()
-    #     LOGGER.info(f"Current Obs state is  {self.obs_state}")
-    #     if obs_state_to_change == "IDLE":
-    #         if self.obs_state == "READY":
-    #             # Invoke end command
-    #             self.end_observation()
-    #         elif self.obs_state == "EMPTY":
-    #             # invoke assign_resource
-    #             self.assign_resources_to_subarray(
-    #                 json_factory.create_assign_resource("assign_resources_mid")
-    #             )
-    #     elif obs_state_to_change == "EMPTY":
-    #         if self.obs_state == "IDLE":
-    #             # Invoke Release resource
-    #             self.release_resources_subarray()
-    #         elif self.obs_state == "READY":
-    #             # Invoke End to bring it to IDLE
-    #             # then invoke Release
-    #             self.end_observation()
-    #             self.release_resources_subarray()
-    #     elif obs_state_to_change == "READY":
-    #         if self.obs_state == "EMPTY":
-    #             self.assign_resources_to_subarray(
-    #                 json_factory.create_assign_resource("assign_resources_mid")
-    #             )
-    #             self.configure_subarray(
-    #                 json_factory.create_subarray_configuration("configure_mid")
-    #             )
-    #         elif self.obs_state == "IDLE":
-    #             self.configure_subarray(
-    #                 json_factory.create_subarray_configuration("configure_mid")
-    #             )
-    #         # elif self.obs_state == "SCANNING":
-    #         #     self.end_scanning()
-    #     elif obs_state_to_change == "CONFIGURING":
-    #         if self.obs_state == "EMPTY":
-    #             self.assign_resources_to_subarray(
-    #                 json_factory.create_assign_resource("assign_resources_mid")
-    #             )
-    #             self.execute_transition(
-    #                 command_name="Configure",
-    #                 argin=json_factory.create_subarray_configuration(
-    #                     "configure_mid"
-    #                 ),
-    #             )
-    #         elif self.obs_state == "IDLE":
-    #             self.execute_transition(
-    #                 command_name="Configure",
-    #                 argin=json_factory.create_subarray_configuration(
-    #                     "configure_mid"
-    #                 ),
-    #             )
-    #     LOGGER.info(f"Obs state is changed to {self.obs_state}")
-
     def _reset_mock_devices(self):
         """Reset Mock devices to it's original state"""
         sdp_mock_device = DeviceProxy(sdp_subarray1)
@@ -255,7 +193,7 @@ class SubarrayNode(object):
         self._reset_mock_devices()
 
     def clear_all_data(self):
-        """Method to clear data"""
+        """Method to clear the observations and put the SubarrayNode in EMPTY"""
         if self.obs_state in [
             "IDLE",
             "RESOURCING",
@@ -279,13 +217,12 @@ class SubarrayNode(object):
         state_resetter.reset()
 
 
-# state_resetters are instances of classes like
-class StateResetter(SubarrayNode):
+class StateResetter(object):
+    """ """
+
     def __init__(self, name, device):
         self.name = name
         self.device = device
-        print("self.name is::::::::", self.name)
-        print("self.device is::::::::", self.device)
 
         self.json_factory = JsonFactory()
         self.assign_input = self.json_factory.create_assign_resource(
@@ -334,6 +271,20 @@ class EmptyStateResetter(StateResetter):
         self.device.clear_all_data()
 
 
+class ResourcingStateResetter(StateResetter):
+    """
+    Put self.device into the "RESOURCING" state
+    """
+
+    state_name = "RESOURCING"
+
+    def reset(self):
+        self.device.clear_all_data()
+        self.device.execute_transition(
+            command_name="AssignResources", argin=self.assign_input
+        )
+
+
 class ConfiguringStateResetter(StateResetter):
     """
     Put self.device into the "CONFIGURING" state
@@ -349,15 +300,43 @@ class ConfiguringStateResetter(StateResetter):
         )
 
 
+class AbortingStateResetter(StateResetter):
+    """
+    Put self.device into the "ABORTING" state
+    """
+
+    state_name = "ABORTING"
+
+    def reset(self):
+        self.device.clear_all_data()
+        self.device.store_resources(self.assign_input)
+        self.device.execute_transition(command_name="Abort", argin=None)
+
+
+class AbortedStateResetter(StateResetter):
+    """
+    Put self.device into the "ABORTED" state
+    """
+
+    state_name = "ABORTED"
+
+    def reset(self):
+        self.device.clear_all_data()
+        self.device.store_resources(self.assign_input)
+        self.device.abort_subarray()
+
+
 class Factory:
     table = {
         "EMPTY": EmptyStateResetter,
+        "RESOURCING": ResourcingStateResetter,
         "IDLE": IdleStateResetter,
-        "READY": ReadyStateResetter,
         "CONFIGURING": ConfiguringStateResetter,
+        "READY": ReadyStateResetter,
+        "ABORTING": AbortingStateResetter,
+        "ABORTED": AbortedStateResetter,
     }
 
     def create_state_resetter(self, state_name, device):
-        sr = self.table[state_name](state_name, device)
-        return sr
-        # TODO some error handling should be added
+        state_resetter = self.table[state_name](state_name, device)
+        return state_resetter
