@@ -193,7 +193,8 @@ class SubarrayNode(object):
         self._reset_mock_devices()
 
     def clear_all_data(self):
-        """Method to clear the observations and put the SubarrayNode in EMPTY"""
+        """Method to clear the observations
+        and put the SubarrayNode in EMPTY"""
         if self.obs_state in [
             "IDLE",
             "RESOURCING",
