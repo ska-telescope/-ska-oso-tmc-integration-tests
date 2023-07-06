@@ -5,13 +5,13 @@ from tests.resources.test_harness.utils.enums import MockDeviceType
 
 
 class TestSubarrayNodeObsStateTransitions(object):
-    @pytest.mark.configure
     @pytest.mark.parametrize(
         "source_obs_state, trigger, args_for_command, destination_obs_state",
         [
             ("IDLE", "Configure", "configure_mid", "READY"),
             ("READY", "End", None, "IDLE"),
             ("EMPTY", "AssignResources", "assign_resources_mid", "IDLE"),
+            ("RESOURCING", None, None, "IDLE"),
             ("CONFIGURING", None, None, "READY"),
         ],
     )

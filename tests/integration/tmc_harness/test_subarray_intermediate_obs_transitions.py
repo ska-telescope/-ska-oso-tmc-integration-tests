@@ -8,6 +8,7 @@ class TestSubarrayNodeIntermediateObsStateTransitions(object):
     @pytest.mark.parametrize(
         "source_obs_state, trigger, args_for_command, intermediate_obs_state",
         [
+            ("IDLE", "AssignResources", "assign_resources_mid", "RESOURCING"),
             ("IDLE", "Configure", "configure_mid", "CONFIGURING"),
             ("READY", "Scan", "scan_mid", "SCANNING"),
         ],
