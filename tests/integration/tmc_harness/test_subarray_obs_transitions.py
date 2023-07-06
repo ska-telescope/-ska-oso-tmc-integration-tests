@@ -13,6 +13,7 @@ class TestSubarrayNodeObsStateTransitions(object):
             ("EMPTY", "AssignResources", "assign_resources_mid", "IDLE"),
             ("RESOURCING", None, None, "IDLE"),
             ("CONFIGURING", None, None, "READY"),
+            ("SCANNING", None, None, "READY"),
         ],
     )
     @pytest.mark.SKA_mid
@@ -27,17 +28,30 @@ class TestSubarrayNodeObsStateTransitions(object):
         destination_obs_state,
     ):
 
+        obs_state_transition_duration = 30
+
+        delay_command_params_str = '{"%s": %s}' % (
+            trigger,
+            obs_state_transition_duration,
+        )
+
         sdp_mock = mock_factory.get_or_create_mock_device(
             MockDeviceType.SDP_DEVICE
         )
 
-        sdp_mock.setDelay('{"Configure": 30}')
+        sdp_mock.setDelay(delay_command_params_str)
 
         csp_mock = mock_factory.get_or_create_mock_device(
             MockDeviceType.CSP_DEVICE
         )
 
-        csp_mock.setDelay('{"Configure": 30}')
+        csp_mock.setDelay(delay_command_params_str)
+
+        dish_mock = mock_factory.get_or_create_mock_device(
+            MockDeviceType.DISH_DEVICE
+        )
+
+        dish_mock.setDelay(delay_command_params_str)
 
         if args_for_command is not None:
             input_json = command_input_factory.create_subarray_configuration(

@@ -43,3 +43,4 @@ class SubarrayObsState(IntEnum):
 class MockDeviceType(IntEnum):
     CSP_DEVICE = 0
     SDP_DEVICE = 1
+    DISH_DEVICE = 2

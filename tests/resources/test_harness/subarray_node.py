@@ -11,9 +11,11 @@ from tests.resources.test_harness.constant import (
     sdp_subarray1,
     tmc_subarraynode1,
 )
-from tests.resources.test_harness.utils.common_utils import JsonFactory
 from tests.resources.test_harness.utils.constant import IDLE, ON, READY
 from tests.resources.test_harness.utils.enums import DishMode, SubarrayObsState
+from tests.resources.test_harness.utils.state_resetter import (
+    StateResetterFactory,
+)
 from tests.resources.test_harness.utils.sync_decorators import (
     sync_abort,
     sync_assign_resources,
@@ -118,7 +120,7 @@ class SubarrayNode(object):
         LOGGER.info("Invoked End on SubarrayNode")
         return result, message
 
-    def invoke_scan(self, input_string):
+    def store_scan_data(self, input_string):
         result, message = self.subarray_node.Scan(input_string)
         LOGGER.info("Invoked Scan on SubarrayNode")
         return result, message
@@ -173,6 +175,7 @@ class SubarrayNode(object):
         csp_mock_device = DeviceProxy(csp_subarray1)
         sdp_mock_device.ResetDelay()
         csp_mock_device.ResetDelay()
+        self.dish_master_1.ResetDelay()
 
     def tear_down(self):
         """Tear down after each test run"""
@@ -211,133 +214,8 @@ class SubarrayNode(object):
         Args:
             dest_state_name (str): Destination obsState
         """
-        factory_obj = Factory()
+        factory_obj = StateResetterFactory()
         state_resetter = factory_obj.create_state_resetter(
             dest_state_name, self
         )
         state_resetter.reset()
-
-
-class StateResetter(object):
-    """ """
-
-    def __init__(self, name, device):
-        self.name = name
-        self.device = device
-
-        self.json_factory = JsonFactory()
-        self.assign_input = self.json_factory.create_assign_resource(
-            "assign_resources_mid"
-        )
-        self.configure_input = self.json_factory.create_subarray_configuration(
-            "configure_mid"
-        )
-
-
-class ReadyStateResetter(StateResetter):
-    """
-    Put self.device into the "READY" state
-    and reset the relevant values (resources and configurations)
-    """
-
-    state_name = "READY"
-
-    def reset(self):
-        self.device.clear_all_data()
-        self.device.store_resources(self.assign_input)
-        self.device.store_configuration_data(self.configure_input)
-
-
-class IdleStateResetter(StateResetter):
-    """
-    Put self.device into the "IDLE" state
-    and reset the relevant values (resources)
-    """
-
-    state_name = "IDLE"
-
-    def reset(self):
-        self.device.clear_all_data()
-        self.device.store_resources(self.assign_input)
-
-
-class EmptyStateResetter(StateResetter):
-    """
-    Put self.device into the "EMPTY" state
-    """
-
-    state_name = "EMPTY"
-
-    def reset(self):
-        self.device.clear_all_data()
-
-
-class ResourcingStateResetter(StateResetter):
-    """
-    Put self.device into the "RESOURCING" state
-    """
-
-    state_name = "RESOURCING"
-
-    def reset(self):
-        self.device.clear_all_data()
-        self.device.execute_transition(
-            command_name="AssignResources", argin=self.assign_input
-        )
-
-
-class ConfiguringStateResetter(StateResetter):
-    """
-    Put self.device into the "CONFIGURING" state
-    """
-
-    state_name = "CONFIGURING"
-
-    def reset(self):
-        self.device.clear_all_data()
-        self.device.store_resources(self.assign_input)
-        self.device.execute_transition(
-            command_name="Configure", argin=self.configure_input
-        )
-
-
-class AbortingStateResetter(StateResetter):
-    """
-    Put self.device into the "ABORTING" state
-    """
-
-    state_name = "ABORTING"
-
-    def reset(self):
-        self.device.clear_all_data()
-        self.device.store_resources(self.assign_input)
-        self.device.execute_transition(command_name="Abort", argin=None)
-
-
-class AbortedStateResetter(StateResetter):
-    """
-    Put self.device into the "ABORTED" state
-    """
-
-    state_name = "ABORTED"
-
-    def reset(self):
-        self.device.clear_all_data()
-        self.device.store_resources(self.assign_input)
-        self.device.abort_subarray()
-
-
-class Factory:
-    table = {
-        "EMPTY": EmptyStateResetter,
-        "RESOURCING": ResourcingStateResetter,
-        "IDLE": IdleStateResetter,
-        "CONFIGURING": ConfiguringStateResetter,
-        "READY": ReadyStateResetter,
-        "ABORTING": AbortingStateResetter,
-        "ABORTED": AbortedStateResetter,
-    }
-
-    def create_state_resetter(self, state_name, device):
-        state_resetter = self.table[state_name](state_name, device)
-        return state_resetter
