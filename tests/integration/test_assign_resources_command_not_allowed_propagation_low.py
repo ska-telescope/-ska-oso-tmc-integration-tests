@@ -69,6 +69,7 @@ def test_assign_release_command_not_allowed_propagation_csp_ln_low(
         )
 
         csp_subarray = DeviceProxy(csp_subarray1)
+        # Setting CSP Subarray ObsState to RESOURCING to imulate failure.
         csp_subarray.SetDirectObsState(1)
 
         device_params = deepcopy(ON_OFF_DEVICE_COMMAND_DICT)
@@ -148,6 +149,7 @@ def test_assign_release_command_not_allowed_propagation_sdp_ln_low(
         )
 
         sdp_subarray = DeviceProxy(sdp_subarray1)
+        # Setting SDP Subarray ObsState to RESOURCING to imulate failure.
         sdp_subarray.SetDirectObsState(1)
 
         device_params = deepcopy(ON_OFF_DEVICE_COMMAND_DICT)
