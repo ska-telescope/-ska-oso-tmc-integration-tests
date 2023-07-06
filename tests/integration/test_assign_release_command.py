@@ -146,14 +146,14 @@ def test_assign_release_timeout(json_factory, change_event_callbacks):
 
         exception_message = (
             f"Exception occured on device: "
-            f"{tmc_subarraynode1}: Exception occured on device"
-            f": {tmc_csp_subarray_leaf_node}: Timeout has "
-            f"occured, command failed"
+            f"{tmc_subarraynode1}: Exception occurred on the following devices"
+            f":\n{tmc_csp_subarray_leaf_node}: Timeout has "
+            f"occured, command failed\n"
         )
 
         change_event_callbacks["longRunningCommandResult"].assert_change_event(
             (unique_id[0], exception_message),
-            lookahead=7,
+            lookahead=9,
         )
         csp_subarray.SetDefective(False)
 
@@ -217,9 +217,9 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
 
         exception_message = (
             f"Exception occured on device: "
-            f"{tmc_subarraynode1}: Exception occured on device"
-            f": {tmc_sdp_subarray_leaf_node}: Timeout has "
-            f"occured, command failed"
+            f"{tmc_subarraynode1}: Exception occurred on the following devices"
+            f":\n{tmc_sdp_subarray_leaf_node}: Timeout has "
+            f"occured, command failed\n"
         )
 
         change_event_callbacks["longRunningCommandResult"].assert_change_event(
