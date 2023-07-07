@@ -97,10 +97,11 @@ class SubarrayNode(object):
         self._obs_state = value
 
     def move_to_on(self):
-        resource(tmc_subarraynode1).assert_attribute("State").equals("OFF")
-        result, message = self.subarray_node.On()
-        LOGGER.info("Invoked ON on SubarrayNode")
-        return result, message
+        if self.state != self.ON_STATE:
+            resource(tmc_subarraynode1).assert_attribute("State").equals("OFF")
+            result, message = self.subarray_node.On()
+            LOGGER.info("Invoked ON on SubarrayNode")
+            return result, message
 
     def move_to_off(self):
         resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
@@ -214,8 +215,9 @@ class SubarrayNode(object):
         Args:
             dest_state_name (str): Destination obsState
         """
-        factory_obj = StateResetterFactory()
-        state_resetter = factory_obj.create_state_resetter(
-            dest_state_name, self
-        )
-        state_resetter.reset()
+        if self.obs_state != dest_state_name:
+            factory_obj = StateResetterFactory()
+            state_resetter = factory_obj.create_state_resetter(
+                dest_state_name, self
+            )
+            state_resetter.reset()

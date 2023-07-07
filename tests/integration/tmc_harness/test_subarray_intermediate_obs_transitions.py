@@ -40,11 +40,9 @@ class TestSubarrayNodeIntermediateObsStateTransitions(object):
         else:
             input_json = None
 
-        if subarray_node.state != subarray_node.ON_STATE:
-            subarray_node.move_to_on()
+        subarray_node.move_to_on()
 
-        if subarray_node.obs_state != source_obs_state:
-            subarray_node.force_change_of_obs_state(source_obs_state)
+        subarray_node.force_change_of_obs_state(source_obs_state)
 
         subarray_node.execute_transition(trigger, argin=input_json)
 
