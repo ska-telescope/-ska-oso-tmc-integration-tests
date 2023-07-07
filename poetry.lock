@@ -234,7 +234,7 @@ python-versions = "*"
 
 [[package]]
 name = "parse-type"
-version = "0.6.1"
+version = "0.6.2"
 description = "Simplifies to build parse types based on the parse module"
 category = "dev"
 optional = false
@@ -566,14 +566,15 @@ reference = 'ska-nexus'
 
 [[package]]
 name = "ska-tango-testing"
-version = "0.4.1"
+version = "0.6.0"
 description = "Test harness for testing SKA Tango devices"
 category = "main"
 optional = false
-python-versions = ">=3.7,<4.0"
+python-versions = ">=3.8,<4.0"
 
 [package.dependencies]
-pytango = ">=9.3,<10.0"
+numpy = ">=1.19.0,<2.0.0"
+pytango = ">=9.3.3,<10.0.0"
 
 [package.source]
 type = "legacy"
@@ -638,7 +639,7 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "47a74806d22037dd46ef11903c9a1707254ad2ab3e4e2a7d554f49cfb6ecea02"
+content-hash = "7a15ba0d2b5ccf84ccf269a902e23825bbfd9351f2adb6cdb527c023d73fd9e1"
 
 [metadata.files]
 astroid = [
@@ -905,8 +906,8 @@ parse = [
     {file = "parse-1.19.1.tar.gz", hash = "sha256:cc3a47236ff05da377617ddefa867b7ba983819c664e1afe46249e5b469be464"},
 ]
 parse-type = [
-    {file = "parse_type-0.6.1-py2.py3-none-any.whl", hash = "sha256:696502e748843a1a26bd47367ad248f790b825d6b2ea8b8208ef7cd37d6f3ddd"},
-    {file = "parse_type-0.6.1.tar.gz", hash = "sha256:c909b884f065c46a81feadbf63dbf5d82da94ad61780fcf219d3f5c295fe455c"},
+    {file = "parse_type-0.6.2-py2.py3-none-any.whl", hash = "sha256:06d39a8b70fde873eb2a131141a0e79bb34a432941fb3d66fad247abafc9766c"},
+    {file = "parse_type-0.6.2.tar.gz", hash = "sha256:79b1f2497060d0928bc46016793f1fca1057c4aacdf15ef876aa48d75a73a355"},
 ]
 pathspec = [
     {file = "pathspec-0.11.1-py3-none-any.whl", hash = "sha256:d8af70af76652554bd134c22b3e8a1cc46ed7d91edcdd721ef1a0c51a84a5293"},
@@ -1035,8 +1036,8 @@ ska-tango-base = [
     {file = "ska_tango_base-0.17.0.tar.gz", hash = "sha256:9e36547473a4aa6ab5e3b2f2bee980e36ecc1d45787f4319244450035631aff1"},
 ]
 ska-tango-testing = [
-    {file = "ska-tango-testing-0.4.1.tar.gz", hash = "sha256:c41c1d6593b59de15aa7a11e05a61b39f08e900e824d4325afb053327bc21e63"},
-    {file = "ska_tango_testing-0.4.1-py3-none-any.whl", hash = "sha256:58541c22e741387b119c63ad1f90265f7f5e7b76b21049fc266bb1133fc27bbf"},
+    {file = "ska_tango_testing-0.6.0-py3-none-any.whl", hash = "sha256:3a96b090998b445df013cba33721d110298a946b277a7de6fe312f3da1219504"},
+    {file = "ska_tango_testing-0.6.0.tar.gz", hash = "sha256:fdc1d807dc1cad2ddc1d754cb5ee9debe846db667de12e412474388c3fff97d6"},
 ]
 toml = [
     {file = "toml-0.10.2-py2.py3-none-any.whl", hash = "sha256:806143ae5bfb6a3c6e736a764057db0e6a0e05e338b5630894a5f779cabb4f9b"},
