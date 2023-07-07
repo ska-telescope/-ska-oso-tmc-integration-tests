@@ -13,7 +13,7 @@ from tests.resources.test_support.constant import (
 )
 
 
-def check_subarray_obs_state(obs_state=None, timeout=500):
+def check_subarray_obs_state(obs_state=None, timeout=50):
 
     device_dict = {
         "sdp_subarray": sdp_subarray1,
@@ -37,7 +37,7 @@ def check_subarray_obs_state(obs_state=None, timeout=500):
         device_dict["dish_master"] = dish_master1
     the_waiter = Waiter(**device_dict)
     the_waiter.set_wait_for_obs_state(obs_state=obs_state)
-    the_waiter.wait(timeout)
+    the_waiter.wait(timeout / 0.1)
 
     return all(
         [
