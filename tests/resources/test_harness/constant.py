@@ -112,4 +112,5 @@ DEVICE_OBS_STATE_SCANNING_INFO = {
 MOCK_DEVICE_FQDN_DICT = {
     MockDeviceType.SDP_DEVICE: sdp_subarray1,
     MockDeviceType.CSP_DEVICE: csp_subarray1,
+    MockDeviceType.DISH_DEVICE: dish_master1,
 }
