@@ -5,7 +5,6 @@ from tests.resources.test_harness.utils.enums import MockDeviceType
 
 
 class TestSubarrayNodeAbortCommandObsStateTransitions(object):
-    @pytest.mark.hope
     @pytest.mark.parametrize(
         "source_obs_state",
         [
