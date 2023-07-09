@@ -25,13 +25,9 @@ class TestSubarrayNodeIntermediateObsStateTransitions(object):
         intermediate_obs_state,
     ):
 
-        mock_factory.get_or_create_mock_device(
-            MockDeviceType.SDP_DEVICE, obs_state_transition_duration=30
-        )
+        mock_factory.get_or_create_mock_device(MockDeviceType.SDP_DEVICE)
 
-        mock_factory.get_or_create_mock_device(
-            MockDeviceType.CSP_DEVICE, obs_state_transition_duration=30
-        )
+        mock_factory.get_or_create_mock_device(MockDeviceType.CSP_DEVICE)
 
         if args_for_command is not None:
             input_json = command_input_factory.create_subarray_configuration(
@@ -40,11 +36,9 @@ class TestSubarrayNodeIntermediateObsStateTransitions(object):
         else:
             input_json = None
 
-        if subarray_node.state != subarray_node.ON_STATE:
-            subarray_node.move_to_on()
+        subarray_node.move_to_on()
 
-        if subarray_node.obs_state != source_obs_state:
-            subarray_node.force_change_of_obs_state(source_obs_state)
+        subarray_node.force_change_of_obs_state(source_obs_state)
 
         subarray_node.execute_transition(trigger, argin=input_json)
 

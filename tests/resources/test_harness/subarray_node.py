@@ -7,6 +7,7 @@ from tests.resources.test_harness.constant import (
     csp_master,
     csp_subarray1,
     dish_master1,
+    dish_master2,
     sdp_master,
     sdp_subarray1,
     tmc_subarraynode1,
@@ -42,6 +43,7 @@ device_dict = {
     "sdp_master": sdp_master,
     "centralnode": centralnode,
     "dish_master1": dish_master1,
+    "dish_master2": dish_master2,
 }
 
 
@@ -54,7 +56,11 @@ class SubarrayNode(object):
     def __init__(self) -> None:
         super().__init__()
         self.subarray_node = DeviceProxy(tmc_subarraynode1)
-        self.dish_master_1 = DeviceProxy(dish_master1)
+        self.dish_master_list = [
+            DeviceProxy(dish_master1),
+            DeviceProxy(dish_master2),
+        ]
+
         self._state = DevState.OFF
         # TBD, since ObsState.EMPTY  difficult to import, need a thinking
         self.obs_state = SubarrayObsState.EMPTY
@@ -68,9 +74,10 @@ class SubarrayNode(object):
 
     def _setup(self):
         """ """
-        self.dish_master_1.SetDirectState(DevState.STANDBY)
-        # Setting DishMode to STANDBY_FP
-        self.dish_master_1.SetDirectDishMode(DishMode.STANDBY_FP)
+        for dish_master_proxy in self.dish_master_list:
+            dish_master_proxy.SetDirectState(DevState.STANDBY)
+            # Setting DishMode to STANDBY_FP
+            dish_master_proxy.SetDirectDishMode(DishMode.STANDBY_FP)
 
     @property
     def state(self) -> DevState:
@@ -103,10 +110,11 @@ class SubarrayNode(object):
         self._obs_state = value
 
     def move_to_on(self):
-        resource(tmc_subarraynode1).assert_attribute("State").equals("OFF")
-        result, message = self.subarray_node.On()
-        LOGGER.info("Invoked ON on SubarrayNode")
-        return result, message
+        if self.state != self.ON_STATE:
+            resource(tmc_subarraynode1).assert_attribute("State").equals("OFF")
+            result, message = self.subarray_node.On()
+            LOGGER.info("Invoked ON on SubarrayNode")
+            return result, message
 
     def move_to_off(self):
         resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
@@ -177,11 +185,16 @@ class SubarrayNode(object):
 
     def _reset_mock_devices(self):
         """Reset Mock devices to it's original state"""
-        sdp_mock_device = DeviceProxy(sdp_subarray1)
-        csp_mock_device = DeviceProxy(csp_subarray1)
-        sdp_mock_device.ResetDelay()
-        csp_mock_device.ResetDelay()
-        self.dish_master_1.ResetDelay()
+        for mock_device_fqdn in [sdp_subarray1, csp_subarray1]:
+            device = DeviceProxy(mock_device_fqdn)
+            device.ResetDelay()
+
+    def _reset_dishes(self):
+        """Reset Dish Devices"""
+        for dish_master in self.dish_master_list:
+            dish_master.SetDirectDishMode(DishMode.STANDBY_LP)
+            dish_master.SetDirectState(DevState.STANDBY)
+            dish_master.ResetDelay()
 
     def tear_down(self):
         """Tear down after each test run"""
@@ -197,8 +210,7 @@ class SubarrayNode(object):
 
         # Move Subarray to OFF state
         self.move_to_off()
-        self.dish_master_1.SetDirectDishMode(DishMode.STANDBY_LP)
-        self.dish_master_1.SetDirectState(DevState.STANDBY)
+        self._reset_dishes()
         self._reset_mock_devices()
 
     def clear_all_data(self):

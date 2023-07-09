@@ -47,11 +47,17 @@ class TestSubarrayNodeObsStateTransitions(object):
 
         csp_mock.setDelay(delay_command_params_str)
 
-        dish_mock = mock_factory.get_or_create_mock_device(
-            MockDeviceType.DISH_DEVICE
+        dish_mock_1 = mock_factory.get_or_create_mock_device(
+            MockDeviceType.DISH_DEVICE, mock_number=1
         )
 
-        dish_mock.setDelay(delay_command_params_str)
+        dish_mock_1.setDelay(delay_command_params_str)
+
+        dish_mock_2 = mock_factory.get_or_create_mock_device(
+            MockDeviceType.DISH_DEVICE, mock_number=2
+        )
+
+        dish_mock_2.setDelay(delay_command_params_str)
 
         if args_for_command is not None:
             input_json = command_input_factory.create_subarray_configuration(
@@ -60,14 +66,15 @@ class TestSubarrayNodeObsStateTransitions(object):
         else:
             input_json = None
 
-        if subarray_node.state != subarray_node.ON_STATE:
-            subarray_node.move_to_on()
+        subarray_node.move_to_on()
 
-        if subarray_node.obs_state != source_obs_state:
-            subarray_node.force_change_of_obs_state(source_obs_state)
+        subarray_node.force_change_of_obs_state(source_obs_state)
 
         subarray_node.execute_transition(trigger, argin=input_json)
 
+        # As we set Obs State transition duration to 30 so wait timeout here
+        # provided as 32 sec. It validate after 32 sec excepted
+        # obs state change
         assert check_subarray_obs_state(
-            obs_state=destination_obs_state, timeout=320
+            obs_state=destination_obs_state, timeout=32
         )
