@@ -11,10 +11,15 @@ from tests.resources.test_harness.constant import (
     sdp_subarray1,
     tmc_subarraynode1,
 )
-from tests.resources.test_harness.utils.constant import IDLE, ON, READY
+from tests.resources.test_harness.utils.constant import (
+    ABORTED,
+    IDLE,
+    ON,
+    READY,
+)
 from tests.resources.test_harness.utils.enums import DishMode, SubarrayObsState
 from tests.resources.test_harness.utils.state_resetter import (
-    StateResetterFactory,
+    ObsStateResetterFactory,
 )
 from tests.resources.test_harness.utils.sync_decorators import (
     sync_abort,
@@ -59,6 +64,7 @@ class SubarrayNode(object):
         self.ON_STATE = ON
         self.IDLE_OBS_STATE = IDLE
         self.READY_OBS_STATE = READY
+        self.ABORTED_OBS_STATE = ABORTED
 
     def _setup(self):
         """ """
@@ -214,7 +220,7 @@ class SubarrayNode(object):
         Args:
             dest_state_name (str): Destination obsState
         """
-        factory_obj = StateResetterFactory()
+        factory_obj = ObsStateResetterFactory()
         state_resetter = factory_obj.create_state_resetter(
             dest_state_name, self
         )

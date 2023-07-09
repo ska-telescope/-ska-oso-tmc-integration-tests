@@ -1,10 +1,10 @@
-"""State Resetter class
-"""
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 
 
-class StateResetter(object):
-    """ """
+class ObsStateResetter(object):
+    """
+    Class to reset the obsState of SubarrayNode
+    """
 
     def __init__(self, name, device):
         self.name = name
@@ -22,7 +22,7 @@ class StateResetter(object):
         )
 
 
-class ReadyStateResetter(StateResetter):
+class ReadyStateResetter(ObsStateResetter):
     """
     Put self.device into the "READY" state
     and reset the relevant values (resources and configurations)
@@ -36,7 +36,7 @@ class ReadyStateResetter(StateResetter):
         self.device.store_configuration_data(self.configure_input)
 
 
-class IdleStateResetter(StateResetter):
+class IdleStateResetter(ObsStateResetter):
     """
     Put self.device into the "IDLE" state
     and reset the relevant values (resources)
@@ -49,7 +49,7 @@ class IdleStateResetter(StateResetter):
         self.device.store_resources(self.assign_input)
 
 
-class EmptyStateResetter(StateResetter):
+class EmptyStateResetter(ObsStateResetter):
     """
     Put self.device into the "EMPTY" state
     """
@@ -60,7 +60,7 @@ class EmptyStateResetter(StateResetter):
         self.device.clear_all_data()
 
 
-class ResourcingStateResetter(StateResetter):
+class ResourcingStateResetter(ObsStateResetter):
     """
     Put self.device into the "RESOURCING" state
     """
@@ -74,7 +74,7 @@ class ResourcingStateResetter(StateResetter):
         )
 
 
-class ConfiguringStateResetter(StateResetter):
+class ConfiguringStateResetter(ObsStateResetter):
     """
     Put self.device into the "CONFIGURING" state
     """
@@ -89,7 +89,7 @@ class ConfiguringStateResetter(StateResetter):
         )
 
 
-class AbortingStateResetter(StateResetter):
+class AbortingStateResetter(ObsStateResetter):
     """
     Put self.device into the "ABORTING" state
     """
@@ -102,7 +102,7 @@ class AbortingStateResetter(StateResetter):
         self.device.execute_transition(command_name="Abort", argin=None)
 
 
-class AbortedStateResetter(StateResetter):
+class AbortedStateResetter(ObsStateResetter):
     """
     Put self.device into the "ABORTED" state
     """
@@ -115,7 +115,7 @@ class AbortedStateResetter(StateResetter):
         self.device.abort_subarray()
 
 
-class ScanningStateResetter(StateResetter):
+class ScanningStateResetter(ObsStateResetter):
     """
     Put self.device into the "ABORTED" state
     """
@@ -129,7 +129,7 @@ class ScanningStateResetter(StateResetter):
         self.device.store_scan_data(self.scan_input)
 
 
-class StateResetterFactory:
+class ObsStateResetterFactory:
     table = {
         "EMPTY": EmptyStateResetter,
         "RESOURCING": ResourcingStateResetter,
