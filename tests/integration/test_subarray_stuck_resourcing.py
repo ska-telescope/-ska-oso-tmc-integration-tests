@@ -82,6 +82,7 @@ def test_assign_release(json_factory):
     csp_subarray.ReleaseAllResources()
     the_waiter.set_wait_for_specific_obsstate("EMPTY", [csp_subarray1])
 
+    the_waiter.set_wait_for_specific_obsstate("EMPTY", [tmc_subarraynode1])
     assert telescope_control.is_in_valid_state(
         DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
     )
