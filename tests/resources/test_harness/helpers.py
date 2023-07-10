@@ -1,6 +1,7 @@
 from typing import Optional
 
 from tests.conftest import LOGGER
+from tests.resources.test_harness.utils.enums import MockDeviceType
 from tests.resources.test_support.common_utils.common_helpers import (
     Waiter,
     resource,
@@ -63,3 +64,28 @@ def tear_down(
 
         LOGGER.info("Invoking Telescope Standby on TMC")
         central_node.move_off()
+
+
+def get_device_mocks(mock_factory):
+    """A method to get mocks for Subsystem devices
+
+
+    Args:
+        mock_factory (fixture): fixture for MockFactory class
+
+    Returns:
+        mock objects
+    """
+    sdp_mock = mock_factory.get_or_create_mock_device(
+        MockDeviceType.SDP_DEVICE
+    )
+    csp_mock = mock_factory.get_or_create_mock_device(
+        MockDeviceType.CSP_DEVICE
+    )
+    dish_mock_1 = mock_factory.get_or_create_mock_device(
+        MockDeviceType.DISH_DEVICE, mock_number=1
+    )
+    dish_mock_2 = mock_factory.get_or_create_mock_device(
+        MockDeviceType.DISH_DEVICE, mock_number=2
+    )
+    return csp_mock, sdp_mock, dish_mock_1, dish_mock_2
