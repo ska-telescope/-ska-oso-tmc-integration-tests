@@ -75,7 +75,7 @@ def test_assign_release(json_factory):
         compose_sub()
 
         LOGGER.info("AssignResources command is invoked successfully")
-
+        sdp_subarray.SetRaiseException(False)
         sdp_subarray.SetDirectObsState(
             ObsState.EMPTY
         )  # as helper don't transition back themselves
@@ -85,6 +85,7 @@ def test_assign_release(json_factory):
         csp_subarray = DeviceProxy(csp_subarray1)
         csp_subarray.ReleaseAllResources()
         the_waiter.set_wait_for_specific_obsstate("EMPTY", [csp_subarray1])
+
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
         )
@@ -98,6 +99,6 @@ def test_assign_release(json_factory):
         )
 
         LOGGER.info("Test complete.")
-        sdp_subarray.SetRaiseException(False)
+
     except Exception:
         tear_down(release_json)
