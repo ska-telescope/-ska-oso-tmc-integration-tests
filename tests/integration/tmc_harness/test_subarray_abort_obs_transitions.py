@@ -37,7 +37,6 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
 
         # sdp_mock.SetDefective(True)
 
-         
         subarray_node.move_to_on()
 
         subarray_node.force_change_of_obs_state(source_obs_state)
