@@ -25,11 +25,12 @@ from tests.resources.test_support.tmc_helpers import tear_down
 @pytest.mark.SKA_mid
 def test_assign_release(json_factory):
     """AssignResources and ReleaseResources is executed."""
+    assign_json = json_factory("command_AssignResources")
+    release_json = json_factory("command_ReleaseResources")
     try:
         telescope_control = BaseTelescopeControl()
         tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
-        assign_json = json_factory("command_AssignResources")
-        release_json = json_factory("command_ReleaseResources")
+
         tmc_helper.check_devices(DEVICE_LIST_FOR_CHECK_DEVICES)
 
         # Verify Telescope is Off/Standby
