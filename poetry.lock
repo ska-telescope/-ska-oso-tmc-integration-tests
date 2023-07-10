@@ -927,17 +927,18 @@ reference = "ska-nexus"
 
 [[package]]
 name = "ska-tango-testing"
-version = "0.4.1"
+version = "0.6.0"
 description = "Test harness for testing SKA Tango devices"
 optional = false
-python-versions = ">=3.7,<4.0"
+python-versions = ">=3.8,<4.0"
 files = [
-    {file = "ska-tango-testing-0.4.1.tar.gz", hash = "sha256:c41c1d6593b59de15aa7a11e05a61b39f08e900e824d4325afb053327bc21e63"},
-    {file = "ska_tango_testing-0.4.1-py3-none-any.whl", hash = "sha256:58541c22e741387b119c63ad1f90265f7f5e7b76b21049fc266bb1133fc27bbf"},
+    {file = "ska_tango_testing-0.6.0-py3-none-any.whl", hash = "sha256:3a96b090998b445df013cba33721d110298a946b277a7de6fe312f3da1219504"},
+    {file = "ska_tango_testing-0.6.0.tar.gz", hash = "sha256:fdc1d807dc1cad2ddc1d754cb5ee9debe846db667de12e412474388c3fff97d6"},
 ]
 
 [package.dependencies]
-pytango = ">=9.3,<10.0"
+numpy = ">=1.19.0,<2.0.0"
+pytango = ">=9.3.3,<10.0.0"
 
 [package.source]
 type = "legacy"
@@ -1093,4 +1094,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "67e7f5a36881c3b1f0f166b8290501c6a32d565cc242319d2ef84bf437bceefb"
+content-hash = "45511e0a49262cd01c2baa6c10af7b07209af4d19ad3b3465ed5c962c5b2400f"
