@@ -1,8 +1,6 @@
 import pytest
 from assertpy import assert_that
 
-from tests.resources.test_harness.utils.enums import MockDeviceType
-
 
 class TestSubarrayNodeIntermediateObsStateTransitions(object):
     @pytest.mark.parametrize(
@@ -18,16 +16,11 @@ class TestSubarrayNodeIntermediateObsStateTransitions(object):
         self,
         subarray_node,
         command_input_factory,
-        mock_factory,
         source_obs_state,
         trigger,
         args_for_command,
         intermediate_obs_state,
     ):
-
-        mock_factory.get_or_create_mock_device(MockDeviceType.SDP_DEVICE)
-
-        mock_factory.get_or_create_mock_device(MockDeviceType.CSP_DEVICE)
 
         if args_for_command is not None:
             input_json = command_input_factory.create_subarray_configuration(
