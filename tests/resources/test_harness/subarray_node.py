@@ -205,6 +205,10 @@ class SubarrayNode(object):
             LOGGER.info("Invoking Abort on Subarray")
             self.abort_subarray()
             self.restart_subarray()
+        elif self.obs_state == "ABORTED":
+            """Invoke Restart"""
+            LOGGER.info("Invoking Restart on Subarray")
+            self.restart_subarray()
         else:
             self.force_change_of_obs_state("EMPTY")
 
