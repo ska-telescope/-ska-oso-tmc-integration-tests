@@ -8,6 +8,7 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
     @pytest.mark.parametrize(
         "source_obs_state",
         [
+            "IDLE",
             "SCANNING",
             "READY",
             "RESOURCING",
