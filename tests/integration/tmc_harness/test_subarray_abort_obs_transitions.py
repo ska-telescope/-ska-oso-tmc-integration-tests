@@ -5,12 +5,13 @@ from tests.resources.test_harness.utils.enums import MockDeviceType
 
 
 class TestSubarrayNodeAbortCommandObsStateTransitions(object):
-    @pytest.mark.abort
     @pytest.mark.parametrize(
         "source_obs_state",
         [
             "SCANNING",
             "READY",
+            "RESOURCING",
+            "CONFIGURING",
         ],
     )
     @pytest.mark.SKA_mid
@@ -32,20 +33,10 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
         )
 
         csp_mock.setDelay('{"Abort": 30}')
-
-        # csp_mock.SetDefective(True)
-
-        # sdp_mock.SetDefective(True)
-
          
         subarray_node.move_to_on()
 
         subarray_node.force_change_of_obs_state(source_obs_state)
-
-        # Setting CSP back to normal
-        # csp_mock.SetDefective(False)
-        # # Setting SDP back to normal
-        # sdp_mock.SetDefective(False)
 
         subarray_node.execute_transition("Abort", argin=None)
 
