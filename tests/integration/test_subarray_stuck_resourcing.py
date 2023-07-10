@@ -1,3 +1,5 @@
+import time
+
 import pytest
 from ska_tango_base.control_model import ObsState
 from tango import DeviceProxy
@@ -83,6 +85,8 @@ def test_assign_release(json_factory):
     the_waiter.set_wait_for_specific_obsstate("EMPTY", [csp_subarray1])
 
     the_waiter.set_wait_for_specific_obsstate("EMPTY", [tmc_subarraynode1])
+    time.sleep(2)
+
     assert telescope_control.is_in_valid_state(
         DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
     )
