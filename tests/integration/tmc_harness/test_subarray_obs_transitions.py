@@ -16,6 +16,7 @@ class TestSubarrayNodeObsStateTransitions(object):
             ("RESOURCING", None, None, "IDLE"),
             ("CONFIGURING", None, None, "READY"),
             ("SCANNING", None, None, "READY"),
+            ("ABORTED", "Restart", None, "EMPTY"),
         ],
     )
     @pytest.mark.SKA_mid
