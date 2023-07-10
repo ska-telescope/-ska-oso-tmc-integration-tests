@@ -22,7 +22,7 @@ class ObsStateResetter(object):
         )
 
 
-class ReadyStateResetter(ObsStateResetter):
+class ReadyObsStateResetter(ObsStateResetter):
     """
     Put self.device into the "READY" state
     and reset the relevant values (resources and configurations)
@@ -36,7 +36,7 @@ class ReadyStateResetter(ObsStateResetter):
         self.device.store_configuration_data(self.configure_input)
 
 
-class IdleStateResetter(ObsStateResetter):
+class IdleObsStateResetter(ObsStateResetter):
     """
     Put self.device into the "IDLE" state
     and reset the relevant values (resources)
@@ -49,7 +49,7 @@ class IdleStateResetter(ObsStateResetter):
         self.device.store_resources(self.assign_input)
 
 
-class EmptyStateResetter(ObsStateResetter):
+class EmptyObsStateResetter(ObsStateResetter):
     """
     Put self.device into the "EMPTY" state
     """
@@ -60,7 +60,7 @@ class EmptyStateResetter(ObsStateResetter):
         self.device.clear_all_data()
 
 
-class ResourcingStateResetter(ObsStateResetter):
+class ResourcingObsStateResetter(ObsStateResetter):
     """
     Put self.device into the "RESOURCING" state
     """
@@ -74,7 +74,7 @@ class ResourcingStateResetter(ObsStateResetter):
         )
 
 
-class ConfiguringStateResetter(ObsStateResetter):
+class ConfiguringObsStateResetter(ObsStateResetter):
     """
     Put self.device into the "CONFIGURING" state
     """
@@ -89,7 +89,7 @@ class ConfiguringStateResetter(ObsStateResetter):
         )
 
 
-class AbortingStateResetter(ObsStateResetter):
+class AbortingObsStateResetter(ObsStateResetter):
     """
     Put self.device into the "ABORTING" state
     """
@@ -102,7 +102,7 @@ class AbortingStateResetter(ObsStateResetter):
         self.device.execute_transition(command_name="Abort", argin=None)
 
 
-class AbortedStateResetter(ObsStateResetter):
+class AbortedObsStateResetter(ObsStateResetter):
     """
     Put self.device into the "ABORTED" state
     """
@@ -115,7 +115,7 @@ class AbortedStateResetter(ObsStateResetter):
         self.device.abort_subarray()
 
 
-class ScanningStateResetter(ObsStateResetter):
+class ScanningObsStateResetter(ObsStateResetter):
     """
     Put self.device into the "ABORTED" state
     """
@@ -131,14 +131,14 @@ class ScanningStateResetter(ObsStateResetter):
 
 class ObsStateResetterFactory:
     table = {
-        "EMPTY": EmptyStateResetter,
-        "RESOURCING": ResourcingStateResetter,
-        "IDLE": IdleStateResetter,
-        "CONFIGURING": ConfiguringStateResetter,
-        "READY": ReadyStateResetter,
-        "ABORTING": AbortingStateResetter,
-        "ABORTED": AbortedStateResetter,
-        "SCANNING": ScanningStateResetter,
+        "EMPTY": EmptyObsStateResetter,
+        "RESOURCING": ResourcingObsStateResetter,
+        "IDLE": IdleObsStateResetter,
+        "CONFIGURING": ConfiguringObsStateResetter,
+        "READY": ReadyObsStateResetter,
+        "ABORTING": AbortingObsStateResetter,
+        "ABORTED": AbortedObsStateResetter,
+        "SCANNING": ScanningObsStateResetter,
     }
 
     def create_state_resetter(self, state_name, device):
