@@ -15,10 +15,6 @@ url = 'https://artefact.skao.int/repository/pypi-internal/simple'
 priority = "primary"
 
 
-[[tool.poetry.source]]
-name = "PyPI"
-priority = "primary"
-
 [tool.poetry.dependencies]
 python = "^3.10"
 ska-control-model="0.3.1"
