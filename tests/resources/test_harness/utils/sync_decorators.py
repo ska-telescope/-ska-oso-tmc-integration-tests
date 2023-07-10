@@ -1,10 +1,11 @@
 import functools
 from contextlib import contextmanager
 
+from tests.resources.test_harness.utils.wait_helpers import Waiter
+
 # from tests.conftest import TIMEOUT
 from tests.resources.test_support.common_utils.base_utils import DeviceUtils
 from tests.resources.test_support.common_utils.common_helpers import (
-    Waiter,
     WaitForScan,
     resource,
 )

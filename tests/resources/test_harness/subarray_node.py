@@ -42,8 +42,7 @@ device_dict = {
     "tmc_subarraynode": tmc_subarraynode1,
     "sdp_master": sdp_master,
     "centralnode": centralnode,
-    "dish_master1": dish_master1,
-    "dish_master2": dish_master2,
+    "dish_master_list": [dish_master1, dish_master2],
 }
 
 
