@@ -229,6 +229,8 @@ class SubarrayNode(object):
         ]:
             self.abort_subarray()
             self.restart_subarray()
+        elif self.obs_state == "ABORTED":
+            self.restart_subarray()
 
     def force_change_of_obs_state(self, dest_state_name):
         """Force SubarrayNode obsState to provided obsState
