@@ -19,6 +19,9 @@ from tests.resources.test_support.telescope_controls import (
 from tests.resources.test_support.tmc_helpers import tear_down
 
 
+@pytest.mark.skip(
+    reason="Scan command is not implemented on SDP Subarray Leaf Node."
+)
 @pytest.mark.SKA_mid
 def test_successive_scan_with_different_configurations(json_factory):
     """Successive Scan command with different configurations."""
@@ -168,6 +171,9 @@ def test_successive_scan_with_different_configurations(json_factory):
         tear_down(release_json)
 
 
+@pytest.mark.skip(
+    reason="Scan command is not implemented on SDP Subarray Leaf Node."
+)
 @pytest.mark.SKA_mid
 def test_successive_scan_with_same_configurations(json_factory):
     """Successive Scan command with same configurations."""

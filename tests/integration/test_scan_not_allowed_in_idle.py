@@ -16,6 +16,9 @@ assign_resources_file = "command_AssignResources.json"
 release_resources_file = "command_ReleaseResources.json"
 
 
+@pytest.mark.skip(
+    reason="Scan command is not implemented on SDP Subarray Leaf Node."
+)
 @pytest.mark.SKA_mid
 def test_scan_not_allowed_in_idle():
     try:
