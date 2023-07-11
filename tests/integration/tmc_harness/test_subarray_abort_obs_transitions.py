@@ -37,10 +37,10 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
         """
         csp_mock, _, _, sdp_mock = get_device_mocks(mock_factory)
 
-        obs_state_transition_duration_ms = 30
+        obs_state_transition_duration_sec = 30
 
         delay_command_params_str = '{"Abort": %s}' % (
-            obs_state_transition_duration_ms
+            obs_state_transition_duration_sec
         )
 
         sdp_mock.setDelay(delay_command_params_str)
@@ -55,9 +55,9 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
         # As we set Obs State transition duration to 30 so wait timeout here
         # provided as 32 sec. It validate after 32 sec excepted
         # obs state change
-        expected_timeout_ms = obs_state_transition_duration_ms + 2
+        expected_timeout_sec = obs_state_transition_duration_sec + 2
 
         assert check_subarray_obs_state(
             obs_state=subarray_node.ABORTED_OBS_STATE,
-            timeout=expected_timeout_ms,
+            timeout=expected_timeout_sec,
         )

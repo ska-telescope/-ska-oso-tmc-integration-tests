@@ -59,11 +59,11 @@ class TestSubarrayNodeObsStateTransitions(object):
             mock_factory
         )
 
-        obs_state_transition_duration_ms = 30
+        obs_state_transition_duration_sec = 30
 
         delay_command_params_str = '{"%s": %s}' % (
             trigger,
-            obs_state_transition_duration_ms,
+            obs_state_transition_duration_sec,
         )
 
         sdp_mock.setDelay(delay_command_params_str)
@@ -80,9 +80,9 @@ class TestSubarrayNodeObsStateTransitions(object):
         # As we set Obs State transition duration to 30 so wait timeout here
         # provided as 32 sec. It validate after 32 sec excepted
         # obs state change
-        expected_timeout_ms = obs_state_transition_duration_ms + 2
+        expected_timeout_sec = obs_state_transition_duration_sec + 2
         assert check_subarray_obs_state(
-            obs_state=destination_obs_state, timeout=expected_timeout_ms
+            obs_state=destination_obs_state, timeout=expected_timeout_sec
         )
 
     # following is a helper method
