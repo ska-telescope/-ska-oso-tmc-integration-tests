@@ -24,6 +24,7 @@ from tests.resources.test_support.telescope_controls import (
 
 
 @pytest.mark.SKA_mid
+@pytest.mark.stuck
 def test_assign_release(json_factory):
     """AssignResources and ReleaseResources is executed."""
     assign_json = json_factory("command_AssignResources")
@@ -67,13 +68,13 @@ def test_assign_release(json_factory):
         the_waiter.set_wait_for_specific_obsstate(
             "RESOURCING", [sdp_subarray1, tmc_subarraynode1]
         )
+        sdp_subarray.SetRaiseException(False)
         the_waiter.set_wait_for_specific_obsstate("IDLE", [csp_subarray1])
         the_waiter.wait(30)
 
     compose_sub()
 
     LOGGER.info("AssignResources command is invoked successfully")
-    sdp_subarray.SetRaiseException(False)
     sdp_subarray.SetDirectObsState(
         ObsState.EMPTY
     )  # as helper don't transition back themselves
