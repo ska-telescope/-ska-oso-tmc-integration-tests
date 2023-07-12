@@ -110,7 +110,7 @@ deviceServers:
     subarray_count: 2
     file: "data/centralnode_mid.yaml"
     DishLeafNodePrefix: "ska_mid/tm_leaf_node/d0"
-    NumDishes: 4
+    DishIDs: ["SKA001", "SKA002", "SKA003", "SKA004"]
 
   subarraynode:
     enabled: true
