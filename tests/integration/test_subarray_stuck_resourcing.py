@@ -1,8 +1,6 @@
-import time
-
 import pytest
 from ska_tango_base.control_model import ObsState
-from tango import DeviceProxy
+from tango import DeviceProxy, EventType
 
 from tests.conftest import LOGGER
 from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
@@ -24,8 +22,7 @@ from tests.resources.test_support.telescope_controls import (
 
 
 @pytest.mark.SKA_mid
-@pytest.mark.stuck
-def test_assign_release(json_factory):
+def test_assign_release(json_factory, change_event_callbacks):
     """AssignResources and ReleaseResources is executed."""
     assign_json = json_factory("command_AssignResources")
 
@@ -53,28 +50,38 @@ def test_assign_release(json_factory):
     # Invoke AssignResources() Command on TMC
     LOGGER.info("Invoking AssignResources command on TMC CentralNode")
     sdp_subarray = DeviceProxy(sdp_subarray1)
+    central_node = DeviceProxy(centralnode)
+    central_node.subscribe_event(
+        "longRunningCommandResult",
+        EventType.CHANGE_EVENT,
+        change_event_callbacks["longRunningCommandResult"],
+    )
 
-    def compose_sub():
-        # Added this check to ensure that devices are running to avoid
-        # random test failures.
-        tmc_helper.check_devices(DEVICE_LIST_FOR_CHECK_DEVICES)
-        central_node = DeviceProxy(centralnode)
-        sdp_subarray.SetRaiseException(True)
-        resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
-        resource(tmc_subarraynode1).assert_attribute("obsState").equals(
-            "EMPTY"
-        )
-        central_node.AssignResources(assign_json)
-        the_waiter.set_wait_for_specific_obsstate(
-            "RESOURCING", [sdp_subarray1, tmc_subarraynode1]
-        )
-        sdp_subarray.SetRaiseException(False)
-        the_waiter.set_wait_for_specific_obsstate("IDLE", [csp_subarray1])
-        the_waiter.wait(30)
+    sdp_subarray.SetRaiseException(True)
 
-    compose_sub()
+    # Added this check to ensure that devices are running to avoid
+    # random test failures.
+    global unique_id, result_code
+    tmc_helper.check_devices(DEVICE_LIST_FOR_CHECK_DEVICES)
+    resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
+    resource(tmc_subarraynode1).assert_attribute("obsState").equals("EMPTY")
+    the_waiter.set_wait_for_specific_obsstate(
+        "RESOURCING", [sdp_subarray1, tmc_subarraynode1]
+    )
+    the_waiter.set_wait_for_specific_obsstate("IDLE", [csp_subarray1])
+    result_code, unique_id = central_node.AssignResources(assign_json)
+    the_waiter.wait(30)
 
-    LOGGER.info("AssignResources command is invoked successfully")
+    sdp_subarray.SetRaiseException(False)
+
+    change_event_callbacks["longRunningCommandResult"].assert_change_event(
+        (
+            unique_id[0],
+            "Exception occured on device: ska_mid/tm_subarray_node/1:\
+            Timeout has occured, command failed",
+        ),
+        lookahead=7,
+    )
     sdp_subarray.SetDirectObsState(
         ObsState.EMPTY
     )  # as helper don't transition back themselves
@@ -84,9 +91,8 @@ def test_assign_release(json_factory):
     csp_subarray = DeviceProxy(csp_subarray1)
     csp_subarray.ReleaseAllResources()
     the_waiter.set_wait_for_specific_obsstate("EMPTY", [csp_subarray1])
-
     the_waiter.set_wait_for_specific_obsstate("EMPTY", [tmc_subarraynode1])
-    time.sleep(5)
+    the_waiter.wait(30)
 
     assert telescope_control.is_in_valid_state(
         DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
