@@ -77,8 +77,8 @@ def test_assign_release(json_factory, change_event_callbacks):
     change_event_callbacks["longRunningCommandResult"].assert_change_event(
         (
             unique_id[0],
-            "Exception occured on device: ska_mid/tm_subarray_node/1:\
-            Timeout has occured, command failed",
+            "Exception occured on device: ska_mid/tm_subarray_node/1:"
+            + "Timeout has occured, command failed",
         ),
         lookahead=7,
     )
