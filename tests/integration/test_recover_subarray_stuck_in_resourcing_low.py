@@ -81,7 +81,7 @@ def test_recover_subarray_stuck_in_resourcing_low(
         change_event_callbacks["longRunningCommandResult"].assert_change_event(
             (
                 unique_id[0],
-                "Exception occured on device: ska_mid/tm_subarray_node/1: "
+                "Exception occured on device: ska_low/tm_subarray_node/1: "
                 + "Timeout has occured, command failed",
             ),
             lookahead=7,
