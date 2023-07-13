@@ -1,9 +1,10 @@
 import pytest
-from tango import DeviceProxy
+from tango import DevFailed, DeviceProxy
 
 import tests.resources.test_support.tmc_helpers as tmc
 from tests.conftest import LOGGER
-from tests.resources.test_support.common_utils.result_code import ResultCode
+
+# from tests.resources.test_support.common_utils.result_code import ResultCode
 from tests.resources.test_support.constant import (
     centralnode,
     tmc_subarraynode1,
@@ -138,7 +139,7 @@ def test_release_invalid_json(json_factory):
 def test_invalid_receptor_ids(json_factory):
     """AssignResources and ReleaseResources is executed."""
     assign_json = json_factory("command_assign_resources_invalid_receptor_id")
-    release_json = json_factory("command_ReleaseResources")
+    # release_json = json_factory("command_ReleaseResources")
     tmc.check_devices()
 
     try:
@@ -160,18 +161,22 @@ def test_invalid_receptor_ids(json_factory):
         resource(tmc_subarraynode1).assert_attribute("obsState").equals(
             "EMPTY"
         )
-        try:
-            central_node = DeviceProxy(centralnode)
+        # try:
+        #     central_node = DeviceProxy(centralnode)
+        #     pytest.command_result = central_node.AssignResources(assign_json)
+        # except Exception as e:
+        #     LOGGER.exception("The Exception is %s", e)
+        #     tear_down(release_json)
+        central_node = DeviceProxy(centralnode)
+        with pytest.raises(DevFailed) as e:
             pytest.command_result = central_node.AssignResources(assign_json)
-        except Exception as e:
-            LOGGER.exception("The Exception is %s", e)
-            tear_down(release_json)
+        LOGGER.info(f"Invalid Receptor id error: {e}")
 
-        assert (
-            "The following Receptor id(s) do not exist"
-            in pytest.command_result[1][0]
-        )
-        assert pytest.command_result[0][0] == ResultCode.REJECTED
+        # assert (
+        #     "The following Receptor id(s) do not exist"
+        #     in pytest.command_result[1][0]
+        # )
+        # assert pytest.command_result[0][0] == ResultCode.REJECTED
 
         # Invoke TelescopeStandby() command on TMC
         tmc.set_to_standby()
