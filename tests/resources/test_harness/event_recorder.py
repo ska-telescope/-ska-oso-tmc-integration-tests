@@ -59,7 +59,7 @@ class EventRecorder(object):
         device: Any,
         attribute_name: str,
         attribute_value: Any,
-        lookahead: int = 5,
+        lookahead: int = 7,
     ) -> bool:
         """Validate Change Event occurred for provided attribute
         This method check attribute value changed within number of lookahead

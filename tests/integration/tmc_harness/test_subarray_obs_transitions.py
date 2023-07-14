@@ -11,9 +11,7 @@ class TestSubarrayNodeObsStateTransitions(object):
     @pytest.mark.parametrize(
         "source_obs_state, trigger, args_for_command, destination_obs_state",
         [
-            ("IDLE", "Configure", "configure_mid", "READY"),
             ("READY", "End", None, "IDLE"),
-            ("EMPTY", "AssignResources", "assign_resources_mid", "IDLE"),
             ("RESOURCING", None, None, "IDLE"),
             ("CONFIGURING", None, None, "READY"),
             ("SCANNING", None, None, "READY"),
@@ -99,7 +97,27 @@ class TestSubarrayNodeObsStateTransitions(object):
             input_json = None
         return input_json
 
-    @pytest.mark.configure
+    @pytest.mark.parametrize(
+        "source_obs_state, trigger, args_for_command, \
+            intermediate_obs_state, destination_obs_state",
+        [
+            (
+                "IDLE",
+                "Configure",
+                "configure_mid",
+                ObsState.CONFIGURING,
+                ObsState.READY,
+            ),
+            (
+                "EMPTY",
+                "AssignResources",
+                "assign_resources_mid",
+                ObsState.RESOURCING,
+                ObsState.IDLE,
+            ),
+            ("READY", "Scan", "scan_mid", ObsState.SCANNING, ObsState.READY),
+        ],
+    )
     @pytest.mark.SKA_mid
     def test_subarray_pair_transition(
         self,
@@ -107,10 +125,15 @@ class TestSubarrayNodeObsStateTransitions(object):
         command_input_factory,
         mock_factory,
         event_recorder,
+        source_obs_state,
+        trigger,
+        args_for_command,
+        intermediate_obs_state,
+        destination_obs_state,
     ):
         """This test case validate pair of transition triggered by command"""
         input_json = self.prepare_json_args_for_commands(
-            "configure_mid", command_input_factory
+            args_for_command, command_input_factory
         )
         csp_mock, sdp_mock, dish_mock_1, dish_mock_2 = get_device_mocks(
             mock_factory
@@ -119,7 +142,7 @@ class TestSubarrayNodeObsStateTransitions(object):
         obs_state_transition_duration_sec = 30
 
         delay_command_params_str = '{"%s": %s}' % (
-            "Configure",
+            trigger,
             obs_state_transition_duration_sec,
         )
 
@@ -132,17 +155,17 @@ class TestSubarrayNodeObsStateTransitions(object):
 
         subarray_node.move_to_on()
 
-        subarray_node.force_change_of_obs_state("IDLE")
+        subarray_node.force_change_of_obs_state(source_obs_state)
 
-        subarray_node.execute_transition("Configure", argin=input_json)
+        subarray_node.execute_transition(trigger, argin=input_json)
 
         # Validate subarray node goes into CONFIGURING obs state first
         # This assertion fail if obsState attribute value is not
-        # changed to CONFIGURING within 5 events for obsState of subarray node
+        # changed to CONFIGURING within 7 events for obsState of subarray node
         assert event_recorder.has_change_event_occurred(
-            subarray_node.subarray_node, "obsState", ObsState.CONFIGURING
+            subarray_node.subarray_node, "obsState", intermediate_obs_state
         )
 
         assert event_recorder.has_change_event_occurred(
-            subarray_node.subarray_node, "obsState", ObsState.READY
+            subarray_node.subarray_node, "obsState", destination_obs_state
         )
