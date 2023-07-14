@@ -1,11 +1,14 @@
 """Implement Event checker class which can be used to validate events
 """
+import logging
 from typing import Any
 
 from ska_tango_testing.mock.tango.event_callback import (
     MockTangoEventCallbackGroup,
 )
 from tango import EventType
+
+LOGGER = logging.getLogger(__name__)
 
 
 class AttributeNotSubscribed(Exception):
@@ -15,7 +18,7 @@ class AttributeNotSubscribed(Exception):
         super().__init__(self.message)
 
 
-class EventChecker(object):
+class EventRecorder(object):
     """Implement method required for validating events"""
 
     def __init__(self):
@@ -30,44 +33,53 @@ class EventChecker(object):
         Args:
             device: Tango Device Proxy Object
             attribute_name (str): Name of the attribute
-            timeout
+            timeout (float): number of seconds to wait for the callable to be
+            called
         """
+        callable_name = self._generate_callable_name(device, attribute_name)
         obs_state_change_event_callback = MockTangoEventCallbackGroup(
-            attribute_name,
+            callable_name,
             timeout=timeout,
         )
         event_id = device.subscribe_event(
             attribute_name,
             EventType.CHANGE_EVENT,
-            obs_state_change_event_callback[attribute_name],
+            obs_state_change_event_callback[callable_name],
         )
         self.subscribed_devices.append((device, event_id))
 
-        if attribute_name not in self.subscribed_events:
+        if callable_name not in self.subscribed_events:
+            LOGGER.info(f"{callable_name} is subscribed for {attribute_name}")
             self.subscribed_events[
-                attribute_name
+                callable_name
             ] = obs_state_change_event_callback
 
-    def is_change_event_occurred(
-        self, attribute_name: str, attribute_value: Any, lookahead: int = 5
+    def has_change_event_occurred(
+        self,
+        device: Any,
+        attribute_name: str,
+        attribute_value: Any,
+        lookahead: int = 5,
     ) -> bool:
         """Validate Change Event occurred for provided attribute
+        This method check attribute value changed within number of lookahead
+        events
         Args:
+            device: Tango Device Proxy Object
             attribute_name (str): Name of the attribute
             attribute_value : Value of attribute
         Returns:
             bool: Change Event occurred True or False
         """
-        change_event_callback = self.subscribed_events.get(
-            attribute_name, None
-        )
+        callable_name = self._generate_callable_name(device, attribute_name)
+        change_event_callback = self.subscribed_events.get(callable_name, None)
         if change_event_callback:
-            return change_event_callback[attribute_name].assert_change_event(
+            return change_event_callback[callable_name].assert_change_event(
                 attribute_value, lookahead=lookahead
             )
 
         raise AttributeNotSubscribed(
-            f"Attribute {attribute_name} is not subscribed"
+            f"Attribute {callable_name} is not subscribed"
         )
 
     def clear_events(self):
@@ -80,3 +92,7 @@ class EventChecker(object):
                 pass
         self.subscribed_devices = []
         self.subscribed_events = {}
+
+    def _generate_callable_name(self, device: Any, attribute_name: str):
+        """Generate callable name based on device name and attribute name"""
+        return f"{device.name()}_{attribute_name}"

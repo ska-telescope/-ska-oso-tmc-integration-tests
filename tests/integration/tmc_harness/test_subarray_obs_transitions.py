@@ -8,7 +8,6 @@ from tests.resources.test_harness.helpers import (
 
 
 class TestSubarrayNodeObsStateTransitions(object):
-    @pytest.mark.configure
     @pytest.mark.parametrize(
         "source_obs_state, trigger, args_for_command, destination_obs_state",
         [
@@ -103,13 +102,17 @@ class TestSubarrayNodeObsStateTransitions(object):
     @pytest.mark.configure
     @pytest.mark.SKA_mid
     def test_subarray_pair_transition(
-        self, subarray_node, command_input_factory, mock_factory, event_checker
+        self,
+        subarray_node,
+        command_input_factory,
+        mock_factory,
+        event_recorder,
     ):
         """This test case validate pair of transition triggered by command"""
         input_json = self.prepare_json_args_for_commands(
             "configure_mid", command_input_factory
         )
-        csp_mock, dish_mock_1, dish_mock_2, sdp_mock = get_device_mocks(
+        csp_mock, sdp_mock, dish_mock_1, dish_mock_2 = get_device_mocks(
             mock_factory
         )
 
@@ -125,7 +128,7 @@ class TestSubarrayNodeObsStateTransitions(object):
         dish_mock_1.setDelay(delay_command_params_str)
         dish_mock_2.setDelay(delay_command_params_str)
 
-        event_checker.subscribe_event(subarray_node.subarray_node, "obsState")
+        event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
 
         subarray_node.move_to_on()
 
@@ -134,10 +137,12 @@ class TestSubarrayNodeObsStateTransitions(object):
         subarray_node.execute_transition("Configure", argin=input_json)
 
         # Validate subarray node goes into CONFIGURING obs state first
-        assert event_checker.is_change_event_occurred(
-            "obsState", ObsState.CONFIGURING
+        # This assertion fail if obsState attribute value is not
+        # changed to CONFIGURING within 5 events for obsState of subarray node
+        assert event_recorder.has_change_event_occurred(
+            subarray_node.subarray_node, "obsState", ObsState.CONFIGURING
         )
 
-        assert event_checker.is_change_event_occurred(
-            "obsState", ObsState.READY
+        assert event_recorder.has_change_event_occurred(
+            subarray_node.subarray_node, "obsState", ObsState.READY
         )

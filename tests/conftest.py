@@ -10,7 +10,7 @@ from ska_tango_testing.mock.tango.event_callback import (
 )
 
 from tests.resources.test_harness.central_node import CentralNode
-from tests.resources.test_harness.event_checker import EventChecker
+from tests.resources.test_harness.event_recorder import EventRecorder
 from tests.resources.test_harness.mock_factory import MockFactory
 from tests.resources.test_harness.subarray_node import SubarrayNode
 from tests.resources.test_harness.utils.common_utils import JsonFactory
@@ -146,7 +146,7 @@ def mock_factory() -> MockFactory:
 
 
 @pytest.fixture()
-def event_checker() -> EventChecker:
-    event_check = EventChecker()
-    yield event_check
-    event_check.clear_events()
+def event_recorder() -> EventRecorder:
+    event_rec = EventRecorder()
+    yield event_rec
+    event_rec.clear_events()
