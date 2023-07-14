@@ -10,6 +10,7 @@ from ska_tango_testing.mock.tango.event_callback import (
 )
 
 from tests.resources.test_harness.central_node import CentralNode
+from tests.resources.test_harness.event_checker import EventChecker
 from tests.resources.test_harness.mock_factory import MockFactory
 from tests.resources.test_harness.subarray_node import SubarrayNode
 from tests.resources.test_harness.utils.common_utils import JsonFactory
@@ -104,7 +105,7 @@ def update_scan_json(scan_json: str, scan_id: int, transaction_id: str) -> str:
 
 @pytest.fixture()
 def change_event_callbacks() -> MockTangoEventCallbackGroup:
-    """
+    """subarray_node
     Return a dictionary of Tango device change event callbacks with
     asynchrony support.
 
@@ -142,3 +143,10 @@ def command_input_factory() -> JsonFactory:
 def mock_factory() -> MockFactory:
     """Return Mock Factory"""
     return MockFactory()
+
+
+@pytest.fixture()
+def event_checker() -> EventChecker:
+    event_check = EventChecker()
+    yield event_check
+    event_check.clear_events()

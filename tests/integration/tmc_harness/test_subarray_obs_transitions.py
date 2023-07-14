@@ -1,4 +1,5 @@
 import pytest
+from ska_tango_base.control_model import ObsState
 
 from tests.resources.test_harness.helpers import (
     check_subarray_obs_state,
@@ -7,7 +8,7 @@ from tests.resources.test_harness.helpers import (
 
 
 class TestSubarrayNodeObsStateTransitions(object):
-    @pytest.mark.invalid
+    @pytest.mark.configure
     @pytest.mark.parametrize(
         "source_obs_state, trigger, args_for_command, destination_obs_state",
         [
@@ -81,7 +82,8 @@ class TestSubarrayNodeObsStateTransitions(object):
         # As we set Obs State transition duration to 30 so wait timeout here
         # provided as 32 sec. It validate after 32 sec excepted
         # obs state change
-        expected_timeout_sec = 0.1
+        expected_timeout_sec = obs_state_transition_duration_sec + 2
+
         assert check_subarray_obs_state(
             obs_state=destination_obs_state, timeout=expected_timeout_sec
         )
@@ -97,3 +99,45 @@ class TestSubarrayNodeObsStateTransitions(object):
         else:
             input_json = None
         return input_json
+
+    @pytest.mark.configure
+    @pytest.mark.SKA_mid
+    def test_subarray_pair_transition(
+        self, subarray_node, command_input_factory, mock_factory, event_checker
+    ):
+        """This test case validate pair of transition triggered by command"""
+        input_json = self.prepare_json_args_for_commands(
+            "configure_mid", command_input_factory
+        )
+        csp_mock, dish_mock_1, dish_mock_2, sdp_mock = get_device_mocks(
+            mock_factory
+        )
+
+        obs_state_transition_duration_sec = 30
+
+        delay_command_params_str = '{"%s": %s}' % (
+            "Configure",
+            obs_state_transition_duration_sec,
+        )
+
+        sdp_mock.setDelay(delay_command_params_str)
+        csp_mock.setDelay(delay_command_params_str)
+        dish_mock_1.setDelay(delay_command_params_str)
+        dish_mock_2.setDelay(delay_command_params_str)
+
+        event_checker.subscribe_event(subarray_node.subarray_node, "obsState")
+
+        subarray_node.move_to_on()
+
+        subarray_node.force_change_of_obs_state("IDLE")
+
+        subarray_node.execute_transition("Configure", argin=input_json)
+
+        # Validate subarray node goes into CONFIGURING obs state first
+        assert event_checker.is_change_event_occurred(
+            "obsState", ObsState.CONFIGURING
+        )
+
+        assert event_checker.is_change_event_occurred(
+            "obsState", ObsState.READY
+        )
