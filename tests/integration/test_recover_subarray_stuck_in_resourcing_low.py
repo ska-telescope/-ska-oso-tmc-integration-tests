@@ -13,6 +13,7 @@ from tests.resources.test_support.constant_low import (
     centralnode,
     csp_subarray1,
     sdp_subarray1,
+    tmc_sdp_subarray_leaf_node,
     tmc_subarraynode1,
 )
 from tests.resources.test_support.helpers import resource, waiter
@@ -83,7 +84,7 @@ def test_recover_subarray_stuck_in_resourcing_low(
                 unique_id[0],
                 f"Exception occured on device: {tmc_subarraynode1}: "
                 + "Exception occurred on the following devices:"
-                + f"\n{sdp_subarray1}: "
+                + f"\n{tmc_sdp_subarray_leaf_node}: "
                 + "Timeout has occured, command failed\n",
             ),
             lookahead=7,
