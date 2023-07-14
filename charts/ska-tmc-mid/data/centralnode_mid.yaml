@@ -28,9 +28,11 @@ server:
         - name: "DishLeafNodePrefix"
           values:
           - "ska_mid/tm_leaf_node/d0"
-        - name: "NumDishes"
+        - name: "DishIDs"
           values:
-          - "4"
+          {{- range  (.Values.deviceServers.centralnode.DishIDs)  }}
+          - "{{ . }}"
+          {{- end }}
         - name: "TMCSubarrayNodes"
           values:
           {{- range  ( regexSplit " " ((.Values.deviceServers.centralnode.subarray_count | int) | seq ) -1 )  }}
