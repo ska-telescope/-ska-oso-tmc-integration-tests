@@ -94,7 +94,7 @@ deviceServers:
   centralnode:
     enabled: true
     instances: ["01"]
-    subarray_count: 3
+    subarray_count: 2
     file: "data/centralnode.yaml"
 
   subarraynode:
