@@ -85,7 +85,9 @@ def test_recover_subarray_stuck_in_resourcing(
             (
                 unique_id[0],
                 "Exception occured on device: ska_mid/tm_subarray_node/1: "
-                + "Timeout has occured, command failed",
+                + "Exception occurred on the following devices:"
+                + "\nska_mid/tm_leaf_node/sdp_subarray01: "
+                + "Timeout has occured, command failed\n",
             ),
             lookahead=7,
         )
