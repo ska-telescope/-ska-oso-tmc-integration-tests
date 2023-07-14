@@ -47,7 +47,6 @@ def test_recover_subarray_stuck_in_resourcing(
         tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("TelescopeOn command is invoked successfully")
 
-        # Verify State transitions after TelescopeOn
         # Verify State transitions after TelescopeOn#
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_ON_INFO, "State"
