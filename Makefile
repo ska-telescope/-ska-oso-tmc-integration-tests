@@ -41,7 +41,7 @@ K8S_CHART ?= $(HELM_CHART)
 
 CI_REGISTRY ?= gitlab.com
 
-K8S_TEST_IMAGE_TO_TEST ?= artefact.skao.int/ska-tango-images-tango-itango:9.3.10## docker image that will be run for testing purpose
+K8S_TEST_IMAGE_TO_TEST ?= artefact.skao.int/ska-tango-images-tango-itango:9.3.12## docker image that will be run for testing purpose
 
 
 CI_PROJECT_DIR ?= .
@@ -103,5 +103,5 @@ cred:
 
 
 test-requirements:
-	@poetry export --without-hashes --with dev --format requirements.txt --output tests/requirements.txt
+	@poetry export --without-hashes --dev --format requirements.txt --output tests/requirements.txt
 k8s-pre-test: test-requirements
