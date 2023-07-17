@@ -1,5 +1,5 @@
 import pytest
-from tango import DeviceProxy  # , DevFailed
+from tango import DeviceProxy
 
 import tests.resources.test_support.tmc_helpers as tmc
 from tests.conftest import LOGGER
@@ -116,7 +116,6 @@ def test_release_invalid_json(json_factory):
         LOGGER.info(message)
         # Check if telescope is in previous state
         assert subarray_obs_state_is_idle()
-        # Invoke release resources
         # # Invoke ReleaseResources() command on TMC
         tmc.invoke_releaseResources(release_json)
 
@@ -165,12 +164,7 @@ def test_invalid_receptor_ids(json_factory):
             pytest.command_result = central_node.AssignResources(assign_json)
         except Exception as e:
             LOGGER.exception("The Exception is %s", e)
-            LOGGER.info(f"Invalid Receptor id error: {e}")
             tear_down(release_json)
-        # central_node = DeviceProxy(centralnode)
-        # with pytest.raises(DevFailed) as e:
-        #     pytest.command_result = central_node.AssignResources(assign_json)
-
         assert (
             "The dish id 0001 is not of the correct length."
             in pytest.command_result[1][0]
