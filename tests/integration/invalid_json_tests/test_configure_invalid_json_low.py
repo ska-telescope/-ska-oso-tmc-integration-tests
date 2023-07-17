@@ -27,7 +27,6 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = TelescopeControlLow()
 
 
-@pytest.mark.test
 @pytest.mark.SKA_low
 @scenario(
     "../features/check_invalid_json_not_allowed.feature",

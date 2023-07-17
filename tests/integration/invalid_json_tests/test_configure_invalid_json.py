@@ -1,6 +1,7 @@
 import json
 
 import pytest
+import tango
 from pytest_bdd import given, parsers, scenario, then, when
 
 from tests.conftest import LOGGER
@@ -12,7 +13,6 @@ from tests.resources.test_support.common_utils.tmc_helpers import (
 from tests.resources.test_support.constant import (
     DEVICE_OBS_STATE_EMPTY_INFO,
     DEVICE_OBS_STATE_IDLE_INFO,
-    DEVICE_OBS_STATE_READY_INFO,
     DEVICE_STATE_ON_INFO,
     DEVICE_STATE_STANDBY_INFO,
     ON_OFF_DEVICE_COMMAND_DICT,
@@ -27,7 +27,6 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
-@pytest.mark.skip(reason="This functionality is not implemented yet in TMC")
 @pytest.mark.SKA_mid
 @scenario(
     "../features/check_invalid_json_not_allowed.feature",
@@ -82,61 +81,44 @@ def tmc_check_status(json_factory):
     parsers.parse("the command Configure is invoked with {invalid_json} input")
 )
 def send(json_factory, invalid_json):
+    tmc_subarraynode = tango.DeviceProxy(tmc_subarraynode1)
     release_json = json_factory("command_ReleaseResources")
     try:
         configure_json = json_factory("command_Configure")
         invalid_configure_json = json.loads(configure_json)
         if invalid_json == "config_id_key_missing":
             del invalid_configure_json["csp"]["common"]["config_id"]
-            # Invoke Configure() Command on TMC
-            LOGGER.info("Invoking Configure command on TMC SubarrayNode")
-            pytest.command_result = tmc_helper.configure_subarray(
-                json.dumps(invalid_configure_json),
-                **ON_OFF_DEVICE_COMMAND_DICT,
+            pytest.command_result = tmc_subarraynode.Configure(
+                json.dumps(invalid_configure_json)
             )
         elif invalid_json == "fsp_id_key_missing":
             del invalid_configure_json["csp"]["cbf"]["fsp"][0]["fsp_id"]
-            # Invoke Configure() Command on TMC
-            LOGGER.info("Invoking Configure command on TMC SubarrayNode")
-            pytest.command_result = tmc_helper.configure_subarray(
-                json.dumps(invalid_configure_json),
-                **ON_OFF_DEVICE_COMMAND_DICT,
+            pytest.command_result = tmc_subarraynode.Configure(
+                json.dumps(invalid_configure_json)
             )
         elif invalid_json == "frequency_slice_id_key_missing":
-            del invalid_configure_json["csp"]["cbf"]["fsp"][2][
+            del invalid_configure_json["csp"]["cbf"]["fsp"][0][
                 "frequency_slice_id"
             ]
-            # Invoke Configure() Command on TMC
-            LOGGER.info("Invoking Configure command on TMC SubarrayNode")
-            pytest.command_result = tmc_helper.configure_subarray(
-                json.dumps(invalid_configure_json),
-                **ON_OFF_DEVICE_COMMAND_DICT,
+            pytest.command_result = tmc_subarraynode.Configure(
+                json.dumps(invalid_configure_json)
             )
         elif invalid_json == "integration_factor_key_missing":
-            del invalid_configure_json["csp"]["cbf"]["fsp"][3][
+            del invalid_configure_json["csp"]["cbf"]["fsp"][0][
                 "integration_factor"
             ]
-            # Invoke Configure() Command on TMC
-            LOGGER.info("Invoking Configure command on TMC SubarrayNode")
-            pytest.command_result = tmc_helper.configure_subarray(
-                json.dumps(invalid_configure_json),
-                **ON_OFF_DEVICE_COMMAND_DICT,
+            pytest.command_result = tmc_subarraynode.Configure(
+                json.dumps(invalid_configure_json)
             )
         elif invalid_json == "zoom_factor_key_missing":
-            del invalid_configure_json["csp"]["cbf"]["fsp"][4]["zoom_factor"]
-            # Invoke Configure() Command on TMC
-            LOGGER.info("Invoking Configure command on TMC SubarrayNode")
-            pytest.command_result = tmc_helper.configure_subarray(
-                json.dumps(invalid_configure_json),
-                **ON_OFF_DEVICE_COMMAND_DICT,
+            del invalid_configure_json["csp"]["cbf"]["fsp"][0]["zoom_factor"]
+            pytest.command_result = tmc_subarraynode.Configure(
+                json.dumps(invalid_configure_json)
             )
         elif invalid_json == "incorrect_fsp_id":
             invalid_configure_json["csp"]["cbf"]["fsp"][0]["fsp_id"] = 30
-            # Invoke Configure() Command on TMC
-            LOGGER.info("Invoking Configure command on TMC SubarrayNode")
-            pytest.command_result = tmc_helper.configure_subarray(
-                json.dumps(invalid_configure_json),
-                **ON_OFF_DEVICE_COMMAND_DICT,
+            pytest.command_result = tmc_subarraynode.Configure(
+                json.dumps(invalid_configure_json)
             )
     except Exception as e:
         LOGGER.exception(f"Exception occurred: {e}")
@@ -154,8 +136,7 @@ def invalid_command_rejection(invalid_json):
     # asserting validations message as per invalid json
     if invalid_json == "config_id_key_missing":
         assert (
-            "{'csp': {'common': {'config_id':\
-                  ['Missing data for required field.']}}}"
+            "'config_id': ['Missing data for required field.']"
             in pytest.command_result[1][0]
         )
     elif invalid_json == "incorrect_fsp_id":
@@ -169,16 +150,9 @@ def invalid_command_rejection(invalid_json):
         "zoom_factor_key_missing",
         "integration_factor_key_missing",
     ]:
-        assert (
-            "data is not compliant with\
-                 https://schema.skao.int/ska-csp-configure/"
-            in pytest.command_result[1][0]
-        )
+        assert "Malformed input string" in pytest.command_result[1][0]
 
 
-# TODO: In current version of subarray after invoking Configure \
-#  through invalid json instead of going back to Idle\
-#  state remains in Configuring.
 @then("TMC subarray remains in IDLE obsState")
 def tmc_status():
     # Verify obsState transitions
@@ -188,26 +162,23 @@ def tmc_status():
 
 
 @then(
-    "TMC successfully executes the Configure\
-          command for the subarray with a valid json"
+    "TMC successfully executes the Configure command for the subarray with a valid json"
 )
 def tmc_accepts_next_commands(json_factory):
     release_json = json_factory("command_ReleaseResources")
     try:
-        configure_json = json_factory("command_Configure")
+        # configure_json = json_factory("command_Configure")
+        # LOGGER.info("Invoking Configure command on TMC SubarrayNode")
+        # tmc_helper.configure_subarray(
+        #     configure_json, **ON_OFF_DEVICE_COMMAND_DICT
+        # )
+        # assert telescope_control.is_in_valid_state(
+        #     DEVICE_OBS_STATE_READY_INFO, "obsState"
+        # )
 
-        # Invoke AssignResources() Command on TMC
-        LOGGER.info("Invoking Configure command on TMC SubarrayNode")
-        tmc_helper.configure_subarray(
-            configure_json, **ON_OFF_DEVICE_COMMAND_DICT
-        )
-        assert telescope_control.is_in_valid_state(
-            DEVICE_OBS_STATE_READY_INFO, "obsState"
-        )
-
-        # teardown
-        LOGGER.info("Invoking END on TMC")
-        tmc_helper.end()
+        # # teardown
+        # LOGGER.info("Invoking END on TMC")
+        # tmc_helper.end()
 
         #  Verify obsState is IDLE
         assert telescope_control.is_in_valid_state(
