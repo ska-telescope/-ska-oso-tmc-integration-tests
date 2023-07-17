@@ -28,9 +28,6 @@ release_resources_file = "command_ReleaseResources.json"
 configure_resources_file = "command_Configure.json"
 
 
-# @pytest.mark.skip(
-#     reason="Configure command is not implemented on SDP Subarray Leaf Node."
-# )
 @pytest.mark.SKA_mid
 def test_configure_end():
     """Configure and End is executed."""
