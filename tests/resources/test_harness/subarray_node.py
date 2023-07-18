@@ -197,6 +197,17 @@ class SubarrayNode(object):
             dish_master.ResetDelay()
             dish_master.ClearCommandCallInfo()
 
+    def _clear_command_call_data(self):
+        """Clears the command call data"""
+        for mock_device in [
+            sdp_subarray1,
+            csp_subarray1,
+            dish_master1,
+            dish_master2,
+        ]:
+            device = DeviceProxy(mock_device)
+            device.ClearCommandCallInfo()
+
     def tear_down(self):
         """Tear down after each test run"""
 
@@ -244,3 +255,4 @@ class SubarrayNode(object):
             dest_state_name, self
         )
         state_resetter.reset()
+        self._clear_command_call_data()

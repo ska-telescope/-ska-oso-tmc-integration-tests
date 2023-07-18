@@ -87,6 +87,7 @@ class TestSubarrayNodeObsStateTransitions(object):
             obs_state=destination_obs_state, timeout=expected_timeout_sec
         )
 
+    @pytest.mark.hope
     @pytest.mark.SKA_mid
     @pytest.mark.parametrize(
         "source_obs_state, trigger, args_for_command,\
@@ -164,6 +165,7 @@ class TestSubarrayNodeObsStateTransitions(object):
         event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
         event_recorder.subscribe_event(sdp_mock, "commandCallInfo")
         event_recorder.subscribe_event(csp_mock, "commandCallInfo")
+
         subarray_node.move_to_on()
         subarray_node.force_change_of_obs_state(source_obs_state)
 
@@ -178,12 +180,14 @@ class TestSubarrayNodeObsStateTransitions(object):
         assert event_recorder.has_change_event_occurred(
             subarray_node.subarray_node, "obsState", destination_obs_state
         )
-        # TODO: Add three assertions
-        # one for entry check
-        # one for perfect command entry, with command name
-        # make mock to sim
-        assert self.mock_device_is_with_correct_data(csp_mock, csp_input_json)
-        assert self.mock_device_is_with_correct_data(sdp_mock, sdp_input_json)
+        assert self.device_is_with_correct_command_data(
+            csp_mock, trigger, csp_input_json
+        )
+        assert self.device_is_with_correct_command_data(
+            sdp_mock, trigger, sdp_input_json
+        )
+        assert self.single_command_entry_in_command_data(csp_mock)
+        assert self.single_command_entry_in_command_data(sdp_mock)
 
     # following is a helper method
     def prepare_json_args_for_commands(
@@ -197,24 +201,33 @@ class TestSubarrayNodeObsStateTransitions(object):
             input_json = None
         return input_json
 
-    def get_command_call_data(self, device: Any):
+    def get_command_call_info(self, device: Any):
         """
         device: Tango Device Proxy Object
 
         """
         command_call_info = device.read_attribute("commandCallInfo").value
-        print("command_call_info", command_call_info)
-        last_command_call_info = tuple(reversed(command_call_info))
-        print("reversed command_call_info", last_command_call_info[0])
-        last_command_call = "".join(last_command_call_info[0][1].split())
-        return sorted(last_command_call)
+        input_str = "".join(command_call_info[0][1].split())
+        received_command_call_data = (
+            command_call_info[0][0],
+            sorted(input_str),
+        )
+        return received_command_call_data
 
-    def mock_device_is_with_correct_data(
-        self, device: Any, device_json_data: str
+    def device_is_with_correct_command_data(
+        self, device: Any, expected_command_name: str, expected_inp_str: str
     ):
         """_summary_"""
-        mock_device_command_call_data = self.get_command_call_data(device)
 
-        device_json = "".join(device_json_data.split())
+        received_command_call_data = self.get_command_call_info(device)
 
-        return sorted(mock_device_command_call_data) == sorted(device_json)
+        expected_input_str = "".join(expected_inp_str.split())
+
+        return received_command_call_data == (
+            expected_command_name,
+            sorted(expected_input_str),
+        )
+
+    def single_command_entry_in_command_data(self, device: Any):
+        command_call_info = device.read_attribute("commandCallInfo").value
+        return len(command_call_info) == 1
