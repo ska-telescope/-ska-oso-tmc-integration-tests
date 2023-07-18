@@ -10,6 +10,9 @@ from tests.resources.test_support.common_utils.result_code import ResultCode
 from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
 from tests.resources.test_support.constant import (
     DEVICE_HEALTH_STATE_OK_INFO,
+    DEVICE_LIST_FOR_CHECK_DEVICES,
+    DEVICE_OBS_STATE_EMPTY_INFO,
+    DEVICE_OBS_STATE_IDLE_INFO,
     DEVICE_STATE_ON_INFO,
     DEVICE_STATE_STANDBY_INFO,
     ON_OFF_DEVICE_COMMAND_DICT,
@@ -106,52 +109,60 @@ def test_assign_release_with_meerkat_ids(json_factory):
 
     release_json = json_factory("command_ReleaseResources")
     try:
-        tmc.check_devices()
+        telescope_control = TelescopeControlMid()
+        tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
+
+        tmc_helper.check_devices(DEVICE_LIST_FOR_CHECK_DEVICES)
+        fixture = {}
+        fixture["state"] = "Unknown"
 
         # Verify Telescope is Off/Standby
-        assert telescope_is_in_standby_state()
-        LOGGER.info("Staring up the Telescope")
+        assert telescope_control.is_in_valid_state(
+            DEVICE_STATE_STANDBY_INFO, "State"
+        )
 
         # Invoke TelescopeOn() command on TMC
         LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
-        tmc.set_to_on()
+        tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("TelescopeOn command is invoked successfully")
 
         # Verify State transitions after TelescopeOn
-        assert telescope_is_in_on_state()
+        assert telescope_control.is_in_valid_state(
+            DEVICE_STATE_ON_INFO, "State"
+        )
+        fixture["state"] = "TelescopeOn"
 
         # Invoke AssignResources() Command on TMC
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-
-        @sync_assign_resources()
-        def compose_sub():
-            resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
-            resource(tmc_subarraynode1).assert_attribute("obsState").equals(
-                "EMPTY"
-            )
-            central_node = DeviceProxy(centralnode)
-            tmc.check_devices()
-            central_node.AssignResources(json_argument)
-            LOGGER.info("Invoked AssignResources on CentralNode")
-
-        compose_sub()
+        tmc_helper.compose_sub(json_argument, **ON_OFF_DEVICE_COMMAND_DICT)
 
         LOGGER.info("AssignResources command is invoked successfully")
 
         # Verify ObsState is Idle
-        assert subarray_obs_state_is_idle()
+        assert telescope_control.is_in_valid_state(
+            DEVICE_OBS_STATE_IDLE_INFO, "obsState"
+        )
+        fixture["state"] = "AssignResources"
 
         # Invoke ReleaseResources() command on TMC
-        tmc.invoke_releaseResources(release_json)
+        tmc_helper.invoke_releaseResources(
+            release_json, **ON_OFF_DEVICE_COMMAND_DICT
+        )
 
-        assert subarray_obs_state_is_empty()
+        # Verify ObsState is Empty
+        assert telescope_control.is_in_valid_state(
+            DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
+        )
+        fixture["state"] = "ReleaseResources"
 
         # Invoke TelescopeStandby() command on TMC
-        tmc.set_to_standby()
+        tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
+        LOGGER.info("Invoking Standby command on TMC SubarrayNode")
 
         # Verify State transitions after TelescopeStandby
-        assert telescope_is_in_standby_state()
-
+        assert telescope_control.is_in_valid_state(
+            DEVICE_STATE_STANDBY_INFO, "State"
+        )
         LOGGER.info("Tests complete.")
 
     except Exception:
