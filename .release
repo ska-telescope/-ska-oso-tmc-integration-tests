@@ -1,16 +1,11 @@
-release=0.8.2
-tag=0.8.2
+release=0.8.3
+tag=0.8.3
 tag_description=
 **Charts:**
-**1. ska-tmc-integration 0.8.1 - 0.8.2:**
+**1. ska-tmc-integration 0.8.2 - 0.8.3:**
 
-    **1.1 ska-tmc-low - 0.6.1 - 0.7.0:
-
-
-       a.  Implementation of availability reporting in TMC Low
-
-    **1.2 ska-tmc-mid - 0.9.1 -0.10.0:
-        a. Implementation of availability reporting in TMC Mid
+    **1.1 ska-tmc-mid - 0.10.0 -0.10.1:
+        a. Resolved bug SKB-235
 
 
 
@@ -18,13 +13,8 @@ tag_description=
 
 release_notes=
 **Charts:**
-**1. ska-tmc-integration 0.8.1 - 0.8.2:**
+**1. ska-tmc-integration 0.8.2 - 0.8.3:**
 
-
-    **1.1 ska-tmc-low -0.6.1 - 0.7.0:
-
-       a.  Implementation of availability reporting in TMC Low
-
-    **1.2 ska-tmc-mid -0.9.1 - 0.10.0:
-        a. Implementation of availability reporting in TMC Mid
+    **1.1 ska-tmc-mid -0.10.0 - 0.10.1:
+        a. Resolved bug SKB-235
 
