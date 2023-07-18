@@ -56,7 +56,6 @@ class TestSubarrayNodeNegative(object):
             expected_long_running_command_result,
         )
 
-    @pytest.mark.invalid
     @pytest.mark.SKA_mid
     def test_subarray_configure_csp_unresponsive(
         self,
@@ -68,19 +67,14 @@ class TestSubarrayNodeNegative(object):
         input_json = prepare_json_args_for_commands(
             "configure_mid", command_input_factory
         )
-
         csp_mock = mock_factory.get_or_create_mock_device(
             MockDeviceType.CSP_DEVICE
         )
 
         event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
-
         subarray_node.move_to_on()
-
         subarray_node.force_change_of_obs_state("IDLE")
 
-        # Set csp defective and execute configure command
-        # csp_mock.SetDefective(True)
         # CSP should go to configuring in no more than 0.1 sec
         obs_state_duration = '{"%s": %s}' % (
             "CONFIGURING",
