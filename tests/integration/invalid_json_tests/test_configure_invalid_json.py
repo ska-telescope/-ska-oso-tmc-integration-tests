@@ -35,7 +35,7 @@ telescope_control = BaseTelescopeControl()
 )
 def test_invalid_json_in_configure_obsState():
     """
-    Test invalid json in SubarrayNode obsState. CONFIGURE
+    Test SubarrayNode Mid Configure command with invalid json data.
     """
 
 
@@ -47,8 +47,6 @@ def given_tmc(json_factory):
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_STANDBY_INFO, "State"
         )
-
-        LOGGER.info("Starting up the Telescope")
 
         # Invoke TelescopeOn() command on TMC CentralNode
         LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
