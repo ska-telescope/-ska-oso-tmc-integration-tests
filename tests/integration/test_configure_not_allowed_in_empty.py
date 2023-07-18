@@ -10,9 +10,6 @@ from tests.resources.test_support.helpers import resource
 configure_resources_file = "command_Configure.json"
 
 
-@pytest.mark.skip(
-    reason="Configure command is not implemented on SDP Subarray Leaf Node."
-)
 @pytest.mark.SKA_mid
 def test_configure_not_allowed_in_empty():
 

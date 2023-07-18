@@ -168,7 +168,7 @@ def test_invalid_receptor_ids(json_factory):
             tear_down(release_json)
 
         assert (
-            "The following Receptor id(s) do not exist"
+            "The dish id 0001 is not of the correct length."
             in pytest.command_result[1][0]
         )
         assert pytest.command_result[0][0] == ResultCode.REJECTED
