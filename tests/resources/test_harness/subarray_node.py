@@ -187,6 +187,7 @@ class SubarrayNode(object):
         for mock_device_fqdn in [sdp_subarray1, csp_subarray1]:
             device = DeviceProxy(mock_device_fqdn)
             device.ResetDelay()
+            device.SetDefective(False)
 
     def _reset_dishes(self):
         """Reset Dish Devices"""
