@@ -26,9 +26,6 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = TelescopeControlMid()
 
 
-@pytest.mark.skip(
-    reason="Configure command is not implemented on SDP Subarray Leaf Node."
-)
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successive_configure.feature",
