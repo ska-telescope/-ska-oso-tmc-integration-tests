@@ -102,14 +102,24 @@ class TestSubarrayNodeObsStateTransitions(object):
                 "csp_configure_mid",
                 "sdp_configure_mid",
             ),
-            # (
-            #     "EMPTY",
-            #     "AssignResources",
-            #     "assign_resources_mid",
-            #     ObsState.RESOURCING,
-            #     ObsState.IDLE,
-            # ),
-            # ("READY", "Scan", "scan_mid", ObsState.SCANNING, ObsState.READY),
+            (
+                "EMPTY",
+                "AssignResources",
+                "assign_resources_mid",
+                ObsState.RESOURCING,
+                ObsState.IDLE,
+                "csp_assign_resources_mid",
+                "sdp_assign_resources_mid",
+            ),
+            (
+                "READY",
+                "Scan",
+                "scan_mid",
+                ObsState.SCANNING,
+                ObsState.READY,
+                "csp_scan_mid",
+                "sdp_scan_mid",
+            ),
         ],
     )
     @pytest.mark.SKA_mid
@@ -131,42 +141,33 @@ class TestSubarrayNodeObsStateTransitions(object):
         input_json = self.prepare_json_args_for_commands(
             args_for_command, command_input_factory
         )
-
         csp_input_json = self.prepare_json_args_for_commands(
             args_for_csp, command_input_factory
         )
-
         sdp_input_json = self.prepare_json_args_for_commands(
             args_for_sdp, command_input_factory
         )
-
-        csp_mock, sdp_mock, dish_mock_1, dish_mock_2 = get_device_mocks(
-            mock_factory
-        )
-
         obs_state_transition_duration_sec = 30
-
         delay_command_params_str = '{"%s": %s}' % (
             trigger,
             obs_state_transition_duration_sec,
         )
 
+        csp_mock, sdp_mock, dish_mock_1, dish_mock_2 = get_device_mocks(
+            mock_factory
+        )
         sdp_mock.setDelay(delay_command_params_str)
         csp_mock.setDelay(delay_command_params_str)
         dish_mock_1.setDelay(delay_command_params_str)
         dish_mock_2.setDelay(delay_command_params_str)
 
         event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
-
+        event_recorder.subscribe_event(sdp_mock, "commandCallInfo")
+        event_recorder.subscribe_event(csp_mock, "commandCallInfo")
         subarray_node.move_to_on()
-
         subarray_node.force_change_of_obs_state(source_obs_state)
 
         subarray_node.execute_transition(trigger, argin=input_json)
-
-        event_recorder.subscribe_event(sdp_mock, "commandCallInfo")
-
-        event_recorder.subscribe_event(csp_mock, "commandCallInfo")
 
         # Validate subarray node goes into CONFIGURING obs state first
         # This assertion fail if obsState attribute value is not
@@ -174,19 +175,15 @@ class TestSubarrayNodeObsStateTransitions(object):
         assert event_recorder.has_change_event_occurred(
             subarray_node.subarray_node, "obsState", intermediate_obs_state
         )
-
         assert event_recorder.has_change_event_occurred(
             subarray_node.subarray_node, "obsState", destination_obs_state
         )
-
-        if trigger == "Configure":
-            assert self.mock_device_is_with_correct_data(
-                csp_mock, csp_input_json
-            )
-
-            assert self.mock_device_is_with_correct_data(
-                sdp_mock, sdp_input_json
-            )
+        # TODO: Add three assertions
+        # one for entry check
+        # one for perfect command entry, with command name
+        # make mock to sim
+        assert self.mock_device_is_with_correct_data(csp_mock, csp_input_json)
+        assert self.mock_device_is_with_correct_data(sdp_mock, sdp_input_json)
 
     # following is a helper method
     def prepare_json_args_for_commands(
