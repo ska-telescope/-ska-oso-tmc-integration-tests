@@ -1,6 +1,7 @@
 import json
-import tango
+
 import pytest
+import tango
 from pytest_bdd import given, parsers, scenario, then, when
 
 from tests.conftest import LOGGER
@@ -78,20 +79,28 @@ def send(json_factory, invalid_json):
         assign_json = json.loads(assign_json)
         if invalid_json == "missing_pb_id_key":
             del assign_json["sdp"]["processing_blocks"][0]["pb_id"]
-            pytest.command_result = central_node_device.AssignResources(json.dumps(assign_json))
+            pytest.command_result = central_node_device.AssignResources(
+                json.dumps(assign_json)
+            )
         elif invalid_json == "missing_scan_type_id_key":
             del assign_json["sdp"]["execution_block"]["scan_types"][0][
                 "scan_type_id"
             ]
-            pytest.command_result = central_node_device.AssignResources(json.dumps(assign_json))
+            pytest.command_result = central_node_device.AssignResources(
+                json.dumps(assign_json)
+            )
         elif invalid_json == "missing_count_key":
             del assign_json["sdp"]["execution_block"]["channels"][0][
                 "channels_id"
             ]
-            pytest.command_result = central_node_device.AssignResources(json.dumps(assign_json))
+            pytest.command_result = central_node_device.AssignResources(
+                json.dumps(assign_json)
+            )
         elif invalid_json == "missing_receptor_id_key":
             del assign_json["dish"]["receptor_ids"]
-            pytest.command_result = central_node_device.AssignResources(json.dumps(assign_json))
+            pytest.command_result = central_node_device.AssignResources(
+                json.dumps(assign_json)
+            )
 
     except Exception as e:
         LOGGER.exception(f"Exception occured: {e}")
@@ -101,11 +110,8 @@ def send(json_factory, invalid_json):
 @then(parsers.parse("TMC should reject the AssignResources command"))
 def invalid_command_rejection():
     assert (
-        (
-            "JSON validation error: data is not compliant"
-        )
-        in pytest.command_result[1][0]
-    )
+        "JSON validation error: data is not compliant"
+    ) in pytest.command_result[1][0]
 
     assert pytest.command_result[0][0] == ResultCode.REJECTED
 

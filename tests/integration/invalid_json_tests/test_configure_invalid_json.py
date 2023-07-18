@@ -13,10 +13,10 @@ from tests.resources.test_support.common_utils.tmc_helpers import (
 from tests.resources.test_support.constant import (
     DEVICE_OBS_STATE_EMPTY_INFO,
     DEVICE_OBS_STATE_IDLE_INFO,
+    DEVICE_OBS_STATE_READY_INFO,
     DEVICE_STATE_ON_INFO,
     DEVICE_STATE_STANDBY_INFO,
     ON_OFF_DEVICE_COMMAND_DICT,
-    DEVICE_OBS_STATE_READY_INFO,
     centralnode,
     tmc_subarraynode1,
 )
