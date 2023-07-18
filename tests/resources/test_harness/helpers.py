@@ -88,3 +88,13 @@ def get_device_mocks(mock_factory):
         MockDeviceType.DISH_DEVICE, mock_number=2
     )
     return csp_mock, sdp_mock, dish_mock_1, dish_mock_2
+
+
+def prepare_json_args_for_commands(args_for_command, command_input_factory):
+    if args_for_command is not None:
+        input_json = command_input_factory.create_subarray_configuration(
+            args_for_command
+        )
+    else:
+        input_json = None
+    return input_json
