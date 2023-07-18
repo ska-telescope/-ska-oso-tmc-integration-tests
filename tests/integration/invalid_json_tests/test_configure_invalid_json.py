@@ -16,6 +16,7 @@ from tests.resources.test_support.constant import (
     DEVICE_STATE_ON_INFO,
     DEVICE_STATE_STANDBY_INFO,
     ON_OFF_DEVICE_COMMAND_DICT,
+    DEVICE_OBS_STATE_READY_INFO,
     centralnode,
     tmc_subarraynode1,
 )
@@ -162,23 +163,24 @@ def tmc_status():
 
 
 @then(
-    "TMC successfully executes the Configure command for the subarray with a valid json"
+    "TMC successfully executes the Configure \
+command for the subarray with a valid json"
 )
 def tmc_accepts_next_commands(json_factory):
     release_json = json_factory("command_ReleaseResources")
     try:
-        # configure_json = json_factory("command_Configure")
-        # LOGGER.info("Invoking Configure command on TMC SubarrayNode")
-        # tmc_helper.configure_subarray(
-        #     configure_json, **ON_OFF_DEVICE_COMMAND_DICT
-        # )
-        # assert telescope_control.is_in_valid_state(
-        #     DEVICE_OBS_STATE_READY_INFO, "obsState"
-        # )
+        configure_json = json_factory("command_Configure")
+        LOGGER.info("Invoking Configure command on TMC SubarrayNode")
+        tmc_helper.configure_subarray(
+            configure_json, **ON_OFF_DEVICE_COMMAND_DICT
+        )
+        assert telescope_control.is_in_valid_state(
+            DEVICE_OBS_STATE_READY_INFO, "obsState"
+        )
 
-        # # teardown
-        # LOGGER.info("Invoking END on TMC")
-        # tmc_helper.end()
+        # teardown
+        LOGGER.info("Invoking END on TMC")
+        tmc_helper.end()
 
         #  Verify obsState is IDLE
         assert telescope_control.is_in_valid_state(

@@ -119,7 +119,8 @@ def tmc_status():
 
 
 @then(
-    "TMC successfully executes AssignResources for subarray with a valid input json"
+    "TMC successfully executes AssignResources \
+for subarray with a valid input json"
 )
 def tmc_accepts_command_with_valid_json(json_factory):
     try:
