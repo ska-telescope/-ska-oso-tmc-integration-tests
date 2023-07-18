@@ -87,7 +87,7 @@ class TestSubarrayNodeObsStateTransitions(object):
             obs_state=destination_obs_state, timeout=expected_timeout_sec
         )
 
-    @pytest.mark.hope
+    @pytest.mark.SKA_mid
     @pytest.mark.parametrize(
         "source_obs_state, trigger, args_for_command,\
             intermediate_obs_state, destination_obs_state,\
@@ -218,8 +218,6 @@ class TestSubarrayNodeObsStateTransitions(object):
         """_summary_"""
         mock_device_command_call_data = self.get_command_call_data(device)
 
-        csp_input_json_trial = "".join(device_json_data.split())
+        device_json = "".join(device_json_data.split())
 
-        return sorted(mock_device_command_call_data) == sorted(
-            csp_input_json_trial
-        )
+        return sorted(mock_device_command_call_data) == sorted(device_json)
