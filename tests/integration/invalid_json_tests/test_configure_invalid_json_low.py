@@ -184,7 +184,7 @@ def tmc_accepts_next_commands(json_factory):
 
         # teardown
         LOGGER.info("Invoking END on TMC")
-        tmc_helper.end()
+        tmc_helper.end(**ON_OFF_DEVICE_COMMAND_DICT)
 
         #  Verify obsState is IDLE
         assert telescope_control.is_in_valid_state(
