@@ -188,6 +188,7 @@ class SubarrayNode(object):
             device = DeviceProxy(mock_device_fqdn)
             device.ResetDelay()
             device.SetDefective(False)
+            device.ClearCommandCallInfo()
 
     def _reset_dishes(self):
         """Reset Dish Devices"""
@@ -195,16 +196,6 @@ class SubarrayNode(object):
             dish_master.SetDirectDishMode(DishMode.STANDBY_LP)
             dish_master.SetDirectState(DevState.STANDBY)
             dish_master.ResetDelay()
-
-    def _clear_mock_subarray_command_call_data(self):
-        """Clear command data for mock subarrays"""
-        for mock_device_fqdn in [sdp_subarray1, csp_subarray1]:
-            device = DeviceProxy(mock_device_fqdn)
-            device.ClearCommandCallInfo()
-
-    def _clear_mock_dishes_command_call_data(self):
-        """Clear command data for dishes"""
-        for dish_master in self.dish_master_list:
             dish_master.ClearCommandCallInfo()
 
     def tear_down(self):
@@ -227,8 +218,6 @@ class SubarrayNode(object):
         self.move_to_off()
         self._reset_dishes()
         self._reset_mock_devices()
-        self._clear_mock_subarray_command_call_data()
-        self._clear_mock_dishes_command_call_data()
 
     def clear_all_data(self):
         """Method to clear the observations
