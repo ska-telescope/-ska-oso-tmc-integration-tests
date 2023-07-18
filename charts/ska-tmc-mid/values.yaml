@@ -33,7 +33,7 @@ global:
     - "cspsubarrayleafnode"
     - "sdpsubarrayleafnode"
     - "subarraynode"
-  subarray_count: 3
+  subarray_count: 1
 
 dsconfig:
   configuration_file: data/tmc-mid-config.json
@@ -54,7 +54,7 @@ centralnode:
   image:
     registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-centralnode
     image: ska-tmc-centralnode
-    tag: 0.8.1-dev.ce7ba0075
+    tag: 0.8.1-dev.c485b3a87
     pullPolicy: Always
 
 subarraynode:
@@ -105,19 +105,19 @@ deviceServers:
   centralnode:
     enabled: true
     instances: ["01"]
-    subarray_count: 3
+    subarray_count: 1
     file: "data/centralnode_mid.yaml"
     DishLeafNodePrefix: "ska_mid/tm_leaf_node/d0"
     NumDishes: 4
 
   subarraynode:
     enabled: true
-    instances: ["01", "02", "03"]
+    instances: ["01"]
     file: "data/subarraynode_mid.yaml"
 
   sdpsubarrayleafnode:
     enabled: true
-    instances: ["01", "02", "03"]
+    instances: ["01"]
     file: "data/sdpsubarrayleafnode.yaml"
 
   sdpmasterleafnode:
@@ -134,7 +134,7 @@ deviceServers:
 
   cspsubarrayleafnode:
     enabled: true
-    instances: ["01", "02", "03"]
+    instances: ["01"]
     file: "data/cspsubarrayleafnode.yaml"
 
   dishleafnode:

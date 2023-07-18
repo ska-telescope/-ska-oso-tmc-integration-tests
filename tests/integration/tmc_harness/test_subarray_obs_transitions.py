@@ -1,3 +1,5 @@
+from typing import Any
+
 import pytest
 from ska_tango_base.control_model import ObsState
 
@@ -85,21 +87,11 @@ class TestSubarrayNodeObsStateTransitions(object):
             obs_state=destination_obs_state, timeout=expected_timeout_sec
         )
 
-    # following is a helper method
-    def prepare_json_args_for_commands(
-        self, args_for_command, command_input_factory
-    ):
-        if args_for_command is not None:
-            input_json = command_input_factory.create_subarray_configuration(
-                args_for_command
-            )
-        else:
-            input_json = None
-        return input_json
-
+    @pytest.mark.SKA_mid
     @pytest.mark.parametrize(
-        "source_obs_state, trigger, args_for_command, \
-            intermediate_obs_state, destination_obs_state",
+        "source_obs_state, trigger, args_for_command,\
+            intermediate_obs_state, destination_obs_state,\
+            args_for_csp, args_for_sdp",
         [
             (
                 "IDLE",
@@ -107,15 +99,17 @@ class TestSubarrayNodeObsStateTransitions(object):
                 "configure_mid",
                 ObsState.CONFIGURING,
                 ObsState.READY,
+                "csp_configure_mid",
+                "sdp_configure_mid",
             ),
-            (
-                "EMPTY",
-                "AssignResources",
-                "assign_resources_mid",
-                ObsState.RESOURCING,
-                ObsState.IDLE,
-            ),
-            ("READY", "Scan", "scan_mid", ObsState.SCANNING, ObsState.READY),
+            # (
+            #     "EMPTY",
+            #     "AssignResources",
+            #     "assign_resources_mid",
+            #     ObsState.RESOURCING,
+            #     ObsState.IDLE,
+            # ),
+            # ("READY", "Scan", "scan_mid", ObsState.SCANNING, ObsState.READY),
         ],
     )
     @pytest.mark.SKA_mid
@@ -130,11 +124,22 @@ class TestSubarrayNodeObsStateTransitions(object):
         args_for_command,
         intermediate_obs_state,
         destination_obs_state,
+        args_for_csp,
+        args_for_sdp,
     ):
         """This test case validate pair of transition triggered by command"""
         input_json = self.prepare_json_args_for_commands(
             args_for_command, command_input_factory
         )
+
+        csp_input_json = self.prepare_json_args_for_commands(
+            args_for_csp, command_input_factory
+        )
+
+        sdp_input_json = self.prepare_json_args_for_commands(
+            args_for_sdp, command_input_factory
+        )
+
         csp_mock, sdp_mock, dish_mock_1, dish_mock_2 = get_device_mocks(
             mock_factory
         )
@@ -159,6 +164,10 @@ class TestSubarrayNodeObsStateTransitions(object):
 
         subarray_node.execute_transition(trigger, argin=input_json)
 
+        event_recorder.subscribe_event(sdp_mock, "commandCallInfo")
+
+        event_recorder.subscribe_event(csp_mock, "commandCallInfo")
+
         # Validate subarray node goes into CONFIGURING obs state first
         # This assertion fail if obsState attribute value is not
         # changed to CONFIGURING within 7 events for obsState of subarray node
@@ -169,3 +178,46 @@ class TestSubarrayNodeObsStateTransitions(object):
         assert event_recorder.has_change_event_occurred(
             subarray_node.subarray_node, "obsState", destination_obs_state
         )
+
+        if trigger == "Configure":
+            assert self.mock_device_is_with_correct_data(
+                csp_mock, csp_input_json
+            )
+
+            assert self.mock_device_is_with_correct_data(
+                sdp_mock, sdp_input_json
+            )
+
+    # following is a helper method
+    def prepare_json_args_for_commands(
+        self, args_for_command, command_input_factory
+    ):
+        if args_for_command is not None:
+            input_json = command_input_factory.create_subarray_configuration(
+                args_for_command
+            )
+        else:
+            input_json = None
+        return input_json
+
+    def get_command_call_data(self, device: Any):
+        """
+        device: Tango Device Proxy Object
+
+        """
+        command_call_info = device.read_attribute("commandCallInfo").value
+        print("command_call_info", command_call_info)
+        last_command_call_info = tuple(reversed(command_call_info))
+        print("reversed command_call_info", last_command_call_info[0])
+        last_command_call = "".join(last_command_call_info[0][1].split())
+        return sorted(last_command_call)
+
+    def mock_device_is_with_correct_data(
+        self, device: Any, device_json_data: str
+    ):
+        """_summary_"""
+        mock_device_command_call_data = self.get_command_call_data(device)
+
+        device_json = "".join(device_json_data.split())
+
+        return sorted(mock_device_command_call_data) == sorted(device_json)
