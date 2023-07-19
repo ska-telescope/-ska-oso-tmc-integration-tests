@@ -1,7 +1,7 @@
 import json
+from copy import deepcopy
 
 import pytest
-import tango
 from pytest_bdd import given, parsers, scenario, then, when
 
 from tests.conftest import LOGGER
@@ -28,6 +28,7 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
+@pytest.mark.test
 @pytest.mark.SKA_mid
 @scenario(
     "../features/check_invalid_json_not_allowed.feature",
@@ -80,44 +81,45 @@ def tmc_check_status(json_factory):
     parsers.parse("the command Configure is invoked with {invalid_json} input")
 )
 def send(json_factory, invalid_json):
-    tmc_subarraynode = tango.DeviceProxy(tmc_subarraynode1)
     release_json = json_factory("command_ReleaseResources")
+    device_params = deepcopy(ON_OFF_DEVICE_COMMAND_DICT)
+    device_params["set_wait_for_obsstate"] = False
     try:
         configure_json = json_factory("command_Configure")
         invalid_configure_json = json.loads(configure_json)
         if invalid_json == "config_id_key_missing":
             del invalid_configure_json["csp"]["common"]["config_id"]
-            pytest.command_result = tmc_subarraynode.Configure(
-                json.dumps(invalid_configure_json)
+            pytest.command_result = tmc_helper.configure_subarray(
+                json.dumps(invalid_configure_json), **device_params
             )
         elif invalid_json == "fsp_id_key_missing":
             del invalid_configure_json["csp"]["cbf"]["fsp"][0]["fsp_id"]
-            pytest.command_result = tmc_subarraynode.Configure(
-                json.dumps(invalid_configure_json)
+            pytest.command_result = tmc_helper.configure_subarray(
+                json.dumps(invalid_configure_json), **device_params
             )
         elif invalid_json == "frequency_slice_id_key_missing":
             del invalid_configure_json["csp"]["cbf"]["fsp"][0][
                 "frequency_slice_id"
             ]
-            pytest.command_result = tmc_subarraynode.Configure(
-                json.dumps(invalid_configure_json)
+            pytest.command_result = tmc_helper.configure_subarray(
+                json.dumps(invalid_configure_json), **device_params
             )
         elif invalid_json == "integration_factor_key_missing":
             del invalid_configure_json["csp"]["cbf"]["fsp"][0][
                 "integration_factor"
             ]
-            pytest.command_result = tmc_subarraynode.Configure(
-                json.dumps(invalid_configure_json)
+            pytest.command_result = tmc_helper.configure_subarray(
+                json.dumps(invalid_configure_json), **device_params
             )
         elif invalid_json == "zoom_factor_key_missing":
             del invalid_configure_json["csp"]["cbf"]["fsp"][0]["zoom_factor"]
-            pytest.command_result = tmc_subarraynode.Configure(
-                json.dumps(invalid_configure_json)
+            pytest.command_result = tmc_helper.configure_subarray(
+                json.dumps(invalid_configure_json), **device_params
             )
         elif invalid_json == "incorrect_fsp_id":
             invalid_configure_json["csp"]["cbf"]["fsp"][0]["fsp_id"] = 30
-            pytest.command_result = tmc_subarraynode.Configure(
-                json.dumps(invalid_configure_json)
+            pytest.command_result = tmc_helper.configure_subarray(
+                json.dumps(invalid_configure_json), **device_params
             )
     except Exception as e:
         LOGGER.exception(f"Exception occurred: {e}")

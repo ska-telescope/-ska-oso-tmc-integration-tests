@@ -1,7 +1,7 @@
 import json
+from copy import deepcopy
 
 import pytest
-import tango
 from pytest_bdd import given, parsers, scenario, then, when
 
 from tests.conftest import LOGGER
@@ -80,40 +80,39 @@ def tmc_check_status(json_factory):
     parsers.parse("the command Configure is invoked with {invalid_json} input")
 )
 def send(json_factory, invalid_json):
-    tmc_subarraynode = tango.DeviceProxy(tmc_subarraynode1)
+    device_params = deepcopy(ON_OFF_DEVICE_COMMAND_DICT)
+    device_params["set_wait_for_obsstate"] = False
     release_json = json_factory("command_release_resource_low")
     try:
         configure_json = json_factory("command_Configure_low")
         if invalid_json == "csp_key_missing":
             invalid_configure_json = json.loads(configure_json)
             del invalid_configure_json["csp"]
-            LOGGER.info("Invoking Configure command on TMC SubarrayNode")
-            pytest.command_result = tmc_subarraynode.Configure(
-                json.dumps(invalid_configure_json)
+            pytest.command_result = tmc_helper.configure_subarray(
+                json.dumps(invalid_configure_json), **device_params
             )
         elif invalid_json == "sdp_key_missing":
             invalid_configure_json = json.loads(configure_json)
             del invalid_configure_json["sdp"]
-            LOGGER.info("Invoking Configure command on TMC SubarrayNode")
-            pytest.command_result = tmc_subarraynode.Configure(
-                json.dumps(invalid_configure_json)
+            pytest.command_result = tmc_helper.configure_subarray(
+                json.dumps(invalid_configure_json), **device_params
             )
         elif invalid_json == "tmc_key_missing":
             invalid_configure_json = json.loads(configure_json)
             del invalid_configure_json["tmc"]
-            pytest.command_result = tmc_subarraynode.Configure(
-                json.dumps(invalid_configure_json)
+            pytest.command_result = tmc_helper.configure_subarray(
+                json.dumps(invalid_configure_json), **device_params
             )
         elif invalid_json == "scan_duration_key_missing":
             invalid_configure_json = json.loads(configure_json)
             del invalid_configure_json["tmc"]["scan_duration"]
-            pytest.command_result = tmc_subarraynode.Configure(
-                json.dumps(invalid_configure_json)
+            pytest.command_result = tmc_helper.configure_subarray(
+                json.dumps(invalid_configure_json), **device_params
             )
         elif invalid_json == "empty_string":
             invalid_configure_json = ""
-            pytest.command_result = tmc_subarraynode.Configure(
-                invalid_configure_json
+            pytest.command_result = tmc_helper.configure_subarray(
+                json.dumps(invalid_configure_json), **device_params
             )
     except Exception as e:
         LOGGER.exception(f"Exception occurred: {e}")

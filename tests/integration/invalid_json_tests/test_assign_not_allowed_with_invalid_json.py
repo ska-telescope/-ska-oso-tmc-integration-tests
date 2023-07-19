@@ -1,7 +1,7 @@
 import json
+from copy import deepcopy
 
 import pytest
-import tango
 from pytest_bdd import given, parsers, scenario, then, when
 
 from tests.conftest import LOGGER
@@ -71,36 +71,36 @@ def given_subarray_obsstate():
     )
 )
 def send(json_factory, invalid_json):
-    central_node_device = tango.DeviceProxy(centralnode)
+    device_params = deepcopy(ON_OFF_DEVICE_COMMAND_DICT)
+    device_params["set_wait_for_obsstate"] = False
+    assign_json = json_factory("command_AssignResources")
+    release_json = json_factory("command_ReleaseResources")
     try:
-        assign_json = json_factory("command_AssignResources")
-        release_json = json_factory("command_ReleaseResources")
         assign_json = json.loads(assign_json)
         if invalid_json == "missing_pb_id_key":
             del assign_json["sdp"]["processing_blocks"][0]["pb_id"]
-            pytest.command_result = central_node_device.AssignResources(
-                json.dumps(assign_json)
+            pytest.command_result = tmc_helper.compose_sub(
+                json.dumps(assign_json), **device_params
             )
         elif invalid_json == "missing_scan_type_id_key":
             del assign_json["sdp"]["execution_block"]["scan_types"][0][
                 "scan_type_id"
             ]
-            pytest.command_result = central_node_device.AssignResources(
-                json.dumps(assign_json)
+            pytest.command_result = tmc_helper.compose_sub(
+                json.dumps(assign_json), **device_params
             )
         elif invalid_json == "missing_count_key":
             del assign_json["sdp"]["execution_block"]["channels"][0][
                 "channels_id"
             ]
-            pytest.command_result = central_node_device.AssignResources(
-                json.dumps(assign_json)
+            pytest.command_result = tmc_helper.compose_sub(
+                json.dumps(assign_json), **device_params
             )
         elif invalid_json == "missing_receptor_id_key":
             del assign_json["dish"]["receptor_ids"]
-            pytest.command_result = central_node_device.AssignResources(
-                json.dumps(assign_json)
+            pytest.command_result = tmc_helper.compose_sub(
+                json.dumps(assign_json), **device_params
             )
-
     except Exception as e:
         LOGGER.exception(f"Exception occured: {e}")
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
