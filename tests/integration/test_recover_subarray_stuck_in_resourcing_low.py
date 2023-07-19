@@ -84,7 +84,7 @@ def test_recover_subarray_stuck_in_resourcing_low(
                 + "Exception occurred on the following devices:"
                 + f"\n{tmc_sdp_subarray_leaf_node}: "
                 + "Device is Defective, \
-                    cannot process command completely.",
+                    cannot process command completely.\n",
             ),
             lookahead=7,
         )
