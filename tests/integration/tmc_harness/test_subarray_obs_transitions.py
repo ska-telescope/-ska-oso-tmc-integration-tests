@@ -1,11 +1,12 @@
-from typing import Any
-
 import pytest
 from ska_tango_base.control_model import ObsState
 
 from tests.resources.test_harness.helpers import (
     check_subarray_obs_state,
+    device_is_with_correct_command_data,
     get_device_mocks,
+    prepare_json_args_for_commands,
+    single_command_entry_in_command_data,
 )
 
 
@@ -53,7 +54,7 @@ class TestSubarrayNodeObsStateTransitions(object):
            representing a successful completion of triggered command
         """
 
-        input_json = self.prepare_json_args_for_commands(
+        input_json = prepare_json_args_for_commands(
             args_for_command, command_input_factory
         )
         csp_mock, dish_mock_1, dish_mock_2, sdp_mock = get_device_mocks(
@@ -87,7 +88,6 @@ class TestSubarrayNodeObsStateTransitions(object):
             obs_state=destination_obs_state, timeout=expected_timeout_sec
         )
 
-    @pytest.mark.hope
     @pytest.mark.SKA_mid
     @pytest.mark.parametrize(
         "source_obs_state, trigger, args_for_command,\
@@ -139,13 +139,13 @@ class TestSubarrayNodeObsStateTransitions(object):
         args_for_sdp,
     ):
         """This test case validate pair of transition triggered by command"""
-        input_json = self.prepare_json_args_for_commands(
+        input_json = prepare_json_args_for_commands(
             args_for_command, command_input_factory
         )
-        csp_input_json = self.prepare_json_args_for_commands(
+        csp_input_json = prepare_json_args_for_commands(
             args_for_csp, command_input_factory
         )
-        sdp_input_json = self.prepare_json_args_for_commands(
+        sdp_input_json = prepare_json_args_for_commands(
             args_for_sdp, command_input_factory
         )
         obs_state_transition_duration_sec = 30
@@ -180,54 +180,11 @@ class TestSubarrayNodeObsStateTransitions(object):
         assert event_recorder.has_change_event_occurred(
             subarray_node.subarray_node, "obsState", destination_obs_state
         )
-        assert self.device_is_with_correct_command_data(
+        assert device_is_with_correct_command_data(
             csp_mock, trigger, csp_input_json
         )
-        assert self.device_is_with_correct_command_data(
+        assert device_is_with_correct_command_data(
             sdp_mock, trigger, sdp_input_json
         )
-        assert self.single_command_entry_in_command_data(csp_mock)
-        assert self.single_command_entry_in_command_data(sdp_mock)
-
-    # following is a helper method
-    def prepare_json_args_for_commands(
-        self, args_for_command, command_input_factory
-    ):
-        if args_for_command is not None:
-            input_json = command_input_factory.create_subarray_configuration(
-                args_for_command
-            )
-        else:
-            input_json = None
-        return input_json
-
-    def get_command_call_info(self, device: Any):
-        """
-        device: Tango Device Proxy Object
-
-        """
-        command_call_info = device.read_attribute("commandCallInfo").value
-        input_str = "".join(command_call_info[0][1].split())
-        received_command_call_data = (
-            command_call_info[0][0],
-            sorted(input_str),
-        )
-        return received_command_call_data
-
-    def device_is_with_correct_command_data(
-        self, device: Any, expected_command_name: str, expected_inp_str: str
-    ):
-        """_summary_"""
-
-        received_command_call_data = self.get_command_call_info(device)
-
-        expected_input_str = "".join(expected_inp_str.split())
-
-        return received_command_call_data == (
-            expected_command_name,
-            sorted(expected_input_str),
-        )
-
-    def single_command_entry_in_command_data(self, device: Any):
-        command_call_info = device.read_attribute("commandCallInfo").value
-        return len(command_call_info) == 1
+        assert single_command_entry_in_command_data(csp_mock)
+        assert single_command_entry_in_command_data(sdp_mock)

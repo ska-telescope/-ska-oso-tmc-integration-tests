@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Any, Optional
 
 from tests.conftest import LOGGER
 from tests.resources.test_harness.utils.enums import MockDeviceType
@@ -98,3 +98,37 @@ def prepare_json_args_for_commands(args_for_command, command_input_factory):
     else:
         input_json = None
     return input_json
+
+
+def get_command_call_info(device: Any):
+    """
+    device: Tango Device Proxy Object
+
+    """
+    command_call_info = device.read_attribute("commandCallInfo").value
+    input_str = "".join(command_call_info[0][1].split())
+    received_command_call_data = (
+        command_call_info[0][0],
+        sorted(input_str),
+    )
+    return received_command_call_data
+
+
+def device_is_with_correct_command_data(
+    device: Any, expected_command_name: str, expected_inp_str: str
+):
+    """_summary_"""
+
+    received_command_call_data = get_command_call_info(device)
+
+    expected_input_str = "".join(expected_inp_str.split())
+
+    return received_command_call_data == (
+        expected_command_name,
+        sorted(expected_input_str),
+    )
+
+
+def single_command_entry_in_command_data(device: Any):
+    command_call_info = device.read_attribute("commandCallInfo").value
+    return len(command_call_info) == 1
