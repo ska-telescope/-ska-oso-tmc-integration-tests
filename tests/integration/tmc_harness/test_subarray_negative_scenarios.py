@@ -3,7 +3,10 @@
 import pytest
 from ska_tango_base.control_model import ObsState
 
-from tests.resources.test_harness.helpers import prepare_json_args_for_commands
+from tests.resources.test_harness.helpers import (
+    device_is_with_correct_command_recorder_data,
+    prepare_json_args_for_commands,
+)
 from tests.resources.test_harness.utils.enums import MockDeviceType
 
 
@@ -56,6 +59,7 @@ class TestSubarrayNodeNegative(object):
             expected_long_running_command_result,
         )
 
+    @pytest.mark.test
     @pytest.mark.SKA_mid
     def test_subarray_configure_csp_unresponsive(
         self,
@@ -67,6 +71,9 @@ class TestSubarrayNodeNegative(object):
         input_json = prepare_json_args_for_commands(
             "configure_mid", command_input_factory
         )
+        csp_input_json = prepare_json_args_for_commands(
+            "csp_configure_mid", command_input_factory
+        )
         csp_mock = mock_factory.get_or_create_mock_device(
             MockDeviceType.CSP_DEVICE
         )
@@ -76,11 +83,8 @@ class TestSubarrayNodeNegative(object):
         subarray_node.force_change_of_obs_state("IDLE")
 
         # CSP should go to configuring in no more than 0.1 sec
-        obs_state_duration = '{"%s": %s}' % (
-            "CONFIGURING",
-            0.1,
-        )
-        csp_mock.SetObsStateDuration(obs_state_duration)
+        obs_state_duration_params = '[["CONFIGURING",0.1]]'
+        csp_mock.AddTransition(obs_state_duration_params)
 
         subarray_node.execute_transition("Configure", argin=input_json)
 
@@ -93,3 +97,6 @@ class TestSubarrayNodeNegative(object):
                 subarray_node.subarray_node, "obsState", ObsState.READY
             )
         # Add assert for commandCallInfo data
+        assert device_is_with_correct_command_recorder_data(
+            csp_mock, "Configure", csp_input_json
+        )

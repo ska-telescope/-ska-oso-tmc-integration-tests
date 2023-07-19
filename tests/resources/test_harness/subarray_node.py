@@ -189,6 +189,7 @@ class SubarrayNode(object):
             device.ResetDelay()
             device.SetDefective(False)
             device.ClearCommandCallInfo()
+            device.ResetTransitions()
 
     def _reset_dishes(self):
         """Reset Dish Devices"""

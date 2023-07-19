@@ -114,7 +114,7 @@ def get_command_call_info(device: Any):
     return received_command_call_data
 
 
-def device_is_with_correct_command_data(
+def device_is_with_correct_command_recorder_data(
     device: Any, expected_command_name: str, expected_inp_str: str
 ):
     """_summary_"""
