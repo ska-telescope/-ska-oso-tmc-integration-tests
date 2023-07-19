@@ -83,7 +83,8 @@ def test_recover_subarray_stuck_in_resourcing_low(
                 f"Exception occured on device: {tmc_subarraynode1}: "
                 + "Exception occurred on the following devices:"
                 + f"\n{tmc_sdp_subarray_leaf_node}: "
-                + "Timeout has occured, command failed\n",
+                + "Device is Defective, \
+                    cannot process command completely.",
             ),
             lookahead=7,
         )
