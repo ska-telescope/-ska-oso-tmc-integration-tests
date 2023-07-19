@@ -6,7 +6,10 @@ from tests.resources.test_support.common_utils.common_helpers import (
     Waiter,
     resource,
 )
-from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
+from tests.resources.test_support.common_utils.tmc_helpers import (
+    TmcHelper,
+    tear_down,
+)
 from tests.resources.test_support.constant import (
     DEVICE_LIST_FOR_CHECK_DEVICES,
     DEVICE_OBS_STATE_ABORT_INFO,
@@ -22,7 +25,6 @@ from tests.resources.test_support.controls import check_subarray1_availability
 from tests.resources.test_support.telescope_controls import (
     BaseTelescopeControl,
 )
-from tests.resources.test_support.tmc_helpers import tear_down
 
 
 @pytest.mark.SKA_mid

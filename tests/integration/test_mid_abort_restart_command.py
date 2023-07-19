@@ -6,6 +6,7 @@ from tango import DeviceProxy
 
 import tests.resources.test_support.tmc_helpers as tmc
 from tests.conftest import LOGGER
+from tests.resources.test_support.common_utils.tmc_helpers import tear_down
 from tests.resources.test_support.constant import (
     centralnode,
     csp_subarray1,
@@ -22,7 +23,6 @@ from tests.resources.test_support.controls import (
     telescope_is_in_standby_state,
 )
 from tests.resources.test_support.helpers import resource, waiter
-from tests.resources.test_support.tmc_helpers import tear_down
 
 
 @pytest.mark.SKA_mid
