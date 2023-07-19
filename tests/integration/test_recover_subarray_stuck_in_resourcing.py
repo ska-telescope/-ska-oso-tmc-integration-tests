@@ -63,7 +63,7 @@ def test_recover_subarray_stuck_in_resourcing(
             change_event_callbacks["longRunningCommandResult"],
         )
 
-        sdp_subarray.SetRaiseException(True)
+        sdp_subarray.SetDefective(True)
 
         # Added this check to ensure that devices are running to avoid
         # random test failures.
@@ -79,7 +79,7 @@ def test_recover_subarray_stuck_in_resourcing(
         _, unique_id = central_node.AssignResources(assign_json)
         the_waiter.wait(30)
 
-        sdp_subarray.SetRaiseException(False)
+        sdp_subarray.SetDefective(False)
 
         change_event_callbacks["longRunningCommandResult"].assert_change_event(
             (
