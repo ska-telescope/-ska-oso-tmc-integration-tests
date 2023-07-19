@@ -112,7 +112,7 @@ def send(json_factory, invalid_json):
         elif invalid_json == "empty_string":
             invalid_configure_json = ""
             pytest.command_result = tmc_helper.configure_subarray(
-                json.dumps(invalid_configure_json), **device_params
+                invalid_configure_json, **device_params
             )
     except Exception as e:
         LOGGER.exception(f"Exception occurred: {e}")
