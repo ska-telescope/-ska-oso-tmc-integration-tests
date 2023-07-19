@@ -1,5 +1,4 @@
 import pytest
-from ska_tango_base.control_model import ObsState
 from tango import DeviceProxy, EventType
 
 from tests.conftest import LOGGER
@@ -73,7 +72,7 @@ def test_recover_subarray_stuck_in_resourcing(
             "EMPTY"
         )
         the_waiter.set_wait_for_specific_obsstate(
-            "RESOURCING", [sdp_subarray1, tmc_subarraynode1]
+            "RESOURCING", [tmc_subarraynode1]
         )
         the_waiter.set_wait_for_specific_obsstate("IDLE", [csp_subarray1])
         _, unique_id = central_node.AssignResources(assign_json)
@@ -91,9 +90,7 @@ def test_recover_subarray_stuck_in_resourcing(
             ),
             lookahead=7,
         )
-        sdp_subarray.SetDirectObsState(
-            ObsState.EMPTY
-        )  # as helper don't transition back themselves
+        # as helper don't transition back themselves
         assert resource(csp_subarray1).get("obsState") == "IDLE"
 
         assert resource(sdp_subarray1).get("obsState") == "EMPTY"
