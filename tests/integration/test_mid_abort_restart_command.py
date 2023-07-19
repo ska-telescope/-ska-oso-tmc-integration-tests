@@ -25,9 +25,6 @@ from tests.resources.test_support.helpers import resource, waiter
 from tests.resources.test_support.tmc_helpers import tear_down
 
 
-@pytest.mark.skip(
-    reason="Abort command is not implemented on SDP Subarray Leaf Node."
-)
 @pytest.mark.SKA_mid
 def test_abort_restart(json_factory):
     """Abort and Restart is executed."""

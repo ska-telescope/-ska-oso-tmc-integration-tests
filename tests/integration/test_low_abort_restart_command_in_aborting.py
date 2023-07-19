@@ -28,9 +28,6 @@ from tests.resources.test_support.low.telescope_controls_low import (
 )
 
 
-@pytest.mark.skip(
-    reason="Abort command is not implemented on SDP Subarray Leaf Node."
-)
 @pytest.mark.SKA_low
 def test_low_abort_restart_in_aborting(json_factory):
     """Abort and Restart is executed."""
