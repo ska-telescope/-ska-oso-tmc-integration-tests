@@ -142,9 +142,6 @@ def test_assign_release_low(json_factory):
         raise
 
 
-@pytest.mark.skip(
-    reason="Abort command is not implemented on SDP Subarray Leaf Node."
-)
 @pytest.mark.SKA_low
 def test_assign_release_timeout(json_factory, change_event_callbacks):
     """Verify timeout exception raised when csp set to defective."""
@@ -219,9 +216,6 @@ def test_assign_release_timeout(json_factory, change_event_callbacks):
         raise
 
 
-@pytest.mark.skip(
-    reason="Abort command is not implemented on SDP Subarray Leaf Node."
-)
 @pytest.mark.SKA_low
 def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
     """Verify timeout exception raised when sdp set to defective."""
