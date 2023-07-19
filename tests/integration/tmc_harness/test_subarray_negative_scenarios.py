@@ -3,7 +3,11 @@
 import pytest
 from ska_tango_base.control_model import ObsState
 
-from tests.resources.test_harness.helpers import prepare_json_args_for_commands
+from tests.resources.test_harness.helpers import (
+    device_is_with_correct_command_data,
+    prepare_json_args_for_commands,
+    single_command_entry_in_command_data,
+)
 from tests.resources.test_harness.utils.enums import MockDeviceType
 
 
@@ -93,3 +97,47 @@ class TestSubarrayNodeNegative(object):
                 subarray_node.subarray_node, "obsState", ObsState.READY
             )
         # Add assert for commandCallInfo data
+
+    @pytest.mark.SKA_mid
+    def test_subarray_configure_when_sdp_stuck_in_configuring(
+        self,
+        subarray_node,
+        command_input_factory,
+        mock_factory,
+        event_recorder,
+    ):
+        input_json = prepare_json_args_for_commands(
+            "configure_mid", command_input_factory
+        )
+        sdp_input_json = prepare_json_args_for_commands(
+            "sdp_configure_mid", command_input_factory
+        )
+        sdp_mock = mock_factory.get_or_create_mock_device(
+            MockDeviceType.SDP_DEVICE
+        )
+
+        event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
+        event_recorder.subscribe_event(sdp_mock, "commandCallInfo")
+        subarray_node.move_to_on()
+        subarray_node.force_change_of_obs_state("IDLE")
+
+        # SDP should go to configuring in no more than 0.1 sec
+        obs_state_duration = '{"%s": %s}' % (
+            "CONFIGURING",
+            0.1,
+        )
+        sdp_mock.SetObsStateDuration(obs_state_duration)
+
+        subarray_node.execute_transition("Configure", argin=input_json)
+
+        assert event_recorder.has_change_event_occurred(
+            subarray_node.subarray_node, "obsState", ObsState.CONFIGURING
+        )
+        with pytest.raises(AssertionError):
+            assert event_recorder.has_change_event_occurred(
+                subarray_node.subarray_node, "obsState", ObsState.READY
+            )
+        assert device_is_with_correct_command_data(
+            sdp_mock, "Configure", sdp_input_json
+        )
+        assert single_command_entry_in_command_data(sdp_mock)
