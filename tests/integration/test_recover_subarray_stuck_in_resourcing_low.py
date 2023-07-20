@@ -1,7 +1,6 @@
 import pytest
 from tango import DeviceProxy, EventType
 
-import tests.resources.test_support.low.tmc_helpers as tmc
 from tests.conftest import LOGGER
 from tests.resources.test_support.common_utils.common_helpers import (
     Waiter,
@@ -116,5 +115,5 @@ def test_recover_subarray_stuck_in_resourcing_low(
 
     except Exception:
         if fixture["state"] == "TelescopeOn":
-            tmc.set_to_off()
+            tmc_helper.set_to_off()
         raise
