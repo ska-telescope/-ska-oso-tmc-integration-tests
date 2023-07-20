@@ -188,8 +188,6 @@ class SubarrayNode(object):
             device = DeviceProxy(mock_device_fqdn)
             device.ResetDelay()
             device.SetDefective(False)
-            device.ClearCommandCallInfo()
-            device.ResetTransitions()
 
     def _reset_dishes(self):
         """Reset Dish Devices"""
@@ -197,9 +195,8 @@ class SubarrayNode(object):
             dish_master.SetDirectDishMode(DishMode.STANDBY_LP)
             dish_master.SetDirectState(DevState.STANDBY)
             dish_master.ResetDelay()
-            dish_master.ClearCommandCallInfo()
 
-    def _clear_command_call_data(self):
+    def _clear_command_call_and_transition_data(self):
         """Clears the command call data"""
         for mock_device in [
             sdp_subarray1,
@@ -209,11 +206,13 @@ class SubarrayNode(object):
         ]:
             device = DeviceProxy(mock_device)
             device.ClearCommandCallInfo()
+            device.ResetTransitions()
 
     def tear_down(self):
         """Tear down after each test run"""
 
         LOGGER.info("Calling Tear down for subarray")
+        self._clear_command_call_and_transition_data()
         if self.obs_state in ("RESOURCING", "CONFIGURING", "SCANNING"):
             """Invoke Abort and Restart"""
             LOGGER.info("Invoking Abort on Subarray")
@@ -257,4 +256,4 @@ class SubarrayNode(object):
             dest_state_name, self
         )
         state_resetter.reset()
-        self._clear_command_call_data()
+        self._clear_command_call_and_transition_data()
