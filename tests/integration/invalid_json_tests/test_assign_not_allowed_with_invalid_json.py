@@ -1,10 +1,14 @@
 import json
+from copy import deepcopy
 
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 
 from tests.conftest import LOGGER
 from tests.resources.test_support.common_utils.result_code import ResultCode
+from tests.resources.test_support.common_utils.telescope_controls import (
+    BaseTelescopeControl,
+)
 from tests.resources.test_support.common_utils.tmc_helpers import (
     TmcHelper,
     tear_down,
@@ -18,15 +22,11 @@ from tests.resources.test_support.constant import (
     centralnode,
     tmc_subarraynode1,
 )
-from tests.resources.test_support.telescope_controls import (
-    BaseTelescopeControl,
-)
 
 tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
-@pytest.mark.skip(reason="This functionality is not implemented yet in TMC")
 @pytest.mark.SKA_mid
 @scenario(
     "../features/check_invalid_json_not_allowed.feature",
@@ -71,43 +71,36 @@ def given_subarray_obsstate():
     )
 )
 def send(json_factory, invalid_json):
+    device_params = deepcopy(ON_OFF_DEVICE_COMMAND_DICT)
+    device_params["set_wait_for_obsstate"] = False
+    assign_json = json_factory("command_AssignResources")
+    release_json = json_factory("command_ReleaseResources")
     try:
-        assign_json = json_factory("command_AssignResources")
-        release_json = json_factory("command_ReleaseResources")
         assign_json = json.loads(assign_json)
         if invalid_json == "missing_pb_id_key":
             del assign_json["sdp"]["processing_blocks"][0]["pb_id"]
-            # Invoke AssignResources() Command on TMC
-            LOGGER.info("Invoking AssignResources command on TMC CentralNode")
             pytest.command_result = tmc_helper.compose_sub(
-                json.dumps(assign_json), **ON_OFF_DEVICE_COMMAND_DICT
+                json.dumps(assign_json), **device_params
             )
         elif invalid_json == "missing_scan_type_id_key":
             del assign_json["sdp"]["execution_block"]["scan_types"][0][
                 "scan_type_id"
             ]
-            # Invoke AssignResources() Command on TMC
-            LOGGER.info("Invoking AssignResources command on TMC")
             pytest.command_result = tmc_helper.compose_sub(
-                json.dumps(assign_json), **ON_OFF_DEVICE_COMMAND_DICT
+                json.dumps(assign_json), **device_params
             )
         elif invalid_json == "missing_count_key":
             del assign_json["sdp"]["execution_block"]["channels"][0][
                 "channels_id"
             ]
-            # Invoke AssignResources() Command on TMC
-            LOGGER.info("Invoking AssignResources command on TMC")
             pytest.command_result = tmc_helper.compose_sub(
-                json.dumps(assign_json), **ON_OFF_DEVICE_COMMAND_DICT
+                json.dumps(assign_json), **device_params
             )
         elif invalid_json == "missing_receptor_id_key":
-            del assign_json["dish"]["receptor_id"]
-            # Invoke AssignResources() Command on TMC
-            LOGGER.info("Invoking AssignResources command on TMC")
+            del assign_json["dish"]["receptor_ids"]
             pytest.command_result = tmc_helper.compose_sub(
-                json.dumps(assign_json), **ON_OFF_DEVICE_COMMAND_DICT
+                json.dumps(assign_json), **device_params
             )
-
     except Exception as e:
         LOGGER.exception(f"Exception occured: {e}")
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
@@ -116,12 +109,8 @@ def send(json_factory, invalid_json):
 @then(parsers.parse("TMC should reject the AssignResources command"))
 def invalid_command_rejection():
     assert (
-        (
-            """JSON validation error: data is not compliant with \
-            https://schema.skao.int/ska-tmc-assignresources"""
-        )
-        in pytest.command_result[1][0]
-    )
+        "JSON validation error: data is not compliant"
+    ) in pytest.command_result[1][0]
 
     assert pytest.command_result[0][0] == ResultCode.REJECTED
 
@@ -135,8 +124,8 @@ def tmc_status():
 
 
 @then(
-    "TMC successfully executes AssignResources for \
-        subarray with a valid input json"
+    "TMC successfully executes AssignResources \
+for subarray with a valid input json"
 )
 def tmc_accepts_command_with_valid_json(json_factory):
     try:

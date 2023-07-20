@@ -14,10 +14,7 @@ from tests.resources.test_support.constant_low import (
 # done
 
 
-@pytest.mark.skip(
-    reason="Manual deletion of pods is required, will xfail \
-                  them once abort command will be in place"
-)
+@pytest.mark.skip(reason="Manual deletion of pods is required")
 @pytest.mark.SKA_low
 def test_assign(json_factory):
     """AssignResources  is executed while pods are deleted."""
@@ -30,10 +27,7 @@ def test_assign(json_factory):
     )
 
 
-@pytest.mark.skip(
-    reason="Manual deletion of pods is required, will xfail \
-                  them once abort command will be in place"
-)
+@pytest.mark.skip(reason="Manual deletion of pods is required")
 @pytest.mark.SKA_low
 def test_release(json_factory):
     """ReleaseResources is executed while pods are deleted."""
@@ -47,10 +41,7 @@ def test_release(json_factory):
     )
 
 
-@pytest.mark.skip(
-    reason="Manual deletion of pods is required, will xfail \
-                  them once abort command will be in place"
-)
+@pytest.mark.skip(reason="Manual deletion of pods is required")
 @pytest.mark.SKA_low
 def test_telescope_on():
     """On Command  is executed while pods are deleted."""
@@ -64,10 +55,7 @@ def test_telescope_on():
     assert "not available" in str(info.value)
 
 
-@pytest.mark.skip(
-    reason="Manual deletion of pods is required, will xfail \
-                  them once abort command will be in place"
-)
+@pytest.mark.skip(reason="Manual deletion of pods is required")
 @pytest.mark.SKA_low
 def test_assign_sn_entrypoint_low(json_factory):
     """AssignResources is executed while pods are deleted."""
@@ -80,10 +68,7 @@ def test_assign_sn_entrypoint_low(json_factory):
     assert "Tmc Subarray is not available" in str(info.value)
 
 
-@pytest.mark.skip(
-    reason="Manual deletion of pods is required, will xfail \
-                  them once abort command will be in place"
-)
+@pytest.mark.skip(reason="Manual deletion of pods is required")
 @pytest.mark.SKA_low
 def test_release_sn_entrypoint_low(json_factory):
     """ReleaseResources is executed while pods are deleted."""
