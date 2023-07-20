@@ -43,7 +43,6 @@ def test_configure_not_allowed_in_empty(json_factory):
             DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
         )
         # Invoke Configure() Command on TMC
-        LOGGER.info("Invoking Configure command on TMC SubarrayNode")
         subarray_node = DeviceProxy(tmc_subarraynode1)
         with pytest.raises(Exception) as info:
             # When CONFIGURE command invoked
@@ -63,5 +62,5 @@ def test_configure_not_allowed_in_empty(json_factory):
             DEVICE_STATE_STANDBY_INFO, "State"
         )
     except Exception as e:
-        LOGGER.info("In tear down. \nThe Exception is %s", e)
+        LOGGER.exception("The exception is: %s", e)
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)

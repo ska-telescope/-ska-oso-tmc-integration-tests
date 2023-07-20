@@ -190,9 +190,7 @@ def test_successive_scan_with_same_configurations(json_factory):
         LOGGER.info("Starting up the Telescope")
 
         # Invoke TelescopeOn() command on TMC#
-        LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
         tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
-        LOGGER.info("TelescopeOn command is invoked successfully")
 
         # Verify State transitions after TelescopeOn#
         assert telescope_control.is_in_valid_state(
@@ -200,9 +198,7 @@ def test_successive_scan_with_same_configurations(json_factory):
         )
 
         # Invoke AssignResources() Command on TMC#
-        LOGGER.info("Invoking AssignResources command on TMC CentralNode")
         tmc_helper.compose_sub(assign_json, **ON_OFF_DEVICE_COMMAND_DICT)
-        LOGGER.info("AssignResources command is invoked successfully")
 
         # Verify ObsState is IDLE#
         assert telescope_control.is_in_valid_state(
@@ -210,7 +206,6 @@ def test_successive_scan_with_same_configurations(json_factory):
         )
 
         # Invoke Configure() Command on TMC#
-        LOGGER.info("Invoking Configure command on TMC SubarrayNode")
         tmc_helper.configure_subarray(
             configure_json, **ON_OFF_DEVICE_COMMAND_DICT
         )
@@ -260,11 +255,9 @@ def test_successive_scan_with_same_configurations(json_factory):
         )
 
         # Invoke ReleaseResources() Command on TMC#
-        LOGGER.info("Invoking ReleaseResources command on TMC CentralNode")
         tmc_helper.invoke_releaseResources(
             release_json, **ON_OFF_DEVICE_COMMAND_DICT
         )
-        LOGGER.info("ReleaseResources command is invoked successfully")
 
         # Verify ObsState is EMPTY#
         assert telescope_control.is_in_valid_state(
@@ -272,9 +265,7 @@ def test_successive_scan_with_same_configurations(json_factory):
         )
 
         # Invoke TelescopeStandby() command on TMC#
-        LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
         tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
-        LOGGER.info("TelescopeStandby command is invoked successfully")
 
         # Verify State transitions after TelescopeStandby#
         assert telescope_control.is_in_valid_state(

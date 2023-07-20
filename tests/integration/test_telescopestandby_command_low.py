@@ -52,5 +52,5 @@ def test_telescope_standby():
         LOGGER.info("Tests complete.")
 
     except Exception as e:
-        LOGGER.info("In tear down. \nThe Exception is %s", e)
+        LOGGER.exception("The exception is: %s", e)
         tear_down(**ON_OFF_DEVICE_COMMAND_DICT)

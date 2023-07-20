@@ -55,8 +55,6 @@ def test_csp_sdp_ln_obstate_low(json_factory, change_event_callbacks):
         ).equals("EMPTY")
 
         # Invoke AssignResources() Command on TMC
-        LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-
         tmc_helper.compose_sub(assign_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
         # Verify ObsState is IDLE
@@ -88,5 +86,5 @@ def test_csp_sdp_ln_obstate_low(json_factory, change_event_callbacks):
 
         LOGGER.info("Tests complete.")
     except Exception as e:
-        LOGGER.info("In tear down. \nThe Exception is %s", e)
+        LOGGER.exception("The exception is: %s", e)
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)

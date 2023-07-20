@@ -98,5 +98,5 @@ def test_scan_endscan_low(json_factory):
             DEVICE_STATE_STANDBY_INFO, "State"
         )
     except Exception as e:
-        LOGGER.info("In tear down. \nThe Exception is %s", e)
+        LOGGER.exception("The exception is: %s", e)
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
