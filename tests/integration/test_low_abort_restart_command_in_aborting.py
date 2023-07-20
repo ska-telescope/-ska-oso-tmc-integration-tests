@@ -6,6 +6,10 @@ from tests.resources.test_support.common_utils.common_helpers import (
     Waiter,
     resource,
 )
+from tests.resources.test_support.common_utils.telescope_controls import (
+    BaseTelescopeControl,
+    check_subarray1_availability,
+)
 from tests.resources.test_support.common_utils.tmc_helpers import (
     TmcHelper,
     tear_down,
@@ -22,16 +26,12 @@ from tests.resources.test_support.constant_low import (
     centralnode,
     tmc_subarraynode1,
 )
-from tests.resources.test_support.controls import check_subarray1_availability
-from tests.resources.test_support.low.telescope_controls_low import (
-    TelescopeControlLow,
-)
 
 
 @pytest.mark.SKA_low
 def test_low_abort_restart_in_aborting(json_factory):
     """Abort and Restart is executed."""
-    telescope_control = TelescopeControlLow()
+    telescope_control = BaseTelescopeControl()
     assign_json = json_factory("command_assign_resource_low")
     release_json = json_factory("command_release_resource_low")
     tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)

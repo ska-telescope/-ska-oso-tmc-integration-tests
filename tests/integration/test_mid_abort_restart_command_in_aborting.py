@@ -6,6 +6,10 @@ from tests.resources.test_support.common_utils.common_helpers import (
     Waiter,
     resource,
 )
+from tests.resources.test_support.common_utils.telescope_controls import (
+    BaseTelescopeControl,
+    check_subarray1_availability,
+)
 from tests.resources.test_support.common_utils.tmc_helpers import (
     TmcHelper,
     tear_down,
@@ -20,10 +24,6 @@ from tests.resources.test_support.constant import (
     ON_OFF_DEVICE_COMMAND_DICT,
     centralnode,
     tmc_subarraynode1,
-)
-from tests.resources.test_support.controls import check_subarray1_availability
-from tests.resources.test_support.telescope_controls import (
-    BaseTelescopeControl,
 )
 
 
