@@ -58,7 +58,7 @@ subarraynode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-subarraynode
-    tag: 0.11.9
+    tag: 0.11.10
     pullPolicy: IfNotPresent
 
 sdpleafnodes:
@@ -94,7 +94,7 @@ deviceServers:
   centralnode:
     enabled: true
     instances: ["01"]
-    subarray_count: 3
+    subarray_count: 2
     file: "data/centralnode.yaml"
 
   subarraynode:

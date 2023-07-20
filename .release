@@ -1,23 +1,22 @@
-release=0.8.4
-tag=0.8.4
+release=0.8.5
+tag=0.8.5
 tag_description=
 **Charts:**
-**1. ska-tmc-integration 0.8.3 - 0.8.4:**
+**1. ska-tmc-integration 0.8.4 - 0.8.5:**
 
-    **1.1 ska-tmc-mid - 0.10.0 - 0.10.1:
-        a. Resolved bug SKB-235
+    **1.1 ska-tmc-mid - 0.10.1 - 0.10.2:
+        a. Resolved bug SKB-185
 
-    **1.2 ska-tmc-low - 0.7.0 - 0.7.1:
-        a. Resolved bug SKB-187
+    **1.2 ska-tmc-low - 0.7.1 - 0.7.2:
+        a. Resolved bug SKB-185
 
 
 release_notes=
 **Charts:**
-**1. ska-tmc-integration 0.8.3 - 0.8.4:**
+**1. ska-tmc-integration 0.8.4 - 0.8.5:**
 
-    **1.1 ska-tmc-mid -0.10.0 - 0.10.1:
-        a. Resolved bug SKB-235
+    **1.1 ska-tmc-mid - 0.10.1 - 0.10.2:
+        a. Resolved bug SKB-185
 
-    **1.2 ska-tmc-low - 0.7.0 - 0.7.1:
-        a. Resolved bug SKB-187
-
+    **1.2 ska-tmc-low - 0.7.1 - 0.7.2:
+        a. Resolved bug SKB-185
