@@ -28,15 +28,14 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
-@pytest.mark.kk
 @pytest.mark.SKA_low
 def test_scan_endscan_low(json_factory):
     """Scan and EndScan is executed."""
+    assign_json = json_factory("command_assign_resource_low")
+    release_json = json_factory("command_release_resource_low")
+    configure_json = json_factory("command_Configure_low")
+    scan_json = json_factory("command_scan_low")
     try:
-        assign_json = json_factory("command_assign_resource_low")
-        release_json = json_factory("command_release_resource_low")
-        configure_json = json_factory("command_Configure_low")
-        scan_json = json_factory("command_scan_low")
         tmc_helper.check_devices(DEVICE_LIST_FOR_CHECK_DEVICES)
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_STANDBY_INFO, "State"

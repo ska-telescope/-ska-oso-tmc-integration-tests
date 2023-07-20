@@ -2,6 +2,10 @@ import pytest
 from ska_tango_base.control_model import ObsState
 
 from tests.conftest import LOGGER
+from tests.resources.test_support.common_utils.common_helpers import resource
+from tests.resources.test_support.common_utils.telescope_controls import (
+    BaseTelescopeControl,
+)
 from tests.resources.test_support.common_utils.tmc_helpers import (
     TmcHelper,
     tear_down,
@@ -9,7 +13,6 @@ from tests.resources.test_support.common_utils.tmc_helpers import (
 from tests.resources.test_support.constant_low import (
     DEVICE_OBS_STATE_EMPTY_INFO,
     DEVICE_OBS_STATE_IDLE_INFO,
-    DEVICE_STATE_OFF_INFO,
     DEVICE_STATE_ON_INFO,
     DEVICE_STATE_STANDBY_INFO,
     ON_OFF_DEVICE_COMMAND_DICT,
@@ -17,10 +20,6 @@ from tests.resources.test_support.constant_low import (
     tmc_csp_subarray_leaf_node,
     tmc_sdp_subarray_leaf_node,
     tmc_subarraynode1,
-)
-from tests.resources.test_support.helpers import resource
-from tests.resources.test_support.low.telescope_controls_low import (
-    TelescopeControlLow,
 )
 
 
@@ -30,7 +29,7 @@ def test_csp_sdp_ln_obstate_low(json_factory, change_event_callbacks):
     assign_json = json_factory("command_assign_resource_low")
     release_json = json_factory("command_release_resource_low")
     try:
-        telescope_control = TelescopeControlLow()
+        telescope_control = BaseTelescopeControl()
         tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 
         # Verify Telescope is Off/Standby
@@ -81,14 +80,13 @@ def test_csp_sdp_ln_obstate_low(json_factory, change_event_callbacks):
             DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
         )
 
-        # Invoke TelescopeOff() command on TMC
-        tmc_helper.set_to_off(**ON_OFF_DEVICE_COMMAND_DICT)
-
-        # Verify State transitions after TelescopeOff
+        # Invoke Standby() command on TMC
+        tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
         assert telescope_control.is_in_valid_state(
-            DEVICE_STATE_OFF_INFO, "State"
+            DEVICE_STATE_STANDBY_INFO, "State"
         )
 
         LOGGER.info("Tests complete.")
-    except Exception:
+    except Exception as e:
+        LOGGER.info("In tear down. \nThe Exception is %s", e)
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)

@@ -46,7 +46,7 @@ def test_low_abort_restart_in_restarting(json_factory):
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_STANDBY_INFO, "State"
         )
-        LOGGER.info("Staring up the Telescope")
+        LOGGER.info("Starting up the Telescope")
 
         # Invoke TelescopeOn() command on TMC#
         tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)

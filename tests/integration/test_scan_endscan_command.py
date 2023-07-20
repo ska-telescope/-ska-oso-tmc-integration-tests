@@ -32,12 +32,12 @@ telescope_control = BaseTelescopeControl()
 @pytest.mark.SKA_mid
 def test_scan_endscan(json_factory):
     """Scan and EndScan is executed."""
+    release_json = json_factory("command_ReleaseResources")
+    assign_json = json_factory("command_AssignResources")
+    configure_json = json_factory("command_Configure")
+    scan_json = json_factory("command_Scan")
     try:
         # Verify Telescope is Off/Standby
-        release_json = json_factory("command_ReleaseResources")
-        assign_json = json_factory("command_AssignResources")
-        configure_json = json_factory("command_Configure")
-        scan_json = json_factory("command_Scan")
         tmc_helper.check_devices(DEVICE_LIST_FOR_CHECK_DEVICES)
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_STANDBY_INFO, "State"

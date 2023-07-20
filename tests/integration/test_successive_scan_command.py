@@ -38,7 +38,7 @@ def test_successive_scan_with_different_configurations(json_factory):
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_STANDBY_INFO, "State"
         )
-        LOGGER.info("Staring up the Telescope")
+        LOGGER.info("Starting up the Telescope")
 
         # Invoke TelescopeOn() command on TMC#
         tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
@@ -187,7 +187,7 @@ def test_successive_scan_with_same_configurations(json_factory):
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_STANDBY_INFO, "State"
         )
-        LOGGER.info("Staring up the Telescope")
+        LOGGER.info("Starting up the Telescope")
 
         # Invoke TelescopeOn() command on TMC#
         LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")

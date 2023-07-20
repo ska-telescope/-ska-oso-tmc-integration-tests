@@ -244,7 +244,11 @@ class TmcHelper(object):
         return result, message
 
 
-def tear_down(input_json: Optional[str] = None, **kwargs):
+def tear_down(
+    input_json: Optional[str] = None,
+    raise_exception: Optional[bool] = True,
+    **kwargs,
+):
     """Tears down the system after test run to get telescope back in \
         standby state."""
     subarray_node_obsstate = resource(kwargs.get("tmc_subarraynode")).get(
@@ -351,6 +355,8 @@ def tear_down(input_json: Optional[str] = None, **kwargs):
         LOGGER.info("Tear Down complete. Telescope is in Standby State")
 
     LOGGER.info("Tear Down Successful, raising an exception for failure")
-    raise Exception(
-        f"Test case failed and Subarray obsState was: {subarray_node_obsstate}"
-    )
+    if raise_exception:
+        raise Exception(
+            f"Test case failed and Subarray obsState was: "
+            f"{subarray_node_obsstate}"
+        )
