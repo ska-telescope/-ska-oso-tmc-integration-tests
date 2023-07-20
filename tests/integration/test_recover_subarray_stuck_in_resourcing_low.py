@@ -3,6 +3,13 @@ from tango import DeviceProxy, EventType
 
 import tests.resources.test_support.low.tmc_helpers as tmc
 from tests.conftest import LOGGER
+from tests.resources.test_support.common_utils.common_helpers import (
+    Waiter,
+    resource,
+)
+from tests.resources.test_support.common_utils.telescope_controls import (
+    BaseTelescopeControl,
+)
 from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
 from tests.resources.test_support.constant_low import (
     DEVICE_OBS_STATE_EMPTY_INFO,
@@ -15,10 +22,6 @@ from tests.resources.test_support.constant_low import (
     tmc_sdp_subarray_leaf_node,
     tmc_subarraynode1,
 )
-from tests.resources.test_support.helpers import resource, waiter
-from tests.resources.test_support.low.telescope_controls_low import (
-    TelescopeControlLow,
-)
 
 
 @pytest.mark.SKA_low
@@ -28,7 +31,7 @@ def test_recover_subarray_stuck_in_resourcing_low(
     """AssignResources and ReleaseResources is executed."""
     assign_json = json_factory("command_assign_resource_low")
     try:
-        telescope_control = TelescopeControlLow()
+        telescope_control = BaseTelescopeControl()
         tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
         fixture = {}
         fixture["state"] = "Unknown"
@@ -49,7 +52,7 @@ def test_recover_subarray_stuck_in_resourcing_low(
             DEVICE_STATE_ON_INFO, "State"
         )
 
-        the_waiter = waiter()
+        the_waiter = Waiter()
         # Invoke AssignResources() Command on TMC
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
         sdp_subarray = DeviceProxy(sdp_subarray1)
