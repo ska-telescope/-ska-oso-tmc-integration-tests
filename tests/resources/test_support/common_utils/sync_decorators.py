@@ -135,11 +135,13 @@ def sync_configure():
             if resource(kwargs.get("tmc_subarraynode")) == "READY":
                 invoked_from_ready = True
             result = func(*args, **kwargs)
-            if invoked_from_ready:
-                the_waiter.set_wait_for_configuring()
+            set_wait_for_obsstate = kwargs.get("set_wait_for_obsstate", True)
+            if set_wait_for_obsstate:
+                if invoked_from_ready:
+                    the_waiter.set_wait_for_configuring()
+                    the_waiter.wait(500)
+                the_waiter.set_wait_for_configure()
                 the_waiter.wait(500)
-            the_waiter.set_wait_for_configure()
-            the_waiter.wait(500)
             return result
 
         return wrapper
