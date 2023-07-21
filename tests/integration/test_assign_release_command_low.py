@@ -1,6 +1,7 @@
 from copy import deepcopy
 
 import pytest
+from ska_tango_testing.mock.placeholders import Anything
 from tango import DeviceProxy, EventType
 
 import tests.resources.test_support.low.tmc_helpers as tmc
@@ -219,9 +220,10 @@ def test_assign_release_timeout(json_factory, change_event_callbacks):
         raise
 
 
-@pytest.mark.skip(
-    reason="Abort command is not implemented on SDP Subarray Leaf Node."
-)
+# @pytest.mark.skip(
+#     reason="Abort command is not implemented on SDP Subarray Leaf Node."
+# )
+@pytest.mark.lt1
 @pytest.mark.SKA_low
 def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
     """Verify timeout exception raised when sdp set to defective."""
@@ -273,16 +275,16 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         assert unique_id[0].endswith("AssignResources")
         assert result[0] == ResultCode.QUEUED
 
-        exception_message = (
-            f"Exception occured on device: "
-            f"{tmc_subarraynode1}: Exception occured on device"
-            f": {tmc_sdp_subarray_leaf_node}: Timeout has "
-            f"occured, command failed"
-        )
-
-        change_event_callbacks["longRunningCommandResult"].assert_change_event(
-            (unique_id[0], exception_message),
+        assertion_data = change_event_callbacks[
+            "longRunningCommandResult"
+        ].assert_change_event(
+            (unique_id[0], Anything),
             lookahead=7,
+        )
+        assert "AssignResources" in assertion_data["attribute_value"][0]
+        assert (
+            f"Exception occurred on device: {sdp_subarray1}: Exception occurred on the following devices:\n{tmc_sdp_subarray_leaf_node}: Device is Defective,                     cannot process command completely.\n"
+            in assertion_data["attribute_value"][1]
         )
         sdp_subarray.SetDefective(False)
 

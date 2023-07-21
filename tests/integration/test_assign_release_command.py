@@ -2,6 +2,7 @@ import json
 from copy import deepcopy
 
 import pytest
+from ska_tango_testing.mock.placeholders import Anything
 from tango import DeviceProxy, EventType
 
 from tests.conftest import LOGGER
@@ -25,7 +26,6 @@ from tests.resources.test_support.constant import (
     csp_subarray1,
     sdp_subarray1,
     tmc_csp_subarray_leaf_node,
-    tmc_sdp_subarray_leaf_node,
     tmc_subarraynode1,
 )
 
@@ -210,12 +210,10 @@ def test_assign_release_timeout_csp(json_factory, change_event_callbacks):
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-@pytest.mark.skip(
-    reason="Abort command is not implemented on SDP Subarray Leaf Node."
-)
+@pytest.mark.skip
 @pytest.mark.SKA_mid
 def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
-    """Verify timeout exception raised when sdpp set to defective."""
+    """Verify timeout exception raised when sdp set to defective."""
     assign_json = json_factory("command_AssignResources")
     release_json = json_factory("command_ReleaseResources")
     try:
@@ -257,22 +255,18 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         assert unique_id[0].endswith("AssignResources")
         assert result[0] == ResultCode.QUEUED
 
-        exception_message = (
-            f"Exception occured on device: "
-            f"{tmc_subarraynode1}: Exception occurred on the following devices"
-            f":\n{tmc_sdp_subarray_leaf_node}: Device is Defective"
-            f"cannot process command completely.\n"
-        )
-
-        # exception_message =(
-        #     'Device is Defective,
-        # cannot process command completely.'
-        # )
-
-        change_event_callbacks["longRunningCommandResult"].assert_change_event(
-            (unique_id[0], exception_message),
+        assertion_data = change_event_callbacks[
+            "longRunningCommandResult"
+        ].assert_change_event(
+            (unique_id[0], Anything),
             lookahead=7,
         )
+        assert "AssignResources" in assertion_data["attribute_value"][0]
+        assert (
+            "Exception occurred on device: ska_mid/tm_subarray_node/1: Exception occurred on the following devices:\nska_mid/tm_leaf_node/sdp_subarray01: Device is Defective,                     cannot process command completely.\n"
+            in assertion_data["attribute_value"][1]
+        )
+
         sdp_subarray.SetDefective(False)
 
         # Do not raise exception
