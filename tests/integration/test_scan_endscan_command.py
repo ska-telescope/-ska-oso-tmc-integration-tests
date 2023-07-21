@@ -1,8 +1,8 @@
+from copy import deepcopy
+
 import pytest
-from tango import DeviceProxy
 
 from tests.conftest import LOGGER
-from tests.resources.test_support.common_utils.common_helpers import Waiter
 from tests.resources.test_support.common_utils.telescope_controls import (
     BaseTelescopeControl,
     check_subarray1_availability,
@@ -67,15 +67,12 @@ def test_scan_endscan(json_factory):
         )
 
         # Invoke Scan() Command on TMC
-        subarray_node = DeviceProxy(tmc_subarraynode1)
-        subarray_node.Scan(scan_json)
-        the_waiter = Waiter(**ON_OFF_DEVICE_COMMAND_DICT)
-        the_waiter.set_wait_for_scanning()
-        the_waiter.wait(200)
+        device_params = deepcopy(ON_OFF_DEVICE_COMMAND_DICT)
+        device_params["set_wait_for_obsstate"] = False
+        tmc_helper.scan(scan_json, **device_params)
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_SCANNING_INFO, "obsState"
         )
-
         # Invoke Endscan() command on TMC
         tmc_helper.invoke_endscan(**ON_OFF_DEVICE_COMMAND_DICT)
         assert telescope_control.is_in_valid_state(
