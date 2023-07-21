@@ -9,6 +9,7 @@ from tests.resources.test_support.constant import (
     centralnode,
     csp_subarray1,
     dish_master1,
+    dish_master2,
     sdp_subarray1,
     tmc_csp_master_leaf_node,
     tmc_csp_subarray_leaf_node,
@@ -178,6 +179,17 @@ def invoke_restart():
     LOGGER.info("Invoked Restart on SubarrayNode")
 
 
+def clear_command_call_info():
+    for mock_device in [
+        sdp_subarray1,
+        csp_subarray1,
+        dish_master1,
+        dish_master2,
+    ]:
+        device = DeviceProxy(mock_device)
+        device.ClearCommandCallInfo()
+
+
 def tear_down(
     input_json: Optional[str] = None, raise_exception: Optional[bool] = True
 ):
@@ -254,6 +266,8 @@ def tear_down(
 
         assert telescope_is_in_standby_state()
         LOGGER.info("Tear Down complete. Telescope is in Standby State")
+
+    clear_command_call_info()
 
     LOGGER.info("Tear Down Successful, raising an exception for failure")
 
