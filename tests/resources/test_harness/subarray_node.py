@@ -170,7 +170,7 @@ class SubarrayNode(object):
         LOGGER.info("Invoked Release Resource on SubarrayNode")
         return result, message
 
-    def execute_transition(self, command_name, argin=None):
+    def execute_transition(self, command_name: str, argin=None):
         """
         Args:
             assign_json (_type_): _description_
@@ -245,7 +245,7 @@ class SubarrayNode(object):
         elif self.obs_state == "ABORTED":
             self.restart_subarray()
 
-    def force_change_of_obs_state(self, dest_state_name):
+    def force_change_of_obs_state(self, dest_state_name: str) -> None:
         """Force SubarrayNode obsState to provided obsState
 
         Args:

@@ -106,6 +106,7 @@ def get_command_call_info(device: Any):
 
     """
     command_call_info = device.read_attribute("commandCallInfo").value
+    LOGGER.info("Command info %s", command_call_info)
     input_str = "".join(command_call_info[0][1].split())
     received_command_call_data = (
         command_call_info[0][0],
