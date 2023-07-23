@@ -180,13 +180,13 @@ def invoke_restart():
 
 
 def clear_command_call_info():
-    for mock_device in [
+    for sim_device in [
         sdp_subarray1,
         csp_subarray1,
         dish_master1,
         dish_master2,
     ]:
-        device = DeviceProxy(mock_device)
+        device = DeviceProxy(sim_device)
         device.ClearCommandCallInfo()
 
 

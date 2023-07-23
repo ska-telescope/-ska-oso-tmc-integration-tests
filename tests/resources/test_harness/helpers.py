@@ -1,7 +1,7 @@
 from typing import Any, Optional
 
 from tests.conftest import LOGGER
-from tests.resources.test_harness.utils.enums import MockDeviceType
+from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_harness.utils.wait_helpers import Waiter
 from tests.resources.test_support.common_utils.common_helpers import resource
 from tests.resources.test_support.constant import (
@@ -65,29 +65,29 @@ def tear_down(
         central_node.move_off()
 
 
-def get_device_mocks(mock_factory):
-    """A method to get mocks for Subsystem devices
+def get_device_simulators(simulator_factory):
+    """A method to get simulators for Subsystem devices
 
 
     Args:
-        mock_factory (fixture): fixture for MockFactory class
+        simulator_factory (fixture): fixture for SimulatorFactory class
 
     Returns:
-        mock objects
+        simulator(sim) objects
     """
-    sdp_mock = mock_factory.get_or_create_mock_device(
-        MockDeviceType.SDP_DEVICE
+    sdp_sim = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.SDP_DEVICE
     )
-    csp_mock = mock_factory.get_or_create_mock_device(
-        MockDeviceType.CSP_DEVICE
+    csp_sim = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.CSP_DEVICE
     )
-    dish_mock_1 = mock_factory.get_or_create_mock_device(
-        MockDeviceType.DISH_DEVICE, mock_number=1
+    dish_sim_1 = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.DISH_DEVICE, sim_number=1
     )
-    dish_mock_2 = mock_factory.get_or_create_mock_device(
-        MockDeviceType.DISH_DEVICE, mock_number=2
+    dish_sim_2 = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.DISH_DEVICE, sim_number=2
     )
-    return csp_mock, sdp_mock, dish_mock_1, dish_mock_2
+    return csp_sim, sdp_sim, dish_sim_1, dish_sim_2
 
 
 def prepare_json_args_for_commands(args_for_command, command_input_factory):

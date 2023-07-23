@@ -40,7 +40,7 @@ class SubarrayObsState(IntEnum):
 
 
 @unique
-class MockDeviceType(IntEnum):
+class SimulatorDeviceType(IntEnum):
     CSP_DEVICE = 0
     SDP_DEVICE = 1
     DISH_DEVICE = 2

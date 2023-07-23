@@ -182,10 +182,10 @@ class SubarrayNode(object):
             LOGGER.info(f"Invoked {command_name} on SubarrayNode")
             return result, message
 
-    def _reset_mock_devices(self):
-        """Reset Mock devices to it's original state"""
-        for mock_device_fqdn in [sdp_subarray1, csp_subarray1]:
-            device = DeviceProxy(mock_device_fqdn)
+    def _reset_simulator_devices(self):
+        """Reset Simulator devices to it's original state"""
+        for sim_device_fqdn in [sdp_subarray1, csp_subarray1]:
+            device = DeviceProxy(sim_device_fqdn)
             device.ResetDelay()
             device.SetDefective(False)
 
@@ -198,13 +198,13 @@ class SubarrayNode(object):
 
     def _clear_command_call_and_transition_data(self):
         """Clears the command call data"""
-        for mock_device in [
+        for sim_device in [
             sdp_subarray1,
             csp_subarray1,
             dish_master1,
             dish_master2,
         ]:
-            device = DeviceProxy(mock_device)
+            device = DeviceProxy(sim_device)
             device.ClearCommandCallInfo()
             device.ResetTransitions()
 
@@ -228,7 +228,7 @@ class SubarrayNode(object):
         # Move Subarray to OFF state
         self.move_to_off()
         self._reset_dishes()
-        self._reset_mock_devices()
+        self._reset_simulator_devices()
 
     def clear_all_data(self):
         """Method to clear the observations

@@ -2,7 +2,7 @@ import pytest
 
 from tests.resources.test_harness.helpers import (
     check_subarray_obs_state,
-    get_device_mocks,
+    get_device_simulators,
 )
 
 
@@ -21,7 +21,7 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
     def test_subarray_obs_transitions_valid_data(
         self,
         subarray_node,
-        mock_factory,
+        simulator_factory,
         source_obs_state,
     ):
         """
@@ -31,11 +31,11 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
         assuming that external subsystems work fine.
         Glossary:
         - "subarray_node": fixture for a TMC SubarrayNode under test
-        - "mock_factory": fixture for MockFactory class
+        - "simulator_factory": fixture for SimulatorFactory class
         - "source_obs_state": a TMC SubarrayNode initial allowed obsState,
            required to invoke Abort command
         """
-        csp_mock, _, _, sdp_mock = get_device_mocks(mock_factory)
+        csp_sim, _, _, sdp_sim = get_device_simulators(simulator_factory)
 
         obs_state_transition_duration_sec = 30
 
@@ -43,8 +43,8 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
             obs_state_transition_duration_sec
         )
 
-        sdp_mock.setDelay(delay_command_params_str)
-        csp_mock.setDelay(delay_command_params_str)
+        sdp_sim.setDelay(delay_command_params_str)
+        csp_sim.setDelay(delay_command_params_str)
 
         subarray_node.move_to_on()
 

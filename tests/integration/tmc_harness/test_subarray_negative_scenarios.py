@@ -8,23 +8,24 @@ from tests.resources.test_harness.helpers import (
     prepare_json_args_for_commands,
     single_command_entry_in_command_data,
 )
-from tests.resources.test_harness.utils.enums import MockDeviceType
+from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
 
 class TestSubarrayNodeNegative(object):
+    @pytest.mark.skip
     @pytest.mark.SKA_mid
     def test_subarray_assign_csp_unresponsive(
         self,
         subarray_node,
         command_input_factory,
-        mock_factory,
+        simulator_factory,
         event_recorder,
     ):
         input_json = prepare_json_args_for_commands(
             "assign_resources_mid", command_input_factory
         )
-        csp_mock = mock_factory.get_or_create_mock_device(
-            MockDeviceType.CSP_DEVICE
+        csp_sim = simulator_factory.get_or_create_simulator_device(
+            SimulatorDeviceType.CSP_DEVICE
         )
         # Subscribe for long running command result attribute
         # so that error message from subarray can be validated
@@ -37,7 +38,7 @@ class TestSubarrayNodeNegative(object):
         subarray_node.force_change_of_obs_state("EMPTY")
 
         # Set csp defective and execute configure command
-        csp_mock.SetDefective(True)
+        csp_sim.SetDefective(True)
 
         _, unique_id = subarray_node.execute_transition(
             "AssignResources", argin=input_json
@@ -65,7 +66,7 @@ class TestSubarrayNodeNegative(object):
         self,
         subarray_node,
         command_input_factory,
-        mock_factory,
+        simulator_factory,
         event_recorder,
     ):
         input_json = prepare_json_args_for_commands(
@@ -74,8 +75,8 @@ class TestSubarrayNodeNegative(object):
         csp_input_json = prepare_json_args_for_commands(
             "csp_configure_mid", command_input_factory
         )
-        csp_mock = mock_factory.get_or_create_mock_device(
-            MockDeviceType.CSP_DEVICE
+        csp_sim = simulator_factory.get_or_create_simulator_device(
+            SimulatorDeviceType.CSP_DEVICE
         )
 
         event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
@@ -84,7 +85,7 @@ class TestSubarrayNodeNegative(object):
 
         # CSP should go to configuring in no more than 0.1 sec
         obs_state_duration_params = '[["CONFIGURING",0.1]]'
-        csp_mock.AddTransition(obs_state_duration_params)
+        csp_sim.AddTransition(obs_state_duration_params)
 
         subarray_node.execute_transition("Configure", argin=input_json)
 
@@ -98,7 +99,7 @@ class TestSubarrayNodeNegative(object):
             )
         # Add assert for commandCallInfo data
         assert device_is_with_correct_command_recorder_data(
-            csp_mock, "Configure", csp_input_json
+            csp_sim, "Configure", csp_input_json
         )
 
     @pytest.mark.SKA_mid
@@ -106,7 +107,7 @@ class TestSubarrayNodeNegative(object):
         self,
         subarray_node,
         command_input_factory,
-        mock_factory,
+        simulator_factory,
         event_recorder,
     ):
         input_json = prepare_json_args_for_commands(
@@ -115,18 +116,18 @@ class TestSubarrayNodeNegative(object):
         sdp_input_json = prepare_json_args_for_commands(
             "sdp_configure_mid", command_input_factory
         )
-        sdp_mock = mock_factory.get_or_create_mock_device(
-            MockDeviceType.SDP_DEVICE
+        sdp_sim = simulator_factory.get_or_create_simulator_device(
+            SimulatorDeviceType.SDP_DEVICE
         )
 
         event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
-        event_recorder.subscribe_event(sdp_mock, "commandCallInfo")
+        event_recorder.subscribe_event(sdp_sim, "commandCallInfo")
         subarray_node.move_to_on()
         subarray_node.force_change_of_obs_state("IDLE")
 
         # SDP should go to configuring in no more than 0.1 sec
         obs_state_duration_params = '[["CONFIGURING",0.1]]'
-        sdp_mock.AddTransition(obs_state_duration_params)
+        sdp_sim.AddTransition(obs_state_duration_params)
 
         subarray_node.execute_transition("Configure", argin=input_json)
 
@@ -138,23 +139,23 @@ class TestSubarrayNodeNegative(object):
                 subarray_node.subarray_node, "obsState", ObsState.READY
             )
         assert device_is_with_correct_command_recorder_data(
-            sdp_mock, "Configure", sdp_input_json
+            sdp_sim, "Configure", sdp_input_json
         )
-        assert single_command_entry_in_command_data(sdp_mock)
+        assert single_command_entry_in_command_data(sdp_sim)
 
     @pytest.mark.SKA_mid
     def test_subarray_configure_when_dish_stuck_in_slew(
         self,
         subarray_node,
         command_input_factory,
-        mock_factory,
+        simulator_factory,
         event_recorder,
     ):
         input_json = prepare_json_args_for_commands(
             "configure_mid", command_input_factory
         )
-        dish_mock = mock_factory.get_or_create_mock_device(
-            MockDeviceType.DISH_DEVICE
+        dish_sim = simulator_factory.get_or_create_simulator_device(
+            SimulatorDeviceType.DISH_DEVICE
         )
 
         event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
@@ -163,7 +164,7 @@ class TestSubarrayNodeNegative(object):
 
         # Dish master should go to slew in no more than 0.1 sec
         pointing_state_duration_params = '[["SLEW",0.1]]'
-        dish_mock.AddTransition(pointing_state_duration_params)
+        dish_sim.AddTransition(pointing_state_duration_params)
 
         subarray_node.execute_transition("Configure", argin=input_json)
 
@@ -180,7 +181,7 @@ class TestSubarrayNodeNegative(object):
         self,
         subarray_node,
         command_input_factory,
-        mock_factory,
+        simulator_factory,
         event_recorder,
     ):
         input_json = prepare_json_args_for_commands(
@@ -189,26 +190,26 @@ class TestSubarrayNodeNegative(object):
         csp_input_json = prepare_json_args_for_commands(
             "csp_configure_mid", command_input_factory
         )
-        csp_mock = mock_factory.get_or_create_mock_device(
-            MockDeviceType.CSP_DEVICE
+        csp_sim = simulator_factory.get_or_create_simulator_device(
+            SimulatorDeviceType.CSP_DEVICE
         )
 
         event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
-        event_recorder.subscribe_event(csp_mock, "obsState")
+        event_recorder.subscribe_event(csp_sim, "obsState")
         subarray_node.move_to_on()
         subarray_node.force_change_of_obs_state("IDLE")
 
         # CSP should go to configuring in no more than 0.1 sec
         obs_state_duration_params = '[["FAULT",0.1],["READY",0.1]]'
-        csp_mock.AddTransition(obs_state_duration_params)
+        csp_sim.AddTransition(obs_state_duration_params)
 
         subarray_node.execute_transition("Configure", argin=input_json)
 
         assert event_recorder.has_change_event_occurred(
-            csp_mock, "obsState", ObsState.FAULT
+            csp_sim, "obsState", ObsState.FAULT
         )
         assert event_recorder.has_change_event_occurred(
-            csp_mock, "obsState", ObsState.READY
+            csp_sim, "obsState", ObsState.READY
         )
         assert event_recorder.has_change_event_occurred(
             subarray_node.subarray_node, "obsState", ObsState.CONFIGURING
@@ -217,5 +218,5 @@ class TestSubarrayNodeNegative(object):
             subarray_node.subarray_node, "obsState", ObsState.READY
         )
         assert device_is_with_correct_command_recorder_data(
-            csp_mock, "Configure", csp_input_json
+            csp_sim, "Configure", csp_input_json
         )

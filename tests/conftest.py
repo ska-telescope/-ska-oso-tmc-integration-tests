@@ -11,7 +11,7 @@ from ska_tango_testing.mock.tango.event_callback import (
 
 from tests.resources.test_harness.central_node import CentralNode
 from tests.resources.test_harness.event_recorder import EventRecorder
-from tests.resources.test_harness.mock_factory import MockFactory
+from tests.resources.test_harness.simulator_factory import SimulatorFactory
 from tests.resources.test_harness.subarray_node import SubarrayNode
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 
@@ -140,9 +140,9 @@ def command_input_factory() -> JsonFactory:
 
 
 @pytest.fixture(scope="module")
-def mock_factory() -> MockFactory:
-    """Return Mock Factory"""
-    return MockFactory()
+def simulator_factory() -> SimulatorFactory:
+    """Return Simulator Factory"""
+    return SimulatorFactory()
 
 
 @pytest.fixture()

@@ -1,6 +1,6 @@
 """Define Constants
 """
-from tests.resources.test_harness.utils.enums import MockDeviceType
+from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
 centralnode = "ska_mid/tm_central/central_node"
 tmc_subarraynode1 = "ska_mid/tm_subarray_node/1"
@@ -109,8 +109,8 @@ DEVICE_OBS_STATE_SCANNING_INFO = {
     csp_subarray1: ["SCANNING"],
 }
 
-MOCK_DEVICE_FQDN_DICT = {
-    MockDeviceType.SDP_DEVICE: [sdp_subarray1],
-    MockDeviceType.CSP_DEVICE: [csp_subarray1],
-    MockDeviceType.DISH_DEVICE: [dish_master1, dish_master2],
+SIMULATOR_DEVICE_FQDN_DICT = {
+    SimulatorDeviceType.SDP_DEVICE: [sdp_subarray1],
+    SimulatorDeviceType.CSP_DEVICE: [csp_subarray1],
+    SimulatorDeviceType.DISH_DEVICE: [dish_master1, dish_master2],
 }

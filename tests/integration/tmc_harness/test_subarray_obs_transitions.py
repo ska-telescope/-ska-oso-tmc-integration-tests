@@ -4,7 +4,7 @@ from ska_tango_base.control_model import ObsState
 from tests.resources.test_harness.helpers import (
     check_subarray_obs_state,
     device_is_with_correct_command_recorder_data,
-    get_device_mocks,
+    get_device_simulators,
     prepare_json_args_for_commands,
     single_command_entry_in_command_data,
 )
@@ -26,7 +26,7 @@ class TestSubarrayNodeObsStateTransitions(object):
         self,
         subarray_node,
         command_input_factory,
-        mock_factory,
+        simulator_factory,
         source_obs_state,
         trigger,
         args_for_command,
@@ -44,7 +44,7 @@ class TestSubarrayNodeObsStateTransitions(object):
            transition
         - "subarray_node": fixture for a TMC SubarrayNode under test
         - "command_input_factory": fixture for JsonFactory class
-        - "mock_factory": fixture for MockFactory class
+        - "simulator_factory": fixture for SimulatorFactory class
         - "source_obs_state": a TMC SubarrayNode initial allowed obsState,
            required for triggered a command
         - "trigger": a command name
@@ -57,8 +57,8 @@ class TestSubarrayNodeObsStateTransitions(object):
         input_json = prepare_json_args_for_commands(
             args_for_command, command_input_factory
         )
-        csp_mock, dish_mock_1, dish_mock_2, sdp_mock = get_device_mocks(
-            mock_factory
+        csp_sim, dish_sim_1, dish_sim_2, sdp_sim = get_device_simulators(
+            simulator_factory
         )
 
         obs_state_transition_duration_sec = 30
@@ -68,10 +68,10 @@ class TestSubarrayNodeObsStateTransitions(object):
             obs_state_transition_duration_sec,
         )
 
-        sdp_mock.setDelay(delay_command_params_str)
-        csp_mock.setDelay(delay_command_params_str)
-        dish_mock_1.setDelay(delay_command_params_str)
-        dish_mock_2.setDelay(delay_command_params_str)
+        sdp_sim.setDelay(delay_command_params_str)
+        csp_sim.setDelay(delay_command_params_str)
+        dish_sim_1.setDelay(delay_command_params_str)
+        dish_sim_2.setDelay(delay_command_params_str)
 
         subarray_node.move_to_on()
 
@@ -128,7 +128,7 @@ class TestSubarrayNodeObsStateTransitions(object):
         self,
         subarray_node,
         command_input_factory,
-        mock_factory,
+        simulator_factory,
         event_recorder,
         source_obs_state,
         trigger,
@@ -154,17 +154,17 @@ class TestSubarrayNodeObsStateTransitions(object):
             obs_state_transition_duration_sec,
         )
 
-        csp_mock, sdp_mock, dish_mock_1, dish_mock_2 = get_device_mocks(
-            mock_factory
+        csp_sim, sdp_sim, dish_sim_1, dish_sim_2 = get_device_simulators(
+            simulator_factory
         )
-        sdp_mock.setDelay(delay_command_params_str)
-        csp_mock.setDelay(delay_command_params_str)
-        dish_mock_1.setDelay(delay_command_params_str)
-        dish_mock_2.setDelay(delay_command_params_str)
+        sdp_sim.setDelay(delay_command_params_str)
+        csp_sim.setDelay(delay_command_params_str)
+        dish_sim_1.setDelay(delay_command_params_str)
+        dish_sim_2.setDelay(delay_command_params_str)
 
         event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
-        event_recorder.subscribe_event(sdp_mock, "commandCallInfo")
-        event_recorder.subscribe_event(csp_mock, "commandCallInfo")
+        event_recorder.subscribe_event(sdp_sim, "commandCallInfo")
+        event_recorder.subscribe_event(csp_sim, "commandCallInfo")
 
         subarray_node.move_to_on()
         subarray_node.force_change_of_obs_state(source_obs_state)
@@ -181,10 +181,10 @@ class TestSubarrayNodeObsStateTransitions(object):
             subarray_node.subarray_node, "obsState", destination_obs_state
         )
         assert device_is_with_correct_command_recorder_data(
-            csp_mock, trigger, csp_input_json
+            csp_sim, trigger, csp_input_json
         )
         assert device_is_with_correct_command_recorder_data(
-            sdp_mock, trigger, sdp_input_json
+            sdp_sim, trigger, sdp_input_json
         )
-        assert single_command_entry_in_command_data(csp_mock)
-        assert single_command_entry_in_command_data(sdp_mock)
+        assert single_command_entry_in_command_data(csp_sim)
+        assert single_command_entry_in_command_data(sdp_sim)
