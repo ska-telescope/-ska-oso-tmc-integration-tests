@@ -59,9 +59,11 @@ def sync_release_resources(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         the_waiter = Waiter(**kwargs)
-        the_waiter.set_wait_for_going_to_empty()
+        set_wait_for_obsstate = kwargs.get("set_wait_for_obsstate", True)
+        if set_wait_for_obsstate:
+            the_waiter.set_wait_for_going_to_empty()
+            the_waiter.wait(TIMEOUT)
         result = func(*args, **kwargs)
-        the_waiter.wait(TIMEOUT)
         return result
 
     return wrapper
