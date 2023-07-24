@@ -8,10 +8,7 @@ from tests.resources.test_support.common_utils.result_code import ResultCode
 from tests.resources.test_support.common_utils.telescope_controls import (
     BaseTelescopeControl,
 )
-from tests.resources.test_support.common_utils.tmc_helpers import (
-    TmcHelper,
-    tear_down,
-)
+from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
 from tests.resources.test_support.constant_low import (
     DEVICE_HEALTH_STATE_OK_INFO,
     DEVICE_LIST_FOR_CHECK_DEVICES,
@@ -102,17 +99,13 @@ def test_assign_release_low(json_factory):
         )
     except Exception as e:
         LOGGER.exception("The exception is: %s", e)
-        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
+        tear_down_for_resourcing(tmc_helper, telescope_control)
 
 
-@pytest.mark.skip(
-    reason="Abort command is not implemented on SDP Subarray Leaf Node."
-)
 @pytest.mark.SKA_low
-def test_assign_release_timeout(json_factory, change_event_callbacks):
+def test_assign_release_timeout_csp(json_factory, change_event_callbacks):
     """Verify timeout exception raised when csp set to defective."""
     assign_json = json_factory("command_assign_resource_low")
-    release_json = json_factory("command_release_resource_low")
     try:
 
         # Verify Telescope is Off/Standby
@@ -166,23 +159,17 @@ def test_assign_release_timeout(json_factory, change_event_callbacks):
         )
         csp_subarray.SetDefective(False)
 
-        tear_down(
-            release_json, raise_exception=False, **ON_OFF_DEVICE_COMMAND_DICT
-        )
+        tear_down_for_resourcing(tmc_helper, telescope_control)
 
     except Exception as e:
         LOGGER.info("In tear down. \nThe Exception is %s", e)
-        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
+        tear_down_for_resourcing(tmc_helper, telescope_control)
 
 
-@pytest.mark.skip(
-    reason="Abort command is not implemented on SDP Subarray Leaf Node."
-)
 @pytest.mark.SKA_low
 def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
     """Verify timeout exception raised when sdp set to defective."""
     assign_json = json_factory("command_assign_resource_low")
-    release_json = json_factory("command_release_resource_low")
     try:
         fixture = {}
         fixture["state"] = "Unknown"
@@ -239,13 +226,11 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         )
         sdp_subarray.SetDefective(False)
 
-        tear_down(
-            release_json, raise_exception=False, **ON_OFF_DEVICE_COMMAND_DICT
-        )
+        tear_down_for_resourcing(tmc_helper, telescope_control)
 
     except Exception as e:
         LOGGER.info("In tear down. \nThe Exception is %s", e)
-        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
+        tear_down_for_resourcing(tmc_helper, telescope_control)
 
 
 @pytest.mark.skip(
