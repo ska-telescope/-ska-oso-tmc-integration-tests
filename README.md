@@ -4,7 +4,7 @@ This project is used to integrate and release the TMC (Telescope Monitoring and 
 
 ## Documentation
 
-Click below to access the TMC documentation
+Click below to access the TMC documentation.
 
 [![Documentation Status](https://readthedocs.org/projects/ska-telescope-ska-tmc-integration/badge/?version=latest)](https://developer.skao.int/projects/ska-tmc-integration/en/latest/)
 
