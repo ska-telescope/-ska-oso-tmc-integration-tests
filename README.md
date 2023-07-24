@@ -5,30 +5,38 @@ This project is used to integrate and release the TMC (Telescope Monitoring and 
 ## Documentation
 
 TODO: Fix the documentation link
-[![Documentation Status](https://readthedocs.org/projects/ska-telescope-ska-tmc-integration/badge/?version=latest)](https://developer.skatelescope.org/projects/ska-tmc-integration/en/master/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/ska-telescope-ska-tmc-integration/badge/?version=latest)](https://developer.skao.int/projects/ska-tmc-integration/en/latest/)
 
 The documentation for this project, including how to get started with it,can be found in the `docs` folder, and can be better browsed in the SKA development portal:
 
-* [CentralNode documentation](https://developer.skatelescope.org/projects/ska-tmc-centralnode/en/latest/index.html "SKA Developer Portal: CentralNode documentation")
-* [SubarrayNode documentation](https://developer.skatelescope.org/projects/ska-tmc-subarraynode/en/latest/index.html "SKA Developer Portal: SubarrayNode documentation")
-* [CSP Leaf Node documentation](https://developer.skatelescope.org/projects/ska-tmc-cspleafnodes/en/latest/index.html "SKA Developer Portal: CSP Leaf Nodes documentation")
-* [SDP Leaf Node documentation](https://developer.skatelescope.org/projects/ska-tmc-sdpleafnodes/en/latest/index.html "SKA Developer Portal: SDP Leaf Nodes documentation")
-* [Dish Leaf Node documentation](https://developer.skatelescope.org/projects/ska-tmc-dishleafnode/en/latest/index.html "SKA Developer Portal: Dish Leaf Node documentation")
+* [CentralNode documentation](https://developer.skao.int/projects/ska-tmc-centralnode/en/latest/ "SKA Developer Portal: CentralNode documentation")
+* [SubarrayNode documentation](https://developer.skao.int/projects/ska-tmc-subarraynode/en/latest/ "SKA Developer Portal: SubarrayNode documentation")
+* [CSP Leaf Node documentation](https://developer.skao.int/projects/ska-tmc-cspleafnodes/en/latest/ "SKA Developer Portal: CSP Leaf Nodes documentation")
+* [SDP Leaf Node documentation](https://developer.skao.int/projects/ska-tmc-sdpleafnodes/en/latest/ "SKA Developer Portal: SDP Leaf Nodes documentation")
+* [Dish Leaf Node documentation](https://developer.skao.int/projects/ska-tmc-dishleafnode/en/latest/ "SKA Developer Portal: Dish Leaf Node documentation")
 
 ## TMC Components versions
-
-WIP
 
 ### TMC Mid
 
 |Component| OCI Name | Version|
 | :-- | :-- | :-- |
-| Central Node| ska-tmc-centralnode |0.4.5|
-| Subarray Node| ska-tmc-subarraynode |0.1.2|
+| Central Node| ska-tmc-centralnode |0.9.7|
+| Subarray Node| ska-tmc-subarraynode |0.11.10|
+| CSP Master Leaf Node| ska-tmc-cspleafnode |0.6.2|
+| CSP Subarray Leaf Node| ska-tmc-cspleafnode |0.6.2|
+| SDP Master Leaf Node| ska-tmc-sdpleafnode |0.12.0|
+| SDP Subarray Leaf Node| ska-tmc-sdpleafnode |0.12.0|
+| Dish Leaf Node| ska-tmc-dishleafnode |0.3.3|
+
 
 ### TMC Low
 
 |Component| OCI Name | Version|
 | :-- | :-- | :-- |
-| Central Node| ska-tmc-centralnode |0.4.8|
-| Subarray Node| ska-tmc-subarraynode |0.2.0|
+| Central Node| ska-tmc-centralnode |0.9.7|
+| Subarray Node| ska-tmc-subarraynode |0.11.10|
+| CSP Master Leaf Node| ska-tmc-cspleafnode |0.6.2|
+| CSP Subarray Leaf Node| ska-tmc-cspleafnode |0.6.2|
+| SDP Master Leaf Node| ska-tmc-sdpleafnode |0.12.0|
+| SDP Subarray Leaf Node| ska-tmc-sdpleafnode |0.12.0|
