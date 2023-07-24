@@ -113,6 +113,7 @@ def set_to_standby():
     sdp_subarray_1.SetDirectState(DevState.OFF)
     dish_master_1 = DeviceProxy(dish_master1)
     dish_master_1.SetDirectState(DevState.STANDBY)
+    clear_command_call_info()
     LOGGER.info(
         "After invoking TelescopeStandBy command  %s State is: %s",
         central_node,
