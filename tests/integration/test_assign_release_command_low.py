@@ -5,6 +5,7 @@ from tango import DeviceProxy, EventType
 
 import tests.resources.test_support.low.tmc_helpers as tmc
 from tests.conftest import LOGGER
+from tests.resources.test_support.common_utils.common_helpers import Waiter
 from tests.resources.test_support.common_utils.result_code import ResultCode
 from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
 from tests.resources.test_support.constant_low import (
@@ -306,3 +307,92 @@ def test_health_check_low():
     assert telescope_control.is_in_valid_state(
         DEVICE_HEALTH_STATE_OK_INFO, "healthState"
     )
+
+
+@pytest.mark.SKA_low
+def test_release_exception_propagation(json_factory, change_event_callbacks):
+    """Verify timeout exception raised when csp set to defective."""
+    assign_json = json_factory("command_assign_resource_low")
+    release_json = json_factory("command_release_resource_low")
+    telescope_control = TelescopeControlLow()
+    tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
+    try:
+        # Verify Telescope is Off/Standby
+        assert telescope_control.is_in_valid_state(
+            DEVICE_STATE_STANDBY_INFO, "State"
+        )
+
+        # Invoke TelescopeOn() command on TMC
+        tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
+
+        # Verify State transitions after TelescopeOn
+        assert telescope_control.is_in_valid_state(
+            DEVICE_STATE_ON_INFO, "State"
+        )
+
+        tmc_helper.compose_sub(assign_json, **ON_OFF_DEVICE_COMMAND_DICT)
+
+        assert telescope_control.is_in_valid_state(
+            DEVICE_OBS_STATE_IDLE_INFO, "obsState"
+        )
+
+        central_node = DeviceProxy(centralnode)
+        central_node.subscribe_event(
+            "longRunningCommandResult",
+            EventType.CHANGE_EVENT,
+            change_event_callbacks["longRunningCommandResult"],
+        )
+
+        csp_subarray = DeviceProxy(csp_subarray1)
+        csp_subarray.SetDefective(True)
+
+        device_params = deepcopy(ON_OFF_DEVICE_COMMAND_DICT)
+        device_params["set_wait_for_obsstate"] = False
+        result, unique_id = tmc_helper.invoke_releaseResources(
+            release_json, **device_params
+        )
+
+        assert unique_id[0].endswith("ReleaseResources")
+        assert result[0] == ResultCode.QUEUED
+
+        exception_message = (
+            f"Exception occured on device: "
+            f"{tmc_subarraynode1}: Exception occured on device"
+            f": {tmc_csp_subarray_leaf_node}: Timeout has "
+            f"occured, command failed"
+        )
+
+        change_event_callbacks["longRunningCommandResult"].assert_change_event(
+            (unique_id[0], exception_message),
+            lookahead=7,
+        )
+        change_event_callbacks["longRunningCommandResult"].assert_change_event(
+            (unique_id[0], str(ResultCode.FAILED.value)),
+            lookahead=7,
+        )
+
+        csp_subarray.SetDefective(False)
+
+        # Simulating Csp Subarray going back to IDLE after command failure
+        csp_subarray.SetDirectObsState(2)
+
+        # Tear Down
+        csp_sln = DeviceProxy(tmc_csp_subarray_leaf_node)
+        csp_sln.ReleaseAllResources()
+
+        waiter = Waiter(**ON_OFF_DEVICE_COMMAND_DICT)
+        waiter.set_wait_for_going_to_empty()
+        waiter.wait(200)
+        subarray_node = DeviceProxy(tmc_subarraynode1)
+        resource(subarray_node).assert_attribute("obsState").equals("EMPTY")
+
+        tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
+        assert telescope_control.is_in_valid_state(
+            DEVICE_STATE_STANDBY_INFO, "State"
+        )
+
+        LOGGER.info("Tear Down complete. Telescope is in Standby State")
+
+    except Exception as e:
+        LOGGER.info("Exception occured during test run: %s", e)
+        tear_down_for_resourcing(tmc_helper, telescope_control)
