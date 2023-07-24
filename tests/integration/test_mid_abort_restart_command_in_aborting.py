@@ -26,6 +26,7 @@ from tests.resources.test_support.constant import (
     tmc_subarraynode1,
 )
 
+
 @pytest.mark.test2
 @pytest.mark.SKA_mid
 def test_mid_abort_restart_in_aborting(json_factory):
@@ -42,7 +43,7 @@ def test_mid_abort_restart_in_aborting(json_factory):
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_STANDBY_INFO, "State"
         )
-        LOGGER.info("Staring up the Telescope")
+        LOGGER.info("Starting up the Telescope")
 
         # Invoke TelescopeOn() command on TMC#
         tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)

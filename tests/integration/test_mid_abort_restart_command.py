@@ -35,7 +35,7 @@ def test_abort_restart(json_factory):
 
         # Verify Telescope is Off/Standby
         assert telescope_is_in_standby_state()
-        LOGGER.info("Staring up the Telescope")
+        LOGGER.info("Starting up the Telescope")
 
         # Invoke TelescopeOn() command on TMC
         LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
@@ -89,7 +89,7 @@ def test_abort_in_empty():
 
         # Verify Telescope is Off/Standby
         assert telescope_is_in_standby_state()
-        LOGGER.info("Staring up the Telescope")
+        LOGGER.info("Starting up the Telescope")
 
         # Invoke TelescopeOn() command on TMC
         LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
@@ -130,7 +130,7 @@ def test_abort_in_resourcing(json_factory):
 
         # Verify Telescope is Off/Standby
         assert telescope_is_in_standby_state()
-        LOGGER.info("Staring up the Telescope")
+        LOGGER.info("Starting up the Telescope")
 
         # Invoke TelescopeOn() command on TMC
         LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
@@ -242,7 +242,7 @@ def test_abort_in_resourcing_different_resources(json_factory):
 
         # Verify Telescope is Off/Standby
         assert telescope_is_in_standby_state()
-        LOGGER.info("Staring up the Telescope")
+        LOGGER.info("Starting up the Telescope")
 
         # Invoke TelescopeOn() command on TMC
         LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
@@ -347,7 +347,7 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
 
         # Verify Telescope is Off/Standby
         assert telescope_is_in_standby_state()
-        LOGGER.info("Staring up the Telescope")
+        LOGGER.info("Starting up the Telescope")
 
         # Invoke TelescopeOn() command on TMC
         LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
@@ -463,7 +463,7 @@ def test_abort_in_configuring(json_factory):
 
         # Verify Telescope is Off/Standby
         assert telescope_is_in_standby_state()
-        LOGGER.info("Staring up the Telescope")
+        LOGGER.info("Starting up the Telescope")
 
         # Invoke TelescopeOn() command on TMC
         LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
@@ -581,7 +581,7 @@ def test_abort_in_scanning(json_factory):
 
         # Verify Telescope is Off/Standby
         assert telescope_is_in_standby_state()
-        LOGGER.info("Staring up the Telescope")
+        LOGGER.info("Starting up the Telescope")
 
         # Invoke TelescopeOn() command on TMC
         LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")

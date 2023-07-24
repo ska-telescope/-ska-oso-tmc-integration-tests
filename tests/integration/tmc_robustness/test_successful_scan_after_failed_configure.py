@@ -7,6 +7,9 @@ from tango import DeviceProxy
 from tests.conftest import LOGGER
 from tests.resources.test_support.common_utils.common_helpers import Waiter
 from tests.resources.test_support.common_utils.result_code import ResultCode
+from tests.resources.test_support.common_utils.telescope_controls import (
+    BaseTelescopeControl,
+)
 from tests.resources.test_support.common_utils.tmc_helpers import (
     TmcHelper,
     tear_down,
@@ -22,18 +25,12 @@ from tests.resources.test_support.constant import (
     centralnode,
     tmc_subarraynode1,
 )
-from tests.resources.test_support.telescope_controls import (
-    BaseTelescopeControl,
-)
 
 # noqa: E501
 tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
-@pytest.mark.skip(
-    reason="Configure command is not implemented on SDP Subarray Leaf Node."
-)
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_failed_configure.feature",
@@ -72,7 +69,7 @@ def given_tmc(json_factory):
             DEVICE_OBS_STATE_IDLE_INFO, "obsState"
         )
     except Exception as e:
-        LOGGER.info("In tear down. \nThe Exception is %s", e)
+        LOGGER.exception("The exception is: %s", e)
 
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
@@ -96,7 +93,7 @@ def invoke_configure_one(
             json.dumps(configure_json)
         )
     except Exception as e:
-        LOGGER.info("In tear down. \nThe Exception is %s", e)
+        LOGGER.exception("The exception is: %s", e)
 
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
@@ -129,7 +126,7 @@ def tmc_accepts_command_with_valid_json(json_factory):
             configure_json, **ON_OFF_DEVICE_COMMAND_DICT
         )
     except Exception as e:
-        LOGGER.info("In tear down. \nThe Exception is %s", e)
+        LOGGER.exception("The exception is: %s", e)
 
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
@@ -152,7 +149,7 @@ def tmc_accepts_scan_command(json_factory):
         subarray_node = DeviceProxy(tmc_subarraynode1)
         subarray_node.Scan(scan_json)
     except Exception as e:
-        LOGGER.info("In tear down. \nThe Exception is %s", e)
+        LOGGER.exception("The exception is: %s", e)
 
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
@@ -168,7 +165,7 @@ def tmc_status_scanning(json_factory):
             DEVICE_OBS_STATE_SCANNING_INFO, "obsState"
         )
     except Exception as e:
-        LOGGER.info("In tear down. \nThe Exception is %s", e)
+        LOGGER.exception("The exception is: %s", e)
 
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
@@ -179,7 +176,7 @@ def tmc_accepts_endscan_command(json_factory):
     try:
         tmc_helper.invoke_endscan(**ON_OFF_DEVICE_COMMAND_DICT)
     except Exception as e:
-        LOGGER.info("In tear down. \nThe Exception is %s", e)
+        LOGGER.exception("The exception is: %s", e)
 
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
@@ -203,9 +200,6 @@ def teardown_the_tmc(json_factory):
     )
 
 
-@pytest.mark.skip(
-    reason="Configure command is not implemented on SDP Subarray Leaf Node."
-)
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_failed_configure.feature",
@@ -237,7 +231,7 @@ def invoke_configure_with_unassigned_resources(
             json.dumps(configure_json)
         )
     except Exception as e:
-        LOGGER.info("In tear down. \nThe Exception is %s", e)
+        LOGGER.exception("The exception is: %s", e)
 
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 

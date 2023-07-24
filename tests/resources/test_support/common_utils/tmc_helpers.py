@@ -251,6 +251,8 @@ def tear_down(
 ):
     """Tears down the system after test run to get telescope back in \
         standby state."""
+
+    LOGGER.info("Calling tear down")
     subarray_node_obsstate = resource(kwargs.get("tmc_subarraynode")).get(
         "obsState"
     )

@@ -1,7 +1,13 @@
 import pytest
 
 from tests.conftest import LOGGER
-from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
+from tests.resources.test_support.common_utils.telescope_controls import (
+    BaseTelescopeControl,
+)
+from tests.resources.test_support.common_utils.tmc_helpers import (
+    TmcHelper,
+    tear_down,
+)
 from tests.resources.test_support.constant_low import (
     DEVICE_STATE_OFF_INFO,
     DEVICE_STATE_ON_INFO,
@@ -10,19 +16,14 @@ from tests.resources.test_support.constant_low import (
     centralnode,
     tmc_subarraynode1,
 )
-from tests.resources.test_support.low.telescope_controls_low import (
-    TelescopeControlLow,
-)
 
 
 @pytest.mark.SKA_low
 def test_telescope_on():
     """TelescopeOn() is executed."""
     try:
-        telescope_control = TelescopeControlLow()
+        telescope_control = BaseTelescopeControl()
         tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
-        fixture = {}
-        fixture["state"] = "Unknown"
 
         # Verify Telescope is Off/Standby
         assert telescope_control.is_in_valid_state(
@@ -30,40 +31,30 @@ def test_telescope_on():
         )
         LOGGER.info("Starting up the Telescope")
 
-        # # Invoke TelescopeOn() command on TMC
-        LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
-
+        # Checking the availability of Telescope
         tmc_helper.check_telescope_availability()
+
+        # Invoke TelescopeOn() command on TMC
         tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("TelescopeOn command is invoked successfully")
 
-        # # Verify State transitions after TelescopeOn
+        # Verify State transitions after TelescopeOn
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_ON_INFO, "State"
         )
-        fixture["state"] = "TelescopeOn"
-
+        # Checking the availability of Telescope
         tmc_helper.check_telescope_availability()
-        # # Invoke TelescopeOff() command on TMC
-        tmc_helper.set_to_off(**ON_OFF_DEVICE_COMMAND_DICT)
 
+        # Invoke TelescopeOff() command on TMC
+        tmc_helper.set_to_off(**ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("TelescopeOff command is invoked successfully")
 
-        # # Verify State transitions after TelescopeOff
+        # Verify State transitions after TelescopeOff
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_OFF_INFO, "State"
         )
-        fixture["state"] = "TelescopeOff"
-
         LOGGER.info("test_telescope_on Tests complete.")
 
-    except Exception:
-        LOGGER.info(
-            "Exception occurred in the test for state = {}".format(
-                fixture["state"]
-            )
-        )
-        LOGGER.info("Tearing Down test case")
-        if fixture["state"] == "TelescopeOn":
-            tmc_helper.set_to_off(**ON_OFF_DEVICE_COMMAND_DICT)
-        raise
+    except Exception as e:
+        LOGGER.exception("The exception is: %s", e)
+        tear_down(**ON_OFF_DEVICE_COMMAND_DICT)

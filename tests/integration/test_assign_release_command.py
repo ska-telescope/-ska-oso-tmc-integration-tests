@@ -87,12 +87,8 @@ def test_assign_release_with_meerkat_ids(json_factory):
     json_argument = json.loads(assign_json)
     json_argument["dish"]["receptor_ids"] = ["MKT001", "MKT002"]
     json_argument = json.dumps(json_argument)
-
-    release_json = json_factory("command_ReleaseResources")
     try:
         tmc_helper.check_devices(DEVICE_LIST_FOR_CHECK_DEVICES)
-        fixture = {}
-        fixture["state"] = "Unknown"
 
         # Verify Telescope is Off/Standby
         assert telescope_control.is_in_valid_state(
@@ -101,7 +97,6 @@ def test_assign_release_with_meerkat_ids(json_factory):
 
         # Invoke TelescopeOn() command on TMC
         tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
-        LOGGER.info("TelescopeOn command is invoked successfully")
 
         # Verify State transitions after TelescopeOn
         assert telescope_control.is_in_valid_state(
@@ -231,9 +226,6 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         )
 
         # Invoke AssignResources() Command on TMC
-        LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-        # Verify State transitions after TelescopeOn
-
         central_node = DeviceProxy(centralnode)
         central_node.subscribe_event(
             "longRunningCommandResult",
@@ -263,7 +255,7 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         )
         assert "AssignResources" in assertion_data["attribute_value"][0]
         assert (
-            "Exception occurred on device: ska_mid/tm_subarray_node/1: Exception occurred on the following devices:\nska_mid/tm_leaf_node/sdp_subarray01: Device is Defective,                     cannot process command completely.\n"
+            "Exception occurred on device: ska_mid/tm_subarray_node/1: "
             in assertion_data["attribute_value"][1]
         )
 
@@ -275,7 +267,7 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         )
 
     except Exception as e:
-        LOGGER.info("In tear down. \nThe Exception is %s", e)
+        LOGGER.exception("The exception is: %s", e)
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 

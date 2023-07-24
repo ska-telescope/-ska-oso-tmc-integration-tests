@@ -13,7 +13,7 @@ from tests.resources.test_support.common_utils.tmc_helpers import (
     TmcHelper,
     tear_down,
 )
-from tests.resources.test_support.constant import (
+from tests.resources.test_support.constant_low import (
     DEVICE_OBS_STATE_EMPTY_INFO,
     DEVICE_OBS_STATE_IDLE_INFO,
     DEVICE_OBS_STATE_READY_INFO,
@@ -28,20 +28,20 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
-@pytest.mark.SKA_mid
+@pytest.mark.SKA_low
 @scenario(
     "../features/check_invalid_json_not_allowed.feature",
-    "Invalid json rejected by TMC for Configure command",
+    "Invalid json rejected by TMC Low for Configure command",
 )
 def test_invalid_json_in_configure_obsState():
     """
-    Test SubarrayNode Mid Configure command with invalid json data.
+    Test SubarrayNode Low Configure command with invalid json data.
     """
 
 
 @given("the TMC is On")
 def given_tmc(json_factory):
-    release_json = json_factory("command_ReleaseResources")
+    release_json = json_factory("command_release_resource_low")
     try:
         # Verify Telescope is Off/Standby
         assert telescope_control.is_in_valid_state(
@@ -66,7 +66,7 @@ def tmc_check_status(json_factory):
     assert telescope_control.is_in_valid_state(
         DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
     )
-    assign_json = json_factory("command_AssignResources")
+    assign_json = json_factory("command_assign_resource_low")
     LOGGER.info("Invoking AssignResources command on TMC CentralNode")
     tmc_helper.compose_sub(assign_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
@@ -80,45 +80,39 @@ def tmc_check_status(json_factory):
     parsers.parse("the command Configure is invoked with {invalid_json} input")
 )
 def send(json_factory, invalid_json):
-    release_json = json_factory("command_ReleaseResources")
     device_params = deepcopy(ON_OFF_DEVICE_COMMAND_DICT)
     device_params["set_wait_for_obsstate"] = False
+    release_json = json_factory("command_release_resource_low")
     try:
-        configure_json = json_factory("command_Configure")
-        invalid_configure_json = json.loads(configure_json)
-        if invalid_json == "config_id_key_missing":
-            del invalid_configure_json["csp"]["common"]["config_id"]
+        configure_json = json_factory("command_Configure_low")
+        if invalid_json == "csp_key_missing":
+            invalid_configure_json = json.loads(configure_json)
+            del invalid_configure_json["csp"]
             pytest.command_result = tmc_helper.configure_subarray(
                 json.dumps(invalid_configure_json), **device_params
             )
-        elif invalid_json == "fsp_id_key_missing":
-            del invalid_configure_json["csp"]["cbf"]["fsp"][0]["fsp_id"]
+        elif invalid_json == "sdp_key_missing":
+            invalid_configure_json = json.loads(configure_json)
+            del invalid_configure_json["sdp"]
             pytest.command_result = tmc_helper.configure_subarray(
                 json.dumps(invalid_configure_json), **device_params
             )
-        elif invalid_json == "frequency_slice_id_key_missing":
-            del invalid_configure_json["csp"]["cbf"]["fsp"][0][
-                "frequency_slice_id"
-            ]
+        elif invalid_json == "tmc_key_missing":
+            invalid_configure_json = json.loads(configure_json)
+            del invalid_configure_json["tmc"]
             pytest.command_result = tmc_helper.configure_subarray(
                 json.dumps(invalid_configure_json), **device_params
             )
-        elif invalid_json == "integration_factor_key_missing":
-            del invalid_configure_json["csp"]["cbf"]["fsp"][0][
-                "integration_factor"
-            ]
+        elif invalid_json == "scan_duration_key_missing":
+            invalid_configure_json = json.loads(configure_json)
+            del invalid_configure_json["tmc"]["scan_duration"]
             pytest.command_result = tmc_helper.configure_subarray(
                 json.dumps(invalid_configure_json), **device_params
             )
-        elif invalid_json == "zoom_factor_key_missing":
-            del invalid_configure_json["csp"]["cbf"]["fsp"][0]["zoom_factor"]
+        elif invalid_json == "empty_string":
+            invalid_configure_json = ""
             pytest.command_result = tmc_helper.configure_subarray(
-                json.dumps(invalid_configure_json), **device_params
-            )
-        elif invalid_json == "incorrect_fsp_id":
-            invalid_configure_json["csp"]["cbf"]["fsp"][0]["fsp_id"] = 30
-            pytest.command_result = tmc_helper.configure_subarray(
-                json.dumps(invalid_configure_json), **device_params
+                invalid_configure_json, **device_params
             )
     except Exception as e:
         LOGGER.exception(f"Exception occurred: {e}")
@@ -134,23 +128,28 @@ def invalid_command_rejection(invalid_json):
     # asserting validation resultcode
     assert pytest.command_result[0][0] == ResultCode.REJECTED
     # asserting validations message as per invalid json
-    if invalid_json == "config_id_key_missing":
+    if invalid_json == "csp_key_missing":
         assert (
-            "'config_id': ['Missing data for required field.']"
+            "Missing csp key in the scan configuration."
             in pytest.command_result[1][0]
         )
-    elif invalid_json == "incorrect_fsp_id":
+    elif invalid_json == "sdp_key_missing":
         assert (
-            "FSP ID must be in range 1..27. Got 30"
+            "Missing sdp key in the scan configuration."
             in pytest.command_result[1][0]
         )
-    elif invalid_json in [
-        "fsp_id_key_missing",
-        "frequency_slice_id_key_missing",
-        "zoom_factor_key_missing",
-        "integration_factor_key_missing",
-    ]:
-        assert "Malformed input string" in pytest.command_result[1][0]
+    elif invalid_json == "tmc_key_missing":
+        assert (
+            "Missing tmc key in the scan configuration."
+            in pytest.command_result[1][0]
+        )
+    elif invalid_json == "scan_duration_key_missing":
+        assert (
+            "Missing scan_duration in the scan configuration."
+            in pytest.command_result[1][0]
+        )
+    elif invalid_json == "empty_string":
+        assert "Malformed input JSON" in pytest.command_result[1][0]
 
 
 @then("TMC subarray remains in IDLE obsState")
@@ -166,9 +165,12 @@ def tmc_status():
 command for the subarray with a valid json"
 )
 def tmc_accepts_next_commands(json_factory):
-    release_json = json_factory("command_ReleaseResources")
+    release_json = json_factory("command_release_resource_low")
     try:
-        configure_json = json_factory("command_Configure")
+        configure_json = json_factory("command_Configure_low")
+        LOGGER.info(f"Input argin for Configure: {configure_json}")
+
+        # Invoke Configure() Command on TMC
         LOGGER.info("Invoking Configure command on TMC SubarrayNode")
         tmc_helper.configure_subarray(
             configure_json, **ON_OFF_DEVICE_COMMAND_DICT
