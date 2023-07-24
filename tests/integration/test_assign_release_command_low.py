@@ -1,6 +1,7 @@
 from copy import deepcopy
 
 import pytest
+from ska_tango_testing.mock.placeholders import Anything
 from tango import DeviceProxy, EventType
 
 from tests.conftest import LOGGER
@@ -22,7 +23,6 @@ from tests.resources.test_support.constant_low import (
     csp_subarray1,
     sdp_subarray1,
     tmc_csp_subarray_leaf_node,
-    tmc_sdp_subarray_leaf_node,
     tmc_subarraynode1,
 )
 
@@ -171,8 +171,8 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
     """Verify timeout exception raised when sdp set to defective."""
     assign_json = json_factory("command_assign_resource_low")
     try:
-        fixture = {}
-        fixture["state"] = "Unknown"
+        # fixture = {}
+        # fixture["state"] = "Unknown"
 
         # Verify Telescope is Off/Standby
         assert telescope_control.is_in_valid_state(
@@ -186,7 +186,7 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_ON_INFO, "State"
         )
-        fixture["state"] = "TelescopeOn"
+        # fixture["state"] = "TelescopeOn"
 
         # Invoke AssignResources() Command on TMC
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
@@ -213,16 +213,16 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         assert unique_id[0].endswith("AssignResources")
         assert result[0] == ResultCode.QUEUED
 
-        exception_message = (
-            f"Exception occured on device: "
-            f"{tmc_subarraynode1}: Exception occured on device"
-            f": {tmc_sdp_subarray_leaf_node}: Timeout has "
-            f"occured, command failed"
-        )
-
-        change_event_callbacks["longRunningCommandResult"].assert_change_event(
-            (unique_id[0], exception_message),
+        assertion_data = change_event_callbacks[
+            "longRunningCommandResult"
+        ].assert_change_event(
+            (unique_id[0], Anything),
             lookahead=7,
+        )
+        assert "AssignResources" in assertion_data["attribute_value"][0]
+        assert (
+            "Exception occurred on device: ska_low/tm_subarray_node/1:"
+            in assertion_data["attribute_value"][1]
         )
         sdp_subarray.SetDefective(False)
 

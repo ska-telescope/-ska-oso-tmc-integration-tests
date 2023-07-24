@@ -84,6 +84,7 @@ def test_assign_release_command_not_allowed_propagation_csp_ln_low(
             "ska_tmc_common.exceptions.InvalidObsStateError"
             in assertion_data["attribute_value"][1]
         )
+
         tear_down_for_resourcing(tmc_helper, telescope_control)
 
     except Exception as e:
