@@ -93,14 +93,15 @@ class TestSubarrayNodeNegative(object):
             subarray_node.subarray_node, "obsState", ObsState.CONFIGURING
         )
 
-        with pytest.raises(AssertionError):
-            assert event_recorder.has_change_event_occurred(
-                subarray_node.subarray_node, "obsState", ObsState.READY
-            )
         # Add assert for commandCallInfo data
         assert device_is_with_correct_command_recorder_data(
             csp_sim, "Configure", csp_input_json
         )
+
+        with pytest.raises(AssertionError):
+            assert event_recorder.has_change_event_occurred(
+                subarray_node.subarray_node, "obsState", ObsState.READY
+            )
 
     @pytest.mark.SKA_mid
     def test_subarray_configure_when_sdp_stuck_in_configuring(
