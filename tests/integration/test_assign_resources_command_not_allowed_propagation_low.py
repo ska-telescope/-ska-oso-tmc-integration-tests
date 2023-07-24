@@ -159,14 +159,14 @@ def test_assign_release_command_not_allowed_propagation_sdp_ln_low(
             "longRunningCommandResult"
         ].assert_change_event(
             (unique_id[0], Anything),
-            lookahead=7,
+            lookahead=5,
         )
         assert "AssignResources" in assertion_data["attribute_value"][0]
         assert (
             "ska_tmc_common.exceptions.InvalidObsStateError"
             in assertion_data["attribute_value"][1]
         )
-
+        # Do not raise exception
         tear_down(
             release_json, raise_exception=False, **ON_OFF_DEVICE_COMMAND_DICT
         )
