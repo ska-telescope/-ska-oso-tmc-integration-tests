@@ -24,10 +24,10 @@ The documentation for this project, including how to get started with it,can be 
 | :-- | :-- | :-- |
 | Central Node| ska-tmc-centralnode |0.9.7|
 | Subarray Node| ska-tmc-subarraynode |0.11.10|
-| CSP Master Leaf Node| ska-tmc-cspleafnode |0.6.2|
-| CSP Subarray Leaf Node| ska-tmc-cspleafnode |0.6.2|
-| SDP Master Leaf Node| ska-tmc-sdpleafnode |0.12.0|
-| SDP Subarray Leaf Node| ska-tmc-sdpleafnode |0.12.0|
+| CSP Master Leaf Node| ska-tmc-cspleafnodes |0.6.2|
+| CSP Subarray Leaf Node| ska-tmc-cspleafnodes |0.6.2|
+| SDP Master Leaf Node| ska-tmc-sdpleafnodes |0.12.0|
+| SDP Subarray Leaf Node| ska-tmc-sdpleafnodes |0.12.0|
 | Dish Leaf Node| ska-tmc-dishleafnode |0.3.3|
 
 
@@ -37,7 +37,7 @@ The documentation for this project, including how to get started with it,can be 
 | :-- | :-- | :-- |
 | Central Node| ska-tmc-centralnode |0.9.7|
 | Subarray Node| ska-tmc-subarraynode |0.11.10|
-| CSP Master Leaf Node| ska-tmc-cspleafnode |0.6.2|
-| CSP Subarray Leaf Node| ska-tmc-cspleafnode |0.6.2|
-| SDP Master Leaf Node| ska-tmc-sdpleafnode |0.12.0|
-| SDP Subarray Leaf Node| ska-tmc-sdpleafnode |0.12.0|
+| CSP Master Leaf Node| ska-tmc-cspleafnodes |0.6.2|
+| CSP Subarray Leaf Node| ska-tmc-cspleafnodes |0.6.2|
+| SDP Master Leaf Node| ska-tmc-sdpleafnodes |0.12.0|
+| SDP Subarray Leaf Node| ska-tmc-sdpleafnodes |0.12.0|
