@@ -279,10 +279,11 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-@pytest.mark.skip(
-    reason="will be enabled when new tag of \
-        SDP Subarray Leaf Node will release"
-)
+# # @pytest.mark.skip(
+# #     reason="will be enabled when new tag of \
+# #         SDP Subarray Leaf Node will release"
+# )
+@pytest.mark.test1
 @pytest.mark.SKA_mid
 def test_health_check_mid():
     assert telescope_control.is_in_valid_state(

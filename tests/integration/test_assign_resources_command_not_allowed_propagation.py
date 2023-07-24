@@ -26,7 +26,6 @@ from tests.resources.test_support.constant import (
 )
 
 
-@pytest.mark.test6
 @pytest.mark.SKA_mid
 def test_assign_release_command_not_allowed_propagation_csp_ln(
     json_factory, change_event_callbacks
