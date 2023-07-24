@@ -23,12 +23,17 @@ from tests.resources.test_support.constant_low import (
     tmc_subarraynode1,
 )
 
+telescope_control = BaseTelescopeControl()
+tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 
+
+@pytest.mark.test1
 @pytest.mark.SKA_low
 def test_assign_release_command_not_allowed_propagation_csp_ln_low(
     json_factory, change_event_callbacks
 ):
     """Verify command not allowed exception propagation from leaf nodes"""
+    global tmc_helper, telescope_control
     assign_json = json_factory("command_assign_resource_low")
     try:
         telescope_control = BaseTelescopeControl()
@@ -85,8 +90,6 @@ def test_assign_release_command_not_allowed_propagation_csp_ln_low(
             in assertion_data["attribute_value"][1]
         )
 
-        tear_down_for_resourcing(tmc_helper, telescope_control)
-
     except Exception as e:
         LOGGER.info(f"Exception occurred {e}")
         tear_down_for_resourcing(tmc_helper, telescope_control)
@@ -97,6 +100,7 @@ def test_assign_release_command_not_allowed_propagation_sdp_ln_low(
     json_factory, change_event_callbacks
 ):
     """Verify command not allowed exception propagation from leaf nodes"""
+    global telescope_control, tmc_helper
     assign_json = json_factory("command_assign_resource_low")
     try:
         telescope_control = BaseTelescopeControl()
