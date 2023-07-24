@@ -171,8 +171,6 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
     """Verify timeout exception raised when sdp set to defective."""
     assign_json = json_factory("command_assign_resource_low")
     try:
-        # fixture = {}
-        # fixture["state"] = "Unknown"
 
         # Verify Telescope is Off/Standby
         assert telescope_control.is_in_valid_state(
@@ -186,7 +184,6 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_ON_INFO, "State"
         )
-        # fixture["state"] = "TelescopeOn"
 
         # Invoke AssignResources() Command on TMC
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
