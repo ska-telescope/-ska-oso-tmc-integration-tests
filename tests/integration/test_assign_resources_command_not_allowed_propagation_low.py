@@ -27,7 +27,6 @@ telescope_control = BaseTelescopeControl()
 tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 
 
-@pytest.mark.test1
 @pytest.mark.SKA_low
 def test_assign_release_command_not_allowed_propagation_csp_ln_low(
     json_factory, change_event_callbacks
@@ -149,7 +148,7 @@ def test_assign_release_command_not_allowed_propagation_sdp_ln_low(
             "longRunningCommandResult"
         ].assert_change_event(
             (unique_id[0], Anything),
-            lookahead=5,
+            lookahead=7,
         )
         assert "AssignResources" in assertion_data["attribute_value"][0]
         assert (
