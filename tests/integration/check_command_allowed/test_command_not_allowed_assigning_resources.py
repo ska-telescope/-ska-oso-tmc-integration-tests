@@ -40,7 +40,7 @@ def given_tmc():
     assert telescope_control.is_in_valid_state(
         DEVICE_STATE_STANDBY_INFO, "State"
     )
-    LOGGER.info("Staring up the Telescope")
+    LOGGER.info("Starting up the Telescope")
     tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
     assert telescope_control.is_in_valid_state(DEVICE_STATE_ON_INFO, "State")
     assert telescope_control.is_in_valid_state(

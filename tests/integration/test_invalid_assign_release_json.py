@@ -1,22 +1,28 @@
 import pytest
 from tango import DeviceProxy
 
-import tests.resources.test_support.tmc_helpers as tmc
 from tests.conftest import LOGGER
 from tests.resources.test_support.common_utils.result_code import ResultCode
+from tests.resources.test_support.common_utils.telescope_controls import (
+    BaseTelescopeControl,
+)
+from tests.resources.test_support.common_utils.tmc_helpers import (
+    TmcHelper,
+    tear_down,
+)
 from tests.resources.test_support.constant import (
+    DEVICE_LIST_FOR_CHECK_DEVICES,
+    DEVICE_OBS_STATE_EMPTY_INFO,
+    DEVICE_OBS_STATE_IDLE_INFO,
+    DEVICE_STATE_ON_INFO,
+    DEVICE_STATE_STANDBY_INFO,
+    ON_OFF_DEVICE_COMMAND_DICT,
     centralnode,
     tmc_subarraynode1,
 )
-from tests.resources.test_support.controls import (
-    subarray_obs_state_is_empty,
-    subarray_obs_state_is_idle,
-    telescope_is_in_on_state,
-    telescope_is_in_standby_state,
-)
-from tests.resources.test_support.helpers import resource
-from tests.resources.test_support.sync_decorators import sync_assign_resources
-from tests.resources.test_support.tmc_helpers import tear_down
+
+telescope_control = BaseTelescopeControl()
+tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 
 
 @pytest.mark.SKA_mid
@@ -24,46 +30,42 @@ def test_assign_invalid_json(json_factory):
     try:
         # AssignResources and ReleaseResources is executed.
         assign_json = json_factory("command_invalid_assign_release")
-        tmc.check_devices()
-
-        # # Verify Telescope is Off/Standby
-        assert telescope_is_in_standby_state()
-        LOGGER.info("Staring up the Telescope")
-
-        # # Invoke TelescopeOn() command on TMC
-        LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
-        tmc.set_to_on()
-        LOGGER.info("TelescopeOn command is invoked successfully")
-
-        # # Verify State transitions after TelescopeOn
-        assert telescope_is_in_on_state()
-
-        # # Invoke AssignResources() Command on TMC
-        LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-        resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
-        resource(tmc_subarraynode1).assert_attribute("obsState").equals(
-            "EMPTY"
+        tmc_helper.check_devices(DEVICE_LIST_FOR_CHECK_DEVICES)
+        assert telescope_control.is_in_valid_state(
+            DEVICE_STATE_STANDBY_INFO, "State"
         )
+        # Invoke TelescopeOn() command on TMC CentralNode
+        tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
+        # Verify State transitions after TelescopeOn
+        assert telescope_control.is_in_valid_state(
+            DEVICE_STATE_ON_INFO, "State"
+        )
+        assert telescope_control.is_in_valid_state(
+            DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
+        )
+        #  Invoke AssignResources() Command on TMC
         central_node = DeviceProxy(centralnode)
-        tmc.check_devices()
+        tmc_helper.check_devices(DEVICE_LIST_FOR_CHECK_DEVICES)
         ret_code, message = central_node.AssignResources(assign_json)
 
         # Assert with TaskStatus as REJECTED
-        assert ret_code == 5
+        assert ret_code == ResultCode.REJECTED
         LOGGER.info(message)
 
-        # # Verify ObsState is EMPTY
-        assert subarray_obs_state_is_empty()
+        # Verify ObsState is EMPTY
+        assert telescope_control.is_in_valid_state(
+            DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
+        )
 
-        # # Invoke TelescopeStandby() command on TMC
-        tmc.set_to_standby()
-
-        # # Verify State transitions after TelescopeStandby
-        assert telescope_is_in_standby_state()
+        # Invoke TelescopeStandby() command on TMC
+        tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
+        assert telescope_control.is_in_valid_state(
+            DEVICE_STATE_STANDBY_INFO, "State"
+        )
 
         LOGGER.info("Tests complete.")
     except Exception:
-        tear_down()
+        tear_down(**ON_OFF_DEVICE_COMMAND_DICT)
 
 
 @pytest.mark.SKA_mid
@@ -72,66 +74,57 @@ def test_release_invalid_json(json_factory):
     release_json = json_factory("command_ReleaseResources")
     invalid_release_json = json_factory("command_invalid_assign_release")
     try:
-        # # AssignResources and ReleaseResources is executed.
-        tmc.check_devices()
+        # AssignResources and ReleaseResources is executed.
+        tmc_helper.check_devices(DEVICE_LIST_FOR_CHECK_DEVICES)
+        assert telescope_control.is_in_valid_state(
+            DEVICE_STATE_STANDBY_INFO, "State"
+        )
+        # Invoke TelescopeOn() command on TMC CentralNode
+        tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
+        # Verify State transitions after TelescopeOn
+        assert telescope_control.is_in_valid_state(
+            DEVICE_STATE_ON_INFO, "State"
+        )
+        assert telescope_control.is_in_valid_state(
+            DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
+        )
 
-        # # Verify Telescope is Off/Standby
-        assert telescope_is_in_standby_state()
-        LOGGER.info("Staring up the Telescope")
+        # Invoke AssignResources() Command on TMC
+        tmc_helper.compose_sub(assign_json, **ON_OFF_DEVICE_COMMAND_DICT)
+        assert telescope_control.is_in_valid_state(
+            DEVICE_OBS_STATE_IDLE_INFO, "obsState"
+        )
 
-        # # Invoke TelescopeOn() command on TMC
-        LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
-        tmc.set_to_on()
-        LOGGER.info("TelescopeOn command is invoked successfully")
-
-        # # Verify State transitions after TelescopeOn
-        assert telescope_is_in_on_state()
-
-        # # Invoke AssignResources() Command on TMC
-        LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-
-        @sync_assign_resources()
-        def compose_sub():
-            resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
-            resource(tmc_subarraynode1).assert_attribute("obsState").equals(
-                "EMPTY"
-            )
-            central_node = DeviceProxy(centralnode)
-            tmc.check_devices()
-            central_node.AssignResources(assign_json)
-            LOGGER.info("Invoked AssignResources on CentralNode")
-
-        compose_sub()
-
-        LOGGER.info("AssignResources command is invoked successfully")
-
-        # # Verify ObsState is Idle
-        assert subarray_obs_state_is_idle()
-
-        # # Invoke ReleaseResources() command on TMC
+        # Invoke ReleaseResources() command on TMC
         central_node = DeviceProxy(centralnode)
         ret_code, message = central_node.ReleaseResources(invalid_release_json)
         # Assert with TaskStatus as REJECTED
-        assert ret_code == 5
+        assert ret_code == ResultCode.REJECTED
         LOGGER.info(message)
+
         # Check if telescope is in previous state
-        assert subarray_obs_state_is_idle()
-        # Invoke release resources
-        # # Invoke ReleaseResources() command on TMC
-        tmc.invoke_releaseResources(release_json)
+        assert telescope_control.is_in_valid_state(
+            DEVICE_OBS_STATE_IDLE_INFO, "obsState"
+        )
 
-        assert subarray_obs_state_is_empty()
+        # Invoke ReleaseResources() command on TMC
+        tmc_helper.invoke_releaseResources(
+            release_json, **ON_OFF_DEVICE_COMMAND_DICT
+        )
+        assert telescope_control.is_in_valid_state(
+            DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
+        )
 
-        # # Invoke TelescopeStandby() command on TMC
-        tmc.set_to_standby()
-
-        # # Verify State transitions after TelescopeStandby
-        assert telescope_is_in_standby_state()
-
-        LOGGER.info("Tests complete.")
-
-    except Exception:
-        tear_down(release_json)
+        # Check Telescope availability
+        tmc_helper.check_telescope_availability()
+        # Invoke Standby() command on TMC
+        tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
+        assert telescope_control.is_in_valid_state(
+            DEVICE_STATE_STANDBY_INFO, "State"
+        )
+    except Exception as e:
+        LOGGER.exception("The exception is: %s", e)
+        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
 @pytest.mark.SKA_mid
@@ -139,46 +132,38 @@ def test_invalid_receptor_ids(json_factory):
     """AssignResources and ReleaseResources is executed."""
     assign_json = json_factory("command_assign_resources_invalid_receptor_id")
     release_json = json_factory("command_ReleaseResources")
-    tmc.check_devices()
-
     try:
-        # Verify Telescope is Off/Standby
-        assert telescope_is_in_standby_state()
-        LOGGER.info("Staring up the Telescope")
-
-        # # Invoke TelescopeOn() command on TMC
-        LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
-        tmc.set_to_on()
-        LOGGER.info("TelescopeOn command is invoked successfully")
-
-        # # Verify State transitions after TelescopeOn
-        assert telescope_is_in_on_state()
-
-        # # Invoke AssignResources() Command on TMC
-        LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-        resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
-        resource(tmc_subarraynode1).assert_attribute("obsState").equals(
-            "EMPTY"
+        # AssignResources and ReleaseResources is executed.
+        tmc_helper.check_devices(DEVICE_LIST_FOR_CHECK_DEVICES)
+        assert telescope_control.is_in_valid_state(
+            DEVICE_STATE_STANDBY_INFO, "State"
+        )
+        # Invoke TelescopeOn() command on TMC CentralNode
+        tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
+        # Verify State transitions after TelescopeOn
+        assert telescope_control.is_in_valid_state(
+            DEVICE_STATE_ON_INFO, "State"
+        )
+        assert telescope_control.is_in_valid_state(
+            DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
         )
         try:
             central_node = DeviceProxy(centralnode)
             pytest.command_result = central_node.AssignResources(assign_json)
         except Exception as e:
             LOGGER.exception("The Exception is %s", e)
-            tear_down(release_json)
-
+            tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
         assert (
             "The dish id 0001 is not of the correct length."
             in pytest.command_result[1][0]
         )
         assert pytest.command_result[0][0] == ResultCode.REJECTED
 
-        # Invoke TelescopeStandby() command on TMC
-        tmc.set_to_standby()
-
-        # Verify State transitions after TelescopeOff
-        assert telescope_is_in_standby_state()
-
-    except Exception:
-        LOGGER.info("Tearing down...")
-        tear_down()
+        # Invoke Standby() command on TMC
+        tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
+        assert telescope_control.is_in_valid_state(
+            DEVICE_STATE_STANDBY_INFO, "State"
+        )
+    except Exception as e:
+        LOGGER.exception("The exception is: %s", e)
+        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)

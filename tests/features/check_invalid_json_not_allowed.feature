@@ -30,3 +30,20 @@ Feature: Commands with invalid json input
             | integration_factor_key_missing         |
             | zoom_factor_key_missing                |
             | incorrect_fsp_id                       |
+
+
+    Scenario:   Invalid json rejected by TMC Low for Configure command
+        Given the TMC is On
+        And the subarray is in IDLE obsState
+        When the command Configure is invoked with <invalid_json> input
+        Then the TMC should reject the <invalid_json> with ResultCode.Rejected
+        And TMC subarray remains in IDLE obsState
+        And TMC successfully executes the Configure command for the subarray with a valid json
+
+        Examples:
+            | invalid_json                   |
+            | csp_key_missing                |
+            | sdp_key_missing                |
+            | tmc_key_missing                |
+            | scan_duration_key_missing      |
+            | empty_string                   |

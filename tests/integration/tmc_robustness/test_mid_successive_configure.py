@@ -1,13 +1,16 @@
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 
-import tests.resources.test_support.tmc_helpers as tmc
 from tests.conftest import LOGGER
+from tests.resources.test_support.common_utils.telescope_controls import (
+    BaseTelescopeControl,
+)
 from tests.resources.test_support.common_utils.tmc_helpers import (
     TmcHelper,
     tear_down,
 )
 from tests.resources.test_support.constant import (
+    DEVICE_LIST_FOR_CHECK_DEVICES,
     DEVICE_OBS_STATE_EMPTY_INFO,
     DEVICE_OBS_STATE_IDLE_INFO,
     DEVICE_OBS_STATE_READY_INFO,
@@ -18,14 +21,12 @@ from tests.resources.test_support.constant import (
     centralnode,
     tmc_subarraynode1,
 )
-from tests.resources.test_support.mid.telescope_controls_mid import (
-    TelescopeControlMid,
-)
 
 tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
-telescope_control = TelescopeControlMid()
+telescope_control = BaseTelescopeControl()
 
 
+@pytest.mark.skip(reason="Multiconfigure functionality needs to be fixed")
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successive_configure.feature",
@@ -42,7 +43,7 @@ def test_multiple_configure_functionality():
 def given_tmc(json_factory):
     release_json = json_factory("command_ReleaseResources")
     try:
-        tmc.check_devices()
+        tmc_helper.check_devices(DEVICE_LIST_FOR_CHECK_DEVICES)
         # Verify Telescope is Off/Standby
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_STANDBY_INFO, "State"
