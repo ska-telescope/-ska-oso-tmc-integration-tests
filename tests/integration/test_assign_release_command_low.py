@@ -4,7 +4,7 @@ import pytest
 from tango import DeviceProxy, EventType
 
 import tests.resources.test_support.low.tmc_helpers as tmc
-from tests.conftest import LOGGER
+from tests.conftest import LOGGER, TIMEOUT
 from tests.resources.test_support.common_utils.common_helpers import (
     Waiter,
     resource,
@@ -322,11 +322,11 @@ def test_release_exception_propagation(json_factory, change_event_callbacks):
 
         change_event_callbacks["longRunningCommandResult"].assert_change_event(
             (unique_id[0], exception_message),
-            lookahead=7,
+            lookahead=4,
         )
         change_event_callbacks["longRunningCommandResult"].assert_change_event(
             (unique_id[0], str(ResultCode.FAILED.value)),
-            lookahead=7,
+            lookahead=4,
         )
 
         csp_subarray.SetDefective(False)
@@ -340,7 +340,7 @@ def test_release_exception_propagation(json_factory, change_event_callbacks):
 
         waiter = Waiter(**ON_OFF_DEVICE_COMMAND_DICT)
         waiter.set_wait_for_going_to_empty()
-        waiter.wait(200)
+        waiter.wait(TIMEOUT)
         subarray_node = DeviceProxy(tmc_subarraynode1)
         resource(subarray_node).assert_attribute("obsState").equals("EMPTY")
 
