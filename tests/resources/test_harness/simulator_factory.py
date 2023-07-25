@@ -19,7 +19,9 @@ class SimulatorFactory(object):
         self._sim_dev = {}
 
     def get_or_create_simulator_device(self, device_type, sim_number=1):
-        """This method create or get simulator object based on device type provided
+        """This method create or get simulator object
+        based on device type provided
+
         Args:
             device_type (str): Device type for which Simulator need
             to be created
