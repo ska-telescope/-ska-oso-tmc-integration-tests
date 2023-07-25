@@ -58,18 +58,21 @@ def sync_set_to_standby(func):
     return wrapper
 
 
-def sync_release_resources(func):
-    @functools.wraps(func)
-    def wrapper(*args, **kwargs):
-        the_waiter = Waiter(**kwargs)
-        set_wait_for_obsstate = kwargs.get("set_wait_for_obsstate", True)
-        if set_wait_for_obsstate:
-            the_waiter.set_wait_for_going_to_empty()
-            the_waiter.wait(TIMEOUT)
-        result = func(*args, **kwargs)
-        return result
+def sync_release_resources():
+    def decorator_sync_assign_resources(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            result = func(*args, **kwargs)
+            set_wait_for_obsstate = kwargs.get("set_wait_for_obsstate", True)
+            if set_wait_for_obsstate:
+                the_waiter = Waiter(**kwargs)
+                the_waiter.set_wait_for_going_to_empty()
+                the_waiter.wait(TIMEOUT)
+            return result
 
-    return wrapper
+        return wrapper
+
+    return decorator_sync_assign_resources
 
 
 def sync_assign_resources():

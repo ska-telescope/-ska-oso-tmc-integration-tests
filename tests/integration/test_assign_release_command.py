@@ -364,8 +364,12 @@ def test_release_resources_error_propagation(
         subarray_node = DeviceProxy(tmc_subarraynode1)
         resource(subarray_node).assert_attribute("obsState").equals("EMPTY")
 
-        tear_down(release_json, raise_exception=False)
+        tear_down(
+            release_json, raise_exception=False, **ON_OFF_DEVICE_COMMAND_DICT
+        )
 
     except Exception as e:
         LOGGER.info(f"Exception occurred {e}")
-        tear_down(release_json)
+        tear_down(
+            release_json, raise_exception=True, **ON_OFF_DEVICE_COMMAND_DICT
+        )
