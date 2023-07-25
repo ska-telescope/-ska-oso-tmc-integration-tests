@@ -28,6 +28,10 @@ from tests.resources.test_support.constant import (
 
 
 @pytest.mark.SKA_mid
+@pytest.mark.skip(
+    reason="Changes made in Helper Sdp Subarray Device. Will be fixed as a \
+        part of sah-1362"
+)
 def test_recover_subarray_stuck_in_resourcing(
     json_factory, change_event_callbacks
 ):
