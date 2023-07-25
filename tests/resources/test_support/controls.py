@@ -12,7 +12,8 @@ from tests.resources.test_support.constant import (
 from tests.resources.test_support.helpers import resource
 
 
-def telescope_is_in_standby_state():
+def telescope_is_in_standby_state() -> bool:
+    """returns if telescope is in standby state"""
     LOGGER.info(
         f"{sdp_master}.State : " + str(resource(sdp_master).get("State"))
     )
@@ -40,7 +41,8 @@ def telescope_is_in_standby_state():
     )
 
 
-def telescope_is_in_on_state():
+def telescope_is_in_on_state() -> bool:
+    """returns if telescope is in on state"""
     LOGGER.info(
         f"{tmc_subarraynode1}.State : "
         + str(resource(tmc_subarraynode1).get("State"))
@@ -74,7 +76,8 @@ def telescope_is_in_on_state():
     ] == ["ON", "ON", "ON", "ON", "STANDBY", "ON"]
 
 
-def telescope_is_in_off_state():
+def telescope_is_in_off_state() -> bool:
+    """returns if telescope is in off state"""
     LOGGER.info(
         f"{sdp_master}.State : " + str(resource(sdp_master).get("State"))
     )
@@ -100,7 +103,8 @@ def telescope_is_in_off_state():
     ] == ["OFF", "OFF", "OFF", "OFF", "STANDBY"]
 
 
-def subarray_obs_state_is_idle():
+def subarray_obs_state_is_idle() -> bool:
+    """returns if subarray obs_state is IDLE"""
     LOGGER.info(
         f"{tmc_subarraynode1}.obsState : "
         + str(resource(tmc_subarraynode1).get("obsState"))
@@ -125,7 +129,8 @@ def subarray_obs_state_is_idle():
     ]
 
 
-def subarray_obs_state_is_empty():
+def subarray_obs_state_is_empty() -> bool:
+    """returns if subarray obs_state is EMPTY"""
     LOGGER.info(
         f"{tmc_subarraynode1}.obsState : "
         + str(resource(tmc_subarraynode1).get("obsState"))
@@ -150,7 +155,8 @@ def subarray_obs_state_is_empty():
     ]
 
 
-def subarray_obs_state_is_ready():
+def subarray_obs_state_is_ready() -> bool:
+    """returns if subarray obs_state is READY"""
     LOGGER.info(
         f"{tmc_subarraynode1}.obsState : "
         + str(resource(tmc_subarraynode1).get("obsState"))
@@ -175,7 +181,8 @@ def subarray_obs_state_is_ready():
     ]
 
 
-def subarray_obs_state_is_aborted():
+def subarray_obs_state_is_aborted() -> bool:
+    """returns if subarray obs_state is ABORTED"""
     LOGGER.info(
         f"{tmc_subarraynode1}.obsState : "
         + str(resource(tmc_subarraynode1).get("obsState"))
@@ -200,7 +207,8 @@ def subarray_obs_state_is_aborted():
     ]
 
 
-def check_subarray1_availability(subarray_devname):
+def check_subarray1_availability(subarray_devname) -> bool:
+    """returns if subarray is available"""
     subarray1_availability = resource(subarray_devname).get(
         "isSubarrayAvailable"
     )

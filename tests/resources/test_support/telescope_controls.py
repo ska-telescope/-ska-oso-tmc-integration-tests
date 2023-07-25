@@ -1,3 +1,4 @@
+"""this module implement class which check status of devices"""
 from tests.conftest import LOGGER
 from tests.resources.test_support.low.helpers import resource
 

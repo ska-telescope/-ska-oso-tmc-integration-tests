@@ -36,6 +36,7 @@ def get_input_str(input_file):
 
 
 def check_devices():
+    """checks availability of various telescopic devices"""
     central_node = DeviceProxy(centralnode)
     assert 0 < central_node.ping()
     csp_subarray_1 = DeviceProxy(csp_subarray1)
@@ -56,6 +57,7 @@ def check_devices():
 
 @sync_telescope_on
 def set_to_on():
+    """set the to telescope on"""
     central_node = DeviceProxy(centralnode)
     LOGGER.info(
         f"Before Sending TelescopeOn command {central_node} State is: \
@@ -70,6 +72,7 @@ def set_to_on():
 
 @sync_set_to_off
 def set_to_off():
+    """set the to telescope off"""
     central_node = DeviceProxy(centralnode)
     central_node.TelescopeOff()
     csp_subarray_1 = DeviceProxy(csp_subarray1)
@@ -84,6 +87,7 @@ def set_to_off():
 
 @sync_set_to_standby
 def set_to_standby():
+    """set the to telescope standby"""
     central_node = DeviceProxy(centralnode)
     central_node.TelescopeStandBy()
     csp_subarray_1 = DeviceProxy(csp_subarray1)
@@ -99,6 +103,7 @@ def set_to_standby():
 
 @sync_release_resources
 def invoke_releaseResources(release_input_str):
+    """invokes releaseResources command on telescope"""
     central_node = DeviceProxy(centralnode)
     central_node.ReleaseResources(release_input_str)
     LOGGER.info(f"ReleaseResources command is invoked on {central_node}")
@@ -110,6 +115,7 @@ def invoke_releaseResources(release_input_str):
 
 @sync_end()
 def end():
+    """invokes end command on subarray"""
     subarray_node = DeviceProxy(tmc_subarraynode1)
     subarray_node.End()
     LOGGER.info(f"End command is invoked on {subarray_node}")
@@ -117,6 +123,7 @@ def end():
 
 @sync_assign_resources()
 def compose_sub(assign_res_input):
+    """invokes AssignResources command on central node"""
     resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
     resource(tmc_subarraynode1).assert_attribute("obsState").equals("EMPTY")
     central_node = DeviceProxy(centralnode)
@@ -126,6 +133,7 @@ def compose_sub(assign_res_input):
 
 @sync_configure()
 def configure_subarray(configure_input_str):
+    """invokes configure command"""
     resource(tmc_subarraynode1).assert_attribute("obsState").equals("IDLE")
     subarray_node = DeviceProxy(tmc_subarraynode1)
     subarray_node.Configure(configure_input_str)
@@ -134,6 +142,7 @@ def configure_subarray(configure_input_str):
 
 @sync_scan()
 def scan(scan_input):
+    """invokes scan command"""
     resource(tmc_subarraynode1).assert_attribute("obsState").equals("READY")
     subarray_node = DeviceProxy(tmc_subarraynode1)
     subarray_node.Scan(scan_input)

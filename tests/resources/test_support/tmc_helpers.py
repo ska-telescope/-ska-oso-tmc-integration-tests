@@ -1,3 +1,4 @@
+"""support test files for tmc helpers"""
 import logging
 from os.path import dirname, join
 from typing import Optional
@@ -40,12 +41,14 @@ LOGGER = logging.getLogger(__name__)
 
 
 def get_input_str(input_file):
+    """reads json files and return json string"""
     path = join(dirname(__file__), "..", "..", "data", input_file)
-    with open(path, "r", encoding="UTF-8") as f:
-        return f.read()
+    with open(path, "r", encoding="UTF-8") as file:
+        return file.read()
 
 
 def check_devices():
+    """checks all devices and notify for unavailable devices"""
     central_node = DeviceProxy(centralnode)
     assert 0 < central_node.ping()
     csp_subarray_1 = DeviceProxy(csp_subarray1)
@@ -68,6 +71,7 @@ def check_devices():
 
 @sync_telescope_on
 def set_to_on():
+    """set devices to On state"""
     central_node = DeviceProxy(centralnode)
     LOGGER.info(
         "Before Sending TelescopeOn command %s State is: %s",
@@ -87,6 +91,7 @@ def set_to_on():
 
 @sync_set_to_off
 def set_to_off():
+    """set devices to Off state"""
     central_node = DeviceProxy(centralnode)
     central_node.TelescopeOff()
     csp_subarray_1 = DeviceProxy(csp_subarray1)
@@ -104,6 +109,7 @@ def set_to_off():
 
 @sync_set_to_standby
 def set_to_standby():
+    """set devices to standby state"""
     central_node = DeviceProxy(centralnode)
     central_node.TelescopeStandBy()
     csp_subarray_1 = DeviceProxy(csp_subarray1)
@@ -120,7 +126,8 @@ def set_to_standby():
 
 
 @sync_release_resources
-def invoke_releaseResources(release_input_str):
+def invoke_releaseResources(release_input_str: str) -> None:
+    """invokes releaseResources command"""
     central_node = DeviceProxy(centralnode)
     central_node.ReleaseResources(release_input_str)
     LOGGER.info(f"ReleaseResources command is invoked on {central_node}")
@@ -134,6 +141,7 @@ def invoke_releaseResources(release_input_str):
 
 @sync_end()
 def end():
+    """invokes end command"""
     subarray_node = DeviceProxy(tmc_subarraynode1)
     subarray_node.End()
     LOGGER.info(f"End command is invoked on {subarray_node}")
@@ -141,6 +149,7 @@ def end():
 
 @sync_assign_resources()
 def compose_sub(assign_res_input):
+    """invokes assignresources command on centralNode"""
     resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
     resource(tmc_subarraynode1).assert_attribute("obsState").equals("EMPTY")
     central_node = DeviceProxy(centralnode)
@@ -150,6 +159,7 @@ def compose_sub(assign_res_input):
 
 @sync_configure()
 def configure_subarray(configure_input_str):
+    """invokes configure on subarrayNode"""
     resource(tmc_subarraynode1).assert_attribute("obsState").equals("IDLE")
     subarray_node = DeviceProxy(tmc_subarraynode1)
     subarray_node.Configure(configure_input_str)
@@ -158,6 +168,7 @@ def configure_subarray(configure_input_str):
 
 @sync_scan()
 def scan(scan_input):
+    """invokes scan command on subarrayNode"""
     resource(tmc_subarraynode1).assert_attribute("obsState").equals("READY")
     subarray_node = DeviceProxy(tmc_subarraynode1)
     subarray_node.Scan(scan_input)
@@ -166,6 +177,7 @@ def scan(scan_input):
 
 @sync_abort()
 def invoke_abort():
+    """invokes abort command on subarrayNode"""
     subarray_node = DeviceProxy(tmc_subarraynode1)
     subarray_node.Abort()
     LOGGER.info("Invoked Abort on SubarrayNode")
@@ -173,6 +185,7 @@ def invoke_abort():
 
 @sync_restart()
 def invoke_restart():
+    """invokes restart command on subarrayNode"""
     subarray_node = DeviceProxy(tmc_subarraynode1)
     subarray_node.Restart()
     LOGGER.info("Invoked Restart on SubarrayNode")

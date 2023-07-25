@@ -1,4 +1,5 @@
-"""_summary_
+"""
+TelescopeControlLow
 """
 from tests.resources.test_support.telescope_controls import (
     BaseTelescopeControl,

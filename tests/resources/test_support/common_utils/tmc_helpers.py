@@ -39,6 +39,8 @@ LOGGER = logging.getLogger(__name__)
 
 
 class TmcHelper(object):
+    """TmcHelper class"""
+
     def __init__(self, central_node, subarray_node, **kwargs) -> None:
         """
         Args:

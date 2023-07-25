@@ -1,3 +1,4 @@
+"""module for decorators for integration repository"""
 import functools
 from contextlib import contextmanager
 
@@ -12,34 +13,36 @@ from tests.resources.test_support.helpers import WaitForScan, resource, waiter
 
 # pre checks
 def check_going_out_of_empty():
-    # verify once for obstate = EMPTY
+    """verify once for obstate = EMPTY"""
     resource(csp_subarray1).assert_attribute("obsState").equals("EMPTY")
     resource(sdp_subarray1).assert_attribute("obsState").equals("EMPTY")
     resource(tmc_subarraynode1).assert_attribute("obsState").equals("EMPTY")
 
 
 def check_resources_assign():
-    # verify once for obstate = IDLE
+    """verify once for obstate = IDLE"""
     resource(csp_subarray1).assert_attribute("obsState").equals("IDLE")
     resource(sdp_subarray1).assert_attribute("obsState").equals("IDLE")
     resource(tmc_subarraynode1).assert_attribute("obsState").equals("IDLE")
 
 
 def check_going_out_of_configure():
-    # verify once for obstate = READY
+    """verify once for obstate = READY"""
     resource(csp_subarray1).assert_attribute("obsState").equals("READY")
     resource(sdp_subarray1).assert_attribute("obsState").equals("READY")
     resource(tmc_subarraynode1).assert_attribute("obsState").equals("READY")
 
 
 def check_going_out_of_abort():
-    # verify once for obstate = ABORTED
+    """verify once for obstate = ABORTED"""
     resource(csp_subarray1).assert_attribute("obsState").equals("ABORTED")
     resource(sdp_subarray1).assert_attribute("obsState").equals("ABORTED")
     resource(tmc_subarraynode1).assert_attribute("obsState").equals("ABORTED")
 
 
 def sync_telescope_on(func):
+    """method for sync telescope on"""
+
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         the_waiter = waiter()
@@ -52,6 +55,8 @@ def sync_telescope_on(func):
 
 
 def sync_set_to_off(func):
+    """wrapper for telescope on"""
+
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         the_waiter = waiter()
@@ -66,6 +71,7 @@ def sync_set_to_off(func):
 # defined as a context manager
 @contextmanager
 def sync_going_to_off(timeout=50):
+    """context manager method for syncing telescope to off"""
     the_waiter = waiter()
     the_waiter.set_wait_for_going_to_off()
     yield
@@ -73,6 +79,8 @@ def sync_going_to_off(timeout=50):
 
 
 def sync_set_to_standby(func):
+    """wrapper for sync telescope to standby"""
+
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         the_waiter = waiter()
@@ -85,8 +93,11 @@ def sync_set_to_standby(func):
 
 
 def sync_release_resources(func):
+    """wrapper for syncing method to release resources"""
+
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
+        """wrapper method"""
         the_waiter = waiter()
         the_waiter.set_wait_for_going_to_empty()
         result = func(*args, **kwargs)
@@ -97,10 +108,15 @@ def sync_release_resources(func):
 
 
 def sync_assign_resources():
-    # defined as a decorator
+    """method for syncing assign resources
+    defined as a decorator"""
+
     def decorator_sync_assign_resources(func):
+        """decorator"""
+
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
+            """wrapper method"""
             check_going_out_of_empty()
             the_waiter = waiter()
             # Added this check to ensure that devices are running to avoid
@@ -117,7 +133,9 @@ def sync_assign_resources():
 
 
 def sync_configure():
-    # defined as a decorator
+    """sync method for configure command
+    define as a decorator"""
+
     def decorator_sync_configure(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
@@ -137,10 +155,15 @@ def sync_configure():
 
 
 def sync_configure_abort():
-    # defined as a decorator
+    """sync method for configure abort command
+    defined as a decorator"""
+
     def decorator_sync_configure_abort(func):
+        """decorator method"""
+
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
+            """wrapper method"""
             check_resources_assign()
             # Added this check to ensure that devices are running to avoid
             # random test failures.
@@ -154,10 +177,15 @@ def sync_configure_abort():
 
 
 def sync_scan(timeout=300):
-    # define as a decorator
+    """sync method for scan command
+    define as a decorator"""
+
     def decorator_sync_scan(func):
+        """decorator method"""
+
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
+            """wrapper method"""
             check_going_out_of_configure()
             scan_wait = WaitForScan()
             result = func(*args, **kwargs)
@@ -170,10 +198,15 @@ def sync_scan(timeout=300):
 
 
 def sync_end():
-    # defined as a decorator
+    """sync method for end command
+    define as a decorator"""
+
     def decorator_sync_end(func):
+        """decorator method"""
+
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
+            """wrapper method"""
             check_going_out_of_configure()
             the_waiter = waiter()
             the_waiter.set_wait_for_idle()
@@ -186,11 +219,16 @@ def sync_end():
     return decorator_sync_end
 
 
-def sync_abort(timeout=300):
-    # define as a decorator
+def sync_abort(timeout: int = 300):
+    """sync method for abort command
+    define as a decorator"""
+
     def decorator_sync_abort(func):
+        """decorator method"""
+
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
+            """wrapper method"""
             the_waiter = waiter()
             the_waiter.set_wait_for_aborted()
             result = func(*args, **kwargs)
@@ -202,11 +240,16 @@ def sync_abort(timeout=300):
     return decorator_sync_abort
 
 
-def sync_restart(timeout=300):
-    # define as a decorator
+def sync_restart(timeout: int = 300):
+    """sync method for restart command
+    define as a decorator"""
+
     def decorator_sync_restart(func):
+        """decorator method"""
+
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
+            """wrapper method"""
             check_going_out_of_abort()
             the_waiter = waiter()
             the_waiter.set_wait_for_going_to_empty()

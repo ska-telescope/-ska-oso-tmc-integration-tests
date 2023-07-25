@@ -1,3 +1,4 @@
+"""this modules contains decorators for sync methods """
 import functools
 from contextlib import contextmanager
 

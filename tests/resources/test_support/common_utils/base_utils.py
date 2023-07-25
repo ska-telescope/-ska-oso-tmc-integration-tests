@@ -1,4 +1,5 @@
-"""Simple class for checking device ObsState
+"""
+Simple class for checking device ObsState
 """
 from tests.resources.test_support.helpers import resource
 
