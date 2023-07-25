@@ -156,6 +156,9 @@ class TestSubarrayNodeNegative(object):
         input_json = prepare_json_args_for_commands(
             "configure_mid", command_input_factory
         )
+        dish_input_json = prepare_json_args_for_commands(
+            "dish_configure_mid", command_input_factory
+        )
         dish_sim = simulator_factory.get_or_create_simulator_device(
             SimulatorDeviceType.DISH_DEVICE
         )
@@ -177,6 +180,9 @@ class TestSubarrayNodeNegative(object):
             assert event_recorder.has_change_event_occurred(
                 subarray_node.subarray_node, "obsState", ObsState.READY
             )
+        assert device_received_this_command(
+            dish_sim, "ConfigureBand2", dish_input_json
+        )
 
     @pytest.mark.SKA_mid
     def test_subarray_configure_when_csp_goes_to_fault_then_ready(

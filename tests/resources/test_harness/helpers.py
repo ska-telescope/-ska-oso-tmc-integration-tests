@@ -99,14 +99,19 @@ def prepare_json_args_for_commands(args_for_command, command_input_factory):
     return input_json
 
 
-def get_command_call_info(device: Any):
+def get_command_call_info(device: Any, command_name: str):
     """
     device: Tango Device Proxy Object
 
     """
     command_call_info = device.read_attribute("commandCallInfo").value
     LOGGER.info("Command info %s", command_call_info)
-    input_str = "".join(command_call_info[0][1].split())
+    command_info = [
+        command_info
+        for command_info in command_call_info
+        if command_info[0] == command_name
+    ]
+    input_str = "".join(command_info[0][1].split())
     received_command_call_data = (
         command_call_info[0][0],
         sorted(input_str),
@@ -127,7 +132,9 @@ def device_received_this_command(
     Returns:
         Boolean: True if received data is equal to expected data.
     """
-    received_command_call_data = get_command_call_info(device)
+    received_command_call_data = get_command_call_info(
+        device, expected_command_name
+    )
 
     expected_input_str = "".join(expected_inp_str.split())
 
