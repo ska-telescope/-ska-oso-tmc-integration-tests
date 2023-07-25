@@ -171,7 +171,6 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
     """Verify timeout exception raised when sdp set to defective."""
     assign_json = json_factory("command_assign_resource_low")
     try:
-
         # Verify Telescope is Off/Standby
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_STANDBY_INFO, "State"
@@ -184,7 +183,6 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_ON_INFO, "State"
         )
-
         # Invoke AssignResources() Command on TMC
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
         # Verify State transitions after TelescopeOn
@@ -218,7 +216,8 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         )
         assert "AssignResources" in assertion_data["attribute_value"][0]
         assert (
-            "Exception occurred on device: ska_low/tm_subarray_node/1:"
+            "Exception occurred on the following devices:\n"
+            "ska_mid/tm_leaf_node/sdp_subarray01"
             in assertion_data["attribute_value"][1]
         )
         sdp_subarray.SetDefective(False)

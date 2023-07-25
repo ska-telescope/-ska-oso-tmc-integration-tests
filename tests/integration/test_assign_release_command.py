@@ -189,7 +189,8 @@ def test_assign_release_timeout_csp(json_factory, change_event_callbacks):
         )
         assert "AssignResources" in assertion_data["attribute_value"][0]
         assert (
-            "Exception occurred on device: ska_mid/tm_subarray_node/1:"
+            "Exception occurred on the following devices:\n"
+            "ska_mid/tm_leaf_node/csp_subarray01"
             in assertion_data["attribute_value"][1]
         )
         csp_subarray.SetDefective(False)
@@ -253,7 +254,8 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         )
         assert "AssignResources" in assertion_data["attribute_value"][0]
         assert (
-            "Exception occurred on device: ska_mid/tm_subarray_node/1:"
+            "Exception occurred on the following devices:\n"
+            "ska_mid/tm_leaf_node/sdp_subarray01"
             in assertion_data["attribute_value"][1]
         )
 
