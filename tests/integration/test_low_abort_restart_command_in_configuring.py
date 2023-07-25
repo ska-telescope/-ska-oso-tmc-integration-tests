@@ -1,3 +1,5 @@
+""" test cases for abort and restart command in configuring
+ obstate"""
 import pytest
 from tango import DeviceProxy
 

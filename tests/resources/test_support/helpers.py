@@ -82,7 +82,7 @@ class ObjectComparison:
 
 
 # time keepers based on above resources
-class monitor(object):
+class monitor:
     """
     Monitors an attribute of a given resource and allows a user to block/wait
     on a specific condition:

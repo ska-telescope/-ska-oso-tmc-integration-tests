@@ -1,3 +1,4 @@
+"""test cases for scan and endscan command for low"""
 from copy import deepcopy
 
 import pytest

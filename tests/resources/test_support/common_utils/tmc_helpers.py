@@ -2,11 +2,12 @@
 """
 import logging
 import re
-from typing import Optional
+from typing import Optional, Tuple
 
 from tango import DeviceProxy, DevState
 
 from tests.resources.test_support.common_utils.common_helpers import resource
+from tests.resources.test_support.common_utils.result_code import ResultCode
 from tests.resources.test_support.common_utils.sync_decorators import (
     sync_abort,
     sync_assign_resources,
@@ -38,7 +39,7 @@ resutl, message = "", ""
 LOGGER = logging.getLogger(__name__)
 
 
-class TmcHelper(object):
+class TmcHelper:
     """TmcHelper class"""
 
     def __init__(self, central_node, subarray_node, **kwargs) -> None:
@@ -84,8 +85,9 @@ class TmcHelper(object):
         )
 
     @sync_telescope_on
-    def set_to_on(self, **kwargs) -> None:
+    def set_to_on(self, **kwargs: dict) -> None:
         """
+        sets telescope to on
         Args:
             kwargs (dict): device info which needs set to ON
         """
@@ -112,7 +114,12 @@ class TmcHelper(object):
             device_proxy.SetDirectState(DevState.STANDBY)
 
     @sync_set_to_off
-    def set_to_off(self, **kwargs):
+    def set_to_off(self, **kwargs: dict) -> None:
+        """
+        sets telescope to off
+        Args:
+            kwargs (dict): device info which needs set to ON
+        """
         central_node = DeviceProxy(self.centralnode)
         central_node.TelescopeOff()
         device_to_off_list = [
@@ -135,7 +142,12 @@ class TmcHelper(object):
         )
 
     @sync_set_to_standby
-    def set_to_standby(self, **kwargs):
+    def set_to_standby(self, **kwargs: dict) -> None:
+        """
+        sets telescope to standby
+        Args:
+            kwargs (dict): device info which needs set to ON
+        """
         central_node = DeviceProxy(self.centralnode)
         central_node.TelescopeStandBy()
         device_to_standby_list = [
@@ -160,16 +172,25 @@ class TmcHelper(object):
     @sync_release_resources
     def invoke_releaseResources(
         self,
-        release_input_str,
-        **kwargs,
-    ):
+        release_input_str: str,
+        **kwargs: dict,
+    ) -> Tuple[ResultCode, str]:
+        """
+        invokes releaseResources
+        Args:
+            release_input_str(str): json input string
+            kwargs (dict): device info which needs set to ON
+        """
         central_node = DeviceProxy(self.centralnode)
         result, message = central_node.ReleaseResources(release_input_str)
         LOGGER.info(f"ReleaseResources command is invoked on {central_node}")
         return result, message
 
     @sync_assign_resources()
-    def compose_sub(self, assign_res_input, **kwargs):
+    def compose_sub(
+        self, assign_res_input: str, **kwargs: dict
+    ) -> Tuple[ResultCode, str]:
+        """invokes assignResources on central node"""
         resource(self.subarray_node).assert_attribute("State").equals("ON")
         resource(self.subarray_node).assert_attribute("obsState").equals(
             "EMPTY"
@@ -180,41 +201,51 @@ class TmcHelper(object):
         return result, message
 
     @sync_configure()
-    def configure_subarray(self, configure_input_str, **kwargs):
+    def configure_subarray(self, configure_input_str: str, **kwargs: dict):
+        """invokes configure on subarray node"""
         subarray_node = DeviceProxy(self.subarray_node)
         result, message = subarray_node.Configure(configure_input_str)
         LOGGER.info("Invoked Configure on SubarrayNode")
         return result, message
 
     @sync_scan()
-    def scan(self, scan_input_str, **kwargs):
+    def scan(
+        self, scan_input_str: str, **kwargs: dict
+    ) -> Tuple[ResultCode, str]:
+        """invokes scan command on subarray node"""
         subarray_node = DeviceProxy(self.subarray_node)
         result, message = subarray_node.Scan(scan_input_str)
         LOGGER.info("Invoked Scan on SubarrayNode")
         return result, message
 
     @sync_end()
-    def end(self, **kwargs):
+    def end(self, **kwargs: dict) -> Tuple[ResultCode, str]:
+        """invokes end command on subarray node"""
         subarray_node = DeviceProxy(self.subarray_node)
         result, message = subarray_node.End()
         LOGGER.info(f"End command is invoked on {subarray_node}")
         return result, message
 
     @sync_abort()
-    def invoke_abort(self, **kwargs):
+    def invoke_abort(self, **kwargs: dict) -> Tuple[ResultCode, str]:
+        """invokes abort command on subarray node"""
         subarray_node = DeviceProxy(self.subarray_node)
         result, message = subarray_node.Abort()
         LOGGER.info("Invoked Abort on SubarrayNode")
         return result, message
 
     @sync_restart()
-    def invoke_restart(self, **kwargs):
+    def invoke_restart(self, **kwargs: dict) -> Tuple[ResultCode, str]:
+        """invokes restart command on subarray node"""
         subarray_node = DeviceProxy(self.subarray_node)
         subarray_node.Restart()
         LOGGER.info("Invoked Restart on SubarrayNode")
 
     @sync_assigning()
-    def assign_resources(self, assign_res_input, **kwargs):
+    def assign_resources(
+        self, assign_res_input, **kwargs: dict
+    ) -> Tuple[ResultCode, str]:
+        """invokes assign resources command on central node"""
         resource(self.subarray_node).assert_attribute("State").equals("ON")
         central_node = DeviceProxy(self.centralnode)
         result, message = central_node.AssignResources(assign_res_input)
@@ -222,7 +253,10 @@ class TmcHelper(object):
         return result, message
 
     @sync_configure_sub()
-    def configure_sub(self, configure_input_str, **kwargs):
+    def configure_sub(
+        self, configure_input_str: str, **kwargs: dict
+    ) -> Tuple[ResultCode, str]:
+        """invokes configure command on subarray node"""
         resource(self.subarray_node).assert_attribute("obsState").equals(
             "IDLE"
         )
@@ -232,14 +266,18 @@ class TmcHelper(object):
         return result, message
 
     @sync_endscan()
-    def invoke_endscan(self, **kwargs):
+    def invoke_endscan(self, **kwargs: dict) -> Tuple[ResultCode, str]:
+        """invokes endscan command on subarray node"""
         subarray_node = DeviceProxy(self.subarray_node)
         result, message = subarray_node.EndScan()
         LOGGER.info("Invoked EndScan on SubarrayNode")
         return result, message
 
     @sync_endscan_in_ready()
-    def invoke_endscan_in_ready(self, **kwargs):
+    def invoke_endscan_in_ready(
+        self, **kwargs: dict
+    ) -> Tuple[ResultCode, str]:
+        """invokes endscan command on subarray node in READY obstate"""
         subarray_node = DeviceProxy(self.subarray_node)
         result, message = subarray_node.EndScan()
         LOGGER.info("Invoked EndScan on SubarrayNode")

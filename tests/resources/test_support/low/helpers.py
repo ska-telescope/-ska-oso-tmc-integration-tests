@@ -54,9 +54,7 @@ class resource:
 
     def assert_attribute(self, attr):
         """method for asserting attribute"""
-        return ObjectComparison(
-            "{}.{}".format(self.device_name, attr), self.get(attr)
-        )
+        return ObjectComparison(f"{self.device_name}.{attr}", self.get(attr))
 
 
 class ObjectComparison:
@@ -77,14 +75,14 @@ class ObjectComparison:
                 assert self.value == value
         except Exception:
             raise Exception(
-                "{} is asserted to be {} but was instead {}".format(
-                    self.object, value, self.value
-                )
+                f"{self.object} is asserted\
+                to be {value} but was instead\
+                {self.value}"
             )
 
 
 # time keepers based on above resources
-class monitor(object):
+class monitor:
     """
     Monitors an attribute of a given resource and allows a user to block/wait
     on a specific condition:
@@ -176,15 +174,11 @@ class monitor(object):
                 if self.future_value is not None:
                     future_shim = f" to {self.future_value}"
                 raise Exception(
-                    "Timed out waiting for {}.{} to change from {}{} in {:f}s \
-                    (current val = {})".format(
-                        self.resource.device_name,
-                        self.attr,
-                        self.previous_value,
-                        future_shim,
-                        timeout * resolution,
-                        self.current_value,
-                    )
+                    f"{self.resource.device_name}.{self.attr} is\
+                          asserted to be\
+                              {self.previous_value}{future_shim} but\
+                              was instead {timeout * resolution:.f}s\
+                                  (current val = {self.current_value})"
                 )
             sleep(resolution)
             self._update()
@@ -215,14 +209,10 @@ class monitor(object):
             count_down -= 1
             if count_down == 0:
                 raise Exception(
-                    "Timed out waiting for {}.{} to change from {} to {} in \
-                    {:f}s".format(
-                        self.resource.device_name,
-                        self.attr,
-                        self.current_value,
-                        value,
-                        timeout * resolution,
-                    )
+                    f"Timed out waiting for\
+                        {self.resource.device_name}.{self.attr}\
+                        to change from {self.current_value} to\
+                        {value} in {timeout * resolution:.f}s"
                 )
             sleep(resolution)
             self._update()
@@ -283,6 +273,7 @@ class subscriber:
         return None
 
     def for_any_change_on(self, attr, predicate=None):
+        """monitors attributes for any change"""
         if self.implementation == "polling":
             value_now = self.resource.get(attr)
             return monitor(
@@ -301,6 +292,7 @@ class subscriber:
 
 
 def watch(resource, implementation="polling"):
+    """returns subscriber class object"""
     return subscriber(resource, implementation)
 
 
@@ -511,33 +503,26 @@ class waiter:
                 if wait.future_value is not None:
                     future_value_shim = f" to {wait.future_value} (current \
                     val={wait.current_value})"
-                self.error_logs += "{} timed out whilst waiting for {} to \
-                change from {}{} in {:f}s\n".format(
-                    wait.device_name,
-                    wait.attr,
-                    wait.previous_value,
-                    future_value_shim,
-                    timeout_shim,
-                )
+                self.error_logs += f"{wait.device_name} timed\
+                      out whilst waiting for {wait.attr} to\
+                      change from {wait.previous_value}\
+                        {future_value_shim} \
+                        in {timeout_shim:.2f}s\n"
+
             else:
                 timeout_shim = (timeout - result) * resolution
                 if isinstance(wait, AttributeWatcher):
                     timeout_shim = result
-                self.logs += (
-                    "{} changed {} from {} to {} after {:f}s \n".format(
-                        wait.device_name,
-                        wait.attr,
-                        wait.previous_value,
-                        wait.current_value,
-                        timeout_shim,
-                    )
-                )
+                self.logs += f"{wait.device_name}\
+                    changed {wait.attr} from\
+                    {wait.previous_value} to\
+                    {wait.current_value} after\
+                    {timeout_shim:.2f}s \n"
         if self.timed_out:
             raise Exception(
-                "timed out, the following timeouts ocurred:\n{} Successful \
-                changes:\n{}".format(
-                    self.error_logs, self.logs
-                )
+                f"timed out, the following\
+                      timeouts occurred:\n{self.error_logs}\
+                          Successful changes:\n{self.logs}"
             )
 
 

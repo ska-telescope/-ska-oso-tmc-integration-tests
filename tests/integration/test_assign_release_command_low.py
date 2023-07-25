@@ -1,3 +1,4 @@
+"""test cases for assign_release resources command for low"""
 from copy import deepcopy
 
 import pytest
@@ -33,7 +34,8 @@ from tests.resources.test_support.constant_low import (
 
 # TODO:Create generic one tear down which can be utilized for both low and mid.
 def tear_down_for_resourcing(tmc_helper, telescope_control):
-
+    """Tears down the system after test run to get telescope back in \
+        resourcing state."""
     LOGGER.info("Invoking Abort on TMC")
 
     tmc_helper.invoke_abort(**ON_OFF_DEVICE_COMMAND_DICT)
@@ -260,6 +262,7 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
 )
 @pytest.mark.SKA_low
 def test_health_check_low():
+    """test health state check for low"""
     assert telescope_control.is_in_valid_state(
         DEVICE_HEALTH_STATE_OK_INFO, "healthState"
     )

@@ -4,7 +4,7 @@ Simple class for checking device ObsState
 from tests.resources.test_support.helpers import resource
 
 
-class DeviceUtils(object):
+class DeviceUtils:
     """This class implement method for checking obsState of provided devices"""
 
     def __init__(self, **kwargs):

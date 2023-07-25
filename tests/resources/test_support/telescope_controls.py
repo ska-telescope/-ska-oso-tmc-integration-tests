@@ -3,7 +3,7 @@ from tests.conftest import LOGGER
 from tests.resources.test_support.low.helpers import resource
 
 
-class BaseTelescopeControl(object):
+class BaseTelescopeControl:
     """Base Telescope control class.
     Use this class to write method to check status of devices
     """

@@ -45,6 +45,7 @@ def sync_telescope_on(func):
 
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
+        """wrapper method"""
         the_waiter = waiter()
         the_waiter.set_wait_for_telescope_on()
         result = func(*args, **kwargs)
@@ -55,10 +56,11 @@ def sync_telescope_on(func):
 
 
 def sync_set_to_off(func):
-    """wrapper for telescope on"""
+    """wrapper for telescope off"""
 
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
+        """wrapper method"""
         the_waiter = waiter()
         the_waiter.set_wait_for_going_to_off()
         result = func(*args, **kwargs)
@@ -83,6 +85,7 @@ def sync_set_to_standby(func):
 
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
+        """wrapper method"""
         the_waiter = waiter()
         the_waiter.set_wait_for_going_to_standby()
         result = func(*args, **kwargs)

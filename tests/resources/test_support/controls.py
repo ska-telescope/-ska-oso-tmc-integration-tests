@@ -1,4 +1,4 @@
-# local depencies
+"""state control module -local depedencies"""
 from tests.conftest import LOGGER
 from tests.resources.test_support.constant import (
     centralnode,

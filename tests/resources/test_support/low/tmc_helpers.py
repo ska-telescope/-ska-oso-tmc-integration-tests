@@ -1,3 +1,4 @@
+"""support test files for tmc helpers"""
 import logging
 import re
 from os.path import dirname, join
@@ -29,7 +30,8 @@ from tests.resources.test_support.low.sync_decorators import (
 LOGGER = logging.getLogger(__name__)
 
 
-def get_input_str(input_file):
+def get_input_str(input_file: str) -> str:
+    """returns input json files"""
     path = join(dirname(__file__), "..", "..", "data", input_file)
     with open(path, "r", encoding="UTF-8") as f:
         return f.read()

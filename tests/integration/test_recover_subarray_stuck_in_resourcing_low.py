@@ -1,3 +1,5 @@
+"""test cases for recovery of subarray stuck in resourcing
+obstate for low"""
 import pytest
 from tango import DeviceProxy, EventType
 

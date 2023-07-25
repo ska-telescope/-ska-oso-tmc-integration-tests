@@ -1,3 +1,4 @@
+"""test cases for sdp and csp in obstate low"""
 import pytest
 from ska_tango_base.control_model import ObsState
 

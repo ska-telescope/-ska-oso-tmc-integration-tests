@@ -1,3 +1,5 @@
+"""test cases for abort restart command
+    for low"""
 import pytest
 from tango import DeviceProxy
 

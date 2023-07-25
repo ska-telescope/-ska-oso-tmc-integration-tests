@@ -1,3 +1,4 @@
+"""common helpers for ska-tmc-integration """
 import logging
 import signal
 import threading
@@ -12,12 +13,15 @@ LOGGER = logging.getLogger(__name__)
 
 
 class resource:
+    """resources class for common helpers"""
+
     device_name = None
 
     def __init__(self, device_name):
         self.device_name = device_name
 
     def get(self, attr):
+        """method for getting attributes"""
         device_proxy = DeviceProxy(self.device_name)
         attrs = device_proxy.get_attribute_list()
         if attr not in attrs:
@@ -34,9 +38,8 @@ class resource:
         return getattr(device_proxy, attr)
 
     def assert_attribute(self, attr):
-        return ObjectComparison(
-            "{}.{}".format(self.device_name, attr), self.get(attr)
-        )
+        """method for asserting"""
+        return ObjectComparison(f"{self.device_name}.{attr}", self.get(attr))
 
 
 class ObjectComparison:
@@ -47,7 +50,7 @@ class ObjectComparison:
         self.object = object
 
     def equals(self, value):
-        """checks if the values provided equals to class value"""
+        """checks is the values provided equals to class value"""
         try:
             if isinstance(value, list):
                 # a list is assumed to mean an or condition, a tuple is
@@ -57,14 +60,13 @@ class ObjectComparison:
                 assert self.value == value
         except Exception as ex:
             raise Exception(
-                "{} is asserted to be {} but was instead {} {}".format(
-                    self.object, value, self.value, ex
-                )
+                f"{self.object} is asserted \
+                    to be {value} but was instead {self.value} {ex}"
             )
 
 
 # time keepers based on above resources
-class monitor(object):
+class monitor:
     """
     Monitors an attribute of a given resource and allows a user to block/wait
     on a specific condition:
@@ -155,15 +157,11 @@ class monitor(object):
                 if self.future_value is not None:
                     future_shim = f" to {self.future_value}"
                 raise Exception(
-                    "Timed out waiting for {}.{} to change from {}{} in {:f}s\
-                        (current val = {})".format(
-                        self.resource.device_name,
-                        self.attr,
-                        self.previous_value,
-                        future_shim,
-                        timeout * resolution,
-                        self.current_value,
-                    )
+                    f"Timed out waiting \
+                        for {self.resource.device_name}.{self.attr} to\
+                        change from {self.previous_value}{future_shim} in\
+                        {timeout * resolution}s (current val\
+                        = {self.current_value})"
                 )
             sleep(resolution)
             self._update()
@@ -196,14 +194,10 @@ class monitor(object):
             count_down -= 1
             if count_down == 0:
                 raise Exception(
-                    "timed out waiting for {}.{} to change from {} to {} in \
-                        {:f}s".format(
-                        self.resource.device_name,
-                        self.attr,
-                        self.current_value,
-                        value,
-                        timeout * resolution,
-                    )
+                    f"Timed out waiting\
+                          for {self.resource.device_name}.{self.attr} to\
+                              change from {self.current_value} to {value} in\
+                                  {timeout * resolution}s"
                 )
             sleep(resolution)
             self._update()
@@ -577,34 +571,26 @@ class Waiter:
                 if wait.future_value is not None:
                     future_value_shim = f" to {wait.future_value} \
                         (current val={wait.current_value})"
-                self.error_logs += "{} timed out whilst waiting for {} to \
-                change from {}{} in {:f}s and raised {}\n".format(
-                    wait.device_name,
-                    wait.attr,
-                    wait.previous_value,
-                    future_value_shim,
-                    timeout_shim,
-                    ex,
-                )
+                self.error_logs += f"{wait.device_name} timed\
+                      out whilst waiting for {wait.attr} to\
+                      change from\
+                      {wait.previous_value}{future_value_shim} in\
+                      {timeout_shim:f}s and raised\
+                      {ex}\n"
+
             else:
                 timeout_shim = (timeout - result) * resolution
                 if isinstance(wait, AttributeWatcher):
                     timeout_shim = result
-                self.logs += (
-                    "{} changed {} from {} to {} after {:f}s \n".format(
-                        wait.device_name,
-                        wait.attr,
-                        wait.previous_value,
-                        wait.current_value,
-                        timeout_shim,
-                    )
-                )
+                self.logs += f"{wait.device_name} changed\
+                          {wait.attr} from {wait.previous_value} to\
+                            {wait.current_value} after\
+                                  {timeout_shim:.2f}s \n"
         if self.timed_out:
             raise Exception(
-                "timed out, the following timeouts ocurred:\n{} Successful\
-                      changes:\n{}".format(
-                    self.error_logs, self.logs
-                )
+                f"timed out, the following\
+                      timeouts occurred:\n{self.error_logs}\
+                          Successful changes:\n{self.logs}"
             )
 
 

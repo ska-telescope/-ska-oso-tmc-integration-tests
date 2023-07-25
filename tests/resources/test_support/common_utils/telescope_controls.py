@@ -1,8 +1,9 @@
+"""state control module -local depedencies"""
 from tests.conftest import LOGGER
 from tests.resources.test_support.common_utils.common_helpers import resource
 
 
-class BaseTelescopeControl(object):
+class BaseTelescopeControl:
     """Base Telescope control class.
     Use this class to write method to check status of devices
     """
@@ -26,7 +27,8 @@ class BaseTelescopeControl(object):
         return all(state_result_list)
 
 
-def check_subarray1_availability(subarray_devname):
+def check_subarray1_availability(subarray_devname: str) -> bool:
+    """checks subarray availability"""
     subarray1_availability = resource(subarray_devname).get(
         "isSubarrayAvailable"
     )

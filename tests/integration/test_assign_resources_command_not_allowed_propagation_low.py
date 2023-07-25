@@ -1,3 +1,5 @@
+"""test cases for assign_resources command not allowed
+for low"""
 from copy import deepcopy
 
 import pytest
