@@ -78,7 +78,7 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set ska-tango-base.xauthority=$(XAUTHORITY) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
 	--set ska-tango-taranta.enabled=$(TARANTA) \
-	$(CUSTOM_VALUES) 
+	$(CUSTOM_VALUES)
 
 
 K8S_TEST_TEST_COMMAND ?= $(PYTHON_VARS_BEFORE_PYTEST) $(PYTHON_RUNNER) \
