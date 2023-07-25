@@ -37,7 +37,6 @@ def test_assign_release_command_not_allowed_propagation_csp_ln_low(
     json_factory, change_event_callbacks
 ):
     """Verify command not allowed exception propagation from leaf nodes"""
-    global tmc_helper, telescope_control
     assign_json = json_factory("command_assign_resource_low")
     try:
         telescope_control = BaseTelescopeControl()
@@ -116,7 +115,6 @@ def test_assign_release_command_not_allowed_propagation_sdp_ln_low(
     json_factory, change_event_callbacks
 ):
     """Verify command not allowed exception propagation from leaf nodes"""
-    global telescope_control, tmc_helper
     assign_json = json_factory("command_assign_resource_low")
     try:
         telescope_control = BaseTelescopeControl()

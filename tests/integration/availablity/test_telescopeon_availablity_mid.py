@@ -92,7 +92,6 @@ def test_release_mid(json_factory):
     """ReleaseResources is executed while pods are deleted."""
     release_json = json_factory("command_ReleaseResources")
     try:
-        release_json = json_factory("command_ReleaseResources")
         central_node = DeviceProxy(centralnode)
         result, message = central_node.ReleaseResources(release_json)
 
