@@ -104,7 +104,6 @@ def test_assign_release_with_meerkat_ids(json_factory):
 
         # Invoke AssignResources() Command on TMC
         tmc_helper.compose_sub(json_argument, **ON_OFF_DEVICE_COMMAND_DICT)
-        LOGGER.info("AssignResources command is invoked successfully")
 
         # Verify ObsState is Idle
         assert telescope_control.is_in_valid_state(
@@ -115,7 +114,6 @@ def test_assign_release_with_meerkat_ids(json_factory):
         tmc_helper.invoke_releaseResources(
             release_json, **ON_OFF_DEVICE_COMMAND_DICT
         )
-        LOGGER.info("ReleaseResources command is invoked successfully")
 
         # Verify ObsState is Empty
         assert telescope_control.is_in_valid_state(
