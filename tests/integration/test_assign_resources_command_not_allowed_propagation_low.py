@@ -5,6 +5,7 @@ import pytest
 from ska_tango_base.control_model import ObsState
 from ska_tango_testing.mock.placeholders import Anything
 from tango import DeviceProxy, EventType
+
 from tests.conftest import LOGGER, TIMEOUT
 from tests.integration.test_assign_release_command_low import (
     tear_down_for_resourcing,

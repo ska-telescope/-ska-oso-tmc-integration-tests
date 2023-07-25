@@ -156,15 +156,12 @@ def test_assign_release_timeout_csp(json_factory, change_event_callbacks):
         )
         assert "AssignResources" in assertion_data["attribute_value"][0]
         exception_message = (
-                f"Exception occurred on device: {tmc_subarraynode1}: "
-                + "Exception occurred on the following devices:\n"
-                + f"{tmc_csp_subarray_leaf_node}: "
-                + "Timeout has occured, command failed\n"
+            f"Exception occurred on device: {tmc_subarraynode1}: "
+            + "Exception occurred on the following devices:\n"
+            + f"{tmc_csp_subarray_leaf_node}: "
+            + "Timeout has occured, command failed\n"
         )
-        assert (
-                exception_message
-                in assertion_data["attribute_value"][1]
-        )
+        assert exception_message in assertion_data["attribute_value"][1]
         csp_subarray.SetDefective(False)
 
         tear_down_for_resourcing(tmc_helper, telescope_control)
@@ -226,10 +223,7 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
             "ska_low/tm_leaf_node/sdp_subarray01"
             in assertion_data["attribute_value"][1]
         )
-        assert (
-                "Device is Defective"
-                in assertion_data["attribute_value"][1]
-        )
+        assert "Device is Defective" in assertion_data["attribute_value"][1]
         sdp_subarray.SetDefective(False)
 
         tear_down_for_resourcing(tmc_helper, telescope_control)
@@ -237,8 +231,6 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
     except Exception as e:
         LOGGER.exception("The exception is: %s", e)
         tear_down_for_resourcing(tmc_helper, telescope_control)
-
-
 
 
 @pytest.mark.SKA_low
@@ -324,6 +316,7 @@ def test_release_exception_propagation(json_factory, change_event_callbacks):
     except Exception as e:
         LOGGER.exception("The exception is: %s", e)
         tear_down_for_resourcing(tmc_helper, telescope_control)
+
 
 @pytest.mark.skip(
     reason="will be enabled when new tag of \
