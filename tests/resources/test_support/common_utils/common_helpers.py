@@ -47,7 +47,7 @@ class ObjectComparison:
         self.object = object
 
     def equals(self, value):
-        """checks is the values provided equals to class value"""
+        """checks if the values provided equals to class value"""
         try:
             if isinstance(value, list):
                 # a list is assumed to mean an or condition, a tuple is
