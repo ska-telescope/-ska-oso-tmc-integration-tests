@@ -42,11 +42,9 @@ def test_mid_abort_restart_in_restarting(json_factory):
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_STANDBY_INFO, "State"
         )
-        LOGGER.info("Starting up the Telescope")
 
         # Invoke TelescopeOn() command on TMC#
         tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
-        LOGGER.info("TelescopeOn command is invoked successfully")
 
         # Verify State transitions after TelescopeOn#
         assert telescope_control.is_in_valid_state(
@@ -58,7 +56,6 @@ def test_mid_abort_restart_in_restarting(json_factory):
 
         # Invoke AssignResources() Command on TMC#
         tmc_helper.compose_sub(assign_json, **ON_OFF_DEVICE_COMMAND_DICT)
-        LOGGER.info("AssignResources command is invoked successfully")
 
         # Verify ObsState is IDLE#
         assert telescope_control.is_in_valid_state(

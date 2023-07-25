@@ -45,9 +45,7 @@ def test_low_abort_restart_in_configuring(json_factory):
         LOGGER.info("Starting up the Telescope")
 
         # Invoke TelescopeOn() command on TMC#
-        LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
         tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
-        LOGGER.info("TelescopeOn command is invoked successfully")
 
         # Verify State transitions after TelescopeOn#
         assert telescope_control.is_in_valid_state(
@@ -57,9 +55,7 @@ def test_low_abort_restart_in_configuring(json_factory):
         assert check_subarray1_availability(tmc_subarraynode1)
 
         # Invoke AssignResources() Command on TMC#
-        LOGGER.info("Invoking AssignResources command on TMC CentralNode")
         tmc_helper.compose_sub(assign_json, **ON_OFF_DEVICE_COMMAND_DICT)
-        LOGGER.info("AssignResources command is invoked successfully")
 
         # Verify ObsState is IDLE#
         assert telescope_control.is_in_valid_state(
