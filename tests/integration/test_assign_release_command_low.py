@@ -310,7 +310,6 @@ def test_health_check_low():
 
 
 @pytest.mark.SKA_low
-@pytest.mark.temp
 def test_release_exception_propagation(json_factory, change_event_callbacks):
     """Verify timeout exception raised when csp set to defective."""
     assign_json = json_factory("command_assign_resource_low")
