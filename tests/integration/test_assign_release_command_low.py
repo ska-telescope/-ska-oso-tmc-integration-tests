@@ -5,7 +5,10 @@ from tango import DeviceProxy, EventType
 
 import tests.resources.test_support.low.tmc_helpers as tmc
 from tests.conftest import LOGGER
-from tests.resources.test_support.common_utils.common_helpers import Waiter
+from tests.resources.test_support.common_utils.common_helpers import (
+    Waiter,
+    resource,
+)
 from tests.resources.test_support.common_utils.result_code import ResultCode
 from tests.resources.test_support.common_utils.telescope_controls import (
     BaseTelescopeControl,
@@ -271,8 +274,6 @@ def test_release_exception_propagation(json_factory, change_event_callbacks):
     """Verify timeout exception raised when csp set to defective."""
     assign_json = json_factory("command_assign_resource_low")
     release_json = json_factory("command_release_resource_low")
-    telescope_control = TelescopeControlLow()
-    tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
     try:
         # Verify Telescope is Off/Standby
         assert telescope_control.is_in_valid_state(

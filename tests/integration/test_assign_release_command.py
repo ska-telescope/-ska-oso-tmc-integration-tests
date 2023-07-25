@@ -5,7 +5,10 @@ import pytest
 from tango import DeviceProxy, EventType
 
 from tests.conftest import LOGGER
-from tests.resources.test_support.common_utils.common_helpers import Waiter
+from tests.resources.test_support.common_utils.common_helpers import (
+    Waiter,
+    resource,
+)
 from tests.resources.test_support.common_utils.result_code import ResultCode
 from tests.resources.test_support.common_utils.telescope_controls import (
     BaseTelescopeControl,
@@ -290,9 +293,6 @@ def test_release_resources_error_propagation(
     assign_json = json_factory("command_AssignResources")
     release_json = json_factory("command_ReleaseResources")
     try:
-        telescope_control = TelescopeControlMid()
-        tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
-
         # Verify Telescope is Off/Standby
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_STANDBY_INFO, "State"
