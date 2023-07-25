@@ -503,6 +503,15 @@ class Waiter:
                 )
             )
 
+    def set_wait_for_pointingstate(self, pointingstate: str, devices: list):
+        """Waits for intermidiate obsState change for given devices."""
+        for device in devices:
+            self.waits.append(
+                watch(resource(device)).to_become(
+                    "pointingState", changed_to=pointingstate
+                )
+            )
+
     def set_wait_for_scanning(self):
         self.waits.append(
             watch(resource(self.csp_subarray1)).to_become(

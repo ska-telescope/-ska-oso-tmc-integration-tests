@@ -27,7 +27,6 @@ from tests.resources.test_support.constant import (
 )
 
 
-@pytest.mark.test3
 @pytest.mark.SKA_mid
 def test_mid_abort_restart_in_aborting(json_factory):
     """Abort and Restart is executed."""
