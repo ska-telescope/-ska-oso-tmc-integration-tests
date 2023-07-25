@@ -1,11 +1,12 @@
 import pytest
 from tango import DeviceProxy
 
+from tests.resources.test_support.common_utils.tmc_helpers import tear_down
 from tests.resources.test_support.constant import (
+    ON_OFF_DEVICE_COMMAND_DICT,
     centralnode,
     tmc_subarraynode1,
 )
-from tests.resources.test_support.tmc_helpers import tear_down
 
 
 # These test case will pass only when any of the node is deleted explicitly
@@ -89,6 +90,7 @@ def test_assign_mid(json_factory):
 @pytest.mark.SKA_mid
 def test_release_mid(json_factory):
     """ReleaseResources is executed while pods are deleted."""
+    release_json = json_factory("command_ReleaseResources")
     try:
         release_json = json_factory("command_ReleaseResources")
         central_node = DeviceProxy(centralnode)
@@ -99,4 +101,4 @@ def test_release_mid(json_factory):
         )
 
     except Exception:
-        tear_down(release_json)
+        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
