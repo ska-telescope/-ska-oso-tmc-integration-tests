@@ -22,7 +22,6 @@ from tests.resources.test_support.constant_low import (
     centralnode,
     csp_subarray1,
     sdp_subarray1,
-    tmc_csp_subarray_leaf_node,
     tmc_subarraynode1,
 )
 
@@ -57,7 +56,6 @@ telescope_control = BaseTelescopeControl()
 tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 
 
-@pytest.mark.t1
 @pytest.mark.SKA_low
 def test_assign_release_low(json_factory):
     """AssignResources and ReleaseResources is executed."""
@@ -103,7 +101,6 @@ def test_assign_release_low(json_factory):
         tear_down_for_resourcing(tmc_helper, telescope_control)
 
 
-@pytest.mark.t1
 @pytest.mark.SKA_low
 def test_assign_release_timeout_csp(json_factory, change_event_callbacks):
     """Verify timeout exception raised when csp set to defective."""
@@ -148,16 +145,17 @@ def test_assign_release_timeout_csp(json_factory, change_event_callbacks):
         assert unique_id[0].endswith("AssignResources")
         assert result[0] == ResultCode.QUEUED
 
-        exception_message = (
-            f"Exception occured on device: "
-            f"{tmc_subarraynode1}: Exception occured on device"
-            f": {tmc_csp_subarray_leaf_node}: Timeout has "
-            f"occured, command failed"
-        )
-
-        change_event_callbacks["longRunningCommandResult"].assert_change_event(
-            (unique_id[0], exception_message),
+        assertion_data = change_event_callbacks[
+            "longRunningCommandResult"
+        ].assert_change_event(
+            (unique_id[0], Anything),
             lookahead=7,
+        )
+        assert "AssignResources" in assertion_data["attribute_value"][0]
+        assert (
+            "Exception occurred on the following devices:\n"
+            "ska_low/tm_leaf_node/csp_subarray01"
+            in assertion_data["attribute_value"][1]
         )
         csp_subarray.SetDefective(False)
 
@@ -168,7 +166,6 @@ def test_assign_release_timeout_csp(json_factory, change_event_callbacks):
         tear_down_for_resourcing(tmc_helper, telescope_control)
 
 
-@pytest.mark.t1
 @pytest.mark.SKA_low
 def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
     """Verify timeout exception raised when sdp set to defective."""
