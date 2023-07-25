@@ -126,8 +126,6 @@ def test_assign_release_timeout_csp(json_factory, change_event_callbacks):
         )
 
         # Invoke AssignResources() Command on TMC
-        LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-        # Verify State transitions after TelescopeOn
 
         central_node = DeviceProxy(centralnode)
         central_node.subscribe_event(
@@ -157,10 +155,15 @@ def test_assign_release_timeout_csp(json_factory, change_event_callbacks):
             lookahead=7,
         )
         assert "AssignResources" in assertion_data["attribute_value"][0]
+        exception_message = (
+                f"Exception occurred on device: {tmc_subarraynode1}: "
+                + "Exception occurred on the following devices:\n"
+                + f"{tmc_csp_subarray_leaf_node}: "
+                + "Timeout has occured, command failed\n"
+        )
         assert (
-            "Exception occurred on the following devices:\n"
-            "ska_low/tm_leaf_node/csp_subarray01"
-            in assertion_data["attribute_value"][1]
+                exception_message
+                in assertion_data["attribute_value"][1]
         )
         csp_subarray.SetDefective(False)
 
@@ -189,8 +192,6 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
             DEVICE_STATE_ON_INFO, "State"
         )
         # Invoke AssignResources() Command on TMC
-        LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-        # Verify State transitions after TelescopeOn
 
         central_node = DeviceProxy(centralnode)
         central_node.subscribe_event(
@@ -225,6 +226,10 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
             "ska_low/tm_leaf_node/sdp_subarray01"
             in assertion_data["attribute_value"][1]
         )
+        assert (
+                "Device is Defective"
+                in assertion_data["attribute_value"][1]
+        )
         sdp_subarray.SetDefective(False)
 
         tear_down_for_resourcing(tmc_helper, telescope_control)
@@ -234,15 +239,6 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         tear_down_for_resourcing(tmc_helper, telescope_control)
 
 
-@pytest.mark.skip(
-    reason="will be enabled when new tag of \
-        SDP Subarray Leaf Node will release"
-)
-@pytest.mark.SKA_low
-def test_health_check_low():
-    assert telescope_control.is_in_valid_state(
-        DEVICE_HEALTH_STATE_OK_INFO, "healthState"
-    )
 
 
 @pytest.mark.SKA_low
@@ -325,8 +321,16 @@ def test_release_exception_propagation(json_factory, change_event_callbacks):
             DEVICE_STATE_STANDBY_INFO, "State"
         )
 
-        LOGGER.info("Tear Down complete. Telescope is in Standby State")
-
     except Exception as e:
         LOGGER.exception("The exception is: %s", e)
         tear_down_for_resourcing(tmc_helper, telescope_control)
+
+@pytest.mark.skip(
+    reason="will be enabled when new tag of \
+        SDP Subarray Leaf Node will release"
+)
+@pytest.mark.SKA_low
+def test_health_check_low():
+    assert telescope_control.is_in_valid_state(
+        DEVICE_HEALTH_STATE_OK_INFO, "healthState"
+    )

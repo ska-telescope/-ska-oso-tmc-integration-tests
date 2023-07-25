@@ -5,8 +5,7 @@ import pytest
 from ska_tango_base.control_model import ObsState
 from ska_tango_testing.mock.placeholders import Anything
 from tango import DeviceProxy, EventType
-
-from tests.conftest import LOGGER
+from tests.conftest import LOGGER, TIMEOUT
 from tests.integration.test_assign_release_command_low import (
     tear_down_for_resourcing,
 )
@@ -174,7 +173,7 @@ def test_assign_release_command_not_allowed_propagation_sdp_ln_low(
         # Tear down
         the_waiter = Waiter()
         the_waiter.set_wait_for_specific_obsstate("IDLE", [csp_subarray1])
-        the_waiter.wait(500)
+        the_waiter.wait(TIMEOUT)
         # Waiting for Obsstate empty.
         time.sleep(1)
         csp_sln = DeviceProxy(tmc_csp_subarray_leaf_node)

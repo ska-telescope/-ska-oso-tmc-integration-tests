@@ -127,16 +127,15 @@ def test_assign_release_with_meerkat_ids(json_factory):
 
         # Invoke TelescopeStandby() command on TMC
         tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
-        LOGGER.info("Standby command is invoked TMC SubarrayNode")
 
         # Verify State transitions after TelescopeStandby
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_STANDBY_INFO, "State"
         )
-        LOGGER.info("Tests complete.")
+        LOGGER.info("Test complete.")
 
     except Exception as e:
-        LOGGER.info("In tear down. \nThe Exception is %s", e)
+        LOGGER.exception("The exception is: %s", e)
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
@@ -160,8 +159,6 @@ def test_assign_release_timeout_csp(json_factory, change_event_callbacks):
         )
 
         # Invoke AssignResources() Command on TMC
-        LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-        # Verify State transitions after TelescopeOn
 
         central_node = DeviceProxy(centralnode)
         central_node.subscribe_event(
@@ -191,9 +188,14 @@ def test_assign_release_timeout_csp(json_factory, change_event_callbacks):
             lookahead=7,
         )
         assert "AssignResources" in assertion_data["attribute_value"][0]
+        exception_message = (
+                f"Exception occurred on device: {tmc_subarraynode1}: "
+                + "Exception occurred on the following devices:\n"
+                + f"{tmc_csp_subarray_leaf_node}: "
+                + "Timeout has occured, command failed\n"
+        )
         assert (
-            "Exception occurred on the following devices:\n"
-            "ska_mid/tm_leaf_node/csp_subarray01"
+                exception_message
             in assertion_data["attribute_value"][1]
         )
         csp_subarray.SetDefective(False)
@@ -260,6 +262,10 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
             "Exception occurred on the following devices:\n"
             "ska_mid/tm_leaf_node/sdp_subarray01"
             in assertion_data["attribute_value"][1]
+        )
+        assert (
+                "Device is Defective"
+                in assertion_data["attribute_value"][1]
         )
 
         sdp_subarray.SetDefective(False)
