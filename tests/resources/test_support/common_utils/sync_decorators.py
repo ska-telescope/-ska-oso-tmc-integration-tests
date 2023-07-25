@@ -1,4 +1,5 @@
 import functools
+import logging
 from contextlib import contextmanager
 
 from tests.conftest import TIMEOUT
@@ -8,6 +9,8 @@ from tests.resources.test_support.common_utils.common_helpers import (
     WaitForScan,
     resource,
 )
+
+LOGGER = logging.getLogger(__name__)
 
 
 def sync_telescope_on(func):
@@ -236,11 +239,12 @@ def sync_configure_sub():
     return decorator_sync_configure
 
 
-def sync_scan(timeout=300):
+def sync_scan(timeout=500):
     # define as a decorator
     def decorator_sync_scan(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
+            set_wait_for_obsstate = kwargs.get("set_wait_for_obsstate", True)
             device = DeviceUtils(
                 obs_state_device_names=[
                     kwargs.get("csp_subarray"),
@@ -248,10 +252,17 @@ def sync_scan(timeout=300):
                     kwargs.get("tmc_subarraynode"),
                 ]
             )
-            device.check_devices_obsState("READY")
-            scan_wait = WaitForScan(**kwargs)
-            result = func(*args, **kwargs)
-            scan_wait.wait(timeout)
+
+            if set_wait_for_obsstate:
+                device.check_devices_obsState("READY")
+                scan_wait = WaitForScan(**kwargs)
+                result = func(*args, **kwargs)
+                scan_wait.wait(timeout)
+            else:
+                the_waiter = Waiter(**kwargs)
+                result = func(*args, **kwargs)
+                the_waiter.set_wait_for_scanning()
+                the_waiter.wait(200)
             return result
 
         return wrapper

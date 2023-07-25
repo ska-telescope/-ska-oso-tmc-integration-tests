@@ -24,3 +24,15 @@ class BaseTelescopeControl(object):
             )
 
         return all(state_result_list)
+
+
+def check_subarray1_availability(subarray_devname):
+    subarray1_availability = resource(subarray_devname).get(
+        "isSubarrayAvailable"
+    )
+    LOGGER.info(
+        f"{subarray_devname}.isSubarrayAvailable : "
+        + str(subarray1_availability)
+    )
+
+    return subarray1_availability
