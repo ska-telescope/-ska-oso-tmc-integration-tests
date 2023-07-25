@@ -105,4 +105,4 @@ def test_mid_abort_restart_in_restarting(json_factory):
         LOGGER.info("Test complete.")
 
     except Exception:
-        tear_down(release_json)
+        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
