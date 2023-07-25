@@ -310,6 +310,7 @@ def test_health_check_low():
 
 
 @pytest.mark.SKA_low
+@pytest.mark.temp
 def test_release_exception_propagation(json_factory, change_event_callbacks):
     """Verify timeout exception raised when csp set to defective."""
     assign_json = json_factory("command_assign_resource_low")
@@ -356,10 +357,10 @@ def test_release_exception_propagation(json_factory, change_event_callbacks):
         assert result[0] == ResultCode.QUEUED
 
         exception_message = (
-            f"Exception occured on device: "
-            f"{tmc_subarraynode1}: Exception occured on device"
-            f": {tmc_csp_subarray_leaf_node}: Timeout has "
-            f"occured, command failed"
+            f"Exception occurred on device: {tmc_subarraynode1}: "
+            + "Exception occurred on the following devices:\n"
+            + f"{tmc_csp_subarray_leaf_node}: "
+            + "Timeout has occured, command failed\n"
         )
 
         change_event_callbacks["longRunningCommandResult"].assert_change_event(
