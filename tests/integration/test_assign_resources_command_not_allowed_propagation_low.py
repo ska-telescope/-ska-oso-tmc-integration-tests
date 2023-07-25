@@ -2,6 +2,7 @@ import time
 from copy import deepcopy
 
 import pytest
+from ska_tango_base.control_model import ObsState
 from ska_tango_testing.mock.placeholders import Anything
 from tango import DeviceProxy, EventType
 
@@ -92,7 +93,7 @@ def test_assign_release_command_not_allowed_propagation_csp_ln_low(
             "ska_tmc_common.exceptions.InvalidObsStateError"
             in assertion_data["attribute_value"][1]
         )
-        csp_subarray.SetDirectObsState(0)
+        csp_subarray.SetDirectObsState(ObsState.EMPTY)
         # Tear Down
         the_waiter = Waiter()
         the_waiter.set_wait_for_specific_obsstate("EMPTY", [tmc_subarraynode1])
