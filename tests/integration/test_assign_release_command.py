@@ -78,7 +78,7 @@ def test_assign_release(json_factory):
             DEVICE_STATE_STANDBY_INFO, "State"
         )
     except Exception as e:
-        LOGGER.info("In tear down. \nThe Exception is %s", e)
+        LOGGER.exception("The exception is: %s", e)
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
@@ -204,7 +204,7 @@ def test_assign_release_timeout_csp(json_factory, change_event_callbacks):
         )
 
     except Exception as e:
-        LOGGER.info("In tear down. \nThe Exception is %s", e)
+        LOGGER.exception("The exception is: %s", e)
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
@@ -366,7 +366,7 @@ def test_release_resources_error_propagation(
         )
 
     except Exception as e:
-        LOGGER.info(f"Exception occurred {e}")
+        LOGGER.exception("The exception is: %s", e)
         tear_down(
             release_json, raise_exception=True, **ON_OFF_DEVICE_COMMAND_DICT
         )

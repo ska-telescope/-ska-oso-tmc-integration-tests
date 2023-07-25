@@ -167,7 +167,7 @@ def test_assign_release_timeout_csp(json_factory, change_event_callbacks):
         tear_down_for_resourcing(tmc_helper, telescope_control)
 
     except Exception as e:
-        LOGGER.info("In tear down. \nThe Exception is %s", e)
+        LOGGER.exception("The exception is: %s", e)
         tear_down_for_resourcing(tmc_helper, telescope_control)
 
 
@@ -230,7 +230,7 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         tear_down_for_resourcing(tmc_helper, telescope_control)
 
     except Exception as e:
-        LOGGER.info("In tear down. \nThe Exception is %s", e)
+        LOGGER.exception("The exception is: %s", e)
         tear_down_for_resourcing(tmc_helper, telescope_control)
 
 
@@ -328,5 +328,5 @@ def test_release_exception_propagation(json_factory, change_event_callbacks):
         LOGGER.info("Tear Down complete. Telescope is in Standby State")
 
     except Exception as e:
-        LOGGER.info("Exception occured during test run: %s", e)
+        LOGGER.exception("The exception is: %s", e)
         tear_down_for_resourcing(tmc_helper, telescope_control)

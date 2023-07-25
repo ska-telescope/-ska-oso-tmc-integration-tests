@@ -102,7 +102,7 @@ def test_assign_release_command_not_allowed_propagation_csp_ln(
         )
 
     except Exception as e:
-        LOGGER.info(f"Exception occurred {e}")
+        LOGGER.exception("The exception is: %s", e)
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
@@ -174,5 +174,5 @@ def test_assign_release_command_not_allowed_propagation_sdp_ln(
         )
 
     except Exception as e:
-        LOGGER.info(f"Exception occurred {e}")
+        LOGGER.exception("The exception is: %s", e)
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)

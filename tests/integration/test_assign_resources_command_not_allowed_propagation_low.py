@@ -106,7 +106,7 @@ def test_assign_release_command_not_allowed_propagation_csp_ln_low(
         )
 
     except Exception as e:
-        LOGGER.info(f"Exception occurred {e}")
+        LOGGER.exception("The exception is: %s", e)
         tear_down_for_resourcing(tmc_helper, telescope_control)
 
 
@@ -193,5 +193,5 @@ def test_assign_release_command_not_allowed_propagation_sdp_ln_low(
         )
 
     except Exception as e:
-        LOGGER.info(f"Exception occurred {e}")
+        LOGGER.exception("The exception is: %s", e)
         tear_down_for_resourcing(tmc_helper, telescope_control)
