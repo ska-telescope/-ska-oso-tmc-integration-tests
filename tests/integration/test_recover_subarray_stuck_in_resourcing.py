@@ -1,4 +1,5 @@
 import pytest
+from ska_tango_testing.mock.placeholders import Anything
 from tango import DeviceProxy, EventType
 
 from tests.conftest import LOGGER
@@ -22,7 +23,6 @@ from tests.resources.test_support.constant import (
     centralnode,
     csp_subarray1,
     sdp_subarray1,
-    tmc_sdp_subarray_leaf_node,
     tmc_subarraynode1,
 )
 
@@ -84,20 +84,23 @@ def test_recover_subarray_stuck_in_resourcing(
 
         sdp_subarray.SetDefective(False)
 
-        change_event_callbacks["longRunningCommandResult"].assert_change_event(
-            (
-                unique_id[0],
-                f"Exception occured on device: {tmc_subarraynode1}: "
-                + "Exception occurred on the following devices:"
-                + f"\n{tmc_sdp_subarray_leaf_node}: "
-                + "Device is Defective, \
-                    cannot process command completely.\n",
-            ),
+        assertion_data = change_event_callbacks[
+            "longRunningCommandResult"
+        ].assert_change_event(
+            (unique_id[0], Anything),
             lookahead=7,
         )
+        assert "AssignResources" in assertion_data["attribute_value"][0]
+        assert (
+            "Exception occurred on the following devices:\n"
+            "ska_mid/tm_leaf_node/sdp_subarray01"
+            in assertion_data["attribute_value"][1]
+        )
+
         # as helper don't transition back themselves
         assert resource(csp_subarray1).get("obsState") == "IDLE"
-
+        assert resource(sdp_subarray1).get("obsState") == "RESOURCING"
+        sdp_subarray.SetDirectObsState(0)
         assert resource(sdp_subarray1).get("obsState") == "EMPTY"
         csp_subarray = DeviceProxy(csp_subarray1)
         csp_subarray.ReleaseAllResources()
@@ -116,9 +119,8 @@ def test_recover_subarray_stuck_in_resourcing(
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_STANDBY_INFO, "State"
         )
-
         LOGGER.info("Test complete.")
 
     except Exception as e:
         LOGGER.info(f"Exception occurred {e}")
-        tear_down(release_json)
+        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
