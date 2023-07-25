@@ -1,4 +1,4 @@
-"""Implement Class related to mock device
+"""A Class related to simulator device
 """
 import logging
 
@@ -19,12 +19,12 @@ class SimulatorFactory(object):
         self._sim_dev = {}
 
     def get_or_create_simulator_device(self, device_type, sim_number=1):
-        """This method create or get mock object based on device type provided
+        """This method create or get simulator object based on device type provided
         Args:
             device_type (str): Device type for which Simulator need
             to be created
             sim_number (int): Simulator number device proxy object to return.
-            Default return 1st Mock device
+            Default return 1st Simulator device
         Returns:
             sim_device_proxy: Device Proxy of simulator device
         """

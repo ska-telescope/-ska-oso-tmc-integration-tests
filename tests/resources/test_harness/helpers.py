@@ -68,7 +68,6 @@ def tear_down(
 def get_device_simulators(simulator_factory):
     """A method to get simulators for Subsystem devices
 
-
     Args:
         simulator_factory (fixture): fixture for SimulatorFactory class
 
@@ -115,11 +114,19 @@ def get_command_call_info(device: Any):
     return received_command_call_data
 
 
-def device_is_with_correct_command_recorder_data(
+def device_received_this_command(
     device: Any, expected_command_name: str, expected_inp_str: str
 ):
-    """_summary_"""
+    """Method to verify received command and command argument
 
+    Args:
+        device (Any): Tango Device Proxy Object
+        expected_command_name (str): Command name received on simulator device
+        expected_inp_str (str): Command argument received on simulator device
+
+    Returns:
+        Boolean: True if received data is equal to expected data.
+    """
     received_command_call_data = get_command_call_info(device)
 
     expected_input_str = "".join(expected_inp_str.split())
@@ -130,6 +137,13 @@ def device_is_with_correct_command_recorder_data(
     )
 
 
-def single_command_entry_in_command_data(device: Any):
-    command_call_info = device.read_attribute("commandCallInfo").value
-    return len(command_call_info) == 1
+def get_recorded_commands(device: Any):
+    """A method to get data from simulator device
+
+    Args:
+        device (Any): Tango Device Proxy Object
+
+    Returns: List[tuple]
+        recorded data from Simulator device
+    """
+    return device.read_attribute("commandCallInfo").value

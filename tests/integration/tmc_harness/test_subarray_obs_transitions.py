@@ -3,10 +3,10 @@ from ska_tango_base.control_model import ObsState
 
 from tests.resources.test_harness.helpers import (
     check_subarray_obs_state,
-    device_is_with_correct_command_recorder_data,
+    device_received_this_command,
     get_device_simulators,
+    get_recorded_commands,
     prepare_json_args_for_commands,
-    single_command_entry_in_command_data,
 )
 
 
@@ -180,11 +180,7 @@ class TestSubarrayNodeObsStateTransitions(object):
         assert event_recorder.has_change_event_occurred(
             subarray_node.subarray_node, "obsState", destination_obs_state
         )
-        assert device_is_with_correct_command_recorder_data(
-            csp_sim, trigger, csp_input_json
-        )
-        assert device_is_with_correct_command_recorder_data(
-            sdp_sim, trigger, sdp_input_json
-        )
-        assert single_command_entry_in_command_data(csp_sim)
-        assert single_command_entry_in_command_data(sdp_sim)
+        assert device_received_this_command(csp_sim, trigger, csp_input_json)
+        assert device_received_this_command(sdp_sim, trigger, sdp_input_json)
+        assert len(get_recorded_commands(csp_sim)) == 1
+        assert len(get_recorded_commands(sdp_sim)) == 1

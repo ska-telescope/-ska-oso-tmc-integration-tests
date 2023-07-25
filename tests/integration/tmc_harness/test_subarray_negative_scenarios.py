@@ -4,9 +4,9 @@ import pytest
 from ska_tango_base.control_model import ObsState
 
 from tests.resources.test_harness.helpers import (
-    device_is_with_correct_command_recorder_data,
+    device_received_this_command,
+    get_recorded_commands,
     prepare_json_args_for_commands,
-    single_command_entry_in_command_data,
 )
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
@@ -100,7 +100,7 @@ class TestSubarrayNodeNegative(object):
             )
 
         # Add assert for commandCallInfo data
-        assert device_is_with_correct_command_recorder_data(
+        assert device_received_this_command(
             csp_sim, "Configure", csp_input_json
         )
 
@@ -140,10 +140,10 @@ class TestSubarrayNodeNegative(object):
             assert event_recorder.has_change_event_occurred(
                 subarray_node.subarray_node, "obsState", ObsState.READY
             )
-        assert device_is_with_correct_command_recorder_data(
+        assert device_received_this_command(
             sdp_sim, "Configure", sdp_input_json
         )
-        assert single_command_entry_in_command_data(sdp_sim)
+        assert len(get_recorded_commands(sdp_sim)) == 1
 
     @pytest.mark.SKA_mid
     def test_subarray_configure_when_dish_stuck_in_slew(
@@ -219,6 +219,6 @@ class TestSubarrayNodeNegative(object):
         assert event_recorder.has_change_event_occurred(
             subarray_node.subarray_node, "obsState", ObsState.READY
         )
-        assert device_is_with_correct_command_recorder_data(
+        assert device_received_this_command(
             csp_sim, "Configure", csp_input_json
         )
