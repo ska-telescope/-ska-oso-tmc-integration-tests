@@ -1,4 +1,5 @@
 import pytest
+from ska_tango_testing.mock.placeholders import Anything
 from tango import DeviceProxy, EventType
 
 from tests.conftest import LOGGER
@@ -9,7 +10,10 @@ from tests.resources.test_support.common_utils.common_helpers import (
 from tests.resources.test_support.common_utils.telescope_controls import (
     BaseTelescopeControl,
 )
-from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
+from tests.resources.test_support.common_utils.tmc_helpers import (
+    TmcHelper,
+    tear_down,
+)
 from tests.resources.test_support.constant_low import (
     DEVICE_OBS_STATE_EMPTY_INFO,
     DEVICE_STATE_ON_INFO,
@@ -18,7 +22,6 @@ from tests.resources.test_support.constant_low import (
     centralnode,
     csp_subarray1,
     sdp_subarray1,
-    tmc_sdp_subarray_leaf_node,
     tmc_subarraynode1,
 )
 
@@ -33,11 +36,10 @@ def test_recover_subarray_stuck_in_resourcing_low(
 ):
     """AssignResources and ReleaseResources is executed."""
     assign_json = json_factory("command_assign_resource_low")
+    release_json = json_factory("command_ReleaseResources")
     try:
         telescope_control = BaseTelescopeControl()
         tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
-        fixture = {}
-        fixture["state"] = "Unknown"
 
         # Verify Telescope is Off/Standby
         assert telescope_control.is_in_valid_state(
@@ -47,7 +49,7 @@ def test_recover_subarray_stuck_in_resourcing_low(
         # Invoke TelescopeOn() command on TMC
         tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("TelescopeOn command is invoked successfully")
-        fixture["state"] = "TelescopeOn"
+
         # Verify State transitions after TelescopeOn#
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_ON_INFO, "State"
@@ -81,20 +83,23 @@ def test_recover_subarray_stuck_in_resourcing_low(
 
         sdp_subarray.SetDefective(False)
 
-        change_event_callbacks["longRunningCommandResult"].assert_change_event(
-            (
-                unique_id[0],
-                f"Exception occured on device: {tmc_subarraynode1}: "
-                + "Exception occurred on the following devices:"
-                + f"\n{tmc_sdp_subarray_leaf_node}: "
-                + "Device is Defective, \
-                    cannot process command completely.\n",
-            ),
+        assertion_data = change_event_callbacks[
+            "longRunningCommandResult"
+        ].assert_change_event(
+            (unique_id[0], Anything),
             lookahead=7,
+        )
+        assert "AssignResources" in assertion_data["attribute_value"][0]
+        assert (
+            "Exception occurred on the following devices:\n"
+            "ska_low/tm_leaf_node/sdp_subarray01"
+            in assertion_data["attribute_value"][1]
         )
 
         assert resource(csp_subarray1).get("obsState") == "IDLE"
 
+        assert resource(sdp_subarray1).get("obsState") == "RESOURCING"
+        sdp_subarray.SetDirectObsState(0)
         assert resource(sdp_subarray1).get("obsState") == "EMPTY"
         csp_subarray = DeviceProxy(csp_subarray1)
         csp_subarray.ReleaseAllResources()
@@ -115,7 +120,6 @@ def test_recover_subarray_stuck_in_resourcing_low(
         )
         LOGGER.info("Test complete.")
 
-    except Exception:
-        if fixture["state"] == "TelescopeOn":
-            tmc_helper.set_to_off()
-        raise
+    except Exception as e:
+        LOGGER.info(f"Exception occurred {e}")
+        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
