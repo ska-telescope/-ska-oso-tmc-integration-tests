@@ -1,6 +1,7 @@
 from typing import Any, Optional
 
 from tests.conftest import LOGGER
+from tests.resources.test_harness.utils.common_utils import JsonFactory
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_harness.utils.wait_helpers import Waiter
 from tests.resources.test_support.common_utils.common_helpers import resource
@@ -89,7 +90,10 @@ def get_device_simulators(simulator_factory):
     return csp_sim, sdp_sim, dish_sim_1, dish_sim_2
 
 
-def prepare_json_args_for_commands(args_for_command, command_input_factory):
+def prepare_json_args_for_commands(
+    args_for_command: str, command_input_factory: JsonFactory
+) -> str:
+    """This method return input json based on command args"""
     if args_for_command is not None:
         input_json = command_input_factory.create_subarray_configuration(
             args_for_command

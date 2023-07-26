@@ -5,6 +5,7 @@ import logging
 from tango import DeviceProxy
 
 from tests.resources.test_harness.constant import SIMULATOR_DEVICE_FQDN_DICT
+from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
 LOGGER = logging.getLogger(__name__)
 
@@ -18,7 +19,9 @@ class SimulatorFactory(object):
         """Initialize sim object dict"""
         self._sim_dev = {}
 
-    def get_or_create_simulator_device(self, device_type, sim_number=1):
+    def get_or_create_simulator_device(
+        self, device_type: SimulatorDeviceType, sim_number: int = 1
+    ) -> DeviceProxy:
         """This method create or get simulator object
         based on device type provided
 

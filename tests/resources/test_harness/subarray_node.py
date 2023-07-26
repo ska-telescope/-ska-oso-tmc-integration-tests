@@ -47,9 +47,8 @@ device_dict = {
 
 
 class SubarrayNode(object):
-    """
-    A TMC SubarrayNode class to implements the standard set
-    of commands defined by the SKA Control Model.
+    """Subarray Node class which implement methods required for test cases
+    to test subarray node.
     """
 
     def __init__(self) -> None:
@@ -59,9 +58,7 @@ class SubarrayNode(object):
             DeviceProxy(dish_master1),
             DeviceProxy(dish_master2),
         ]
-
         self._state = DevState.OFF
-        # TBD, since ObsState.EMPTY  difficult to import, need a thinking
         self.obs_state = SubarrayObsState.EMPTY
         # setup subarray
         self._setup()
@@ -109,6 +106,7 @@ class SubarrayNode(object):
         self._obs_state = value
 
     def move_to_on(self):
+        # Move subarray to ON state
         if self.state != self.ON_STATE:
             resource(tmc_subarraynode1).assert_attribute("State").equals("OFF")
             result, message = self.subarray_node.On()
@@ -116,13 +114,20 @@ class SubarrayNode(object):
             return result, message
 
     def move_to_off(self):
+        # Move Subarray to OFF state
         resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
         result, message = self.subarray_node.Off()
         LOGGER.info("Invoked OFF on SubarrayNode")
         return result, message
 
     @sync_configure(device_dict=device_dict)
-    def store_configuration_data(self, input_string):
+    def store_configuration_data(self, input_string: str):
+        """Invoke configure command on subarray Node
+        Args:
+            input_string (str): config input json
+        Returns:
+            (result, message): result, message tuple
+        """
         result, message = self.subarray_node.Configure(input_string)
         LOGGER.info("Invoked Configure on SubarrayNode")
         return result, message
@@ -151,10 +156,10 @@ class SubarrayNode(object):
         return result, message
 
     @sync_assign_resources(device_dict)
-    def store_resources(self, assign_json):
-        """
+    def store_resources(self, assign_json: str):
+        """Invoke Assign Resource command on subarray Node
         Args:
-            assign_json (_type_): _description_
+            assign_json (str): Assign resource input json
         """
         result, message = self.subarray_node.AssignResources(assign_json)
         LOGGER.info("Invoked AssignResources on SubarrayNode")
@@ -162,18 +167,14 @@ class SubarrayNode(object):
 
     @sync_release_resources(device_dict)
     def release_resources_subarray(self):
-        """
-        Args:
-            assign_json (_type_): _description_
-        """
         result, message = self.subarray_node.ReleaseAllResources()
         LOGGER.info("Invoked Release Resource on SubarrayNode")
         return result, message
 
     def execute_transition(self, command_name: str, argin=None):
-        """
+        """Execute provided command on subarray
         Args:
-            assign_json (_type_): _description_
+            command_name (str): Name of command to execute
         """
         if command_name is not None:
             result, message = self.subarray_node.command_inout(

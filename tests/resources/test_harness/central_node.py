@@ -1,3 +1,4 @@
+# TODO: refactor this class once implementation for TMC test case start.
 from tango import DeviceProxy, DevState
 
 from tests.resources.test_harness.constant import (
