@@ -1,4 +1,4 @@
-from typing import Any, Optional
+from typing import Any
 
 from tests.conftest import LOGGER
 from tests.resources.test_harness.utils.common_utils import JsonFactory
@@ -47,23 +47,6 @@ def check_subarray_obs_state(obs_state=None, timeout=50):
             resource(csp_subarray1).get("obsState") == obs_state,
         ]
     )
-
-
-def tear_down(
-    central_node,
-    input_json: Optional[str] = None,
-    raise_exception: Optional[bool] = True,
-):
-    """Tears down the system after test run to get telescope back in standby
-    state."""
-    subarray_node_obsstate = resource(tmc_subarraynode1).get("obsState")
-
-    if subarray_node_obsstate == "IDLE":
-        LOGGER.info("Invoking ReleaseResources on TMC")
-        central_node.invoke_release_resources(input_json)
-
-        LOGGER.info("Invoking Telescope Standby on TMC")
-        central_node.move_off()
 
 
 def get_device_simulators(simulator_factory):

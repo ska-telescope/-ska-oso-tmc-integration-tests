@@ -1,12 +1,14 @@
+from typing import Any
+
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 
 
 class ObsStateResetter(object):
     """
-    Class to reset the obsState of SubarrayNode
+    Class to reset the obsState of Device
     """
 
-    def __init__(self, name, device):
+    def __init__(self, name: str, device: Any):
         self.name = name
         self.device = device
 
@@ -141,6 +143,6 @@ class ObsStateResetterFactory:
         "SCANNING": ScanningObsStateResetter,
     }
 
-    def create_state_resetter(self, state_name, device):
+    def create_state_resetter(self, state_name: str, device: Any):
         state_resetter = self.table[state_name](state_name, device)
         return state_resetter
