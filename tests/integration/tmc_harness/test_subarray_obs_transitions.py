@@ -56,6 +56,8 @@ class TestSubarrayNodeObsStateTransitions(object):
         dish_sim_2.setDelay(delay_command_params_str)
 
         event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
+        event_recorder.subscribe_event(sdp_sim, "obsState")
+        event_recorder.subscribe_event(csp_sim, "obsState")
         event_recorder.subscribe_event(sdp_sim, "commandCallInfo")
         event_recorder.subscribe_event(csp_sim, "commandCallInfo")
 
@@ -67,10 +69,12 @@ class TestSubarrayNodeObsStateTransitions(object):
         assert event_recorder.has_change_event_occurred(
             subarray_node.subarray_node, "obsState", destination_obs_state
         )
-        # assert device_received_this_command(sdp_sim, trigger, "")
-        # assert device_received_this_command(csp_sim, trigger, "")
-        # assert len(get_recorded_commands(csp_sim)) == 1
-        # assert len(get_recorded_commands(sdp_sim)) == 1
+        assert event_recorder.has_change_event_occurred(
+            sdp_sim, "obsState", destination_obs_state
+        )
+        assert event_recorder.has_change_event_occurred(
+            csp_sim, "obsState", destination_obs_state
+        )
 
     @pytest.mark.SKA_mid
     @pytest.mark.parametrize(
