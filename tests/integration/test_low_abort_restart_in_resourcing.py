@@ -1,5 +1,5 @@
-"""test cases for abort and restart command in RESOURCING
-obstate"""
+"""Test cases for abort and restart command in RESOURCING
+ObsState"""
 import time
 
 import pytest

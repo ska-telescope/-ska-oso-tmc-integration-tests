@@ -1,4 +1,4 @@
-"""test cases for abort and restart command"""
+"""Test cases for Abort and Restart Command"""
 import json
 import time
 
@@ -99,6 +99,7 @@ def test_abort_restart(json_factory):
 
 @pytest.mark.SKA_mid
 def test_abort_in_empty(json_factory):
+    """Test Abort in EMPTY"""
     release_json = json_factory("command_ReleaseResources")
     try:
         tmc_helper.check_devices(DEVICE_LIST_FOR_CHECK_DEVICES)

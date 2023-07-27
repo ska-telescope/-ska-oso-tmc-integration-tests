@@ -1,4 +1,4 @@
-"""test cases for configure not allowed in empty"""
+"""Test cases for Configure not allowed in EMPTY"""
 import pytest
 from tango import DeviceProxy
 

@@ -1,4 +1,4 @@
-"""test cases for assign release json"""
+"""Test cases for AssignResources input json"""
 import pytest
 from tango import DeviceProxy
 

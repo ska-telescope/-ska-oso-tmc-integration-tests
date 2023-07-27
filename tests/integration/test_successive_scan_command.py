@@ -1,4 +1,4 @@
-"""test successive scan command"""
+"""test successive Scan Command"""
 import pytest
 
 from tests.conftest import LOGGER, update_configure_json, update_scan_json

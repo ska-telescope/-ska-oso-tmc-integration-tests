@@ -1,4 +1,4 @@
-"""common helpers for ska-tmc-integration """
+"""Common helpers for ska-tmc-integration """
 import logging
 import signal
 import threading

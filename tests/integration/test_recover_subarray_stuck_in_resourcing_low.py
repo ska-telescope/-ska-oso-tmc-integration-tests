@@ -1,5 +1,5 @@
-"""test cases for recovery of subarray stuck in resourcing
-obstate for low"""
+"""Test cases for recovery of subarray stuck in RESOURCING
+ObsState for low"""
 import pytest
 from ska_tango_testing.mock.placeholders import Anything
 from tango import DeviceProxy, EventType

@@ -1,5 +1,5 @@
-"""test cases for abort and restart command in ABORTING
-obstate"""
+"""Test cases for abort and restart command in ABORTING
+ObsState"""
 import pytest
 from tango import DeviceProxy
 

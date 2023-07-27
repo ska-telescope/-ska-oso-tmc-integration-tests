@@ -1,4 +1,4 @@
-"""state control module -local depedencies"""
+"""State Control module -local depedencies"""
 from tests.conftest import LOGGER
 from tests.resources.test_support.common_utils.common_helpers import resource
 

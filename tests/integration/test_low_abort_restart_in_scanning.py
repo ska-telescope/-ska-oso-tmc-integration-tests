@@ -1,5 +1,5 @@
-"""test cases for abort and restart command in SCANNING
-obstate"""
+"""Test cases for abort and restart command in SCANNING
+ObsState"""
 import time
 
 import pytest

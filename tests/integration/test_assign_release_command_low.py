@@ -1,4 +1,4 @@
-"""test cases for assign_release resources command for low"""
+"""Test cases for AssignResources Command for low"""
 from copy import deepcopy
 
 import pytest
@@ -113,7 +113,6 @@ def test_assign_release_timeout_csp(json_factory, change_event_callbacks):
     """Verify timeout exception raised when csp set to defective."""
     assign_json = json_factory("command_assign_resource_low")
     try:
-
         # Verify Telescope is Off/Standby
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_STANDBY_INFO, "State"

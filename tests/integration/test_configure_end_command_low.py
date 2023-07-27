@@ -1,4 +1,4 @@
-"""test cases for configure end command
+"""Test cases for Configure End Command
     for low"""
 import pytest
 

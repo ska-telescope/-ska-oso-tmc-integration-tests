@@ -1,4 +1,4 @@
-"""test cases for assign_resources command not allowed
+"""Test cases for AssignResources Command not allowed
     for mid"""
 from copy import deepcopy
 

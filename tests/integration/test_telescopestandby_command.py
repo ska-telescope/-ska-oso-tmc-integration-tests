@@ -1,4 +1,4 @@
-"""test telescope standby command in mid"""
+"""Test Telescope Standby Command in mid"""
 import pytest
 
 from tests.conftest import LOGGER

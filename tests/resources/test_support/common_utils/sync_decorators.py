@@ -1,4 +1,4 @@
-"""this modules contains decorators for sync methods """
+"""This modules contains decorators for sync methods """
 import functools
 import logging
 from contextlib import contextmanager
@@ -71,6 +71,7 @@ def sync_set_to_standby(func):
 
 def sync_release_resources():
     """wrapper for syncing method to release resources"""
+
     def decorator_sync_assign_resources(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
@@ -133,8 +134,8 @@ def sync_abort(timeout: int = 300):
 
 
 def sync_restart(timeout: int = 300):
-    """sync method for restart command
-    define as a decorator"""
+    """sync method for Restart Command
+    define as a Decorator"""
 
     def decorator_sync_restart(func):
         """decorator"""

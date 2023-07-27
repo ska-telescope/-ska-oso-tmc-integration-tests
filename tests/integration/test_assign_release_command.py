@@ -1,4 +1,4 @@
-"""test cases for assign_release resources command for mid"""
+"""Test cases for AssignResources ReleaseResources Command for mid"""
 import json
 from copy import deepcopy
 

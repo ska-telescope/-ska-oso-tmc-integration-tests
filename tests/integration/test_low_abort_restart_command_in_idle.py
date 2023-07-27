@@ -1,5 +1,5 @@
-"""test cases for abort restart command in IDLE
-obstate"""
+"""Test cases for Abort Restart Command in IDLE
+ObsState"""
 import pytest
 
 from tests.conftest import LOGGER

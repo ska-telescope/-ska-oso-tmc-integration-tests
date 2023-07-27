@@ -1,4 +1,4 @@
-"""test cases for sdp and csp in obstate low"""
+"""Test cases for SDP and CSP in ObsState low"""
 import pytest
 
 from tests.conftest import LOGGER
