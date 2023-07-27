@@ -8,7 +8,14 @@ from tests.resources.test_support.common_utils.common_helpers import (
     Waiter,
     resource,
 )
-from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
+from tests.resources.test_support.common_utils.telescope_controls import (
+    BaseTelescopeControl,
+    check_subarray1_availability,
+)
+from tests.resources.test_support.common_utils.tmc_helpers import (
+    TmcHelper,
+    tear_down,
+)
 from tests.resources.test_support.constant import (
     DEVICE_LIST_FOR_CHECK_DEVICES,
     DEVICE_OBS_STATE_ABORT_INFO,
@@ -20,16 +27,8 @@ from tests.resources.test_support.constant import (
     centralnode,
     tmc_subarraynode1,
 )
-from tests.resources.test_support.controls import check_subarray1_availability
-from tests.resources.test_support.telescope_controls import (
-    BaseTelescopeControl,
-)
-from tests.resources.test_support.tmc_helpers import tear_down
 
 
-@pytest.mark.skip(
-    reason="Abort command is not implemented on SDP Subarray Leaf Node."
-)
 @pytest.mark.SKA_mid
 def test_mid_abort_restart_in_aborting(json_factory):
     """Abort and Restart is executed."""
@@ -45,11 +44,9 @@ def test_mid_abort_restart_in_aborting(json_factory):
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_STANDBY_INFO, "State"
         )
-        LOGGER.info("Starting up the Telescope")
 
         # Invoke TelescopeOn() command on TMC#
         tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
-        LOGGER.info("TelescopeOn command is invoked successfully")
 
         # Verify State transitions after TelescopeOn#
         assert telescope_control.is_in_valid_state(
@@ -61,7 +58,6 @@ def test_mid_abort_restart_in_aborting(json_factory):
 
         # Invoke AssignResources() Command on TMC#
         tmc_helper.compose_sub(assign_json, **ON_OFF_DEVICE_COMMAND_DICT)
-        LOGGER.info("AssignResources command is invoked successfully")
 
         # Verify ObsState is IDLE#
         assert telescope_control.is_in_valid_state(
@@ -110,4 +106,4 @@ def test_mid_abort_restart_in_aborting(json_factory):
         LOGGER.info("Test complete.")
 
     except Exception:
-        tear_down(release_json)
+        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)

@@ -1,7 +1,7 @@
 """
 Simple class for checking device ObsState
 """
-from tests.resources.test_support.helpers import resource
+from tests.resources.test_support.common_utils.common_helpers import resource
 
 
 class DeviceUtils:

@@ -169,7 +169,7 @@ class TmcHelper:
             {central_node.State()}"
         )
 
-    @sync_release_resources
+    @sync_release_resources()
     def invoke_releaseResources(
         self,
         release_input_str: str,

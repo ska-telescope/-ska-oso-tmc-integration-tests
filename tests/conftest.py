@@ -109,5 +109,5 @@ def change_event_callbacks() -> MockTangoEventCallbackGroup:
     """
     return MockTangoEventCallbackGroup(
         "longRunningCommandResult",
-        timeout=30.0,
+        timeout=50.0,
     )

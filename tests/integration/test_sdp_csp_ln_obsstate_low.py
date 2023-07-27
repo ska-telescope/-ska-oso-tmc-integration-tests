@@ -1,6 +1,5 @@
 """test cases for sdp and csp in obstate low"""
 import pytest
-from ska_tango_base.control_model import ObsState
 
 from tests.conftest import LOGGER
 from tests.resources.test_support.common_utils.common_helpers import resource
@@ -50,7 +49,7 @@ def test_csp_sdp_ln_obstate_low(json_factory, change_event_callbacks):
 
         resource(tmc_csp_subarray_leaf_node).assert_attribute(
             "cspSubarrayObsState"
-        ).equals(ObsState.EMPTY)
+        ).equals("EMPTY")
         resource(tmc_sdp_subarray_leaf_node).assert_attribute(
             "sdpSubarrayObsState"
         ).equals("EMPTY")
@@ -66,7 +65,7 @@ def test_csp_sdp_ln_obstate_low(json_factory, change_event_callbacks):
 
         resource(tmc_csp_subarray_leaf_node).assert_attribute(
             "cspSubarrayObsState"
-        ).equals(ObsState.IDLE)
+        ).equals("IDLE")
         resource(tmc_sdp_subarray_leaf_node).assert_attribute(
             "sdpSubarrayObsState"
         ).equals("IDLE")

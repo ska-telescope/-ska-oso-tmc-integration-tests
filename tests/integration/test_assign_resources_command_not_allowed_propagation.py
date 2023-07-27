@@ -3,13 +3,22 @@
 from copy import deepcopy
 
 import pytest
+from ska_tango_base.control_model import ObsState
 from ska_tango_testing.mock.placeholders import Anything
 from tango import DeviceProxy, EventType
 
 from tests.conftest import LOGGER
+from tests.resources.test_support.common_utils.common_helpers import Waiter
 from tests.resources.test_support.common_utils.result_code import ResultCode
-from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
+from tests.resources.test_support.common_utils.telescope_controls import (
+    BaseTelescopeControl,
+)
+from tests.resources.test_support.common_utils.tmc_helpers import (
+    TmcHelper,
+    tear_down,
+)
 from tests.resources.test_support.constant import (
+    DEVICE_OBS_STATE_EMPTY_INFO,
     DEVICE_STATE_ON_INFO,
     DEVICE_STATE_STANDBY_INFO,
     ON_OFF_DEVICE_COMMAND_DICT,
@@ -18,16 +27,8 @@ from tests.resources.test_support.constant import (
     sdp_subarray1,
     tmc_subarraynode1,
 )
-from tests.resources.test_support.mid.telescope_controls_mid import (
-    TelescopeControlMid,
-)
-from tests.resources.test_support.tmc_helpers import tear_down
 
 
-@pytest.mark.skip(
-    reason="Abort command is not implemented on SDP Subarray Leaf Node. \
-        The functionality is verified and will work."
-)
 @pytest.mark.SKA_mid
 def test_assign_release_command_not_allowed_propagation_csp_ln(
     json_factory, change_event_callbacks
@@ -36,7 +37,7 @@ def test_assign_release_command_not_allowed_propagation_csp_ln(
     assign_json = json_factory("command_AssignResources")
     release_json = json_factory("command_ReleaseResources")
     try:
-        telescope_control = TelescopeControlMid()
+        telescope_control = BaseTelescopeControl()
         tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 
         # Verify Telescope is Off/Standby
@@ -89,19 +90,24 @@ def test_assign_release_command_not_allowed_propagation_csp_ln(
             "ska_tmc_common.exceptions.InvalidObsStateError"
             in assertion_data["attribute_value"][1]
         )
-
+        csp_subarray.SetDirectObsState(ObsState.EMPTY)
+        # csp empty
+        the_waiter = Waiter()
+        the_waiter.set_wait_for_specific_obsstate("EMPTY", [csp_subarray1])
+        the_waiter.wait(200)
+        assert telescope_control.is_in_valid_state(
+            DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
+        )
         # Do not raise exception
-        tear_down(release_json, raise_exception=False)
+        tear_down(
+            release_json, raise_exception=False, **ON_OFF_DEVICE_COMMAND_DICT
+        )
 
     except Exception as e:
-        LOGGER.info(f"Exception occurred {e}")
-        tear_down(release_json)
+        LOGGER.exception("The exception is: %s", e)
+        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-@pytest.mark.skip(
-    reason="Abort command is not implemented on SDP Subarray Leaf Node. \
-        The functionality is verified and will work."
-)
 @pytest.mark.SKA_mid
 def test_assign_release_command_not_allowed_propagation_sdp_ln(
     json_factory, change_event_callbacks
@@ -110,7 +116,7 @@ def test_assign_release_command_not_allowed_propagation_sdp_ln(
     assign_json = json_factory("command_AssignResources")
     release_json = json_factory("command_ReleaseResources")
     try:
-        telescope_control = TelescopeControlMid()
+        telescope_control = BaseTelescopeControl()
         tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 
         # Verify Telescope is Off/Standby
@@ -165,8 +171,10 @@ def test_assign_release_command_not_allowed_propagation_sdp_ln(
         )
 
         # Do not raise exception
-        tear_down(release_json, raise_exception=False)
+        tear_down(
+            release_json, raise_exception=False, **ON_OFF_DEVICE_COMMAND_DICT
+        )
 
     except Exception as e:
-        LOGGER.info(f"Exception occurred {e}")
-        tear_down(release_json)
+        LOGGER.exception("The exception is: %s", e)
+        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)

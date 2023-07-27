@@ -3,9 +3,14 @@ import json
 from copy import deepcopy
 
 import pytest
+from ska_tango_testing.mock.placeholders import Anything
 from tango import DeviceProxy, EventType
 
-from tests.conftest import LOGGER
+from tests.conftest import LOGGER, TIMEOUT
+from tests.resources.test_support.common_utils.common_helpers import (
+    Waiter,
+    resource,
+)
 from tests.resources.test_support.common_utils.result_code import ResultCode
 from tests.resources.test_support.common_utils.telescope_controls import (
     BaseTelescopeControl,
@@ -26,7 +31,6 @@ from tests.resources.test_support.constant import (
     csp_subarray1,
     sdp_subarray1,
     tmc_csp_subarray_leaf_node,
-    tmc_sdp_subarray_leaf_node,
     tmc_subarraynode1,
 )
 
@@ -67,6 +71,8 @@ def test_assign_release(json_factory):
             DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
         )
 
+        # Check Telescope availability
+        tmc_helper.check_telescope_availability()
         # Invoke Standby() command on TMC
         tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
         assert telescope_control.is_in_valid_state(
@@ -127,18 +133,15 @@ def test_assign_release_with_meerkat_ids(json_factory):
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_STANDBY_INFO, "State"
         )
-        LOGGER.info("Tests complete.")
+        LOGGER.info("Test complete.")
 
     except Exception as e:
         LOGGER.exception("The exception is: %s", e)
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-@pytest.mark.skip(
-    reason="Abort command is not implemented on SDP Subarray Leaf Node."
-)
 @pytest.mark.SKA_mid
-def test_assign_release_timeout(json_factory, change_event_callbacks):
+def test_assign_release_timeout_csp(json_factory, change_event_callbacks):
     """Verify timeout exception raised when csp set to defective."""
     assign_json = json_factory("command_AssignResources")
     release_json = json_factory("command_ReleaseResources")
@@ -157,8 +160,6 @@ def test_assign_release_timeout(json_factory, change_event_callbacks):
         )
 
         # Invoke AssignResources() Command on TMC
-        LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-        # Verify State transitions after TelescopeOn
 
         central_node = DeviceProxy(centralnode)
         central_node.subscribe_event(
@@ -181,17 +182,20 @@ def test_assign_release_timeout(json_factory, change_event_callbacks):
         assert unique_id[0].endswith("AssignResources")
         assert result[0] == ResultCode.QUEUED
 
+        assertion_data = change_event_callbacks[
+            "longRunningCommandResult"
+        ].assert_change_event(
+            (unique_id[0], Anything),
+            lookahead=7,
+        )
+        assert "AssignResources" in assertion_data["attribute_value"][0]
         exception_message = (
-            f"Exception occured on device: "
-            f"{tmc_subarraynode1}: Exception occurred on the following devices"
-            f":\n{tmc_csp_subarray_leaf_node}: Timeout has "
-            f"occured, command failed\n"
+            f"Exception occurred on device: {tmc_subarraynode1}: "
+            + "Exception occurred on the following devices:\n"
+            + f"{tmc_csp_subarray_leaf_node}: "
+            + "Timeout has occured, command failed\n"
         )
-
-        change_event_callbacks["longRunningCommandResult"].assert_change_event(
-            (unique_id[0], exception_message),
-            lookahead=9,
-        )
+        assert exception_message in assertion_data["attribute_value"][1]
         csp_subarray.SetDefective(False)
 
         # Do not raise exception
@@ -204,12 +208,9 @@ def test_assign_release_timeout(json_factory, change_event_callbacks):
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-@pytest.mark.skip(
-    reason="Abort command is not implemented on SDP Subarray Leaf Node."
-)
 @pytest.mark.SKA_mid
 def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
-    """Verify timeout exception raised when sdpp set to defective."""
+    """Verify timeout exception raised when sdp set to defective."""
     assign_json = json_factory("command_AssignResources")
     release_json = json_factory("command_ReleaseResources")
     try:
@@ -248,17 +249,20 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         assert unique_id[0].endswith("AssignResources")
         assert result[0] == ResultCode.QUEUED
 
-        exception_message = (
-            f"Exception occured on device: "
-            f"{tmc_subarraynode1}: Exception occurred on the following devices"
-            f":\n{tmc_sdp_subarray_leaf_node}: Timeout has "
-            f"occured, command failed\n"
-        )
-
-        change_event_callbacks["longRunningCommandResult"].assert_change_event(
-            (unique_id[0], exception_message),
+        assertion_data = change_event_callbacks[
+            "longRunningCommandResult"
+        ].assert_change_event(
+            (unique_id[0], Anything),
             lookahead=7,
         )
+        assert "AssignResources" in assertion_data["attribute_value"][0]
+        assert (
+            "Exception occurred on the following devices:\n"
+            "ska_mid/tm_leaf_node/sdp_subarray01"
+            in assertion_data["attribute_value"][1]
+        )
+        assert "Device is Defective" in assertion_data["attribute_value"][1]
+
         sdp_subarray.SetDefective(False)
 
         # Do not raise exception
@@ -271,13 +275,100 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-@pytest.mark.skip(
-    reason="will be enabled when new tag of \
-        SDP Subarray Leaf Node will release"
-)
+@pytest.mark.skip
 @pytest.mark.SKA_mid
 def test_health_check_mid():
     """test case to check health check for mid"""
     assert telescope_control.is_in_valid_state(
         DEVICE_HEALTH_STATE_OK_INFO, "healthState"
     )
+
+
+@pytest.mark.SKA_mid
+def test_release_resources_error_propagation(
+    json_factory, change_event_callbacks
+):
+    """Verify timeout exception raised when csp set to defective."""
+    assign_json = json_factory("command_AssignResources")
+    release_json = json_factory("command_ReleaseResources")
+    try:
+        # Verify Telescope is Off/Standby
+        assert telescope_control.is_in_valid_state(
+            DEVICE_STATE_STANDBY_INFO, "State"
+        )
+
+        # Invoke TelescopeOn() command on TMC
+        tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
+
+        # Verify State transitions after TelescopeOn
+        assert telescope_control.is_in_valid_state(
+            DEVICE_STATE_ON_INFO, "State"
+        )
+
+        # Invoke AssignResources() Command on TMC
+        tmc_helper.compose_sub(assign_json, **ON_OFF_DEVICE_COMMAND_DICT)
+
+        # Verify transitions after AssignResources command
+        assert telescope_control.is_in_valid_state(
+            DEVICE_OBS_STATE_IDLE_INFO, "obsState"
+        )
+
+        central_node = DeviceProxy(centralnode)
+        central_node.subscribe_event(
+            "longRunningCommandResult",
+            EventType.CHANGE_EVENT,
+            change_event_callbacks["longRunningCommandResult"],
+        )
+
+        csp_subarray = DeviceProxy(csp_subarray1)
+        csp_subarray.SetDefective(True)
+
+        exception_message = (
+            f"Exception occurred on device: {tmc_subarraynode1}: "
+            + "Exception occurred on the following devices:\n"
+            + f"{tmc_csp_subarray_leaf_node}: "
+            + "Timeout has occured, command failed\n"
+        )
+
+        # Invoking ReleaseResources command
+        device_params = deepcopy(ON_OFF_DEVICE_COMMAND_DICT)
+        device_params["set_wait_for_obsstate"] = False
+        result_code, unique_id = tmc_helper.invoke_releaseResources(
+            release_json, **device_params
+        )
+        assert unique_id[0].endswith("ReleaseResources")
+        assert result_code[0] == ResultCode.QUEUED
+
+        change_event_callbacks["longRunningCommandResult"].assert_change_event(
+            (unique_id[0], exception_message),
+            lookahead=4,
+        )
+        change_event_callbacks["longRunningCommandResult"].assert_change_event(
+            (unique_id[0], str(ResultCode.FAILED.value)),
+            lookahead=4,
+        )
+
+        csp_subarray.SetDefective(False)
+
+        # Emulating Csp Subarray going back to IDLE state after command failure
+        csp_subarray.SetDirectObsState(2)
+
+        # Tear Down
+        csp_sln = DeviceProxy(tmc_csp_subarray_leaf_node)
+        csp_sln.ReleaseAllResources()
+
+        waiter = Waiter(**ON_OFF_DEVICE_COMMAND_DICT)
+        waiter.set_wait_for_going_to_empty()
+        waiter.wait(TIMEOUT)
+        subarray_node = DeviceProxy(tmc_subarraynode1)
+        resource(subarray_node).assert_attribute("obsState").equals("EMPTY")
+
+        tear_down(
+            release_json, raise_exception=False, **ON_OFF_DEVICE_COMMAND_DICT
+        )
+
+    except Exception as e:
+        LOGGER.exception("The exception is: %s", e)
+        tear_down(
+            release_json, raise_exception=True, **ON_OFF_DEVICE_COMMAND_DICT
+        )
