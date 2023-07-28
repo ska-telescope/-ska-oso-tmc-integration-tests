@@ -122,13 +122,18 @@ def device_received_this_command(
     received_command_call_data = get_command_call_info(
         device, expected_command_name
     )
+    if expected_inp_str is not None:
+        expected_input_str = "".join(expected_inp_str.split())
 
-    expected_input_str = "".join(expected_inp_str.split())
-
-    return received_command_call_data == (
-        expected_command_name,
-        sorted(expected_input_str),
-    )
+        return received_command_call_data == (
+            expected_command_name,
+            sorted(expected_input_str),
+        )
+    else:
+        return received_command_call_data == (
+            expected_command_name,
+            "",
+        )
 
 
 def get_recorded_commands(device: Any):
