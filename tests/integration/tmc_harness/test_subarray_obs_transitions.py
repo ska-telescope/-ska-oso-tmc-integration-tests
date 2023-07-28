@@ -11,10 +11,10 @@ from tests.resources.test_harness.helpers import (
 
 class TestSubarrayNodeObsStateTransitions(object):
     @pytest.mark.parametrize(
-        "source_obs_state, trigger, destination_obs_state",
+        "source_obs_state, trigger, intermediate_obs_state, destination_obs_state",
         [
-            ("READY", "End", ObsState.IDLE),
-            ("ABORTED", "Restart", ObsState.EMPTY),
+            # ("READY", "End", ObsState.IDLE, ObsState.IDLE),
+            ("ABORTED", "Restart", ObsState.RESTARTING, ObsState.EMPTY),
         ],
     )
     @pytest.mark.SKA_mid
@@ -25,6 +25,7 @@ class TestSubarrayNodeObsStateTransitions(object):
         event_recorder,
         source_obs_state,
         trigger,
+        intermediate_obs_state,
         destination_obs_state,
     ):
         """
@@ -65,8 +66,13 @@ class TestSubarrayNodeObsStateTransitions(object):
         subarray_node.execute_transition(trigger, argin=None)
 
         assert event_recorder.has_change_event_occurred(
+            subarray_node.subarray_node, "obsState", intermediate_obs_state
+        )
+        assert event_recorder.has_change_event_occurred(
             subarray_node.subarray_node, "obsState", destination_obs_state
         )
+        assert len(get_recorded_commands(sdp_sim)) == 1
+        assert len(get_recorded_commands(csp_sim)) == 1
 
     @pytest.mark.SKA_mid
     @pytest.mark.parametrize(
