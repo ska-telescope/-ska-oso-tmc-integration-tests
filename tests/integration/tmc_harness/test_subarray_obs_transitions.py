@@ -67,9 +67,6 @@ class TestSubarrayNodeObsStateTransitions(object):
             subarray_node.subarray_node, "obsState", destination_obs_state
         )
 
-        # assert len(get_recorded_commands(sdp_sim)) == 1
-        # assert len(get_recorded_commands(csp_sim)) == 1
-
     @pytest.mark.SKA_mid
     @pytest.mark.parametrize(
         "source_obs_state, trigger, args_for_command,\

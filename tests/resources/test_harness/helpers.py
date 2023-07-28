@@ -98,12 +98,16 @@ def get_command_call_info(device: Any, command_name: str):
         for command_info in command_call_info
         if command_info[0] == command_name
     ]
-    input_str = "".join(command_info[0][1].split())
-    received_command_call_data = (
-        command_call_info[0][0],
-        sorted(input_str),
-    )
-    return received_command_call_data
+    if command_info[0][1] != "":
+        input_str = "".join(command_info[0][1].split())
+        received_command_call_data = (
+            command_call_info[0][0],
+            sorted(input_str),
+        )
+        return received_command_call_data
+    else:
+        received_command_call_data = (command_call_info[0][0], "")
+        return received_command_call_data
 
 
 def device_received_this_command(
