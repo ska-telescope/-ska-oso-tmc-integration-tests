@@ -49,7 +49,7 @@ class TestSubarrayNodeObsStateTransitions(object):
             obs_state_transition_duration_sec,
         )
 
-        csp_sim, dish_sim_1, dish_sim_2, sdp_sim = get_device_simulators(
+        csp_sim, sdp_sim, dish_sim_1, dish_sim_2 = get_device_simulators(
             simulator_factory
         )
         sdp_sim.setDelay(delay_command_params_str)
