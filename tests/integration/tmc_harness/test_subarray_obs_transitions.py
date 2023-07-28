@@ -2,6 +2,7 @@ import pytest
 from ska_tango_base.control_model import ObsState
 
 from tests.resources.test_harness.helpers import (
+    check_subarray_obs_state,
     device_received_this_command,
     get_device_simulators,
     get_recorded_commands,
@@ -13,8 +14,8 @@ class TestSubarrayNodeObsStateTransitions(object):
     @pytest.mark.parametrize(
         "source_obs_state, trigger, destination_obs_state",
         [
-            ("READY", "End", ObsState.IDLE),
-            ("ABORTED", "Restart", ObsState.EMPTY),
+            ("ABORTED", "Restart", "EMPTY"),
+            ("READY", "End", "IDLE"),
         ],
     )
     @pytest.mark.SKA_mid
@@ -22,7 +23,6 @@ class TestSubarrayNodeObsStateTransitions(object):
         self,
         subarray_node,
         simulator_factory,
-        event_recorder,
         source_obs_state,
         trigger,
         destination_obs_state,
@@ -41,31 +41,35 @@ class TestSubarrayNodeObsStateTransitions(object):
         - "destination_obs_state": a TMC SubarrayNode final obsState,
            representing a successful completion of triggered command
         """
+        csp_sim, sdp_sim, dish_sim_1, dish_sim_2 = get_device_simulators(
+            simulator_factory
+        )
+
         obs_state_transition_duration_sec = 30
+
         delay_command_params_str = '{"%s": %s}' % (
             trigger,
             obs_state_transition_duration_sec,
         )
 
-        csp_sim, sdp_sim, dish_sim_1, dish_sim_2 = get_device_simulators(
-            simulator_factory
-        )
         sdp_sim.setDelay(delay_command_params_str)
         csp_sim.setDelay(delay_command_params_str)
         dish_sim_1.setDelay(delay_command_params_str)
         dish_sim_2.setDelay(delay_command_params_str)
 
-        event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
-        event_recorder.subscribe_event(sdp_sim, "commandCallInfo")
-        event_recorder.subscribe_event(csp_sim, "commandCallInfo")
-
         subarray_node.move_to_on()
+
         subarray_node.force_change_of_obs_state(source_obs_state)
 
-        subarray_node.execute_transition(trigger, argin=None)
+        subarray_node.execute_transition(trigger)
 
-        assert event_recorder.has_change_event_occurred(
-            subarray_node.subarray_node, "obsState", destination_obs_state
+        # As we set Obs State transition duration to 30 so wait timeout here
+        # provided as 32 sec. It validate after 32 sec excepted
+        # obs state change
+        expected_timeout_sec = obs_state_transition_duration_sec + 2
+
+        assert check_subarray_obs_state(
+            obs_state=destination_obs_state, timeout=expected_timeout_sec
         )
 
     @pytest.mark.SKA_mid
