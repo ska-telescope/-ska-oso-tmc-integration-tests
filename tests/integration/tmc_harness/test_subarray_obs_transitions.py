@@ -11,7 +11,8 @@ from tests.resources.test_harness.helpers import (
 
 class TestSubarrayNodeObsStateTransitions(object):
     @pytest.mark.parametrize(
-        "source_obs_state, trigger, intermediate_obs_state, destination_obs_state",
+        "source_obs_state, trigger,\
+        intermediate_obs_state, destination_obs_state",
         [
             # ("READY", "End", ObsState.IDLE, ObsState.IDLE),
             ("ABORTED", "Restart", ObsState.RESTARTING, ObsState.EMPTY),
