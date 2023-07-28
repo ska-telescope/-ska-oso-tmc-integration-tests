@@ -1,4 +1,4 @@
-"""Test cases for AssignResources Command for low"""
+"""Test cases for Assign Release Resources Command for low"""
 from copy import deepcopy
 
 import pytest
