@@ -8,7 +8,7 @@ from tests.resources.test_harness.helpers import (
 
 
 class TestTelescopeHealthState(object):
-    """This class implement test cases to verify telescopeHealthState 
+    """This class implement test cases to verify telescopeHealthState
     of CentralNode"""
 
     @pytest.mark.SKA_mid
