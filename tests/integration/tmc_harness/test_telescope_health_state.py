@@ -1,3 +1,5 @@
+import time
+
 import pytest
 from ska_tango_base.control_model import HealthState
 
@@ -11,15 +13,16 @@ class TestTelescopeHealthState(object):
     """This class implement test cases to verify telescopeHealthState
     of CentralNode"""
 
+    @pytest.mark.shraddha
     @pytest.mark.SKA_mid
     def test_telescope_state_unknown(
         self, central_node, simulator_factory, event_recorder
     ):
-        csp_master_sim, sdp_master_sim, _, _ = get_master_device_simulators(
+        csp_master_sim, sdp_master_sim = get_master_device_simulators(
             simulator_factory
         )
         csp_master_sim.SetDirectHealthState(HealthState.OK)
-        sdp_master_sim.SetDirectHealthState(HealthState.OK)
+        sdp_master_sim.SetDirectHealthState(HealthState.UNKNOWN)
 
         event_recorder.subscribe_event(
             central_node.central_node, "telescopeHealthState"
@@ -31,11 +34,12 @@ class TestTelescopeHealthState(object):
             HealthState.UNKNOWN,
         )
 
+    @pytest.mark.shraddha
     @pytest.mark.SKA_mid
     def test_telescope_state_degraded(
         self, central_node, simulator_factory, event_recorder
     ):
-        csp_master_sim, sdp_master_sim, _, _ = get_master_device_simulators(
+        csp_master_sim, sdp_master_sim = get_master_device_simulators(
             simulator_factory
         )
         csp_master_sim.SetDirectHealthState(HealthState.OK)
@@ -51,16 +55,19 @@ class TestTelescopeHealthState(object):
             HealthState.DEGRADED,
         )
 
-    @pytest.mark.skip(reason="WIP")
+    # @pytest.mark.skip(reason="WIP")
+    @pytest.mark.shraddha
     @pytest.mark.SKA_mid
     def test_telescope_state_ok(
         self, central_node, subarray_node, simulator_factory, event_recorder
     ):
-        csp_master_sim, sdp_master_sim, _, _ = get_master_device_simulators(
+        csp_master_sim, sdp_master_sim = get_master_device_simulators(
             simulator_factory
         )
 
-        self.set_subarray_health_state_as_OK(subarray_node, simulator_factory)
+        self.set_subarray_health_state_as_OK(
+            event_recorder, subarray_node, simulator_factory
+        )
 
         csp_master_sim.SetDirectHealthState(HealthState.OK)
         sdp_master_sim.SetDirectHealthState(HealthState.OK)
@@ -74,7 +81,7 @@ class TestTelescopeHealthState(object):
         )
 
     def set_subarray_health_state_as_OK(
-        self, subarray_node, simulator_factory
+        self, event_recorder, subarray_node, simulator_factory
     ):
         """_summary_
 
@@ -93,4 +100,11 @@ class TestTelescopeHealthState(object):
         dish_master_1.SetDirectHealthState(HealthState.OK)
         dish_master_2.SetDirectHealthState(HealthState.OK)
 
+        start_time = time.time()
+        elapsed_time = 0
+        while subarray_node.subarray_node.healthState != HealthState.OK:
+            elapsed_time = time.time() - start_time
+            time.sleep(0.1)
+            if elapsed_time > 200:
+                pytest.fail("Timeout occurred while executing the test")
         assert subarray_node.subarray_node.healthState == HealthState.OK
