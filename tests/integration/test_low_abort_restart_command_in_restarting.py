@@ -3,8 +3,8 @@ from tango import DeviceProxy
 
 from tests.conftest import LOGGER
 from tests.resources.test_support.common_utils.common_helpers import (
-    Waiter,
     Resource,
+    Waiter,
 )
 from tests.resources.test_support.common_utils.telescope_controls import (
     BaseTelescopeControl,

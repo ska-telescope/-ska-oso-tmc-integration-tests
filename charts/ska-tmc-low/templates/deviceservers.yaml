@@ -36,6 +36,7 @@
 
 
 {{- if hasKey $deviceserver "mid"}}
+{{- $telescopeStr := printf "%s" $localchart.Values.telescope}}
 {{ if eq $telescopeStr "SKA-mid" }}
 
 # Determine which subarray instances to use
