@@ -1,9 +1,7 @@
 import pytest
+from ska_tango_base.control_model import ObsState
 
-from tests.resources.test_harness.helpers import (
-    check_subarray_obs_state,
-    get_device_simulators,
-)
+from tests.resources.test_harness.helpers import get_device_simulators
 
 
 class TestSubarrayNodeAbortCommandObsStateTransitions(object):
@@ -22,6 +20,7 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
         self,
         subarray_node,
         simulator_factory,
+        event_recorder,
         source_obs_state,
     ):
         """
@@ -35,29 +34,30 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
         - "source_obs_state": a TMC SubarrayNode initial allowed obsState,
            required to invoke Abort command
         """
-        csp_sim, _, _, sdp_sim = get_device_simulators(simulator_factory)
-
+        csp_sim, sdp_sim, dish_sim_1, dish_sim_2 = get_device_simulators(
+            simulator_factory
+        )
         obs_state_transition_duration_sec = 30
-
         delay_command_params_str = '{"Abort": %s}' % (
             obs_state_transition_duration_sec
         )
-
         sdp_sim.setDelay(delay_command_params_str)
         csp_sim.setDelay(delay_command_params_str)
+        dish_sim_1.setDelay(delay_command_params_str)
+        dish_sim_2.setDelay(delay_command_params_str)
+
+        event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
+        event_recorder.subscribe_event(csp_sim, "commandCallInfo")
+        event_recorder.subscribe_event(sdp_sim, "commandCallInfo")
 
         subarray_node.move_to_on()
-
         subarray_node.force_change_of_obs_state(source_obs_state)
 
         subarray_node.execute_transition("Abort", argin=None)
 
-        # As we set Obs State transition duration to 30 so wait timeout here
-        # provided as 32 sec. It validate after 32 sec excepted
-        # obs state change
-        expected_timeout_sec = obs_state_transition_duration_sec + 2
-
-        assert check_subarray_obs_state(
-            obs_state=subarray_node.ABORTED_OBS_STATE,
-            timeout=expected_timeout_sec,
+        assert event_recorder.has_change_event_occurred(
+            subarray_node.subarray_node, "obsState", ObsState.ABORTING
+        )
+        assert event_recorder.has_change_event_occurred(
+            subarray_node.subarray_node, "obsState", ObsState.ABORTED
         )
