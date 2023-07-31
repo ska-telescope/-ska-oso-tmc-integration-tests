@@ -6,8 +6,8 @@ from tango import DeviceProxy
 
 from tests.conftest import LOGGER
 from tests.resources.test_support.common_utils.common_helpers import (
+    Resource,
     Waiter,
-    resource,
 )
 from tests.resources.test_support.common_utils.telescope_controls import (
     BaseTelescopeControl,
@@ -163,8 +163,8 @@ def test_abort_in_resourcing(json_factory):
         csp_subarray_proxy.SetDefective(True)
 
         # Invoke AssignResources() Command on TMC
-        resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
-        resource(tmc_subarraynode1).assert_attribute("obsState").equals(
+        Resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
+        Resource(tmc_subarraynode1).assert_attribute("obsState").equals(
             "EMPTY"
         )
         central_node = DeviceProxy(centralnode)
@@ -273,8 +273,8 @@ def test_abort_in_resourcing_different_resources(json_factory):
         csp_subarray_proxy.SetDefective(True)
 
         # Invoke AssignResources() Command on TMC
-        resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
-        resource(tmc_subarraynode1).assert_attribute("obsState").equals(
+        Resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
+        Resource(tmc_subarraynode1).assert_attribute("obsState").equals(
             "EMPTY"
         )
         central_node = DeviceProxy(centralnode)
@@ -377,8 +377,8 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
         csp_subarray_proxy.SetDefective(True)
 
         # Invoke AssignResources() Command on TMC
-        resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
-        resource(tmc_subarraynode1).assert_attribute("obsState").equals(
+        Resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
+        Resource(tmc_subarraynode1).assert_attribute("obsState").equals(
             "EMPTY"
         )
         central_node = DeviceProxy(centralnode)
@@ -497,7 +497,7 @@ def test_abort_in_configuring(json_factory):
         csp_subarray_proxy.SetDefective(True)
 
         # Invoke Configure() Command on TMC
-        resource(tmc_subarraynode1).assert_attribute("obsState").equals("IDLE")
+        Resource(tmc_subarraynode1).assert_attribute("obsState").equals("IDLE")
         subarray_node = DeviceProxy(tmc_subarraynode1)
         subarray_node.Configure(config_json)
 
@@ -516,7 +516,7 @@ def test_abort_in_configuring(json_factory):
         csp_subarray_proxy.SetDefective(False)
         time.sleep(0.5)
 
-        resource(csp_subarray1).assert_attribute("defective").equals(False)
+        Resource(csp_subarray1).assert_attribute("defective").equals(False)
         # Invoke Abort() command on TMC
         tmc_helper.invoke_abort(**ON_OFF_DEVICE_COMMAND_DICT)
 
@@ -624,7 +624,7 @@ def test_abort_in_scanning(json_factory):
         csp_subarray_proxy.SetDefective(True)
 
         # Invoke Scan() Command on TMC
-        resource(tmc_subarraynode1).assert_attribute("obsState").equals(
+        Resource(tmc_subarraynode1).assert_attribute("obsState").equals(
             "READY"
         )
         subarray_node = DeviceProxy(tmc_subarraynode1)

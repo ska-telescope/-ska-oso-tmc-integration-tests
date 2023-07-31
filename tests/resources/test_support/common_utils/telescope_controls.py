@@ -1,5 +1,5 @@
 from tests.conftest import LOGGER
-from tests.resources.test_support.common_utils.common_helpers import resource
+from tests.resources.test_support.common_utils.common_helpers import Resource
 
 
 class BaseTelescopeControl(object):
@@ -15,19 +15,19 @@ class BaseTelescopeControl(object):
         state_result_list = []
         for device in device_state_info:
             state_list = device_state_info.get(device)
-            device_state = resource(device).get(state_str)
+            device_state = Resource(device).get(state_str)
             LOGGER.info(
-                f"resource({device}).get('{state_str}') : {device_state}"
+                f"Resource({device}).get('{state_str}') : {device_state}"
             )
             state_result_list.append(
-                resource(device).get(state_str) in state_list
+                Resource(device).get(state_str) in state_list
             )
 
         return all(state_result_list)
 
 
 def check_subarray1_availability(subarray_devname):
-    subarray1_availability = resource(subarray_devname).get(
+    subarray1_availability = Resource(subarray_devname).get(
         "isSubarrayAvailable"
     )
     LOGGER.info(
