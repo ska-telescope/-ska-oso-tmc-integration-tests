@@ -143,19 +143,8 @@ class TestSubarrayNodeObsStateTransitions(object):
         sdp_input_json = prepare_json_args_for_commands(
             args_for_sdp, command_input_factory
         )
-        obs_state_transition_duration_sec = 30
-        delay_command_params_str = '{"%s": %s}' % (
-            trigger,
-            obs_state_transition_duration_sec,
-        )
 
-        csp_sim, sdp_sim, dish_sim_1, dish_sim_2 = get_device_simulators(
-            simulator_factory
-        )
-        sdp_sim.setDelay(delay_command_params_str)
-        csp_sim.setDelay(delay_command_params_str)
-        dish_sim_1.setDelay(delay_command_params_str)
-        dish_sim_2.setDelay(delay_command_params_str)
+        csp_sim, sdp_sim, _, _ = get_device_simulators(simulator_factory)
 
         event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
         event_recorder.subscribe_event(csp_sim, "commandCallInfo")
