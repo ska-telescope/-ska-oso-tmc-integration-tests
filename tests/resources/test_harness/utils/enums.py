@@ -44,3 +44,5 @@ class SimulatorDeviceType(IntEnum):
     CSP_DEVICE = 0
     SDP_DEVICE = 1
     DISH_DEVICE = 2
+    CSP_MASTER_DEVICE = 3
+    SDP_MASTER_DEVICE = 4

@@ -37,14 +37,14 @@ class EventRecorder(object):
             called
         """
         callable_name = self._generate_callable_name(device, attribute_name)
-        obs_state_change_event_callback = MockTangoEventCallbackGroup(
+        attribute_change_event_callback = MockTangoEventCallbackGroup(
             callable_name,
             timeout=timeout,
         )
         event_id = device.subscribe_event(
             attribute_name,
             EventType.CHANGE_EVENT,
-            obs_state_change_event_callback[callable_name],
+            attribute_change_event_callback[callable_name],
         )
         self.subscribed_devices.append((device, event_id))
 
@@ -52,7 +52,7 @@ class EventRecorder(object):
             LOGGER.info(f"{callable_name} is subscribed for {attribute_name}")
             self.subscribed_events[
                 callable_name
-            ] = obs_state_change_event_callback
+            ] = attribute_change_event_callback
 
     def has_change_event_occurred(
         self,

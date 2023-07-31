@@ -1,5 +1,6 @@
 import logging
 
+from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
 
 from tests.resources.test_harness.constant import (
@@ -104,6 +105,21 @@ class SubarrayNode(object):
             value (DevState): observation state value
         """
         self._obs_state = value
+
+    @property
+    def health_state(self) -> HealthState:
+        """Telescope health state representing overall health of telescope"""
+        self._health_state = resource(tmc_subarraynode1).get("healthState")
+        return self._health_state
+
+    @health_state.setter
+    def health_state(self, value):
+        """Telescope health state representing overall health of telescope
+
+        Args:
+            value (HealthState): telescope health state value
+        """
+        self._health_state = value
 
     def move_to_on(self):
         # Move subarray to ON state

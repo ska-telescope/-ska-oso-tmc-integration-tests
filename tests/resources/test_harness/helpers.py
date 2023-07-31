@@ -73,6 +73,30 @@ def get_device_simulators(simulator_factory):
     return csp_sim, sdp_sim, dish_sim_1, dish_sim_2
 
 
+def get_master_device_simulators(simulator_factory):
+    """A method to get simulators for Subsystem master devices
+
+    Args:
+        simulator_factory (fixture): fixture for SimulatorFactory class
+
+    Returns:
+        simulator(sim) objects
+    """
+    sdp_master_sim = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.SDP_MASTER_DEVICE
+    )
+    csp_master_sim = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.CSP_MASTER_DEVICE
+    )
+    dish_master_sim_1 = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.DISH_DEVICE, sim_number=1
+    )
+    dish_master_sim_2 = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.DISH_DEVICE, sim_number=2
+    )
+    return csp_master_sim, sdp_master_sim, dish_master_sim_1, dish_master_sim_2
+
+
 def prepare_json_args_for_commands(
     args_for_command: str, command_input_factory: JsonFactory
 ) -> str:
@@ -98,16 +122,16 @@ def get_command_call_info(device: Any, command_name: str):
         for command_info in command_call_info
         if command_info[0] == command_name
     ]
-    if command_info[0][1] != "":
-        input_str = "".join(command_info[0][1].split())
-        received_command_call_data = (
-            command_call_info[0][0],
-            sorted(input_str),
-        )
-        return received_command_call_data
-    else:
-        received_command_call_data = (command_call_info[0][0], "")
-        return received_command_call_data
+    # if command_info[0][1] != "":
+    input_str = "".join(command_info[0][1].split())
+    received_command_call_data = (
+        command_call_info[0][0],
+        sorted(input_str),
+    )
+    return received_command_call_data
+    # else:
+    #     received_command_call_data = (command_call_info[0][0], "")
+    #     return received_command_call_data
 
 
 def device_received_this_command(
@@ -126,18 +150,18 @@ def device_received_this_command(
     received_command_call_data = get_command_call_info(
         device, expected_command_name
     )
-    if expected_inp_str is not None:
-        expected_input_str = "".join(expected_inp_str.split())
+    # if expected_inp_str is not None:
+    expected_input_str = "".join(expected_inp_str.split())
 
-        return received_command_call_data == (
-            expected_command_name,
-            sorted(expected_input_str),
-        )
-    else:
-        return received_command_call_data == (
-            expected_command_name,
-            "",
-        )
+    return received_command_call_data == (
+        expected_command_name,
+        sorted(expected_input_str),
+    )
+    # else:
+    #     return received_command_call_data == (
+    #         expected_command_name,
+    #         "",
+    #     )
 
 
 def get_recorded_commands(device: Any):

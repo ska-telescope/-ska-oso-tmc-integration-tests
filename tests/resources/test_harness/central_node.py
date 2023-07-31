@@ -1,4 +1,4 @@
-# TODO: refactor this class once implementation for TMC test case start.
+from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
 
 from tests.resources.test_harness.constant import (
@@ -39,6 +39,8 @@ class CentralNode(object):
             "sdp_subarray": sdp_subarray1,
             "dish_master": dish_master1,
         }
+        self.sdp_master = sdp_master
+        self.csp_master = csp_master
         self._state = DevState.OFF
 
     @property
@@ -55,6 +57,23 @@ class CentralNode(object):
             value (DevState): operational state value
         """
         self._state = value
+
+    @property
+    def telescope_health_state(self) -> HealthState:
+        """Telescope health state representing overall health of telescope"""
+        self._telescope_health_state = resource(self.central_node).get(
+            "telescopeHealthState"
+        )
+        return self._telescope_health_state
+
+    @telescope_health_state.setter
+    def telescope_health_state(self, value):
+        """Telescope health state representing overall health of telescope
+
+        Args:
+            value (HealthState): telescope health state value
+        """
+        self._telescope_health_state = value
 
     def set_on(self):
         """
