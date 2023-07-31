@@ -6,6 +6,7 @@ from tests.resources.test_harness.constant import (
     csp_master,
     csp_subarray1,
     dish_master1,
+    dish_master2,
     sdp_master,
     sdp_subarray1,
     tmc_subarraynode1,
@@ -40,6 +41,7 @@ class CentralNode(object):
         }
         self.sdp_master = sdp_master
         self.csp_master = csp_master
+        self.dish_master_list = [dish_master1, dish_master2]
         self._state = DevState.OFF
 
     @property
@@ -153,6 +155,15 @@ class CentralNode(object):
         # LOGGER.info("Invoked ReleaseResources on CentralNode")
         return result, message
 
+    def _reset_mock_devices(self):
+        """Reset Mock devices"""
+        for mock_device in [
+            self.sdp_master,
+            self.csp_master,
+        ]:
+            device = DeviceProxy(mock_device)
+            device.SetDirectHealthState(HealthState.OK)
+
     def tear_down(self):
         """Handle Tear down of central Node"""
-        pass
+        self._reset_mock_devices()
