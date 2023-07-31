@@ -8,7 +8,9 @@ from tests.resources.test_harness.helpers import (
 
 
 class TestTelescopeHealthState(object):
-    """This class implement test cases to verify telescopeHealthState of CentralNode"""
+    """This class implement test cases to verify telescopeHealthState
+    of CentralNode
+    """
 
     @pytest.mark.SKA_mid
     def test_telescope_state_unknown(
@@ -93,3 +95,26 @@ class TestTelescopeHealthState(object):
         dish_master_2.SetDirectHealthState(HealthState.OK)
 
         assert subarray_node.subarray_node.healthState == HealthState.OK
+
+    @pytest.mark.SKA_mid
+    def test_telescope_state_failed(
+        self, central_node, simulator_factory, event_recorder
+    ):
+        """Validate Central Node health state is FAILED when csp
+        and sdp device health state is FAILED
+        """
+        csp_master_sim, sdp_master_sim, _, _ = get_master_device_simulators(
+            simulator_factory
+        )
+        csp_master_sim.SetDirectHealthState(HealthState.FAILED)
+        sdp_master_sim.SetDirectHealthState(HealthState.FAILED)
+
+        event_recorder.subscribe_event(
+            central_node.central_node, "telescopeHealthState"
+        )
+
+        assert event_recorder.has_change_event_occurred(
+            central_node.central_node,
+            "telescopeHealthState",
+            HealthState.FAILED,
+        )

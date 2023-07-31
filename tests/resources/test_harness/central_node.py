@@ -33,7 +33,6 @@ class CentralNode(object):
 
     def __init__(self) -> None:
         self.central_node = DeviceProxy(centralnode)
-        self.subarray_node = tmc_subarraynode1
         self.subarray_devices = {
             "csp_subarray": csp_subarray1,
             "sdp_subarray": sdp_subarray1,
@@ -75,7 +74,7 @@ class CentralNode(object):
         """
         self._telescope_health_state = value
 
-    def set_on(self):
+    def move_to_on(self):
         """
         A method to invoke TelescopeOn command to
         put telescope in ON state
@@ -145,19 +144,15 @@ class CentralNode(object):
 
     @sync_assign_resources(device_dict=device_dict)
     def invoke_assign_resources(self, input_string):
-        resource(self.subarray_node).assert_attribute("State").equals("ON")
-        resource(self.subarray_node).assert_attribute("obsState").equals(
-            "EMPTY"
-        )
         result, message = self.central_node.AssignResources(input_string)
         # LOGGER.info("Invoked AssignResources on CentralNode")
         return result, message
 
     def invoke_release_resources(self, input_string):
-        resource(self.subarray_node).assert_attribute("State").equals("ON")
-        resource(self.subarray_node).assert_attribute("obsState").equals(
-            "IDLE"
-        )
         result, message = self.central_node.ReleaseResources(input_string)
         # LOGGER.info("Invoked ReleaseResources on CentralNode")
         return result, message
+
+    def tear_down(self):
+        """Handle Tear down of central Node"""
+        pass
