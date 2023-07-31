@@ -11,6 +11,8 @@ from tests.resources.test_harness.helpers import (
 
 
 class TestSubarrayNodeObsStateTransitions(object):
+    """This class implement test cases to validate obs state of sub array"""
+
     @pytest.mark.parametrize(
         "source_obs_state, trigger, destination_obs_state",
         [
