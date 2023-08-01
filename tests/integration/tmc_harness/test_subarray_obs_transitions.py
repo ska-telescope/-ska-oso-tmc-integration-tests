@@ -107,15 +107,6 @@ class TestSubarrayNodeObsStateTransitions(object):
                 "csp_scan_mid",
                 "sdp_scan_mid",
             ),
-            # (
-            #     "ABORTED",
-            #     "Restart",
-            #     None,
-            #     ObsState.RESTARTING,
-            #     ObsState.EMPTY,
-            #     None,
-            #     None,
-            # ),
         ],
     )
     @pytest.mark.SKA_mid

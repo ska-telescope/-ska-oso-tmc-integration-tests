@@ -34,17 +34,7 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
         - "source_obs_state": a TMC SubarrayNode initial allowed obsState,
            required to invoke Abort command
         """
-        csp_sim, sdp_sim, dish_sim_1, dish_sim_2 = get_device_simulators(
-            simulator_factory
-        )
-        obs_state_transition_duration_sec = 30
-        delay_command_params_str = '{"Abort": %s}' % (
-            obs_state_transition_duration_sec
-        )
-        sdp_sim.setDelay(delay_command_params_str)
-        csp_sim.setDelay(delay_command_params_str)
-        dish_sim_1.setDelay(delay_command_params_str)
-        dish_sim_2.setDelay(delay_command_params_str)
+        csp_sim, sdp_sim, _, _ = get_device_simulators(simulator_factory)
 
         event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
         event_recorder.subscribe_event(csp_sim, "commandCallInfo")
