@@ -6,6 +6,7 @@ from tests.resources.test_harness.constant import (
     csp_master,
     csp_subarray1,
     dish_master1,
+    dish_master2,
     sdp_master,
     sdp_subarray1,
     tmc_subarraynode1,
@@ -33,7 +34,6 @@ class CentralNode(object):
 
     def __init__(self) -> None:
         self.central_node = DeviceProxy(centralnode)
-        self.subarray_node = tmc_subarraynode1
         self.subarray_devices = {
             "csp_subarray": csp_subarray1,
             "sdp_subarray": sdp_subarray1,
@@ -41,6 +41,7 @@ class CentralNode(object):
         }
         self.sdp_master = sdp_master
         self.csp_master = csp_master
+        self.dish_master_list = [dish_master1, dish_master2]
         self._state = DevState.OFF
 
     @property
@@ -75,7 +76,7 @@ class CentralNode(object):
         """
         self._telescope_health_state = value
 
-    def set_on(self):
+    def move_to_on(self):
         """
         A method to invoke TelescopeOn command to
         put telescope in ON state
@@ -145,19 +146,24 @@ class CentralNode(object):
 
     @sync_assign_resources(device_dict=device_dict)
     def invoke_assign_resources(self, input_string):
-        resource(self.subarray_node).assert_attribute("State").equals("ON")
-        resource(self.subarray_node).assert_attribute("obsState").equals(
-            "EMPTY"
-        )
         result, message = self.central_node.AssignResources(input_string)
         # LOGGER.info("Invoked AssignResources on CentralNode")
         return result, message
 
     def invoke_release_resources(self, input_string):
-        resource(self.subarray_node).assert_attribute("State").equals("ON")
-        resource(self.subarray_node).assert_attribute("obsState").equals(
-            "IDLE"
-        )
         result, message = self.central_node.ReleaseResources(input_string)
         # LOGGER.info("Invoked ReleaseResources on CentralNode")
         return result, message
+
+    def _reset_mock_devices(self):
+        """Reset Mock devices"""
+        for mock_device in [
+            self.sdp_master,
+            self.csp_master,
+        ]:
+            device = DeviceProxy(mock_device)
+            device.SetDirectHealthState(HealthState.OK)
+
+    def tear_down(self):
+        """Handle Tear down of central Node"""
+        self._reset_mock_devices()

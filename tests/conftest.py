@@ -121,7 +121,9 @@ def change_event_callbacks() -> MockTangoEventCallbackGroup:
 @pytest.fixture()
 def central_node() -> CentralNode:
     """ """
-    return CentralNode()
+    central_node = CentralNode()
+    yield central_node
+    central_node.tear_down()
 
 
 @pytest.fixture()
