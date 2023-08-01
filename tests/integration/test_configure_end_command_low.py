@@ -1,4 +1,7 @@
+import time
+
 import pytest
+from tango import DeviceProxy
 
 from tests.conftest import LOGGER
 from tests.resources.test_support.common_utils.telescope_controls import (
@@ -18,6 +21,7 @@ from tests.resources.test_support.constant_low import (
     DEVICE_STATE_STANDBY_INFO,
     ON_OFF_DEVICE_COMMAND_DICT,
     centralnode,
+    tmc_csp_subarray_leaf_node,
     tmc_subarraynode1,
 )
 
@@ -25,6 +29,7 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
+@pytest.mark.config
 @pytest.mark.SKA_low
 def test_configure_end_low(json_factory):
     """Configure and End is executed."""
@@ -56,9 +61,17 @@ def test_configure_end_low(json_factory):
         tmc_helper.configure_subarray(
             configure_json, **ON_OFF_DEVICE_COMMAND_DICT
         )
+        csp_subarray = DeviceProxy(tmc_csp_subarray_leaf_node)
+        delay_value = csp_subarray.delayModel
+        time.sleep(5)
+        LOGGER.info(f"cspsal_node delayModel {delay_value}")
+        assert csp_subarray.delayModel not in ["", "no_value"]
+        LOGGER.info(f"cspsal_node delayModel {csp_subarray.delayModel}")
+
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_READY_INFO, "obsState"
         )
+
         # Teardowning
         # Invoke End() Command on TMC
         tmc_helper.end(**ON_OFF_DEVICE_COMMAND_DICT)
