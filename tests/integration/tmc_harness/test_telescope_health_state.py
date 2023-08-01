@@ -1,5 +1,3 @@
-import time
-
 import pytest
 from ska_tango_base.control_model import HealthState
 
@@ -13,7 +11,6 @@ class TestTelescopeHealthState(object):
     """This class implement test cases to verify telescopeHealthState
     of CentralNode"""
 
-    @pytest.mark.shraddha
     @pytest.mark.SKA_mid
     def test_telescope_state_unknown(
         self, central_node, simulator_factory, event_recorder
@@ -34,7 +31,6 @@ class TestTelescopeHealthState(object):
             HealthState.UNKNOWN,
         )
 
-    @pytest.mark.shraddha
     @pytest.mark.SKA_mid
     def test_telescope_state_degraded(
         self, central_node, simulator_factory, event_recorder
@@ -56,7 +52,6 @@ class TestTelescopeHealthState(object):
         )
 
     # @pytest.mark.skip(reason="WIP")
-    @pytest.mark.shraddha
     @pytest.mark.SKA_mid
     def test_telescope_state_ok(
         self, central_node, subarray_node, simulator_factory, event_recorder
@@ -100,14 +95,15 @@ class TestTelescopeHealthState(object):
         dish_master_1.SetDirectHealthState(HealthState.OK)
         dish_master_2.SetDirectHealthState(HealthState.OK)
 
-        start_time = time.time()
-        elapsed_time = 0
-        while subarray_node.subarray_node.healthState != HealthState.OK:
-            elapsed_time = time.time() - start_time
-            time.sleep(0.1)
-            if elapsed_time > 200:
-                pytest.fail("Timeout occurred while executing the test")
-        assert subarray_node.subarray_node.healthState == HealthState.OK
+        event_recorder.subscribe_event(
+            subarray_node.subarray_node, "healthState"
+        )
+
+        assert event_recorder.has_change_event_occurred(
+            subarray_node.subarray_node,
+            "healthState",
+            HealthState.OK,
+        )
 
     @pytest.mark.SKA_mid
     def test_telescope_state_failed(
