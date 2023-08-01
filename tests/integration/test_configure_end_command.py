@@ -1,4 +1,4 @@
-"""Test cases for Configure End Command
+"""Test cases for Configure and End Command
     for mid"""
 import pytest
 

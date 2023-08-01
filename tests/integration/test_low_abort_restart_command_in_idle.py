@@ -1,4 +1,4 @@
-"""Test cases for Abort Restart Command in IDLE
+"""Test cases for Abort and Restart Command in IDLE
 ObsState"""
 import pytest
 
