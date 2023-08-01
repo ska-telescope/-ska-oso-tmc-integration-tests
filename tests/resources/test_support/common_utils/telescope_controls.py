@@ -28,7 +28,7 @@ class BaseTelescopeControl:
 
 
 def check_subarray1_availability(subarray_devname: str) -> bool:
-    """checks subarray availability"""
+    """Checks subarray availability"""
     subarray1_availability = resource(subarray_devname).get(
         "isSubarrayAvailable"
     )

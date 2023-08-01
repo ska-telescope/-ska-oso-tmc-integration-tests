@@ -13,7 +13,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 class resource:
-    """resources class for common helpers"""
+    """Resources class for common helpers"""
 
     device_name = None
 
@@ -21,7 +21,7 @@ class resource:
         self.device_name = device_name
 
     def get(self, attr):
-        """method for getting attributes"""
+        """Method for getting attributes"""
         device_proxy = DeviceProxy(self.device_name)
         attrs = device_proxy.get_attribute_list()
         if attr not in attrs:
@@ -38,19 +38,19 @@ class resource:
         return getattr(device_proxy, attr)
 
     def assert_attribute(self, attr):
-        """method for asserting"""
+        """Method for asserting"""
         return ObjectComparison(f"{self.device_name}.{attr}", self.get(attr))
 
 
 class ObjectComparison:
-    """class for comparing values"""
+    """Class for comparing values"""
 
     def __init__(self, object, value):
         self.value = value
         self.object = object
 
     def equals(self, value):
-        """checks is the values provided equals to class value"""
+        """Checks is the values provided equals to class value"""
         try:
             if isinstance(value, list):
                 # a list is assumed to mean an or condition, a tuple is
@@ -113,7 +113,7 @@ class monitor:
         self.current_value = self.resource.get(self.attr)
 
     def _conditions_not_met(self):
-        """change comparison section (only if require_transition)"""
+        """Change comparison section (only if require_transition)"""
         if self.require_transition:
             is_changed_comparison = self.previous_value != self.current_value
             if isinstance(is_changed_comparison, ndarray):
@@ -141,14 +141,14 @@ class monitor:
         return (not self.data_ready) or (not is_eq_to_future_comparison)
 
     def _compare(self, desired):
-        """compare the current value with desired value"""
+        """Compare the current value with desired value"""
         comparison = self.current_value == desired
         if isinstance(comparison, ndarray):
             return comparison.all()
         return comparison
 
     def _wait(self, timeout: int = 80, resolution: float = 0.1):
-        """wait method for monitor class"""
+        """Wait method for monitor class"""
         count_down = timeout
         while self._conditions_not_met():
             count_down -= 1
@@ -168,7 +168,7 @@ class monitor:
         return count_down
 
     def get_value_when_changed(self, timeout: int = 50):
-        """returns value when it gets changed"""
+        """Returns value when it gets changed"""
         response = self._wait(timeout)
         if response == "timeout":
             return "timeout"
@@ -177,17 +177,17 @@ class monitor:
     def wait_until_conditions_met(
         self, timeout: int = 50, resolution: float = 0.1
     ):
-        """waits until conditions is satisfies"""
+        """Waits until conditions is satisfies"""
         return self._wait(timeout)
 
     def wait_until_value_changed(self, timeout=50, resolution=0.1):
-        """waits until values changed"""
+        """Waits until values changed"""
         return self._wait(timeout)
 
     def wait_until_value_changed_to(
         self, value, timeout: int = 50, resolution: float = 0.1
     ):
-        """waits until the values changed to given value"""
+        """Waits until the values changed to given value"""
         count_down = timeout
         self._update()
         while not self._compare(value):
@@ -205,14 +205,14 @@ class monitor:
 
 
 class subscriber:
-    """subscriber class for events"""
+    """Subscriber class for events"""
 
     def __init__(self, resource, implementation="polling"):
         self.resource = resource
         self.implementation = implementation
 
     def for_a_change_on(self, attr, changed_to=None, predicate=None):
-        """method for changing attribute"""
+        """Method for changing attribute"""
         if self.implementation == "polling":
             value_now = self.resource.get(attr)
             return monitor(
@@ -235,7 +235,7 @@ class subscriber:
         return None
 
     def to_become(self, attr, changed_to, predicate=None):
-        """to monitor the attribute value against changed_to_value"""
+        """To monitor the attribute value against changed_to_value"""
         if self.implementation == "polling":
             value_now = self.resource.get(attr)
             return monitor(
@@ -258,7 +258,7 @@ class subscriber:
         return None
 
     def for_any_change_on(self, attr, predicate=None):
-        """to monitor changes for attribute"""
+        """To monitor changes for attribute"""
         if self.implementation == "polling":
             value_now = self.resource.get(attr)
             return monitor(
@@ -277,7 +277,7 @@ class subscriber:
 
 
 def watch(resource, implementation="polling"):
-    """returns subscriber class object
+    """Returns subscriber class object
     and monitors resources"""
     return subscriber(resource, implementation)
 
@@ -285,7 +285,7 @@ def watch(resource, implementation="polling"):
 # this is a composite type of waiting based on a set of predefined
 # pre conditions expected to be true
 class Waiter:
-    """waiter class for delays on predefined conditions"""
+    """Waiter class for delays on predefined conditions"""
 
     def __init__(self, **kwargs):
         """
@@ -304,11 +304,11 @@ class Waiter:
         self.dish_master1 = kwargs.get("dish_master")
 
     def clear_watches(self):
-        """resets the waits list"""
+        """Resets the waits list"""
         self.waits = []
 
     def set_wait_for_going_to_off(self):
-        """set waits for turning off the telescope"""
+        """Sets waits for turning off the telescope"""
         self.waits.append(
             watch(resource(self.sdp_subarray1)).to_become(
                 "State", changed_to="OFF"
@@ -337,7 +337,7 @@ class Waiter:
             )
 
     def set_wait_for_going_to_standby(self):
-        """set waits for turning the devices to standby mode"""
+        """Sets waits for turning the devices to standby mode"""
         self.waits.append(
             watch(resource(self.sdp_subarray1)).to_become(
                 "State", changed_to="OFF"
@@ -366,7 +366,7 @@ class Waiter:
             )
 
     def set_wait_for_telescope_on(self):
-        """set waits for turning the devices in ON state"""
+        """Sets waits for turning the devices in ON state"""
         self.waits.append(
             watch(resource(self.sdp_master)).to_become(
                 "State", changed_to="ON"
@@ -395,7 +395,7 @@ class Waiter:
             )
 
     def set_wait_for_going_to_empty(self):
-        """sets wait for devices to change the obstate to EMPTY"""
+        """Sets wait for devices to change the obstate to EMPTY"""
         self.waits.append(
             watch(resource(self.tmc_subarraynode1)).to_become(
                 "assignedResources", changed_to=None
@@ -418,7 +418,7 @@ class Waiter:
         )
 
     def set_wait_for_assign_resources(self):
-        """sets wait for device to execute assign resources"""
+        """Sets wait for device to execute assign resources"""
         self.waits.append(
             watch(resource(self.csp_subarray1)).to_become(
                 "obsState", changed_to="IDLE"
@@ -437,7 +437,7 @@ class Waiter:
         )
 
     def set_wait_for_configuring(self):
-        """sets wait for obsstate to change to configuring"""
+        """Sets wait for obsstate to change to configuring"""
         self.waits.append(
             watch(resource(self.tmc_subarraynode1)).to_become(
                 "obsState", changed_to="CONFIGURING"
@@ -445,7 +445,7 @@ class Waiter:
         )
 
     def set_wait_for_configure(self):
-        """sets wait for device to execute configure command"""
+        """Sets wait for device to execute configure command"""
         self.waits.append(
             watch(resource(self.csp_subarray1)).to_become(
                 "obsState", changed_to="READY"
@@ -470,7 +470,7 @@ class Waiter:
             )
 
     def set_wait_for_idle(self):
-        """sets wait for obsstate to change to IDLE"""
+        """Sets wait for obsstate to change to IDLE"""
         self.waits.append(
             watch(resource(self.csp_subarray1)).to_become(
                 "obsState", changed_to="IDLE"
@@ -488,7 +488,7 @@ class Waiter:
         )
 
     def set_wait_for_aborted(self):
-        """sets wait for obsstate to change to ABORTED"""
+        """Sets wait for obsstate to change to ABORTED"""
         self.waits.append(
             watch(resource(self.csp_subarray1)).to_become(
                 "obsState", changed_to="ABORTED"
@@ -506,7 +506,7 @@ class Waiter:
         )
 
     def set_wait_for_ready(self):
-        """sets wait for obsstate to change to READY"""
+        """Sets wait for obsstate to change to READY"""
         self.waits.append(
             watch(resource(self.csp_subarray1)).to_become(
                 "obsState", changed_to="READY"
@@ -543,7 +543,7 @@ class Waiter:
             )
 
     def set_wait_for_scanning(self):
-        """sets wait for obsstate to change to SCANNING"""
+        """Sets wait for obsstate to change to SCANNING"""
         self.waits.append(
             watch(resource(self.csp_subarray1)).to_become(
                 "obsState", changed_to="SCANNING"
@@ -561,7 +561,7 @@ class Waiter:
         )
 
     def wait(self, timeout: int = 30, resolution: float = 0.1):
-        """delay method subscriber class"""
+        """Delay method subscriber class"""
         self.logs = ""
         while self.waits:
             wait = self.waits.pop()
@@ -604,7 +604,7 @@ class Waiter:
 
 
 class WaitForScan(Waiter):
-    """waits for scan command"""
+    """Waits for scan command"""
 
     def __init__(self, **kwargs):
         self.sdp_subarray1 = kwargs.get("sdp_subarray")
@@ -621,7 +621,7 @@ class WaitForScan(Waiter):
         ).for_a_change_on("obsState")
 
     def wait(self, timeout):
-        """delay method for waitForScan class"""
+        """Delay method for waitForScan class"""
         logging.info(
             "scan command dispatched, checking that the state transitioned to \
                 SCANNING"
@@ -639,7 +639,7 @@ class WaitForScan(Waiter):
 
 # Waiters based on tango DeviceProxy's ability to subscribe to events
 class AttributeWatcher:
-    """listens to events in a device and enables waiting until a predicate is
+    """Listens to events in a device and enables waiting until a predicate is
     true or publish to a subscriber
     It allows in essence for the ability to wait for three types of conditions:
     1. The attribute value has become or was already from the start the desired
@@ -694,14 +694,14 @@ class AttributeWatcher:
             self.start_listening()
 
     def _default_predicate(self, current_value, desired):
-        """default comparator method for attribute watcher class"""
+        """Default comparator method for attribute watcher class"""
         comparison = current_value == desired
         if isinstance(comparison, ndarray):
             return comparison.all()
         return comparison
 
     def start_listening(self):
-        """this method start to monitor the attributes"""
+        """This method start to monitor the attributes"""
         if self.device_proxy.is_attribute_polled(self.attribute):
             # must be reset to original when finished
             self.original_polling = self.device_proxy.get_attribute_poll_period
@@ -711,7 +711,7 @@ class AttributeWatcher:
         )
 
     def _cb(self, event):
-        """this method will be called by a thread"""
+        """This method will be called by a thread"""
         self.current_value = str(event.attr_value.value)
         if self.previous_value is None:
             # this implies it is the first event and is always treated as the
@@ -742,7 +742,7 @@ class AttributeWatcher:
                 self.result_available.set()
 
     def _handle_timeout(self, remaining_seconds: int, test):
-        """this method handles timeout"""
+        """This method handles timeout"""
         self.stop_listening()
         raise Exception(
             f"Timed out waiting for an change on {self.device_proxy.name()}.\
@@ -752,7 +752,7 @@ class AttributeWatcher:
         )
 
     def _wait(self, timeout):
-        """delay method for attributeWather class"""
+        """Delay method for attributeWather class"""
         self.timeout = timeout
         signal.signal(signal.SIGALRM, self._handle_timeout)
         signal.alarm(timeout)
@@ -761,7 +761,7 @@ class AttributeWatcher:
         self.stop_listening()
 
     def stop_listening(self):
-        """stops polling for current attribute"""
+        """Stops polling for current attribute"""
         if self.original_polling is not None:
             self.device_proxy.poll_attribute(self.original_polling)
         self.device_proxy.unsubscribe_event(self.current_subscription)
@@ -769,14 +769,14 @@ class AttributeWatcher:
     def wait_until_value_changed_to(
         self, desired, timeout: int = 2, resolution=None
     ):
-        """waits for value changed to desired value"""
+        """Waits for value changed to desired value"""
         self.desired = desired
         self.waiting = True
         self._wait(int(timeout))
         return self.elapsed_time
 
     def wait_until_conditions_met(self, timeout: int = 2, resolution=None):
-        """waits until conditions is satisfied"""
+        """Waits until conditions is satisfied"""
         self._waiting = True
         self._wait(int(timeout))
         return self.elapsed_time

@@ -26,7 +26,7 @@ telescope_control = BaseTelescopeControl()
 
 @pytest.mark.SKA_mid
 def test_configure_not_allowed_in_empty(json_factory):
-    """test case for configure not allowed in empty"""
+    """Test case for configure not allowed in empty"""
     release_json = json_factory("command_ReleaseResources")
     configure_json = json_factory("command_Configure")
     try:

@@ -1,4 +1,5 @@
-"""Test cases for AssignResources and ReleaseResources Command for low"""
+"""Test cases for AssignResources and ReleaseResources
+ Command for low"""
 from copy import deepcopy
 
 import pytest
@@ -325,7 +326,7 @@ def test_release_exception_propagation(json_factory, change_event_callbacks):
 )
 @pytest.mark.SKA_low
 def test_health_check_low():
-    """test health state check for low"""
+    """Test health state check for low"""
     assert telescope_control.is_in_valid_state(
         DEVICE_HEALTH_STATE_OK_INFO, "healthState"
     )

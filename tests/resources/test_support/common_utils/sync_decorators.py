@@ -15,11 +15,11 @@ LOGGER = logging.getLogger(__name__)
 
 
 def sync_telescope_on(func):
-    """sync method for telescope on"""
+    """Sync method for telescope on"""
 
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
-        """wrapper method"""
+        """Wrapper method"""
         the_waiter = Waiter(**kwargs)
         the_waiter.set_wait_for_telescope_on()
         result = func(*args, **kwargs)
@@ -30,11 +30,11 @@ def sync_telescope_on(func):
 
 
 def sync_set_to_off(func):
-    """wrapper for telescope off"""
+    """Wrapper for telescope off"""
 
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
-        """wrapper method"""
+        """Wrapper method"""
         the_waiter = Waiter(**kwargs)
         the_waiter.set_wait_for_going_to_off()
         result = func(*args, **kwargs)
@@ -47,7 +47,7 @@ def sync_set_to_off(func):
 # defined as a context manager
 @contextmanager
 def sync_going_to_off(timeout=50, **kwargs):
-    """context manager method for syncing telescope to off"""
+    """Context manager method for syncing telescope to off"""
     the_waiter = Waiter(**kwargs)
     the_waiter.set_wait_for_going_to_off()
     yield
@@ -55,11 +55,11 @@ def sync_going_to_off(timeout=50, **kwargs):
 
 
 def sync_set_to_standby(func):
-    """wrapper for sync telescope to standby"""
+    """Wrapper for sync telescope to standby"""
 
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
-        """wrapper method"""
+        """Wrapper method"""
         the_waiter = Waiter(**kwargs)
         the_waiter.set_wait_for_going_to_standby()
         result = func(*args, **kwargs)
@@ -70,12 +70,12 @@ def sync_set_to_standby(func):
 
 
 def sync_release_resources():
-    """wrapper for syncing method to release resources"""
+    """Wrapper for syncing method to release resources"""
 
     def decorator_sync_assign_resources(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            """wrapper method"""
+            """Wrapper method"""
             result = func(*args, **kwargs)
             set_wait_for_obsstate = kwargs.get("set_wait_for_obsstate", True)
             if set_wait_for_obsstate:
@@ -90,15 +90,15 @@ def sync_release_resources():
 
 
 def sync_assign_resources():
-    """method for syncing assign resources
+    """Method for syncing assign resources
     defined as a decorator"""
 
     def decorator_sync_assign_resources(func):
-        """decorator"""
+        """Decorator"""
 
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            """wrapper method"""
+            """Wrapper method"""
             set_wait_for_obsstate = kwargs.get("set_wait_for_obsstate", True)
             result = func(*args, **kwargs)
             if set_wait_for_obsstate:
@@ -113,15 +113,15 @@ def sync_assign_resources():
 
 
 def sync_abort(timeout: int = 300):
-    """sync method for abort command
+    """Sync method for abort command
     define as a decorator"""
 
     def decorator_sync_abort(func):
-        """decorator method"""
+        """Decorator method"""
 
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            """wrapper method"""
+            """Wrapper method"""
             the_waiter = Waiter(**kwargs)
             the_waiter.set_wait_for_aborted()
             result = func(*args, **kwargs)
@@ -134,15 +134,15 @@ def sync_abort(timeout: int = 300):
 
 
 def sync_restart(timeout: int = 300):
-    """sync method for Restart Command
+    """Sync method for Restart Command
     define as a Decorator"""
 
     def decorator_sync_restart(func):
-        """decorator"""
+        """Decorator"""
 
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            """wrapper method"""
+            """Wrapper method"""
             device = DeviceUtils(
                 obs_state_device_names=[
                     kwargs.get("csp_subarray"),
@@ -163,15 +163,15 @@ def sync_restart(timeout: int = 300):
 
 
 def sync_configure():
-    """sync method for configure command
+    """Sync method for configure command
     define as a decorator"""
 
     def decorator_sync_configure(func):
-        """decorator"""
+        """Decorator"""
 
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            """wrapper method"""
+            """Wrapper method"""
             invoked_from_ready = False
             the_waiter = Waiter(**kwargs)
             if resource(kwargs.get("tmc_subarraynode")) == "READY":
@@ -192,15 +192,15 @@ def sync_configure():
 
 
 def sync_end():
-    """sync method for end command
+    """Sync method for end command
     define as a decorator"""
 
     def decorator_sync_end(func):
-        """decorator method"""
+        """Decorator method"""
 
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            """wrapper method"""
+            """Wrapper method"""
             device = DeviceUtils(
                 obs_state_device_names=[
                     kwargs.get("csp_subarray"),
@@ -221,14 +221,14 @@ def sync_end():
 
 
 def wait_assign():
-    """wait for assign resource command to complete"""
+    """Wait for assign resource command to complete"""
 
     def decorator_sync_assign(func):
-        """decorator method"""
+        """Decorator method"""
 
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            """wrapper method"""
+            """Wrapper method"""
             the_waiter = Waiter(**kwargs)
             the_waiter.set_wait_for_idle()
             result = func(*args, **kwargs)
@@ -241,14 +241,14 @@ def wait_assign():
 
 
 def sync_assigning():
-    """sync method for assign resource"""
+    """Sync method for assign resource"""
 
     def decorator_sync_assign_resources(func):
-        """decorator method"""
+        """Decorator method"""
 
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            """wrapper method"""
+            """Wrapper method"""
             device = DeviceUtils(
                 obs_state_device_names=[
                     kwargs.get("csp_subarray"),
@@ -269,14 +269,14 @@ def sync_assigning():
 
 
 def sync_configure_sub():
-    """sync method for configure command"""
+    """Sync method for configure command"""
 
     def decorator_sync_configure(func):
-        """decorator method"""
+        """Decorator method"""
 
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            """wrapper method"""
+            """Wrapper method"""
             flag = False
             the_waiter = Waiter(**kwargs)
             if resource(kwargs.get("tmc_subarraynode")) == "READY":
@@ -295,14 +295,14 @@ def sync_configure_sub():
 
 
 def sync_scan(timeout=500):
-    """sync method for scan command"""
+    """Sync method for scan command"""
 
     def decorator_sync_scan(func):
-        """decorator method"""
+        """Decorator method"""
 
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            """wrapper method"""
+            """Wrapper method"""
             set_wait_for_obsstate = kwargs.get("set_wait_for_obsstate", True)
             device = DeviceUtils(
                 obs_state_device_names=[
@@ -330,14 +330,14 @@ def sync_scan(timeout=500):
 
 
 def sync_endscan():
-    """sync method for endscan command"""
+    """Sync method for endscan command"""
 
     def decorator_sync_end_scan(func):
-        """decorator"""
+        """Decorator"""
 
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            """wrapper"""
+            """Wrapper"""
             the_waiter = Waiter(**kwargs)
             the_waiter.set_wait_for_ready()
             result = func(*args, **kwargs)
@@ -350,14 +350,14 @@ def sync_endscan():
 
 
 def sync_endscan_in_ready():
-    """defined as a decorator when endscan is invoked as invalid command"""
+    """Defined as a decorator when endscan is invoked as invalid command"""
 
     def decorator_sync_end_scan(func):
-        """decorator method"""
+        """Decorator method"""
 
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            """wrapper method"""
+            """Wrapper method"""
             device = DeviceUtils(
                 obs_state_device_names=[
                     kwargs.get("csp_subarray"),
