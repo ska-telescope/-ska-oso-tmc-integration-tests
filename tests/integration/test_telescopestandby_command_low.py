@@ -1,3 +1,4 @@
+"""Test TelescopeStandby Command in low"""
 import pytest
 
 from tests.conftest import LOGGER

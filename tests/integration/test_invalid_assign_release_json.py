@@ -1,3 +1,4 @@
+"""Test cases for AssignResources input json"""
 import pytest
 from tango import DeviceProxy
 
@@ -27,6 +28,8 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 
 @pytest.mark.SKA_mid
 def test_assign_invalid_json(json_factory):
+    """Test assign resources command with
+    with invalid json"""
     try:
         # AssignResources and ReleaseResources is executed.
         assign_json = json_factory("command_invalid_assign_release")
@@ -70,6 +73,7 @@ def test_assign_invalid_json(json_factory):
 
 @pytest.mark.SKA_mid
 def test_release_invalid_json(json_factory):
+    """Test release with invalid json"""
     assign_json = json_factory("command_AssignResources")
     release_json = json_factory("command_ReleaseResources")
     invalid_release_json = json_factory("command_invalid_assign_release")

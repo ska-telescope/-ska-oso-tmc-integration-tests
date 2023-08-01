@@ -1,3 +1,4 @@
+"""Test cases for SDP and CSP in ObsState low"""
 import pytest
 
 from tests.conftest import LOGGER

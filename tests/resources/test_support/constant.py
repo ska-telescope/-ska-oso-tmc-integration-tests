@@ -1,3 +1,4 @@
+"""This module have all required constants for ska-tmc-integration"""
 centralnode = "ska_mid/tm_central/central_node"
 tmc_subarraynode1 = "ska_mid/tm_subarray_node/1"
 tmc_subarraynode2 = "ska_mid/tm_subarray_node/2"

@@ -1,3 +1,5 @@
+"""Test cases for Abort and Restart Command in CONFIGURING
+ ObsState"""
 import pytest
 from tango import DeviceProxy
 

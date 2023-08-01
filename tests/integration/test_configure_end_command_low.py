@@ -1,3 +1,5 @@
+"""Test cases for Configure and End Command
+    for low"""
 import pytest
 
 from tests.conftest import LOGGER

@@ -1,3 +1,4 @@
+"""Test configuration file for ska_tmc_integration"""
 import json
 import logging
 import os
@@ -45,8 +46,8 @@ def get_input_str(path):
     Returns input json string
     :rtype: String
     """
-    with open(path, "r", encoding="UTF-8") as f:
-        input_arg = f.read()
+    with open(path, "r", encoding="UTF-8") as file:
+        input_arg = file.read()
     return input_arg
 
 

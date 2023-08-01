@@ -1,3 +1,5 @@
+"""Test cases for abort and restart command in READY
+ObsState"""
 import pytest
 from tango import DeviceProxy
 
