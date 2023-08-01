@@ -320,10 +320,6 @@ def test_release_exception_propagation(json_factory, change_event_callbacks):
         tear_down_for_resourcing(tmc_helper, telescope_control)
 
 
-@pytest.mark.skip(
-    reason="will be enabled when new tag of \
-        SDP Subarray Leaf Node will release"
-)
 @pytest.mark.SKA_low
 def test_health_check_low():
     """Test health state check for low"""
