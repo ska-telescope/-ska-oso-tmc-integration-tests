@@ -36,6 +36,18 @@ class TestTelescopeHealthState(object):
                 HealthState.OK,
                 HealthState.FAILED,
             ),
+            (
+                HealthState.FAILED,
+                HealthState.FAILED,
+                HealthState.OK,
+                HealthState.FAILED,
+            ),
+            (
+                HealthState.OK,
+                HealthState.OK,
+                HealthState.FAILED,
+                HealthState.FAILED,
+            ),
         ],
     )
     @pytest.mark.SKA_mid
