@@ -8,8 +8,8 @@ from tango import DeviceProxy, EventType
 
 from tests.conftest import LOGGER, TIMEOUT
 from tests.resources.test_support.common_utils.common_helpers import (
+    Resource,
     Waiter,
-    resource,
 )
 from tests.resources.test_support.common_utils.result_code import ResultCode
 from tests.resources.test_support.common_utils.telescope_controls import (
@@ -308,7 +308,7 @@ def test_release_exception_propagation(json_factory, change_event_callbacks):
         waiter.set_wait_for_going_to_empty()
         waiter.wait(TIMEOUT)
         subarray_node = DeviceProxy(tmc_subarraynode1)
-        resource(subarray_node).assert_attribute("obsState").equals("EMPTY")
+        Resource(subarray_node).assert_attribute("obsState").equals("EMPTY")
 
         tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
         assert telescope_control.is_in_valid_state(
