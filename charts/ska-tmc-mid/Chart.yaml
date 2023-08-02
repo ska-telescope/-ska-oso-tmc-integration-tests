@@ -18,3 +18,7 @@ dependencies:
   - name: ska-tango-util
     version: 0.4.5
     repository: https://artefact.skao.int/repository/helm-internal
+  - name: ska-tango-common
+    version: 0.0.1
+    repository: file://../ska-tmc-common
+

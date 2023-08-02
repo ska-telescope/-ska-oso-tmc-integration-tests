@@ -1,9 +1,9 @@
 apiVersion: v2
-name: ska-tmc-low
-description: A subchart for ska-tmc-low deployment.
+name: ska-tmc-common
+description: A subchart for ska-tmc-mid deployment.
 type: application
-version: 0.7.2
-appVersion: 0.7.2
+version: 0.0.1
+appVersion: 0.0.1
 icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
 maintainers:
   - name: Aditya Dange
@@ -18,7 +18,3 @@ dependencies:
   - name: ska-tango-util
     version: 0.4.5
     repository: https://artefact.skao.int/repository/helm-internal
-  - name: ska-tango-common
-    version: 0.0.1
-    repository: file://../ska-tmc-common
-

@@ -14,6 +14,7 @@ LOGGER = logging.getLogger(__name__)
 
 class Resource:
     """Resources class for common helpers"""
+
     device_name = None
 
     def __init__(self, device_name):
@@ -65,7 +66,7 @@ class ObjectComparison:
 
 
 # time keepers based on above resources
-class Monitor(object):
+class Monitor:
     """
     Monitors an attribute of a given resource and allows a user to block/wait
     on a specific condition:
@@ -205,6 +206,7 @@ class Monitor(object):
 
 class Subscriber:
     """Subscriber class for events"""
+
     def __init__(self, resource, implementation="polling"):
         self.resource = resource
         self.implementation = implementation
