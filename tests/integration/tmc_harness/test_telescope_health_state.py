@@ -8,7 +8,6 @@ class TestTelescopeHealthState(object):
     """This class implement test cases to verify telescopeHealthState
     of CentralNode"""
 
-    @pytest.mark.hope
     @pytest.mark.parametrize(
         "csp_master_health_state, sdp_master_health_state, \
         dish_master1_health_state, dish_master2_health_state",
@@ -86,7 +85,6 @@ class TestTelescopeHealthState(object):
         )
         assert central_node.central_node.telescopeHealthState == HealthState.OK
 
-    @pytest.mark.hope
     @pytest.mark.parametrize(
         "csp_master_health_state, sdp_master_health_state, \
         dish_master1_health_state, dish_master2_health_state",
