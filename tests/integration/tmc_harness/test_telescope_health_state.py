@@ -1,10 +1,7 @@
 import pytest
 from ska_tango_base.control_model import HealthState
 
-from tests.resources.test_harness.helpers import (
-    get_device_simulators,
-    get_master_device_simulators,
-)
+from tests.resources.test_harness.helpers import get_master_device_simulators
 
 
 class TestTelescopeHealthState(object):
@@ -13,35 +10,30 @@ class TestTelescopeHealthState(object):
 
     @pytest.mark.parametrize(
         "csp_master_health_state, sdp_master_health_state, \
-        dish_master1_health_state, dish_master2_health_state,\
-        expected_telescope_health_state",
+        dish_master1_health_state, dish_master2_health_state",
         [
             (
                 HealthState.OK,
                 HealthState.FAILED,
                 HealthState.OK,
                 HealthState.OK,
-                HealthState.FAILED,
             ),
             (
                 HealthState.FAILED,
                 HealthState.OK,
                 HealthState.OK,
                 HealthState.OK,
-                HealthState.FAILED,
             ),
             (
                 HealthState.OK,
                 HealthState.OK,
                 HealthState.FAILED,
                 HealthState.OK,
-                HealthState.FAILED,
             ),
             (
                 HealthState.OK,
                 HealthState.OK,
                 HealthState.OK,
-                HealthState.FAILED,
                 HealthState.FAILED,
             ),
         ],
