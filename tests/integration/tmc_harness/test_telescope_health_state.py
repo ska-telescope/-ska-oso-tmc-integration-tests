@@ -40,7 +40,7 @@ class TestTelescopeHealthState(object):
                 HealthState.FAILED,
                 HealthState.FAILED,
                 HealthState.OK,
-                HealthState.FAILED,
+                HealthState.OK,
             ),
             (
                 HealthState.OK,
@@ -123,6 +123,18 @@ class TestTelescopeHealthState(object):
                 HealthState.OK,
                 HealthState.OK,
                 HealthState.OK,
+                HealthState.DEGRADED,
+            ),
+            (
+                HealthState.DEGRADED,
+                HealthState.DEGRADED,
+                HealthState.OK,
+                HealthState.OK,
+            ),
+            (
+                HealthState.OK,
+                HealthState.OK,
+                HealthState.DEGRADED,
                 HealthState.DEGRADED,
             ),
         ],
