@@ -133,7 +133,7 @@ def sync_restart(timeout=300):
     return decorator_sync_restart
 
 
-def sync_configure(timeout=500):
+def sync_configure():
     # defined as a decorator
     def decorator_sync_configure(func):
         @functools.wraps(func)

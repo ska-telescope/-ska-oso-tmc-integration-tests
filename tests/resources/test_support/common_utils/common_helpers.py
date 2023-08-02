@@ -59,6 +59,21 @@ class ObjectComparison:
                 )
             )
 
+    def not_equals(self, value):
+        try:
+            if isinstance(value, list):
+                # a list is assumed to mean an or condition, a tuple is
+                # assumed to be  an and condition
+                assert self.value not in value
+            else:
+                assert self.value != value
+        except Exception as ex:
+            raise Exception(
+                "{} is asserted to be {} but was instead {} {}".format(
+                    self.object, value, self.value, ex
+                )
+            )
+
 
 # time keepers based on above resources
 class monitor(object):
@@ -282,6 +297,9 @@ class Waiter:
         self.csp_subarray1 = kwargs.get("csp_subarray")
         self.csp_master = kwargs.get("csp_master")
         self.tmc_subarraynode1 = kwargs.get("tmc_subarraynode")
+        self.tmc_csp_subarray_leaf_node = kwargs.get(
+            "tmc_csp_subarray_leaf_node"
+        )
         self.dish_master1 = kwargs.get("dish_master")
 
     def clear_watches(self):
@@ -528,6 +546,11 @@ class Waiter:
                 "obsState", changed_to="SCANNING"
             )
         )
+
+    def set_wait_for_delayvalue(self):
+        resource(self.tmc_csp_subarray_leaf_node).assert_attribute(
+            "delayModel"
+        ).not_equals(["", "no_value"])
 
     def wait(self, timeout=30, resolution=0.1):
         self.logs = ""

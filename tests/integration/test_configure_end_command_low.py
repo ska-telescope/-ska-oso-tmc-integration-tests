@@ -3,7 +3,8 @@ import time
 import pytest
 from tango import DeviceProxy
 
-from tests.conftest import LOGGER
+from tests.conftest import LOGGER, TIMEOUT
+from tests.resources.test_support.common_utils.common_helpers import Waiter
 from tests.resources.test_support.common_utils.telescope_controls import (
     BaseTelescopeControl,
     check_subarray1_availability,
@@ -62,16 +63,15 @@ def test_configure_end_low(json_factory):
             configure_json, **ON_OFF_DEVICE_COMMAND_DICT
         )
         csp_subarray = DeviceProxy(tmc_csp_subarray_leaf_node)
-        delay_value = csp_subarray.delayModel
-        counter = 0
-        timeout = 15
-        while csp_subarray.delayModel == "no_value" or counter <= timeout:
-            LOGGER.info(f"csp_subarray delayModel {csp_subarray.delayModel}")
-            counter = counter + 1
-            time.sleep(1)
-            LOGGER.info(f"csp_subarray delayModel {delay_value}")
-        assert csp_subarray.delayModel not in ["", "no_value"]
-        LOGGER.info(f"csp_subarray delayModel {csp_subarray.delayModel}")
+        LOGGER.info(f"csp_subarray delayModel{csp_subarray.delayModel}")
+        time.sleep(1)
+        LOGGER.info(f"csp_subarray delayModel{csp_subarray.delayModel}")
+        waiter = Waiter(**ON_OFF_DEVICE_COMMAND_DICT)
+        waiter.set_wait_for_delayvalue()
+        waiter.wait(TIMEOUT)
+
+        # assert csp_subarray.delayModel not in ["", "no_value"]
+        # LOGGER.info(f"csp_subarray delayModel {csp_subarray.delayModel}")
 
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_READY_INFO, "obsState"
