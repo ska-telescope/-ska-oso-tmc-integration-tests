@@ -133,7 +133,7 @@ def sync_restart(timeout=300):
     return decorator_sync_restart
 
 
-def sync_configure():
+def sync_configure(timeout=500):
     # defined as a decorator
     def decorator_sync_configure(func):
         @functools.wraps(func)
@@ -149,7 +149,7 @@ def sync_configure():
                     the_waiter.set_wait_for_configuring()
                     the_waiter.wait(500)
                 the_waiter.set_wait_for_configure()
-                the_waiter.wait(500)
+                the_waiter.wait(600)
             return result
 
         return wrapper
@@ -242,7 +242,7 @@ def sync_configure_sub():
     return decorator_sync_configure
 
 
-def sync_scan(timeout=500):
+def sync_scan(timeout=600):
     # define as a decorator
     def decorator_sync_scan(func):
         @functools.wraps(func)

@@ -63,10 +63,15 @@ def test_configure_end_low(json_factory):
         )
         csp_subarray = DeviceProxy(tmc_csp_subarray_leaf_node)
         delay_value = csp_subarray.delayModel
-        time.sleep(5)
-        LOGGER.info(f"cspsal_node delayModel {delay_value}")
+        counter = 0
+        timeout = 15
+        while csp_subarray.delayModel == "no_value" or counter <= timeout:
+            LOGGER.info(f"csp_subarray delayModel {csp_subarray.delayModel}")
+            counter = counter + 1
+            time.sleep(1)
+            LOGGER.info(f"csp_subarray delayModel {delay_value}")
         assert csp_subarray.delayModel not in ["", "no_value"]
-        LOGGER.info(f"cspsal_node delayModel {csp_subarray.delayModel}")
+        LOGGER.info(f"csp_subarray delayModel {csp_subarray.delayModel}")
 
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_READY_INFO, "obsState"
