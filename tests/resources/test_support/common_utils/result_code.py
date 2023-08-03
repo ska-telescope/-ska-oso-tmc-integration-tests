@@ -36,3 +36,15 @@ class ResultCode(enum.IntEnum):
 
     ABORTED = 7
     """The command in progress has been aborted."""
+
+
+class FaultType(enum.IntEnum):
+    """Enum class for raising various exceptions from helper devices."""
+
+    NONE = 0
+    COMMAND_NOT_ALLOWED = 1
+    FAILED_RESULT = 2
+    LONG_RUNNING_EXCEPTION = 3
+    STUCK_IN_INTERMEDIATE_STATE = 4
+    # UNRESPONSIVE = 5
+    # COMMAND_REJECTED = 6

@@ -1,13 +1,18 @@
 """Test cases for Configure and End Command
     for mid"""
+import json
 from copy import deepcopy
 
 import pytest
+from ska_control_model import ObsState
 from ska_tango_testing.mock.placeholders import Anything
 from tango import DeviceProxy, EventType
 
 from tests.conftest import LOGGER
-from tests.resources.test_support.common_utils.result_code import ResultCode
+from tests.resources.test_support.common_utils.result_code import (
+    FaultType,
+    ResultCode,
+)
 from tests.resources.test_support.common_utils.telescope_controls import (
     BaseTelescopeControl,
     check_subarray1_availability,
@@ -220,7 +225,14 @@ def test_configure_error_propagation_sdp(json_factory, change_event_callbacks):
         )
 
         sdp_subarray = DeviceProxy(sdp_subarray1)
-        sdp_subarray.SetDefective(True)
+        defect = {
+            "enabled": True,
+            "fault_type": FaultType.STUCK_IN_INTERMEDIATE_STATE,
+            "error_message": "Device stuck in intermediate state",
+            "result": ResultCode.FAILED,
+            "intermediate_state": ObsState.CONFIGURING,
+        }
+        sdp_subarray.SetDefective(json.dumps(defect))
 
         # Invoking Configure command
         device_params = deepcopy(ON_OFF_DEVICE_COMMAND_DICT)
@@ -238,12 +250,11 @@ def test_configure_error_propagation_sdp(json_factory, change_event_callbacks):
             lookahead=7,
         )
 
+        assert "Configure" in assertion_data["attribute_value"][0]
         assert (
-            "Exception occurred on the following devices:\n"
+            "Timeout has occured, command failed"
             in assertion_data["attribute_value"][1]
         )
-        assert "Device is Defective" in assertion_data["attribute_value"][1]
-        assert "Configure" in assertion_data["attribute_value"][0]
         assert (
             tmc_sdp_subarray_leaf_node in assertion_data["attribute_value"][1]
         )
@@ -253,7 +264,7 @@ def test_configure_error_propagation_sdp(json_factory, change_event_callbacks):
             lookahead=4,
         )
 
-        sdp_subarray.SetDefective(False)
+        sdp_subarray.SetDefective(json.dumps({"enabled": False}))
 
         # Emulating Csp Subarray going back to READY state after failure
         sdp_subarray.SetDirectObsState(4)

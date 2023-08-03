@@ -9,15 +9,15 @@ from ska_tango_testing.mock.placeholders import Anything
 from tango import DeviceProxy, EventType
 
 from tests.conftest import LOGGER, TIMEOUT
-from tests.integration.test_assign_release_command_low import (
-    tear_down_for_resourcing,
-)
 from tests.resources.test_support.common_utils.common_helpers import Waiter
 from tests.resources.test_support.common_utils.result_code import ResultCode
 from tests.resources.test_support.common_utils.telescope_controls import (
     BaseTelescopeControl,
 )
-from tests.resources.test_support.common_utils.tmc_helpers import TmcHelper
+from tests.resources.test_support.common_utils.tmc_helpers import (
+    TmcHelper,
+    tear_down,
+)
 from tests.resources.test_support.constant_low import (
     DEVICE_OBS_STATE_EMPTY_INFO,
     DEVICE_STATE_ON_INFO,
@@ -40,6 +40,7 @@ def test_assign_release_command_not_allowed_propagation_csp_ln_low(
 ):
     """Verify command not allowed exception propagation from leaf nodes"""
     assign_json = json_factory("command_assign_resource_low")
+    release_json = json_factory("command_release_resource_low")
     try:
         telescope_control = BaseTelescopeControl()
         tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
@@ -70,7 +71,7 @@ def test_assign_release_command_not_allowed_propagation_csp_ln_low(
 
         csp_subarray = DeviceProxy(csp_subarray1)
         # Setting CSP Subarray ObsState to RESOURCING to imulate failure.
-        csp_subarray.SetDirectObsState(1)
+        csp_subarray.SetDirectObsState(ObsState.RESOURCING)
 
         device_params = deepcopy(ON_OFF_DEVICE_COMMAND_DICT)
         device_params["set_wait_for_obsstate"] = False
@@ -109,7 +110,7 @@ def test_assign_release_command_not_allowed_propagation_csp_ln_low(
 
     except Exception as e:
         LOGGER.exception("The exception is: %s", e)
-        tear_down_for_resourcing(tmc_helper, telescope_control)
+        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
 @pytest.mark.SKA_low
@@ -118,6 +119,7 @@ def test_assign_release_command_not_allowed_propagation_sdp_ln_low(
 ):
     """Verify command not allowed exception propagation from leaf nodes"""
     assign_json = json_factory("command_assign_resource_low")
+    release_json = json_factory("command_release_resource_low")
     try:
         telescope_control = BaseTelescopeControl()
         tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
@@ -148,7 +150,7 @@ def test_assign_release_command_not_allowed_propagation_sdp_ln_low(
 
         sdp_subarray = DeviceProxy(sdp_subarray1)
         # Setting SDP Subarray ObsState to RESOURCING to imulate failure.
-        sdp_subarray.SetDirectObsState(1)
+        sdp_subarray.SetDirectObsState(ObsState.RESOURCING)
 
         device_params = deepcopy(ON_OFF_DEVICE_COMMAND_DICT)
         device_params["set_wait_for_obsstate"] = False
@@ -172,13 +174,13 @@ def test_assign_release_command_not_allowed_propagation_sdp_ln_low(
             "ska_tmc_common.exceptions.InvalidObsStateError"
             in assertion_data["attribute_value"][1]
         )
-        sdp_subarray.SetDirectObsState(0)
+        sdp_subarray.SetDirectObsState(ObsState.EMPTY)
         # Tear down
         the_waiter = Waiter()
         the_waiter.set_wait_for_specific_obsstate("IDLE", [csp_subarray1])
         the_waiter.wait(TIMEOUT)
         # Waiting for Obsstate empty.
-        time.sleep(1)
+        time.sleep(2)
         csp_sln = DeviceProxy(tmc_csp_subarray_leaf_node)
         csp_sln.ReleaseAllResources()
 
@@ -196,4 +198,4 @@ def test_assign_release_command_not_allowed_propagation_sdp_ln_low(
 
     except Exception as e:
         LOGGER.exception("The exception is: %s", e)
-        tear_down_for_resourcing(tmc_helper, telescope_control)
+        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)

@@ -3,6 +3,7 @@ import json
 from copy import deepcopy
 
 import pytest
+from ska_control_model import ObsState
 from ska_tango_testing.mock.placeholders import Anything
 from tango import DeviceProxy, EventType
 
@@ -11,7 +12,10 @@ from tests.resources.test_support.common_utils.common_helpers import (
     Waiter,
     resource,
 )
-from tests.resources.test_support.common_utils.result_code import ResultCode
+from tests.resources.test_support.common_utils.result_code import (
+    FaultType,
+    ResultCode,
+)
 from tests.resources.test_support.common_utils.telescope_controls import (
     BaseTelescopeControl,
 )
@@ -31,6 +35,7 @@ from tests.resources.test_support.constant import (
     csp_subarray1,
     sdp_subarray1,
     tmc_csp_subarray_leaf_node,
+    tmc_sdp_subarray_leaf_node,
     tmc_subarraynode1,
 )
 
@@ -236,7 +241,14 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         )
 
         sdp_subarray = DeviceProxy(sdp_subarray1)
-        sdp_subarray.SetDefective(True)
+        defect = {
+            "enabled": True,
+            "fault_type": FaultType.STUCK_IN_INTERMEDIATE_STATE,
+            "error_message": "Device stuck in intermediate state",
+            "result": ResultCode.FAILED,
+            "intermediate_state": ObsState.RESOURCING,
+        }
+        sdp_subarray.SetDefective(json.dumps(defect))
 
         device_params = deepcopy(ON_OFF_DEVICE_COMMAND_DICT)
         device_params["set_wait_for_obsstate"] = False
@@ -257,13 +269,19 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         )
         assert "AssignResources" in assertion_data["attribute_value"][0]
         assert (
-            "Exception occurred on the following devices:\n"
-            "ska_mid/tm_leaf_node/sdp_subarray01"
+            "Timeout has occured, command failed"
             in assertion_data["attribute_value"][1]
         )
-        assert "Device is Defective" in assertion_data["attribute_value"][1]
+        assert (
+            tmc_sdp_subarray_leaf_node in assertion_data["attribute_value"][1]
+        )
 
-        sdp_subarray.SetDefective(False)
+        change_event_callbacks["longRunningCommandResult"].assert_change_event(
+            (unique_id[0], str(ResultCode.FAILED.value)),
+            lookahead=4,
+        )
+
+        sdp_subarray.SetDefective(json.dumps({"enabled": False}))
 
         # Do not raise exception
         tear_down(
