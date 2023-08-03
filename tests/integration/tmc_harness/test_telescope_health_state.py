@@ -7,6 +7,7 @@ from tests.resources.test_harness.helpers import get_master_device_simulators
 class TestTelescopeHealthState(object):
     """This class implement test cases to verify telescopeHealthState
     of CentralNode"""
+
     @pytest.mark.parametrize(
         "csp_master_health_state, sdp_master_health_state, \
         dish_master1_health_state, dish_master2_health_state",
