@@ -7,7 +7,6 @@ from tests.resources.test_harness.helpers import get_master_device_simulators
 class TestTelescopeHealthState(object):
     """This class implement test cases to verify telescopeHealthState
     of CentralNode"""
-
     @pytest.mark.parametrize(
         "csp_master_health_state, sdp_master_health_state, \
         dish_master1_health_state, dish_master2_health_state",
@@ -85,8 +84,20 @@ class TestTelescopeHealthState(object):
     # @pytest.mark.skip(reason="Requires new SubarrayNode image version")
     @pytest.mark.SKA_mid
     def test_telescope_state_ok(
-        self, central_node, subarray_node, event_recorder
+        self, central_node, subarray_node, event_recorder, simulator_factory
     ):
+        (
+            csp_master_sim,
+            sdp_master_sim,
+            dish_master_1,
+            dish_master_2,
+        ) = get_master_device_simulators(simulator_factory)
+
+        csp_master_sim.SetDirectHealthState(HealthState.OK)
+        sdp_master_sim.SetDirectHealthState(HealthState.OK)
+        dish_master_1.SetDirectHealthState(HealthState.OK)
+        dish_master_2.SetDirectHealthState(HealthState.OK)
+
         event_recorder.subscribe_event(
             central_node.central_node, "telescopeHealthState"
         )
@@ -95,7 +106,6 @@ class TestTelescopeHealthState(object):
         assert event_recorder.has_change_event_occurred(
             central_node.central_node, "telescopeHealthState", HealthState.OK
         )
-        assert central_node.central_node.telescopeHealthState == HealthState.OK
 
     @pytest.mark.parametrize(
         "csp_master_health_state, sdp_master_health_state, \

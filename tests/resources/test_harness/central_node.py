@@ -17,13 +17,11 @@ from tests.resources.test_harness.utils.sync_decorators import (
 from tests.resources.test_support.helpers import resource
 
 device_dict = {
-    # TODO use this as as list when multiple subarray considered in testing
-    "sdp_subarray": sdp_subarray1,
-    "csp_subarray": csp_subarray1,
     "csp_master": csp_master,
     "tmc_subarraynode": tmc_subarraynode1,
     "sdp_master": sdp_master,
-    "centralnode": centralnode,
+    "dish_master1": dish_master1,
+    "dish_master2": dish_master2,
 }
 
 
@@ -41,6 +39,8 @@ class CentralNode(object):
         }
         self.sdp_master = sdp_master
         self.csp_master = csp_master
+        self.dish_master1 = dish_master1
+        self.dish_master2 = dish_master2
         self.dish_master_list = [dish_master1, dish_master2]
         self._state = DevState.OFF
 
@@ -155,15 +155,18 @@ class CentralNode(object):
         # LOGGER.info("Invoked ReleaseResources on CentralNode")
         return result, message
 
-    def _reset_mock_devices(self):
+    def _reset_health_state_for_mock_devices(self):
         """Reset Mock devices"""
         for mock_device in [
             self.sdp_master,
             self.csp_master,
+            self.dish_master1,
+            self.dish_master2,
         ]:
             device = DeviceProxy(mock_device)
-            device.SetDirectHealthState(HealthState.OK)
+            device.SetDirectHealthState(HealthState.UNKNOWN)
 
     def tear_down(self):
         """Handle Tear down of central Node"""
-        self._reset_mock_devices()
+        # reset HealthState.UNKNOWN for mock devices
+        self._reset_health_state_for_mock_devices()
