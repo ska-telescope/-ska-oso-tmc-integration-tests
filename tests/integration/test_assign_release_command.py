@@ -1,3 +1,4 @@
+"""Test cases for AssignResources and ReleaseResources command for mid"""
 import json
 from copy import deepcopy
 
@@ -274,9 +275,9 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-@pytest.mark.skip
 @pytest.mark.SKA_mid
 def test_health_check_mid():
+    """Test case to check health check for mid"""
     assert telescope_control.is_in_valid_state(
         DEVICE_HEALTH_STATE_OK_INFO, "healthState"
     )

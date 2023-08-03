@@ -213,6 +213,7 @@ def tmc_accepts_endscan_command(json_factory):
 
 @then("implements the teardown")
 def teardown_the_tmc(json_factory):
+    """Tears down the system after test run"""
     release_json = json_factory("command_ReleaseResources")
     # Invoke End Command on TMC
     tmc_helper.end(**ON_OFF_DEVICE_COMMAND_DICT)

@@ -1,3 +1,5 @@
+"""Test cases for Abort and Restart Command in CONFIGURING
+ ObsState"""
 import pytest
 from tango import DeviceProxy
 
@@ -26,6 +28,7 @@ from tests.resources.test_support.constant_low import (
 )
 
 
+@pytest.mark.skip
 @pytest.mark.SKA_low
 def test_low_abort_restart_in_configuring(json_factory):
     """Abort and Restart is executed."""

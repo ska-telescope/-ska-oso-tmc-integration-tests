@@ -1,3 +1,5 @@
+"""Test cases for Scan Command not allowed in IDLE
+obstate"""
 import pytest
 from tango import DeviceProxy
 
