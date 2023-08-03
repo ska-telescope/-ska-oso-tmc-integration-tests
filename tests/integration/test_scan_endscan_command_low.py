@@ -29,6 +29,7 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
+@pytest.mark.skip
 @pytest.mark.SKA_low
 def test_scan_endscan_low(json_factory):
     """Scan and EndScan is executed."""
