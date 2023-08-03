@@ -97,5 +97,6 @@ def test_low_abort_restart_in_ready(json_factory):
 
         LOGGER.info("Test complete.")
 
-    except Exception:
+    except Exception as e:
+        LOGGER.exception("The exception is: %s", e)
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
