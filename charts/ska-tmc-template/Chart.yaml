@@ -1,6 +1,6 @@
 apiVersion: v2
-name: ska-tmc
-description: A subchart for ska-tmc deployment.
+name: ska-tmc-template
+description: A subchart for ska-tmc-template deployment.
 type: application
 version: 0.0.1
 appVersion: 0.0.1
