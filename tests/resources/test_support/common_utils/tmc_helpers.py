@@ -157,12 +157,15 @@ class TmcHelper:
         for device in device_to_standby_list:
             device_proxy = DeviceProxy(device)
             device_proxy.SetDirectState(DevState.OFF)
+            # TODO: move this to proper place
+            device_proxy.ClearCommandCallInfo()
 
         # If Dish master provided then set it to standby
         dish_master = kwargs.get("dish_master")
         if dish_master:
             device_proxy = DeviceProxy(dish_master)
             device_proxy.SetDirectState(DevState.STANDBY)
+            device_proxy.ClearCommandCallInfo()
 
         LOGGER.info(
             f"After invoking TelescopeStandBy command {central_node} State is:\

@@ -1,4 +1,17 @@
 [[package]]
+name = "assertpy"
+version = "1.1"
+description = "Simple assertion library for unit testing in python with a fluent API"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
+
+[[package]]
 name = "astroid"
 version = "2.15.6"
 description = "An abstract syntax tree for Python with inference support."
@@ -13,6 +26,11 @@ wrapt = [
     {version = ">=1.11,<2", markers = "python_version < \"3.11\""},
     {version = ">=1.14,<2", markers = "python_version >= \"3.11\""},
 ]
+
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
 
 [[package]]
 name = "black"
@@ -35,6 +53,11 @@ d = ["aiohttp (>=3.7.4)"]
 jupyter = ["ipython (>=7.8.0)", "tokenize-rt (>=3.2.0)"]
 uvloop = ["uvloop (>=0.15.2)"]
 
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
+
 [[package]]
 name = "click"
 version = "8.1.6"
@@ -46,6 +69,11 @@ python-versions = ">=3.7"
 [package.dependencies]
 colorama = {version = "*", markers = "platform_system == \"Windows\""}
 
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
+
 [[package]]
 name = "colorama"
 version = "0.4.6"
@@ -53,6 +81,11 @@ description = "Cross-platform colored terminal text."
 category = "dev"
 optional = false
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,>=2.7"
+
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
 
 [[package]]
 name = "coverage"
@@ -65,13 +98,23 @@ python-versions = ">=3.7"
 [package.extras]
 toml = ["tomli"]
 
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
+
 [[package]]
 name = "debugpy"
-version = "1.6.7"
+version = "1.6.8"
 description = "An implementation of the Debug Adapter Protocol for Python"
 category = "main"
 optional = false
 python-versions = ">=3.7"
+
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
 
 [[package]]
 name = "dill"
@@ -84,6 +127,11 @@ python-versions = ">=3.7"
 [package.extras]
 graph = ["objgraph (>=1.7.2)"]
 
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
+
 [[package]]
 name = "exceptiongroup"
 version = "1.1.2"
@@ -95,6 +143,11 @@ python-versions = ">=3.7"
 [package.extras]
 test = ["pytest (>=6)"]
 
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
+
 [[package]]
 name = "execnet"
 version = "2.0.2"
@@ -105,6 +158,11 @@ python-versions = ">=3.7"
 
 [package.extras]
 testing = ["hatch", "pre-commit", "pytest", "tox"]
+
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
 
 [[package]]
 name = "flake8"
@@ -119,6 +177,11 @@ mccabe = ">=0.7.0,<0.8.0"
 pycodestyle = ">=2.9.0,<2.10.0"
 pyflakes = ">=2.5.0,<2.6.0"
 
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
+
 [[package]]
 name = "glob2"
 version = "0.7"
@@ -127,6 +190,11 @@ category = "dev"
 optional = false
 python-versions = "*"
 
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
+
 [[package]]
 name = "iniconfig"
 version = "2.0.0"
@@ -134,6 +202,11 @@ description = "brain-dead simple config-ini parsing"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
+
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
 
 [[package]]
 name = "isort"
@@ -145,13 +218,18 @@ python-versions = ">=3.8.0"
 
 [package.extras]
 colors = ["colorama (>=0.4.3)"]
+requirements-deprecated-finder = ["pip-api", "pipreqs"]
 pipfile-deprecated-finder = ["pip-shims (>=0.5.2)", "pipreqs", "requirementslib"]
 plugins = ["setuptools"]
-requirements-deprecated-finder = ["pip-api", "pipreqs"]
+
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
 
 [[package]]
 name = "junit-xml-2"
-version = "1.9"
+version = "2-1.9b1"
 description = "Fork of https://github.com/kyrus/python-junit-xml that has tarball published to pypi"
 category = "dev"
 optional = false
@@ -160,6 +238,11 @@ python-versions = "*"
 [package.dependencies]
 six = "*"
 
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
+
 [[package]]
 name = "lazy-object-proxy"
 version = "1.9.0"
@@ -167,6 +250,11 @@ description = "A fast and thorough lazy object proxy."
 category = "dev"
 optional = false
 python-versions = ">=3.7"
+
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
 
 [[package]]
 name = "mako"
@@ -180,9 +268,14 @@ python-versions = ">=3.7"
 MarkupSafe = ">=0.9.2"
 
 [package.extras]
-babel = ["Babel"]
+babel = ["babel"]
 lingua = ["lingua"]
 testing = ["pytest"]
+
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
 
 [[package]]
 name = "markupsafe"
@@ -192,6 +285,11 @@ category = "dev"
 optional = false
 python-versions = ">=3.7"
 
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
+
 [[package]]
 name = "mccabe"
 version = "0.7.0"
@@ -199,6 +297,11 @@ description = "McCabe checker, plugin for flake8"
 category = "dev"
 optional = false
 python-versions = ">=3.6"
+
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
 
 [[package]]
 name = "mypy-extensions"
@@ -208,6 +311,11 @@ category = "dev"
 optional = false
 python-versions = ">=3.5"
 
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
+
 [[package]]
 name = "numpy"
 version = "1.23.0"
@@ -215,6 +323,11 @@ description = "NumPy is the fundamental package for array computing with Python.
 category = "main"
 optional = false
 python-versions = ">=3.8"
+
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
 
 [[package]]
 name = "packaging"
@@ -224,6 +337,11 @@ category = "main"
 optional = false
 python-versions = ">=3.7"
 
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
+
 [[package]]
 name = "parse"
 version = "1.19.1"
@@ -231,6 +349,11 @@ description = "parse() is the opposite of format()"
 category = "dev"
 optional = false
 python-versions = "*"
+
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
 
 [[package]]
 name = "parse-type"
@@ -245,9 +368,14 @@ parse = {version = ">=1.18.0", markers = "python_version >= \"3.0\""}
 six = ">=1.15"
 
 [package.extras]
-develop = ["build (>=0.5.1)", "coverage (>=4.4)", "pylint", "pytest (<5.0)", "pytest (>=5.0)", "pytest-cov", "pytest-html (>=1.19.0)", "ruff", "tox (>=2.8,<4.0)", "twine (>=1.13.0)", "virtualenv (<20.22.0)", "virtualenv (>=20.0.0)"]
+develop = ["build (>=0.5.1)", "twine (>=1.13.0)", "coverage (>=4.4)", "pytest-html (>=1.19.0)", "pytest-cov", "tox (>=2.8,<4.0)", "pylint", "pytest (<5.0)", "virtualenv (<20.22.0)", "virtualenv (>=20.0.0)", "pytest (>=5.0)", "ruff"]
 docs = ["Sphinx (>=1.6)", "sphinx-bootstrap-theme (>=0.6.0)"]
-testing = ["pytest (<5.0)", "pytest (>=5.0)", "pytest-html (>=1.19.0)"]
+testing = ["pytest-html (>=1.19.0)", "pytest (<5.0)", "pytest (>=5.0)"]
+
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
 
 [[package]]
 name = "pathspec"
@@ -256,6 +384,11 @@ description = "Utility library for gitignore style pattern matching of file path
 category = "dev"
 optional = false
 python-versions = ">=3.7"
+
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
 
 [[package]]
 name = "platformdirs"
@@ -266,8 +399,13 @@ optional = false
 python-versions = ">=3.7"
 
 [package.extras]
-docs = ["furo (>=2023.7.26)", "proselint (>=0.13)", "sphinx (>=7.1.1)", "sphinx-autodoc-typehints (>=1.24)"]
-test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest (>=7.4)", "pytest-cov (>=4.1)", "pytest-mock (>=3.11.1)"]
+docs = ["furo (>=2023.7.26)", "proselint (>=0.13)", "sphinx-autodoc-typehints (>=1.24)", "sphinx (>=7.1.1)"]
+test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest-cov (>=4.1)", "pytest-mock (>=3.11.1)", "pytest (>=7.4)"]
+
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
 
 [[package]]
 name = "pluggy"
@@ -281,6 +419,11 @@ python-versions = ">=3.7"
 dev = ["pre-commit", "tox"]
 testing = ["pytest", "pytest-benchmark"]
 
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
+
 [[package]]
 name = "psutil"
 version = "5.9.5"
@@ -290,7 +433,12 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [package.extras]
-test = ["enum34", "ipaddress", "mock", "pywin32", "wmi"]
+test = ["ipaddress", "mock", "enum34", "pywin32", "wmi"]
+
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
 
 [[package]]
 name = "py"
@@ -300,6 +448,11 @@ category = "dev"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
+
 [[package]]
 name = "pycodestyle"
 version = "2.9.1"
@@ -308,6 +461,11 @@ category = "dev"
 optional = false
 python-versions = ">=3.6"
 
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
+
 [[package]]
 name = "pyflakes"
 version = "2.5.0"
@@ -315,6 +473,11 @@ description = "passive checker of Python programs"
 category = "dev"
 optional = false
 python-versions = ">=3.6"
+
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
 
 [[package]]
 name = "pylint"
@@ -341,6 +504,11 @@ tomlkit = ">=0.10.1"
 spelling = ["pyenchant (>=3.2,<4.0)"]
 testutils = ["gitpython (>3)"]
 
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
+
 [[package]]
 name = "pylint-junit"
 version = "0.3.2"
@@ -352,6 +520,11 @@ python-versions = "*"
 [package.dependencies]
 junit-xml-2 = "*"
 pylint = "*"
+
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
 
 [[package]]
 name = "pytango"
@@ -369,6 +542,11 @@ psutil = "*"
 [package.extras]
 gevent = ["gevent (>=20.0)"]
 tests = ["gevent (>=20)", "pytest", "pytest-forked"]
+
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
 
 [[package]]
 name = "pytest"
@@ -389,6 +567,11 @@ tomli = {version = ">=1.0.0", markers = "python_version < \"3.11\""}
 [package.extras]
 testing = ["argcomplete", "attrs (>=19.2.0)", "hypothesis (>=3.56)", "mock", "nose", "pygments (>=2.7.2)", "requests", "setuptools", "xmlschema"]
 
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
+
 [[package]]
 name = "pytest-bdd"
 version = "5.0.0"
@@ -405,6 +588,11 @@ parse-type = "*"
 py = "*"
 pytest = ">=4.3"
 
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
+
 [[package]]
 name = "pytest-cov"
 version = "2.12.1"
@@ -419,7 +607,12 @@ pytest = ">=4.6"
 toml = "*"
 
 [package.extras]
-testing = ["fields", "hunter", "process-tests", "pytest-xdist", "six", "virtualenv"]
+testing = ["fields", "hunter", "process-tests", "six", "pytest-xdist", "virtualenv"]
+
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
 
 [[package]]
 name = "pytest-forked"
@@ -433,6 +626,11 @@ python-versions = ">=3.7"
 py = "*"
 pytest = ">=3.10"
 
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
+
 [[package]]
 name = "pytest-json-report"
 version = "1.5.0"
@@ -444,6 +642,11 @@ python-versions = "*"
 [package.dependencies]
 pytest = ">=3.8.0"
 pytest-metadata = "*"
+
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
 
 [[package]]
 name = "pytest-metadata"
@@ -459,6 +662,11 @@ pytest = ">=7.0.0"
 [package.extras]
 test = ["black (>=22.1.0)", "flake8 (>=4.0.1)", "pre-commit (>=2.17.0)", "tox (>=3.24.5)"]
 
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
+
 [[package]]
 name = "pytest-mock"
 version = "3.11.1"
@@ -471,7 +679,12 @@ python-versions = ">=3.7"
 pytest = ">=5.0"
 
 [package.extras]
-dev = ["pre-commit", "pytest-asyncio", "tox"]
+dev = ["pre-commit", "tox", "pytest-asyncio"]
+
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
 
 [[package]]
 name = "pytest-repeat"
@@ -483,6 +696,11 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
 [package.dependencies]
 pytest = ">=3.6"
+
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
 
 [[package]]
 name = "pytest-xdist"
@@ -502,6 +720,11 @@ psutil = ["psutil (>=3.0)"]
 setproctitle = ["setproctitle"]
 testing = ["filelock"]
 
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
+
 [[package]]
 name = "six"
 version = "1.16.0"
@@ -509,6 +732,11 @@ description = "Python 2 and 3 compatibility utilities"
 category = "main"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
+
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
 
 [[package]]
 name = "ska-control-model"
@@ -536,7 +764,7 @@ optional = false
 python-versions = ">=3.5"
 
 [package.extras]
-dev = ["black", "isort", "prospector[with-pyroma]"]
+dev = ["prospector", "black", "isort"]
 
 [package.source]
 type = "legacy"
@@ -589,6 +817,11 @@ category = "dev"
 optional = false
 python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
 
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
+
 [[package]]
 name = "tomli"
 version = "2.0.1"
@@ -597,6 +830,11 @@ category = "dev"
 optional = false
 python-versions = ">=3.7"
 
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
+
 [[package]]
 name = "tomlkit"
 version = "0.12.1"
@@ -604,6 +842,11 @@ description = "Style preserving TOML library"
 category = "dev"
 optional = false
 python-versions = ">=3.7"
+
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
 
 [[package]]
 name = "transitions"
@@ -620,6 +863,11 @@ six = "*"
 diagrams = ["pygraphviz"]
 test = ["pytest"]
 
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
+
 [[package]]
 name = "typing-extensions"
 version = "4.7.1"
@@ -627,6 +875,11 @@ description = "Backported and Experimental Type Hints for Python 3.7+"
 category = "main"
 optional = false
 python-versions = ">=3.7"
+
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
 
 [[package]]
 name = "wrapt"
@@ -636,12 +889,20 @@ category = "dev"
 optional = false
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
 
+[package.source]
+type = "legacy"
+url = "https://artefact.skatelescope.org/repository/pypi-all/simple"
+reference = "ska"
+
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "7a15ba0d2b5ccf84ccf269a902e23825bbfd9351f2adb6cdb527c023d73fd9e1"
+content-hash = "03ae194316c42947d6c9138262a3601ae9da0fdb1275dead84abb8c7af0905be"
 
 [metadata.files]
+assertpy = [
+    {file = "assertpy-1.1.tar.gz", hash = "sha256:acc64329934ad71a3221de185517a43af33e373bb44dc05b5a9b174394ef4833"},
+]
 astroid = [
     {file = "astroid-2.15.6-py3-none-any.whl", hash = "sha256:389656ca57b6108f939cf5d2f9a2a825a3be50ba9d589670f393236e0a03b91c"},
     {file = "astroid-2.15.6.tar.gz", hash = "sha256:903f024859b7c7687d7a7f3a3f73b17301f8e42dfd9cc9df9d4418172d3e2dbd"},
@@ -721,24 +982,24 @@ coverage = [
     {file = "coverage-6.5.0.tar.gz", hash = "sha256:f642e90754ee3e06b0e7e51bce3379590e76b7f76b708e1a71ff043f87025c84"},
 ]
 debugpy = [
-    {file = "debugpy-1.6.7-cp310-cp310-macosx_11_0_x86_64.whl", hash = "sha256:b3e7ac809b991006ad7f857f016fa92014445085711ef111fdc3f74f66144096"},
-    {file = "debugpy-1.6.7-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:e3876611d114a18aafef6383695dfc3f1217c98a9168c1aaf1a02b01ec7d8d1e"},
-    {file = "debugpy-1.6.7-cp310-cp310-win32.whl", hash = "sha256:33edb4afa85c098c24cc361d72ba7c21bb92f501104514d4ffec1fb36e09c01a"},
-    {file = "debugpy-1.6.7-cp310-cp310-win_amd64.whl", hash = "sha256:ed6d5413474e209ba50b1a75b2d9eecf64d41e6e4501977991cdc755dc83ab0f"},
-    {file = "debugpy-1.6.7-cp37-cp37m-macosx_10_15_x86_64.whl", hash = "sha256:38ed626353e7c63f4b11efad659be04c23de2b0d15efff77b60e4740ea685d07"},
-    {file = "debugpy-1.6.7-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:279d64c408c60431c8ee832dfd9ace7c396984fd7341fa3116aee414e7dcd88d"},
-    {file = "debugpy-1.6.7-cp37-cp37m-win32.whl", hash = "sha256:dbe04e7568aa69361a5b4c47b4493d5680bfa3a911d1e105fbea1b1f23f3eb45"},
-    {file = "debugpy-1.6.7-cp37-cp37m-win_amd64.whl", hash = "sha256:f90a2d4ad9a035cee7331c06a4cf2245e38bd7c89554fe3b616d90ab8aab89cc"},
-    {file = "debugpy-1.6.7-cp38-cp38-macosx_10_15_x86_64.whl", hash = "sha256:5224eabbbeddcf1943d4e2821876f3e5d7d383f27390b82da5d9558fd4eb30a9"},
-    {file = "debugpy-1.6.7-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:bae1123dff5bfe548ba1683eb972329ba6d646c3a80e6b4c06cd1b1dd0205e9b"},
-    {file = "debugpy-1.6.7-cp38-cp38-win32.whl", hash = "sha256:9cd10cf338e0907fdcf9eac9087faa30f150ef5445af5a545d307055141dd7a4"},
-    {file = "debugpy-1.6.7-cp38-cp38-win_amd64.whl", hash = "sha256:aaf6da50377ff4056c8ed470da24632b42e4087bc826845daad7af211e00faad"},
-    {file = "debugpy-1.6.7-cp39-cp39-macosx_11_0_x86_64.whl", hash = "sha256:0679b7e1e3523bd7d7869447ec67b59728675aadfc038550a63a362b63029d2c"},
-    {file = "debugpy-1.6.7-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:de86029696e1b3b4d0d49076b9eba606c226e33ae312a57a46dca14ff370894d"},
-    {file = "debugpy-1.6.7-cp39-cp39-win32.whl", hash = "sha256:d71b31117779d9a90b745720c0eab54ae1da76d5b38c8026c654f4a066b0130a"},
-    {file = "debugpy-1.6.7-cp39-cp39-win_amd64.whl", hash = "sha256:c0ff93ae90a03b06d85b2c529eca51ab15457868a377c4cc40a23ab0e4e552a3"},
-    {file = "debugpy-1.6.7-py2.py3-none-any.whl", hash = "sha256:53f7a456bc50706a0eaabecf2d3ce44c4d5010e46dfc65b6b81a518b42866267"},
-    {file = "debugpy-1.6.7.zip", hash = "sha256:c4c2f0810fa25323abfdfa36cbbbb24e5c3b1a42cb762782de64439c575d67f2"},
+    {file = "debugpy-1.6.8-cp310-cp310-macosx_11_0_x86_64.whl", hash = "sha256:8c1f5a3286fb633f691c594649e9d2e8e30292c9eaf49e38d7da525151b33a83"},
+    {file = "debugpy-1.6.8-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:406b3a6cb7548d73260f69a511178ec9196779cafda68e563488c6f94cc88670"},
+    {file = "debugpy-1.6.8-cp310-cp310-win32.whl", hash = "sha256:6830947f68b41cd6abe20941ec3303a8452c40ff5fe3637c6efe233e395ecebc"},
+    {file = "debugpy-1.6.8-cp310-cp310-win_amd64.whl", hash = "sha256:1fe3baa28f5a14d8d2a60dded9ea088e27b33f1854ae9a0a1faa1ba03a8b7e47"},
+    {file = "debugpy-1.6.8-cp37-cp37m-macosx_11_0_x86_64.whl", hash = "sha256:5502e14de6b7241ecf7c4fa4ec6dd61d0824da7a09020c7ffe7be4cd09d36f24"},
+    {file = "debugpy-1.6.8-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:f4a7193cec3f1e188963f6e8699e1187f758a0a4bbce511b3ad40caf618fc888"},
+    {file = "debugpy-1.6.8-cp37-cp37m-win32.whl", hash = "sha256:591aac0e69bc75102d9f9294f1228e5d9ff9aa17b8c88e48b1bbb3dab8a54dcc"},
+    {file = "debugpy-1.6.8-cp37-cp37m-win_amd64.whl", hash = "sha256:bb27b8e08f8e60705de6cf05b5da4c21e5a0bc2ca73f06fc36646f456df18ff5"},
+    {file = "debugpy-1.6.8-cp38-cp38-macosx_11_0_x86_64.whl", hash = "sha256:6ca1c92e30e2aaeca156d5bd76e1587c23e332474a7b12e1900dd632b31ce05e"},
+    {file = "debugpy-1.6.8-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:959f9b8181a4c544b067daff8d881cd3ac4c7aec1a3a4f41f81c529795b3d864"},
+    {file = "debugpy-1.6.8-cp38-cp38-win32.whl", hash = "sha256:4172383b961a2334d29168c7f7b24f2f99d29291a945016986c78a5683fba915"},
+    {file = "debugpy-1.6.8-cp38-cp38-win_amd64.whl", hash = "sha256:05d1b288167ce3bfc8e1912ebed036207a27b9569ae4476f18287902501689c6"},
+    {file = "debugpy-1.6.8-cp39-cp39-macosx_11_0_x86_64.whl", hash = "sha256:95f7ce92450b72abcf0c479539a7d00c20e68f1f1fb447eef0b08d2a635d96d7"},
+    {file = "debugpy-1.6.8-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:f16bb157b6018ce6a23b64653a6b1892f046cc2b0576df1794c6b22f9fd82118"},
+    {file = "debugpy-1.6.8-cp39-cp39-win32.whl", hash = "sha256:f7a80c50b89d8fb49c9e5b6ee28c0bfb822fbd33fef0f2f9843724d0d1984e4e"},
+    {file = "debugpy-1.6.8-cp39-cp39-win_amd64.whl", hash = "sha256:2345beced3e79fd8ac4158e839a1604d5cccd19beb45561a1ffe2e5b33465f28"},
+    {file = "debugpy-1.6.8-py2.py3-none-any.whl", hash = "sha256:1ca76d3ebb0e6368e107cf2e005e848d3c7705a5b513fdf65470a6f4e49a2de7"},
+    {file = "debugpy-1.6.8.zip", hash = "sha256:3b7091d908dec70022b8966c32b1e9eaf183ff05291edf1d147fee153f4cb9f8"},
 ]
 dill = [
     {file = "dill-0.3.7-py3-none-any.whl", hash = "sha256:76b122c08ef4ce2eedcd4d1abd8e641114bfc6c2867f49f3c41facf65bf19f5e"},
@@ -768,8 +1029,7 @@ isort = [
     {file = "isort-5.12.0.tar.gz", hash = "sha256:8bef7dde241278824a6d83f44a544709b065191b95b6e50894bdc722fcba0504"},
 ]
 junit-xml-2 = [
-    {file = "junit-xml-2-1.9.tar.gz", hash = "sha256:3b8d9635c5215f754c7807104f6493e3ea3bc9481e2d33db294560da3a1b00f7"},
-    {file = "junit_xml_2-1.9-py2.py3-none-any.whl", hash = "sha256:05093d75fe11120ccd51293884b5ee334ff3bc4b5106647c2bcc928486600588"},
+    {file = "junit-xml-2-1.9b1.tar.gz", hash = "sha256:a61ee73226db8637ad341550c97812da42e17341713b442a3c3adc1255f0ca59"},
 ]
 lazy-object-proxy = [
     {file = "lazy-object-proxy-1.9.0.tar.gz", hash = "sha256:659fb5809fa4629b8a1ac5106f669cfc7bef26fbb389dda53b3e010d1ac4ebae"},
