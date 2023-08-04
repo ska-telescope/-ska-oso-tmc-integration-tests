@@ -14,7 +14,6 @@ class TestSubarrayHealthState(object):
     https://docs.google.com/spreadsheets/d/1XbNb8We7fK-EhmOcw3S-h0V_Pu-WAfPTkEd13MSmIns/edit#gid=747888622
     """
 
-    @pytest.mark.invalid
     @pytest.mark.SKA_mid
     def test_health_state_ok(
         self, subarray_node, simulator_factory, event_recorder
@@ -42,7 +41,6 @@ class TestSubarrayHealthState(object):
             HealthState.OK,
         ), "Expected Subarray Node HealthState to be OK"
 
-    @pytest.mark.invalid
     @pytest.mark.SKA_mid
     def test_health_state_failed_when_csp_failed(
         self, subarray_node, simulator_factory, event_recorder
@@ -70,7 +68,6 @@ class TestSubarrayHealthState(object):
             HealthState.FAILED,
         ), "Expected Subarray Node HealthState to be FAILED"
 
-    @pytest.mark.invalid
     @pytest.mark.SKA_mid
     def test_health_state_degraded_when_csp_degraded(
         self, subarray_node, simulator_factory, event_recorder
@@ -98,7 +95,6 @@ class TestSubarrayHealthState(object):
             HealthState.DEGRADED,
         ), "Expected Subarray Node HealthState to be DEGRADED"
 
-    @pytest.mark.negative
     @pytest.mark.SKA_mid
     def test_health_state_failed_when_sdp_failed(
         self, subarray_node, simulator_factory, event_recorder
@@ -123,12 +119,38 @@ class TestSubarrayHealthState(object):
         assert event_recorder.has_change_event_occurred(
             subarray_node.subarray_node,
             "healthState",
-            HealthState.OK,
+            HealthState.FAILED,
         ), "Expected Subarray Node HealthState to be FAILED"
 
-    @pytest.mark.invalid
     @pytest.mark.SKA_mid
-    def test_health_state_failed_when_dish_failed(
+    def test_health_state_failed_when_sdp_degraded(
+        self, subarray_node, simulator_factory, event_recorder
+    ):
+        # Row 5
+        (
+            csp_sa_sim,
+            sdp_sa_sim,
+            dish_master_1,
+            dish_master_2,
+        ) = get_device_simulators(simulator_factory)
+
+        csp_sa_sim.SetDirectHealthState(HealthState.OK)
+        sdp_sa_sim.SetDirectHealthState(HealthState.DEGRADED)
+        dish_master_1.SetDirectHealthState(HealthState.OK)
+        dish_master_2.SetDirectHealthState(HealthState.OK)
+
+        event_recorder.subscribe_event(
+            subarray_node.subarray_node, "healthState"
+        )
+
+        assert event_recorder.has_change_event_occurred(
+            subarray_node.subarray_node,
+            "healthState",
+            HealthState.DEGRADED,
+        ), "Expected Subarray Node HealthState to be DEGRADED"
+
+    @pytest.mark.SKA_mid
+    def test_health_state_failed_when_all_dish_failed(
         self,
         subarray_node,
         simulator_factory,
@@ -162,7 +184,6 @@ class TestSubarrayHealthState(object):
             HealthState.FAILED,
         ), "Expected Subarray Node HealthState to be FAILED"
 
-    @pytest.mark.invalid
     @pytest.mark.SKA_mid
     def test_health_state_one_dish_failed(
         self,
@@ -197,6 +218,41 @@ class TestSubarrayHealthState(object):
             "healthState",
             HealthState.DEGRADED,
         ), "Expected Subarray Node HealthState to be DEGRADED"
+
+    @pytest.mark.SKA_mid
+    def test_health_state_when_all_failed(
+        self,
+        subarray_node,
+        simulator_factory,
+        event_recorder,
+        command_input_factory,
+    ):
+        # Row 12
+        (
+            csp_sa_sim,
+            sdp_sa_sim,
+            dish_master_1,
+            dish_master_2,
+        ) = get_device_simulators(simulator_factory)
+
+        self._assign_dishes_to_subarray(
+            subarray_node, command_input_factory, event_recorder
+        )
+
+        csp_sa_sim.SetDirectHealthState(HealthState.FAILED)
+        sdp_sa_sim.SetDirectHealthState(HealthState.FAILED)
+        dish_master_1.SetDirectHealthState(HealthState.FAILED)
+        dish_master_2.SetDirectHealthState(HealthState.FAILED)
+
+        event_recorder.subscribe_event(
+            subarray_node.subarray_node, "healthState"
+        )
+
+        assert event_recorder.has_change_event_occurred(
+            subarray_node.subarray_node,
+            "healthState",
+            HealthState.FAILED,
+        ), "Expected Subarray Node HealthState to be FAILED"
 
     def _assign_dishes_to_subarray(
         self, subarray_node, command_input_factory, event_recorder
