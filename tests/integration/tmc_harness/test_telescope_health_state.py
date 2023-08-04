@@ -106,7 +106,7 @@ class TestTelescopeHealthState(object):
         assert subarray_node.subarray_node.healthState == HealthState.OK
         assert event_recorder.has_change_event_occurred(
             central_node.central_node, "telescopeHealthState", HealthState.OK
-        )
+        ), "Expected Telescope HealthState to be OK"
 
     @pytest.mark.parametrize(
         "csp_master_health_state, sdp_master_health_state, \
@@ -180,7 +180,7 @@ class TestTelescopeHealthState(object):
             central_node.central_node,
             "telescopeHealthState",
             HealthState.DEGRADED,
-        )
+        ), "Expected Telescope HealthState to be DEGRADED"
 
     @pytest.mark.parametrize(
         "csp_master_health_state, sdp_master_health_state, \
@@ -254,4 +254,4 @@ class TestTelescopeHealthState(object):
             central_node.central_node,
             "telescopeHealthState",
             HealthState.UNKNOWN,
-        )
+        ), "Expected Telescope HealthState to be UNKNOWN"
