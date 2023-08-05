@@ -6,12 +6,17 @@ from tests.resources.test_harness.helpers import get_master_device_simulators
 
 class TestTelescopeHealthState(object):
     """This class implement test cases to verify telescopeHealthState
-    of CentralNode"""
+    of CentralNode
+    This tests implement rows of decision table for telescopeHealthState,
+    following excel sheet
+    https://docs.google.com/spreadsheets/d/1XbNb8We7fK-EhmOcw3S-h0V_Pu-WAfPTkEd13MSmIns/edit#gid=825874621
+    """
 
     @pytest.mark.parametrize(
         "csp_master_health_state, sdp_master_health_state, \
         dish_master1_health_state, dish_master2_health_state",
         [
+            # decision table row 5 to row 9
             (
                 HealthState.OK,
                 HealthState.FAILED,
@@ -82,11 +87,12 @@ class TestTelescopeHealthState(object):
             HealthState.FAILED,
         )
 
-    # @pytest.mark.skip(reason="Requires new SubarrayNode image version")
+    @pytest.mark.skip(reason="Requires new SubarrayNode image version")
     @pytest.mark.SKA_mid
     def test_telescope_state_ok(
         self, central_node, subarray_node, event_recorder, simulator_factory
     ):
+        # decision table row 3
         (
             csp_master_sim,
             sdp_master_sim,
@@ -112,6 +118,7 @@ class TestTelescopeHealthState(object):
         "csp_master_health_state, sdp_master_health_state, \
         dish_master1_health_state, dish_master2_health_state",
         [
+            # decision table row 11 to row 15
             (
                 HealthState.OK,
                 HealthState.DEGRADED,
@@ -186,6 +193,7 @@ class TestTelescopeHealthState(object):
         "csp_master_health_state, sdp_master_health_state, \
         dish_master1_health_state, dish_master2_health_state",
         [
+            # decision table row 17 to row 21
             (
                 HealthState.OK,
                 HealthState.UNKNOWN,
