@@ -25,7 +25,7 @@ global:
   # List the dishes, if set, then this list will be applied to instances of:
   # deviceServers.dishmaster, deviceServers.dishleafnode
   dish_devices: ["dishmaster", "dishleafnode"]
-  dishes: ["01", "02"]
+  dishes: ["01", "02", "03", "04"]
 
   # subarray_count, this will be expanded (1 to N inclusive) and applied to instances of:
   # deviceServers.cspsubarrayleafnode, deviceServers.sdpsubarrayleafnode, deviceServers.subarraynode
@@ -54,7 +54,7 @@ centralnode:
   image:
     registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-centralnode
     image: ska-tmc-centralnode
-    tag: 0.8.1-dev.cb6631856
+    tag: 0.8.1-dev.c0e0a6754
     pullPolicy: Always
 
 subarraynode:
@@ -139,7 +139,7 @@ deviceServers:
 
   dishleafnode:
     enabled: true
-    instances: ["01", "02"]
+    instances: ["01", "02", "03", "04"]
     file: "data/dishleafnode.yaml"
 
   mocks:
