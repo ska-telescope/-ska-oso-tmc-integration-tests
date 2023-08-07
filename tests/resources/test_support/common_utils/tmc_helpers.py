@@ -52,7 +52,7 @@ from tests.resources.test_support.constant_low import (
     DEVICE_STATE_STANDBY_INFO as LOW_STANDBY_INFO,
 )
 
-resutl, message = "", ""
+result, message = "", ""
 LOGGER = logging.getLogger(__name__)
 
 

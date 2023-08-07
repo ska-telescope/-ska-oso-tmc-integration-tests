@@ -139,13 +139,6 @@ def test_configure_timeout_and_error_propagation_csp(
         csp_subarray = DeviceProxy(csp_subarray1)
         csp_subarray.SetDefective(True)
 
-        # exception_message = (
-        #     f"Exception occurred on device: {tmc_subarraynode1}: "
-        #     + "Exception occurred on the following devices:\n"
-        #     + f"{tmc_csp_subarray_leaf_node}: "
-        #     + "Timeout has occured, command failed\n"
-        # )
-
         # Invoking Configure command
         device_params = deepcopy(ON_OFF_DEVICE_COMMAND_DICT)
         device_params["set_wait_for_obsstate"] = False
@@ -190,7 +183,9 @@ def test_configure_timeout_and_error_propagation_csp(
 
 
 @pytest.mark.SKA_mid
-def test_configure_error_propagation_sdp(json_factory, change_event_callbacks):
+def test_configure_timeout_and_error_propagation_sdp(
+    json_factory, change_event_callbacks
+):
     """Verify timeout exception raised when csp set to defective."""
     assign_json = json_factory("command_AssignResources")
     release_json = json_factory("command_ReleaseResources")

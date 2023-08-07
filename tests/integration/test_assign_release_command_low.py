@@ -89,7 +89,6 @@ def test_assign_release_low(json_factory):
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-@pytest.mark.kk
 @pytest.mark.SKA_low
 def test_assign_release_timeout_csp(json_factory, change_event_callbacks):
     """Verify timeout exception raised when csp set to defective."""
@@ -138,13 +137,13 @@ def test_assign_release_timeout_csp(json_factory, change_event_callbacks):
             lookahead=7,
         )
         assert "AssignResources" in assertion_data["attribute_value"][0]
-        assert (
-            "Timeout has occured, command failed"
-            in assertion_data["attribute_value"][1]
+        exception_message = (
+            f"Exception occurred on device: {tmc_subarraynode1}: "
+            + "Exception occurred on the following devices:\n"
+            + f"{tmc_csp_subarray_leaf_node}: "
+            + "Timeout has occured, command failed\n"
         )
-        assert (
-            tmc_csp_subarray_leaf_node in assertion_data["attribute_value"][1]
-        )
+        assert exception_message in assertion_data["attribute_value"][1]
         csp_subarray.SetDefective(False)
 
         tear_down(
