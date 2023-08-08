@@ -28,7 +28,6 @@ from tests.resources.test_support.constant_low import (
 )
 
 
-@pytest.mark.skip
 @pytest.mark.SKA_low
 @pytest.mark.skip(
     reason="Changes made in Helper Sdp Subarray Device. Will be fixed as a \

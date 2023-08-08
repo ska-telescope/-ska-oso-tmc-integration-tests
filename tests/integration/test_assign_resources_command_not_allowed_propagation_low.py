@@ -34,7 +34,6 @@ telescope_control = BaseTelescopeControl()
 tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 
 
-@pytest.mark.skip
 @pytest.mark.SKA_low
 def test_assign_release_command_not_allowed_propagation_csp_ln_low(
     json_factory, change_event_callbacks
@@ -113,7 +112,6 @@ def test_assign_release_command_not_allowed_propagation_csp_ln_low(
         tear_down_for_resourcing(tmc_helper, telescope_control)
 
 
-@pytest.mark.skip
 @pytest.mark.SKA_low
 def test_assign_release_command_not_allowed_propagation_sdp_ln_low(
     json_factory, change_event_callbacks

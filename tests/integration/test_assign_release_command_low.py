@@ -64,7 +64,6 @@ telescope_control = BaseTelescopeControl()
 tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 
 
-@pytest.mark.skip
 @pytest.mark.SKA_low
 def test_assign_release_low(json_factory):
     """AssignResources and ReleaseResources is executed."""
@@ -110,7 +109,6 @@ def test_assign_release_low(json_factory):
         tear_down_for_resourcing(tmc_helper, telescope_control)
 
 
-@pytest.mark.skip
 @pytest.mark.SKA_low
 def test_assign_release_timeout_csp(json_factory, change_event_callbacks):
     """Verify timeout exception raised when csp set to defective."""
@@ -175,7 +173,6 @@ def test_assign_release_timeout_csp(json_factory, change_event_callbacks):
         tear_down_for_resourcing(tmc_helper, telescope_control)
 
 
-@pytest.mark.skip
 @pytest.mark.SKA_low
 def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
     """Verify timeout exception raised when sdp set to defective."""
@@ -238,7 +235,6 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         tear_down_for_resourcing(tmc_helper, telescope_control)
 
 
-@pytest.mark.skip
 @pytest.mark.SKA_low
 def test_release_exception_propagation(json_factory, change_event_callbacks):
     """Verify timeout exception raised when csp set to defective."""
@@ -324,7 +320,6 @@ def test_release_exception_propagation(json_factory, change_event_callbacks):
         tear_down_for_resourcing(tmc_helper, telescope_control)
 
 
-@pytest.mark.skip
 @pytest.mark.SKA_low
 def test_health_check_low():
     """Test health state check for low"""

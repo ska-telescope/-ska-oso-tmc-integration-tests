@@ -26,7 +26,7 @@ from tests.resources.test_support.constant_low import (
 )
 
 
-@pytest.mark.skip
+@pytest.mark.abrt
 @pytest.mark.SKA_low
 def test_low_abort_restart_in_ready(json_factory):
     """Abort and Restart is executed."""
