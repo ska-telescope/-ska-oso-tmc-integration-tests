@@ -32,7 +32,6 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
-@pytest.mark.config
 @pytest.mark.SKA_low
 def test_configure_end_low(json_factory):
     """Configure and End is executed."""
