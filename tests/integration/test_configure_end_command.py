@@ -261,13 +261,6 @@ def test_configure_timeout_and_error_propagation_sdp(
 
         sdp_subarray.SetDefective(json.dumps({"enabled": False}))
 
-        # Emulating Csp Subarray going back to READY state after failure
-        sdp_subarray.SetDirectObsState(4)
-
-        # Tear Down
-        sdp_sln = DeviceProxy(tmc_sdp_subarray_leaf_node)
-        sdp_sln.End()
-
         tear_down(
             release_json, raise_exception=False, **ON_OFF_DEVICE_COMMAND_DICT
         )
