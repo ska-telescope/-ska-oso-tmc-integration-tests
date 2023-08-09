@@ -6,7 +6,7 @@ import pytest
 from tango import DeviceProxy
 
 from tests.conftest import LOGGER
-from tests.resources.test_support.common_utils.common_helpers import resource
+from tests.resources.test_support.common_utils.common_helpers import Resource
 from tests.resources.test_support.common_utils.telescope_controls import (
     BaseTelescopeControl,
     check_subarray1_availability,
@@ -64,8 +64,8 @@ def test_low_abort_restart_in_resourcing(json_factory):
         # Invoke AssignResources() Command on TMC#
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
 
-        resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
-        resource(tmc_subarraynode1).assert_attribute("obsState").equals(
+        Resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
+        Resource(tmc_subarraynode1).assert_attribute("obsState").equals(
             "EMPTY"
         )
         central_node = DeviceProxy(centralnode)
@@ -74,7 +74,7 @@ def test_low_abort_restart_in_resourcing(json_factory):
 
         # Verify ObsState is RESOURCING
         time.sleep(1)
-        resource(tmc_subarraynode1).assert_attribute("obsState").equals(
+        Resource(tmc_subarraynode1).assert_attribute("obsState").equals(
             "RESOURCING"
         )
 

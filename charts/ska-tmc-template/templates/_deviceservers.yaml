@@ -1,3 +1,4 @@
+{{- define "ska-tmc.deviceservers.tpl" }}
 {{ $localchart := . }}
 
 {{- range $key, $deviceserver := .Values.deviceServers }}
@@ -111,3 +112,4 @@
 {{- end }}
 
 {{- end }} # deviceservers
+{{- end }}

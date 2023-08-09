@@ -12,7 +12,7 @@ from tango import CmdArgType, DeviceProxy, EventType
 LOGGER = logging.getLogger(__name__)
 
 
-class resource:
+class Resource:
     """Resources class for common helpers"""
 
     device_name = None
@@ -81,7 +81,7 @@ class ObjectComparison:
 
 
 # time keepers based on above resources
-class monitor:
+class Monitor:
     """
     Monitors an attribute of a given resource and allows a user to block/wait
     on a specific condition:
@@ -219,7 +219,7 @@ class monitor:
         return count_down
 
 
-class subscriber:
+class Subscriber:
     """Subscriber class for events"""
 
     def __init__(self, resource, implementation="polling"):
@@ -230,7 +230,7 @@ class subscriber:
         """Method for changing attribute"""
         if self.implementation == "polling":
             value_now = self.resource.get(attr)
-            return monitor(
+            return Monitor(
                 self.resource,
                 value_now,
                 attr,
@@ -253,7 +253,7 @@ class subscriber:
         """To monitor the attribute value against changed_to_value"""
         if self.implementation == "polling":
             value_now = self.resource.get(attr)
-            return monitor(
+            return Monitor(
                 self.resource,
                 value_now,
                 attr,
@@ -276,7 +276,7 @@ class subscriber:
         """To monitor changes for attribute"""
         if self.implementation == "polling":
             value_now = self.resource.get(attr)
-            return monitor(
+            return Monitor(
                 self.resource, value_now, attr, require_transition=True
             )
         if self.implementation == "tango_events":
@@ -294,7 +294,7 @@ class subscriber:
 def watch(resource, implementation="polling"):
     """Returns subscriber class object
     and monitors resources"""
-    return subscriber(resource, implementation)
+    return Subscriber(resource, implementation)
 
 
 # this is a composite type of waiting based on a set of predefined
@@ -328,28 +328,28 @@ class Waiter:
     def set_wait_for_going_to_off(self):
         """Sets waits for turning off the telescope"""
         self.waits.append(
-            watch(resource(self.sdp_subarray1)).to_become(
+            watch(Resource(self.sdp_subarray1)).to_become(
                 "State", changed_to="OFF"
             )
         )
         self.waits.append(
-            watch(resource(self.sdp_master)).to_become(
+            watch(Resource(self.sdp_master)).to_become(
                 "State", changed_to="OFF"
             )
         )
         self.waits.append(
-            watch(resource(self.csp_subarray1)).to_become(
+            watch(Resource(self.csp_subarray1)).to_become(
                 "State", changed_to="OFF"
             )
         )
         self.waits.append(
-            watch(resource(self.csp_master)).to_become(
+            watch(Resource(self.csp_master)).to_become(
                 "State", changed_to="OFF"
             )
         )
         if self.dish_master1:
             self.waits.append(
-                watch(resource(self.dish_master1)).to_become(
+                watch(Resource(self.dish_master1)).to_become(
                     "dishMode", changed_to="STANDBY_LP"
                 )
             )
@@ -357,28 +357,28 @@ class Waiter:
     def set_wait_for_going_to_standby(self):
         """Sets waits for turning the devices to standby mode"""
         self.waits.append(
-            watch(resource(self.sdp_subarray1)).to_become(
+            watch(Resource(self.sdp_subarray1)).to_become(
                 "State", changed_to="OFF"
             )
         )
         self.waits.append(
-            watch(resource(self.sdp_master)).to_become(
+            watch(Resource(self.sdp_master)).to_become(
                 "State", changed_to="STANDBY"
             )
         )
         self.waits.append(
-            watch(resource(self.csp_subarray1)).to_become(
+            watch(Resource(self.csp_subarray1)).to_become(
                 "State", changed_to="OFF"
             )
         )
         self.waits.append(
-            watch(resource(self.csp_master)).to_become(
+            watch(Resource(self.csp_master)).to_become(
                 "State", changed_to="STANDBY"
             )
         )
         if self.dish_master1:
             self.waits.append(
-                watch(resource(self.dish_master1)).to_become(
+                watch(Resource(self.dish_master1)).to_become(
                     "State", changed_to="STANDBY"
                 )
             )
@@ -386,28 +386,28 @@ class Waiter:
     def set_wait_for_telescope_on(self):
         """Sets waits for turning the devices in ON state"""
         self.waits.append(
-            watch(resource(self.sdp_master)).to_become(
+            watch(Resource(self.sdp_master)).to_become(
                 "State", changed_to="ON"
             )
         )
         self.waits.append(
-            watch(resource(self.sdp_subarray1)).to_become(
+            watch(Resource(self.sdp_subarray1)).to_become(
                 "State", changed_to="ON"
             )
         )
         self.waits.append(
-            watch(resource(self.csp_master)).to_become(
+            watch(Resource(self.csp_master)).to_become(
                 "State", changed_to="ON"
             )
         )
         self.waits.append(
-            watch(resource(self.csp_subarray1)).to_become(
+            watch(Resource(self.csp_subarray1)).to_become(
                 "State", changed_to="ON"
             )
         )
         if self.dish_master1:
             self.waits.append(
-                watch(resource(self.dish_master1)).to_become(
+                watch(Resource(self.dish_master1)).to_become(
                     "dishMode", changed_to="STANDBY_FP"
                 )
             )
@@ -415,22 +415,22 @@ class Waiter:
     def set_wait_for_going_to_empty(self):
         """Sets wait for devices to change the obstate to EMPTY"""
         self.waits.append(
-            watch(resource(self.tmc_subarraynode1)).to_become(
+            watch(Resource(self.tmc_subarraynode1)).to_become(
                 "assignedResources", changed_to=None
             )
         )
         self.waits.append(
-            watch(resource(self.sdp_subarray1)).to_become(
+            watch(Resource(self.sdp_subarray1)).to_become(
                 "obsState", changed_to="EMPTY"
             )
         )
         self.waits.append(
-            watch(resource(self.csp_subarray1)).to_become(
+            watch(Resource(self.csp_subarray1)).to_become(
                 "obsState", changed_to="EMPTY"
             )
         )
         self.waits.append(
-            watch(resource(self.tmc_subarraynode1)).to_become(
+            watch(Resource(self.tmc_subarraynode1)).to_become(
                 "obsState", changed_to="EMPTY"
             )
         )
@@ -438,18 +438,18 @@ class Waiter:
     def set_wait_for_assign_resources(self):
         """Sets wait for device to execute assign resources"""
         self.waits.append(
-            watch(resource(self.csp_subarray1)).to_become(
+            watch(Resource(self.csp_subarray1)).to_become(
                 "obsState", changed_to="IDLE"
             )
         )
         self.waits.append(
-            watch(resource(self.sdp_subarray1)).to_become(
+            watch(Resource(self.sdp_subarray1)).to_become(
                 "obsState", changed_to="IDLE"
             )
         )
 
         self.waits.append(
-            watch(resource(self.tmc_subarraynode1)).to_become(
+            watch(Resource(self.tmc_subarraynode1)).to_become(
                 "obsState", changed_to="IDLE"
             )
         )
@@ -457,7 +457,7 @@ class Waiter:
     def set_wait_for_configuring(self):
         """Sets wait for obsstate to change to configuring"""
         self.waits.append(
-            watch(resource(self.tmc_subarraynode1)).to_become(
+            watch(Resource(self.tmc_subarraynode1)).to_become(
                 "obsState", changed_to="CONFIGURING"
             )
         )
@@ -465,24 +465,24 @@ class Waiter:
     def set_wait_for_configure(self):
         """Sets wait for device to execute configure command"""
         self.waits.append(
-            watch(resource(self.csp_subarray1)).to_become(
+            watch(Resource(self.csp_subarray1)).to_become(
                 "obsState", changed_to="READY"
             )
         )
         self.waits.append(
-            watch(resource(self.sdp_subarray1)).to_become(
+            watch(Resource(self.sdp_subarray1)).to_become(
                 "obsState", changed_to="READY"
             )
         )
 
         self.waits.append(
-            watch(resource(self.tmc_subarraynode1)).to_become(
+            watch(Resource(self.tmc_subarraynode1)).to_become(
                 "obsState", changed_to="READY"
             )
         )
         if self.dish_master1:
             self.waits.append(
-                watch(resource(self.dish_master1)).to_become(
+                watch(Resource(self.dish_master1)).to_become(
                     "pointingState", changed_to="TRACK"
                 )
             )
@@ -490,17 +490,17 @@ class Waiter:
     def set_wait_for_idle(self):
         """Sets wait for obsstate to change to IDLE"""
         self.waits.append(
-            watch(resource(self.csp_subarray1)).to_become(
+            watch(Resource(self.csp_subarray1)).to_become(
                 "obsState", changed_to="IDLE"
             )
         )
         self.waits.append(
-            watch(resource(self.sdp_subarray1)).to_become(
+            watch(Resource(self.sdp_subarray1)).to_become(
                 "obsState", changed_to="IDLE"
             )
         )
         self.waits.append(
-            watch(resource(self.tmc_subarraynode1)).to_become(
+            watch(Resource(self.tmc_subarraynode1)).to_become(
                 "obsState", changed_to="IDLE"
             )
         )
@@ -508,17 +508,17 @@ class Waiter:
     def set_wait_for_aborted(self):
         """Sets wait for obsstate to change to ABORTED"""
         self.waits.append(
-            watch(resource(self.csp_subarray1)).to_become(
+            watch(Resource(self.csp_subarray1)).to_become(
                 "obsState", changed_to="ABORTED"
             )
         )
         self.waits.append(
-            watch(resource(self.sdp_subarray1)).to_become(
+            watch(Resource(self.sdp_subarray1)).to_become(
                 "obsState", changed_to="ABORTED"
             )
         )
         self.waits.append(
-            watch(resource(self.tmc_subarraynode1)).to_become(
+            watch(Resource(self.tmc_subarraynode1)).to_become(
                 "obsState", changed_to="ABORTED"
             )
         )
@@ -526,17 +526,17 @@ class Waiter:
     def set_wait_for_ready(self):
         """Sets wait for obsstate to change to READY"""
         self.waits.append(
-            watch(resource(self.csp_subarray1)).to_become(
+            watch(Resource(self.csp_subarray1)).to_become(
                 "obsState", changed_to="READY"
             )
         )
         self.waits.append(
-            watch(resource(self.sdp_subarray1)).to_become(
+            watch(Resource(self.sdp_subarray1)).to_become(
                 "obsState", changed_to="READY"
             )
         )
         self.waits.append(
-            watch(resource(self.tmc_subarraynode1)).to_become(
+            watch(Resource(self.tmc_subarraynode1)).to_become(
                 "obsState", changed_to="READY"
             )
         )
@@ -546,7 +546,7 @@ class Waiter:
         to change to specified value."""
         for device in devices:
             self.waits.append(
-                watch(resource(device)).to_become(
+                watch(Resource(device)).to_become(
                     "obsState", changed_to=obsstate
                 )
             )
@@ -555,7 +555,7 @@ class Waiter:
         """Waits for intermidiate obsState change for given devices."""
         for device in devices:
             self.waits.append(
-                watch(resource(device)).to_become(
+                watch(Resource(device)).to_become(
                     "pointingState", changed_to=pointingstate
                 )
             )
@@ -563,24 +563,24 @@ class Waiter:
     def set_wait_for_scanning(self):
         """Sets wait for obsstate to change to SCANNING"""
         self.waits.append(
-            watch(resource(self.csp_subarray1)).to_become(
+            watch(Resource(self.csp_subarray1)).to_become(
                 "obsState", changed_to="SCANNING"
             )
         )
         self.waits.append(
-            watch(resource(self.sdp_subarray1)).to_become(
+            watch(Resource(self.sdp_subarray1)).to_become(
                 "obsState", changed_to="SCANNING"
             )
         )
         self.waits.append(
-            watch(resource(self.tmc_subarraynode1)).to_become(
+            watch(Resource(self.tmc_subarraynode1)).to_become(
                 "obsState", changed_to="SCANNING"
             )
         )
 
     def set_wait_for_delayvalue(self):
         """Sets wait for value in delayModel attribute"""
-        resource(self.tmc_csp_subarray_leaf_node).assert_attribute(
+        Resource(self.tmc_csp_subarray_leaf_node).assert_attribute(
             "delayModel"
         ).not_equals(["", "no_value"])
 
@@ -635,13 +635,13 @@ class WaitForScan(Waiter):
         self.csp_subarray1 = kwargs.get("csp_subarray")
         self.tmc_subarraynode1 = kwargs.get("tmc_subarraynode")
         self.tmc_subarraynode = watch(
-            resource(kwargs.get("tmc_subarraynode"))
+            Resource(kwargs.get("tmc_subarraynode"))
         ).for_a_change_on("obsState")
         self.csp_subarray = watch(
-            resource(kwargs.get("csp_subarray"))
+            Resource(kwargs.get("csp_subarray"))
         ).for_a_change_on("obsState")
         self.sdp_subarray = watch(
-            resource(kwargs.get("sdp_subarray"))
+            Resource(kwargs.get("sdp_subarray"))
         ).for_a_change_on("obsState")
 
     def wait(self, timeout):

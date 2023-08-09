@@ -1,7 +1,7 @@
 """
 Simple class for checking device ObsState
 """
-from tests.resources.test_support.common_utils.common_helpers import resource
+from tests.resources.test_support.common_utils.common_helpers import Resource
 
 
 class DeviceUtils:
@@ -21,6 +21,6 @@ class DeviceUtils:
             obs_state (str): ObsState to check for device
         """
         for device_name in self.obs_state_device_names:
-            resource(device_name).assert_attribute("obsState").equals(
+            Resource(device_name).assert_attribute("obsState").equals(
                 obs_state
             )
