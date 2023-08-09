@@ -6,7 +6,7 @@ from typing import Optional, Tuple
 
 from tango import DeviceProxy, DevState
 
-from tests.resources.test_support.common_utils.common_helpers import resource
+from tests.resources.test_support.common_utils.common_helpers import Resource
 from tests.resources.test_support.common_utils.result_code import ResultCode
 from tests.resources.test_support.common_utils.sync_decorators import (
     sync_abort,
@@ -191,8 +191,8 @@ class TmcHelper:
         self, assign_res_input: str, **kwargs: dict
     ) -> Tuple[ResultCode, str]:
         """Invokes assignResources on central node"""
-        resource(self.subarray_node).assert_attribute("State").equals("ON")
-        resource(self.subarray_node).assert_attribute("obsState").equals(
+        Resource(self.subarray_node).assert_attribute("State").equals("ON")
+        Resource(self.subarray_node).assert_attribute("obsState").equals(
             "EMPTY"
         )
         central_node = DeviceProxy(self.centralnode)
@@ -246,7 +246,7 @@ class TmcHelper:
         self, assign_res_input, **kwargs: dict
     ) -> Tuple[ResultCode, str]:
         """Invokes assign resources command on central node"""
-        resource(self.subarray_node).assert_attribute("State").equals("ON")
+        Resource(self.subarray_node).assert_attribute("State").equals("ON")
         central_node = DeviceProxy(self.centralnode)
         result, message = central_node.AssignResources(assign_res_input)
         LOGGER.info("Invoked AssignResources on CentralNode")
@@ -257,7 +257,7 @@ class TmcHelper:
         self, configure_input_str: str, **kwargs: dict
     ) -> Tuple[ResultCode, str]:
         """Invokes configure command on subarray node"""
-        resource(self.subarray_node).assert_attribute("obsState").equals(
+        Resource(self.subarray_node).assert_attribute("obsState").equals(
             "IDLE"
         )
         subarray_node = DeviceProxy(self.subarray_node)
@@ -293,7 +293,7 @@ def tear_down(
         standby state."""
 
     LOGGER.info("Calling tear down")
-    subarray_node_obsstate = resource(kwargs.get("tmc_subarraynode")).get(
+    subarray_node_obsstate = Resource(kwargs.get("tmc_subarraynode")).get(
         "obsState"
     )
     tmc_helper = TmcHelper(

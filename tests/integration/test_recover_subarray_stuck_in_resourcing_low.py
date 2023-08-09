@@ -6,8 +6,8 @@ from tango import DeviceProxy, EventType
 
 from tests.conftest import LOGGER
 from tests.resources.test_support.common_utils.common_helpers import (
+    Resource,
     Waiter,
-    resource,
 )
 from tests.resources.test_support.common_utils.telescope_controls import (
     BaseTelescopeControl,
@@ -72,8 +72,8 @@ def test_recover_subarray_stuck_in_resourcing_low(
 
         # Added this check to ensure that devices are running to avoid
         # random test failures.
-        resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
-        resource(tmc_subarraynode1).assert_attribute("obsState").equals(
+        Resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
+        Resource(tmc_subarraynode1).assert_attribute("obsState").equals(
             "EMPTY"
         )
         the_waiter.set_wait_for_specific_obsstate(
@@ -98,11 +98,11 @@ def test_recover_subarray_stuck_in_resourcing_low(
             in assertion_data["attribute_value"][1]
         )
 
-        assert resource(csp_subarray1).get("obsState") == "IDLE"
+        assert Resource(csp_subarray1).get("obsState") == "IDLE"
 
-        assert resource(sdp_subarray1).get("obsState") == "RESOURCING"
+        assert Resource(sdp_subarray1).get("obsState") == "RESOURCING"
         sdp_subarray.SetDirectObsState(0)
-        assert resource(sdp_subarray1).get("obsState") == "EMPTY"
+        assert Resource(sdp_subarray1).get("obsState") == "EMPTY"
         csp_subarray = DeviceProxy(csp_subarray1)
         csp_subarray.ReleaseAllResources()
         the_waiter.set_wait_for_specific_obsstate("EMPTY", [csp_subarray1])
