@@ -6,9 +6,9 @@ from contextlib import contextmanager
 from tests.conftest import TIMEOUT
 from tests.resources.test_support.common_utils.base_utils import DeviceUtils
 from tests.resources.test_support.common_utils.common_helpers import (
+    Resource,
     Waiter,
     WaitForScan,
-    resource,
 )
 
 LOGGER = logging.getLogger(__name__)
@@ -174,7 +174,7 @@ def sync_configure():
             """Wrapper method"""
             invoked_from_ready = False
             the_waiter = Waiter(**kwargs)
-            if resource(kwargs.get("tmc_subarraynode")) == "READY":
+            if Resource(kwargs.get("tmc_subarraynode")) == "READY":
                 invoked_from_ready = True
             result = func(*args, **kwargs)
             set_wait_for_obsstate = kwargs.get("set_wait_for_obsstate", True)
@@ -183,7 +183,7 @@ def sync_configure():
                     the_waiter.set_wait_for_configuring()
                     the_waiter.wait(500)
                 the_waiter.set_wait_for_configure()
-                the_waiter.wait(500)
+                the_waiter.wait(600)
             return result
 
         return wrapper
@@ -279,7 +279,7 @@ def sync_configure_sub():
             """Wrapper method"""
             flag = False
             the_waiter = Waiter(**kwargs)
-            if resource(kwargs.get("tmc_subarraynode")) == "READY":
+            if Resource(kwargs.get("tmc_subarraynode")) == "READY":
                 flag = True
             result = func(*args, **kwargs)
             if flag:

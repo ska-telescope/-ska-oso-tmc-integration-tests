@@ -9,8 +9,8 @@ from tango import DeviceProxy, EventType
 
 from tests.conftest import LOGGER, TIMEOUT
 from tests.resources.test_support.common_utils.common_helpers import (
+    Resource,
     Waiter,
-    resource,
 )
 from tests.resources.test_support.common_utils.result_code import (
     FaultType,
@@ -378,7 +378,7 @@ def test_release_resources_error_propagation(
         waiter.set_wait_for_going_to_empty()
         waiter.wait(TIMEOUT)
         subarray_node = DeviceProxy(tmc_subarraynode1)
-        resource(subarray_node).assert_attribute("obsState").equals("EMPTY")
+        Resource(subarray_node).assert_attribute("obsState").equals("EMPTY")
 
         tear_down(
             release_json, raise_exception=False, **ON_OFF_DEVICE_COMMAND_DICT
