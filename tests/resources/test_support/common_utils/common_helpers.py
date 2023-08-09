@@ -580,7 +580,7 @@ class Waiter:
 
     def set_wait_for_delayvalue(self):
         """Sets wait for value in delayModel attribute"""
-        resource(self.tmc_csp_subarray_leaf_node).assert_attribute(
+        Resource(self.tmc_csp_subarray_leaf_node).assert_attribute(
             "delayModel"
         ).not_equals(["", "no_value"])
 
