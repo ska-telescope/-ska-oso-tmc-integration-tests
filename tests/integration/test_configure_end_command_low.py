@@ -1,8 +1,12 @@
 """Test cases for Configure and End Command
     for low"""
-import pytest
+import time
 
-from tests.conftest import LOGGER
+import pytest
+from tango import DeviceProxy
+
+from tests.conftest import LOGGER, TIMEOUT
+from tests.resources.test_support.common_utils.common_helpers import Waiter
 from tests.resources.test_support.common_utils.telescope_controls import (
     BaseTelescopeControl,
     check_subarray1_availability,
@@ -20,6 +24,7 @@ from tests.resources.test_support.constant_low import (
     DEVICE_STATE_STANDBY_INFO,
     ON_OFF_DEVICE_COMMAND_DICT,
     centralnode,
+    tmc_csp_subarray_leaf_node,
     tmc_subarraynode1,
 )
 
@@ -44,29 +49,45 @@ def test_configure_end_low(json_factory):
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_ON_INFO, "State"
         )
-
+        LOGGER.info("TelescopeOn command is executed.")
         # Check Subarray1 availability
         assert check_subarray1_availability(tmc_subarraynode1)
-
+        csp_subarray = DeviceProxy(tmc_csp_subarray_leaf_node)
         # Invoke AssignResources() Command on TMC
         tmc_helper.compose_sub(assign_json, **ON_OFF_DEVICE_COMMAND_DICT)
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_IDLE_INFO, "obsState"
         )
-
+        LOGGER.info("AssignResources command is executed.")
+        LOGGER.info(f"The Obstate is:{csp_subarray.cspSubarrayObsState}")
+        LOGGER.info(f"DelayModel is:{csp_subarray.delayModel}")
         # Invoke Configure() Command on TMC
         tmc_helper.configure_subarray(
             configure_json, **ON_OFF_DEVICE_COMMAND_DICT
         )
+        LOGGER.info(f"The Obstate is:{csp_subarray.cspSubarrayObsState}")
+
+        time.sleep(1)
+        waiter = Waiter(**ON_OFF_DEVICE_COMMAND_DICT)
+        waiter.set_wait_for_delayvalue()
+        waiter.wait(TIMEOUT)
+        LOGGER.info(f"DelayModel is:{csp_subarray.delayModel}")
+
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_READY_INFO, "obsState"
         )
+        LOGGER.info("Configure command is executed.")
+        LOGGER.info(f"The Obstate is:{csp_subarray.cspSubarrayObsState}")
+        LOGGER.info(f"DelayModel is:{csp_subarray.delayModel}")
         # Teardowning
         # Invoke End() Command on TMC
         tmc_helper.end(**ON_OFF_DEVICE_COMMAND_DICT)
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_IDLE_INFO, "obsState"
         )
+        LOGGER.info("End command is executed.")
+        LOGGER.info(f"The Obstate is:{csp_subarray.cspSubarrayObsState}")
+        LOGGER.info(f"DelayModel is:{csp_subarray.delayModel}")
         # Invoke ReleaseResources() command on TMC
         tmc_helper.invoke_releaseResources(
             release_json, **ON_OFF_DEVICE_COMMAND_DICT
@@ -74,6 +95,7 @@ def test_configure_end_low(json_factory):
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
         )
+        LOGGER.info("ReleaseResources command is executed.")
         # Invoke Standby() command on TMC
         tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
         assert telescope_control.is_in_valid_state(
