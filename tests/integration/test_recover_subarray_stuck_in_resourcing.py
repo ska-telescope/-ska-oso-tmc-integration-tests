@@ -18,11 +18,11 @@ from tests.resources.test_support.common_utils.tmc_helpers import (
 )
 from tests.resources.test_support.constant import (
     DEVICE_LIST_FOR_CHECK_DEVICES,
+    DEVICE_OBS_STATE_ABORT_IN_EMPTY,
     DEVICE_OBS_STATE_EMPTY_INFO,
     DEVICE_STATE_ON_INFO,
     DEVICE_STATE_STANDBY_INFO,
     ON_OFF_DEVICE_COMMAND_DICT,
-    DEVICE_OBS_STATE_ABORT_IN_EMPTY,
     centralnode,
     csp_subarray1,
     sdp_subarray1,
@@ -131,7 +131,6 @@ def test_recover_subarray_stuck_in_resourcing(
     except Exception as e:
         LOGGER.info(f"Exception occurred {e}")
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
-
 
 
 # @pytest.mark.SKA_mid
@@ -283,9 +282,9 @@ def test_recover_subarray_stuck_in_resourcing_with_abort(
         )
         assert "AssignResources" in assertion_data["attribute_value"][0]
         assert (
-                "Exception occurred on the following devices:\n"
-                "ska_mid/tm_leaf_node/sdp_subarray01"
-                in assertion_data["attribute_value"][1]
+            "Exception occurred on the following devices:\n"
+            "ska_mid/tm_leaf_node/sdp_subarray01"
+            in assertion_data["attribute_value"][1]
         )
 
         assert Resource(csp_subarray1).get("obsState") == "IDLE"

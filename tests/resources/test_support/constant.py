@@ -93,7 +93,6 @@ DEVICE_OBS_STATE_ABORT_INFO = {
 DEVICE_OBS_STATE_ABORT_IN_EMPTY = {
     sdp_subarray1: ["ABORTED"],
     tmc_subarraynode1: ["ABORTED"],
-
 }
 
 DEVICE_LIST_FOR_CHECK_DEVICES = [
