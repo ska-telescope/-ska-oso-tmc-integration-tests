@@ -85,10 +85,10 @@ class TestTelescopeHealthState(object):
         assert event_recorder.has_change_event_occurred(
             central_node.central_node,
             "telescopeHealthState",
-            HealthState.FAILED, 
+            HealthState.FAILED,
         )
 
-    # @pytest.mark.skip(reason="Requires new SubarrayNode image version")
+    @pytest.mark.skip(reason="Requires new SubarrayNode image version")
     @pytest.mark.SKA_mid
     def test_telescope_state_ok(
         self, central_node, subarray_node, event_recorder, simulator_factory

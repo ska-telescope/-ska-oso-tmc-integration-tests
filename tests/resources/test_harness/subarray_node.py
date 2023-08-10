@@ -19,7 +19,10 @@ from tests.resources.test_harness.utils.constant import (
     ON,
     READY,
 )
-from tests.resources.test_harness.utils.enums import DishMode, SubarrayObsState
+from tests.resources.test_harness.utils.enums import (
+    DishMode,
+    SubarrayObsState,
+)
 from tests.resources.test_harness.utils.obs_state_resetter import (
     ObsStateResetterFactory,
 )
@@ -31,7 +34,7 @@ from tests.resources.test_harness.utils.sync_decorators import (
     sync_release_resources,
     sync_restart,
 )
-from tests.resources.test_support.helpers import resource
+from tests.resources.test_support.common_utils.common_helpers import resource
 
 LOGGER = logging.getLogger(__name__)
 
@@ -204,7 +207,6 @@ class SubarrayNode(object):
         for sim_device_fqdn in [sdp_subarray1, csp_subarray1]:
             device = DeviceProxy(sim_device_fqdn)
             device.ResetDelay()
-            device.SetDefective(False)
             device.SetDirectHealthState(HealthState.UNKNOWN)
 
     def _reset_dishes(self):

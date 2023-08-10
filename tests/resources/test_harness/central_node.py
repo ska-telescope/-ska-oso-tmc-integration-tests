@@ -14,7 +14,7 @@ from tests.resources.test_harness.constant import (
 from tests.resources.test_harness.utils.sync_decorators import (
     sync_assign_resources,
 )
-from tests.resources.test_support.helpers import resource
+from tests.resources.test_support.common_utils.common_helpers import resource
 
 device_dict = {
     "csp_master": csp_master,
