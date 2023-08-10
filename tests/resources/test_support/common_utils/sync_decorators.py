@@ -104,7 +104,7 @@ def sync_assign_resources():
             if set_wait_for_obsstate:
                 the_waiter = Waiter(**kwargs)
                 the_waiter.set_wait_for_assign_resources()
-                the_waiter.wait(250)
+                the_waiter.wait(200)
             return result
 
         return wrapper

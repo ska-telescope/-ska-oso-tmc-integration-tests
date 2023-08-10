@@ -31,25 +31,25 @@ from tests.resources.test_support.constant import (
     DEVICE_OBS_STATE_ABORT_INFO as MID_OBS_STATE_ABORT_INFO,
 )
 from tests.resources.test_support.constant import (
-    DEVICE_OBS_STATE_EMPTY_INFO as MID_OBS_STATE__EMPTY_INFO,
+    DEVICE_OBS_STATE_EMPTY_INFO as MID_OBS_STATE_EMPTY_INFO,
 )
 from tests.resources.test_support.constant import (
-    DEVICE_OBS_STATE_IDLE_INFO as MID_OBS_STATE__IDLE_INFO,
+    DEVICE_OBS_STATE_IDLE_INFO as MID_OBS_STATE_IDLE_INFO,
 )
 from tests.resources.test_support.constant import (
-    DEVICE_STATE_STANDBY_INFO as MID_OBS_STATE__STANDBY_INFO,
+    DEVICE_STATE_STANDBY_INFO as MID_OBS_STATE_STANDBY_INFO,
 )
 from tests.resources.test_support.constant_low import (
-    DEVICE_OBS_STATE_ABORT_INFO as LOW_OBS_STATE__ABORT_INFO,
+    DEVICE_OBS_STATE_ABORT_INFO as LOW_OBS_STATE_ABORT_INFO,
 )
 from tests.resources.test_support.constant_low import (
-    DEVICE_OBS_STATE_EMPTY_INFO as LOW_OBS_STATE__EMPTY_INFO,
+    DEVICE_OBS_STATE_EMPTY_INFO as LOW_OBS_STATE_EMPTY_INFO,
 )
 from tests.resources.test_support.constant_low import (
-    DEVICE_OBS_STATE_IDLE_INFO as LOW_OBS_STATE__IDLE_INFO,
+    DEVICE_OBS_STATE_IDLE_INFO as LOW_OBS_STATE_IDLE_INFO,
 )
 from tests.resources.test_support.constant_low import (
-    DEVICE_STATE_STANDBY_INFO as LOW_OBS_STATE__STANDBY_INFO,
+    DEVICE_STATE_STANDBY_INFO as LOW_OBS_STATE_STANDBY_INFO,
 )
 
 result, message = "", ""
@@ -319,14 +319,14 @@ def tear_down(
     telescope_control = BaseTelescopeControl()
     if "mid" in kwargs.get("tmc_subarraynode"):
         ABORT_INFO = MID_OBS_STATE_ABORT_INFO
-        EMPTY_INFO = MID_OBS_STATE__EMPTY_INFO
-        IDLE_INFO = MID_OBS_STATE__IDLE_INFO
-        STANDBY_INFO = MID_OBS_STATE__STANDBY_INFO
+        EMPTY_INFO = MID_OBS_STATE_EMPTY_INFO
+        IDLE_INFO = MID_OBS_STATE_IDLE_INFO
+        STANDBY_INFO = MID_OBS_STATE_STANDBY_INFO
     else:
-        ABORT_INFO = LOW_OBS_STATE__ABORT_INFO
-        EMPTY_INFO = LOW_OBS_STATE__EMPTY_INFO
-        IDLE_INFO = LOW_OBS_STATE__IDLE_INFO
-        STANDBY_INFO = LOW_OBS_STATE__STANDBY_INFO
+        ABORT_INFO = LOW_OBS_STATE_ABORT_INFO
+        EMPTY_INFO = LOW_OBS_STATE_EMPTY_INFO
+        IDLE_INFO = LOW_OBS_STATE_IDLE_INFO
+        STANDBY_INFO = LOW_OBS_STATE_STANDBY_INFO
     if subarray_node_obsstate in ["RESOURCING", "CONFIGURING", "SCANNING"]:
         LOGGER.info("Invoking Abort on TMC")
 

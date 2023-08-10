@@ -83,7 +83,7 @@ ON_OFF_DEVICE_COMMAND_DICT = {
     "csp_master": csp_master,
     "tmc_subarraynode": tmc_subarraynode1,
     "sdp_master": sdp_master,
-    "centralnode": centralnode,
+    "central_node": centralnode,
     "tmc_csp_subarray_leaf_node": tmc_csp_subarray_leaf_node,
 }
 
