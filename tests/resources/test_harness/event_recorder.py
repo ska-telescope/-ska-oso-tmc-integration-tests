@@ -74,9 +74,12 @@ class EventRecorder(object):
         callable_name = self._generate_callable_name(device, attribute_name)
         change_event_callback = self.subscribed_events.get(callable_name, None)
         if change_event_callback:
-            return change_event_callback[callable_name].assert_change_event(
-                attribute_value, lookahead=lookahead
-            )
+            try:
+                return change_event_callback[
+                    callable_name
+                ].assert_change_event(attribute_value, lookahead=lookahead)
+            except AssertionError:
+                return False
 
         raise AttributeNotSubscribed(
             f"Attribute {callable_name} is not subscribed"
