@@ -19,10 +19,7 @@ from tests.resources.test_harness.utils.constant import (
     ON,
     READY,
 )
-from tests.resources.test_harness.utils.enums import (
-    DishMode,
-    SubarrayObsState,
-)
+from tests.resources.test_harness.utils.enums import DishMode, SubarrayObsState
 from tests.resources.test_harness.utils.obs_state_resetter import (
     ObsStateResetterFactory,
 )
