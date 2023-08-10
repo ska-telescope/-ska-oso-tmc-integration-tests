@@ -445,6 +445,7 @@ class Waiter:
         )
 
     def set_wait_for_obs_state(self, obs_state=None):
+        """Sets wait for obsstate"""
         self.waits.append(
             watch(resource(self.csp_subarray1)).to_become(
                 "obsState", changed_to=obs_state
