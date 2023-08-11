@@ -7,6 +7,7 @@ from tests.resources.test_harness.helpers import (
     get_master_device_simulators,
 )
 
+
 @pytest.mark.SKA_mid
 @scenario(
     "../features/telescope_health_state_aggregation.feature",
@@ -16,6 +17,7 @@ def test_telescope_health_state_failed():
     """
     Test case to verify aggregation for telescopHealthState.FAILED
     """
+
 
 @pytest.mark.SKA_mid
 @scenario(
