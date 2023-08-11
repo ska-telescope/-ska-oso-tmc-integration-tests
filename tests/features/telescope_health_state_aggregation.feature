@@ -7,13 +7,13 @@ Scenario Outline: Verify TelescopeHealthState as Failed
         | csp master                    | FAILED                     |   FAILED               |  
         | sdp master                    | FAILED                     |   FAILED               |
         | csp master,sdp master         | FAILED,FAILED              |   FAILED               |
-        | Dish master 1                 | FAILED                     |   FAILED               | 
-        | Dish master 2                 | FAILED                     |   FAILED               |   
-        | Dish master 1,Dish master 2   | FAILED,FAILED              |   FAILED               |  
-        | csp master,Dish master 1      | FAILED,FAILED              |   FAILED               |
-        | csp master,Dish master 2      | FAILED,FAILED              |   FAILED               |
-        | sdp master,Dish master 1      | FAILED,FAILED              |   FAILED               |  
-        | sdp master,Dish master 2      | FAILED,FAILED              |   FAILED               |  
+        | dish master 1                 | FAILED                     |   FAILED               | 
+        | dish master 2                 | FAILED                     |   FAILED               |   
+        | dish master 1,dish master 2   | FAILED,FAILED              |   FAILED               |  
+        | csp master,dish master 1      | FAILED,FAILED              |   FAILED               |
+        | csp master,dish master 2      | FAILED,FAILED              |   FAILED               |
+        | sdp master,dish master 1      | FAILED,FAILED              |   FAILED               |  
+        | sdp master,dish master 2      | FAILED,FAILED              |   FAILED               |  
 
 
 Scenario Outline: Verify TelescopeHealthState as Degraded
@@ -25,11 +25,11 @@ Scenario Outline: Verify TelescopeHealthState as Degraded
         | csp master                    | DEGRADED            |   DEGRADED             |  
         | sdp master                    | DEGRADED            |   DEGRADED             |
         | csp master,sdp master         | DEGRADED,DEGRADED   |   DEGRADED             |
-        | Dish master 1                 | DEGRADED            |   DEGRADED             | 
-        | Dish master 2                 | DEGRADED            |   DEGRADED             |   
-        | Dish master 1,Dish master 2   | DEGRADED,DEGRADED   |   DEGRADED             |  
-        | csp master,Dish master 1      | DEGRADED,DEGRADED   |   DEGRADED             |
-        | csp master,Dish master 2      | DEGRADED,DEGRADED   |   DEGRADED             |
-        | sdp master,Dish master 1      | DEGRADED,DEGRADED   |   DEGRADED             |  
-        | sdp master,Dish master 2      | DEGRADED,DEGRADED   |   DEGRADED             |  
+        | dish master 1                 | DEGRADED            |   DEGRADED             | 
+        | dish master 2                 | DEGRADED            |   DEGRADED             |   
+        | dish master 1,dish master 2   | DEGRADED,DEGRADED   |   DEGRADED             |  
+        | csp master,dish master 1      | DEGRADED,DEGRADED   |   DEGRADED             |
+        | csp master,dish master 2      | DEGRADED,DEGRADED   |   DEGRADED             |
+        | sdp master,dish master 1      | DEGRADED,DEGRADED   |   DEGRADED             |  
+        | sdp master,dish master 2      | DEGRADED,DEGRADED   |   DEGRADED             |  
 
