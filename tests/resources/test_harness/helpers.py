@@ -82,19 +82,51 @@ def get_master_device_simulators(simulator_factory):
     Returns:
         simulator(sim) objects
     """
-    sdp_master_sim = simulator_factory.get_or_create_simulator_device(
-        SimulatorDeviceType.SDP_MASTER_DEVICE
-    )
     csp_master_sim = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.CSP_MASTER_DEVICE
+    )
+    sdp_master_sim = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.SDP_MASTER_DEVICE
     )
     dish_master_sim_1 = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.DISH_DEVICE, sim_number=1
     )
+
     dish_master_sim_2 = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.DISH_DEVICE, sim_number=2
     )
+
     return csp_master_sim, sdp_master_sim, dish_master_sim_1, dish_master_sim_2
+
+
+def get_device_simulator_with_given_name(simulator_factory, devices):
+    """Get Device type based on device name and return device proxy
+    Args:
+        devices (_type_): _description_
+    """
+    device_name_type_dict = {
+        "csp_device": SimulatorDeviceType.CSP_DEVICE,
+        "sdp_device": SimulatorDeviceType.SDP_DEVICE,
+        "csp master": SimulatorDeviceType.CSP_MASTER_DEVICE,
+        "sdp master": SimulatorDeviceType.SDP_MASTER_DEVICE,
+    }
+    device_proxy_list = []
+    for device_name in devices:
+        if device_name in device_name_type_dict:
+            sim_device_type = device_name_type_dict[device_name]
+            device_proxy_list.append(
+                simulator_factory.get_or_create_simulator_device(
+                    sim_device_type
+                )
+            )
+        elif device_name.startswith("Dish"):
+            sim_number = device_name.split()[-1]
+            device_proxy_list.append(
+                simulator_factory.get_or_create_simulator_device(
+                    SimulatorDeviceType.DISH_DEVICE, sim_number=int(sim_number)
+                )
+            )
+    return device_proxy_list
 
 
 def prepare_json_args_for_commands(
