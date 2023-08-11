@@ -1,4 +1,11 @@
 """This module contain constants for low devices"""
+from ska_control_model import ObsState
+
+from tests.resources.test_support.common_utils.result_code import (
+    FaultType,
+    ResultCode,
+)
+
 centralnode = "ska_low/tm_central/central_node"
 tmc_subarraynode1 = "ska_low/tm_subarray_node/1"
 tmc_subarraynode2 = "ska_low/tm_subarray_node/2"
@@ -83,7 +90,7 @@ ON_OFF_DEVICE_COMMAND_DICT = {
     "csp_master": csp_master,
     "tmc_subarraynode": tmc_subarraynode1,
     "sdp_master": sdp_master,
-    "centralnode": centralnode,
+    "central_node": centralnode,
     "tmc_csp_subarray_leaf_node": tmc_csp_subarray_leaf_node,
 }
 
@@ -98,3 +105,18 @@ DEVICE_LIST_FOR_CHECK_DEVICES = [
     tmc_sdp_master_leaf_node,
     tmc_sdp_subarray_leaf_node,
 ]
+
+INTERMEDIATE_STATE_DEFECT = {
+    "enabled": True,
+    "fault_type": FaultType.STUCK_IN_INTERMEDIATE_STATE,
+    "error_message": "Device stuck in intermediate state",
+    "result": ResultCode.FAILED,
+    "intermediate_state": ObsState.RESOURCING,
+}
+
+COMMAND_NOT_ALLOWED_DEFECT = {
+    "enabled": True,
+    "fault_type": FaultType.COMMAND_NOT_ALLOWED,
+    "error_message": "Exception to test exception propagation",
+    "result": ResultCode.FAILED,
+}
