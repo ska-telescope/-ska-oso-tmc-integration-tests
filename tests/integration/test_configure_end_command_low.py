@@ -20,17 +20,17 @@ from tests.resources.test_support.common_utils.tmc_helpers import (
     tear_down,
 )
 from tests.resources.test_support.constant_low import (
+    COMMAND_NOT_ALLOWED_DEFECT,
     DEVICE_LIST_FOR_CHECK_DEVICES,
     DEVICE_OBS_STATE_EMPTY_INFO,
     DEVICE_OBS_STATE_IDLE_INFO,
     DEVICE_OBS_STATE_READY_INFO,
     DEVICE_STATE_ON_INFO,
     DEVICE_STATE_STANDBY_INFO,
+    INTERMEDIATE_STATE_DEFECT,
     ON_OFF_DEVICE_COMMAND_DICT,
     centralnode,
     csp_subarray1,
-    defect,
-    defect_command_not_allowed,
     sdp_subarray1,
     tmc_csp_subarray_leaf_node,
     tmc_sdp_subarray_leaf_node,
@@ -241,7 +241,7 @@ def test_configure_timeout_sdp(json_factory, change_event_callbacks):
         )
 
         sdp_subarray = DeviceProxy(sdp_subarray1)
-        sdp_subarray.SetDefective(json.dumps(defect))
+        sdp_subarray.SetDefective(json.dumps(INTERMEDIATE_STATE_DEFECT))
 
         # Invoking Configure command
         device_params = deepcopy(ON_OFF_DEVICE_COMMAND_DICT)
@@ -330,7 +330,7 @@ def test_configure_error_propagation_sdp(json_factory, change_event_callbacks):
         )
 
         sdp_subarray = DeviceProxy(sdp_subarray1)
-        sdp_subarray.SetDefective(json.dumps(defect_command_not_allowed))
+        sdp_subarray.SetDefective(json.dumps(COMMAND_NOT_ALLOWED_DEFECT))
 
         # Invoking Configure command
         device_params = deepcopy(ON_OFF_DEVICE_COMMAND_DICT)

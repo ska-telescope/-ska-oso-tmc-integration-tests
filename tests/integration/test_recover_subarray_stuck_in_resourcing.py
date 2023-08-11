@@ -23,10 +23,10 @@ from tests.resources.test_support.constant import (
     DEVICE_OBS_STATE_EMPTY_INFO,
     DEVICE_STATE_ON_INFO,
     DEVICE_STATE_STANDBY_INFO,
+    INTERMEDIATE_STATE_DEFECT,
     ON_OFF_DEVICE_COMMAND_DICT,
     centralnode,
     csp_subarray1,
-    defect,
     sdp_subarray1,
     tmc_sdp_subarray_leaf_node,
     tmc_subarraynode1,
@@ -71,7 +71,7 @@ def test_recover_subarray_stuck_in_resourcing(
             EventType.CHANGE_EVENT,
             change_event_callbacks["longRunningCommandResult"],
         )
-        sdp_subarray.SetDefective(json.dumps(defect))
+        sdp_subarray.SetDefective(json.dumps(INTERMEDIATE_STATE_DEFECT))
 
         # Added this check to ensure that devices are running to avoid
         # random test failures.

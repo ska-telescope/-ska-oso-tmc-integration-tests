@@ -113,7 +113,7 @@ DEVICE_OBS_STATE_SCANNING_INFO = {
     csp_subarray1: ["SCANNING"],
 }
 
-defect = {
+INTERMEDIATE_STATE_DEFECT = {
     "enabled": True,
     "fault_type": FaultType.STUCK_IN_INTERMEDIATE_STATE,
     "error_message": "Device stuck in intermediate state",
@@ -121,7 +121,7 @@ defect = {
     "intermediate_state": ObsState.RESOURCING,
 }
 
-defect_command_not_allowed = {
+COMMAND_NOT_ALLOWED_DEFECT = {
     "enabled": True,
     "fault_type": FaultType.COMMAND_NOT_ALLOWED,
     "error_message": "Exception to test exception propagation",
