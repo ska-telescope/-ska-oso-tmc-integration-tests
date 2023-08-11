@@ -179,8 +179,10 @@ def test_assign_release_command_not_allowed_propagation_sdp_ln_low(
         the_waiter = Waiter()
         the_waiter.set_wait_for_specific_obsstate("IDLE", [csp_subarray1])
         the_waiter.wait(TIMEOUT)
-        # Waiting for Obsstate empty.
+        # We don't have obsState attribute on ska_tmc_csp_subarrayleafnode
+        # so we cannot use the Waitor.wait() for obsState changed to IDLE.
         time.sleep(1)
+        # Waiting for Obsstate empty.
         csp_sln = DeviceProxy(tmc_csp_subarray_leaf_node)
         csp_sln.ReleaseAllResources()
 
