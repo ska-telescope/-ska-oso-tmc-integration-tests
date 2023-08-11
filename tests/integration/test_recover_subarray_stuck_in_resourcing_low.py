@@ -3,7 +3,6 @@ ObsState for low"""
 import json
 
 import pytest
-from ska_control_model import ObsState
 from ska_tango_testing.mock.placeholders import Anything
 from tango import DeviceProxy, EventType
 
@@ -11,10 +10,6 @@ from tests.conftest import LOGGER
 from tests.resources.test_support.common_utils.common_helpers import (
     Resource,
     Waiter,
-)
-from tests.resources.test_support.common_utils.result_code import (
-    FaultType,
-    ResultCode,
 )
 from tests.resources.test_support.common_utils.telescope_controls import (
     BaseTelescopeControl,
@@ -30,6 +25,7 @@ from tests.resources.test_support.constant_low import (
     ON_OFF_DEVICE_COMMAND_DICT,
     centralnode,
     csp_subarray1,
+    defect,
     sdp_subarray1,
     tmc_sdp_subarray_leaf_node,
     tmc_subarraynode1,
@@ -71,14 +67,6 @@ def test_recover_subarray_stuck_in_resourcing_low(
             EventType.CHANGE_EVENT,
             change_event_callbacks["longRunningCommandResult"],
         )
-
-        defect = {
-            "enabled": True,
-            "fault_type": FaultType.STUCK_IN_INTERMEDIATE_STATE,
-            "error_message": "Device stuck in intermediate state",
-            "result": ResultCode.FAILED,
-            "intermediate_state": ObsState.RESOURCING,
-        }
         sdp_subarray.SetDefective(json.dumps(defect))
 
         # Added this check to ensure that devices are running to avoid

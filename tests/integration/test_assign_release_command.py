@@ -3,7 +3,6 @@ import json
 from copy import deepcopy
 
 import pytest
-from ska_control_model import ObsState
 from ska_tango_testing.mock.placeholders import Anything
 from tango import DeviceProxy, EventType
 
@@ -12,10 +11,7 @@ from tests.resources.test_support.common_utils.common_helpers import (
     Resource,
     Waiter,
 )
-from tests.resources.test_support.common_utils.result_code import (
-    FaultType,
-    ResultCode,
-)
+from tests.resources.test_support.common_utils.result_code import ResultCode
 from tests.resources.test_support.common_utils.telescope_controls import (
     BaseTelescopeControl,
 )
@@ -33,6 +29,7 @@ from tests.resources.test_support.constant import (
     ON_OFF_DEVICE_COMMAND_DICT,
     centralnode,
     csp_subarray1,
+    defect,
     sdp_subarray1,
     tmc_csp_subarray_leaf_node,
     tmc_sdp_subarray_leaf_node,
@@ -241,13 +238,6 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         )
 
         sdp_subarray = DeviceProxy(sdp_subarray1)
-        defect = {
-            "enabled": True,
-            "fault_type": FaultType.STUCK_IN_INTERMEDIATE_STATE,
-            "error_message": "Device stuck in intermediate state",
-            "result": ResultCode.FAILED,
-            "intermediate_state": ObsState.RESOURCING,
-        }
         sdp_subarray.SetDefective(json.dumps(defect))
 
         device_params = deepcopy(ON_OFF_DEVICE_COMMAND_DICT)
