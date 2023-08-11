@@ -5,6 +5,7 @@ import time
 from copy import deepcopy
 
 import pytest
+from ska_tango_base.control_model import ObsState
 from ska_tango_testing.mock.placeholders import Anything
 from tango import DeviceProxy, EventType
 
@@ -188,7 +189,7 @@ def test_configure_timeout_and_error_propagation_csp(
         csp_subarray.SetDefective(False)
 
         # Emulating Csp Subarray going back to READY state after failure
-        csp_subarray.SetDirectObsState(4)
+        csp_subarray.SetDirectObsState(ObsState.READY)
 
         # Tear Down
         csp_sln = DeviceProxy(tmc_csp_subarray_leaf_node)
@@ -276,7 +277,7 @@ def test_configure_timeout_sdp(json_factory, change_event_callbacks):
         sdp_subarray.SetDefective(json.dumps({"enabled": False}))
 
         # Emulating Csp Subarray going back to READY state after failure
-        sdp_subarray.SetDirectObsState(4)
+        sdp_subarray.SetDirectObsState(ObsState.READY)
 
         # Tear Down
         sdp_sln = DeviceProxy(tmc_sdp_subarray_leaf_node)
