@@ -180,7 +180,7 @@ def test_assign_release_command_not_allowed_propagation_sdp_ln_low(
         the_waiter.set_wait_for_specific_obsstate("IDLE", [csp_subarray1])
         the_waiter.wait(TIMEOUT)
         # Waiting for Obsstate empty.
-        time.sleep(2)
+        time.sleep(1)
         csp_sln = DeviceProxy(tmc_csp_subarray_leaf_node)
         csp_sln.ReleaseAllResources()
 
