@@ -4,9 +4,8 @@ import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_tango_base.control_model import HealthState
 
-from tests.conftest import LOGGER
 from tests.resources.test_harness.helpers import (
-    get_device_simulator_based_on_device_name,
+    get_device_simulator_with_given_name,
     get_device_simulators,
 )
 
@@ -48,19 +47,18 @@ def given_simulator_device_health_state_is_ok(simulator_factory):
 def set_devices_health_state(simulator_factory, Devices, Device_Health_State):
     """Set Devices health state as per provided argument"""
     # Get simulator device objects
+    from tests.conftest import LOGGER
     devices = Devices.split(",")
-    LOGGER.info("device list %s", devices)
-    device_simulator_list = get_device_simulator_based_on_device_name(
+    LOGGER.info("Devices List %s", devices)
+    device_simulator_list = get_device_simulator_with_given_name(
         simulator_factory, devices
     )
-    LOGGER.info("Setting device list %s", device_simulator_list)
-
+    LOGGER.info("Devices List 1 %s", device_simulator_list)
     # Set Device Health State
     health_state_list = Device_Health_State.split(",")
     for device_simulator, device_health_state in zip(
         device_simulator_list, health_state_list
     ):
-        LOGGER.info("Setting device %s", device_simulator)
         device_simulator.SetDirectHealthState(HealthState[device_health_state])
 
 
