@@ -14,7 +14,7 @@ from tests.resources.test_harness.constant import (
 from tests.resources.test_harness.utils.sync_decorators import (
     sync_assign_resources,
 )
-from tests.resources.test_support.common_utils.common_helpers import resource
+from tests.resources.test_support.common_utils.common_helpers import Resource
 
 device_dict = {
     "csp_master": csp_master,
@@ -47,7 +47,7 @@ class CentralNode(object):
     @property
     def state(self) -> DevState:
         """TMC CentralNode operational state"""
-        self._state = resource(self.central_node).get("State")
+        self._state = Resource(self.central_node).get("State")
         return self._state
 
     @state.setter
@@ -62,7 +62,7 @@ class CentralNode(object):
     @property
     def telescope_health_state(self) -> HealthState:
         """Telescope health state representing overall health of telescope"""
-        self._telescope_health_state = resource(self.central_node).get(
+        self._telescope_health_state = Resource(self.central_node).get(
             "telescopeHealthState"
         )
         return self._telescope_health_state

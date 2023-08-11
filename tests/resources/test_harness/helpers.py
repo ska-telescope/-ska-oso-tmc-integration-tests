@@ -4,7 +4,7 @@ from tests.conftest import LOGGER
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_harness.utils.wait_helpers import Waiter
-from tests.resources.test_support.common_utils.common_helpers import resource
+from tests.resources.test_support.common_utils.common_helpers import Resource
 from tests.resources.test_support.constant import (
     csp_subarray1,
     dish_master1,
@@ -24,15 +24,15 @@ def check_subarray_obs_state(obs_state=None, timeout=50):
 
     LOGGER.info(
         f"{tmc_subarraynode1}.obsState : "
-        + str(resource(tmc_subarraynode1).get("obsState"))
+        + str(Resource(tmc_subarraynode1).get("obsState"))
     )
     LOGGER.info(
         f"{sdp_subarray1}.obsState : "
-        + str(resource(sdp_subarray1).get("obsState"))
+        + str(Resource(sdp_subarray1).get("obsState"))
     )
     LOGGER.info(
         f"{csp_subarray1}.obsState : "
-        + str(resource(csp_subarray1).get("obsState"))
+        + str(Resource(csp_subarray1).get("obsState"))
     )
     if obs_state == "READY":
         device_dict["dish_master_list"] = [dish_master1, dish_master2]
@@ -42,9 +42,9 @@ def check_subarray_obs_state(obs_state=None, timeout=50):
 
     return all(
         [
-            resource(sdp_subarray1).get("obsState") == obs_state,
-            resource(tmc_subarraynode1).get("obsState") == obs_state,
-            resource(csp_subarray1).get("obsState") == obs_state,
+            Resource(sdp_subarray1).get("obsState") == obs_state,
+            Resource(tmc_subarraynode1).get("obsState") == obs_state,
+            Resource(csp_subarray1).get("obsState") == obs_state,
         ]
     )
 

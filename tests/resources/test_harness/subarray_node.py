@@ -31,7 +31,7 @@ from tests.resources.test_harness.utils.sync_decorators import (
     sync_release_resources,
     sync_restart,
 )
-from tests.resources.test_support.common_utils.common_helpers import resource
+from tests.resources.test_support.common_utils.common_helpers import Resource
 
 LOGGER = logging.getLogger(__name__)
 
@@ -79,7 +79,7 @@ class SubarrayNode(object):
     @property
     def state(self) -> DevState:
         """TMC SubarrayNode operational state"""
-        self._state = resource(tmc_subarraynode1).get("State")
+        self._state = Resource(tmc_subarraynode1).get("State")
         return self._state
 
     @state.setter
@@ -94,7 +94,7 @@ class SubarrayNode(object):
     @property
     def obs_state(self):
         """TMC SubarrayNode observation state"""
-        self._obs_state = resource(tmc_subarraynode1).get("obsState")
+        self._obs_state = Resource(tmc_subarraynode1).get("obsState")
         return self._obs_state
 
     @obs_state.setter
@@ -109,7 +109,7 @@ class SubarrayNode(object):
     @property
     def health_state(self) -> HealthState:
         """Telescope health state representing overall health of telescope"""
-        self._health_state = resource(tmc_subarraynode1).get("healthState")
+        self._health_state = Resource(tmc_subarraynode1).get("healthState")
         return self._health_state
 
     @health_state.setter
@@ -124,14 +124,14 @@ class SubarrayNode(object):
     def move_to_on(self):
         # Move subarray to ON state
         if self.state != self.ON_STATE:
-            resource(tmc_subarraynode1).assert_attribute("State").equals("OFF")
+            Resource(tmc_subarraynode1).assert_attribute("State").equals("OFF")
             result, message = self.subarray_node.On()
             LOGGER.info("Invoked ON on SubarrayNode")
             return result, message
 
     def move_to_off(self):
         # Move Subarray to OFF state
-        resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
+        Resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
         result, message = self.subarray_node.Off()
         LOGGER.info("Invoked OFF on SubarrayNode")
         return result, message

@@ -6,8 +6,8 @@ from tests.resources.test_harness.utils.wait_helpers import Waiter
 # from tests.conftest import TIMEOUT
 from tests.resources.test_support.common_utils.base_utils import DeviceUtils
 from tests.resources.test_support.common_utils.common_helpers import (
+    Resource,
     WaitForScan,
-    resource,
 )
 
 TIMEOUT = 200
@@ -138,7 +138,7 @@ def sync_configure(device_dict):
         def wrapper(*args, **kwargs):
             invoked_from_ready = False
             the_waiter = Waiter(**device_dict)
-            if resource(device_dict.get("tmc_subarraynode")) == "READY":
+            if Resource(device_dict.get("tmc_subarraynode")) == "READY":
                 invoked_from_ready = True
             result = func(*args, **kwargs)
             if invoked_from_ready:
@@ -215,7 +215,7 @@ def sync_configure_sub():
         def wrapper(*args, **kwargs):
             flag = False
             the_waiter = Waiter(**kwargs)
-            if resource(kwargs.get("tmc_subarraynode")) == "READY":
+            if Resource(kwargs.get("tmc_subarraynode")) == "READY":
                 flag = True
             result = func(*args, **kwargs)
             if flag:
