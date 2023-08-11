@@ -4,7 +4,7 @@ import pytest
 from tango import DeviceProxy
 
 from tests.conftest import LOGGER
-from tests.resources.test_support.common_utils.common_helpers import resource
+from tests.resources.test_support.common_utils.common_helpers import Resource
 from tests.resources.test_support.common_utils.telescope_controls import (
     BaseTelescopeControl,
     check_subarray1_availability,
@@ -68,11 +68,11 @@ def test_low_abort_restart_in_configuring(json_factory):
         csp_subarray_proxy.SetDefective(True)
 
         # Invoke Configure() command on TMC#
-        resource(tmc_subarraynode1).assert_attribute("obsState").equals("IDLE")
+        Resource(tmc_subarraynode1).assert_attribute("obsState").equals("IDLE")
         subarray_node = DeviceProxy(tmc_subarraynode1)
         subarray_node.Configure(configure_json)
 
-        resource(tmc_subarraynode1).assert_attribute("obsState").equals(
+        Resource(tmc_subarraynode1).assert_attribute("obsState").equals(
             "CONFIGURING"
         )
 

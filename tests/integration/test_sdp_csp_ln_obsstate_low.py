@@ -2,7 +2,7 @@
 import pytest
 
 from tests.conftest import LOGGER
-from tests.resources.test_support.common_utils.common_helpers import resource
+from tests.resources.test_support.common_utils.common_helpers import Resource
 from tests.resources.test_support.common_utils.telescope_controls import (
     BaseTelescopeControl,
 )
@@ -47,10 +47,10 @@ def test_csp_sdp_ln_obstate_low(json_factory, change_event_callbacks):
 
         # Verify the CspSubarrayLeafNode and SdpSubarrayLeafNode obsState
 
-        resource(tmc_csp_subarray_leaf_node).assert_attribute(
+        Resource(tmc_csp_subarray_leaf_node).assert_attribute(
             "cspSubarrayObsState"
         ).equals("EMPTY")
-        resource(tmc_sdp_subarray_leaf_node).assert_attribute(
+        Resource(tmc_sdp_subarray_leaf_node).assert_attribute(
             "sdpSubarrayObsState"
         ).equals("EMPTY")
 
@@ -63,10 +63,10 @@ def test_csp_sdp_ln_obstate_low(json_factory, change_event_callbacks):
         )
         # Verify the CspSubarrayLeafNode and SdpSubarrayLeafNode obsState
 
-        resource(tmc_csp_subarray_leaf_node).assert_attribute(
+        Resource(tmc_csp_subarray_leaf_node).assert_attribute(
             "cspSubarrayObsState"
         ).equals("IDLE")
-        resource(tmc_sdp_subarray_leaf_node).assert_attribute(
+        Resource(tmc_sdp_subarray_leaf_node).assert_attribute(
             "sdpSubarrayObsState"
         ).equals("IDLE")
 

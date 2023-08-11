@@ -5,8 +5,8 @@ from tango import DeviceProxy
 
 from tests.conftest import LOGGER
 from tests.resources.test_support.common_utils.common_helpers import (
+    Resource,
     Waiter,
-    resource,
 )
 from tests.resources.test_support.common_utils.telescope_controls import (
     BaseTelescopeControl,
@@ -77,7 +77,7 @@ def test_low_abort_restart_in_restarting(json_factory):
         # Invoke Restart() command on TMC#
         subarray_node = DeviceProxy(tmc_subarraynode1)
         subarray_node.Restart()
-        resource(tmc_subarraynode1).assert_attribute("obsState").equals(
+        Resource(tmc_subarraynode1).assert_attribute("obsState").equals(
             "RESTARTING"
         )
 

@@ -8,8 +8,8 @@ from tango import DeviceProxy, EventType
 
 from tests.conftest import LOGGER, TIMEOUT
 from tests.resources.test_support.common_utils.common_helpers import (
+    Resource,
     Waiter,
-    resource,
 )
 from tests.resources.test_support.common_utils.result_code import ResultCode
 from tests.resources.test_support.common_utils.telescope_controls import (
@@ -26,11 +26,13 @@ from tests.resources.test_support.constant import (
     DEVICE_OBS_STATE_IDLE_INFO,
     DEVICE_STATE_ON_INFO,
     DEVICE_STATE_STANDBY_INFO,
+    INTERMEDIATE_STATE_DEFECT,
     ON_OFF_DEVICE_COMMAND_DICT,
     centralnode,
     csp_subarray1,
     sdp_subarray1,
     tmc_csp_subarray_leaf_node,
+    tmc_sdp_subarray_leaf_node,
     tmc_subarraynode1,
 )
 
@@ -236,7 +238,7 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         )
 
         sdp_subarray = DeviceProxy(sdp_subarray1)
-        sdp_subarray.SetDefective(True)
+        sdp_subarray.SetDefective(json.dumps(INTERMEDIATE_STATE_DEFECT))
 
         device_params = deepcopy(ON_OFF_DEVICE_COMMAND_DICT)
         device_params["set_wait_for_obsstate"] = False
@@ -257,13 +259,19 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         )
         assert "AssignResources" in assertion_data["attribute_value"][0]
         assert (
-            "Exception occurred on the following devices:\n"
-            "ska_mid/tm_leaf_node/sdp_subarray01"
+            "Timeout has occured, command failed"
             in assertion_data["attribute_value"][1]
         )
-        assert "Device is Defective" in assertion_data["attribute_value"][1]
+        assert (
+            tmc_sdp_subarray_leaf_node in assertion_data["attribute_value"][1]
+        )
 
-        sdp_subarray.SetDefective(False)
+        change_event_callbacks["longRunningCommandResult"].assert_change_event(
+            (unique_id[0], str(ResultCode.FAILED.value)),
+            lookahead=4,
+        )
+
+        sdp_subarray.SetDefective(json.dumps({"enabled": False}))
 
         # Do not raise exception
         tear_down(
@@ -360,7 +368,7 @@ def test_release_resources_error_propagation(
         waiter.set_wait_for_going_to_empty()
         waiter.wait(TIMEOUT)
         subarray_node = DeviceProxy(tmc_subarraynode1)
-        resource(subarray_node).assert_attribute("obsState").equals("EMPTY")
+        Resource(subarray_node).assert_attribute("obsState").equals("EMPTY")
 
         tear_down(
             release_json, raise_exception=False, **ON_OFF_DEVICE_COMMAND_DICT
