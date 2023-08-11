@@ -79,7 +79,7 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
 	--set ska-tango-taranta.enabled=$(TARANTA) \
 	--set global.exposeAllDS=true \
-	--set global.operator=false \
+	--set global.operator=true \
 	$(CUSTOM_VALUES)
 
 
