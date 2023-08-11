@@ -1,5 +1,7 @@
 """Test cases for recovery of subarray stuck in RESOURCING
 ObsState for low"""
+import json
+
 import pytest
 from ska_tango_testing.mock.placeholders import Anything
 from tango import DeviceProxy, EventType
@@ -20,25 +22,23 @@ from tests.resources.test_support.constant_low import (
     DEVICE_OBS_STATE_EMPTY_INFO,
     DEVICE_STATE_ON_INFO,
     DEVICE_STATE_STANDBY_INFO,
+    INTERMEDIATE_STATE_DEFECT,
     ON_OFF_DEVICE_COMMAND_DICT,
     centralnode,
     csp_subarray1,
     sdp_subarray1,
+    tmc_sdp_subarray_leaf_node,
     tmc_subarraynode1,
 )
 
 
 @pytest.mark.SKA_low
-@pytest.mark.skip(
-    reason="Changes made in Helper Sdp Subarray Device. Will be fixed as a \
-        part of sah-1362"
-)
 def test_recover_subarray_stuck_in_resourcing_low(
     json_factory, change_event_callbacks
 ):
     """AssignResources and ReleaseResources is executed."""
     assign_json = json_factory("command_assign_resource_low")
-    release_json = json_factory("command_ReleaseResources")
+    release_json = json_factory("command_release_resource_low")
     try:
         telescope_control = BaseTelescopeControl()
         tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
@@ -67,8 +67,7 @@ def test_recover_subarray_stuck_in_resourcing_low(
             EventType.CHANGE_EVENT,
             change_event_callbacks["longRunningCommandResult"],
         )
-
-        sdp_subarray.SetDefective(True)
+        sdp_subarray.SetDefective(json.dumps(INTERMEDIATE_STATE_DEFECT))
 
         # Added this check to ensure that devices are running to avoid
         # random test failures.
@@ -83,7 +82,7 @@ def test_recover_subarray_stuck_in_resourcing_low(
         _, unique_id = central_node.AssignResources(assign_json)
         the_waiter.wait(30)
 
-        sdp_subarray.SetDefective(False)
+        sdp_subarray.SetDefective(json.dumps({"enabled": False}))
 
         assertion_data = change_event_callbacks[
             "longRunningCommandResult"
@@ -93,9 +92,11 @@ def test_recover_subarray_stuck_in_resourcing_low(
         )
         assert "AssignResources" in assertion_data["attribute_value"][0]
         assert (
-            "Exception occurred on the following devices:\n"
-            "ska_low/tm_leaf_node/sdp_subarray01"
+            "Timeout has occured, command failed"
             in assertion_data["attribute_value"][1]
+        )
+        assert (
+            tmc_sdp_subarray_leaf_node in assertion_data["attribute_value"][1]
         )
 
         assert Resource(csp_subarray1).get("obsState") == "IDLE"
