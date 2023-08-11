@@ -26,11 +26,13 @@ from tests.resources.test_support.constant import (
     DEVICE_OBS_STATE_IDLE_INFO,
     DEVICE_STATE_ON_INFO,
     DEVICE_STATE_STANDBY_INFO,
+    INTERMEDIATE_STATE_DEFECT,
     ON_OFF_DEVICE_COMMAND_DICT,
     centralnode,
     csp_subarray1,
     sdp_subarray1,
     tmc_csp_subarray_leaf_node,
+    tmc_sdp_subarray_leaf_node,
     tmc_subarraynode1,
 )
 
@@ -236,7 +238,7 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         )
 
         sdp_subarray = DeviceProxy(sdp_subarray1)
-        sdp_subarray.SetDefective(True)
+        sdp_subarray.SetDefective(json.dumps(INTERMEDIATE_STATE_DEFECT))
 
         device_params = deepcopy(ON_OFF_DEVICE_COMMAND_DICT)
         device_params["set_wait_for_obsstate"] = False
@@ -257,13 +259,19 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         )
         assert "AssignResources" in assertion_data["attribute_value"][0]
         assert (
-            "Exception occurred on the following devices:\n"
-            "ska_mid/tm_leaf_node/sdp_subarray01"
+            "Timeout has occured, command failed"
             in assertion_data["attribute_value"][1]
         )
-        assert "Device is Defective" in assertion_data["attribute_value"][1]
+        assert (
+            tmc_sdp_subarray_leaf_node in assertion_data["attribute_value"][1]
+        )
 
-        sdp_subarray.SetDefective(False)
+        change_event_callbacks["longRunningCommandResult"].assert_change_event(
+            (unique_id[0], str(ResultCode.FAILED.value)),
+            lookahead=4,
+        )
+
+        sdp_subarray.SetDefective(json.dumps({"enabled": False}))
 
         # Do not raise exception
         tear_down(

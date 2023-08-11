@@ -1,4 +1,11 @@
 """This module have all required constants for ska-tmc-integration"""
+from ska_control_model import ObsState
+
+from tests.resources.test_support.common_utils.result_code import (
+    FaultType,
+    ResultCode,
+)
+
 centralnode = "ska_mid/tm_central/central_node"
 tmc_subarraynode1 = "ska_mid/tm_subarray_node/1"
 tmc_subarraynode2 = "ska_mid/tm_subarray_node/2"
@@ -115,4 +122,19 @@ DEVICE_OBS_STATE_SCANNING_INFO = {
     sdp_subarray1: ["SCANNING"],
     tmc_subarraynode1: ["SCANNING"],
     csp_subarray1: ["SCANNING"],
+}
+
+INTERMEDIATE_STATE_DEFECT = {
+    "enabled": True,
+    "fault_type": FaultType.STUCK_IN_INTERMEDIATE_STATE,
+    "error_message": "Device stuck in intermediate state",
+    "result": ResultCode.FAILED,
+    "intermediate_state": ObsState.RESOURCING,
+}
+
+COMMAND_NOT_ALLOWED_DEFECT = {
+    "enabled": True,
+    "fault_type": FaultType.COMMAND_NOT_ALLOWED,
+    "error_message": "Exception to test exception propagation",
+    "result": ResultCode.FAILED,
 }
