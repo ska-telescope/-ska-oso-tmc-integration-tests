@@ -11,7 +11,6 @@ from tests.resources.test_harness.helpers import (
 )
 
 
-@pytest.mark.invalid
 @pytest.mark.SKA_mid
 @scenario(
     "../features/test_harness/subarray_health_state.feature",
@@ -20,11 +19,11 @@ from tests.resources.test_harness.helpers import (
 )
 def test_subarray_health_state(subarray_node):
     """
-    Test Subarray Health is Failed or degraded when
+    Test Subarray Health is Failed or degraded when csp or sdp is
+    FAILED or DEGRADED
     """
 
 
-@pytest.mark.invalid1
 @pytest.mark.SKA_mid
 @scenario(
     "../features/test_harness/subarray_health_state.feature",
@@ -33,7 +32,20 @@ def test_subarray_health_state(subarray_node):
 )
 def test_subarray_health_state_with_dish(subarray_node):
     """
-    Test Subarray Health is Failed or degraded when
+    Test Subarray Health is Failed or degraded when dish master device is
+    failed and degraded
+    """
+
+
+@pytest.mark.SKA_mid
+@scenario(
+    "../features/test_harness/subarray_health_state.feature",
+    "Subarray Health State should be Unknown when one or more devices "
+    "health state is Unknown",
+)
+def test_subarray_health_state_for_unknown(subarray_node):
+    """
+    Test Subarray Health should be UNKNOWN when one or more devices are Unknown
     """
 
 
