@@ -56,16 +56,15 @@ centralnode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-centralnode
-    tag: 0.10.2
+    tag: 0.10.3
     pullPolicy: IfNotPresent
 
 subarraynode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-subarraynode
-    tag: 0.11.12
+    tag: 0.11.13
     pullPolicy: IfNotPresent
-
 
 sdpleafnodes:
   image:
