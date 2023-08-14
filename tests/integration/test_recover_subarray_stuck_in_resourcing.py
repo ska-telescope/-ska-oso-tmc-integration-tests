@@ -188,7 +188,7 @@ def test_recover_subarray_stuck_in_resourcing_with_abort(
         _, unique_id = central_node.AssignResources(assign_json)
         the_waiter.wait(30)
 
-        sdp_subarray.SetDefective(False)
+        sdp_subarray.SetDefective(json.dumps(INTERMEDIATE_STATE_DEFECT))
 
         assertion_data = change_event_callbacks[
             "longRunningCommandResult"
