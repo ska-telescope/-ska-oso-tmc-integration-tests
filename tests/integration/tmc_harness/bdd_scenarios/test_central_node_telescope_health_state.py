@@ -30,15 +30,32 @@ def test_telescope_health_state_degraded():
     """
 
 
+@pytest.mark.SKA_mid
+@scenario(
+    "../features/telescope_health_state_aggregation.feature",
+    "Verify TelescopeHealthState as Unknown",
+)
+def test_telescope_health_state_unknown():
+    """
+    Test case to verify aggregation for telescopHealthState.UNKNOWN
+    """
+
+
 @given("csp master, sdp master and dish masters health state is OK")
-def master_devices_healthstate_is_ok(simulator_factory, event_recorder):
+def simulator_devices_health_state_is_ok(simulator_factory, event_recorder):
+    """_summary_
+
+    Args:
+        simulator_factory (_type_): _description_
+        event_recorder (_type_): _description_
+    """
     (
         csp_master_sim,
         sdp_master_sim,
         dish_master_1,
         dish_master_2,
     ) = get_master_device_simulators(simulator_factory)
-    set_health_state_as_ok(
+    set_simulators_health_state_as_ok(
         csp_master_sim,
         sdp_master_sim,
         dish_master_1,
@@ -48,40 +65,36 @@ def master_devices_healthstate_is_ok(simulator_factory, event_recorder):
 
     assert event_recorder.has_change_event_occurred(
         csp_master_sim, "healthState", HealthState.OK
-    ), "Expected Telescope HealthState to be OK"
+    ), "Expected HealthState to be OK"
     assert event_recorder.has_change_event_occurred(
         sdp_master_sim, "healthState", HealthState.OK
-    ), "Expected Telescope HealthState to be OK"
+    ), "Expected HealthState to be OK"
     assert event_recorder.has_change_event_occurred(
         dish_master_1, "healthState", HealthState.OK
-    ), "Expected Telescope HealthState to be OK"
+    ), "Expected HealthState to be OK"
     assert event_recorder.has_change_event_occurred(
         dish_master_2, "healthState", HealthState.OK
-    ), "Expected Telescope HealthState to be OK"
+    ), "Expected HealthState to be OK"
 
 
-@when(parsers.parse("{devices} health state is {Health_State}"))
-def device_health_state_change_to_failed(
-    simulator_factory, devices, Health_State
+@when(parsers.parse("The {devices} health state changes to {health_state}"))
+def simulator_device_health_state_changes(
+    simulator_factory, devices, health_state
 ):
     devices_list = devices.split(",")
+    health_state_list = health_state.split(",")
+
     sim_devices_list = get_device_simulator_with_given_name(
         simulator_factory, devices_list
     )
-    print(sim_devices_list)
-    health_state_list = Health_State.split(",")
-    print(health_state_list)
-    devices_with_health_states = list(zip(sim_devices_list, health_state_list))
-    print(devices_with_health_states)
-    for device, health_state_val in devices_with_health_states:
-        # health_state_val = HealthState(health_state_val)
+    for simulator_device, health_state_val in list(
+        zip(sim_devices_list, health_state_list)
+    ):
         health_state = get_enum(health_state_val)
-        device.SetDirectHealthState(health_state)
+        simulator_device.SetDirectHealthState(health_state)
 
 
-@then(
-    parsers.parse("the TMC telescope health state is {telescope_Health_State}")
-)
+@then(parsers.parse("the telescope health state is {telescope_Health_State}"))
 def check_telescope_health_state(
     central_node, event_recorder, telescope_Health_State
 ):
@@ -94,10 +107,10 @@ def check_telescope_health_state(
         central_node.central_node,
         "telescopeHealthState",
         health_state,
-    )
+    ), f"Expected telescopeHealthState to be {health_state}"
 
 
-def set_health_state_as_ok(
+def set_simulators_health_state_as_ok(
     csp_master_sim,
     sdp_master_sim,
     dish_master_1,
@@ -117,6 +130,7 @@ def set_health_state_as_ok(
     event_recorder.subscribe_event(sdp_master_sim, "healthState")
     event_recorder.subscribe_event(dish_master_1, "healthState")
     event_recorder.subscribe_event(dish_master_2, "healthState")
+
     csp_master_sim.SetDirectHealthState(HealthState.OK)
     sdp_master_sim.SetDirectHealthState(HealthState.OK)
     dish_master_1.SetDirectHealthState(HealthState.OK)
@@ -133,3 +147,5 @@ def get_enum(value):
         return HealthState.FAILED
     elif value == "DEGRADED":
         return HealthState.DEGRADED
+    elif value == "UNKNOWN":
+        return HealthState.UNKNOWN
