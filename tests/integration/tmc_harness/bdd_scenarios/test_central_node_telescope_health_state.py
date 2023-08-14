@@ -15,7 +15,7 @@ from tests.resources.test_harness.helpers import (
 )
 def test_telescope_health_state_failed():
     """
-    Test case to verify aggregation for telescopHealthState.FAILED
+    Test case to verify aggregation for telescopeHealthState.FAILED
     """
 
 
@@ -26,7 +26,7 @@ def test_telescope_health_state_failed():
 )
 def test_telescope_health_state_degraded():
     """
-    Test case to verify aggregation for telescopHealthState.DEGRADED
+    Test case to verify aggregation for telescopeHealthState.DEGRADED
     """
 
 
@@ -37,17 +37,17 @@ def test_telescope_health_state_degraded():
 )
 def test_telescope_health_state_unknown():
     """
-    Test case to verify aggregation for telescopHealthState.UNKNOWN
+    Test case to verify aggregation for telescopeHealthState.UNKNOWN
     """
 
 
 @given("csp master, sdp master and dish masters health state is OK")
 def simulator_devices_health_state_is_ok(simulator_factory, event_recorder):
-    """_summary_
+    """A method to check simulators are in HealthState.OK
 
     Args:
-        simulator_factory (_type_): _description_
-        event_recorder (_type_): _description_
+        simulator_factory: fixture for SimulatorFactory class
+        event_recorder: fixture for EventRecorder class
     """
     (
         csp_master_sim,
@@ -81,6 +81,13 @@ def simulator_devices_health_state_is_ok(simulator_factory, event_recorder):
 def simulator_device_health_state_changes(
     simulator_factory, devices, health_state
 ):
+    """A method to set HealthState value for the simulator devices
+
+    Args:
+        simulator_factory: fixture for SimulatorFactory class
+        devices (str): simulator devices
+        health_state (str): healthstate value
+    """
     devices_list = devices.split(",")
     health_state_list = health_state.split(",")
 
@@ -98,6 +105,14 @@ def simulator_device_health_state_changes(
 def check_telescope_health_state(
     central_node, event_recorder, telescope_Health_State
 ):
+    """A method to check CentralNode.telescopehealthState attribute
+    change after aggregation
+
+    Args:
+        central_node : A fixture for CentralNode tango device class
+        event_recorder: A fixture for EventRecorder class_
+        telescope_Health_State (str): telescopehealthState value
+    """
     health_state = get_enum(telescope_Health_State)
     event_recorder.subscribe_event(
         central_node.central_node, "telescopeHealthState"
@@ -117,14 +132,14 @@ def set_simulators_health_state_as_ok(
     dish_master_2,
     event_recorder,
 ):
-    """_summary_
+    """A method to set simulator devices to HealthState.OK
 
     Args:
-        csp_master_sim (_type_): _description_
-        sdp_master_sim (_type_): _description_
-        dish_master_1 (_type_): _description_
-        dish_master_2 (_type_): _description_
-        event_recorder (_type_): _description_
+        csp_master_sim: Csp Master device sim
+        sdp_master_sim: Sdp Master device sim
+        dish_master_1: Dish Master 1 device sim
+        dish_master_2: Dish Master 2 device sim_
+        event_recorder: A fixture for EventRecorder class
     """
     event_recorder.subscribe_event(csp_master_sim, "healthState")
     event_recorder.subscribe_event(sdp_master_sim, "healthState")
@@ -138,10 +153,9 @@ def set_simulators_health_state_as_ok(
 
 
 def get_enum(value):
-    """_summary_
-
+    """A method to give value of type HealthState
     Args:
-        value (_type_): _description_
+        value (str): healthState value as str
     """
     if value == "FAILED":
         return HealthState.FAILED
