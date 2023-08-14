@@ -2,11 +2,12 @@
 """
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
-from ska_tango_base.control_model import HealthState
+from ska_tango_base.control_model import HealthState, ObsState
 
 from tests.resources.test_harness.helpers import (
     get_device_simulator_with_given_name,
     get_device_simulators,
+    prepare_json_args_for_commands,
 )
 
 
@@ -18,6 +19,19 @@ from tests.resources.test_harness.helpers import (
     "devices health state is Failed or Degraded",
 )
 def test_subarray_health_state(subarray_node):
+    """
+    Test Subarray Health is Failed or degraded when
+    """
+
+
+@pytest.mark.invalid1
+@pytest.mark.SKA_mid
+@scenario(
+    "../features/test_harness/subarray_health_state.feature",
+    "Subarray Health State should be Failed or Degraded when dish device "
+    "health state is Failed or Degraded",
+)
+def test_subarray_health_state_with_dish(subarray_node):
     """
     Test Subarray Health is Failed or degraded when
     """
@@ -37,6 +51,25 @@ def given_simulator_device_health_state_is_ok(simulator_factory):
     sdp_sa_sim.SetDirectHealthState(HealthState.OK)
     dish_master_1.SetDirectHealthState(HealthState.OK)
     dish_master_2.SetDirectHealthState(HealthState.OK)
+
+
+@when("I issue the command Assign Resource on Subarray Node")
+def assign_dishes_to_subarray(
+    subarray_node, event_recorder, command_input_factory
+):
+    """Assign Dishes to Subarray"""
+    subarray_node.move_to_on()
+    subarray_node.force_change_of_obs_state("EMPTY")
+    input_json = prepare_json_args_for_commands(
+        "assign_resources_mid", command_input_factory
+    )
+
+    event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
+
+    subarray_node.execute_transition("AssignResources", argin=input_json)
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_node, "obsState", ObsState.IDLE
+    ), "Waiting for subarray node to complete"
 
 
 @when(
