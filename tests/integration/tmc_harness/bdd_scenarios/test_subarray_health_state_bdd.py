@@ -17,7 +17,7 @@ from tests.resources.test_harness.helpers import (
     "Subarray Health State should be Failed or Degraded when one or more "
     "devices health state is Failed or Degraded",
 )
-def test_subarray_health_state(subarray_node):
+def test_subarray_health_state_with_csp_and_sdp():
     """
     Test Subarray Health is Failed or degraded when csp or sdp is
     FAILED or DEGRADED
@@ -27,25 +27,12 @@ def test_subarray_health_state(subarray_node):
 @pytest.mark.SKA_mid
 @scenario(
     "../features/test_harness/subarray_health_state.feature",
-    "Subarray Health State should be Failed or Degraded when dish device "
-    "health state is Failed or Degraded",
+    "Subarray Health State Changes based on Simulator Device Health State",
 )
-def test_subarray_health_state_with_dish(subarray_node):
+def test_subarray_health_state_with_dish():
     """
     Test Subarray Health is Failed or degraded when dish master device is
     failed and degraded
-    """
-
-
-@pytest.mark.SKA_mid
-@scenario(
-    "../features/test_harness/subarray_health_state.feature",
-    "Subarray Health State should be Unknown when one or more devices "
-    "health state is Unknown",
-)
-def test_subarray_health_state_for_unknown(subarray_node):
-    """
-    Test Subarray Health should be UNKNOWN when one or more devices are Unknown
     """
 
 
@@ -65,9 +52,23 @@ def given_simulator_device_health_state_is_ok(simulator_factory):
     dish_master_2.SetDirectHealthState(HealthState.OK)
 
 
-@when("I issue the command Assign Resource on Subarray Node")
+@given("csp subarray, sdp subarray health state is OK")
+def given_csp_sdp_device_health_state_is_ok(simulator_factory):
+    """ """
+    (
+        csp_sa_sim,
+        sdp_sa_sim,
+        _,
+        _,
+    ) = get_device_simulators(simulator_factory)
+
+    csp_sa_sim.SetDirectHealthState(HealthState.OK)
+    sdp_sa_sim.SetDirectHealthState(HealthState.OK)
+
+
+@given("Dishes are assigned to Subarray with Health State as OK")
 def assign_dishes_to_subarray(
-    subarray_node, event_recorder, command_input_factory
+    subarray_node, event_recorder, command_input_factory, simulator_factory
 ):
     """Assign Dishes to Subarray"""
     subarray_node.move_to_on()
@@ -82,6 +83,12 @@ def assign_dishes_to_subarray(
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node, "obsState", ObsState.IDLE
     ), "Waiting for subarray node to complete"
+
+    _, _, dish_master_1, dish_master_2 = get_device_simulators(
+        simulator_factory
+    )
+    dish_master_1.SetDirectHealthState(HealthState.OK)
+    dish_master_2.SetDirectHealthState(HealthState.OK)
 
 
 @when(
