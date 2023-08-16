@@ -3,6 +3,7 @@ ObsState for low"""
 import json
 
 import pytest
+from ska_control_model import ObsState
 from ska_tango_testing.mock.placeholders import Anything
 from tango import DeviceProxy, EventType
 
@@ -105,7 +106,7 @@ def test_recover_subarray_stuck_in_resourcing_low(
         assert Resource(csp_subarray1).get("obsState") == "IDLE"
 
         assert Resource(sdp_subarray1).get("obsState") == "RESOURCING"
-        sdp_subarray.SetDirectObsState(0)
+        sdp_subarray.SetDirectObsState(ObsState.EMPTY)
         assert Resource(sdp_subarray1).get("obsState") == "EMPTY"
         csp_subarray = DeviceProxy(csp_subarray1)
         csp_subarray.ReleaseAllResources()
@@ -132,7 +133,7 @@ def test_recover_subarray_stuck_in_resourcing_low(
 
 
 @pytest.mark.SKA_low
-def test_recover_subarray_stuck_in_resourcing_with_sdpempty_with_abort(
+def test_recover_subarray_stuck_in_resourcing_with_sdp_empty_with_abort(
     json_factory, change_event_callbacks
 ):
     """AssignResources and ReleaseResources is executed."""
@@ -203,7 +204,7 @@ def test_recover_subarray_stuck_in_resourcing_with_sdpempty_with_abort(
 
         assert Resource(csp_subarray1).get("obsState") == "IDLE"
         assert Resource(sdp_subarray1).get("obsState") == "RESOURCING"
-        sdp_subarray.SetDirectObsState(0)
+        sdp_subarray.SetDirectObsState(ObsState.EMPTY)
         assert Resource(sdp_subarray1).get("obsState") == "EMPTY"
 
         subarray_node = DeviceProxy(tmc_subarraynode1)
@@ -249,7 +250,7 @@ def test_recover_subarray_stuck_in_resourcing_with_sdpempty_with_abort(
 
 
 @pytest.mark.SKA_low
-def test_recover_subarray_stuck_in_resourcing_with_cspempty_with_abort(
+def test_recover_subarray_stuck_in_resourcing_with_csp_empty_with_abort(
     json_factory, change_event_callbacks
 ):
     """AssignResources and ReleaseResources is executed."""
@@ -320,7 +321,7 @@ def test_recover_subarray_stuck_in_resourcing_with_cspempty_with_abort(
 
         assert Resource(csp_subarray1).get("obsState") == "RESOURCING"
         assert Resource(sdp_subarray1).get("obsState") == "IDLE"
-        csp_subarray.SetDirectObsState(0)
+        csp_subarray.SetDirectObsState(ObsState.EMPTY)
         assert Resource(csp_subarray1).get("obsState") == "EMPTY"
 
         subarray_node = DeviceProxy(tmc_subarraynode1)
