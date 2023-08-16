@@ -1,22 +1,22 @@
-release=0.8.5
-tag=0.8.5
+release=0.8.6
+tag=0.8.6
 tag_description=
 **Charts:**
-**1. ska-tmc-integration 0.8.4 - 0.8.5:**
+**1. ska-tmc-integration 0.8.5 - 0.8.6:**
 
-    **1.1 ska-tmc-mid - 0.10.1 - 0.10.2:
-        a. Resolved bug SKB-185
+    **1.1 ska-tmc-mid - 0.10.2 - 0.11.0:
+        a. Implemented error prapogation and timeout for Configure command.
 
-    **1.2 ska-tmc-low - 0.7.1 - 0.7.2:
-        a. Resolved bug SKB-185
+    **1.2 ska-tmc-low - 0.7.2 - 0.8.0:
+        a. Implemented error prapogation and timeout for Configure command.
 
 
 release_notes=
 **Charts:**
-**1. ska-tmc-integration 0.8.4 - 0.8.5:**
+**1. ska-tmc-integration 0.8.5 - 0.8.6:**
 
-    **1.1 ska-tmc-mid - 0.10.1 - 0.10.2:
-        a. Resolved bug SKB-185
+    **1.1 ska-tmc-mid - 0.10.2 - 0.11.0:
+        a. Implemented error prapogation and timeout for Configure command.
 
-    **1.2 ska-tmc-low - 0.7.1 - 0.7.2:
-        a. Resolved bug SKB-185
+    **1.2 ska-tmc-low - 0.7.2 - 0.8.0:
+        a. Implemented error prapogation and timeout for Configure command.
