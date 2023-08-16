@@ -295,7 +295,7 @@ def test_configure_timeout_sdp(json_factory, change_event_callbacks):
 
 
 @pytest.mark.SKA_low
-def test_configure_error_prop_sdp(json_factory, change_event_callbacks):
+def test_configure_error_propagation_sdp(json_factory, change_event_callbacks):
     """Verify timeout exception raised when csp set to defective."""
     assign_json = json_factory("command_assign_resource_low")
     release_json = json_factory("command_release_resource_low")

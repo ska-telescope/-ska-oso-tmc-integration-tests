@@ -363,3 +363,116 @@ def test_recover_subarray_stuck_in_resourcing_with_cspempty_with_abort(
 
     except Exception:
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
+
+
+@pytest.mark.SKA_low
+def test_recover_subarray_stuck_in_resourcing_with_abort_low(
+    json_factory, change_event_callbacks
+):
+    """AssignResources and ReleaseResources is executed."""
+    assign_json = json_factory("command_assign_resource_low")
+    release_json = json_factory("command_release_resource_low")
+    try:
+        telescope_control = BaseTelescopeControl()
+        tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
+
+        # Verify Telescope is Off/Standby
+        assert telescope_control.is_in_valid_state(
+            DEVICE_STATE_STANDBY_INFO, "State"
+        )
+
+        # Invoke TelescopeOn() command on TMC
+        tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
+        LOGGER.info("TelescopeOn command is invoked successfully")
+
+        # Verify State transitions after TelescopeOn#
+        assert telescope_control.is_in_valid_state(
+            DEVICE_STATE_ON_INFO, "State"
+        )
+
+        the_waiter = Waiter()
+        # Invoke AssignResources() Command on TMC
+        LOGGER.info("Invoking AssignResources command on TMC CentralNode")
+        sdp_subarray = DeviceProxy(sdp_subarray1)
+        central_node = DeviceProxy(centralnode)
+        central_node.subscribe_event(
+            "longRunningCommandResult",
+            EventType.CHANGE_EVENT,
+            change_event_callbacks["longRunningCommandResult"],
+        )
+        sdp_subarray.SetDefective(json.dumps(INTERMEDIATE_STATE_DEFECT))
+
+        # Added this check to ensure that devices are running to avoid
+        # random test failures.
+        Resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
+        Resource(tmc_subarraynode1).assert_attribute("obsState").equals(
+            "EMPTY"
+        )
+        the_waiter.set_wait_for_specific_obsstate(
+            "RESOURCING", [tmc_subarraynode1]
+        )
+        the_waiter.set_wait_for_specific_obsstate("IDLE", [csp_subarray1])
+        _, unique_id = central_node.AssignResources(assign_json)
+        the_waiter.wait(30)
+
+        sdp_subarray.SetDefective(json.dumps({"enabled": False}))
+
+        assertion_data = change_event_callbacks[
+            "longRunningCommandResult"
+        ].assert_change_event(
+            (unique_id[0], Anything),
+            lookahead=7,
+        )
+        assert "AssignResources" in assertion_data["attribute_value"][0]
+        assert (
+            "Timeout has occured, command failed"
+            in assertion_data["attribute_value"][1]
+        )
+        assert (
+            tmc_sdp_subarray_leaf_node in assertion_data["attribute_value"][1]
+        )
+
+        assert Resource(csp_subarray1).get("obsState") == "IDLE"
+
+        assert Resource(sdp_subarray1).get("obsState") == "RESOURCING"
+        subarray_node = DeviceProxy(tmc_subarraynode1)
+        subarray_node.Abort()
+
+        # Verify ObsState is Aborted
+        the_waiter = Waiter()
+        the_waiter.set_wait_for_specific_obsstate(
+            "ABORTED", [tmc_subarraynode1]
+        )
+        the_waiter.wait(200)
+
+        # Verify State transitions after Abort#
+        assert telescope_control.is_in_valid_state(
+            DEVICE_OBS_STATE_ABORT_IN_EMPTY_CSP, "obsState"
+        )
+
+        # Invoke Restart() command on TMC#
+
+        subarray_node.Restart()
+
+        the_waiter = Waiter()
+        the_waiter.set_wait_for_specific_obsstate("EMPTY", [tmc_subarraynode1])
+        the_waiter.wait(200)
+
+        # Verify ObsState is EMPTY#
+        assert telescope_control.is_in_valid_state(
+            DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
+        )
+
+        # Invoke TelescopeStandby() command on TMC#
+        tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
+
+        # Verify State transitions after TelescopeStandby#
+        assert telescope_control.is_in_valid_state(
+            DEVICE_STATE_STANDBY_INFO, "State"
+        )
+
+        LOGGER.info("Test complete.")
+
+    except Exception as e:
+        LOGGER.info(f"Exception occurred {e}")
+        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
