@@ -131,7 +131,7 @@ def test_recover_subarray_stuck_in_resourcing_low(
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-@pytest.mark.SKA_low1
+@pytest.mark.SKA_low
 def test_recover_subarray_stuck_in_resourcing_with_sdpempty_with_abort(
     json_factory, change_event_callbacks
 ):
@@ -248,7 +248,7 @@ def test_recover_subarray_stuck_in_resourcing_with_sdpempty_with_abort(
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-@pytest.mark.SKA_low1
+@pytest.mark.SKA_low
 def test_recover_subarray_stuck_in_resourcing_with_cspempty_with_abort(
     json_factory, change_event_callbacks
 ):
