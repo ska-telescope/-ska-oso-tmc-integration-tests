@@ -11,33 +11,11 @@ from tests.resources.test_harness.helpers import (
 @pytest.mark.SKA_mid
 @scenario(
     "../features/telescope_health_state_aggregation.feature",
-    "Verify TelescopeHealthState as Failed",
+    "Verify CentralNode TelescopeHealthState",
 )
-def test_telescope_health_state_failed():
+def test_telescope_health_state():
     """
-    Test case to verify aggregation for telescopeHealthState.FAILED
-    """
-
-
-@pytest.mark.SKA_mid
-@scenario(
-    "../features/telescope_health_state_aggregation.feature",
-    "Verify TelescopeHealthState as Degraded",
-)
-def test_telescope_health_state_degraded():
-    """
-    Test case to verify aggregation for telescopeHealthState.DEGRADED
-    """
-
-
-@pytest.mark.SKA_mid
-@scenario(
-    "../features/telescope_health_state_aggregation.feature",
-    "Verify TelescopeHealthState as Unknown",
-)
-def test_telescope_health_state_unknown():
-    """
-    Test case to verify aggregation for telescopeHealthState.UNKNOWN
+    Test case to verify aggregation for CentralNode.telescopeHealthState
     """
 
 
