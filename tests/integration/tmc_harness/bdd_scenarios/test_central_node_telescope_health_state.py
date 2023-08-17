@@ -98,7 +98,8 @@ def check_telescope_health_state(
         central_node.central_node,
         "telescopeHealthState",
         HealthState[telescope_health_state],
-    ), f"Expected telescopeHealthState to be {HealthState[telescope_health_state]}"
+    ), f"Expected telescopeHealthState to be \
+        {HealthState[telescope_health_state]}"
 
 
 def set_simulators_health_state_as_ok(
