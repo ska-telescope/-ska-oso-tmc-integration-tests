@@ -5,7 +5,7 @@ legacy_compatibility: true
 
 global:
   labels:
-      app: ska-tmc-integration
+    app: ska-tmc-integration
   retry: 
   - "--sleep=1"
   - "--tries=100"
