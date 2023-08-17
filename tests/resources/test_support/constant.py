@@ -96,6 +96,22 @@ DEVICE_OBS_STATE_ABORT_INFO = {
     csp_subarray1: ["ABORTED"],
 }
 
+
+DEVICE_OBS_STATE_ABORT_IN_EMPTY = {
+    sdp_subarray1: ["ABORTED"],
+    tmc_subarraynode1: ["ABORTED"],
+}
+
+DEVICE_OBS_STATE_ABORT_IN_EMPTY_SDP = {
+    csp_subarray1: ["ABORTED"],
+    tmc_subarraynode1: ["ABORTED"],
+}
+
+DEVICE_OBS_STATE_ABORT_IN_EMPTY_CSP = {
+    sdp_subarray1: ["ABORTED"],
+    tmc_subarraynode1: ["ABORTED"],
+}
+
 DEVICE_LIST_FOR_CHECK_DEVICES = [
     centralnode,
     csp_subarray1,

@@ -282,7 +282,6 @@ code-coverage
 pytest-logs.txt
 kubeconfig
 KUBECONFIG
-.make/
 
 # Ignore legacy dependency and release systems
 setup.py

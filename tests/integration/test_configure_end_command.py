@@ -323,14 +323,11 @@ def test_configure_error_propagation_sdp(json_factory, change_event_callbacks):
         assert (
             tmc_sdp_subarray_leaf_node in assertion_data["attribute_value"][1]
         )
-
         change_event_callbacks["longRunningCommandResult"].assert_change_event(
             (unique_id[0], str(ResultCode.FAILED.value)),
             lookahead=4,
         )
-
         sdp_subarray.SetDefective(json.dumps({"enabled": False}))
-
         tear_down(
             release_json, raise_exception=False, **ON_OFF_DEVICE_COMMAND_DICT
         )
