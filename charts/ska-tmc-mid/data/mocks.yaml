@@ -5,7 +5,7 @@ instances: ["01"]
 entrypoints:
   - name: "ska_tmc_common.test_helpers.helper_base_device.HelperBaseDevice"
   - name: "ska_tmc_common.test_helpers.helper_dish_device.HelperDishDevice"
-  - name: "ska_tmc_common.test_helpers.helper_subarray_device.HelperSubArrayDevice"
+  - name: "ska_tmc_common.test_helpers.helper_csp_subarray.HelperCspSubarray"
   - name: "ska_tmc_common.test_helpers.helper_csp_master_device.HelperCspMasterDevice"
   - name: "ska_tmc_common.test_helpers.helper_sdp_subarray.HelperSdpSubarray"
 server:
@@ -19,7 +19,7 @@ server:
         - name: "HelperCspMasterDevice"
           devices:
           - name: "mid-csp/control/0"
-        - name: "HelperSubArrayDevice"
+        - name: "HelperCspSubarray"
           devices:
           - name: "mid-csp/subarray/01"
           - name: "mid-csp/subarray/02"
@@ -36,7 +36,7 @@ server:
 depends_on:
   - device: sys/database/2
 image:
-  registry: "{{.Values.centralnode.image.registry}}"
-  image: "{{.Values.centralnode.image.image}}"
-  tag: "{{.Values.centralnode.image.tag}}"
-  pullPolicy: "{{.Values.centralnode.image.pullPolicy}}"
+  registry: "{{.Values.cspsubarrayleafnode.image.registry}}"
+  image: "{{.Values.cspsubarrayleafnode.image.image}}"
+  tag: "{{.Values.cspsubarrayleafnode.image.tag}}"
+  pullPolicy: "{{.Values.cspsubarrayleafnode.image.pullPolicy}}"
