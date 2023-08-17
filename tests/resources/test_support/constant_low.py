@@ -120,3 +120,13 @@ COMMAND_NOT_ALLOWED_DEFECT = {
     "error_message": "Exception to test exception propagation",
     "result": ResultCode.FAILED,
 }
+
+DEVICE_OBS_STATE_ABORT_IN_EMPTY_SDP = {
+    csp_subarray1: ["ABORTED"],
+    tmc_subarraynode1: ["ABORTED"],
+}
+
+DEVICE_OBS_STATE_ABORT_IN_EMPTY_CSP = {
+    sdp_subarray1: ["ABORTED"],
+    tmc_subarraynode1: ["ABORTED"],
+}
