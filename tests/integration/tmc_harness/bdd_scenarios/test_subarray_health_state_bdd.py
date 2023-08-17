@@ -29,7 +29,7 @@ def test_subarray_health_state_with_csp_and_sdp():
     "../features/test_harness/subarray_health_state.feature",
     "Subarray Health State Changes based on Simulator Device Health State",
 )
-def test_subarray_health_state_with_dish():
+def test_subarray_health_state_with_dish(subarray_node):
     """
     Test Subarray Health is Failed or degraded when dish master device is
     failed and degraded
