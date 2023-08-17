@@ -102,7 +102,7 @@ def get_master_device_simulators(simulator_factory):
 def get_device_simulator_with_given_name(simulator_factory, devices):
     """Get Device type based on device name and return device proxy
     Args:
-        devices (_type_): _description_
+        devices (list): simulator devices list
     """
     device_name_type_dict = {
         "csp subarray": SimulatorDeviceType.CSP_DEVICE,
@@ -110,23 +110,23 @@ def get_device_simulator_with_given_name(simulator_factory, devices):
         "csp master": SimulatorDeviceType.CSP_MASTER_DEVICE,
         "sdp master": SimulatorDeviceType.SDP_MASTER_DEVICE,
     }
-    device_proxy_list = []
+    sim_device_proxy_list = []
     for device_name in devices:
         if device_name in device_name_type_dict:
             sim_device_type = device_name_type_dict[device_name]
-            device_proxy_list.append(
+            sim_device_proxy_list.append(
                 simulator_factory.get_or_create_simulator_device(
                     sim_device_type
                 )
             )
         elif device_name.startswith("dish"):
             sim_number = device_name.split()[-1]
-            device_proxy_list.append(
+            sim_device_proxy_list.append(
                 simulator_factory.get_or_create_simulator_device(
                     SimulatorDeviceType.DISH_DEVICE, sim_number=int(sim_number)
                 )
             )
-    return device_proxy_list
+    return sim_device_proxy_list
 
 
 def prepare_json_args_for_commands(
