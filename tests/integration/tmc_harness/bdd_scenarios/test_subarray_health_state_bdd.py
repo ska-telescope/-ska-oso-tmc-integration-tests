@@ -38,7 +38,10 @@ def test_subarray_health_state_with_dish():
 
 @given("csp subarray, sdp subarray and dish masters health state is OK")
 def given_simulator_device_health_state_is_ok(simulator_factory):
-    """ """
+    """Set Simulator Health State to OK
+    Args:
+        simulator_factory: Simulator Factory Fixture object
+    """
     (
         csp_sa_sim,
         sdp_sa_sim,
@@ -54,7 +57,10 @@ def given_simulator_device_health_state_is_ok(simulator_factory):
 
 @given("csp subarray, sdp subarray health state is OK")
 def given_csp_sdp_device_health_state_is_ok(simulator_factory):
-    """ """
+    """Set CSP and SDP device health state to OK
+    Args:
+        simulator_factory: Simulator Factory Fixture object
+    """
     (
         csp_sa_sim,
         sdp_sa_sim,
@@ -70,7 +76,13 @@ def given_csp_sdp_device_health_state_is_ok(simulator_factory):
 def assign_dishes_to_subarray(
     subarray_node, event_recorder, command_input_factory, simulator_factory
 ):
-    """Assign Dishes to Subarray"""
+    """Assign Dishes to TMC Subarray Device
+    Args:
+        subarray_node: Subarray Node Fixture object
+        event_recorder: Event Recorder class object
+        command_input_factory: Command Input Factory class object
+        simulator_factory: Simulator Factory Fixture object
+    """
     subarray_node.move_to_on()
     subarray_node.force_change_of_obs_state("EMPTY")
     input_json = prepare_json_args_for_commands(
@@ -97,7 +109,12 @@ def assign_dishes_to_subarray(
     )
 )
 def set_devices_health_state(simulator_factory, Devices, Device_Health_State):
-    """Set Devices health state as per provided argument"""
+    """Set Devices health state as per provided argument
+    Args:
+        simulator_factory: Simulator Factory Fixture object
+        Devices: List of Device name to set health state
+        Device_Health_State: List of Device Health Set
+    """
     # Get simulator device objects
     devices = Devices.split(",")
     device_simulator_list = get_device_simulator_with_given_name(
@@ -116,9 +133,14 @@ def set_devices_health_state(simulator_factory, Devices, Device_Health_State):
 def validate_expected_subarray_health_state(
     subarray_node, event_recorder, Subarray_Health_State
 ):
-    """Validate Expected Health state for Subarray Node"""
+    """Validate Expected Health state for Subarray Node
+    Args:
+        subarray_node: Subarray Node Fixture object
+        event_recorder: Event Recorder class object
+        Subarray_Health_State: Expected Subarray Health state
+    """
     event_recorder.subscribe_event(subarray_node.subarray_node, "healthState")
-    # Subarray node react automatically
+
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "healthState",
