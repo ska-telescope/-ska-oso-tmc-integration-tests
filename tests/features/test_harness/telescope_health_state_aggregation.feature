@@ -13,7 +13,8 @@ Scenario Outline: Verify CentralNode TelescopeHealthState
         | csp master,dish master 1      | FAILED,FAILED              |   FAILED               |
         | csp master,dish master 2      | FAILED,FAILED              |   FAILED               |
         | sdp master,dish master 1      | FAILED,FAILED              |   FAILED               |  
-        | sdp master,dish master 2      | FAILED,FAILED              |   FAILED               |  
+        | sdp master,dish master 2      | FAILED,FAILED              |   FAILED               |
+
         | csp master                    | DEGRADED                   |   DEGRADED             |  
         | sdp master                    | DEGRADED                   |   DEGRADED             |
         | csp master,sdp master         | DEGRADED,DEGRADED          |   DEGRADED             |
@@ -23,7 +24,8 @@ Scenario Outline: Verify CentralNode TelescopeHealthState
         | csp master,dish master 1      | DEGRADED,DEGRADED          |   DEGRADED             |
         | csp master,dish master 2      | DEGRADED,DEGRADED          |   DEGRADED             |
         | sdp master,dish master 1      | DEGRADED,DEGRADED          |   DEGRADED             |  
-        | sdp master,dish master 2      | DEGRADED,DEGRADED          |   DEGRADED             |  
+        | sdp master,dish master 2      | DEGRADED,DEGRADED          |   DEGRADED             | 
+         
         | csp master                    | UNKNOWN                    |   UNKNOWN              |  
         | sdp master                    | UNKNOWN                    |   UNKNOWN              |
         | csp master,sdp master         | UNKNOWN,UNKNOWN            |   UNKNOWN              |
