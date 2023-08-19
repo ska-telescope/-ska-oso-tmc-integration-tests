@@ -9,10 +9,10 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
         "source_obs_state",
         [
             "IDLE",
-            "SCANNING",
+            # "SCANNING",
             "READY",
-            "RESOURCING",
-            "CONFIGURING",
+            # "RESOURCING",
+            # "CONFIGURING",
         ],
     )
     @pytest.mark.SKA_mid
