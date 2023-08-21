@@ -1,4 +1,5 @@
 import logging
+import json
 
 from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
@@ -205,6 +206,7 @@ class SubarrayNode(object):
             device = DeviceProxy(sim_device_fqdn)
             device.ResetDelay()
             device.SetDirectHealthState(HealthState.UNKNOWN)
+            device.SetDefective(json.dumps({"enabled": False}))
 
     def _reset_dishes(self):
         """Reset Dish Devices"""

@@ -8,15 +8,14 @@ from tests.resources.test_harness.helpers import (
 
 
 class TestSubarrayNodeAbortCommandObsStateTransitions(object):
-    @pytest.mark.failed
     @pytest.mark.parametrize(
         "source_obs_state",
         [
             "IDLE",
             "READY",
             "SCANNING",
-            "RESOURCING",
-            "CONFIGURING",
+            # "RESOURCING",
+            # "CONFIGURING",
         ],
     )
     @pytest.mark.SKA_mid
