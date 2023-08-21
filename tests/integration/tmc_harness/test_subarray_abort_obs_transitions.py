@@ -1,18 +1,22 @@
 import pytest
 from ska_tango_base.control_model import ObsState
 
-from tests.resources.test_harness.helpers import get_device_simulators
+from tests.resources.test_harness.helpers import (
+    check_subarray_obs_state,
+    get_device_simulators,
+)
 
 
 class TestSubarrayNodeAbortCommandObsStateTransitions(object):
+    @pytest.mark.failed
     @pytest.mark.parametrize(
         "source_obs_state",
         [
             "IDLE",
-            # "SCANNING",
+            "SCANNING",
             "READY",
-            # "RESOURCING",
-            # "CONFIGURING",
+            "RESOURCING",
+            "CONFIGURING",
         ],
     )
     @pytest.mark.SKA_mid
@@ -48,6 +52,7 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
         assert event_recorder.has_change_event_occurred(
             subarray_node.subarray_node, "obsState", ObsState.ABORTING
         )
-        assert event_recorder.has_change_event_occurred(
-            subarray_node.subarray_node, "obsState", ObsState.ABORTED
-        )
+        assert check_subarray_obs_state(obs_state="ABORTED")
+        # assert event_recorder.has_change_event_occurred(
+        #     subarray_node.subarray_node, "obsState", ObsState.ABORTED
+        # )
