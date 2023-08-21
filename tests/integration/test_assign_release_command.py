@@ -171,7 +171,7 @@ def test_assign_release_timeout_csp(json_factory, change_event_callbacks):
         )
 
         csp_subarray = DeviceProxy(csp_subarray1)
-        csp_subarray.SetDefective(json.dumps(INTERMEDIATE_STATE_DEFECT))
+        csp_subarray.SetDefective(True)
 
         device_params = deepcopy(ON_OFF_DEVICE_COMMAND_DICT)
         device_params["set_wait_for_obsstate"] = False
@@ -198,7 +198,7 @@ def test_assign_release_timeout_csp(json_factory, change_event_callbacks):
             + "Timeout has occured, command failed\n"
         )
         assert exception_message in assertion_data["attribute_value"][1]
-        csp_subarray.SetDefective(json.dumps({"enabled": False}))
+        csp_subarray.SetDefective(False)
 
         # Do not raise exception
         tear_down(
