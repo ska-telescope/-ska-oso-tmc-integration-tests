@@ -26,6 +26,7 @@ from tests.resources.test_support.constant import (
     DEVICE_OBS_STATE_READY_INFO,
     DEVICE_STATE_ON_INFO,
     DEVICE_STATE_STANDBY_INFO,
+    INTERMEDIATE_STATE_DEFECT,
     ON_OFF_DEVICE_COMMAND_DICT,
     centralnode,
     csp_subarray1,
@@ -162,7 +163,7 @@ def test_abort_in_resourcing(json_factory):
         )
 
         csp_subarray_proxy = DeviceProxy(csp_subarray1)
-        csp_subarray_proxy.SetDefective(True)
+        csp_subarray_proxy.SetDefective(json.dumps(INTERMEDIATE_STATE_DEFECT))
 
         # Invoke AssignResources() Command on TMC
         Resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
@@ -180,7 +181,7 @@ def test_abort_in_resourcing(json_factory):
         the_waiter.wait(20)
 
         # Setting CSP back to normal
-        csp_subarray_proxy.SetDefective(False)
+        csp_subarray_proxy.SetDefective(json.dumps({"enabled": False}))
         time.sleep(0.1)
 
         # Invoke Abort() command on TMC
@@ -272,7 +273,7 @@ def test_abort_in_resourcing_different_resources(json_factory):
 
         # Setting CSP subarray as defective
         csp_subarray_proxy = DeviceProxy(csp_subarray1)
-        csp_subarray_proxy.SetDefective(True)
+        csp_subarray_proxy.SetDefective(json.dumps(INTERMEDIATE_STATE_DEFECT))
 
         # Invoke AssignResources() Command on TMC
         Resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
@@ -290,7 +291,7 @@ def test_abort_in_resourcing_different_resources(json_factory):
         the_waiter.wait(20)
 
         # Setting CSP back to normal
-        csp_subarray_proxy.SetDefective(False)
+        csp_subarray_proxy.SetDefective(json.dumps({"enabled": False}))
         time.sleep(0.1)
 
         # Invoke Abort() command on TMC
@@ -376,7 +377,7 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
 
         # Setting CSP subarray as defective
         csp_subarray_proxy = DeviceProxy(csp_subarray1)
-        csp_subarray_proxy.SetDefective(True)
+        csp_subarray_proxy.SetDefective(json.dumps(INTERMEDIATE_STATE_DEFECT))
 
         # Invoke AssignResources() Command on TMC
         Resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
@@ -394,7 +395,7 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
         the_waiter.wait(20)
 
         # Setting SDP and CSP back to normal
-        csp_subarray_proxy.SetDefective(False)
+        csp_subarray_proxy.SetDefective(json.dumps({"enabled": False}))
         time.sleep(0.1)
 
         # Invoke Abort() command on TMC
@@ -496,7 +497,7 @@ def test_abort_in_configuring(json_factory):
 
         # Setting CSP subarray as defective
         csp_subarray_proxy = DeviceProxy(csp_subarray1)
-        csp_subarray_proxy.SetDefective(True)
+        csp_subarray_proxy.SetDefective(json.dumps(INTERMEDIATE_STATE_DEFECT))
 
         # Invoke Configure() Command on TMC
         Resource(tmc_subarraynode1).assert_attribute("obsState").equals("IDLE")
@@ -515,7 +516,7 @@ def test_abort_in_configuring(json_factory):
         the_waiter.wait(200)
 
         # Setting CSP back to normal
-        csp_subarray_proxy.SetDefective(False)
+        csp_subarray_proxy.SetDefective(json.dumps({"enabled": False}))
         time.sleep(0.5)
 
         Resource(csp_subarray1).assert_attribute("defective").equals(False)
@@ -623,7 +624,7 @@ def test_abort_in_scanning(json_factory):
 
         # Setting CSP subarray as defective
         csp_subarray_proxy = DeviceProxy(csp_subarray1)
-        csp_subarray_proxy.SetDefective(True)
+        csp_subarray_proxy.SetDefective(json.dumps(INTERMEDIATE_STATE_DEFECT))
 
         # Invoke Scan() Command on TMC
         Resource(tmc_subarraynode1).assert_attribute("obsState").equals(
@@ -642,8 +643,7 @@ def test_abort_in_scanning(json_factory):
         the_waiter.wait(20)
 
         # Setting CSP back to normal
-        csp_subarray_proxy.SetDefective(False)
-        time.sleep(0.5)
+        csp_subarray_proxy.SetDefective(json.dumps({"enabled": False}))
 
         # Invoke Abort() command on TMC
         tmc_helper.invoke_abort(**ON_OFF_DEVICE_COMMAND_DICT)

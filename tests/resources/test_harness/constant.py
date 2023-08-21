@@ -1,6 +1,12 @@
 """Define Constants
 """
-from tests.resources.test_harness.utils.enums import SimulatorDeviceType
+from ska_control_model import ObsState
+
+from tests.resources.test_harness.utils.enums import (
+    FaultType,
+    ResultCode,
+    SimulatorDeviceType,
+)
 
 centralnode = "ska_mid/tm_central/central_node"
 tmc_subarraynode1 = "ska_mid/tm_subarray_node/1"
@@ -115,4 +121,12 @@ SIMULATOR_DEVICE_FQDN_DICT = {
     SimulatorDeviceType.DISH_DEVICE: [dish_master1, dish_master2],
     SimulatorDeviceType.SDP_MASTER_DEVICE: [sdp_master],
     SimulatorDeviceType.CSP_MASTER_DEVICE: [csp_master],
+}
+
+INTERMEDIATE_STATE_DEFECT = {
+    "enabled": True,
+    "fault_type": FaultType.STUCK_IN_INTERMEDIATE_STATE,
+    "error_message": "Device stuck in intermediate state",
+    "result": ResultCode.FAILED,
+    "intermediate_state": ObsState.RESOURCING,
 }
