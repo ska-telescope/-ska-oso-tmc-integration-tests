@@ -1,5 +1,7 @@
 """Implement negative scenario test cases for subarray
 """
+import json
+
 import pytest
 from ska_tango_base.control_model import ObsState
 
