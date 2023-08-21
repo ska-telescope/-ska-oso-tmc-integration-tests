@@ -8,7 +8,7 @@ from tests.resources.test_harness.helpers import (
 
 
 class TestSubarrayNodeAbortCommandObsStateTransitions(object):
-    @pytest.mark.failed
+    # @pytest.mark.skip
     @pytest.mark.parametrize(
         "source_obs_state",
         [

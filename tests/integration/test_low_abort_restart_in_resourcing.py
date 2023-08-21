@@ -59,7 +59,7 @@ def test_low_abort_restart_in_resourcing(json_factory):
 
         # Setting CSP to defective
         csp_subarray_proxy = DeviceProxy(csp_subarray1)
-        csp_subarray_proxy.SetDefective(True)
+        csp_subarray_proxy.SetDefective(json.dumps(INTERMEDIATE_STATE_DEFECT))
 
         # Invoke AssignResources() Command on TMC#
         LOGGER.info("Invoking AssignResources command on TMC CentralNode")
@@ -79,7 +79,7 @@ def test_low_abort_restart_in_resourcing(json_factory):
         )
 
         # Setting CSP back to normal
-        csp_subarray_proxy.SetDefective(False)
+        csp_subarray_proxy.SetDefective(json.dumps({"enabled": False}))
 
         # Invoke Abort() command on TMC#
         tmc_helper.invoke_abort(**ON_OFF_DEVICE_COMMAND_DICT)

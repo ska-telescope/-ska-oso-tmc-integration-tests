@@ -38,7 +38,7 @@ class TestSubarrayNodeNegative(object):
         subarray_node.force_change_of_obs_state("EMPTY")
 
         # Set csp defective and execute configure command
-        csp_sim.SetDefective(True)
+        csp_sim.SetDefective(json.dumps(INTERMEDIATE_STATE_DEFECT))
 
         _, unique_id = subarray_node.execute_transition(
             "AssignResources", argin=input_json
