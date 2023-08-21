@@ -13,8 +13,10 @@ class ObsStateResetter(object):
         self.device = device
 
         self.json_factory = JsonFactory()
-        self.assign_input = self.json_factory.create_assign_resource(
-            "assign_resources_mid"
+        self.assign_input = (
+            self.json_factory.create_assign_resources_configuration(
+                "assign_resources_mid"
+            )
         )
         self.configure_input = self.json_factory.create_subarray_configuration(
             "configure_mid"
@@ -143,6 +145,6 @@ class ObsStateResetterFactory:
         "SCANNING": ScanningObsStateResetter,
     }
 
-    def create_state_resetter(self, state_name: str, device: Any):
-        state_resetter = self.table[state_name](state_name, device)
-        return state_resetter
+    def create_obs_state_resetter(self, state_name: str, device: Any):
+        obs_state_resetter = self.table[state_name](state_name, device)
+        return obs_state_resetter

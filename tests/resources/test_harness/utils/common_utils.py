@@ -28,7 +28,8 @@ class JsonFactory(object):
     """Implement methods required for getting json"""
 
     def create_subarray_configuration(self, json_type):
-        """Read and return configuration json file from tests/data folder
+        """Read and return configuration json file from
+            tests/data/subarray folder
         Args:
             json_type (str): Base name of file which is stored in data folder
         Return:
@@ -36,8 +37,9 @@ class JsonFactory(object):
         """
         return get_subarray_input_json(json_type)
 
-    def create_assign_resource(self, json_type):
-        """Read and return configuration json file from tests/data folder
+    def create_assign_resources_configuration(self, json_type):
+        """Read and return configuration json file from
+            tests/data/subarray folder
         Args:
             json_type (str): Base name of file which is stored in data folder
         Return:
