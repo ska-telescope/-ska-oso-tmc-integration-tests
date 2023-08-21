@@ -270,8 +270,8 @@ class SubarrayNode(object):
             dest_state_name (str): Destination obsState
         """
         factory_obj = ObsStateResetterFactory()
-        state_resetter = factory_obj.create_state_resetter(
+        obs_state_resetter = factory_obj.create_obs_state_resetter(
             dest_state_name, self
         )
-        state_resetter.reset()
+        obs_state_resetter.reset()
         self._clear_command_call_and_transition_data()
