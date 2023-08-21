@@ -13,8 +13,8 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
         "source_obs_state",
         [
             "IDLE",
-            "SCANNING",
             "READY",
+            "SCANNING",
             "RESOURCING",
             "CONFIGURING",
         ],
