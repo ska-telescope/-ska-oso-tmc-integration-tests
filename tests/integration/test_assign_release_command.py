@@ -328,7 +328,7 @@ def test_release_resources_error_propagation(
         )
 
         csp_subarray = DeviceProxy(csp_subarray1)
-        csp_subarray.SetDefective(json.dumps(INTERMEDIATE_STATE_DEFECT))
+        csp_subarray.SetDefective(True)
 
         exception_message = (
             f"Exception occurred on device: {tmc_subarraynode1}: "
@@ -355,7 +355,7 @@ def test_release_resources_error_propagation(
             lookahead=4,
         )
 
-        csp_subarray.SetDefective(json.dumps({"enabled": False}))
+        csp_subarray.SetDefective(False)
 
         # Emulating Csp Subarray going back to IDLE state after command failure
         csp_subarray.SetDirectObsState(2)
