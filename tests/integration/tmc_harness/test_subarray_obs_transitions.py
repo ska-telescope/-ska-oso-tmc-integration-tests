@@ -36,7 +36,8 @@ class TestSubarrayNodeObsStateTransitions(object):
         assuming that external subsystems work fine.
         Glossary:
         - "subarray_node": fixture for a TMC SubarrayNode under test
-        - "simulator_factory": fixture for SimulatorFactory class
+        - "simulator_factory": fixture for SimulatorFactory class,
+        which provides simulated subarray and master devices
         - "source_obs_state": a TMC SubarrayNode initial allowed obsState,
            required for triggered a command
         - "trigger": a command name

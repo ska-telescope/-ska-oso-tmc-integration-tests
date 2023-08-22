@@ -53,7 +53,8 @@ def get_device_simulators(simulator_factory):
     """A method to get simulators for Subsystem devices
 
     Args:
-        simulator_factory (fixture): fixture for SimulatorFactory class
+        simulator_factory (fixture): fixture for SimulatorFactory class,
+        which provides simulated subarray and master devices
 
     Returns:
         simulator(sim) objects
@@ -77,7 +78,8 @@ def get_master_device_simulators(simulator_factory):
     """A method to get simulators for Subsystem master devices
 
     Args:
-        simulator_factory (fixture): fixture for SimulatorFactory class
+        simulator_factory (fixture): fixture for SimulatorFactory class,
+        which provides simulated subarray and master devices
 
     Returns:
         simulator(sim) objects

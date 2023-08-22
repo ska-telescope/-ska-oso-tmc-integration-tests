@@ -22,14 +22,14 @@ class TestSubarrayHealthState(object):
         (
             csp_sa_sim,
             sdp_sa_sim,
-            dish_master_1,
-            dish_master_2,
+            dish_master_sim_1,
+            dish_master_sim_2,
         ) = get_device_simulators(simulator_factory)
 
         csp_sa_sim.SetDirectHealthState(HealthState.OK)
         sdp_sa_sim.SetDirectHealthState(HealthState.OK)
-        dish_master_1.SetDirectHealthState(HealthState.OK)
-        dish_master_2.SetDirectHealthState(HealthState.OK)
+        dish_master_sim_1.SetDirectHealthState(HealthState.OK)
+        dish_master_sim_2.SetDirectHealthState(HealthState.OK)
 
         event_recorder.subscribe_event(
             subarray_node.subarray_node, "healthState"
@@ -80,14 +80,14 @@ class TestSubarrayHealthState(object):
         (
             csp_sa_sim,
             sdp_sa_sim,
-            dish_master_1,
-            dish_master_2,
+            dish_master_sim_1,
+            dish_master_sim_2,
         ) = get_device_simulators(simulator_factory)
 
         csp_sa_sim.SetDirectHealthState(csp_subarray_health_state)
         sdp_sa_sim.SetDirectHealthState(sdp_subarray_health_state)
-        dish_master_1.SetDirectHealthState(dish_master1_health_state)
-        dish_master_2.SetDirectHealthState(dish_master2_health_state)
+        dish_master_sim_1.SetDirectHealthState(dish_master1_health_state)
+        dish_master_sim_2.SetDirectHealthState(dish_master2_health_state)
 
         event_recorder.subscribe_event(
             subarray_node.subarray_node, "healthState"
@@ -138,14 +138,14 @@ class TestSubarrayHealthState(object):
         (
             csp_sa_sim,
             sdp_sa_sim,
-            dish_master_1,
-            dish_master_2,
+            dish_master_sim_1,
+            dish_master_sim_2,
         ) = get_device_simulators(simulator_factory)
 
         csp_sa_sim.SetDirectHealthState(csp_subarray_health_state)
         sdp_sa_sim.SetDirectHealthState(sdp_subarray_health_state)
-        dish_master_1.SetDirectHealthState(dish_master1_health_state)
-        dish_master_2.SetDirectHealthState(dish_master2_health_state)
+        dish_master_sim_1.SetDirectHealthState(dish_master1_health_state)
+        dish_master_sim_2.SetDirectHealthState(dish_master2_health_state)
 
         event_recorder.subscribe_event(
             subarray_node.subarray_node, "healthState"
@@ -196,14 +196,14 @@ class TestSubarrayHealthState(object):
         (
             csp_sa_sim,
             sdp_sa_sim,
-            dish_master_1,
-            dish_master_2,
+            dish_master_sim_1,
+            dish_master_sim_2,
         ) = get_device_simulators(simulator_factory)
 
         csp_sa_sim.SetDirectHealthState(csp_subarray_health_state)
         sdp_sa_sim.SetDirectHealthState(sdp_subarray_health_state)
-        dish_master_1.SetDirectHealthState(dish_master1_health_state)
-        dish_master_2.SetDirectHealthState(dish_master2_health_state)
+        dish_master_sim_1.SetDirectHealthState(dish_master1_health_state)
+        dish_master_sim_2.SetDirectHealthState(dish_master2_health_state)
 
         event_recorder.subscribe_event(
             subarray_node.subarray_node, "healthState"
@@ -249,8 +249,8 @@ class TestSubarrayHealthState(object):
         (
             csp_sa_sim,
             sdp_sa_sim,
-            dish_master_1,
-            dish_master_2,
+            dish_master_sim_1,
+            dish_master_sim_2,
         ) = get_device_simulators(simulator_factory)
 
         self._assign_dishes_to_subarray(
@@ -259,8 +259,8 @@ class TestSubarrayHealthState(object):
 
         csp_sa_sim.SetDirectHealthState(csp_subarray_health_state)
         sdp_sa_sim.SetDirectHealthState(sdp_subarray_health_state)
-        dish_master_1.SetDirectHealthState(dish_master1_health_state)
-        dish_master_2.SetDirectHealthState(dish_master2_health_state)
+        dish_master_sim_1.SetDirectHealthState(dish_master1_health_state)
+        dish_master_sim_2.SetDirectHealthState(dish_master2_health_state)
 
         event_recorder.subscribe_event(
             subarray_node.subarray_node, "healthState"
@@ -318,8 +318,8 @@ class TestSubarrayHealthState(object):
         (
             csp_sa_sim,
             sdp_sa_sim,
-            dish_master_1,
-            dish_master_2,
+            dish_master_sim_1,
+            dish_master_sim_2,
         ) = get_device_simulators(simulator_factory)
 
         self._assign_dishes_to_subarray(
@@ -328,8 +328,8 @@ class TestSubarrayHealthState(object):
 
         csp_sa_sim.SetDirectHealthState(csp_subarray_health_state)
         sdp_sa_sim.SetDirectHealthState(sdp_subarray_health_state)
-        dish_master_1.SetDirectHealthState(dish_master1_health_state)
-        dish_master_2.SetDirectHealthState(dish_master2_health_state)
+        dish_master_sim_1.SetDirectHealthState(dish_master1_health_state)
+        dish_master_sim_2.SetDirectHealthState(dish_master2_health_state)
 
         event_recorder.subscribe_event(
             subarray_node.subarray_node, "healthState"
@@ -399,8 +399,8 @@ class TestSubarrayHealthState(object):
         (
             csp_sa_sim,
             sdp_sa_sim,
-            dish_master_1,
-            dish_master_2,
+            dish_master_sim_1,
+            dish_master_sim_2,
         ) = get_device_simulators(simulator_factory)
 
         self._assign_dishes_to_subarray(
@@ -409,8 +409,8 @@ class TestSubarrayHealthState(object):
 
         csp_sa_sim.SetDirectHealthState(csp_subarray_health_state)
         sdp_sa_sim.SetDirectHealthState(sdp_subarray_health_state)
-        dish_master_1.SetDirectHealthState(dish_master1_health_state)
-        dish_master_2.SetDirectHealthState(dish_master2_health_state)
+        dish_master_sim_1.SetDirectHealthState(dish_master1_health_state)
+        dish_master_sim_2.SetDirectHealthState(dish_master2_health_state)
 
         event_recorder.subscribe_event(
             subarray_node.subarray_node, "healthState"
