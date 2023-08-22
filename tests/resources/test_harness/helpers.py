@@ -1,5 +1,7 @@
 from typing import Any
 
+from ska_tango_base.control_model import HealthState
+
 from tests.conftest import LOGGER
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
@@ -198,3 +200,20 @@ def get_recorded_commands(device: Any):
         recorded data from Simulator device
     """
     return device.read_attribute("commandCallInfo").value
+
+
+def set_desired_health_state(
+    sim_devices_list: list, health_state_value: HealthState
+):
+    """A method to set simulator devices healthState attribute
+
+    Args:
+        sim_devices_list: simulator devices list
+        health_state_value: desired healthState value to set
+    """
+
+    for device in sim_devices_list:
+        device.SetDirectHealthState(health_state_value)
+        device.SetDirectHealthState(health_state_value)
+        device.SetDirectHealthState(health_state_value)
+        device.SetDirectHealthState(health_state_value)

@@ -8,6 +8,7 @@ from tests.resources.test_harness.helpers import (
     get_device_simulator_with_given_name,
     get_device_simulators,
     prepare_json_args_for_commands,
+    set_desired_health_state,
 )
 
 
@@ -49,10 +50,15 @@ def given_simulator_device_health_state_is_ok(simulator_factory):
         dish_master_sim_2,
     ) = get_device_simulators(simulator_factory)
 
-    csp_sa_sim.SetDirectHealthState(HealthState.OK)
-    sdp_sa_sim.SetDirectHealthState(HealthState.OK)
-    dish_master_sim_1.SetDirectHealthState(HealthState.OK)
-    dish_master_sim_2.SetDirectHealthState(HealthState.OK)
+    set_desired_health_state(
+        sim_devices_list=[
+            csp_sa_sim,
+            sdp_sa_sim,
+            dish_master_sim_1,
+            dish_master_sim_2,
+        ],
+        health_state_value=HealthState.OK,
+    )
 
 
 @given("csp subarray, sdp subarray health state is OK")
@@ -68,8 +74,10 @@ def given_csp_sdp_device_health_state_is_ok(simulator_factory):
         _,
     ) = get_device_simulators(simulator_factory)
 
-    csp_sa_sim.SetDirectHealthState(HealthState.OK)
-    sdp_sa_sim.SetDirectHealthState(HealthState.OK)
+    set_desired_health_state(
+        sim_devices_list=[csp_sa_sim, sdp_sa_sim],
+        health_state_value=HealthState.OK,
+    )
 
 
 @given("Dishes are assigned to Subarray with Health State as OK")
@@ -99,8 +107,10 @@ def assign_dishes_to_subarray(
     _, _, dish_master_sim_1, dish_master_sim_2 = get_device_simulators(
         simulator_factory
     )
-    dish_master_sim_1.SetDirectHealthState(HealthState.OK)
-    dish_master_sim_2.SetDirectHealthState(HealthState.OK)
+    set_desired_health_state(
+        sim_devices_list=[dish_master_sim_1, dish_master_sim_2],
+        health_state_value=HealthState.OK,
+    )
 
 
 @when(
