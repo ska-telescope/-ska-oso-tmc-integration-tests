@@ -23,7 +23,6 @@ stages:
   - build
   - test
   - integration
-  - staging
   - publish
   - pages
   - scan
@@ -49,8 +48,8 @@ include:
   # integration and staging
 - project: "ska-telescope/templates-repository"
   file: "gitlab-ci/includes/deploy.integration.gitlab-ci.yml"
-- project: "ska-telescope/templates-repository"
-  file: "gitlab-ci/includes/deploy.staging.gitlab-ci.yml"
+# - project: "ska-telescope/templates-repository"
+#   file: "gitlab-ci/includes/deploy.staging.gitlab-ci.yml"
 
 
 # Create Gitlab CI badges from CI metrics
@@ -103,3 +102,56 @@ stop-k8s-test-low:
     - make k8s-uninstall-chart
     - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all
     - make k8s-delete-namespace
+
+#integration
+deploy-integration-mid:
+  variables:
+    SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA"
+  script:
+    - make k8s-install-chart 
+    - make k8s-wait
+
+  rules:
+  - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295" '
+
+redeploy-integration:
+  variables:
+    SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA"
+  script:
+    - make k8s-uninstall-chart
+    - make k8s-delete-namespace
+    - make k8s-install-chart 
+    - make k8s-wait
+  rules:
+  - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-293"'
+
+deploy-integration-low:
+  extends:
+    - deploy-integration
+  variables:
+    KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-low'    
+    TELESCOPE : SKA-low
+  environment:
+    name: integration-low-$CI_PROJECT_NAME
+    on_stop: stop-integration-low
+  script:
+    - make k8s-install-chart 
+    - make k8s-wait
+  rules:
+  - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295" ' 
+
+  redeploy-integration-low:
+  extends:
+    - redeploy-integration
+  variables:
+    KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-low'    
+    TELESCOPE : SKA-low
+  environment:
+    name: integration-low-$CI_PROJECT_NAME
+  script:
+    - make k8s-uninstall-chart
+    - make k8s-delete-namespace
+    - make k8s-install-chart 
+    - make k8s-wait
+  rules:
+  - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295"'
