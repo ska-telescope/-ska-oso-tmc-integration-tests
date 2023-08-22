@@ -110,7 +110,6 @@ deploy-integration-mid:
   script:
     - make k8s-install-chart 
     - make k8s-wait
-
   rules:
   - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295" '
 
@@ -123,14 +122,14 @@ redeploy-integration:
     - make k8s-install-chart 
     - make k8s-wait
   rules:
-  - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-293"'
+  - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295"'
 
 deploy-integration-low:
   extends:
     - deploy-integration
   variables:
     KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-low'    
-    TELESCOPE : SKA-low
+    TELESCOPE : 'SKA-low'
   environment:
     name: integration-low-$CI_PROJECT_NAME
     on_stop: stop-integration-low
@@ -145,7 +144,7 @@ deploy-integration-low:
     - redeploy-integration
   variables:
     KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-low'    
-    TELESCOPE : SKA-low
+    TELESCOPE : 'SKA-low'
   environment:
     name: integration-low-$CI_PROJECT_NAME
   script:
