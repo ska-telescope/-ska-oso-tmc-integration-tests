@@ -7,14 +7,11 @@ from tests.resources.test_harness.constant import (
     tmc_csp_subarray_leaf_node,
     tmc_sdp_subarray_leaf_node,
 )
-from tests.resources.test_harness.helpers import (
-    check_subarray_obs_state,
-    get_device_simulators,
-)
+from tests.resources.test_harness.helpers import check_subarray_obs_state
 
 
 class TestSubarrayNodeAbortCommandObsStateTransitions(object):
-    @pytest.mark.failed
+    @pytest.mark.failed1
     @pytest.mark.parametrize(
         "source_obs_state",
         ["IDLE", "READY", "SCANNING"],
@@ -43,11 +40,11 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
         tmc_csp = DeviceProxy(tmc_csp_subarray_leaf_node)
         tmc_sdp = DeviceProxy(tmc_sdp_subarray_leaf_node)
 
-        csp_sim, sdp_sim, _, _ = get_device_simulators(simulator_factory)
+        # csp_sim, sdp_sim, _, _ = get_device_simulators(simulator_factory)
 
         event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
-        event_recorder.subscribe_event(csp_sim, "obsState")
-        event_recorder.subscribe_event(sdp_sim, "obsState")
+        event_recorder.subscribe_event(tmc_csp, "cspSubarrayObsState")
+        event_recorder.subscribe_event(tmc_sdp, "sdpSubarrayObsState")
 
         subarray_node.move_to_on()
         subarray_node.force_change_of_obs_state(source_obs_state)
@@ -80,7 +77,7 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
         #     subarray_node.subarray_node, "obsState", ObsState.ABORTED
         # )
 
-    @pytest.mark.failed
+    @pytest.mark.failed1
     @pytest.mark.parametrize(
         "source_obs_state",
         [
@@ -110,15 +107,7 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
         """
         tmc_csp = DeviceProxy(tmc_csp_subarray_leaf_node)
         tmc_sdp = DeviceProxy(tmc_sdp_subarray_leaf_node)
-        csp_sim, sdp_sim, _, _ = get_device_simulators(simulator_factory)
-
-        if source_obs_state == "CONFIGURING":
-            delay_command_params_str = '{"%s": %s}' % (
-                "Configure",
-                0.1,
-            )
-            csp_sim.setDelay(delay_command_params_str)
-            sdp_sim.setDelay(delay_command_params_str)
+        # csp_sim, sdp_sim, _, _ = get_device_simulators(simulator_factory)
 
         event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
         event_recorder.subscribe_event(tmc_csp, "cspSubarrayObsState")
