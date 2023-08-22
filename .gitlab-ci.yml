@@ -47,10 +47,10 @@ include:
   file: 'gitlab-ci/includes/k8s.gitlab-ci.yml'
 
   # integration and staging
-  - project: "ska-telescope/templates-repository"
-    file: "gitlab-ci/includes/deploy.integration.gitlab-ci.yml"
-  - project: "ska-telescope/templates-repository"
-    file: "gitlab-ci/includes/deploy.staging.gitlab-ci.yml"
+- project: "ska-telescope/templates-repository"
+  file: "gitlab-ci/includes/deploy.integration.gitlab-ci.yml"
+- project: "ska-telescope/templates-repository"
+  file: "gitlab-ci/includes/deploy.staging.gitlab-ci.yml"
 
 
 # Create Gitlab CI badges from CI metrics
