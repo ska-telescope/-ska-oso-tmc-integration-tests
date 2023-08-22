@@ -22,6 +22,8 @@ stages:
   - lint
   - build
   - test
+  - integration
+  - staging
   - publish
   - pages
   - scan
@@ -43,6 +45,13 @@ include:
 # k8s steps
 - project: 'ska-telescope/templates-repository'
   file: 'gitlab-ci/includes/k8s.gitlab-ci.yml'
+
+  # integration and staging
+  - project: "ska-telescope/templates-repository"
+    file: "gitlab-ci/includes/deploy.integration.gitlab-ci.yml"
+  - project: "ska-telescope/templates-repository"
+    file: "gitlab-ci/includes/deploy.staging.gitlab-ci.yml"
+
 
 # Create Gitlab CI badges from CI metrics
 # https://developer.skatelescope.org/en/latest/tools/continuousintegration.html#automated-collection-of-ci-health-metrics-as-part-of-the-ci-pipeline
