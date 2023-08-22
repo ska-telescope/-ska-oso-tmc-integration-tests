@@ -27,6 +27,8 @@ class Waiter:
         self.csp_master = kwargs.get("csp_master")
         self.tmc_subarraynode1 = kwargs.get("tmc_subarraynode")
         self.dish_master_list = kwargs.get("dish_master")
+        self.tmc_csp_subarray_leaf_node = kwargs.get("csp_subarray_leaf_node")
+        self.tmc_sdp_subarray_leaf_node = kwargs.get("sdp_subarray_leaf_node")
 
     def clear_watches(self):
         self.waits = []
@@ -114,6 +116,16 @@ class Waiter:
 
     def set_wait_for_going_to_empty(self):
         self.waits.append(
+            watch(Resource(self.tmc_csp_subarray_leaf_node)).to_become(
+                "cspSubarrayObsState", changed_to="EMPTY"
+            )
+        )
+        self.waits.append(
+            watch(Resource(self.tmc_sdp_subarray_leaf_node)).to_become(
+                "sdpSubarrayObsState", changed_to="EMPTY"
+            )
+        )
+        self.waits.append(
             watch(Resource(self.tmc_subarraynode1)).to_become(
                 "assignedResources", changed_to=None
             )
@@ -135,6 +147,16 @@ class Waiter:
         )
 
     def set_wait_for_assign_resources(self):
+        self.waits.append(
+            watch(Resource(self.tmc_csp_subarray_leaf_node)).to_become(
+                "cspSubarrayObsState", changed_to="IDLE"
+            )
+        )
+        self.waits.append(
+            watch(Resource(self.tmc_sdp_subarray_leaf_node)).to_become(
+                "sdpSubarrayObsState", changed_to="IDLE"
+            )
+        )
         self.waits.append(
             watch(Resource(self.csp_subarray1)).to_become(
                 "obsState", changed_to="IDLE"
@@ -161,6 +183,16 @@ class Waiter:
 
     def set_wait_for_obs_state(self, obs_state=None):
         self.waits.append(
+            watch(Resource(self.tmc_csp_subarray_leaf_node)).to_become(
+                "cspSubarrayObsState", changed_to=obs_state
+            )
+        )
+        self.waits.append(
+            watch(Resource(self.tmc_sdp_subarray_leaf_node)).to_become(
+                "sdpSubarrayObsState", changed_to=obs_state
+            )
+        )
+        self.waits.append(
             watch(Resource(self.csp_subarray1)).to_become(
                 "obsState", changed_to=obs_state
             )
@@ -180,6 +212,16 @@ class Waiter:
             self.set_wait_for_dish("pointingState", "TRACK")
 
     def set_wait_for_configure(self):
+        self.waits.append(
+            watch(Resource(self.tmc_csp_subarray_leaf_node)).to_become(
+                "cspSubarrayObsState", changed_to="READY"
+            )
+        )
+        self.waits.append(
+            watch(Resource(self.tmc_sdp_subarray_leaf_node)).to_become(
+                "sdpSubarrayObsState", changed_to="READY"
+            )
+        )
         self.waits.append(
             watch(Resource(self.csp_subarray1)).to_become(
                 "obsState", changed_to="READY"
@@ -201,6 +243,16 @@ class Waiter:
 
     def set_wait_for_idle(self):
         self.waits.append(
+            watch(Resource(self.tmc_csp_subarray_leaf_node)).to_become(
+                "cspSubarrayObsState", changed_to="IDLE"
+            )
+        )
+        self.waits.append(
+            watch(Resource(self.tmc_sdp_subarray_leaf_node)).to_become(
+                "sdpSubarrayObsState", changed_to="IDLE"
+            )
+        )
+        self.waits.append(
             watch(Resource(self.csp_subarray1)).to_become(
                 "obsState", changed_to="IDLE"
             )
@@ -218,6 +270,16 @@ class Waiter:
 
     def set_wait_for_aborted(self):
         self.waits.append(
+            watch(Resource(self.tmc_csp_subarray_leaf_node)).to_become(
+                "cspSubarrayObsState", changed_to="ABORTED"
+            )
+        )
+        self.waits.append(
+            watch(Resource(self.tmc_sdp_subarray_leaf_node)).to_become(
+                "sdpSubarrayObsState", changed_to="ABORTED"
+            )
+        )
+        self.waits.append(
             watch(Resource(self.csp_subarray1)).to_become(
                 "obsState", changed_to="ABORTED"
             )
@@ -234,6 +296,16 @@ class Waiter:
         )
 
     def set_wait_for_ready(self):
+        self.waits.append(
+            watch(Resource(self.tmc_csp_subarray_leaf_node)).to_become(
+                "cspSubarrayObsState", changed_to="READY"
+            )
+        )
+        self.waits.append(
+            watch(Resource(self.tmc_sdp_subarray_leaf_node)).to_become(
+                "sdpSubarrayObsState", changed_to="READY"
+            )
+        )
         self.waits.append(
             watch(Resource(self.csp_subarray1)).to_become(
                 "obsState", changed_to="READY"
@@ -261,6 +333,16 @@ class Waiter:
             )
 
     def set_wait_for_scanning(self):
+        self.waits.append(
+            watch(Resource(self.tmc_csp_subarray_leaf_node)).to_become(
+                "cspSubarrayObsState", changed_to="SCANNING"
+            )
+        )
+        self.waits.append(
+            watch(Resource(self.tmc_sdp_subarray_leaf_node)).to_become(
+                "sdpSubarrayObsState", changed_to="SCANNING"
+            )
+        )
         self.waits.append(
             watch(Resource(self.csp_subarray1)).to_become(
                 "obsState", changed_to="SCANNING"

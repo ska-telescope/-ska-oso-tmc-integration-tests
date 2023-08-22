@@ -72,10 +72,10 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
         assert event_recorder.has_change_event_occurred(
             tmc_csp, "cspSubarrayObsState", ObsState.ABORTED
         )
-        assert check_subarray_obs_state(obs_state="ABORTED")
-        # assert event_recorder.has_change_event_occurred(
-        #     subarray_node.subarray_node, "obsState", ObsState.ABORTED
-        # )
+        # assert check_subarray_obs_state(obs_state="ABORTED")
+        assert event_recorder.has_change_event_occurred(
+            subarray_node.subarray_node, "obsState", ObsState.ABORTED
+        )
 
     @pytest.mark.parametrize(
         "source_obs_state",
@@ -167,7 +167,7 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
         assert event_recorder.has_change_event_occurred(
             tmc_csp, "cspSubarrayObsState", ObsState.ABORTED
         )
-        assert check_subarray_obs_state(obs_state="ABORTED")
-        # assert event_recorder.has_change_event_occurred(
-        #     subarray_node.subarray_node, "obsState", ObsState.ABORTED
-        # )
+        # assert check_subarray_obs_state(obs_state="ABORTED")
+        assert event_recorder.has_change_event_occurred(
+            subarray_node.subarray_node, "obsState", ObsState.ABORTED
+        )
