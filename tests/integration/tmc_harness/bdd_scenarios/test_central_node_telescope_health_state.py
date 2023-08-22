@@ -15,7 +15,7 @@ from tests.resources.test_harness.helpers import (
 )
 def test_telescope_health_state():
     """
-    Test case to verify aggregation for CentralNode.telescopeHealthState
+    Test case to verify aggregation for CentralNode telescopeHealthState
     """
 
 
@@ -24,20 +24,21 @@ def simulator_devices_health_state_is_ok(simulator_factory, event_recorder):
     """A method to check simulator devices are in HealthState.OK
 
     Args:
-        simulator_factory: fixture for SimulatorFactory class
+        simulator_factory: fixture for SimulatorFactory class,
+        which provides simulated subarray and master devices
         event_recorder: fixture for EventRecorder class
     """
     (
         csp_master_sim,
         sdp_master_sim,
-        dish_master_1,
-        dish_master_2,
+        dish_master_sim_1,
+        dish_master_sim_2,
     ) = get_master_device_simulators(simulator_factory)
     set_simulators_health_state_as_ok(
         csp_master_sim,
         sdp_master_sim,
-        dish_master_1,
-        dish_master_2,
+        dish_master_sim_1,
+        dish_master_sim_2,
         event_recorder,
     )
 
@@ -48,10 +49,10 @@ def simulator_devices_health_state_is_ok(simulator_factory, event_recorder):
         sdp_master_sim, "healthState", HealthState.OK
     ), "Expected HealthState to be OK"
     assert event_recorder.has_change_event_occurred(
-        dish_master_1, "healthState", HealthState.OK
+        dish_master_sim_1, "healthState", HealthState.OK
     ), "Expected HealthState to be OK"
     assert event_recorder.has_change_event_occurred(
-        dish_master_2, "healthState", HealthState.OK
+        dish_master_sim_2, "healthState", HealthState.OK
     ), "Expected HealthState to be OK"
 
 
@@ -62,7 +63,8 @@ def set_simulator_devices_health_states(
     """A method to set HealthState value for the simulator devices
 
     Args:
-        simulator_factory: fixture for SimulatorFactory class
+        simulator_factory: fixture for SimulatorFactory class,
+        which provides simulated subarray and master devices
         devices (str): simulator devices
         health_state (str): healthstate value
     """
@@ -105,8 +107,8 @@ def check_telescope_health_state(
 def set_simulators_health_state_as_ok(
     csp_master_sim,
     sdp_master_sim,
-    dish_master_1,
-    dish_master_2,
+    dish_master_sim_1,
+    dish_master_sim_2,
     event_recorder,
 ):
     """A method to set simulator devices to HealthState.OK
@@ -114,16 +116,16 @@ def set_simulators_health_state_as_ok(
     Args:
         csp_master_sim: Csp Master device sim
         sdp_master_sim: Sdp Master device sim
-        dish_master_1: Dish Master 1 device sim
-        dish_master_2: Dish Master 2 device sim_
+        dish_master_sim_1: Dish Master 1 device sim
+        dish_master_sim_2: Dish Master 2 device sim_
         event_recorder: A fixture for EventRecorder class
     """
     event_recorder.subscribe_event(csp_master_sim, "healthState")
     event_recorder.subscribe_event(sdp_master_sim, "healthState")
-    event_recorder.subscribe_event(dish_master_1, "healthState")
-    event_recorder.subscribe_event(dish_master_2, "healthState")
+    event_recorder.subscribe_event(dish_master_sim_1, "healthState")
+    event_recorder.subscribe_event(dish_master_sim_2, "healthState")
 
     csp_master_sim.SetDirectHealthState(HealthState.OK)
     sdp_master_sim.SetDirectHealthState(HealthState.OK)
-    dish_master_1.SetDirectHealthState(HealthState.OK)
-    dish_master_2.SetDirectHealthState(HealthState.OK)
+    dish_master_sim_1.SetDirectHealthState(HealthState.OK)
+    dish_master_sim_2.SetDirectHealthState(HealthState.OK)

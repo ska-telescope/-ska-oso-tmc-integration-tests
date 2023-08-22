@@ -465,7 +465,6 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-@pytest.mark.abort
 @pytest.mark.SKA_mid
 def test_abort_in_configuring(json_factory):
     """Abort and Restart is executed."""
@@ -523,7 +522,6 @@ def test_abort_in_configuring(json_factory):
         csp_subarray_proxy.SetDefective(json.dumps({"enabled": False}))
         time.sleep(0.5)
 
-        # Resource(csp_subarray1).assert_attribute("defective").equals(False)
         # Invoke Abort() command on TMC
         tmc_helper.invoke_abort(**ON_OFF_DEVICE_COMMAND_DICT)
 

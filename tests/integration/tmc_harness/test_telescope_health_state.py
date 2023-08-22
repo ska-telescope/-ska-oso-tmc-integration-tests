@@ -75,13 +75,13 @@ class TestTelescopeHealthState(object):
         (
             csp_master_sim,
             sdp_master_sim,
-            dish_master_1,
-            dish_master_2,
+            dish_master_sim_1,
+            dish_master_sim_2,
         ) = get_master_device_simulators(simulator_factory)
         csp_master_sim.SetDirectHealthState(csp_master_health_state)
         sdp_master_sim.SetDirectHealthState(sdp_master_health_state)
-        dish_master_1.SetDirectHealthState(dish_master1_health_state)
-        dish_master_2.SetDirectHealthState(dish_master2_health_state)
+        dish_master_sim_1.SetDirectHealthState(dish_master1_health_state)
+        dish_master_sim_2.SetDirectHealthState(dish_master2_health_state)
 
         event_recorder.subscribe_event(
             central_node.central_node, "telescopeHealthState"
@@ -102,14 +102,14 @@ class TestTelescopeHealthState(object):
         (
             csp_master_sim,
             sdp_master_sim,
-            dish_master_1,
-            dish_master_2,
+            dish_master_sim_1,
+            dish_master_sim_2,
         ) = get_master_device_simulators(simulator_factory)
 
         csp_master_sim.SetDirectHealthState(HealthState.OK)
         sdp_master_sim.SetDirectHealthState(HealthState.OK)
-        dish_master_1.SetDirectHealthState(HealthState.OK)
-        dish_master_2.SetDirectHealthState(HealthState.OK)
+        dish_master_sim_1.SetDirectHealthState(HealthState.OK)
+        dish_master_sim_2.SetDirectHealthState(HealthState.OK)
 
         event_recorder.subscribe_event(
             central_node.central_node, "telescopeHealthState"
@@ -176,13 +176,13 @@ class TestTelescopeHealthState(object):
         (
             csp_master_sim,
             sdp_master_sim,
-            dish_master_1,
-            dish_master_2,
+            dish_master_sim_1,
+            dish_master_sim_2,
         ) = get_master_device_simulators(simulator_factory)
         csp_master_sim.SetDirectHealthState(csp_master_health_state)
         sdp_master_sim.SetDirectHealthState(sdp_master_health_state)
-        dish_master_1.SetDirectHealthState(dish_master1_health_state)
-        dish_master_2.SetDirectHealthState(dish_master2_health_state)
+        dish_master_sim_1.SetDirectHealthState(dish_master1_health_state)
+        dish_master_sim_2.SetDirectHealthState(dish_master2_health_state)
 
         event_recorder.subscribe_event(
             central_node.central_node, "telescopeHealthState"
@@ -251,13 +251,13 @@ class TestTelescopeHealthState(object):
         (
             csp_master_sim,
             sdp_master_sim,
-            dish_master_1,
-            dish_master_2,
+            dish_master_sim_1,
+            dish_master_sim_2,
         ) = get_master_device_simulators(simulator_factory)
         csp_master_sim.SetDirectHealthState(csp_master_health_state)
         sdp_master_sim.SetDirectHealthState(sdp_master_health_state)
-        dish_master_1.SetDirectHealthState(dish_master1_health_state)
-        dish_master_2.SetDirectHealthState(dish_master2_health_state)
+        dish_master_sim_1.SetDirectHealthState(dish_master1_health_state)
+        dish_master_sim_2.SetDirectHealthState(dish_master2_health_state)
 
         event_recorder.subscribe_event(
             central_node.central_node, "telescopeHealthState"

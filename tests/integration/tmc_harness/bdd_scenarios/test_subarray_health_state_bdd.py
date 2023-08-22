@@ -45,14 +45,14 @@ def given_simulator_device_health_state_is_ok(simulator_factory):
     (
         csp_sa_sim,
         sdp_sa_sim,
-        dish_master_1,
-        dish_master_2,
+        dish_master_sim_1,
+        dish_master_sim_2,
     ) = get_device_simulators(simulator_factory)
 
     csp_sa_sim.SetDirectHealthState(HealthState.OK)
     sdp_sa_sim.SetDirectHealthState(HealthState.OK)
-    dish_master_1.SetDirectHealthState(HealthState.OK)
-    dish_master_2.SetDirectHealthState(HealthState.OK)
+    dish_master_sim_1.SetDirectHealthState(HealthState.OK)
+    dish_master_sim_2.SetDirectHealthState(HealthState.OK)
 
 
 @given("csp subarray, sdp subarray health state is OK")
@@ -96,11 +96,11 @@ def assign_dishes_to_subarray(
         subarray_node.subarray_node, "obsState", ObsState.IDLE
     ), "Waiting for subarray node to complete"
 
-    _, _, dish_master_1, dish_master_2 = get_device_simulators(
+    _, _, dish_master_sim_1, dish_master_sim_2 = get_device_simulators(
         simulator_factory
     )
-    dish_master_1.SetDirectHealthState(HealthState.OK)
-    dish_master_2.SetDirectHealthState(HealthState.OK)
+    dish_master_sim_1.SetDirectHealthState(HealthState.OK)
+    dish_master_sim_2.SetDirectHealthState(HealthState.OK)
 
 
 @when(
