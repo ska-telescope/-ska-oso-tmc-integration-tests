@@ -1,5 +1,5 @@
-import logging
 import json
+import logging
 
 from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
