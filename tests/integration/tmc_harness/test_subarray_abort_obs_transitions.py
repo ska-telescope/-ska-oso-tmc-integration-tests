@@ -14,7 +14,6 @@ from tests.resources.test_harness.helpers import (
 
 
 class TestSubarrayNodeAbortCommandObsStateTransitions(object):
-    @pytest.mark.skip
     @pytest.mark.parametrize(
         "source_obs_state",
         ["IDLE", "READY", "SCANNING"],
@@ -78,7 +77,6 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
         #     subarray_node.subarray_node, "obsState", ObsState.ABORTED
         # )
 
-    @pytest.mark.skip
     @pytest.mark.parametrize(
         "source_obs_state",
         [
