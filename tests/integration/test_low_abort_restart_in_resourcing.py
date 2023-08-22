@@ -1,5 +1,6 @@
 """Test cases for abort and restart command in RESOURCING
 ObsState"""
+import json
 import time
 
 import pytest
@@ -19,6 +20,7 @@ from tests.resources.test_support.constant_low import (
     DEVICE_STATE_OFF_INFO,
     DEVICE_STATE_ON_INFO,
     DEVICE_STATE_STANDBY_INFO,
+    INTERMEDIATE_STATE_DEFECT,
     ON_OFF_DEVICE_COMMAND_DICT,
     centralnode,
     csp_subarray1,

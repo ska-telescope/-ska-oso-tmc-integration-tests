@@ -5,6 +5,7 @@ import json
 import pytest
 from ska_tango_base.control_model import ObsState
 
+from tests.resources.test_harness.constant import INTERMEDIATE_STATE_DEFECT
 from tests.resources.test_harness.helpers import (
     device_received_this_command,
     get_recorded_commands,
