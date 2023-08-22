@@ -7,10 +7,7 @@ from tests.resources.test_harness.constant import (
     tmc_csp_subarray_leaf_node,
     tmc_sdp_subarray_leaf_node,
 )
-from tests.resources.test_harness.helpers import (
-    check_subarray_obs_state,
-    get_device_simulators,
-)
+from tests.resources.test_harness.helpers import get_device_simulators
 
 
 class TestSubarrayNodeAbortCommandObsStateTransitions(object):
