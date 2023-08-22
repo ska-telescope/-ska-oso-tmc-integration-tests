@@ -14,8 +14,8 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
             "IDLE",
             "READY",
             "SCANNING",
-            # "RESOURCING",
-            # "CONFIGURING",
+            "RESOURCING",
+            "CONFIGURING",
         ],
     )
     @pytest.mark.SKA_mid
@@ -40,8 +40,8 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
         csp_sim, sdp_sim, _, _ = get_device_simulators(simulator_factory)
 
         event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
-        event_recorder.subscribe_event(csp_sim, "commandCallInfo")
-        event_recorder.subscribe_event(sdp_sim, "commandCallInfo")
+        event_recorder.subscribe_event(csp_sim, "obsState")
+        event_recorder.subscribe_event(sdp_sim, "obsState")
 
         subarray_node.move_to_on()
         subarray_node.force_change_of_obs_state(source_obs_state)
@@ -50,6 +50,13 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
 
         assert event_recorder.has_change_event_occurred(
             subarray_node.subarray_node, "obsState", ObsState.ABORTING
+        )
+
+        assert event_recorder.has_change_event_occurred(
+            csp_sim, "obsState", ObsState.ABORTING
+        )
+        assert event_recorder.has_change_event_occurred(
+            sdp_sim, "obsState", ObsState.ABORTING
         )
         assert check_subarray_obs_state(obs_state="ABORTED")
         # assert event_recorder.has_change_event_occurred(
