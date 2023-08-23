@@ -51,8 +51,8 @@ include:
   file: 'gitlab-ci/includes/deploy.integration.gitlab-ci.yml'
 
 # staging job
-- project: 'ska-telescope/templates-repository'
-  file: 'gitlab-ci/includes/deploy.staging.gitlab-ci.yml'
+- project: "ska-telescope/templates-repository"
+  file: "gitlab-ci/includes/deploy.staging.gitlab-ci.yml"
 
 
 # Create Gitlab CI badges from CI metrics
@@ -190,7 +190,7 @@ redeploy-staging:
     - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295"'
 
 
-info-stagung:
+info-staging:
   rules:
     - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295" '
 
@@ -216,7 +216,7 @@ deploy-staging-low:
 
 redeploy-staging-low:
   extends:
-    - redeploy-integration
+    - redeploy-staging
   variables:
     KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-low'    
     TELESCOPE : 'SKA-low'
