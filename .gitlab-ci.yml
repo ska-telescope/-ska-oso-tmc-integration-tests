@@ -77,25 +77,24 @@ stop-k8s-test-low:
     - make k8s-delete-namespace
 
 #integration
-deploy-integration-mid:
-  variables:
-    SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA"
-  script:
-    - make k8s-install-chart 
-    - make k8s-wait
+deploy-integration:
   rules:
     - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295" '
 
 redeploy-integration:
-  variables:
-    SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA"
-  script:
-    - make k8s-uninstall-chart
-    - make k8s-delete-namespace
-    - make k8s-install-chart 
-    - make k8s-wait
   rules:
     - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295"'
+
+
+info-integration:
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295" '
+
+stop-integration:
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295" '
+
+
 
 deploy-integration-low:
   extends:
@@ -111,15 +110,6 @@ deploy-integration-low:
     - make k8s-wait
   rules:
     - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295" ' 
-
-
-info-integration:
-  rules:
-    - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295" '
-
-stop-integration:
-  rules:
-    - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295" '
 
 redeploy-integration-low:
   extends:
