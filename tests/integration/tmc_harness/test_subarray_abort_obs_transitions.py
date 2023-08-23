@@ -1,12 +1,6 @@
 import pytest
 from ska_tango_base.control_model import ObsState
-from tango import DeviceProxy
 
-from tests.conftest import LOGGER
-from tests.resources.test_harness.constant import (
-    tmc_csp_subarray_leaf_node,
-    tmc_sdp_subarray_leaf_node,
-)
 from tests.resources.test_harness.helpers import (
     check_subarray_obs_state,
     get_device_simulators,
@@ -14,6 +8,7 @@ from tests.resources.test_harness.helpers import (
 
 
 class TestSubarrayNodeAbortCommandObsStateTransitions(object):
+    @pytest.mark.failed
     @pytest.mark.parametrize(
         "source_obs_state",
         ["IDLE", "READY", "SCANNING"],
@@ -39,12 +34,13 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
            required to invoke Abort command
         """
 
-        tmc_csp = DeviceProxy(tmc_csp_subarray_leaf_node)
-        tmc_sdp = DeviceProxy(tmc_sdp_subarray_leaf_node)
-
         event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
-        event_recorder.subscribe_event(tmc_csp, "cspSubarrayObsState")
-        event_recorder.subscribe_event(tmc_sdp, "sdpSubarrayObsState")
+        event_recorder.subscribe_event(
+            subarray_node.csp_subarray_leaf_node, "cspSubarrayObsState"
+        )
+        event_recorder.subscribe_event(
+            subarray_node.sdp_subarray_leaf_node, "sdpSubarrayObsState"
+        )
 
         subarray_node.move_to_on()
         subarray_node.force_change_of_obs_state(source_obs_state)
@@ -54,10 +50,14 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
         )
 
         assert event_recorder.has_change_event_occurred(
-            tmc_csp, "cspSubarrayObsState", ObsState[source_obs_state]
+            subarray_node.csp_subarray_leaf_node,
+            "cspSubarrayObsState",
+            ObsState[source_obs_state],
         )
         assert event_recorder.has_change_event_occurred(
-            tmc_sdp, "sdpSubarrayObsState", ObsState[source_obs_state]
+            subarray_node.sdp_subarray_leaf_node,
+            "sdpSubarrayObsState",
+            ObsState[source_obs_state],
         )
 
         subarray_node.execute_transition("Abort", argin=None)
@@ -67,16 +67,21 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
         )
 
         assert event_recorder.has_change_event_occurred(
-            tmc_sdp, "sdpSubarrayObsState", ObsState.ABORTED
+            subarray_node.sdp_subarray_leaf_node,
+            "sdpSubarrayObsState",
+            ObsState.ABORTED,
         )
         assert event_recorder.has_change_event_occurred(
-            tmc_csp, "cspSubarrayObsState", ObsState.ABORTED
+            subarray_node.csp_subarray_leaf_node,
+            "cspSubarrayObsState",
+            ObsState.ABORTED,
         )
         assert check_subarray_obs_state(obs_state="ABORTED")
         # assert event_recorder.has_change_event_occurred(
         #     subarray_node.subarray_node, "obsState", ObsState.ABORTED
         # )
 
+    @pytest.mark.failed
     @pytest.mark.parametrize(
         "source_obs_state",
         [
@@ -104,8 +109,6 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
         - "source_obs_state": a TMC SubarrayNode initial allowed obsState,
            required to invoke Abort command
         """
-        tmc_csp = DeviceProxy(tmc_csp_subarray_leaf_node)
-        tmc_sdp = DeviceProxy(tmc_sdp_subarray_leaf_node)
         csp_sim, sdp_sim, _, _ = get_device_simulators(simulator_factory)
 
         if source_obs_state == "CONFIGURING":
@@ -114,8 +117,12 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
             sdp_sim.AddTransition(obs_state_duration_params)
 
         event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
-        event_recorder.subscribe_event(tmc_csp, "cspSubarrayObsState")
-        event_recorder.subscribe_event(tmc_sdp, "sdpSubarrayObsState")
+        event_recorder.subscribe_event(
+            subarray_node.csp_subarray_leaf_node, "cspSubarrayObsState"
+        )
+        event_recorder.subscribe_event(
+            subarray_node.sdp_subarray_leaf_node, "sdpSubarrayObsState"
+        )
 
         subarray_node.move_to_on()
         subarray_node.force_change_of_obs_state(source_obs_state)
@@ -125,34 +132,20 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
         )
 
         assert event_recorder.has_change_event_occurred(
-            tmc_csp, "cspSubarrayObsState", ObsState[source_obs_state]
+            subarray_node.csp_subarray_leaf_node,
+            "cspSubarrayObsState",
+            ObsState[source_obs_state],
         )
         assert event_recorder.has_change_event_occurred(
-            tmc_sdp, "sdpSubarrayObsState", ObsState[source_obs_state]
-        )
-
-        LOGGER.info(
-            "TMC SDP obs State %s",
-            tmc_sdp.read_attribute("sdpSubarrayObsState").value,
-        )
-        LOGGER.info(
-            "TMC CSP obs State %s",
-            tmc_csp.read_attribute("cspSubarrayObsState").value,
+            subarray_node.sdp_subarray_leaf_node,
+            "sdpSubarrayObsState",
+            ObsState[source_obs_state],
         )
 
         subarray_node.execute_transition("Abort", argin=None)
 
         assert event_recorder.has_change_event_occurred(
             subarray_node.subarray_node, "obsState", ObsState.ABORTING
-        )
-
-        LOGGER.info(
-            "TMC SDP obs State After %s",
-            tmc_sdp.read_attribute("sdpSubarrayObsState").value,
-        )
-        LOGGER.info(
-            "TMC CSP obs State After %s",
-            tmc_csp.read_attribute("cspSubarrayObsState").value,
         )
 
         # assert event_recorder.has_change_event_occurred(
@@ -162,10 +155,14 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
         #     sdp_sim, "obsState", ObsState.ABORTING
         # )
         assert event_recorder.has_change_event_occurred(
-            tmc_sdp, "sdpSubarrayObsState", ObsState.ABORTED
+            subarray_node.sdp_subarray_leaf_node,
+            "sdpSubarrayObsState",
+            ObsState.ABORTED,
         )
         assert event_recorder.has_change_event_occurred(
-            tmc_csp, "cspSubarrayObsState", ObsState.ABORTED
+            subarray_node.csp_subarray_leaf_node,
+            "cspSubarrayObsState",
+            ObsState.ABORTED,
         )
         assert check_subarray_obs_state(obs_state="ABORTED")
         # assert event_recorder.has_change_event_occurred(

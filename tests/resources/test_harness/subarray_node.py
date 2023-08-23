@@ -12,6 +12,8 @@ from tests.resources.test_harness.constant import (
     dish_master2,
     sdp_master,
     sdp_subarray1,
+    tmc_csp_subarray_leaf_node,
+    tmc_sdp_subarray_leaf_node,
     tmc_subarraynode1,
 )
 from tests.resources.test_harness.utils.constant import (
@@ -56,6 +58,8 @@ class SubarrayNode(object):
     def __init__(self) -> None:
         super().__init__()
         self.subarray_node = DeviceProxy(tmc_subarraynode1)
+        self.csp_subarray_leaf_node = DeviceProxy(tmc_csp_subarray_leaf_node)
+        self.sdp_subarray_leaf_node = DeviceProxy(tmc_sdp_subarray_leaf_node)
         self.dish_master_list = [
             DeviceProxy(dish_master1),
             DeviceProxy(dish_master2),
@@ -216,7 +220,7 @@ class SubarrayNode(object):
             dish_master.ResetDelay()
             dish_master.SetDirectHealthState(HealthState.UNKNOWN)
 
-    def _clear_command_call_and_transition_data(self):
+    def _clear_command_call_and_transition_data(self, clear_transition=False):
         """Clears the command call data"""
         for sim_device in [
             sdp_subarray1,
@@ -226,13 +230,14 @@ class SubarrayNode(object):
         ]:
             device = DeviceProxy(sim_device)
             device.ClearCommandCallInfo()
-            device.ResetTransitions()
+            if clear_transition:
+                device.ResetTransitions()
 
     def tear_down(self):
         """Tear down after each test run"""
 
         LOGGER.info("Calling Tear down for subarray")
-        self._clear_command_call_and_transition_data()
+        self._clear_command_call_and_transition_data(clear_transition=True)
         if self.obs_state in ("RESOURCING", "CONFIGURING", "SCANNING"):
             """Invoke Abort and Restart"""
             LOGGER.info("Invoking Abort on Subarray")
