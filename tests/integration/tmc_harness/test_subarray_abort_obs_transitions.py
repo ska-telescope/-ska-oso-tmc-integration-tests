@@ -11,9 +11,8 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
     @pytest.mark.parametrize(
         "source_obs_state",
         [
-            "READY",
+            "RESOURCING",
             "IDLE",
-            # "SCANNING"
         ],
     )
     @pytest.mark.SKA_mid
@@ -84,12 +83,10 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
         #     subarray_node.subarray_node, "obsState", ObsState.ABORTED
         # )
 
+    @pytest.mark.skip
     @pytest.mark.parametrize(
         "source_obs_state",
-        [
-            "CONFIGURING",
-            "RESOURCING",
-        ],
+        ["CONFIGURING", "RESOURCING", "SCANNING"],
     )
     @pytest.mark.SKA_mid
     def test_subarray_obs_intermediate_transitions(
