@@ -19,7 +19,6 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
     def test_subarray_obs_transitions_valid_data(
         self,
         subarray_node,
-        simulator_factory,
         event_recorder,
         source_obs_state,
     ):
@@ -30,7 +29,6 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
         assuming that external subsystems work fine.
         Glossary:
         - "subarray_node": fixture for a TMC SubarrayNode under test
-        - "simulator_factory": fixture for SimulatorFactory class,
         which provides simulated subarray and master devices
         - "source_obs_state": a TMC SubarrayNode initial allowed obsState,
            required to invoke Abort command
@@ -79,14 +77,11 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
             ObsState.ABORTED,
         )
         assert check_subarray_obs_state(obs_state="ABORTED")
-        # assert event_recorder.has_change_event_occurred(
-        #     subarray_node.subarray_node, "obsState", ObsState.ABORTED
-        # )
 
-    @pytest.mark.skip
+    @pytest.mark.skip(reason="Test is failing intermittently on pipeline env")
     @pytest.mark.parametrize(
         "source_obs_state",
-        ["CONFIGURING", "RESOURCING", "SCANNING"],
+        ["CONFIGURING", "READY", "SCANNING"],
     )
     @pytest.mark.SKA_mid
     def test_subarray_obs_intermediate_transitions(
@@ -158,6 +153,3 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
             ObsState.ABORTED,
         )
         assert check_subarray_obs_state(obs_state="ABORTED")
-        # assert event_recorder.has_change_event_occurred(
-        #     subarray_node.subarray_node, "obsState", ObsState.ABORTED
-        # )
