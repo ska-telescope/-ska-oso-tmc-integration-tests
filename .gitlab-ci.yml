@@ -244,5 +244,5 @@ stop-staging-low:
     name: staging-$CI_PROJECT_NAME
     action: stop
   rules:
-  - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295" '
+    - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295" '
 
