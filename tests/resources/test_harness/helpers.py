@@ -17,7 +17,6 @@ from tests.resources.test_support.constant import (
 
 
 def check_subarray_obs_state(obs_state=None, timeout=50):
-
     device_dict = {
         "sdp_subarray": sdp_subarray1,
         "csp_subarray": csp_subarray1,

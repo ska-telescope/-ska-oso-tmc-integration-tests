@@ -47,6 +47,8 @@ device_dict = {
     "sdp_master": sdp_master,
     "centralnode": centralnode,
     "dish_master_list": [dish_master1, dish_master2],
+    "csp_subarray_leaf_node": tmc_csp_subarray_leaf_node,
+    "sdp_subarray_leaf_node": tmc_sdp_subarray_leaf_node,
 }
 
 
