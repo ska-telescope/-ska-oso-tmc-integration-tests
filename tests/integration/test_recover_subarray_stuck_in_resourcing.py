@@ -291,7 +291,7 @@ def test_recover_subarray_stuck_in_resourcing_with_csp_empty_with_abort(
             change_event_callbacks["longRunningCommandResult"],
         )
 
-        csp_subarray.SetDefective(True)
+        csp_subarray.SetDefective(json.dumps(INTERMEDIATE_STATE_DEFECT))
 
         # Added this check to ensure that devices are running to avoid
         # random test failures.
@@ -307,7 +307,7 @@ def test_recover_subarray_stuck_in_resourcing_with_csp_empty_with_abort(
         _, unique_id = central_node.AssignResources(assign_json)
         the_waiter.wait(30)
 
-        csp_subarray.SetDefective(False)
+        csp_subarray.SetDefective(json.dumps({"enabled": False}))
 
         assertion_data = change_event_callbacks[
             "longRunningCommandResult"

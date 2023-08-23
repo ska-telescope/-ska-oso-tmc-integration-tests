@@ -154,7 +154,7 @@ def test_configure_timeout_and_error_propagation_csp(
         )
 
         csp_subarray = DeviceProxy(csp_subarray1)
-        csp_subarray.SetDefective(True)
+        csp_subarray.SetDefective(json.dumps(INTERMEDIATE_STATE_DEFECT))
 
         # Invoking Configure command
         device_params = deepcopy(ON_OFF_DEVICE_COMMAND_DICT)
@@ -186,7 +186,7 @@ def test_configure_timeout_and_error_propagation_csp(
             lookahead=4,
         )
 
-        csp_subarray.SetDefective(False)
+        csp_subarray.SetDefective(json.dumps({"enabled": False}))
 
         # Emulating Csp Subarray going back to READY state after failure
         csp_subarray.SetDirectObsState(ObsState.READY)

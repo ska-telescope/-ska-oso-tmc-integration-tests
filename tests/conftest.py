@@ -10,6 +10,12 @@ from ska_tango_testing.mock.tango.event_callback import (
     MockTangoEventCallbackGroup,
 )
 
+from tests.resources.test_harness.central_node import CentralNode
+from tests.resources.test_harness.event_recorder import EventRecorder
+from tests.resources.test_harness.simulator_factory import SimulatorFactory
+from tests.resources.test_harness.subarray_node import SubarrayNode
+from tests.resources.test_harness.utils.common_utils import JsonFactory
+
 LOGGER = logging.getLogger(__name__)
 
 
@@ -100,7 +106,7 @@ def update_scan_json(scan_json: str, scan_id: int, transaction_id: str) -> str:
 
 @pytest.fixture()
 def change_event_callbacks() -> MockTangoEventCallbackGroup:
-    """
+    """subarray_node
     Return a dictionary of Tango device change event callbacks with
     asynchrony support.
 
@@ -111,3 +117,40 @@ def change_event_callbacks() -> MockTangoEventCallbackGroup:
         "longRunningCommandResult",
         timeout=50.0,
     )
+
+
+@pytest.fixture()
+def central_node() -> CentralNode:
+    """Return CentralNode and calls tear down"""
+    central_node = CentralNode()
+    yield central_node
+    central_node.tear_down()
+
+
+@pytest.fixture()
+def subarray_node() -> SubarrayNode:
+    """Return SubarrayNode and calls tear down"""
+    subarray = SubarrayNode()
+    yield subarray
+    # this will call after test complete
+    subarray.tear_down()
+
+
+@pytest.fixture()
+def command_input_factory() -> JsonFactory:
+    """Return Json Factory"""
+    return JsonFactory()
+
+
+@pytest.fixture(scope="module")
+def simulator_factory() -> SimulatorFactory:
+    """Return Simulator Factory"""
+    return SimulatorFactory()
+
+
+@pytest.fixture()
+def event_recorder() -> EventRecorder:
+    """Return EventRecorder and clear events"""
+    event_rec = EventRecorder()
+    yield event_rec
+    event_rec.clear_events()

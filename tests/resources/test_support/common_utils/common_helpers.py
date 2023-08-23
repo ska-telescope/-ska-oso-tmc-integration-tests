@@ -462,6 +462,31 @@ class Waiter:
             )
         )
 
+    def set_wait_for_obs_state(self, obs_state=None):
+        """Sets wait for obsstate"""
+        self.waits.append(
+            watch(Resource(self.csp_subarray1)).to_become(
+                "obsState", changed_to=obs_state
+            )
+        )
+        self.waits.append(
+            watch(Resource(self.sdp_subarray1)).to_become(
+                "obsState", changed_to=obs_state
+            )
+        )
+
+        self.waits.append(
+            watch(Resource(self.tmc_subarraynode1)).to_become(
+                "obsState", changed_to=obs_state
+            )
+        )
+        if self.dish_master1:
+            self.waits.append(
+                watch(Resource(self.dish_master1)).to_become(
+                    "pointingState", changed_to="TRACK"
+                )
+            )
+
     def set_wait_for_configure(self):
         """Sets wait for device to execute configure command"""
         self.waits.append(
