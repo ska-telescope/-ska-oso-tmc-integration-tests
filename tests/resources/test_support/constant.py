@@ -137,7 +137,7 @@ INTERMEDIATE_STATE_DEFECT = {
     "intermediate_state": ObsState.RESOURCING,
 }
 
-INTERMEDIATE_OBS_STATE_DEFECT = {
+INTERMEDIATE_CONFIGURING_OBS_STATE_DEFECT = {
     "enabled": True,
     "fault_type": FaultType.STUCK_IN_INTERMEDIATE_STATE,
     "error_message": "Device stuck in intermediate state",

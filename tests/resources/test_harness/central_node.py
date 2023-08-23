@@ -81,10 +81,8 @@ class CentralNode(object):
         A method to invoke TelescopeOn command to
         put telescope in ON state
         """
-        # LOGGER.info(f"Invoking TelescopeOn on CentralNode")
         self.central_node.TelescopeOn()
 
-        # TODO: where to keep this proxies ?
         device_to_on_list = [
             self.subarray_devices.get("csp_subarray"),
             self.subarray_devices.get("sdp_subarray"),
@@ -104,10 +102,8 @@ class CentralNode(object):
         put telescope in OFF state
 
         """
-        # LOGGER.info(f"Invoking TelescopeOff on CentralNode")
         self.central_node.TelescopeOff()
 
-        # TODO: where to keep this proxies ?
         device_to_on_list = [
             self.subarray_devices.get("csp_subarray"),
             self.subarray_devices.get("sdp_subarray"),
@@ -127,10 +123,8 @@ class CentralNode(object):
         put telescope in STANDBY state
 
         """
-        # LOGGER.info(f"Invoking TelescopeOff on CentralNode")
         self.central_node.TelescopeStandBy()
 
-        # TODO: where to keep this proxies ?
         device_to_on_list = [
             self.subarray_devices.get("csp_subarray"),
             self.subarray_devices.get("sdp_subarray"),
@@ -147,12 +141,10 @@ class CentralNode(object):
     @sync_assign_resources(device_dict=device_dict)
     def invoke_assign_resources(self, input_string):
         result, message = self.central_node.AssignResources(input_string)
-        # LOGGER.info("Invoked AssignResources on CentralNode")
         return result, message
 
     def invoke_release_resources(self, input_string):
         result, message = self.central_node.ReleaseResources(input_string)
-        # LOGGER.info("Invoked ReleaseResources on CentralNode")
         return result, message
 
     def _reset_health_state_for_mock_devices(self):

@@ -2,8 +2,6 @@ import functools
 from contextlib import contextmanager
 
 from tests.resources.test_harness.utils.wait_helpers import Waiter
-
-# from tests.conftest import TIMEOUT
 from tests.resources.test_support.common_utils.base_utils import DeviceUtils
 from tests.resources.test_support.common_utils.common_helpers import (
     Resource,
@@ -185,7 +183,7 @@ def wait_assign():
 
 
 def sync_assigning():
-    # defined as a decoratorW
+    # defined as a decorator
     def decorator_sync_assign_resources(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
@@ -270,7 +268,7 @@ def sync_endscan(device_dict):
 
 
 def sync_endscan_in_ready():
-    # defined as a decorator when endscan is invoked as invalid command
+    # defined as a decorator
     def decorator_sync_end_scan(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
