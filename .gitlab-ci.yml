@@ -131,7 +131,7 @@ deploy-integration-low:
     name: integration-low-$CI_PROJECT_NAME
     on_stop: stop-integration-low
   script:
-    - make k8s-install-chart 
+    - make k8s-install-chart TELESCOPE=SKA-low
     - make k8s-wait
   rules:
   - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295" ' 
@@ -147,7 +147,7 @@ redeploy-integration-low:
   script:
     - make k8s-uninstall-chart
     - make k8s-delete-namespace
-    - make k8s-install-chart 
+    - make k8s-install-chart TELESCOPE=SKA-low
     - make k8s-wait
   rules:
-    - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295"'
+  - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295"'
