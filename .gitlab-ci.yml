@@ -136,6 +136,15 @@ deploy-integration-low:
   rules:
   - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295" ' 
 
+
+info-integration:
+  rules:
+  - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295" '
+
+stop-integration:
+  rules:
+  - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295" '
+
 redeploy-integration-low:
   extends:
     - redeploy-integration
@@ -151,3 +160,25 @@ redeploy-integration-low:
     - make k8s-wait
   rules:
   - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295"'
+
+info-integration-low:
+  extends:
+    - info-integration
+  variables:
+    KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-low'
+    TELESCOPE: 'SKA-low'
+  environment:
+    name: integration-low-$CI_PROJECT_NAME
+  rules:
+  - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295" '
+
+stop-integration-low:
+  extends:
+    - stop-integration
+  variables:
+    KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-low'
+  environment:
+    name: integration-low-$CI_PROJECT_NAME
+    action: stop
+  rules:
+  - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295" '
