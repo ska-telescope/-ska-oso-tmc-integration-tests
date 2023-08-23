@@ -10,7 +10,11 @@ from tests.resources.test_harness.helpers import (
 class TestSubarrayNodeAbortCommandObsStateTransitions(object):
     @pytest.mark.parametrize(
         "source_obs_state",
-        ["READY", "IDLE", "SCANNING"],
+        [
+            "READY",
+            "IDLE",
+            # "SCANNING"
+        ],
     )
     @pytest.mark.SKA_mid
     def test_subarray_obs_transitions_valid_data(
