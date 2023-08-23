@@ -112,7 +112,7 @@ def sync_assign_resources():
     return decorator_sync_assign_resources
 
 
-def sync_abort(timeout: int = 300):
+def sync_abort(timeout: int = 500):
     """Sync method for abort command
     define as a decorator"""
 
