@@ -12,6 +12,8 @@ from tests.resources.test_support.constant import (
     dish_master1,
     dish_master2,
     sdp_subarray1,
+    tmc_csp_subarray_leaf_node,
+    tmc_sdp_subarray_leaf_node,
     tmc_subarraynode1,
 )
 
@@ -21,6 +23,8 @@ def check_subarray_obs_state(obs_state=None, timeout=50):
         "sdp_subarray": sdp_subarray1,
         "csp_subarray": csp_subarray1,
         "tmc_subarraynode": tmc_subarraynode1,
+        "csp_subarray_leaf_node": tmc_csp_subarray_leaf_node,
+        "sdp_subarray_leaf_node": tmc_sdp_subarray_leaf_node,
     }
 
     LOGGER.info(
