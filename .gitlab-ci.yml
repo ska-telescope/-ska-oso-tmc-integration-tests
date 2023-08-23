@@ -200,6 +200,8 @@ stop-staging:
 
 
 deploy-staging-low:
+  extends:
+    - deploy-staging
   variables:
     KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-low'    
     TELESCOPE : 'SKA-low'
@@ -213,12 +215,13 @@ deploy-staging-low:
     - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295" '
 
 redeploy-staging-low:
+  extends:
+    - redeploy-integration
   variables:
     KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-low'    
     TELESCOPE : 'SKA-low'
   environment:
     name: staging-low-$CI_PROJECT_NAME
-    on_stop: stop-staging-low
   script:
     - make k8s-uninstall-chart
     - make k8s-delete-namespace
@@ -228,6 +231,8 @@ redeploy-staging-low:
     - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295" '
 
 info-staging-low:
+  extends:
+    - info-staging
   variables:
     KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-low'
     TELESCOPE: 'SKA-low'
@@ -237,6 +242,8 @@ info-staging-low:
     - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295" '
 
 stop-staging-low:
+  extends:
+    - stop-staging
   variables:
     KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-low'
     TELESCOPE: 'SKA-low'
@@ -245,4 +252,3 @@ stop-staging-low:
     action: stop
   rules:
     - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295" '
-
