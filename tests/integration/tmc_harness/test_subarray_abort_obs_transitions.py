@@ -8,10 +8,9 @@ from tests.resources.test_harness.helpers import (
 
 
 class TestSubarrayNodeAbortCommandObsStateTransitions(object):
-    @pytest.mark.failed
     @pytest.mark.parametrize(
         "source_obs_state",
-        ["IDLE", "READY", "SCANNING"],
+        ["READY", "IDLE", "SCANNING"],
     )
     @pytest.mark.SKA_mid
     def test_subarray_obs_transitions_valid_data(
@@ -81,7 +80,6 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
         #     subarray_node.subarray_node, "obsState", ObsState.ABORTED
         # )
 
-    @pytest.mark.failed
     @pytest.mark.parametrize(
         "source_obs_state",
         [
@@ -148,12 +146,6 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
             subarray_node.subarray_node, "obsState", ObsState.ABORTING
         )
 
-        # assert event_recorder.has_change_event_occurred(
-        #     csp_sim, "obsState", ObsState.ABORTING
-        # )
-        # assert event_recorder.has_change_event_occurred(
-        #     sdp_sim, "obsState", ObsState.ABORTING
-        # )
         assert event_recorder.has_change_event_occurred(
             subarray_node.sdp_subarray_leaf_node,
             "sdpSubarrayObsState",
