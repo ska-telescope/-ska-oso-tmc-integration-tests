@@ -1,5 +1,7 @@
 """Test cases for Abort and Restart Command in CONFIGURING
  ObsState"""
+import json
+
 import pytest
 from tango import DeviceProxy
 
@@ -21,6 +23,7 @@ from tests.resources.test_support.constant_low import (
     DEVICE_STATE_OFF_INFO,
     DEVICE_STATE_ON_INFO,
     DEVICE_STATE_STANDBY_INFO,
+    INTERMEDIATE_STATE_DEFECT,
     ON_OFF_DEVICE_COMMAND_DICT,
     centralnode,
     csp_subarray1,
@@ -65,7 +68,7 @@ def test_low_abort_restart_in_configuring(json_factory):
         )
         # Setting CSP to defective
         csp_subarray_proxy = DeviceProxy(csp_subarray1)
-        csp_subarray_proxy.SetDefective(True)
+        csp_subarray_proxy.SetDefective(json.dumps(INTERMEDIATE_STATE_DEFECT))
 
         # Invoke Configure() command on TMC#
         Resource(tmc_subarraynode1).assert_attribute("obsState").equals("IDLE")
@@ -77,7 +80,7 @@ def test_low_abort_restart_in_configuring(json_factory):
         )
 
         # Setting CSP back to normal
-        csp_subarray_proxy.SetDefective(False)
+        csp_subarray_proxy.SetDefective(json.dumps({"enabled": False}))
 
         # Invoke Abort() command on TMC#
         tmc_helper.invoke_abort(**ON_OFF_DEVICE_COMMAND_DICT)

@@ -36,7 +36,7 @@ server:
 depends_on:
   - device: sys/database/2
 image:
-  registry: "{{.Values.cspsubarrayleafnode.image.registry}}"
-  image: "{{.Values.cspsubarrayleafnode.image.image}}"
-  tag: "{{.Values.cspsubarrayleafnode.image.tag}}"
-  pullPolicy: "{{.Values.cspsubarrayleafnode.image.pullPolicy}}"
+  registry: "{{.Values.subarraynode.image.registry}}"
+  image: "{{.Values.subarraynode.image.image}}"
+  tag: "{{.Values.subarraynode.image.tag}}"
+  pullPolicy: "{{.Values.subarraynode.image.pullPolicy}}"

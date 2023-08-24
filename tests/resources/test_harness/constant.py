@@ -1,9 +1,11 @@
-"""This module have all required constants for ska-tmc-integration"""
+"""Define Constants
+"""
 from ska_control_model import ObsState
 
-from tests.resources.test_support.common_utils.result_code import (
+from tests.resources.test_harness.utils.enums import (
     FaultType,
     ResultCode,
+    SimulatorDeviceType,
 )
 
 centralnode = "ska_mid/tm_central/central_node"
@@ -96,22 +98,6 @@ DEVICE_OBS_STATE_ABORT_INFO = {
     csp_subarray1: ["ABORTED"],
 }
 
-
-DEVICE_OBS_STATE_ABORT_IN_EMPTY = {
-    sdp_subarray1: ["ABORTED"],
-    tmc_subarraynode1: ["ABORTED"],
-}
-
-DEVICE_OBS_STATE_ABORT_IN_EMPTY_SDP = {
-    csp_subarray1: ["ABORTED"],
-    tmc_subarraynode1: ["ABORTED"],
-}
-
-DEVICE_OBS_STATE_ABORT_IN_EMPTY_CSP = {
-    sdp_subarray1: ["ABORTED"],
-    tmc_subarraynode1: ["ABORTED"],
-}
-
 DEVICE_LIST_FOR_CHECK_DEVICES = [
     centralnode,
     csp_subarray1,
@@ -129,25 +115,18 @@ DEVICE_OBS_STATE_SCANNING_INFO = {
     csp_subarray1: ["SCANNING"],
 }
 
+SIMULATOR_DEVICE_FQDN_DICT = {
+    SimulatorDeviceType.SDP_DEVICE: [sdp_subarray1],
+    SimulatorDeviceType.CSP_DEVICE: [csp_subarray1],
+    SimulatorDeviceType.DISH_DEVICE: [dish_master1, dish_master2],
+    SimulatorDeviceType.SDP_MASTER_DEVICE: [sdp_master],
+    SimulatorDeviceType.CSP_MASTER_DEVICE: [csp_master],
+}
+
 INTERMEDIATE_STATE_DEFECT = {
     "enabled": True,
     "fault_type": FaultType.STUCK_IN_INTERMEDIATE_STATE,
     "error_message": "Device stuck in intermediate state",
     "result": ResultCode.FAILED,
     "intermediate_state": ObsState.RESOURCING,
-}
-
-INTERMEDIATE_CONFIGURING_OBS_STATE_DEFECT = {
-    "enabled": True,
-    "fault_type": FaultType.STUCK_IN_INTERMEDIATE_STATE,
-    "error_message": "Device stuck in intermediate state",
-    "result": ResultCode.FAILED,
-    "intermediate_state": ObsState.CONFIGURING,
-}
-
-COMMAND_NOT_ALLOWED_DEFECT = {
-    "enabled": True,
-    "fault_type": FaultType.COMMAND_NOT_ALLOWED,
-    "error_message": "Exception to test exception propagation",
-    "result": ResultCode.FAILED,
 }
