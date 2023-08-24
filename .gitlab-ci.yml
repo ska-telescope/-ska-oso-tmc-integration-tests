@@ -106,24 +106,6 @@ stop-k8s-test-low:
     - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all
     - make k8s-delete-namespace
 
-#integration
-deploy-integration:
-  rules:
-    - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH'
-
-redeploy-integration:
-  rules:
-    - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH'
-
-info-integration:
-  rules:
-    - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH'
-
-stop-integration:
-  rules:
-    - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH'
-
-
 
 deploy-integration-low:
   extends:
@@ -137,8 +119,6 @@ deploy-integration-low:
   script:
     - make k8s-install-chart TELESCOPE=SKA-low
     - make k8s-wait
-  rules:
-    - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH' 
 
 redeploy-integration-low:
   extends:
@@ -153,8 +133,7 @@ redeploy-integration-low:
     - make k8s-delete-namespace
     - make k8s-install-chart TELESCOPE=SKA-low
     - make k8s-wait
-  rules:
-    - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH'
+
 
 info-integration-low:
   extends:
@@ -164,8 +143,6 @@ info-integration-low:
     TELESCOPE: 'SKA-low'
   environment:
     name: integration-low-$CI_PROJECT_NAME
-  rules:
-    - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH'
 
 stop-integration-low:
   extends:
@@ -175,8 +152,7 @@ stop-integration-low:
   environment:
     name: integration-low-$CI_PROJECT_NAME
     action: stop
-  rules:
-    - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH'
+
 
 
 #staging
@@ -184,26 +160,26 @@ deploy-staging:
   stage: staging
   when: manual
   rules:
-    - if: '$CI_COMMIT_TAG == $CI_DEFAULT_BRANCH'
+    - if: $CI_COMMIT_TAG
 
 redeploy-staging:
   stage: staging
   when: manual
   rules:
-    - if: '$CI_COMMIT_TAG == $CI_DEFAULT_BRANCH'
+    - if: $CI_COMMIT_TAG
 
 
 info-staging:
   stage: staging
   when: manual
   rules:
-    - if: '$CI_COMMIT_TAG == $CI_DEFAULT_BRANCH'
+    - if: $CI_COMMIT_TAG
 
 stop-staging:
   stage: staging
   when: manual
   rules:
-    - if: '$CI_COMMIT_TAG == $CI_DEFAULT_BRANCH'
+    - if: $CI_COMMIT_TAG
 
 
 
@@ -222,7 +198,7 @@ deploy-staging-low:
     - make k8s-install-chart-car TELESCOPE=SKA-low
     - make k8s-wait
   rules:
-    - if: '$CI_COMMIT_TAG == $CI_DEFAULT_BRANCH' 
+    - if: $CI_COMMIT_TAG
 
 redeploy-staging-low:
   stage: staging
@@ -239,7 +215,7 @@ redeploy-staging-low:
     - make k8s-delete-namespace
     - make k8s-install-chart TELESCOPE=SKA-low
   rules:
-    - if: '$CI_COMMIT_TAG == $CI_DEFAULT_BRANCH'
+    - if: $CI_COMMIT_TAG
 
 info-staging-low:
   stage: staging
@@ -252,7 +228,7 @@ info-staging-low:
   environment:
     name: staging-low-$CI_PROJECT_NAME
   rules:
-    - if: '$CI_COMMIT_TAG == $CI_DEFAULT_BRANCH'
+    - if: $CI_COMMIT_TAG
 
 stop-staging-low:
   stage: staging
@@ -265,4 +241,4 @@ stop-staging-low:
     name: staging-low-$CI_PROJECT_NAME
     action: stop
   rules:
-    - if: '$$CI_COMMIT_TAG == $CI_DEFAULT_BRANCH'
+    - if: $CI_COMMIT_TAG
