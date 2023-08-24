@@ -23,8 +23,8 @@ stages:
   - build
   - test
   - integration
-  - staging
   - publish
+  - staging
   - pages
   - scan
   - lifecycle
@@ -182,25 +182,35 @@ stop-integration-low:
 
 #staging
 deploy-staging:
+  stage: staging
+  when: manual
   rules:
     - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295" '
 
 redeploy-staging:
+  stage: staging
+  when: manual
   rules:
     - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295"'
 
 
 info-staging:
+  stage: staging
+  when: manual
   rules:
     - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295" '
 
 stop-staging:
+  stage: staging
+  when: manual
   rules:
     - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295" '
 
 
 
 deploy-staging-low:
+  stage: staging
+  when: manual
   extends:
     - deploy-staging
   variables:
@@ -216,6 +226,8 @@ deploy-staging-low:
     - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295" ' 
 
 redeploy-staging-low:
+  stage: staging
+  when: manual
   extends:
     - redeploy-staging
   variables:
@@ -231,6 +243,8 @@ redeploy-staging-low:
     - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295"'
 
 info-staging-low:
+  stage: staging
+  when: manual
   extends:
     - info-staging
   variables:
@@ -242,6 +256,8 @@ info-staging-low:
     - if: '$CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH || $CI_COMMIT_REF_NAME == "hm-295" '
 
 stop-staging-low:
+  stage: staging
+  when: manual
   extends:
     - stop-staging
   variables:
