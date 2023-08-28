@@ -103,7 +103,7 @@ resources:
     memory: 128Mi
 
 ska-taranta:
-  legacy_compatibility: true
+
   enabled: true
   ingress:
     enabled: true
@@ -122,17 +122,11 @@ ska-taranta:
 
 ska-taranta-dashboard:
   legacy_compatibility: true
-  ingress:
-    enabled: true
-    nginx: true
-    hostname: test-taranta.k8s.stfc.skao.int
+
 
 ska-taranta-auth:
   legacy_compatibility: true
-  ingress:
-    enabled: true
-    nginx: true
-    hostname: test-taranta.k8s.stfc.skao.int
+
     
 deviceServers:
   centralnode:
