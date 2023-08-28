@@ -118,15 +118,6 @@ ska-taranta:
       limits:
         cpu: 1000m # 1000m = 1 CPU
         memory: 1024Mi # 1024Mi = 1 GB mem
-
-
-ska-taranta-dashboard:
-  legacy_compatibility: true
-
-
-ska-taranta-auth:
-  legacy_compatibility: true
-
     
 deviceServers:
   centralnode:

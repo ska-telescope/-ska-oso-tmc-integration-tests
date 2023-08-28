@@ -21,12 +21,6 @@ dependencies:
   - name: ska-tmc-template
     version: 0.0.1
     repository: file://../ska-tmc-template
-  - name: ska-tango-taranta-dashboard
-    version: 1.4.0
-    repository: https://artefact.skao.int/repository/helm-internal
-  - name: ska-tango-taranta-dashboard-pvc
-    version: 1.4.0
-    repository: https://artefact.skao.int/repository/helm-internal
   - name: ska-tango-taranta
     version: 2.3.1
     repository: https://artefact.skao.int/repository/helm-internal
