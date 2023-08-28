@@ -6,7 +6,7 @@ from tests.resources.test_support.constant_low import (
     tmc_subarraynode1,
 )
 
-# These test case will pass only when any of the node is deleted explicitly
+# Note:These test case will pass only when any of the node is deleted explicitly
 # Hence this test will be skipped on pipeline
 # Sample command to delete is
 # while true;
