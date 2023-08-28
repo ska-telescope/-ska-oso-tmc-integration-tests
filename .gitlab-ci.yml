@@ -75,6 +75,7 @@ k8s-test:
     - 'make help | grep k8s-test'
     - make k8s-install-chart
     - make k8s-wait
+    - make taranta-link
   retry: 1
 
 k8s-test-low:
