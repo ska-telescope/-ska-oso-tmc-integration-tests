@@ -66,6 +66,17 @@ include:
 #   before_script:
 #     - make cred SERVICE_ACCOUNT=$SERVICE_ACCOUNT
 
+mid-on-demand-deploy:
+  stage: on-demand
+  when: manual
+  variables:
+    SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA"
+  before_script:
+    - make cred SERVICE_ACCOUNT=$SERVICE_ACCOUNT
+    - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
+    - make k8s-install-chart
+    - make k8s-wait
+    - make taranta-link
 
 k8s-test:
   variables:
