@@ -43,6 +43,7 @@ CI_REGISTRY ?= gitlab.com
 
 K8S_TEST_IMAGE_TO_TEST ?= artefact.skao.int/ska-tango-images-tango-itango:9.3.12## docker image that will be run for testing purpose
 
+TARANTA_ENABLED ?= false
 
 CI_PROJECT_DIR ?= .
 
@@ -77,9 +78,9 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set ska-tango-base.display=$(DISPLAY) \
 	--set ska-tango-base.xauthority=$(XAUTHORITY) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
-	--set ska-tango-taranta.enabled=$(TARANTA) \
 	--set global.exposeAllDS=true \
 	--set global.operator=true \
+	--set ska-taranta.enabled=$(TARANTA_ENABLED)\
 	$(CUSTOM_VALUES)
 
 
