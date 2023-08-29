@@ -72,6 +72,7 @@ mid-on-demand-deploy:
   variables:
     SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA"
     KUBE_NAMESPACE: "ci-mid-on-demand-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA"
+    TARANTA_ENABLED: "true"
   script:
     - make cred SERVICE_ACCOUNT=$SERVICE_ACCOUNT
     - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
