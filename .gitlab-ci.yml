@@ -68,7 +68,6 @@ include:
 
 mid-on-demand-deploy:
   stage: on-demand
-  when: manual
   variables:
     SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA"
   before_script:
@@ -77,6 +76,8 @@ mid-on-demand-deploy:
     - make k8s-install-chart
     - make k8s-wait
     - make taranta-link
+  rules:
+    - when: manual
 
 k8s-test:
   variables:
