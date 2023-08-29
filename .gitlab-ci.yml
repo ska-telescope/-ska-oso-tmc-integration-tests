@@ -19,10 +19,10 @@ cache:
 # It is also specified that only the master branch will be subject of this job.
 
 stages:
-  - on-demand
   - lint
   - build
   - test
+  - on-demand
   - integration
   - publish
   - staging
