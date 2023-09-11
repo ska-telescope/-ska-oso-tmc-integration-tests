@@ -20,7 +20,6 @@ from tests.resources.test_support.common_utils.tmc_helpers import (
     tear_down,
 )
 from tests.resources.test_support.constant import (
-    DEVICE_HEALTH_STATE_OK_INFO,
     DEVICE_LIST_FOR_CHECK_DEVICES,
     DEVICE_OBS_STATE_EMPTY_INFO,
     DEVICE_OBS_STATE_IDLE_INFO,
