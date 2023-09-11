@@ -12,7 +12,6 @@ from tests.resources.test_support.common_utils.common_helpers import (
 )
 from tests.resources.test_support.common_utils.telescope_controls import (
     BaseTelescopeControl,
-    check_subarray1_availability,
 )
 from tests.resources.test_support.common_utils.tmc_helpers import (
     TmcHelper,
@@ -26,12 +25,10 @@ from tests.resources.test_support.constant import (
     DEVICE_OBS_STATE_READY_INFO,
     DEVICE_STATE_ON_INFO,
     DEVICE_STATE_STANDBY_INFO,
-    INTERMEDIATE_CONFIGURING_OBS_STATE_DEFECT,
     INTERMEDIATE_STATE_DEFECT,
     ON_OFF_DEVICE_COMMAND_DICT,
     centralnode,
     csp_subarray1,
-    dish_master1,
     tmc_subarraynode1,
 )
 
