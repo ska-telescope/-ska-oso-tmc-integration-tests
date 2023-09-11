@@ -56,7 +56,7 @@ ska-tango-base:
   tangodb:
     use_pv: false
 
-#TMC-low
+# TMC-low
 tmc-low:
   labels:
     app: ska-tmc-integration

@@ -101,8 +101,6 @@ resources:
   requests:
     cpu: 100m
     memory: 128Mi
-
-
     
 deviceServers:
   centralnode:
@@ -148,9 +146,6 @@ deviceServers:
   mocks:
     enabled: false
     file: "data/mocks.yaml"
-
-
-
 
 nodeSelector: {}
 
