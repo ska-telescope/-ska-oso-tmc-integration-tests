@@ -20,6 +20,7 @@ from tests.resources.test_support.common_utils.tmc_helpers import (
     tear_down,
 )
 from tests.resources.test_support.constant import (
+    DEVICE_HEALTH_STATE_OK_INFO,
     DEVICE_LIST_FOR_CHECK_DEVICES,
     DEVICE_OBS_STATE_EMPTY_INFO,
     DEVICE_OBS_STATE_IDLE_INFO,
@@ -37,6 +38,51 @@ from tests.resources.test_support.constant import (
 
 telescope_control = BaseTelescopeControl()
 tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
+
+
+@pytest.mark.SKA_mid
+def test_assign_release(json_factory):
+    """AssignResources and ReleaseResources is executed."""
+    assign_json = json_factory("command_AssignResources")
+    release_json = json_factory("command_ReleaseResources")
+    try:
+        tmc_helper.check_devices(DEVICE_LIST_FOR_CHECK_DEVICES)
+        assert telescope_control.is_in_valid_state(
+            DEVICE_STATE_STANDBY_INFO, "State"
+        )
+        # Invoke TelescopeOn() command on TMC CentralNode
+        tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
+        # Verify State transitions after TelescopeOn
+        assert telescope_control.is_in_valid_state(
+            DEVICE_STATE_ON_INFO, "State"
+        )
+
+        # Check Telescope availability
+        tmc_helper.check_telescope_availability()
+        # Invoke AssignResources() Command on TMC
+        tmc_helper.compose_sub(assign_json, **ON_OFF_DEVICE_COMMAND_DICT)
+        assert telescope_control.is_in_valid_state(
+            DEVICE_OBS_STATE_IDLE_INFO, "obsState"
+        )
+
+        # Invoke ReleaseResources() command on TMC
+        tmc_helper.invoke_releaseResources(
+            release_json, **ON_OFF_DEVICE_COMMAND_DICT
+        )
+        assert telescope_control.is_in_valid_state(
+            DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
+        )
+
+        # Check Telescope availability
+        tmc_helper.check_telescope_availability()
+        # Invoke Standby() command on TMC
+        tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
+        assert telescope_control.is_in_valid_state(
+            DEVICE_STATE_STANDBY_INFO, "State"
+        )
+    except Exception as e:
+        LOGGER.exception("The exception is: %s", e)
+        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
 @pytest.mark.SKA_mid
@@ -235,6 +281,14 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
     except Exception as e:
         LOGGER.exception("The exception is: %s", e)
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
+
+
+@pytest.mark.SKA_mid
+def test_health_check_mid():
+    """Test case to check health check for mid"""
+    assert telescope_control.is_in_valid_state(
+        DEVICE_HEALTH_STATE_OK_INFO, "healthState"
+    )
 
 
 @pytest.mark.SKA_mid
