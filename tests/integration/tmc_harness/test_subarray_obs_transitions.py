@@ -99,7 +99,6 @@ class TestSubarrayNodeObsStateTransitions(object):
                 "csp_assign_resources_mid",
                 "sdp_assign_resources_mid",
             ),
-            Failing consistently on each run
             (
                 "READY",
                 "Scan",
