@@ -99,16 +99,16 @@ class TestSubarrayNodeObsStateTransitions(object):
                 "csp_assign_resources_mid",
                 "sdp_assign_resources_mid",
             ),
-            # Failing consistently on each run
-            # (
-            #     "READY",
-            #     "Scan",
-            #     "scan_mid",
-            #     ObsState.SCANNING,
-            #     ObsState.READY,
-            #     "csp_scan_mid",
-            #     "sdp_scan_mid",
-            # ),
+            Failing consistently on each run
+            (
+                "READY",
+                "Scan",
+                "scan_mid",
+                ObsState.SCANNING,
+                ObsState.READY,
+                "csp_scan_mid",
+                "sdp_scan_mid",
+            ),
         ],
     )
     @pytest.mark.SKA_mid
