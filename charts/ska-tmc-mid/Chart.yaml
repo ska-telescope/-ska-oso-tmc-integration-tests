@@ -21,4 +21,3 @@ dependencies:
   - name: ska-tmc-template
     version: 0.0.1
     repository: file://../ska-tmc-template
-

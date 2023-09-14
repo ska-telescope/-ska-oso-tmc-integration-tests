@@ -21,6 +21,7 @@ cache:
 stages:
   - lint
   - build
+  - on-demand
   - test
   - integration
   - publish
@@ -66,6 +67,94 @@ include:
 #     - make cred SERVICE_ACCOUNT=$SERVICE_ACCOUNT
 
 
+mid-on-demand-deploy:
+  stage: on-demand
+  tags:
+    - k8srunner
+  variables:
+    SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA"
+    KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-mid-on-demand"
+    TARANTA_ENABLED: "true"
+  script:
+    - make cred SERVICE_ACCOUNT=$SERVICE_ACCOUNT
+    - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
+    - make k8s-install-chart
+    - make k8s-wait
+    - make taranta-link
+  environment:
+    name: $CI_PROJECT_NAME/$CI_COMMIT_REF_SLUG
+    kubernetes:
+      # This repetition is needed for gitlab to parse the namespace correctly
+      namespace: $KUBE_NAMESPACE
+    on_stop: mid-on-demand-destroy
+  when: manual
+  allow_failure: true # need to keep this to unlock the pipeline
+
+mid-on-demand-destroy:
+  stage: on-demand
+  tags:
+    - k8srunner
+  variables:
+    SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA"
+    KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-mid-on-demand"
+  script:
+    - make cred SERVICE_ACCOUNT=$SERVICE_ACCOUNT
+    - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
+    - make k8s-uninstall-chart
+  environment:
+    name: $CI_PROJECT_NAME/$CI_COMMIT_REF_SLUG
+    kubernetes:
+      # This repetition is needed for gitlab to parse the namespace correctly
+      namespace: $KUBE_NAMESPACE
+    action: stop
+  when: manual
+  allow_failure: true # need to keep this to unlock the pipeline
+
+low-on-demand-deploy:
+  stage: on-demand
+  tags:
+    - k8srunner
+  variables:
+    TELESCOPE: 'SKA-low'
+    SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-low"
+    KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-low-on-demand"
+    TARANTA_ENABLED: "true"
+  script:
+    - make cred SERVICE_ACCOUNT=$SERVICE_ACCOUNT
+    - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
+    - make k8s-install-chart 
+    - make k8s-wait
+    - make taranta-link
+  environment:
+    name: $CI_PROJECT_NAME/$CI_COMMIT_REF_SLUG
+    kubernetes:
+      # This repetition is needed for gitlab to parse the namespace correctly
+      namespace: $KUBE_NAMESPACE
+    on_stop: low-on-demand-destroy
+  when: manual
+  allow_failure: true # need to keep this to unlock the pipeline
+
+low-on-demand-destroy:
+  stage: on-demand
+  tags:
+    - k8srunner
+  variables:
+    TELESCOPE: 'SKA-low'
+    SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-low"
+    KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-low-on-demand"
+  script:
+    - make cred SERVICE_ACCOUNT=$SERVICE_ACCOUNT
+    - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
+    - make k8s-uninstall-chart
+  environment:
+    name: $CI_PROJECT_NAME/$CI_COMMIT_REF_SLUG
+    kubernetes:
+      # This repetition is needed for gitlab to parse the namespace correctly
+      namespace: $KUBE_NAMESPACE
+    action: stop
+  when: manual
+  allow_failure: true # need to keep this to unlock the pipeline
+
 k8s-test:
   variables:
     SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA"
@@ -104,8 +193,6 @@ stop-k8s-test-low:
     - make k8s-uninstall-chart
     - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all
     - make k8s-delete-namespace
-
-
 
 deploy-integration:
   rules:
