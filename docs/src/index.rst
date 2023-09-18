@@ -9,12 +9,6 @@ This project is integration of the TMC components for the `Square Kilometre Arra
    getting_started/getting_started
    
 .. toctree::
-   :maxdepth: 1
-   :caption: Developer guide
-
-   developer_guide/code_quality
-
-.. toctree::
    :maxdepth: 2
    :caption: TMC Deployment
 
@@ -33,6 +27,11 @@ This project is integration of the TMC components for the `Square Kilometre Arra
    apis/obs_mandc
    apis/operational_mandc
 
+.. toctree::
+   :maxdepth: 1
+   :caption: Developer guide
+
+   developer_guide/code_quality
 
 Indices and tables
 ------------------
