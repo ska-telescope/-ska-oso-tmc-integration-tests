@@ -78,7 +78,6 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
         )
         assert check_subarray_obs_state(obs_state="ABORTED")
 
-    # @pytest.mark.skip(reason="Test is failing intermittently on pipeline env")
     @pytest.mark.parametrize(
         "source_obs_state",
         ["CONFIGURING", "READY", "SCANNING"],
