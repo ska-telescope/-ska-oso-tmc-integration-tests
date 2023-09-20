@@ -3,10 +3,7 @@ from contextlib import contextmanager
 
 from tests.resources.test_harness.utils.wait_helpers import Waiter
 from tests.resources.test_support.common_utils.base_utils import DeviceUtils
-from tests.resources.test_support.common_utils.common_helpers import (
-    Resource,
-    WaitForScan,
-)
+from tests.resources.test_support.common_utils.common_helpers import Resource
 
 TIMEOUT = 200
 
@@ -167,124 +164,126 @@ def sync_end(device_dict):
     return decorator_sync_end
 
 
-def wait_assign():
-    def decorator_sync_assign(func):
-        @functools.wraps(func)
-        def wrapper(*args, **kwargs):
-            the_waiter = Waiter(**kwargs)
-            the_waiter.set_wait_for_idle()
-            result = func(*args, **kwargs)
-            the_waiter.wait(200)
-            return result
+# TODO: These are not getting used as of now they might be utilized in the
+# subsequent work of test harness
+# def wait_assign():
+#     def decorator_sync_assign(func):
+#         @functools.wraps(func)
+#         def wrapper(*args, **kwargs):
+#             the_waiter = Waiter(**kwargs)
+#             the_waiter.set_wait_for_idle()
+#             result = func(*args, **kwargs)
+#             the_waiter.wait(200)
+#             return result
 
-        return wrapper
+#         return wrapper
 
-    return decorator_sync_assign
-
-
-def sync_assigning():
-    # defined as a decorator
-    def decorator_sync_assign_resources(func):
-        @functools.wraps(func)
-        def wrapper(*args, **kwargs):
-            device = DeviceUtils(
-                obs_state_device_names=[
-                    kwargs.get("csp_subarray"),
-                    kwargs.get("sdp_subarray"),
-                    kwargs.get("tmc_subarraynode"),
-                ]
-            )
-            device.check_devices_obsState("EMPTY")
-            the_waiter = Waiter(**kwargs)
-            the_waiter.set_wait_for_assign_resources()
-            result = func(*args, **kwargs)
-            the_waiter.wait(200)
-            return result
-
-        return wrapper
-
-    return decorator_sync_assign_resources
+#     return decorator_sync_assign
 
 
-def sync_configure_sub():
-    # defined as a decorator
-    def decorator_sync_configure(func):
-        @functools.wraps(func)
-        def wrapper(*args, **kwargs):
-            flag = False
-            the_waiter = Waiter(**kwargs)
-            if Resource(kwargs.get("tmc_subarraynode")) == "READY":
-                flag = True
-            result = func(*args, **kwargs)
-            if flag:
-                the_waiter.set_wait_for_configuring()
-                the_waiter.wait(500)
-            the_waiter.set_wait_for_configure()
-            the_waiter.wait(500)
-            return result
+# def sync_assigning():
+#     # defined as a decorator
+#     def decorator_sync_assign_resources(func):
+#         @functools.wraps(func)
+#         def wrapper(*args, **kwargs):
+#             device = DeviceUtils(
+#                 obs_state_device_names=[
+#                     kwargs.get("csp_subarray"),
+#                     kwargs.get("sdp_subarray"),
+#                     kwargs.get("tmc_subarraynode"),
+#                 ]
+#             )
+#             device.check_devices_obsState("EMPTY")
+#             the_waiter = Waiter(**kwargs)
+#             the_waiter.set_wait_for_assign_resources()
+#             result = func(*args, **kwargs)
+#             the_waiter.wait(200)
+#             return result
 
-        return wrapper
+#         return wrapper
 
-    return decorator_sync_configure
-
-
-def sync_scan(timeout=300):
-    # define as a decorator
-    def decorator_sync_scan(func):
-        @functools.wraps(func)
-        def wrapper(*args, **kwargs):
-            device = DeviceUtils(
-                obs_state_device_names=[
-                    kwargs.get("csp_subarray"),
-                    kwargs.get("sdp_subarray"),
-                    kwargs.get("tmc_subarraynode"),
-                ]
-            )
-            device.check_devices_obsState("READY")
-            scan_wait = WaitForScan(**kwargs)
-            result = func(*args, **kwargs)
-            scan_wait.wait(timeout)
-            return result
-
-        return wrapper
-
-    return decorator_sync_scan
+#     return decorator_sync_assign_resources
 
 
-def sync_endscan(device_dict):
-    # defined as a decorator
-    def decorator_sync_end_scan(func):
-        @functools.wraps(func)
-        def wrapper(*args, **kwargs):
-            the_waiter = Waiter(**kwargs)
-            the_waiter.set_wait_for_ready()
-            result = func(*args, **kwargs)
-            the_waiter.wait(200)
-            return result
+# def sync_configure_sub():
+#     # defined as a decorator
+#     def decorator_sync_configure(func):
+#         @functools.wraps(func)
+#         def wrapper(*args, **kwargs):
+#             flag = False
+#             the_waiter = Waiter(**kwargs)
+#             if Resource(kwargs.get("tmc_subarraynode")) == "READY":
+#                 flag = True
+#             result = func(*args, **kwargs)
+#             if flag:
+#                 the_waiter.set_wait_for_configuring()
+#                 the_waiter.wait(500)
+#             the_waiter.set_wait_for_configure()
+#             the_waiter.wait(500)
+#             return result
 
-        return wrapper
+#         return wrapper
 
-    return decorator_sync_end_scan
+#     return decorator_sync_configure
 
 
-def sync_endscan_in_ready():
-    # defined as a decorator
-    def decorator_sync_end_scan(func):
-        @functools.wraps(func)
-        def wrapper(*args, **kwargs):
-            device = DeviceUtils(
-                obs_state_device_names=[
-                    kwargs.get("csp_subarray"),
-                    kwargs.get("sdp_subarray"),
-                    kwargs.get("tmc_subarraynode"),
-                ]
-            )
-            device.check_devices_obsState("READY")
-            the_waiter = Waiter(**kwargs)
-            the_waiter.set_wait_for_idle()
-            result = func(*args, **kwargs)
-            return result
+# def sync_scan(timeout=300):
+#     # define as a decorator
+#     def decorator_sync_scan(func):
+#         @functools.wraps(func)
+#         def wrapper(*args, **kwargs):
+#             device = DeviceUtils(
+#                 obs_state_device_names=[
+#                     kwargs.get("csp_subarray"),
+#                     kwargs.get("sdp_subarray"),
+#                     kwargs.get("tmc_subarraynode"),
+#                 ]
+#             )
+#             device.check_devices_obsState("READY")
+#             scan_wait = WaitForScan(**kwargs)
+#             result = func(*args, **kwargs)
+#             scan_wait.wait(timeout)
+#             return result
 
-        return wrapper
+#         return wrapper
 
-    return decorator_sync_end_scan
+#     return decorator_sync_scan
+
+
+# def sync_endscan(device_dict):
+#     # defined as a decorator
+#     def decorator_sync_end_scan(func):
+#         @functools.wraps(func)
+#         def wrapper(*args, **kwargs):
+#             the_waiter = Waiter(**kwargs)
+#             the_waiter.set_wait_for_ready()
+#             result = func(*args, **kwargs)
+#             the_waiter.wait(200)
+#             return result
+
+#         return wrapper
+
+#     return decorator_sync_end_scan
+
+
+# def sync_endscan_in_ready():
+#     # defined as a decorator
+#     def decorator_sync_end_scan(func):
+#         @functools.wraps(func)
+#         def wrapper(*args, **kwargs):
+#             device = DeviceUtils(
+#                 obs_state_device_names=[
+#                     kwargs.get("csp_subarray"),
+#                     kwargs.get("sdp_subarray"),
+#                     kwargs.get("tmc_subarraynode"),
+#                 ]
+#             )
+#             device.check_devices_obsState("READY")
+#             the_waiter = Waiter(**kwargs)
+#             the_waiter.set_wait_for_idle()
+#             result = func(*args, **kwargs)
+#             return result
+
+#         return wrapper
+
+#     return decorator_sync_end_scan

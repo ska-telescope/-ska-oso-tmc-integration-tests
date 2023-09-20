@@ -10,7 +10,11 @@ from ska_tango_testing.mock.tango.event_callback import (
     MockTangoEventCallbackGroup,
 )
 
-from tests.resources.test_harness.central_node import CentralNode
+from tests.resources.test_harness.central_node import (
+    CentralNodeLow,
+    CentralNodeMid,
+)
+from tests.resources.test_harness.constant import centralnode, low_centralnode
 from tests.resources.test_harness.event_recorder import EventRecorder
 from tests.resources.test_harness.simulator_factory import SimulatorFactory
 from tests.resources.test_harness.subarray_node import SubarrayNode
@@ -120,9 +124,12 @@ def change_event_callbacks() -> MockTangoEventCallbackGroup:
 
 
 @pytest.fixture()
-def central_node() -> CentralNode:
+def central_node():
     """Return CentralNode and calls tear down"""
-    central_node = CentralNode()
+    if TELESCOPE_ENV == "SKA-mid":
+        central_node = CentralNodeMid(centralnode)
+    else:
+        central_node = CentralNodeLow(low_centralnode)
     yield central_node
     central_node.tear_down()
 

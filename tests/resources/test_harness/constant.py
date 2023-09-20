@@ -130,3 +130,41 @@ INTERMEDIATE_STATE_DEFECT = {
     "result": ResultCode.FAILED,
     "intermediate_state": ObsState.RESOURCING,
 }
+
+low_centralnode = "ska_low/tm_central/central_node"
+tmc_low_subarraynode1 = "ska_low/tm_subarray_node/1"
+tmc_low_subarraynode2 = "ska_low/tm_subarray_node/2"
+tmc_low_subarraynode3 = "ska_low/tm_subarray_node/3"
+low_csp_master_leaf_node = "ska_low/tm_leaf_node/csp_master"
+low_sdp_master_leaf_node = "ska_low/tm_leaf_node/sdp_master"
+mccs_master_leaf_node = "ska_low/tm_leaf_node/mccs_master"
+low_csp_subarray_leaf_node = "ska_low/tm_leaf_node/csp_subarray01"
+low_sdp_subarray_leaf_node = "ska_low/tm_leaf_node/sdp_subarray01"
+mccs_subarray_leaf_node = "ska_low/tm_leaf_node/mccs_subarray01"
+low_sdp_subarray1 = "low-sdp/subarray/01"
+low_sdp_subarray2 = "low-sdp/subarray/02"
+low_sdp_subarray3 = "low-sdp/subarray/03"
+low_csp_subarray1 = "low-csp/subarray/01"
+low_csp_subarray2 = "low-csp/subarray/02"
+low_csp_subarray3 = "low-csp/subarray/03"
+low_sdp_master = "low-sdp/control/0"
+low_csp_master = "low-csp/control/0"
+mccs_controller = "low-mccs/control/control"
+mccs_subarray1 = "low-mccs/subarray/01"
+mccs_subarray2 = "low-mccs/subarray/02"
+mccs_subarray3 = "low-mccs/subarray/03"
+
+device_dict = {
+    "csp_master": csp_master,
+    "tmc_subarraynode": tmc_subarraynode1,
+    "sdp_master": sdp_master,
+    "dish_master1": dish_master1,
+    "dish_master2": dish_master2,
+}
+
+device_dict_low = {
+    "csp_master": low_csp_master,
+    "tmc_subarraynode": tmc_low_subarraynode1,
+    "sdp_master": low_sdp_master,
+    "mccs_master": mccs_controller,
+}
