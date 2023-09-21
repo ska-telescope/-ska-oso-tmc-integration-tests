@@ -15,7 +15,6 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
             "IDLE",
         ],
     )
-    @pytest.mark.Failing_Test
     @pytest.mark.SKA_mid
     def test_subarray_obs_transitions_valid_data(
         self,
@@ -84,7 +83,6 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
         ["CONFIGURING", "READY", "SCANNING"],
     )
     @pytest.mark.SKA_mid
-    @pytest.mark.Failing_Test
     def test_subarray_obs_intermediate_transitions(
         self,
         subarray_node,

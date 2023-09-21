@@ -68,11 +68,7 @@ CI_ENVIRONMENT_SLUG ?= ska-tmc-integration
 
 ifeq ($(MAKECMDGOALS),k8s-test)
 ADD_ARGS +=  --true-context
-ifeq ($(TELESCOPE),SKA-mid)
-MARK = Failing_Test
-else
 MARK = $(shell echo $(TELESCOPE) | sed "s/-/_/g")
-endif
 endif
 
 PYTHON_VARS_AFTER_PYTEST ?= -m '$(MARK)' $(ADD_ARGS) $(FILE)
