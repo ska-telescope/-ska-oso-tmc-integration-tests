@@ -168,3 +168,11 @@ device_dict_low = {
     "sdp_master": low_sdp_master,
     "mccs_master": mccs_controller,
 }
+
+LOW_SIMULATOR_DEVICE_FQDN_DICT = {
+    SimulatorDeviceType.SDP_DEVICE: [low_sdp_subarray1],
+    SimulatorDeviceType.CSP_DEVICE: [low_csp_subarray1],
+    SimulatorDeviceType.SDP_MASTER_DEVICE: [low_sdp_master],
+    SimulatorDeviceType.CSP_MASTER_DEVICE: [low_csp_master],
+    # SimulatorDeviceType.MCCS_MASTER_DEVICE: [mccs_controller]
+}

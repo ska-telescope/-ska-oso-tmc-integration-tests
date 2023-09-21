@@ -10,13 +10,14 @@ from ska_tango_testing.mock.tango.event_callback import (
     MockTangoEventCallbackGroup,
 )
 
-from tests.resources.test_harness.central_node import (
-    CentralNodeLow,
-    CentralNodeMid,
-)
+from tests.resources.test_harness.central_node_low import CentralNodeLow
+from tests.resources.test_harness.central_node_mid import CentralNodeMid
 from tests.resources.test_harness.constant import centralnode, low_centralnode
 from tests.resources.test_harness.event_recorder import EventRecorder
-from tests.resources.test_harness.simulator_factory import SimulatorFactory
+from tests.resources.test_harness.simulator_factory import (
+    SimulatorFactory,
+    SimulatorFactoryLow,
+)
 from tests.resources.test_harness.subarray_node import SubarrayNode
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 
@@ -152,7 +153,10 @@ def command_input_factory() -> JsonFactory:
 @pytest.fixture(scope="module")
 def simulator_factory() -> SimulatorFactory:
     """Return Simulator Factory"""
-    return SimulatorFactory()
+    if TELESCOPE_ENV == "SKA-low":
+        return SimulatorFactoryLow()
+    else:
+        return SimulatorFactory()
 
 
 @pytest.fixture()

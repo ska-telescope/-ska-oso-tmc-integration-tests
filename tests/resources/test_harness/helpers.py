@@ -3,6 +3,7 @@ from typing import Any
 from ska_tango_base.control_model import HealthState
 
 from tests.conftest import LOGGER
+from tests.resources.test_harness.simulator_factory import SimulatorFactory
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_harness.utils.wait_helpers import Waiter
@@ -95,15 +96,22 @@ def get_master_device_simulators(simulator_factory):
     sdp_master_sim = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.SDP_MASTER_DEVICE
     )
-    dish_master_sim_1 = simulator_factory.get_or_create_simulator_device(
-        SimulatorDeviceType.DISH_DEVICE, sim_number=1
-    )
+    if type(simulator_factory) == SimulatorFactory:
+        dish_master_sim_1 = simulator_factory.get_or_create_simulator_device(
+            SimulatorDeviceType.DISH_DEVICE, sim_number=1
+        )
 
-    dish_master_sim_2 = simulator_factory.get_or_create_simulator_device(
-        SimulatorDeviceType.DISH_DEVICE, sim_number=2
-    )
-
-    return csp_master_sim, sdp_master_sim, dish_master_sim_1, dish_master_sim_2
+        dish_master_sim_2 = simulator_factory.get_or_create_simulator_device(
+            SimulatorDeviceType.DISH_DEVICE, sim_number=2
+        )
+        return (
+            csp_master_sim,
+            sdp_master_sim,
+            dish_master_sim_1,
+            dish_master_sim_2,
+        )
+    else:
+        return csp_master_sim, sdp_master_sim, None, None
 
 
 def get_device_simulator_with_given_name(simulator_factory, devices):
