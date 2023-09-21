@@ -155,8 +155,7 @@ def simulator_factory() -> SimulatorFactory:
     """Return Simulator Factory"""
     if TELESCOPE_ENV == "SKA-low":
         return SimulatorFactoryLow()
-    else:
-        return SimulatorFactory()
+    return SimulatorFactory()
 
 
 @pytest.fixture()
