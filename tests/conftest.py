@@ -158,8 +158,7 @@ def simulator_factory(request) -> Union[SimulatorFactory, SimulatorFactoryLow]:
     marker = request.node.get_closest_marker("deployment")
     if marker:
         return SimulatorFactoryLow()
-    else:
-        return SimulatorFactory()
+    return SimulatorFactory()
 
 
 @pytest.fixture()
