@@ -1,7 +1,7 @@
 from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
 
-from tests.resources.test_harness.central_node import CentralNode
+from tests.resources.test_harness.central_node import CentralNodeDevice
 from tests.resources.test_harness.constant import (
     csp_master,
     csp_subarray1,
@@ -14,7 +14,7 @@ from tests.resources.test_harness.constant import (
 )
 
 
-class CentralNodeMid(CentralNode):
+class CentralNodeDeviceMid(CentralNodeDevice):
     """A TMC CentralNode class to implements the standard set
     of commands defined by the SKA Control Model for Mid Telescope"""
 

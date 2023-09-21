@@ -3,6 +3,7 @@ import json
 import logging
 import os
 from os.path import dirname, join
+from typing import Union
 
 import pytest
 import tango
@@ -10,8 +11,8 @@ from ska_tango_testing.mock.tango.event_callback import (
     MockTangoEventCallbackGroup,
 )
 
-from tests.resources.test_harness.central_node_low import CentralNodeLow
-from tests.resources.test_harness.central_node_mid import CentralNodeMid
+from tests.resources.test_harness.central_node_low import CentralNodeDeviceLow
+from tests.resources.test_harness.central_node_mid import CentralNodeDeviceMid
 from tests.resources.test_harness.constant import centralnode, low_centralnode
 from tests.resources.test_harness.event_recorder import EventRecorder
 from tests.resources.test_harness.simulator_factory import (
@@ -125,12 +126,13 @@ def change_event_callbacks() -> MockTangoEventCallbackGroup:
 
 
 @pytest.fixture()
-def central_node():
-    """Return CentralNode and calls tear down"""
-    if TELESCOPE_ENV == "SKA-mid":
-        central_node = CentralNodeMid(centralnode)
+def central_node(request) -> Union[CentralNodeDeviceLow, CentralNodeDeviceMid]:
+    """Return CentralNode for Mid and Low Telescope and calls tear down"""
+    marker = request.node.get_closest_marker("deployment")
+    if marker:
+        central_node = CentralNodeDeviceLow(low_centralnode)
     else:
-        central_node = CentralNodeLow(low_centralnode)
+        central_node = CentralNodeDeviceMid(centralnode)
     yield central_node
     central_node.tear_down()
 
@@ -150,12 +152,14 @@ def command_input_factory() -> JsonFactory:
     return JsonFactory()
 
 
-@pytest.fixture(scope="module")
-def simulator_factory() -> SimulatorFactory:
-    """Return Simulator Factory"""
-    if TELESCOPE_ENV == "SKA-low":
+@pytest.fixture()
+def simulator_factory(request) -> Union[SimulatorFactory, SimulatorFactoryLow]:
+    """Return Simulator Factory for Low and Mid Telescope"""
+    marker = request.node.get_closest_marker("deployment")
+    if marker:
         return SimulatorFactoryLow()
-    return SimulatorFactory()
+    else:
+        return SimulatorFactory()
 
 
 @pytest.fixture()

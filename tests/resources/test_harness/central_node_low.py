@@ -1,6 +1,6 @@
 from tango import DeviceProxy, DevState
 
-from tests.resources.test_harness.central_node import CentralNode
+from tests.resources.test_harness.central_node import CentralNodeDevice
 from tests.resources.test_harness.constant import (
     device_dict_low,
     low_csp_master,
@@ -17,7 +17,7 @@ from tests.resources.test_harness.utils.sync_decorators import (
 
 # TODO: Currently the code for MCCS has been commented as it will be enabled
 #  in the upcoming sprints of PI-20
-class CentralNodeLow(CentralNode):
+class CentralNodeDeviceLow(CentralNodeDevice):
     """A TMC CentralNode class to implements the standard set
     of commands defined by the SKA Control Model for Low Telescope"""
 

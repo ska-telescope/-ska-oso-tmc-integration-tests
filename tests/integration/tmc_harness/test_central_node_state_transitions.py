@@ -15,8 +15,8 @@ def test_centralnode_state_transitions_valid_data(
     command and followed by a completion transition
     assuming that external subsystems work fine.
     Glossary:
-    - "central_node": fixture for a TMC CentralNode under test
-    which provides simulated subarray and master devices
+    - "central_node": fixture for a TMC CentralNode Mid under test
+    which provides simulated master devices
     - "event_recorder": fixture for a MockTangoEventCallbackGroup
     for validating the subscribing and receiving events.
 
@@ -67,6 +67,7 @@ def test_centralnode_state_transitions_valid_data(
     )
 
 
+@pytest.mark.deployment("LOW")
 @pytest.mark.SKA_low
 def test_low_centralnode_state_transitions_valid_data(
     central_node,
@@ -78,8 +79,8 @@ def test_low_centralnode_state_transitions_valid_data(
     command and followed by a completion transition
     assuming that external subsystems work fine.
     Glossary:
-    - "central_node": fixture for a TMC CentralNode under test
-    which provides simulated subarray and master devices
+    - "central_node": fixture for a TMC CentralNode low under test
+    which provides simulated master devices
     - "event_recorder": fixture for a MockTangoEventCallbackGroup
     for validating the subscribing and receiving events.
 
@@ -100,4 +101,15 @@ def test_low_centralnode_state_transitions_valid_data(
         sdp_master_sim,
         "State",
         DevState.ON,
+    )
+    central_node.set_off()
+    assert event_recorder.has_change_event_occurred(
+        csp_master_sim,
+        "State",
+        DevState.OFF,
+    )
+    assert event_recorder.has_change_event_occurred(
+        sdp_master_sim,
+        "State",
+        DevState.OFF,
     )

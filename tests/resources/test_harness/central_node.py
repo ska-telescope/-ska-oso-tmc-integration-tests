@@ -8,7 +8,7 @@ from tests.resources.test_harness.utils.sync_decorators import (
 from tests.resources.test_support.common_utils.common_helpers import Resource
 
 
-class CentralNode(object):
+class CentralNodeDevice(object):
     """A TMC CentralNode class to implements the standard set
     of commands defined by the SKA Control Model.
     """
