@@ -435,7 +435,6 @@ class Waiter:
             )
         )
 
-
     def set_wait_for_assign_resources(self):
         """Sets wait for device to execute assign resources"""
         self.waits.append(
@@ -488,7 +487,6 @@ class Waiter:
                 "obsState", changed_to=obs_state
             )
         )
-        
 
     def set_wait_for_configure(self):
         """Sets wait for device to execute configure command"""
