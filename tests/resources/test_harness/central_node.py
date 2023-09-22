@@ -77,7 +77,7 @@ class CentralNodeWrapper(object):
             for device in self.dish_master_list:
                 device.SetDirectState(DevState.STANDBY)
 
-    def set_off(self):
+    def move_to_off(self):
         """
         A method to invoke TelescopeOff command to
         put telescope in OFF state
@@ -124,4 +124,4 @@ class CentralNodeWrapper(object):
         """Handle Tear down of central Node"""
         # reset HealthState.UNKNOWN for mock devices
         self._reset_health_state_for_mock_devices()
-        self.set_off()
+        self.move_to_off()
