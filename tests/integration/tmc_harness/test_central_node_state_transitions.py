@@ -1,8 +1,8 @@
 import pytest
-from tango._tango import DevState
+from tango import DevState
 
+from tests.resources.test_harness.central_node_mid import CentralNodeWrapperMid
 from tests.resources.test_harness.helpers import get_master_device_simulators
-from tests.resources.test_harness.simulator_factory import SimulatorFactory
 
 
 def test_centralnode_state_transitions_valid_data(
@@ -11,15 +11,16 @@ def test_centralnode_state_transitions_valid_data(
     simulator_factory,
 ):
     """
-    Test to verify transitions that are triggered by On
+    Test to verify transitions that are triggered by On and Off
     command and followed by a completion transition
     assuming that external subsystems work fine.
     Glossary:
-    - "central_node": fixture for a TMC CentralNode Mid under test
+    - "central_node": fixture for a TMC CentralNode Mid/Low under test
     which provides simulated master devices
     - "event_recorder": fixture for a MockTangoEventCallbackGroup
     for validating the subscribing and receiving events.
-
+    - "simulator_factory": fixtur for creating simulator devices for
+    low and mid Telescope respectively.
     """
     (
         csp_master_sim,
@@ -42,7 +43,7 @@ def test_centralnode_state_transitions_valid_data(
         "State",
         DevState.ON,
     )
-    if type(simulator_factory) == SimulatorFactory:
+    if type(central_node) == CentralNodeWrapperMid:
         event_recorder.subscribe_event(dish_master_sim1, "State")
         event_recorder.subscribe_event(dish_master_sim2, "State")
         assert event_recorder.has_change_event_occurred(
