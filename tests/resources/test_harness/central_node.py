@@ -23,6 +23,7 @@ class CentralNodeDevice(object):
         self.subarray_devices = {}
         self.sdp_master = None
         self.csp_master = None
+        self.dish_master_list = None
         self._state = DevState.OFF
 
     @property
@@ -63,6 +64,18 @@ class CentralNodeDevice(object):
         put telescope in ON state
         """
         self.central_node.TelescopeOn()
+        device_to_on_list = [
+            self.subarray_devices.get("csp_subarray"),
+            self.subarray_devices.get("sdp_subarray"),
+        ]
+        for device in device_to_on_list:
+            device_proxy = DeviceProxy(device)
+            device_proxy.SetDirectState(DevState.ON)
+
+        # If Dish master provided then set it to standby
+        if self.dish_master_list:
+            for device in self.dish_master_list:
+                device.SetDirectState(DevState.STANDBY)
 
     def set_off(self):
         """
@@ -71,6 +84,18 @@ class CentralNodeDevice(object):
 
         """
         self.central_node.TelescopeOff()
+        device_to_on_list = [
+            self.subarray_devices.get("csp_subarray"),
+            self.subarray_devices.get("sdp_subarray"),
+        ]
+        for device in device_to_on_list:
+            device_proxy = DeviceProxy(device)
+            device_proxy.SetDirectState(DevState.OFF)
+
+        # If Dish master provided then set it to standby
+        if self.dish_master_list:
+            for device in self.dish_master_list:
+                device.SetDirectState(DevState.STANDBY)
 
     def set_standby(self):
         """

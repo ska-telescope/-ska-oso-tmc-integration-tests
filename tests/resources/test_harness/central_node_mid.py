@@ -28,16 +28,14 @@ class CentralNodeDeviceMid(CentralNodeDevice):
         }
         self.sdp_master = DeviceProxy(sdp_master)
         self.csp_master = DeviceProxy(csp_master)
-        self.dish_master1 = DeviceProxy(dish_master1)
-        self.dish_master2 = DeviceProxy(dish_master2)
+        self.dish_master_list = [
+            DeviceProxy(dish_master1),
+            DeviceProxy(dish_master2),
+        ]
         self._state = DevState.OFF
 
     def _reset_health_state_for_mock_devices(self):
         """Reset Mock devices"""
         super()._reset_health_state_for_mock_devices()
-        for mock_device in [
-            self.dish_master1,
-            self.dish_master2,
-        ]:
-            device = DeviceProxy(mock_device)
-            device.SetDirectHealthState(HealthState.UNKNOWN)
+        for mock_device in self.dish_master_list:
+            mock_device.SetDirectHealthState(HealthState.UNKNOWN)
