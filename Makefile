@@ -17,7 +17,7 @@ MARK = $(shell echo $(TELESCOPE) | sed "s/-/_/g") ## What -m opt to pass to pyte
 FILE ?= tests## A specific test file to pass to pytest
 ADD_ARGS ?= ## Additional args to pass to pytest
 FILE_NAME?= alarm_rules.txt
-EXIT_AT_FAIL =true ## Flag for determining exit at failure. Set 'true' to exit at first failure.
+EXIT_AT_FAIL =false ## Flag for determining exit at failure. Set 'true' to exit at first failure.
 
 ifeq ($(EXIT_AT_FAIL),true)
 ADD_ARGS += -x
@@ -71,7 +71,7 @@ ADD_ARGS +=  --true-context
 MARK = $(shell echo $(TELESCOPE) | sed "s/-/_/g")
 endif
 
-PYTHON_VARS_AFTER_PYTEST ?= -m '$(MARK)' $(ADD_ARGS) $(FILE)
+PYTHON_VARS_AFTER_PYTEST ?= -m '$(MARK)' $(ADD_ARGS) $(FILE) -x
 
 K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.tango_host=$(TANGO_HOST) \
