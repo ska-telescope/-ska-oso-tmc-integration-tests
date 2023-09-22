@@ -178,8 +178,8 @@ class TmcHelper:
             device_proxy.ClearCommandCallInfo()
 
         # If Dish master provided then set it to standby
-        dish_master = kwargs.get("dish_master")
-        if dish_master:
+        dish_master_list = kwargs.get("dish_master_list")
+        for dish_master in dish_master_list:
             device_proxy = DeviceProxy(dish_master)
             device_proxy.SetDirectState(DevState.STANDBY)
             device_proxy.ClearCommandCallInfo()

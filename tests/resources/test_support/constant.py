@@ -44,6 +44,7 @@ ON_OFF_DEVICE_COMMAND_DICT = {
     "tmc_subarraynode": tmc_subarraynode1,
     "sdp_master": sdp_master,
     "dish_master": dish_master1,
+    "dish_master_list": [dish_master1, dish_master2], 
     "central_node": centralnode,
 }
 
