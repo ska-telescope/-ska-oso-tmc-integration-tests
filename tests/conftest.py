@@ -125,17 +125,21 @@ def change_event_callbacks() -> MockTangoEventCallbackGroup:
 
 
 @pytest.fixture()
-def central_node(
-    request,
-) -> Union[CentralNodeWrapperLow, CentralNodeWrapperMid]:
-    """Return CentralNode for Mid and Low Telescope and calls tear down"""
-    marker = request.node.get_closest_marker("deployment")
-    if marker:
-        central_node = CentralNodeWrapperLow()
-    else:
-        central_node = CentralNodeWrapperMid()
-    yield central_node
-    central_node.tear_down()
+def central_node_low() -> CentralNodeWrapperLow:
+    """Return CentralNode for Low Telescope and calls tear down"""
+    central_node_low = CentralNodeWrapperLow()
+    yield central_node_low
+    # this will call after test complete
+    central_node_low.tear_down()
+
+
+@pytest.fixture()
+def central_node_mid() -> CentralNodeWrapperMid:
+    """Return CentralNode for Mid Telescope and calls tear down"""
+    central_node_mid = CentralNodeWrapperMid()
+    yield central_node_mid
+    # this will call after test complete
+    central_node_mid.tear_down()
 
 
 @pytest.fixture()
