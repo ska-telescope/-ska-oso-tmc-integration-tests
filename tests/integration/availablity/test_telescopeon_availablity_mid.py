@@ -8,27 +8,12 @@ from tests.resources.test_support.constant import (
     tmc_subarraynode1,
 )
 
-
 # These test case will pass only when any of the node is deleted explicitly
 # Hence this test will be skipped on pipeline
 # Sample command to delete is
 # while true;
 # do kubectl delete pod/subarraynode-02-0 -n ska-tmc-integration; sleep 3;
 # done
-@pytest.mark.skip(
-    reason="Manual deletion of pods is required, will xfail \
-                  them once abort command will be in place"
-)
-@pytest.mark.SKA_mid
-def test_telescope_on_mid():
-    """TelescopeOn() is executed while pods are deleted."""
-
-    central_node = DeviceProxy(centralnode)
-
-    with pytest.raises(Exception) as info:
-        central_node.TelescopeOn()
-
-    assert "not available" in str(info.value)
 
 
 @pytest.mark.skip(
