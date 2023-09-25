@@ -15,9 +15,8 @@ class CentralNodeWrapper(object):
 
     def __init__(
         self,
-        central_node,
     ) -> None:
-        self.central_node = DeviceProxy(central_node)
+        self.central_node = None
         self.csp_master_leaf_node = None
         self.sdp_master_leaf_node = None
         self.subarray_devices = {}

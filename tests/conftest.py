@@ -13,7 +13,6 @@ from ska_tango_testing.mock.tango.event_callback import (
 
 from tests.resources.test_harness.central_node_low import CentralNodeWrapperLow
 from tests.resources.test_harness.central_node_mid import CentralNodeWrapperMid
-from tests.resources.test_harness.constant import centralnode, low_centralnode
 from tests.resources.test_harness.event_recorder import EventRecorder
 from tests.resources.test_harness.simulator_factory import (
     SimulatorFactory,
@@ -132,9 +131,9 @@ def central_node(
     """Return CentralNode for Mid and Low Telescope and calls tear down"""
     marker = request.node.get_closest_marker("deployment")
     if marker:
-        central_node = CentralNodeWrapperLow(low_centralnode)
+        central_node = CentralNodeWrapperLow()
     else:
-        central_node = CentralNodeWrapperMid(centralnode)
+        central_node = CentralNodeWrapperMid()
     yield central_node
     central_node.tear_down()
 

@@ -3,6 +3,7 @@ from tango import DeviceProxy, DevState
 from tests.resources.test_harness.central_node import CentralNodeWrapper
 from tests.resources.test_harness.constant import (
     device_dict_low,
+    low_centralnode,
     low_csp_master,
     low_csp_master_leaf_node,
     low_csp_subarray1,
@@ -21,8 +22,9 @@ class CentralNodeWrapperLow(CentralNodeWrapper):
     """A TMC CentralNode class to implements the standard set
     of commands defined by the SKA Control Model for Low Telescope"""
 
-    def __init__(self, central_node) -> None:
-        super().__init__(central_node)
+    def __init__(self) -> None:
+        super().__init__()
+        self.central_node = DeviceProxy(low_centralnode)
         self.csp_master_leaf_node = DeviceProxy(low_csp_master_leaf_node)
         self.sdp_master_leaf_node = DeviceProxy(low_sdp_master_leaf_node)
         # self.mccs_master_leaf_node = DeviceProxy(mccs_master_leaf_node)

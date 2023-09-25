@@ -5,8 +5,8 @@ from tests.resources.test_harness.central_node_mid import CentralNodeWrapperMid
 from tests.resources.test_harness.helpers import get_master_device_simulators
 
 
-class TestCentralNodeStateTransitionValidData(object):
-    def test_centralnode_state_transitions_valid_data(
+class TestCentralNodeStateTransition(object):
+    def test_centralnode_state_transitions(
         self,
         central_node,
         event_recorder,
@@ -72,22 +72,23 @@ class TestCentralNodeStateTransitionValidData(object):
 
     @pytest.mark.deployment("LOW")
     @pytest.mark.SKA_low
-    def test_low_centralnode_state_transitions_valid_data(
+    def test_low_centralnode_state_transitions(
         self, central_node, event_recorder, simulator_factory
     ):
         """Test for checking the state transition for Low Telescope"""
-        self.test_centralnode_state_transitions_valid_data(
+        self.test_centralnode_state_transitions(
             central_node,
             event_recorder,
             simulator_factory,
         )
 
+    @pytest.mark.kk
     @pytest.mark.SKA_mid
-    def test_mid_centralnode_state_transitions_valid_data(
+    def test_mid_centralnode_state_transitions(
         self, central_node, event_recorder, simulator_factory
     ):
         """Test for checking the state transition for Mid Telescope"""
-        self.test_centralnode_state_transitions_valid_data(
+        self.test_centralnode_state_transitions(
             central_node,
             event_recorder,
             simulator_factory,
