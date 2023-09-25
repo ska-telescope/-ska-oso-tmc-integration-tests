@@ -104,6 +104,18 @@ class CentralNodeWrapper(object):
 
         """
         self.central_node.TelescopeStandBy()
+        device_to_on_list = [
+            self.subarray_devices.get("csp_subarray"),
+            self.subarray_devices.get("sdp_subarray"),
+        ]
+        for device in device_to_on_list:
+            device_proxy = DeviceProxy(device)
+            device_proxy.SetDirectState(DevState.STANDBY)
+
+        # If Dish master provided then set it to standby
+        if self.dish_master_list:
+            for device in self.dish_master_list:
+                device.SetDirectState(DevState.STANDBY)
 
     @sync_assign_resources(device_dict=device_dict)
     def invoke_assign_resources(self, input_string):
