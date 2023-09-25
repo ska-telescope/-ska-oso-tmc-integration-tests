@@ -115,13 +115,6 @@ DEVICE_OBS_STATE_SCANNING_INFO = {
     csp_subarray1: ["SCANNING"],
 }
 
-SIMULATOR_DEVICE_FQDN_DICT = {
-    SimulatorDeviceType.SDP_DEVICE: [sdp_subarray1],
-    SimulatorDeviceType.CSP_DEVICE: [csp_subarray1],
-    SimulatorDeviceType.DISH_DEVICE: [dish_master1, dish_master2],
-    SimulatorDeviceType.SDP_MASTER_DEVICE: [sdp_master],
-    SimulatorDeviceType.CSP_MASTER_DEVICE: [csp_master],
-}
 
 INTERMEDIATE_STATE_DEFECT = {
     "enabled": True,
@@ -169,10 +162,19 @@ device_dict_low = {
     "mccs_master": mccs_controller,
 }
 
-LOW_SIMULATOR_DEVICE_FQDN_DICT = {
-    SimulatorDeviceType.SDP_DEVICE: [low_sdp_subarray1],
-    SimulatorDeviceType.CSP_DEVICE: [low_csp_subarray1],
-    SimulatorDeviceType.SDP_MASTER_DEVICE: [low_sdp_master],
-    SimulatorDeviceType.CSP_MASTER_DEVICE: [low_csp_master],
-    # SimulatorDeviceType.MCCS_MASTER_DEVICE: [mccs_controller]
+SIMULATOR_DEVICE_FQDN_DICT = {
+    "LOW": {
+        SimulatorDeviceType.SDP_DEVICE: [low_sdp_subarray1],
+        SimulatorDeviceType.CSP_DEVICE: [low_csp_subarray1],
+        SimulatorDeviceType.SDP_MASTER_DEVICE: [low_sdp_master],
+        SimulatorDeviceType.CSP_MASTER_DEVICE: [low_csp_master],
+        # SimulatorDeviceType.MCCS_MASTER_DEVICE: [mccs_controller]
+    },
+    "MID": {
+        SimulatorDeviceType.SDP_DEVICE: [sdp_subarray1],
+        SimulatorDeviceType.CSP_DEVICE: [csp_subarray1],
+        SimulatorDeviceType.DISH_DEVICE: [dish_master1, dish_master2],
+        SimulatorDeviceType.SDP_MASTER_DEVICE: [sdp_master],
+        SimulatorDeviceType.CSP_MASTER_DEVICE: [csp_master],
+    },
 }
