@@ -3,6 +3,7 @@ from tango import DevState
 
 from tests.resources.test_harness.central_node_mid import CentralNodeWrapperMid
 from tests.resources.test_harness.helpers import get_master_device_simulators
+from tests.resources.test_harness.utils.enums import DishMode
 
 
 class TestCentralNodeStateTransition(object):
@@ -46,17 +47,17 @@ class TestCentralNodeStateTransition(object):
             DevState.ON,
         )
         if type(central_node) == CentralNodeWrapperMid:
-            event_recorder.subscribe_event(dish_master_sim1, "State")
-            event_recorder.subscribe_event(dish_master_sim2, "State")
+            event_recorder.subscribe_event(dish_master_sim1, "DishMode")
+            event_recorder.subscribe_event(dish_master_sim2, "DishMode")
             assert event_recorder.has_change_event_occurred(
                 dish_master_sim1,
-                "State",
-                DevState.STANDBY,
+                "DishMode",
+                DishMode.STANDBY_FP,
             )
             assert event_recorder.has_change_event_occurred(
                 dish_master_sim2,
-                "State",
-                DevState.STANDBY,
+                "DishMode",
+                DishMode.STANDBY_FP,
             )
         central_node.move_to_off()
         assert event_recorder.has_change_event_occurred(
@@ -69,6 +70,17 @@ class TestCentralNodeStateTransition(object):
             "State",
             DevState.OFF,
         )
+        if type(central_node) == CentralNodeWrapperMid:
+            assert event_recorder.has_change_event_occurred(
+                dish_master_sim1,
+                "DishMode",
+                DishMode.STANDBY_LP,
+            )
+            assert event_recorder.has_change_event_occurred(
+                dish_master_sim2,
+                "DishMode",
+                DishMode.STANDBY_LP,
+            )
 
     @pytest.mark.deployment("LOW")
     @pytest.mark.SKA_low

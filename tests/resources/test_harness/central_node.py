@@ -2,6 +2,7 @@ from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
 
 from tests.resources.test_harness.constant import device_dict
+from tests.resources.test_harness.utils.enums import DishMode
 from tests.resources.test_harness.utils.sync_decorators import (
     sync_assign_resources,
 )
@@ -74,7 +75,7 @@ class CentralNodeWrapper(object):
         # If Dish master provided then set it to standby
         if self.dish_master_list:
             for device in self.dish_master_list:
-                device.SetDirectState(DevState.STANDBY)
+                device.SetDirectDishMode(DishMode.STANDBY_FP)
 
     def move_to_off(self):
         """
@@ -94,7 +95,7 @@ class CentralNodeWrapper(object):
         # If Dish master provided then set it to standby
         if self.dish_master_list:
             for device in self.dish_master_list:
-                device.SetDirectState(DevState.STANDBY)
+                device.SetDirectDishMode(DishMode.STANDBY_LP)
 
     def set_standby(self):
         """
