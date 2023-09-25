@@ -5,11 +5,11 @@ from tests.resources.test_harness.helpers import get_master_device_simulators
 from tests.resources.test_harness.utils.enums import DishMode
 
 
-class TestCentralNodeStateTransition(object):
+class TestMidCentralNodeStateTransition(object):
     @pytest.mark.SKA_mid
     def test_mid_centralnode_state_transitions(
         self,
-        central_node,
+        central_node_mid,
         event_recorder,
         simulator_factory,
     ):
@@ -18,7 +18,7 @@ class TestCentralNodeStateTransition(object):
         command and followed by a completion transition
         assuming that external subsystems work fine.
         Glossary:
-        - "central_node": fixture for a TMC CentralNode Mid under test
+        - "central_node_mid": fixture for a TMC CentralNode Mid under test
         which provides simulated master devices
         - "event_recorder": fixture for a MockTangoEventCallbackGroup
         for validating the subscribing and receiving events.
@@ -36,7 +36,7 @@ class TestCentralNodeStateTransition(object):
         event_recorder.subscribe_event(sdp_master_sim, "State")
         event_recorder.subscribe_event(dish_master_sim1, "DishMode")
         event_recorder.subscribe_event(dish_master_sim2, "DishMode")
-        central_node.move_to_on()
+        central_node_mid.move_to_on()
 
         assert event_recorder.has_change_event_occurred(
             csp_master_sim,
@@ -77,7 +77,7 @@ class TestCentralNodeStateTransition(object):
         command and followed by a completion transition
         assuming that external subsystems work fine.
         Glossary:
-        - "central_node": fixture for a TMC CentralNode Low under test
+        - "central_node_low": fixture for a TMC CentralNode Low under test
         which provides simulated master devices
         - "event_recorder": fixture for a MockTangoEventCallbackGroup
         for validating the subscribing and receiving events.

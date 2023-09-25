@@ -64,7 +64,7 @@ class TestTelescopeHealthState(object):
     @pytest.mark.SKA_mid
     def test_telescope_health_state_failed(
         self,
-        central_node,
+        central_node_mid,
         simulator_factory,
         event_recorder,
         csp_master_health_state,
@@ -84,11 +84,11 @@ class TestTelescopeHealthState(object):
         dish_master_sim_2.SetDirectHealthState(dish_master2_health_state)
 
         event_recorder.subscribe_event(
-            central_node.central_node, "telescopeHealthState"
+            central_node_mid.central_node, "telescopeHealthState"
         )
 
         assert event_recorder.has_change_event_occurred(
-            central_node.central_node,
+            central_node_mid.central_node,
             "telescopeHealthState",
             HealthState.FAILED,
         )
@@ -96,7 +96,11 @@ class TestTelescopeHealthState(object):
     @pytest.mark.skip(reason="Requires new SubarrayNode image version")
     @pytest.mark.SKA_mid
     def test_telescope_state_ok(
-        self, central_node, subarray_node, event_recorder, simulator_factory
+        self,
+        central_node_mid,
+        subarray_node,
+        event_recorder,
+        simulator_factory,
     ):
         # decision table row 3
         (
@@ -112,11 +116,13 @@ class TestTelescopeHealthState(object):
         dish_master_sim_2.SetDirectHealthState(HealthState.OK)
 
         event_recorder.subscribe_event(
-            central_node.central_node, "telescopeHealthState"
+            central_node_mid.central_node, "telescopeHealthState"
         )
 
         assert event_recorder.has_change_event_occurred(
-            central_node.central_node, "telescopeHealthState", HealthState.OK
+            central_node_mid.central_node,
+            "telescopeHealthState",
+            HealthState.OK,
         ), "Expected Telescope HealthState to be OK"
 
     @pytest.mark.parametrize(
@@ -165,7 +171,7 @@ class TestTelescopeHealthState(object):
     @pytest.mark.SKA_mid
     def test_telescope_health_state_degraded(
         self,
-        central_node,
+        central_node_mid,
         simulator_factory,
         event_recorder,
         csp_master_health_state,
@@ -185,11 +191,11 @@ class TestTelescopeHealthState(object):
         dish_master_sim_2.SetDirectHealthState(dish_master2_health_state)
 
         event_recorder.subscribe_event(
-            central_node.central_node, "telescopeHealthState"
+            central_node_mid.central_node, "telescopeHealthState"
         )
 
         assert event_recorder.has_change_event_occurred(
-            central_node.central_node,
+            central_node_mid.central_node,
             "telescopeHealthState",
             HealthState.DEGRADED,
         ), "Expected Telescope HealthState to be DEGRADED"
@@ -240,7 +246,7 @@ class TestTelescopeHealthState(object):
     @pytest.mark.SKA_mid
     def test_telescope_health_state_unknown(
         self,
-        central_node,
+        central_node_mid,
         simulator_factory,
         event_recorder,
         csp_master_health_state,
@@ -260,11 +266,11 @@ class TestTelescopeHealthState(object):
         dish_master_sim_2.SetDirectHealthState(dish_master2_health_state)
 
         event_recorder.subscribe_event(
-            central_node.central_node, "telescopeHealthState"
+            central_node_mid.central_node, "telescopeHealthState"
         )
 
         assert event_recorder.has_change_event_occurred(
-            central_node.central_node,
+            central_node_mid.central_node,
             "telescopeHealthState",
             HealthState.UNKNOWN,
         ), "Expected Telescope HealthState to be UNKNOWN"

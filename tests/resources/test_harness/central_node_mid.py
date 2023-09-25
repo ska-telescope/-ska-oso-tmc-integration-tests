@@ -16,8 +16,9 @@ from tests.resources.test_harness.constant import (
 
 
 class CentralNodeWrapperMid(CentralNodeWrapper):
-    """A TMC CentralNode class to implements the standard set
-    of commands defined by the SKA Control Model for Mid Telescope"""
+    """A wrapper class to implement common tango specific details
+    and standard set of commands for TMC Low CentralNode,
+    defined by the SKA Control Model."""
 
     def __init__(self) -> None:
         super().__init__()

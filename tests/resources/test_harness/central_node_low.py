@@ -19,8 +19,9 @@ from tests.resources.test_harness.utils.sync_decorators import (
 # TODO: Currently the code for MCCS has been commented as it will be enabled
 #  in the upcoming sprints of PI-20
 class CentralNodeWrapperLow(CentralNodeWrapper):
-    """A TMC CentralNode class to implements the standard set
-    of commands defined by the SKA Control Model for Low Telescope"""
+    """A wrapper class to implement common tango specific details
+    and standard set of commands for TMC Low CentralNode,
+    defined by the SKA Control Model."""
 
     def __init__(self) -> None:
         super().__init__()
