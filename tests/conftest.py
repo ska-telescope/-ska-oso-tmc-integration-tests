@@ -131,12 +131,12 @@ def central_node_low() -> CentralNodeWrapperLow:
 
 
 @pytest.fixture()
-def central_node_mid() -> CentralNodeWrapperMid:
+def central_node() -> CentralNodeWrapperMid:
     """Return CentralNode for Mid Telescope and calls tear down"""
-    central_node_mid = CentralNodeWrapperMid()
-    yield central_node_mid
+    central_node = CentralNodeWrapperMid()
+    yield central_node
     # this will call after test complete
-    central_node_mid.tear_down()
+    central_node.tear_down()
 
 
 @pytest.fixture()

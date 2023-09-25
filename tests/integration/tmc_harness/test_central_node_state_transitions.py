@@ -9,7 +9,7 @@ class TestCentralNodeStateTransition(object):
     @pytest.mark.SKA_mid
     def test_mid_centralnode_state_transitions(
         self,
-        central_node_mid,
+        central_node,
         event_recorder,
         simulator_factory,
     ):
@@ -36,7 +36,7 @@ class TestCentralNodeStateTransition(object):
         event_recorder.subscribe_event(sdp_master_sim, "State")
         event_recorder.subscribe_event(dish_master_sim1, "DishMode")
         event_recorder.subscribe_event(dish_master_sim2, "DishMode")
-        central_node_mid.move_to_on()
+        central_node.move_to_on()
 
         assert event_recorder.has_change_event_occurred(
             csp_master_sim,
