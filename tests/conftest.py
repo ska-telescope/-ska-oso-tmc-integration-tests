@@ -3,7 +3,6 @@ import json
 import logging
 import os
 from os.path import dirname, join
-from typing import Union
 
 import pytest
 import tango
@@ -14,12 +13,10 @@ from ska_tango_testing.mock.tango.event_callback import (
 from tests.resources.test_harness.central_node_low import CentralNodeWrapperLow
 from tests.resources.test_harness.central_node_mid import CentralNodeWrapperMid
 from tests.resources.test_harness.event_recorder import EventRecorder
-from tests.resources.test_harness.simulator_factory import (
-    SimulatorFactory,
-    SimulatorFactoryLow,
-)
+from tests.resources.test_harness.simulator_factory import SimulatorFactory
 from tests.resources.test_harness.subarray_node import SubarrayNode
 from tests.resources.test_harness.utils.common_utils import JsonFactory
+from tests.resources.test_harness.utils.enums import Telescope
 
 LOGGER = logging.getLogger(__name__)
 
@@ -158,12 +155,15 @@ def command_input_factory() -> JsonFactory:
 
 
 @pytest.fixture()
-def simulator_factory(request) -> Union[SimulatorFactory, SimulatorFactoryLow]:
-    """Return Simulator Factory for Low and Mid Telescope"""
-    marker = request.node.get_closest_marker("deployment")
-    if marker:
-        return SimulatorFactoryLow()
-    return SimulatorFactory()
+def simulator_factory() -> SimulatorFactory:
+    """Return Simulator Factory for Mid Telescope"""
+    return SimulatorFactory(Telescope.MID)
+
+
+@pytest.fixture()
+def simulator_factory_low() -> SimulatorFactory:
+    """Return Simulator Factory for low Telescope"""
+    return SimulatorFactory(Telescope.LOW)
 
 
 @pytest.fixture()

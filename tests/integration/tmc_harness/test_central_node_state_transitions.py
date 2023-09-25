@@ -6,7 +6,6 @@ from tests.resources.test_harness.utils.enums import DishMode
 
 
 class TestCentralNodeStateTransition(object):
-    @pytest.mark.kk
     @pytest.mark.SKA_mid
     def test_mid_centralnode_state_transitions(
         self,
@@ -15,16 +14,16 @@ class TestCentralNodeStateTransition(object):
         simulator_factory,
     ):
         """
-        Test to verify transitions that are triggered by On and Off
+        Test to verify transitions that are triggered by On
         command and followed by a completion transition
         assuming that external subsystems work fine.
         Glossary:
-        - "central_node": fixture for a TMC CentralNode Mid/Low under test
+        - "central_node": fixture for a TMC CentralNode Mid under test
         which provides simulated master devices
         - "event_recorder": fixture for a MockTangoEventCallbackGroup
         for validating the subscribing and receiving events.
         - "simulator_factory": fixtur for creating simulator devices for
-        low and mid Telescope respectively.
+        mid Telescope respectively.
         """
         (
             csp_master_sim,
@@ -49,6 +48,12 @@ class TestCentralNodeStateTransition(object):
             "State",
             DevState.ON,
         )
+        # As there is inconsistancy between the states of Dish Master and other
+        # subsystem that's why Dishmode is considered for DishMaster
+        # transitions. Here is the link for reference.
+        # https://confluence.skatelescope.org/display/SE/Subarray+obsMode+and+
+        # Dish+states+and+modes
+
         assert event_recorder.has_change_event_occurred(
             dish_master_sim1,
             "DishMode",
@@ -60,28 +65,27 @@ class TestCentralNodeStateTransition(object):
             DishMode.STANDBY_FP,
         )
 
-    @pytest.mark.deployment("LOW")
     @pytest.mark.SKA_low
     def test_low_centralnode_state_transitions(
         self,
         central_node_low,
         event_recorder,
-        simulator_factory,
+        simulator_factory_low,
     ):
         """
-        Test to verify transitions that are triggered by On and Off
+        Test to verify transitions that are triggered by On
         command and followed by a completion transition
         assuming that external subsystems work fine.
         Glossary:
-        - "central_node": fixture for a TMC CentralNode Mid/Low under test
+        - "central_node": fixture for a TMC CentralNode Low under test
         which provides simulated master devices
         - "event_recorder": fixture for a MockTangoEventCallbackGroup
         for validating the subscribing and receiving events.
         - "simulator_factory": fixtur for creating simulator devices for
-        low and mid Telescope respectively.
+        low Telescope respectively.
         """
         (csp_master_sim, sdp_master_sim, _, _) = get_master_device_simulators(
-            simulator_factory
+            simulator_factory_low
         )
 
         event_recorder.subscribe_event(csp_master_sim, "State")

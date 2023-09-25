@@ -85,3 +85,10 @@ class ResultCode(enum.IntEnum):
 
     ABORTED = 7
     """The command in progress has been aborted."""
+
+
+class Telescope(IntEnum):
+    """Python enumerated type for Telescope."""
+
+    LOW = 0
+    MID = 1
