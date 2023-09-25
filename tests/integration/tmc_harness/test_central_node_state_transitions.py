@@ -94,7 +94,6 @@ class TestCentralNodeStateTransition(object):
             simulator_factory,
         )
 
-    @pytest.mark.kk
     @pytest.mark.SKA_mid
     def test_mid_centralnode_state_transitions(
         self, central_node, event_recorder, simulator_factory
