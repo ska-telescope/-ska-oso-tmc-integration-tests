@@ -5,10 +5,7 @@ import logging
 from tango import DeviceProxy
 
 from tests.resources.test_harness.constant import SIMULATOR_DEVICE_FQDN_DICT
-from tests.resources.test_harness.utils.enums import (
-    SimulatorDeviceType,
-    Telescope,
-)
+from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
 LOGGER = logging.getLogger(__name__)
 
@@ -18,10 +15,9 @@ class SimulatorFactory:
     Tango simulator(sim) object for Low Telescope.
     """
 
-    def __init__(self, telescope: Telescope):
+    def __init__(self):
         """Initialize sim object dict"""
         self._sim_dev = {}
-        self.telescope = telescope
 
     def get_or_create_simulator_device(
         self,
@@ -43,9 +39,7 @@ class SimulatorFactory:
             LOGGER.info(f"Found existing simulator device for {device_type}")
             sim_device = self._sim_dev[device_type][sim_number]
         else:
-            sim_fqdn_list = SIMULATOR_DEVICE_FQDN_DICT[
-                self.telescope.name
-            ].get(device_type)
+            sim_fqdn_list = SIMULATOR_DEVICE_FQDN_DICT.get(device_type)
             LOGGER.info(f"Initializing simulator device for {sim_fqdn_list}")
             self._sim_dev[device_type] = {}
             for index, mock_fqdn in enumerate(sorted(sim_fqdn_list), start=1):

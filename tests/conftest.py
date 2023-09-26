@@ -16,7 +16,6 @@ from tests.resources.test_harness.event_recorder import EventRecorder
 from tests.resources.test_harness.simulator_factory import SimulatorFactory
 from tests.resources.test_harness.subarray_node import SubarrayNode
 from tests.resources.test_harness.utils.common_utils import JsonFactory
-from tests.resources.test_harness.utils.enums import Telescope
 
 LOGGER = logging.getLogger(__name__)
 
@@ -157,13 +156,7 @@ def command_input_factory() -> JsonFactory:
 @pytest.fixture()
 def simulator_factory() -> SimulatorFactory:
     """Return Simulator Factory for Mid Telescope"""
-    return SimulatorFactory(Telescope.MID)
-
-
-@pytest.fixture()
-def simulator_factory_low() -> SimulatorFactory:
-    """Return Simulator Factory for low Telescope"""
-    return SimulatorFactory(Telescope.LOW)
+    return SimulatorFactory()
 
 
 @pytest.fixture()

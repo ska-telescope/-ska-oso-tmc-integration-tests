@@ -47,6 +47,10 @@ class SimulatorDeviceType(IntEnum):
     DISH_DEVICE = 2
     CSP_MASTER_DEVICE = 3
     SDP_MASTER_DEVICE = 4
+    LOW_CSP_DEVICE = 5
+    LOW_SDP_DEVICE = 6
+    LOW_CSP_MASTER_DEVICE = 7
+    LOW_SDP_MASTER_DEVICE = 8
 
 
 class FaultType(enum.IntEnum):
@@ -85,10 +89,3 @@ class ResultCode(enum.IntEnum):
 
     ABORTED = 7
     """The command in progress has been aborted."""
-
-
-class Telescope(IntEnum):
-    """Python enumerated type for Telescope."""
-
-    LOW = 0
-    MID = 1
