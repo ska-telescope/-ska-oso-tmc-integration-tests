@@ -164,7 +164,7 @@ k8s-test:
     - 'make help | grep k8s-test'
     - make k8s-install-chart
     - make k8s-wait
-  # retry: 1
+  retry: 1
 
 k8s-test-low:
   retry: 1
