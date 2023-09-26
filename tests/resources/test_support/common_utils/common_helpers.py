@@ -417,11 +417,6 @@ class Waiter:
     def set_wait_for_going_to_empty(self):
         """Sets wait for devices to change the obstate to EMPTY"""
         self.waits.append(
-            watch(Resource(self.tmc_subarraynode1)).to_become(
-                "assignedResources", changed_to=None
-            )
-        )
-        self.waits.append(
             watch(Resource(self.sdp_subarray1)).to_become(
                 "obsState", changed_to="EMPTY"
             )
@@ -434,6 +429,11 @@ class Waiter:
         self.waits.append(
             watch(Resource(self.tmc_subarraynode1)).to_become(
                 "obsState", changed_to="EMPTY"
+            )
+        )
+        self.waits.append(
+            watch(Resource(self.tmc_subarraynode1)).to_become(
+                "assignedResources", changed_to=None
             )
         )
 
@@ -477,17 +477,18 @@ class Waiter:
             )
         )
 
-        self.waits.append(
-            watch(Resource(self.tmc_subarraynode1)).to_become(
-                "obsState", changed_to=obs_state
-            )
-        )
         if self.dish_master1:
             self.waits.append(
                 watch(Resource(self.dish_master1)).to_become(
                     "pointingState", changed_to="TRACK"
                 )
             )
+
+        self.waits.append(
+            watch(Resource(self.tmc_subarraynode1)).to_become(
+                "obsState", changed_to=obs_state
+            )
+        )
 
     def set_wait_for_configure(self):
         """Sets wait for device to execute configure command"""
@@ -502,17 +503,18 @@ class Waiter:
             )
         )
 
-        self.waits.append(
-            watch(Resource(self.tmc_subarraynode1)).to_become(
-                "obsState", changed_to="READY"
-            )
-        )
         if self.dish_master1:
             self.waits.append(
                 watch(Resource(self.dish_master1)).to_become(
                     "pointingState", changed_to="TRACK"
                 )
             )
+
+        self.waits.append(
+            watch(Resource(self.tmc_subarraynode1)).to_become(
+                "obsState", changed_to="READY"
+            )
+        )
 
     def set_wait_for_idle(self):
         """Sets wait for obsstate to change to IDLE"""
