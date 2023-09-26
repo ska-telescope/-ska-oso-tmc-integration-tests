@@ -17,7 +17,7 @@ from tests.resources.test_harness.constant import (
 
 class CentralNodeWrapperMid(CentralNodeWrapper):
     """A wrapper class to implement common tango specific details
-    and standard set of commands for TMC Low CentralNode,
+    and standard set of commands for TMC Mid CentralNode,
     defined by the SKA Control Model."""
 
     def __init__(self) -> None:

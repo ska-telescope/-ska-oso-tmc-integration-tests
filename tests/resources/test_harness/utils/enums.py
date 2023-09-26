@@ -42,11 +42,11 @@ class SubarrayObsState(IntEnum):
 
 @unique
 class SimulatorDeviceType(IntEnum):
-    CSP_DEVICE = 0
-    SDP_DEVICE = 1
+    MID_CSP_DEVICE = 0
+    MID_SDP_DEVICE = 1
     DISH_DEVICE = 2
-    CSP_MASTER_DEVICE = 3
-    SDP_MASTER_DEVICE = 4
+    MID_CSP_MASTER_DEVICE = 3
+    MID_SDP_MASTER_DEVICE = 4
     LOW_CSP_DEVICE = 5
     LOW_SDP_DEVICE = 6
     LOW_CSP_MASTER_DEVICE = 7

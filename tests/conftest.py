@@ -155,7 +155,7 @@ def command_input_factory() -> JsonFactory:
 
 @pytest.fixture()
 def simulator_factory() -> SimulatorFactory:
-    """Return Simulator Factory for Mid Telescope"""
+    """Return Simulator Factory for Mid/Low Telescope"""
     return SimulatorFactory()
 
 

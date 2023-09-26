@@ -11,7 +11,7 @@ from tests.resources.test_support.common_utils.common_helpers import Resource
 
 class CentralNodeWrapper(object):
     """A wrapper class to implement common tango specific details
-    and standard set of commands for TMC Low/Mid CentralNode,
+    and standard set of commands for TMC CentralNode,
     defined by the SKA Control Model.
     """
 
