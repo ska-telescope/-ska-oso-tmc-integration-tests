@@ -1,6 +1,7 @@
 import json
 import logging
 
+from ska_ser_logging import configure_logging
 from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
 
@@ -36,6 +37,7 @@ from tests.resources.test_harness.utils.sync_decorators import (
 )
 from tests.resources.test_support.common_utils.common_helpers import Resource
 
+configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
 
 device_dict = {

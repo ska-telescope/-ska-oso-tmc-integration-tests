@@ -6,6 +6,7 @@ from os.path import dirname, join
 
 import pytest
 import tango
+from ska_ser_logging import configure_logging
 from ska_tango_testing.mock.tango.event_callback import (
     MockTangoEventCallbackGroup,
 )
@@ -17,6 +18,7 @@ from tests.resources.test_harness.simulator_factory import SimulatorFactory
 from tests.resources.test_harness.subarray_node import SubarrayNode
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 
+configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
 
 
