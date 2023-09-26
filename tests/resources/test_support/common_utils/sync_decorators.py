@@ -3,6 +3,8 @@ import functools
 import logging
 from contextlib import contextmanager
 
+from ska_ser_logging import configure_logging
+
 from tests.conftest import TIMEOUT
 from tests.resources.test_support.common_utils.base_utils import DeviceUtils
 from tests.resources.test_support.common_utils.common_helpers import (
@@ -11,6 +13,7 @@ from tests.resources.test_support.common_utils.common_helpers import (
     WaitForScan,
 )
 
+configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
 
 

@@ -3,11 +3,13 @@
 import logging
 from typing import Any
 
+from ska_ser_logging import configure_logging
 from ska_tango_testing.mock.tango.event_callback import (
     MockTangoEventCallbackGroup,
 )
 from tango import EventType
 
+configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
 
 

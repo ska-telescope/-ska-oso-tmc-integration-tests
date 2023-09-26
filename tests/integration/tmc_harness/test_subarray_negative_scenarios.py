@@ -28,7 +28,7 @@ class TestSubarrayNodeNegative(object):
             "assign_resources_mid", command_input_factory
         )
         csp_sim = simulator_factory.get_or_create_simulator_device(
-            SimulatorDeviceType.CSP_DEVICE
+            SimulatorDeviceType.MID_CSP_DEVICE
         )
         # Subscribe for long running command result attribute
         # so that error message from subarray can be validated
@@ -79,7 +79,7 @@ class TestSubarrayNodeNegative(object):
             "csp_configure_mid", command_input_factory
         )
         csp_sim = simulator_factory.get_or_create_simulator_device(
-            SimulatorDeviceType.CSP_DEVICE
+            SimulatorDeviceType.MID_CSP_DEVICE
         )
 
         event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
@@ -122,7 +122,7 @@ class TestSubarrayNodeNegative(object):
             "sdp_configure_mid", command_input_factory
         )
         sdp_sim = simulator_factory.get_or_create_simulator_device(
-            SimulatorDeviceType.SDP_DEVICE
+            SimulatorDeviceType.MID_SDP_DEVICE
         )
 
         event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
@@ -202,7 +202,7 @@ class TestSubarrayNodeNegative(object):
             "csp_configure_mid", command_input_factory
         )
         csp_sim = simulator_factory.get_or_create_simulator_device(
-            SimulatorDeviceType.CSP_DEVICE
+            SimulatorDeviceType.MID_CSP_DEVICE
         )
 
         event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")

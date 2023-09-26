@@ -65,10 +65,10 @@ def get_device_simulators(simulator_factory):
         simulator(sim) objects
     """
     sdp_sim = simulator_factory.get_or_create_simulator_device(
-        SimulatorDeviceType.SDP_DEVICE
+        SimulatorDeviceType.MID_SDP_DEVICE
     )
     csp_sim = simulator_factory.get_or_create_simulator_device(
-        SimulatorDeviceType.CSP_DEVICE
+        SimulatorDeviceType.MID_CSP_DEVICE
     )
     dish_sim_1 = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.DISH_DEVICE, sim_number=1
@@ -90,20 +90,23 @@ def get_master_device_simulators(simulator_factory):
         simulator(sim) objects
     """
     csp_master_sim = simulator_factory.get_or_create_simulator_device(
-        SimulatorDeviceType.CSP_MASTER_DEVICE
+        SimulatorDeviceType.MID_CSP_MASTER_DEVICE
     )
     sdp_master_sim = simulator_factory.get_or_create_simulator_device(
-        SimulatorDeviceType.SDP_MASTER_DEVICE
+        SimulatorDeviceType.MID_SDP_MASTER_DEVICE
     )
     dish_master_sim_1 = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.DISH_DEVICE, sim_number=1
     )
-
     dish_master_sim_2 = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.DISH_DEVICE, sim_number=2
     )
-
-    return csp_master_sim, sdp_master_sim, dish_master_sim_1, dish_master_sim_2
+    return (
+        csp_master_sim,
+        sdp_master_sim,
+        dish_master_sim_1,
+        dish_master_sim_2,
+    )
 
 
 def get_device_simulator_with_given_name(simulator_factory, devices):
@@ -112,10 +115,10 @@ def get_device_simulator_with_given_name(simulator_factory, devices):
         devices (list): simulator devices list
     """
     device_name_type_dict = {
-        "csp subarray": SimulatorDeviceType.CSP_DEVICE,
-        "sdp subarray": SimulatorDeviceType.SDP_DEVICE,
-        "csp master": SimulatorDeviceType.CSP_MASTER_DEVICE,
-        "sdp master": SimulatorDeviceType.SDP_MASTER_DEVICE,
+        "csp subarray": SimulatorDeviceType.MID_CSP_DEVICE,
+        "sdp subarray": SimulatorDeviceType.MID_SDP_DEVICE,
+        "csp master": SimulatorDeviceType.MID_CSP_MASTER_DEVICE,
+        "sdp master": SimulatorDeviceType.MID_SDP_MASTER_DEVICE,
     }
     sim_device_proxy_list = []
     for device_name in devices:

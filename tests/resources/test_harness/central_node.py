@@ -1,47 +1,30 @@
 from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
 
-from tests.resources.test_harness.constant import (
-    centralnode,
-    csp_master,
-    csp_subarray1,
-    dish_master1,
-    dish_master2,
-    sdp_master,
-    sdp_subarray1,
-    tmc_subarraynode1,
-)
+from tests.resources.test_harness.constant import device_dict
+from tests.resources.test_harness.utils.enums import DishMode
 from tests.resources.test_harness.utils.sync_decorators import (
     sync_assign_resources,
 )
 from tests.resources.test_support.common_utils.common_helpers import Resource
 
-device_dict = {
-    "csp_master": csp_master,
-    "tmc_subarraynode": tmc_subarraynode1,
-    "sdp_master": sdp_master,
-    "dish_master1": dish_master1,
-    "dish_master2": dish_master2,
-}
 
-
-class CentralNode(object):
-    """A TMC CentralNode class to implements the standard set
-    of commands defined by the SKA Control Model.
+class CentralNodeWrapper(object):
+    """A wrapper class to implement common tango specific details
+    and standard set of commands for TMC CentralNode,
+    defined by the SKA Control Model.
     """
 
-    def __init__(self) -> None:
-        self.central_node = DeviceProxy(centralnode)
-        self.subarray_devices = {
-            "csp_subarray": csp_subarray1,
-            "sdp_subarray": sdp_subarray1,
-            "dish_master": dish_master1,
-        }
-        self.sdp_master = sdp_master
-        self.csp_master = csp_master
-        self.dish_master1 = dish_master1
-        self.dish_master2 = dish_master2
-        self.dish_master_list = [dish_master1, dish_master2]
+    def __init__(
+        self,
+    ) -> None:
+        self.central_node = None
+        self.csp_master_leaf_node = None
+        self.sdp_master_leaf_node = None
+        self.subarray_devices = {}
+        self.sdp_master = None
+        self.csp_master = None
+        self.dish_master_list = None
         self._state = DevState.OFF
 
     @property
@@ -82,7 +65,6 @@ class CentralNode(object):
         put telescope in ON state
         """
         self.central_node.TelescopeOn()
-
         device_to_on_list = [
             self.subarray_devices.get("csp_subarray"),
             self.subarray_devices.get("sdp_subarray"),
@@ -92,18 +74,17 @@ class CentralNode(object):
             device_proxy.SetDirectState(DevState.ON)
 
         # If Dish master provided then set it to standby
-        dish_master = self.subarray_devices.get("dish_master")
-        device_proxy = DeviceProxy(dish_master)
-        device_proxy.SetDirectState(DevState.STANDBY)
+        if self.dish_master_list:
+            for device in self.dish_master_list:
+                device.SetDirectDishMode(DishMode.STANDBY_FP)
 
-    def set_off(self):
+    def move_to_off(self):
         """
         A method to invoke TelescopeOff command to
         put telescope in OFF state
 
         """
         self.central_node.TelescopeOff()
-
         device_to_on_list = [
             self.subarray_devices.get("csp_subarray"),
             self.subarray_devices.get("sdp_subarray"),
@@ -113,9 +94,9 @@ class CentralNode(object):
             device_proxy.SetDirectState(DevState.OFF)
 
         # If Dish master provided then set it to standby
-        dish_master = self.subarray_devices.get("dish_master")
-        device_proxy = DeviceProxy(dish_master)
-        device_proxy.SetDirectState(DevState.STANDBY)
+        if self.dish_master_list:
+            for device in self.dish_master_list:
+                device.SetDirectDishMode(DishMode.STANDBY_LP)
 
     def set_standby(self):
         """
@@ -124,19 +105,18 @@ class CentralNode(object):
 
         """
         self.central_node.TelescopeStandBy()
-
         device_to_on_list = [
             self.subarray_devices.get("csp_subarray"),
             self.subarray_devices.get("sdp_subarray"),
         ]
         for device in device_to_on_list:
             device_proxy = DeviceProxy(device)
-            device_proxy.SetDirectState(DevState.OFF)
+            device_proxy.SetDirectState(DevState.STANDBY)
 
         # If Dish master provided then set it to standby
-        dish_master = self.subarray_devices.get("dish_master")
-        device_proxy = DeviceProxy(dish_master)
-        device_proxy.SetDirectState(DevState.STANDBY)
+        if self.dish_master_list:
+            for device in self.dish_master_list:
+                device.SetDirectState(DevState.STANDBY)
 
     @sync_assign_resources(device_dict=device_dict)
     def invoke_assign_resources(self, input_string):
@@ -149,12 +129,7 @@ class CentralNode(object):
 
     def _reset_health_state_for_mock_devices(self):
         """Reset Mock devices"""
-        for mock_device in [
-            self.sdp_master,
-            self.csp_master,
-            self.dish_master1,
-            self.dish_master2,
-        ]:
+        for mock_device in [self.sdp_master, self.csp_master]:
             device = DeviceProxy(mock_device)
             device.SetDirectHealthState(HealthState.UNKNOWN)
 
@@ -162,3 +137,4 @@ class CentralNode(object):
         """Handle Tear down of central Node"""
         # reset HealthState.UNKNOWN for mock devices
         self._reset_health_state_for_mock_devices()
+        self.move_to_off()

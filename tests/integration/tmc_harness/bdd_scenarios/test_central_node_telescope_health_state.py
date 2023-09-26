@@ -91,22 +91,22 @@ def set_simulator_devices_health_states(
 
 @then(parsers.parse("the telescope health state is {telescope_health_state}"))
 def check_telescope_health_state(
-    central_node, event_recorder, telescope_health_state
+    central_node_mid, event_recorder, telescope_health_state
 ):
     """A method to check CentralNode.telescopehealthState attribute
     change after aggregation
 
     Args:
-        central_node : A fixture for CentralNode tango device class
+        central_node_mid : A fixture for CentralNode tango device class
         event_recorder: A fixture for EventRecorder class_
         telescope_health_state (str): telescopehealthState value
     """
     event_recorder.subscribe_event(
-        central_node.central_node, "telescopeHealthState"
+        central_node_mid.central_node, "telescopeHealthState"
     )
 
     assert event_recorder.has_change_event_occurred(
-        central_node.central_node,
+        central_node_mid.central_node,
         "telescopeHealthState",
         HealthState[telescope_health_state],
     ), f"Expected telescopeHealthState to be \

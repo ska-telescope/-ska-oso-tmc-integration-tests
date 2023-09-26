@@ -2,17 +2,19 @@
 """
 import logging
 
+from ska_ser_logging import configure_logging
 from tango import DeviceProxy
 
 from tests.resources.test_harness.constant import SIMULATOR_DEVICE_FQDN_DICT
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
+configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
 
 
-class SimulatorFactory(object):
+class SimulatorFactory:
     """This Simulator factory used to implement method for creating
-    Tango simulator(sim) object
+    Tango simulator(sim) object for Mid/Low Telescope.
     """
 
     def __init__(self):
@@ -20,7 +22,9 @@ class SimulatorFactory(object):
         self._sim_dev = {}
 
     def get_or_create_simulator_device(
-        self, device_type: SimulatorDeviceType, sim_number: int = 1
+        self,
+        device_type: SimulatorDeviceType,
+        sim_number: int = 1,
     ) -> DeviceProxy:
         """This method create or get simulator object
         based on device type provided

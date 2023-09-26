@@ -4,6 +4,7 @@ import logging
 import re
 from typing import Optional, Tuple
 
+from ska_ser_logging import configure_logging
 from tango import DeviceProxy, DevState
 
 from tests.resources.test_support.common_utils.common_helpers import Resource
@@ -53,6 +54,7 @@ from tests.resources.test_support.constant_low import (
 )
 
 result, message = "", ""
+configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
 
 

@@ -5,10 +5,12 @@ import threading
 from time import sleep
 
 from numpy import ndarray
+from ska_ser_logging import configure_logging
 
 # SUT frameworks
 from tango import CmdArgType, DeviceProxy, EventType
 
+configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
 
 

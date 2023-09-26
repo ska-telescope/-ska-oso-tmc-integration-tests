@@ -6,16 +6,19 @@ from os.path import dirname, join
 
 import pytest
 import tango
+from ska_ser_logging import configure_logging
 from ska_tango_testing.mock.tango.event_callback import (
     MockTangoEventCallbackGroup,
 )
 
-from tests.resources.test_harness.central_node import CentralNode
+from tests.resources.test_harness.central_node_low import CentralNodeWrapperLow
+from tests.resources.test_harness.central_node_mid import CentralNodeWrapperMid
 from tests.resources.test_harness.event_recorder import EventRecorder
 from tests.resources.test_harness.simulator_factory import SimulatorFactory
 from tests.resources.test_harness.subarray_node import SubarrayNode
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 
+configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
 
 
@@ -120,10 +123,20 @@ def change_event_callbacks() -> MockTangoEventCallbackGroup:
 
 
 @pytest.fixture()
-def central_node() -> CentralNode:
-    """Return CentralNode and calls tear down"""
-    central_node = CentralNode()
+def central_node_low() -> CentralNodeWrapperLow:
+    """Return CentralNode for Low Telescope and calls tear down"""
+    central_node_low = CentralNodeWrapperLow()
+    yield central_node_low
+    # this will call after test complete
+    central_node_low.tear_down()
+
+
+@pytest.fixture()
+def central_node_mid() -> CentralNodeWrapperMid:
+    """Return CentralNode for Mid Telescope and calls tear down"""
+    central_node = CentralNodeWrapperMid()
     yield central_node
+    # this will call after test complete
     central_node.tear_down()
 
 
@@ -142,9 +155,9 @@ def command_input_factory() -> JsonFactory:
     return JsonFactory()
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture()
 def simulator_factory() -> SimulatorFactory:
-    """Return Simulator Factory"""
+    """Return Simulator Factory for Mid/Low Telescope"""
     return SimulatorFactory()
 
 
