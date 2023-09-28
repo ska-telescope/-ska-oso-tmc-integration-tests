@@ -2,34 +2,29 @@ release=0.8.10
 tag=0.8.10
 tag_description=
 **Charts:**
-**1. ska-tmc-integration 0.8.9 - 0.8.10:**
+**1. ska-tmc-integration 0.8.10 - 0.8.11:**
 
-    **1.1 ska-tmc-mid - 0.11.2 - 0.12.0:
-        a. Include dish availablity in SubarrayNode overall availability reporting
-        b. Bug fix on csp and sdp leaf nodes related to unavailablity reporting
-        c. Allow CentralNode on/off/standby commands if respective subsystem is available
-        d. Implement availability check on SubarrayNode for Sdpsubarrayleafnode before invoking On, Off commands
+    **1.1 ska-tmc-mid - 0.12.0 - 0.12.1:
+        a. Exposed Mid device fqdns as helm variable
+        b. Updated configuration files(.yaml) for all the Mid TMC tango devices including centralnode, 
+        subarraynode, cspsubarrayleafnode, sdpsubarrayleafnode, cspmasterleafnode, sdpmasterleafnode and dishleafnode
 
-    **1.2 ska-tmc-low - 0.9.0 - 0.10.0:
-        a. Include dish availablity in SubarrayNode overall availability reporting
-        b. Bug fix on csp and sdp leaf nodes related to unavailablity reporting
-        c. Allow CentralNode on/off/standby commands if respective subsystem is available
-        d. Implement availability check on SubarrayNode for Sdpsubarrayleafnode before invoking On, Off commands
+    **1.2 ska-tmc-low - 0.10.0 - 0.10.1:
+        a. Exposed Low device fqdns as helm variable
+        b. Updated configuration files(.yaml) for all the Low TMC tango devices including centralnode, 
+        subarraynode, cspsubarrayleafnode, sdpsubarrayleafnode, cspmasterleafnode and sdpmasterleafnode
 
 
 release_notes=
 **Charts:**
-**1. ska-tmc-integration 0.8.9 - 0.8.10:**
+**1. ska-tmc-integration 0.8.10 - 0.8.11:**
 
-    **1.1 ska-tmc-mid - 0.11.2 - 0.12.0:
-        a. Include dish availablity in SubarrayNode overall availability reporting
-        b. Bug fix on csp and sdp leaf nodes related to unavailablity reporting
-        c. Allow CentralNode on/off/standby commands if respective subsystem is available
-        d. Implement availability check on SubarrayNode for Sdpsubarrayleafnode before invoking On, Off commands
+    **1.1 ska-tmc-mid - 0.12.0 - 0.12.1:
+        a. Exposed Mid device fqdns as helm variable
+        b. Updated configuration files(.yaml) for all the Mid TMC tango devices including centralnode, 
+        subarraynode, cspsubarrayleafnode, sdpsubarrayleafnode, cspmasterleafnode, sdpmasterleafnode and dishleafnode
 
-
-    **1.2 ska-tmc-low - 0.9.0 - 0.10.0:
-        a. Include dish availablity in SubarrayNode overall availability reporting
-        b. Bug fix on csp and sdp leaf nodes related to unavailablity reporting
-        c. Allow CentralNode on/off/standby commands if respective subsystem is available
-        d. Implement availability check on SubarrayNode for Sdpsubarrayleafnode before invoking On, Off commands
+    **1.2 ska-tmc-low - 0.10.0 - 0.10.1:
+        a. Exposed Low device fqdns as helm variable
+        b. Updated configuration files(.yaml) for all the Low TMC tango devices including centralnode, 
+        subarraynode, cspsubarrayleafnode, sdpsubarrayleafnode, cspmasterleafnode and sdpmasterleafnode
