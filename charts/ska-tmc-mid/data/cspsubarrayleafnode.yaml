@@ -7,6 +7,7 @@ entrypoints:
 server:
   name: "csp_subarray_leaf_node_mid"
   instances:
+  {{ $csp_sa_fqdn_prefix:= .Values.global.csp_subarray_prefix}}
   {{- range  .Values.deviceServers.cspsubarrayleafnode.instances }}
     - name: "{{ . }}"
       classes:
@@ -16,7 +17,7 @@ server:
             properties:
               - name: "CspSubarrayFQDN"
                 values:
-                - "mid-csp/subarray/{{ . }}"
+                - "{{ $csp_sa_fqdn_prefix }}/{{ . }}"
               - name: "SkaLevel"
                 values:
                 - "3"

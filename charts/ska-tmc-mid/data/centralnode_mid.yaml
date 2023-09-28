@@ -7,6 +7,9 @@ entrypoints:
 server:
   name: "central_node_mid"
   instances:
+  {{ $tmc_sa_fqdn_prefix:= .Values.global.tmc_subarray_prefix}}
+  {{ $csp_sa_ln_fqdn_prefix:= .Values.global.csp_subarray_ln_prefix}}
+  {{ $sdp_sa_ln_fqdn_prefix:= .Values.global.sdp_subarray_ln_prefix}}
   - name: "01"
     classes:
     - name: "CentralNodeMid"
@@ -36,17 +39,17 @@ server:
         - name: "TMCSubarrayNodes"
           values:
           {{- range  ( regexSplit " " ((.Values.deviceServers.centralnode.subarray_count | int) | seq ) -1 )  }}
-          - "ska_mid/tm_subarray_node/{{ . }}"
+          - "{{ $tmc_sa_fqdn_prefix }}/{{ . }}"
           {{- end }}
         - name: "TMCMidCspSubarrayLeafNodes"
           values:
           {{- range  ( regexSplit " " ((.Values.deviceServers.centralnode.subarray_count | int) | seq ) -1 )  }}
-          - "ska_mid/tm_leaf_node/csp_subarray{{ printf "%02s" . }}"
+          - "{{ $csp_sa_ln_fqdn_prefix }}{{ printf "%02s" . }}"
           {{- end }}
         - name: "TMCMidSdpSubarrayLeafNodes"
           values:
           {{- range  ( regexSplit " " ((.Values.deviceServers.centralnode.subarray_count | int) | seq ) -1 )  }}
-          - "ska_mid/tm_leaf_node/sdp_subarray{{ printf "%02s" . }}"
+          - "{{ $sdp_sa_ln_fqdn_prefix }}{{ printf "%02s" . }}"
           {{- end }}
         - name: "SkaLevel"
           values:

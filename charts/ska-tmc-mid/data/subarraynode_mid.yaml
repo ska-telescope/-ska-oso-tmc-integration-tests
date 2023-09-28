@@ -7,6 +7,10 @@ entrypoints:
 server:
   name: "subarray_node_mid"
   instances:
+  {{ $csp_sa_ln_fqdn_prefix:= .Values.global.csp_subarray_ln_prefix}}
+  {{ $sdp_sa_ln_fqdn_prefix:= .Values.global.sdp_subarray_ln_prefix}}
+  {{ $csp_sa_fqdn_prefix:= .Values.global.csp_subarray_prefix}}
+  {{ $sdp_sa_fqdn_prefix:= .Values.global.sdp_subarray_prefix}}
   {{- range  .Values.coalesced_subarray_devices }}
     - name: "{{ . }}"
       classes:
@@ -19,16 +23,16 @@ server:
             - "ska_mid/tm_leaf_node/d0"
           - name: "CspSubarrayLNFQDN"
             values:
-            - "ska_mid/tm_leaf_node/csp_subarray{{ . }}"
+            - "{{ $csp_sa_ln_fqdn_prefix}}{{ . }}"
           - name: "SdpSubarrayLNFQDN"
             values:
-            - "ska_mid/tm_leaf_node/sdp_subarray{{ . }}"
+            - "{{ $sdp_sa_ln_fqdn_prefix}}{{ . }}"
           - name: "CspSubarrayFQDN"
             values:
-            - "mid-csp/subarray/{{ . }}"
+            - "{{ $csp_sa_fqdn_prefix}}/{{ . }}"
           - name: "SdpSubarrayFQDN"
             values:
-            - "mid-sdp/subarray/{{ . }}"
+            - "{{ $sdp_sa_fqdn_prefix}}/{{ . }}"
           - name: "SkaLevel"
             values:
               - "2"
