@@ -7,6 +7,7 @@ entrypoints:
 server:
   name: "sdp_subarray_leaf_node"
   instances:
+  {{ $sdp_sa_fqdn_prefix:= .Values.global.sdp_subarray_prefix}}
   {{- range  .Values.deviceServers.sdpsubarrayleafnode.instances }}
     - name: "{{ . }}"
       classes:
@@ -16,7 +17,7 @@ server:
             properties:
               - name: "SdpSubarrayFQDN"
                 values:
-                - "low-sdp/subarray/{{ . }}"
+                - "{{ $sdp_sa_fqdn_prefix }}/{{ . }}"
               - name: "SkaLevel"
                 values:
                 - "3"

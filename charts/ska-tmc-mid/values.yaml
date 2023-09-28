@@ -37,7 +37,7 @@ global:
     - "subarraynode"
   subarray_count: 2
 
-  # # 
+  # fqdn prefix for mid devices
   tmc_subarray_prefix: "ska_mid/tm_subarray_node"
   csp_subarray_ln_prefix: "ska_mid/tm_leaf_node/csp_subarray"
   sdp_subarray_ln_prefix: "ska_mid/tm_leaf_node/sdp_subarray"

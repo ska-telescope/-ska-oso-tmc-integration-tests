@@ -32,6 +32,13 @@ global:
     - "subarraynode"
   subarray_count: 2
 
+  # fqdn prefix for low devices
+  tmc_subarray_prefix: "ska_low/tm_subarray_node"
+  csp_subarray_ln_prefix: "ska_low/tm_leaf_node/csp_subarray"
+  sdp_subarray_ln_prefix: "ska_low/tm_leaf_node/sdp_subarray"
+  csp_subarray_prefix: "low-csp/subarray"
+  sdp_subarray_prefix: "low-sdp/subarray"
+
 dsconfig:
   configuration_file: data/tmc-low-config.json
   image:
@@ -127,7 +134,6 @@ deviceServers:
     enabled: true
     instances: ["01", "02"]
     file: "data/cspsubarrayleafnode.yaml"
-    CspSubarrayFQDN: "low-csp/subarray"
 
   mocks:
     enabled: false
