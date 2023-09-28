@@ -15,16 +15,16 @@ server:
         properties:
         - name: "CspMasterLeafNodeFQDN"
           values:
-          - "ska_low/tm_leaf_node/csp_master"
+          - "{{.Values.deviceServers.centralnode.CspMasterLeafNodeFQDN}}"
         - name: "CspMasterFQDN"
           values:
-          - "low-csp/control/0"
+          - "{{.Values.deviceServers.centralnode.CspMasterFQDN}}"
         - name: "SdpMasterLeafNodeFQDN"
           values:
-          - "ska_low/tm_leaf_node/sdp_master"
+          - "{{.Values.deviceServers.centralnode.SdpMasterLeafNodeFQDN}}"
         - name: "SdpMasterFQDN"
           values:
-          - "low-sdp/control/0"
+          - "{{.Values.deviceServers.centralnode.SdpMasterFQDN}}"
         - name: "TMCSubarrayNodes"
           values:
           {{- range  ( regexSplit " " ((.Values.deviceServers.centralnode.subarray_count | int) | seq ) -1 )  }}

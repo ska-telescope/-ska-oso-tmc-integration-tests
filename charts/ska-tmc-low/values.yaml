@@ -96,6 +96,10 @@ deviceServers:
     instances: ["01"]
     subarray_count: 2
     file: "data/centralnode.yaml"
+    CspMasterLeafNodeFQDN: "ska_low/tm_leaf_node/csp_master"
+    SdpMasterLeafNodeFQDN: "ska_low/tm_leaf_node/sdp_master"
+    CspMasterFQDN: "low-csp/control/0"
+    SdpMasterFQDN: "low-sdp/control/0"
 
   subarraynode:
     enabled: true
@@ -123,6 +127,7 @@ deviceServers:
     enabled: true
     instances: ["01", "02"]
     file: "data/cspsubarrayleafnode.yaml"
+    CspSubarrayFQDN: "low-csp/subarray"
 
   mocks:
     enabled: false
