@@ -40,9 +40,26 @@ Configurable options
 
 * c. **enabled** : User can opt to disable any node by setting this value to False.Default is True for all nodes.
 
-* d. **CspMasterFQDN** : This value is present under csp master leaf node device server, User can use this to change the FQDN of csp master.
+* d. **tmc_subarray_prefix** : This value is present under global, User can use this to change the FQDN prefix of SubarrayNode.
 
-* e. **SdpMasterFQDN** : This value is present under sdp master leaf node device server, User can use this to change the FQDN of sdp master.
+* e. **csp_subarray_ln_prefix** : This value is present under global, User can use this to change the FQDN prefix of CspSubarrayLeafNode.
+
+* f. **sdp_subarray_ln_prefix** : This value is present under global, User can use this to change the FQDN prefix of SdpSubarrayLeafNode.
+
+* g. **csp_master_ln_prefix** : This value is present under global, User can use this to change the FQDN prefix of CspMasterLeafNode.
+
+* h. **sdp_master_ln_prefix** : This value is present under global, User can use this to change the FQDN prefix of SdpMasterLeafNode.
+
+* i. **csp_subarray_prefix** : This value is present under global, User can use this to change the FQDN prefix of CSP Subarray.
+
+* j. **sdp_subarray_prefix** : This value is present under global, User can use this to change the FQDN prefix of SDP Subarray.
+
+* k. **csp_master** : This value is present under global, User can use this to change the FQDN of CSP Master.
+
+* l. **sdp_master** : This value is present under global, User can use this to change the FQDN of SDP Master.
+
+* m. **dish_suffix** : This value is present under global, User can use this to change the FQDN suffix of Dish Master.
+
 
 Additional few Central node specific configurations are:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
