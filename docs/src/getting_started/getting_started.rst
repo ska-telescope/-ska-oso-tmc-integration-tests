@@ -57,7 +57,7 @@ Using device fqdns as helm variables
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The TMC device fqdns as well as sub-system devices fqdns are created as a helm variable. So when Sub-systems (CSP, SDP, Dish etc) wants to integrate their chart with TMC chart, and there is any FQDN changes on sub-systems devices, that change can be provided by creating tmc alise in value.yaml file.
 Below is the example TMC alise mentioned
-::
+
 tmc-mid:
   labels:
     app: ska-tmc-integration
@@ -70,7 +70,7 @@ tmc-mid:
       enabled: true
       CspMasterFQDN: "<CSP Master FQDN>"                  ex: "mid-csp/control/0"
       SdpMasterFQDN: "<SDP Master FQDN>"                  ex: "mid-sdp/control/0"
-::
+
 
  
 
