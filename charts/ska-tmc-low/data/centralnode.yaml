@@ -18,16 +18,16 @@ server:
         properties:
         - name: "CspMasterLeafNodeFQDN"
           values:
-          - "{{.Values.deviceServers.centralnode.CspMasterLeafNodeFQDN}}"
+          - "{{.Values.global.csp_master_ln_prefix}}"
         - name: "CspMasterFQDN"
           values:
-          - "{{.Values.deviceServers.centralnode.CspMasterFQDN}}"
+          - "{{.Values.global.csp_master}}"
         - name: "SdpMasterLeafNodeFQDN"
           values:
-          - "{{.Values.deviceServers.centralnode.SdpMasterLeafNodeFQDN}}"
+          - "{{.Values.global.sdp_master_ln_prefix}}"
         - name: "SdpMasterFQDN"
           values:
-          - "{{.Values.deviceServers.centralnode.SdpMasterFQDN}}"
+          - "{{.Values.global.sdp_master}}"
         - name: "TMCSubarrayNodes"
           values:
           {{- range  ( regexSplit " " ((.Values.deviceServers.centralnode.subarray_count | int) | seq ) -1 )  }}
