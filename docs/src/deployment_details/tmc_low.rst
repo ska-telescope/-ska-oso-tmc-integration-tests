@@ -58,8 +58,6 @@ Configurable options
 
 * l. **sdp_master** : This value is present under global, User can use this to change the FQDN of SDP Master.
 
-* m. **dish_suffix** : This value is present under global, User can use this to change the FQDN suffix of Dish Master.
-
 
 Additional few Central node specific configurations are:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
