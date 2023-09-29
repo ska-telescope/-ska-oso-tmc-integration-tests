@@ -7,7 +7,7 @@ entrypoints:
 server:
   name: "dish_leaf_node"
   instances:
-  {{ $dish_fqdn_suffix:= .Values.global.dish_prefix}}
+  {{ $dish_fqdn_suffix:= .Values.global.dish_suffix}}
   {{- range  .Values.deviceServers.dishleafnode.instances }}
     - name: "{{ . }}"
       classes:
