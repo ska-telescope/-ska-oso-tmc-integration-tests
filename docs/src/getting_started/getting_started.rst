@@ -51,3 +51,4 @@ make k8s-uninstall-chart
 To watch the pods, services status:
 ::
 make k8s-watch
+
