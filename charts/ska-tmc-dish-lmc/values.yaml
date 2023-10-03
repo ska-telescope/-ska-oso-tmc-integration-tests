@@ -1,0 +1,34 @@
+global:
+  # dishes: {001}
+  # facility: mid-tmc
+  minikube: true
+  tango_host: databaseds-tango-base:10000
+  # sub-system:
+  #   ska-tango-base:
+  #     enabled: false
+
+# DISH LMC
+dishlmc:
+  # ska-dish-lmc:
+  #   taranta:
+  #     enabled: false
+  ska-mid-dish-manager:
+    # legacy_compatibility: true
+    ska-mid-dish-simulators:
+      enabled: true
+      # legacy_compatibility: true
+      ska-tango-base:
+        enabled: false
+      deviceServers:
+        spfdevice:
+          enabled: true
+        spfrxdevice:
+          enabled: true
+
+
+# -set "global.dishes={001}" \
+# --set "global.minikube=true" \
+# --set "ska-mid-dish-manager.ska-mid-dish-simulators.enabled=true" \
+# --set "ska-mid-dish-manager.ska-mid-dish-simulators.deviceServers.spfdevice.enabled=true" \
+# --set "ska-mid-dish-manager.ska-mid-dish-simulators.deviceServers.spfrxdevice.enabled=true" \
+# --set "ska-mid-dish-manager.ska-mid-dish-simulators.ska-tango-base.enabled=false"
