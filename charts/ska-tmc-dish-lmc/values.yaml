@@ -1,5 +1,5 @@
 global:
-  dishes: {001}
+  dishes: ["001"]
   # facility: mid-tmc
   minikube: true
   tango_host: databaseds-tango-base:10000
@@ -12,11 +12,12 @@ dishlmc:
   # ska-dish-lmc:
   #   taranta:
   #     enabled: false
+  legacy_compatibility: true
   ska-mid-dish-manager:
-    # legacy_compatibility: true
+    legacy_compatibility: true
     ska-mid-dish-simulators:
       enabled: true
-      # legacy_compatibility: true
+      legacy_compatibility: true
       ska-tango-base:
         enabled: false
       deviceServers:
