@@ -1,0 +1,21 @@
+apiVersion: v2
+name: ska-tmc-dish-lmc
+description: An umbrella Helm chart for deploying the Dish LMC and necessary peripherals
+type: application
+version: 0.1.0
+appVersion: 0.1.0
+icon: https://www.skatelescope.org/wp-content/uploads/2016/07/09545_NEW_LOGO_2014.png
+dependencies:
+  # TANGO DEPENDENCIES
+  - name: ska-tango-base
+    version: 0.4.6
+    repository: https://artefact.skao.int/repository/helm-internal
+  - name: ska-tango-util
+    version: 0.4.6
+    repository: https://artefact.skao.int/repository/helm-internal
+
+  # DISH LMC CHART
+  - name: ska-dish-lmc
+    version: 2.5.0
+    repository: https://artefact.skao.int/repository/helm-internal
+    alias: dishlmc
