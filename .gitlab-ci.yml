@@ -169,7 +169,7 @@ k8s-test:
     - echo "chart params are '$K8S_DISH_LMC_PARAMS' Done"
     - K8S_DISH_LMC_PARAMS="-f charts/ska-tmc-dish-lmc/values.yaml"
     - echo "Dish Namespace '$KUBE_DISH_LMC_NAMESPACE'"
-    - make k8s-install-chart-car KUBE_NAMESPACE=$KUBE_DISH_LMC_NAMESPACE K8S_CHART_PARAMS=$K8S_DISH_LMC_PARAMS HELM_RELEASE=$DISH_HELM_RELEASE K8S_CHART=$K8S_DISH_LMC_CHART K8S_HELM_REPOSITORY=https://artefact.skao.int/repository/helm-internal
+    - make k8s-install-chart-car KUBE_NAMESPACE=$KUBE_DISH_LMC_NAMESPACE K8S_CHART_PARAMS='-f charts/ska-tmc-dish-lmc/values.yaml --set "global.dishes={001}"' HELM_RELEASE=$DISH_HELM_RELEASE K8S_CHART=$K8S_DISH_LMC_CHART K8S_HELM_REPOSITORY=https://artefact.skao.int/repository/helm-internal
     - make k8s-install-chart
     - make k8s-wait
   retry: 1
