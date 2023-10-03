@@ -1,5 +1,5 @@
 global:
-  # dishes: {001}
+  dishes: {001}
   # facility: mid-tmc
   minikube: true
   tango_host: databaseds-tango-base:10000
