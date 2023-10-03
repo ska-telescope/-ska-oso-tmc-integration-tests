@@ -1,17 +1,24 @@
 import pytest
+from ska_control_model import ObsState
 from tango import DevState
 
-from tests.resources.test_harness.helpers import get_master_device_simulators
+from tests.resources.test_harness.helpers import (
+    get_device_simulators,
+    get_master_device_simulators,
+    prepare_json_args_for_commands,
+)
 from tests.resources.test_harness.utils.enums import DishMode
 
 
 class TestMidCentralNodeStateTransition(object):
+    @pytest.mark.assign
     @pytest.mark.SKA_mid
     def test_mid_centralnode_state_transitions(
         self,
         central_node_mid,
         event_recorder,
         simulator_factory,
+        command_input_factory,
     ):
         """
         Test to verify transitions that are triggered by On
@@ -25,17 +32,23 @@ class TestMidCentralNodeStateTransition(object):
         - "simulator_factory": fixtur for creating simulator devices for
         mid Telescope respectively.
         """
+        input_json = prepare_json_args_for_commands(
+            "assign_resources_mid", command_input_factory
+        )
         (
             csp_master_sim,
             sdp_master_sim,
             dish_master_sim1,
             dish_master_sim2,
         ) = get_master_device_simulators(simulator_factory)
+        csp_sim, sdp_sim, _, _ = get_device_simulators(simulator_factory)
 
         event_recorder.subscribe_event(csp_master_sim, "State")
         event_recorder.subscribe_event(sdp_master_sim, "State")
         event_recorder.subscribe_event(dish_master_sim1, "DishMode")
         event_recorder.subscribe_event(dish_master_sim2, "DishMode")
+        event_recorder.subscribe_event(csp_sim, "obsState")
+        event_recorder.subscribe_event(sdp_sim, "obsState")
         central_node_mid.move_to_on()
 
         assert event_recorder.has_change_event_occurred(
@@ -53,6 +66,18 @@ class TestMidCentralNodeStateTransition(object):
         # transitions. Here is the link for reference.
         # https://confluence.skatelescope.org/display/SE/Subarray+obsMode+and+
         # Dish+states+and+modes
+
+        central_node_mid.invoke_assign_resources(input_json)
+        assert event_recorder.has_change_event_occurred(
+            csp_sim,
+            "obsState",
+            ObsState.IDLE,
+        )
+        assert event_recorder.has_change_event_occurred(
+            sdp_sim,
+            "obsState",
+            ObsState.IDLE,
+        )
 
         assert event_recorder.has_change_event_occurred(
             dish_master_sim1,

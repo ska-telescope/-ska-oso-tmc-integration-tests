@@ -1,11 +1,8 @@
+from ska_control_model import ObsState
 from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
 
-from tests.resources.test_harness.constant import device_dict
 from tests.resources.test_harness.utils.enums import DishMode
-from tests.resources.test_harness.utils.sync_decorators import (
-    sync_assign_resources,
-)
 from tests.resources.test_support.common_utils.common_helpers import Resource
 
 
@@ -78,6 +75,25 @@ class CentralNodeWrapper(object):
             for device in self.dish_master_list:
                 device.SetDirectDishMode(DishMode.STANDBY_FP)
 
+    def assign_resources(self, argin):
+        """
+        A method to invoke AssignResources command to
+        assign resources.
+        """
+        self.central_node.AssignResources(argin)
+        device_to_resource_assign = [
+            self.subarray_devices.get("csp_subarray"),
+            self.subarray_devices.get("sdp_subarray"),
+        ]
+        for device in device_to_resource_assign:
+            device_proxy = DeviceProxy(device)
+            device_proxy.SetDirectObsState(ObsState.IDLE)
+
+        # If Dish master provided then set it to standby
+        if self.dish_master_list:
+            for device in self.dish_master_list:
+                device.SetDirectDishMode(DishMode.STANDBY_FP)
+
     def move_to_off(self):
         """
         A method to invoke TelescopeOff command to
@@ -118,9 +134,21 @@ class CentralNodeWrapper(object):
             for device in self.dish_master_list:
                 device.SetDirectState(DevState.STANDBY)
 
-    @sync_assign_resources(device_dict=device_dict)
     def invoke_assign_resources(self, input_string):
         result, message = self.central_node.AssignResources(input_string)
+        device_to_resource_assign = [
+            self.subarray_devices.get("csp_subarray"),
+            self.subarray_devices.get("sdp_subarray"),
+        ]
+        for device in device_to_resource_assign:
+            device_proxy = DeviceProxy(device)
+            device_proxy.SetDirectObsState(ObsState.IDLE)
+
+        # If Dish master provided then set it to standby
+        if self.dish_master_list:
+            for device in self.dish_master_list:
+                device.SetDirectDishMode(DishMode.STANDBY_FP)
+
         return result, message
 
     def invoke_release_resources(self, input_string):
