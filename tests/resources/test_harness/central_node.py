@@ -75,25 +75,6 @@ class CentralNodeWrapper(object):
             for device in self.dish_master_list:
                 device.SetDirectDishMode(DishMode.STANDBY_FP)
 
-    def assign_resources(self, argin):
-        """
-        A method to invoke AssignResources command to
-        assign resources.
-        """
-        self.central_node.AssignResources(argin)
-        device_to_resource_assign = [
-            self.subarray_devices.get("csp_subarray"),
-            self.subarray_devices.get("sdp_subarray"),
-        ]
-        for device in device_to_resource_assign:
-            device_proxy = DeviceProxy(device)
-            device_proxy.SetDirectObsState(ObsState.IDLE)
-
-        # If Dish master provided then set it to standby
-        if self.dish_master_list:
-            for device in self.dish_master_list:
-                device.SetDirectDishMode(DishMode.STANDBY_FP)
-
     def move_to_off(self):
         """
         A method to invoke TelescopeOff command to
