@@ -5,7 +5,7 @@ from tango import DevState
 from tests.resources.test_harness.helpers import (
     get_device_simulators,
     get_master_device_simulators,
-    prepare_json_args_for_commands,
+    prepare_json_args_for_centralnode_commands,
 )
 from tests.resources.test_harness.utils.enums import DishMode
 
@@ -33,7 +33,7 @@ class TestMidCentralNodeStateTransition(object):
         - "simulator_factory": fixtur for creating simulator devices for
         mid Telescope respectively.
         """
-        input_json = prepare_json_args_for_commands(
+        input_json = prepare_json_args_for_centralnode_commands(
             "assign_resources_mid", command_input_factory
         )
         (

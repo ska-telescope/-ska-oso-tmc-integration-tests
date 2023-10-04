@@ -1,4 +1,3 @@
-from ska_control_model import ObsState
 from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
 
@@ -123,19 +122,6 @@ class CentralNodeWrapper(object):
     @sync_assign_resources(device_dict=device_dict)
     def invoke_assign_resources(self, input_string):
         result, message = self.central_node.AssignResources(input_string)
-        device_to_resource_assign = [
-            self.subarray_devices.get("csp_subarray"),
-            self.subarray_devices.get("sdp_subarray"),
-        ]
-        for device in device_to_resource_assign:
-            device_proxy = DeviceProxy(device)
-            device_proxy.SetDirectObsState(ObsState.IDLE)
-
-        # If Dish master provided then set it to standby
-        # if self.dish_master_list:
-        #     for device in self.dish_master_list:
-        #         device.SetDirectDishMode(DishMode.STANDBY_FP)
-
         return result, message
 
     def invoke_release_resources(self, input_string):
