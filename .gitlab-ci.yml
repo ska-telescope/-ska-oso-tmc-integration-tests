@@ -183,7 +183,7 @@ dish-lmc-dish001:
     # K8S_DISH_LMC_PARAMS: "-f charts/ska-tmc-dish-lmc/values.yaml"
     DISH_HELM_RELEASE: "2.5.0"
     K8S_DISH_LMC_CHART: "ska-dish-lmc"
-  before_script:
+  script:
     - make cred SERVICE_ACCOUNT=$DISH_LMC_SERVICE_ACCOUNT
     - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
     - 'make help | grep k8s-test'
