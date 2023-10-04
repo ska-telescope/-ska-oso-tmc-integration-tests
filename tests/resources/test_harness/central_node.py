@@ -2,7 +2,11 @@ from ska_control_model import ObsState
 from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
 
+from tests.resources.test_harness.constant import device_dict
 from tests.resources.test_harness.utils.enums import DishMode
+from tests.resources.test_harness.utils.sync_decorators import (
+    sync_assign_resources,
+)
 from tests.resources.test_support.common_utils.common_helpers import Resource
 
 
@@ -16,6 +20,7 @@ class CentralNodeWrapper(object):
         self,
     ) -> None:
         self.central_node = None
+        self.subarray_node = None
         self.csp_master_leaf_node = None
         self.sdp_master_leaf_node = None
         self.subarray_devices = {}
@@ -115,6 +120,7 @@ class CentralNodeWrapper(object):
             for device in self.dish_master_list:
                 device.SetDirectState(DevState.STANDBY)
 
+    @sync_assign_resources(device_dict=device_dict)
     def invoke_assign_resources(self, input_string):
         result, message = self.central_node.AssignResources(input_string)
         device_to_resource_assign = [
@@ -126,9 +132,9 @@ class CentralNodeWrapper(object):
             device_proxy.SetDirectObsState(ObsState.IDLE)
 
         # If Dish master provided then set it to standby
-        if self.dish_master_list:
-            for device in self.dish_master_list:
-                device.SetDirectDishMode(DishMode.STANDBY_FP)
+        # if self.dish_master_list:
+        #     for device in self.dish_master_list:
+        #         device.SetDirectDishMode(DishMode.STANDBY_FP)
 
         return result, message
 

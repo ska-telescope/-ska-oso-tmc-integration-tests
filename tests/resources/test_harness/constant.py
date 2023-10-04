@@ -153,6 +153,10 @@ device_dict = {
     "sdp_master": sdp_master,
     "dish_master1": dish_master1,
     "dish_master2": dish_master2,
+    "sdp_subarray": sdp_subarray1,
+    "csp_subarray": csp_subarray1,
+    "sdp_subarray_leaf_node": tmc_sdp_subarray_leaf_node,
+    "csp_subarray_leaf_node": tmc_csp_subarray_leaf_node,
 }
 
 device_dict_low = {

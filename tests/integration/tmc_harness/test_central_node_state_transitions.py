@@ -16,6 +16,7 @@ class TestMidCentralNodeStateTransition(object):
     def test_mid_centralnode_state_transitions(
         self,
         central_node_mid,
+        subarray_node,
         event_recorder,
         simulator_factory,
         command_input_factory,
@@ -49,6 +50,9 @@ class TestMidCentralNodeStateTransition(object):
         event_recorder.subscribe_event(dish_master_sim2, "DishMode")
         event_recorder.subscribe_event(csp_sim, "obsState")
         event_recorder.subscribe_event(sdp_sim, "obsState")
+        event_recorder.subscribe_event(
+            central_node_mid.subarray_node, "obsState"
+        )
         central_node_mid.move_to_on()
 
         assert event_recorder.has_change_event_occurred(
@@ -69,12 +73,17 @@ class TestMidCentralNodeStateTransition(object):
 
         central_node_mid.invoke_assign_resources(input_json)
         assert event_recorder.has_change_event_occurred(
+            sdp_sim,
+            "obsState",
+            ObsState.IDLE,
+        )
+        assert event_recorder.has_change_event_occurred(
             csp_sim,
             "obsState",
             ObsState.IDLE,
         )
         assert event_recorder.has_change_event_occurred(
-            sdp_sim,
+            subarray_node.subarray_node,
             "obsState",
             ObsState.IDLE,
         )
