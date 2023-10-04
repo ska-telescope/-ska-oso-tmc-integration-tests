@@ -193,12 +193,14 @@ dish-lmc-dish001:
     - echo "chart params are '$K8S_DISH_LMC_PARAMS' Done"
     - K8S_DISH_LMC_PARAMS="-f charts/ska-tmc-dish-lmc/values.yaml"
     - echo "Dish Namespace '$KUBE_NAMESPACE'"
-    - make k8s-install-chart-car KUBE_NAMESPACE=$KUBE_NAMESPACE K8S_CHART_PARAMS='-f charts/ska-tmc-dish-lmc/values.yaml --set "global.dishes={001}"
-      --set "ska-mid-dish-manager.tango-base.enabled=false" 
-      --set "ska-mid-dish-manager.ska-mid-dish-simulators.enabled=true" 
-      --set "ska-mid-dish-manager.ska-mid-dish-simulators.deviceServers.spfdevice.enabled=true" 
-      --set "ska-mid-dish-manager.ska-mid-dish-simulators.deviceServers.spfrxdevice.enabled=true" 
-      --set "ska-mid-dish-manager.ska-mid-dish-simulators.ska-tango-base.enabled=false"'
+    - make k8s-install-chart-car KUBE_NAMESPACE=$KUBE_NAMESPACE K8S_CHART_PARAMS='--set "global.dishes={001}" 
+        --set "ska-mid-dish-manager.ska-mid-dish-simulators.enabled=true" 
+        --set "ska-mid-dish-manager.ska-mid-dish-simulators.deviceServers.spfdevice.enabled=true" 
+        --set "ska-mid-dish-manager.ska-mid-dish-simulators.deviceServers.spfrxdevice.enabled=true" 
+        --set "ska-mid-dish-ds-manager.ska-mid-dish-simulators.enabled=true" 
+        --set "ska-mid-dish-ds-manager.ska-mid-dish-simulators.dsOpcuaSimulator.enabled=true" 
+        --set "ska-mid-dish-ds-manager.ska-mid-dish-simulators.ska-tango-base.enabled=false" 
+        --set "ska-mid-dish-ds-manager.ska-tango-base.enabled=false"' 
       HELM_RELEASE=$DISH_HELM_RELEASE K8S_CHART=$K8S_DISH_LMC_CHART
   retry: 1
 
