@@ -183,7 +183,7 @@ dish-lmc-dish001:
       HELM_RELEASE=$DISH_HELM_RELEASE K8S_CHART=$K8S_DISH_LMC_CHART
   environment:
     name: test/$CI_COMMIT_REF_SLUG
-    on_stop: stop-k8s-dish-lmc-$DISH_INDEX
+    on_stop: stop-k8s-dish-lmc-001
     auto_stop_in: 1 minute
   retry: 1
 
@@ -197,6 +197,10 @@ dish-lmc-dish036:
     DISH_LMC_SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX"
     DISH_HELM_RELEASE: "2.5.0"
     K8S_DISH_LMC_CHART: "ska-dish-lmc"
+  environment:
+    name: test/$CI_COMMIT_REF_SLUG
+    on_stop: stop-k8s-dish-lmc-036
+    auto_stop_in: 1 minute
 
 k8s-test-low:
   retry: 1
