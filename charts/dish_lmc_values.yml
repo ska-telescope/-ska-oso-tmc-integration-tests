@@ -1,0 +1,21 @@
+global:
+  minikube: false
+
+# DISH LMC
+ska-mid-dish-manager:
+  ska-mid-dish-simulators:
+    enabled: true
+    deviceServers:
+      spfdevice:
+        enabled: true
+      spfrxdevice:
+        enabled: true
+ska-mid-dish-ds-manager:
+  ska-tango-base:
+    enabled: false
+  ska-mid-dish-simulators:
+    enabled: true
+    dsOpcuaSimulator:
+      enabled: true
+    ska-tango-base:
+      enabled: false
