@@ -106,25 +106,6 @@ dishleafnode:
     tag: 0.5.2
     pullPolicy: IfNotPresent
 
-dishlmc:
-    enabled: true
-    # DISH LMC
-    # ska-dish-lmc:
-    #   taranta:
-    #     enabled: false
-    ska-mid-dish-manager:
-      legacy_compatibility: true
-      ska-mid-dish-simulators:
-        enabled: true
-        legacy_compatibility: true
-        ska-tango-base:
-          enabled: false
-        deviceServers:
-          spfdevice:
-            enabled: true
-          spfrxdevice:
-            enabled: true
-
 resources:
   limits:
     cpu: 300m
