@@ -196,6 +196,7 @@ dish-lmc-dish036:
     - dish-lmc-dish001
   before_script:
     - $DISH_INDEX="036"
+    - make cred SERVICE_ACCOUNT=$DISH_LMC_SERVICE_ACCOUNT
 
 k8s-test-low:
   retry: 1
