@@ -5,6 +5,7 @@ from tests.resources.test_harness.constant import device_dict
 from tests.resources.test_harness.utils.enums import DishMode
 from tests.resources.test_harness.utils.sync_decorators import (
     sync_assign_resources,
+    sync_release_resources,
 )
 from tests.resources.test_support.common_utils.common_helpers import Resource
 
@@ -19,7 +20,6 @@ class CentralNodeWrapper(object):
         self,
     ) -> None:
         self.central_node = None
-        self.subarray_node = None
         self.csp_master_leaf_node = None
         self.sdp_master_leaf_node = None
         self.subarray_devices = {}
@@ -124,6 +124,7 @@ class CentralNodeWrapper(object):
         result, message = self.central_node.AssignResources(input_string)
         return result, message
 
+    @sync_release_resources(device_dict=device_dict)
     def invoke_release_resources(self, input_string):
         result, message = self.central_node.ReleaseResources(input_string)
         return result, message

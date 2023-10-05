@@ -33,8 +33,11 @@ class TestMidCentralNodeStateTransition(object):
         - "simulator_factory": fixtur for creating simulator devices for
         mid Telescope respectively.
         """
-        input_json = prepare_json_args_for_centralnode_commands(
+        assign_input_json = prepare_json_args_for_centralnode_commands(
             "assign_resources_mid", command_input_factory
+        )
+        release_input_json = prepare_json_args_for_centralnode_commands(
+            "release_resources_mid", command_input_factory
         )
         (
             csp_master_sim,
@@ -50,11 +53,9 @@ class TestMidCentralNodeStateTransition(object):
         event_recorder.subscribe_event(dish_master_sim2, "DishMode")
         event_recorder.subscribe_event(csp_sim, "obsState")
         event_recorder.subscribe_event(sdp_sim, "obsState")
-        event_recorder.subscribe_event(
-            central_node_mid.subarray_node, "obsState"
-        )
+        event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
+        
         central_node_mid.move_to_on()
-
         assert event_recorder.has_change_event_occurred(
             csp_master_sim,
             "State",
@@ -65,13 +66,8 @@ class TestMidCentralNodeStateTransition(object):
             "State",
             DevState.ON,
         )
-        # As there is inconsistancy between the states of Dish Master and other
-        # subsystem that's why Dishmode is considered for DishMaster
-        # transitions. Here is the link for reference.
-        # https://confluence.skatelescope.org/display/SE/Subarray+obsMode+and+
-        # Dish+states+and+modes
-
-        central_node_mid.invoke_assign_resources(input_json)
+        
+        central_node_mid.invoke_assign_resources(assign_input_json)
         assert event_recorder.has_change_event_occurred(
             sdp_sim,
             "obsState",
@@ -88,6 +84,28 @@ class TestMidCentralNodeStateTransition(object):
             ObsState.IDLE,
         )
 
+        central_node_mid.invoke_release_resources(release_input_json)
+        assert event_recorder.has_change_event_occurred(
+            sdp_sim,
+            "obsState",
+            ObsState.EMPTY,
+        )
+        assert event_recorder.has_change_event_occurred(
+            csp_sim,
+            "obsState",
+            ObsState.EMPTY,
+        )
+        assert event_recorder.has_change_event_occurred(
+            subarray_node.subarray_node,
+            "obsState",
+            ObsState.EMPTY,
+        )
+
+        # As there is inconsistancy between the states of Dish Master and other
+        # subsystem that's why Dishmode is considered for DishMaster
+        # transitions. Here is the link for reference.
+        # https://confluence.skatelescope.org/display/SE/Subarray+obsMode+and+
+        # Dish+states+and+modes
         assert event_recorder.has_change_event_occurred(
             dish_master_sim1,
             "DishMode",

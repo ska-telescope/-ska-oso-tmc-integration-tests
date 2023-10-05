@@ -24,7 +24,6 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
     def __init__(self) -> None:
         super().__init__()
         self.central_node = DeviceProxy(centralnode)
-        self.subarray_node = DeviceProxy(tmc_subarraynode1)
         self.csp_master_leaf_node = DeviceProxy(tmc_csp_master_leaf_node)
         self.sdp_master_leaf_node = DeviceProxy(tmc_sdp_master_leaf_node)
         self.subarray_devices = {
