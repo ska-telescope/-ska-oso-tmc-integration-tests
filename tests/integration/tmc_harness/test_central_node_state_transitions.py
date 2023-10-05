@@ -54,7 +54,7 @@ class TestMidCentralNodeStateTransition(object):
         event_recorder.subscribe_event(csp_sim, "obsState")
         event_recorder.subscribe_event(sdp_sim, "obsState")
         event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
-        
+
         central_node_mid.move_to_on()
         assert event_recorder.has_change_event_occurred(
             csp_master_sim,
@@ -66,7 +66,7 @@ class TestMidCentralNodeStateTransition(object):
             "State",
             DevState.ON,
         )
-        
+
         central_node_mid.invoke_assign_resources(assign_input_json)
         assert event_recorder.has_change_event_occurred(
             sdp_sim,
