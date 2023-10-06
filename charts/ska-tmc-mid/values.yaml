@@ -121,7 +121,7 @@ deviceServers:
     subarray_count: 2
     file: "data/centralnode_mid.yaml"
     DishLeafNodePrefix: "ska_mid/tm_leaf_node/d0"
-    DishIDs: ["SKA001", "SKA036", "SKA063", "SKA100"]
+    DishIDs: ["SKA001", "SKA002", "SKA003", "SKA004"]
 
   subarraynode:
     enabled: true
@@ -150,7 +150,7 @@ deviceServers:
 
   dishleafnode:
     enabled: true
-    instances: ["01", "36", "63", "100",]
+    instances: ["01", "02"]
     file: "data/dishleafnode.yaml"
 
   mocks:
