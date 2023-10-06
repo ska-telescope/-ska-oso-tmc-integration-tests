@@ -12,6 +12,9 @@ from tests.resources.test_harness.constant import (
     low_sdp_subarray1,
     tmc_low_subarraynode1,
 )
+from tests.resources.test_harness.utils.common_utils import (
+    get_centralnode_input_json,
+)
 from tests.resources.test_harness.utils.sync_decorators import (
     sync_assign_resources,
     sync_release_resources,
@@ -51,6 +54,16 @@ class CentralNodeWrapperLow(CentralNodeWrapper):
     def invoke_release_resources(self, input_string):
         result, message = self.central_node.ReleaseResources(input_string)
         return result, message
+
+    def tear_down(self):
+        """Handle Tear down of central Node"""
+        # reset HealthState.UNKNOWN for mock devices
+        self._reset_health_state_for_mock_devices()
+        release_input_json = get_centralnode_input_json(
+            "release_resources_low"
+        )
+        self.invoke_release_resources(release_input_json)
+        self.move_to_off()
 
     # def _reset_health_state_for_mock_devices(self):
     #     """Reset Mock devices"""

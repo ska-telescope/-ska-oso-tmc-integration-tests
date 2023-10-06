@@ -1,5 +1,3 @@
-from os.path import dirname, join
-
 from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
 
@@ -136,34 +134,24 @@ class CentralNodeWrapper(object):
             device = DeviceProxy(mock_device)
             device.SetDirectHealthState(HealthState.UNKNOWN)
 
-    def get_release_input_json(self, slug):
-        """
-        Args:
-            slug (str): base name of file
-        Return:
-            Read and return content of file
-        """
-        release_json_file_path = join(
-            dirname(__file__),
-            "..",
-            "..",
-            "data",
-            "centralnode",
-            f"{slug}.json",
-        )
-        with open(release_json_file_path, "r", encoding="UTF-8") as f:
-            release_json = f.read()
-        return release_json
-
-    def tear_down(self):
-        """Handle Tear down of central Node"""
-        # reset HealthState.UNKNOWN for mock devices
-        self._reset_health_state_for_mock_devices()
-        release_input_json = self.get_release_input_json(
-            "release_resources_mid"
-        )
-        self.invoke_release_resources(release_input_json)
-        self.move_to_off()
+    # def get_release_input_json(self, slug):
+    #     """
+    #     Args:
+    #         slug (str): base name of file
+    #     Return:
+    #         Read and return content of file
+    #     """
+    #     release_json_file_path = join(
+    #         dirname(__file__),
+    #         "..",
+    #         "..",
+    #         "data",
+    #         "centralnode",
+    #         f"{slug}.json",
+    #     )
+    #     with open(release_json_file_path, "r", encoding="UTF-8") as f:
+    #         release_json = f.read()
+    #     return release_json
 
     def perform(self, command_name, input_json):
         """Execute provided command on centralnode

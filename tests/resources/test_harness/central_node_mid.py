@@ -14,6 +14,9 @@ from tests.resources.test_harness.constant import (
     tmc_sdp_master_leaf_node,
     tmc_subarraynode1,
 )
+from tests.resources.test_harness.utils.common_utils import (
+    get_centralnode_input_json,
+)
 
 
 class CentralNodeWrapperMid(CentralNodeWrapper):
@@ -44,3 +47,13 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         super()._reset_health_state_for_mock_devices()
         for mock_device in self.dish_master_list:
             mock_device.SetDirectHealthState(HealthState.UNKNOWN)
+
+    def tear_down(self):
+        """Handle Tear down of central Node"""
+        # reset HealthState.UNKNOWN for mock devices
+        self._reset_health_state_for_mock_devices()
+        release_input_json = get_centralnode_input_json(
+            "release_resources_mid"
+        )
+        self.invoke_release_resources(release_input_json)
+        self.move_to_off()
