@@ -167,6 +167,7 @@ k8s-test:
   retry: 1
 
 dish-lmc-dish001:
+  stage: on-demand
   extends:
     - k8s-test
   variables:
@@ -184,8 +185,9 @@ dish-lmc-dish001:
   environment:
     name: test/$CI_COMMIT_REF_SLUG
     on_stop: stop-k8s-dish-lmc-001
-    auto_stop_in: 1 minute
-  retry: 1
+    action: stop
+  when: manual
+  allow_failure: true
 
 
 dish-lmc-dish036:
@@ -199,8 +201,8 @@ dish-lmc-dish036:
     K8S_DISH_LMC_CHART: "ska-dish-lmc"
   environment:
     name: test/$CI_COMMIT_REF_SLUG
-    on_stop: stop-k8s-dish-lmc-036
-    auto_stop_in: 1 minute
+    on_stop: stop-k8s-dish-lmc-001
+    action: stop
 
 k8s-test-low:
   retry: 1
@@ -231,6 +233,7 @@ stop-k8s-test-low:
     - make k8s-delete-namespace
 
 stop-k8s-dish-lmc-001:
+  stage: on-demand
   extends:
     - stop-k8s-test
   variables:
