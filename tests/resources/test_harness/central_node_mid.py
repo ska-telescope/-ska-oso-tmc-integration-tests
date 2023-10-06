@@ -14,9 +14,7 @@ from tests.resources.test_harness.constant import (
     tmc_sdp_master_leaf_node,
     tmc_subarraynode1,
 )
-from tests.resources.test_harness.utils.common_utils import (
-    get_centralnode_input_json,
-)
+from tests.resources.test_harness.utils.common_utils import JsonFactory
 
 
 class CentralNodeWrapperMid(CentralNodeWrapper):
@@ -41,6 +39,12 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             DeviceProxy(dish_master2),
         ]
         self._state = DevState.OFF
+        self.json_factory = JsonFactory()
+        self.release_input = (
+            self.json_factory.create_centralnode_configuration(
+                "release_resources_mid"
+            )
+        )
 
     def _reset_health_state_for_mock_devices(self):
         """Reset Mock devices"""
@@ -52,8 +56,5 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         """Handle Tear down of central Node"""
         # reset HealthState.UNKNOWN for mock devices
         self._reset_health_state_for_mock_devices()
-        release_input_json = get_centralnode_input_json(
-            "release_resources_mid"
-        )
-        self.invoke_release_resources(release_input_json)
+        self.invoke_release_resources(self.release_input)
         self.move_to_off()

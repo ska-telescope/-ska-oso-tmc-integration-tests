@@ -134,25 +134,6 @@ class CentralNodeWrapper(object):
             device = DeviceProxy(mock_device)
             device.SetDirectHealthState(HealthState.UNKNOWN)
 
-    # def get_release_input_json(self, slug):
-    #     """
-    #     Args:
-    #         slug (str): base name of file
-    #     Return:
-    #         Read and return content of file
-    #     """
-    #     release_json_file_path = join(
-    #         dirname(__file__),
-    #         "..",
-    #         "..",
-    #         "data",
-    #         "centralnode",
-    #         f"{slug}.json",
-    #     )
-    #     with open(release_json_file_path, "r", encoding="UTF-8") as f:
-    #         release_json = f.read()
-    #     return release_json
-
     def perform(self, command_name, input_json):
         """Execute provided command on centralnode
         Args:

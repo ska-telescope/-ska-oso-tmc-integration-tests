@@ -10,7 +10,6 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
 class TestLowCentralNodeAssignResources(object):
     @pytest.mark.SKA_low
-    @pytest.mark.assignlow
     def test_low_centralnode_assign_resources(
         self,
         central_node_low,
@@ -66,7 +65,7 @@ class TestLowCentralNodeAssignResources(object):
             DevState.ON,
         )
 
-        central_node_low.perform(assign_input_json)
+        central_node_low.perform("AssignResources", assign_input_json)
         assert event_recorder.has_change_event_occurred(
             sdp_sim,
             "obsState",
