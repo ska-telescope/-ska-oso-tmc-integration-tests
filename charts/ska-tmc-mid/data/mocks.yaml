@@ -29,10 +29,10 @@ server:
           - name: "mid-sdp/subarray/02"
         - name: "HelperDishDevice"
           devices:
-          - name: "ska001/dish/master"
-          - name: "ska002/dish/master"
           - name: "ska003/dish/master"
-          - name: "ska004/dish/master"
+          - name: "ska005/dish/master"
+          - name: "ska103/dish/master"
+          - name: "ska204/dish/master"
 depends_on:
   - device: sys/database/2
 image:
