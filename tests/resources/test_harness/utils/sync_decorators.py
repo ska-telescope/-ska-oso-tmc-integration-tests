@@ -57,20 +57,10 @@ def sync_release_resources(device_dict, timeout=200):
     def decorator_sync_release_resources(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            device = DeviceUtils(
-                obs_state_device_names=[
-                    device_dict.get("csp_subarray"),
-                    device_dict.get("sdp_subarray"),
-                    device_dict.get("tmc_subarraynode"),
-                ]
-            )
-            device.check_devices_obsState("IDLE")
-            set_wait_for_obsstate = kwargs.get("set_wait_for_obsstate", True)
+            the_waiter = Waiter(**device_dict)
+            the_waiter.set_wait_for_going_to_empty()
             result = func(*args, **kwargs)
-            if set_wait_for_obsstate:
-                the_waiter = Waiter(**device_dict)
-                the_waiter.set_wait_for_going_to_empty()
-                the_waiter.wait(timeout)
+            the_waiter.wait(timeout)
             return result
 
         return wrapper

@@ -150,7 +150,6 @@ class Waiter:
         )
 
     def set_wait_for_assign_resources(self):
-
         self.waits.append(
             watch(Resource(self.tmc_csp_subarray_leaf_node)).to_become(
                 "cspSubarrayObsState", changed_to="IDLE"

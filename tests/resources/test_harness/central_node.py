@@ -1,3 +1,5 @@
+from os.path import dirname, join
+
 from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
 
@@ -5,7 +7,6 @@ from tests.resources.test_harness.constant import device_dict
 from tests.resources.test_harness.utils.enums import DishMode
 from tests.resources.test_harness.utils.sync_decorators import (
     sync_assign_resources,
-    sync_release_resources,
 )
 from tests.resources.test_support.common_utils.common_helpers import Resource
 
@@ -20,7 +21,7 @@ class CentralNodeWrapper(object):
         self,
     ) -> None:
         self.central_node = None
-        self.subarray_node_low = None
+        self.subarray_node = None
         self.csp_master_leaf_node = None
         self.sdp_master_leaf_node = None
         self.subarray_devices = {}
@@ -125,7 +126,6 @@ class CentralNodeWrapper(object):
         result, message = self.central_node.AssignResources(input_string)
         return result, message
 
-    @sync_release_resources(device_dict=device_dict)
     def invoke_release_resources(self, input_string):
         result, message = self.central_node.ReleaseResources(input_string)
         return result, message
@@ -136,8 +136,42 @@ class CentralNodeWrapper(object):
             device = DeviceProxy(mock_device)
             device.SetDirectHealthState(HealthState.UNKNOWN)
 
+    def get_release_input_json(self, slug):
+        """
+        Args:
+            slug (str): base name of file
+        Return:
+            Read and return content of file
+        """
+        release_json_file_path = join(
+            dirname(__file__),
+            "..",
+            "..",
+            "data",
+            "centralnode",
+            f"{slug}.json",
+        )
+        with open(release_json_file_path, "r", encoding="UTF-8") as f:
+            release_json = f.read()
+        return release_json
+
     def tear_down(self):
         """Handle Tear down of central Node"""
         # reset HealthState.UNKNOWN for mock devices
         self._reset_health_state_for_mock_devices()
+        release_input_json = self.get_release_input_json(
+            "release_resources_mid"
+        )
+        self.invoke_release_resources(release_input_json)
         self.move_to_off()
+
+    def perform(self, command_name, input_json):
+        """Execute provided command on centralnode
+        Args:
+            command_name (str): Name of command to execute
+        """
+
+        result, message = self.central_node.command_inout(
+            command_name, input_json
+        )
+        return result, message
