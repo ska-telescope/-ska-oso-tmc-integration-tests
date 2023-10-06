@@ -10,10 +10,10 @@ from tests.resources.test_harness.helpers import (
 from tests.resources.test_harness.utils.enums import DishMode
 
 
-class TestMidCentralNodeAssignReleaseResources(object):
+class TestMidCentralNodeAssignResources(object):
     @pytest.mark.SKA_mid
     @pytest.mark.assign
-    def test_mid_centralnode_assign_release_resources(
+    def test_mid_centralnode_assign_resources(
         self,
         central_node_mid,
         event_recorder,
@@ -35,9 +35,6 @@ class TestMidCentralNodeAssignReleaseResources(object):
         assign_input_json = prepare_json_args_for_centralnode_commands(
             "assign_resources_mid", command_input_factory
         )
-        # release_input_json = prepare_json_args_for_centralnode_commands(
-        #     "release_resources_mid", command_input_factory
-        # )
         (
             csp_master_sim,
             sdp_master_sim,
@@ -84,24 +81,6 @@ class TestMidCentralNodeAssignReleaseResources(object):
             "obsState",
             ObsState.IDLE,
         )
-
-        # central_node_mid.invoke_release_resources(release_input_json)
-        # central_node_mid.perform("ReleaseResources", release_input_json)
-        # assert event_recorder.has_change_event_occurred(
-        #     sdp_sim,
-        #     "obsState",
-        #     ObsState.EMPTY,
-        # )
-        # assert event_recorder.has_change_event_occurred(
-        #     csp_sim,
-        #     "obsState",
-        #     ObsState.EMPTY,
-        # )
-        # assert event_recorder.has_change_event_occurred(
-        #     subarray_node.subarray_node,
-        #     "obsState",
-        #     ObsState.EMPTY,
-        # )
 
         # As there is inconsistancy between the states of Dish Master and other
         # subsystem that's why Dishmode is considered for DishMaster
