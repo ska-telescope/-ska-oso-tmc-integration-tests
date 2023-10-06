@@ -29,10 +29,9 @@ server:
           - name: "mid-sdp/subarray/02"
         - name: "HelperDishDevice"
           devices:
-          - name: "ska001/dish/master"
-          - name: "ska002/dish/master"
-          - name: "ska003/dish/master"
-          - name: "ska004/dish/master"
+          {{- range .Values.deviceServers.dishleafnode.instances }}
+          - name: "ska{{ printf "%03s" . }}/dish/master"
+          {{- end }}
 depends_on:
   - device: sys/database/2
 image:
