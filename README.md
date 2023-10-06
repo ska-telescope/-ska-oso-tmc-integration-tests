@@ -49,7 +49,7 @@ The documentation for this project, including how to get started with it,can be 
     ```bash
     make k8s-install-chart-car KUBE_NAMESPACE=<KUBE_NAMESPACE> K8S_CHART_PARAMS='-f charts/dish_lmc_values.yml 
       --set "global.dishes={001}"' 
-      HELM_RELEASE=<DISH-LMC-HELM-RELEASE> K8S_CHART=<DISH_LMC_CHART_NAME>
+      HELM_RELEASE=<DISH_LMC_HELM_RELEASE> K8S_CHART=<DISH_LMC_CHART_NAME>
     ```
     All values required for deploying dish lmc can be provided in charts/dish_lmc_values.yml file.
 
@@ -60,3 +60,7 @@ The documentation for this project, including how to get started with it,can be 
     To deploy multiple dishes provide multiple values to global.dishes. 
     Example: `global.dishes={036,002,...}`
 
+ * Uninstall dish lmc chart
+    ```bash
+    make k8s-do-uninstall-chart KUBE_NAMESPACE=<KUBE_NAMESPACE> HELM_RELEASE=<DISH_LMC_HELM_RELEASE> K8S_CHART=<DISH_LMC_CHART_NAME>
+    ```
