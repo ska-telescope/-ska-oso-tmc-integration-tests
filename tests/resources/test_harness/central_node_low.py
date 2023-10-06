@@ -10,9 +10,11 @@ from tests.resources.test_harness.constant import (
     low_sdp_master,
     low_sdp_master_leaf_node,
     low_sdp_subarray1,
+    tmc_low_subarraynode1,
 )
 from tests.resources.test_harness.utils.sync_decorators import (
     sync_assign_resources,
+    sync_release_resources,
 )
 
 
@@ -26,6 +28,7 @@ class CentralNodeWrapperLow(CentralNodeWrapper):
     def __init__(self) -> None:
         super().__init__()
         self.central_node = DeviceProxy(low_centralnode)
+        self.subarray_node_low = DeviceProxy(tmc_low_subarraynode1)
         self.csp_master_leaf_node = DeviceProxy(low_csp_master_leaf_node)
         self.sdp_master_leaf_node = DeviceProxy(low_sdp_master_leaf_node)
         # self.mccs_master_leaf_node = DeviceProxy(mccs_master_leaf_node)
@@ -42,6 +45,11 @@ class CentralNodeWrapperLow(CentralNodeWrapper):
     @sync_assign_resources(device_dict=device_dict_low)
     def invoke_assign_resources(self, input_string):
         result, message = self.central_node.AssignResources(input_string)
+        return result, message
+
+    @sync_release_resources(device_dict=device_dict_low)
+    def invoke_release_resources(self, input_string):
+        result, message = self.central_node.ReleaseResources(input_string)
         return result, message
 
     # def _reset_health_state_for_mock_devices(self):

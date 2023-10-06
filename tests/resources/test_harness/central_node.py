@@ -20,6 +20,7 @@ class CentralNodeWrapper(object):
         self,
     ) -> None:
         self.central_node = None
+        self.subarray_node_low = None
         self.csp_master_leaf_node = None
         self.sdp_master_leaf_node = None
         self.subarray_devices = {}

@@ -12,6 +12,7 @@ from tests.resources.test_harness.utils.enums import DishMode
 
 class TestMidCentralNodeAssignReleaseResources(object):
     @pytest.mark.SKA_mid
+    @pytest.mark.assign
     def test_mid_centralnode_assign_release_resources(
         self,
         central_node_mid,

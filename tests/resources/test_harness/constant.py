@@ -164,6 +164,10 @@ device_dict_low = {
     "tmc_subarraynode": tmc_low_subarraynode1,
     "sdp_master": low_sdp_master,
     "mccs_master": mccs_controller,
+    "sdp_subarray": low_sdp_subarray1,
+    "csp_subarray": low_csp_subarray1,
+    "sdp_subarray_leaf_node": low_sdp_subarray_leaf_node,
+    "csp_subarray_leaf_node": low_csp_subarray_leaf_node,
 }
 
 SIMULATOR_DEVICE_FQDN_DICT = {
