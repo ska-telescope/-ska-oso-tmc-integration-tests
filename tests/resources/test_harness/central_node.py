@@ -61,21 +61,6 @@ class CentralNodeWrapper(object):
         """
         self._telescope_health_state = value
 
-    @property
-    def obs_state(self):
-        """TMC SubarrayNode observation state"""
-        self._obs_state = Resource(self.subarray_node).get("obsState")
-        return self._obs_state
-
-    @obs_state.setter
-    def obs_state(self, value):
-        """Sets value for TMC subarrayNode observation state
-
-        Args:
-            value (DevState): observation state value
-        """
-        self._obs_state = value
-
     def move_to_on(self):
         """
         A method to invoke TelescopeOn command to

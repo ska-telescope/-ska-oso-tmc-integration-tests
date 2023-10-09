@@ -63,7 +63,7 @@ class CentralNodeWrapperLow(CentralNodeWrapper):
         """Handle Tear down of central Node"""
         # reset HealthState.UNKNOWN for mock devices
         self._reset_health_state_for_mock_devices()
-        if self.obs_state == "IDLE":
+        if self.subarray_node.obsState == "IDLE":
             self.invoke_release_resources(self.release_input)
             self.move_to_off()
         self.move_to_off()
