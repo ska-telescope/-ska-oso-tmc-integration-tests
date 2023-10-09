@@ -1,10 +1,14 @@
 from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
 
-from tests.resources.test_harness.constant import device_dict
+from tests.resources.test_harness.constant import (
+    device_dict,
+    tmc_subarraynode1,
+)
 from tests.resources.test_harness.utils.enums import DishMode
 from tests.resources.test_harness.utils.sync_decorators import (
     sync_assign_resources,
+    sync_release_resources,
 )
 from tests.resources.test_support.common_utils.common_helpers import Resource
 
@@ -59,6 +63,21 @@ class CentralNodeWrapper(object):
             value (HealthState): telescope health state value
         """
         self._telescope_health_state = value
+
+    @property
+    def obs_state(self):
+        """TMC SubarrayNode observation state"""
+        self._obs_state = Resource(tmc_subarraynode1).get("obsState")
+        return self._obs_state
+
+    @obs_state.setter
+    def obs_state(self, value):
+        """Sets value for TMC subarrayNode observation state
+
+        Args:
+            value (DevState): observation state value
+        """
+        self._obs_state = value
 
     def move_to_on(self):
         """
@@ -124,6 +143,7 @@ class CentralNodeWrapper(object):
         result, message = self.central_node.AssignResources(input_string)
         return result, message
 
+    @sync_release_resources(device_dict=device_dict)
     def invoke_release_resources(self, input_string):
         result, message = self.central_node.ReleaseResources(input_string)
         return result, message
