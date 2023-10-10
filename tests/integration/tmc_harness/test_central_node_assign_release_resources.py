@@ -3,7 +3,6 @@ from ska_control_model import ObsState
 
 from tests.resources.test_harness.helpers import (
     get_device_simulators,
-    get_master_device_simulators,
     prepare_json_args_for_centralnode_commands,
 )
 
@@ -35,18 +34,7 @@ class TestMidCentralNodeAssignResources(object):
         assign_input_json = prepare_json_args_for_centralnode_commands(
             "assign_resources_mid", command_input_factory
         )
-        (
-            csp_master_sim,
-            sdp_master_sim,
-            dish_master_sim1,
-            dish_master_sim2,
-        ) = get_master_device_simulators(simulator_factory)
         csp_sim, sdp_sim, _, _ = get_device_simulators(simulator_factory)
-
-        event_recorder.subscribe_event(csp_master_sim, "State")
-        event_recorder.subscribe_event(sdp_master_sim, "State")
-        event_recorder.subscribe_event(dish_master_sim1, "DishMode")
-        event_recorder.subscribe_event(dish_master_sim2, "DishMode")
         event_recorder.subscribe_event(csp_sim, "obsState")
         event_recorder.subscribe_event(sdp_sim, "obsState")
         event_recorder.subscribe_event(

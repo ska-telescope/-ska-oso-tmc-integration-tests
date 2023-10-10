@@ -33,21 +33,12 @@ class TestLowCentralNodeAssignResources(object):
         assign_input_json = prepare_json_args_for_centralnode_commands(
             "assign_resources_low", command_input_factory
         )
-        csp_master_sim = simulator_factory.get_or_create_simulator_device(
-            SimulatorDeviceType.LOW_CSP_MASTER_DEVICE
-        )
-        sdp_master_sim = simulator_factory.get_or_create_simulator_device(
-            SimulatorDeviceType.LOW_SDP_MASTER_DEVICE
-        )
         csp_sim = simulator_factory.get_or_create_simulator_device(
             SimulatorDeviceType.LOW_CSP_DEVICE
         )
         sdp_sim = simulator_factory.get_or_create_simulator_device(
             SimulatorDeviceType.LOW_SDP_DEVICE
         )
-
-        event_recorder.subscribe_event(csp_master_sim, "State")
-        event_recorder.subscribe_event(sdp_master_sim, "State")
         event_recorder.subscribe_event(csp_sim, "obsState")
         event_recorder.subscribe_event(sdp_sim, "obsState")
         event_recorder.subscribe_event(
