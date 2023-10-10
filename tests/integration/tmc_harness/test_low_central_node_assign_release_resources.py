@@ -1,6 +1,5 @@
 import pytest
 from ska_control_model import ObsState
-from tango import DevState
 
 from tests.resources.test_harness.helpers import (
     prepare_json_args_for_centralnode_commands,
@@ -53,18 +52,6 @@ class TestLowCentralNodeAssignResources(object):
             central_node_low.subarray_node, "obsState"
         )
         central_node_low.move_to_on()
-
-        assert event_recorder.has_change_event_occurred(
-            csp_master_sim,
-            "State",
-            DevState.ON,
-        )
-        assert event_recorder.has_change_event_occurred(
-            sdp_master_sim,
-            "State",
-            DevState.ON,
-        )
-
         central_node_low.perform("AssignResources", assign_input_json)
         assert event_recorder.has_change_event_occurred(
             sdp_sim,

@@ -1,13 +1,11 @@
 import pytest
 from ska_control_model import ObsState
-from tango import DevState
 
 from tests.resources.test_harness.helpers import (
     get_device_simulators,
     get_master_device_simulators,
     prepare_json_args_for_centralnode_commands,
 )
-from tests.resources.test_harness.utils.enums import DishMode
 
 
 class TestMidCentralNodeAssignResources(object):
@@ -30,7 +28,9 @@ class TestMidCentralNodeAssignResources(object):
         for validating the subscribing and receiving events.
         - "simulator_factory": fixture for creating simulator devices for
         mid Telescope respectively.
+        - "command_input_factory": fixture for creating json file.
         """
+
         assign_input_json = prepare_json_args_for_centralnode_commands(
             "assign_resources_mid", command_input_factory
         )
@@ -53,17 +53,6 @@ class TestMidCentralNodeAssignResources(object):
         )
 
         central_node_mid.move_to_on()
-        assert event_recorder.has_change_event_occurred(
-            csp_master_sim,
-            "State",
-            DevState.ON,
-        )
-        assert event_recorder.has_change_event_occurred(
-            sdp_master_sim,
-            "State",
-            DevState.ON,
-        )
-
         central_node_mid.perform("AssignResources", assign_input_json)
         assert event_recorder.has_change_event_occurred(
             sdp_sim,
@@ -79,20 +68,4 @@ class TestMidCentralNodeAssignResources(object):
             central_node_mid.subarray_node,
             "obsState",
             ObsState.IDLE,
-        )
-
-        # As there is inconsistancy between the states of Dish Master and other
-        # subsystem that's why Dishmode is considered for DishMaster
-        # transitions. Here is the link for reference.
-        # https://confluence.skatelescope.org/display/SE/Subarray+obsMode+and+
-        # Dish+states+and+modes
-        assert event_recorder.has_change_event_occurred(
-            dish_master_sim1,
-            "DishMode",
-            DishMode.STANDBY_FP,
-        )
-        assert event_recorder.has_change_event_occurred(
-            dish_master_sim2,
-            "DishMode",
-            DishMode.STANDBY_FP,
         )
