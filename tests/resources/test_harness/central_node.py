@@ -131,13 +131,13 @@ class CentralNodeWrapper(object):
         return result, message
 
     @sync_abort(device_dict=device_dict)
-    def abort(self):
+    def subarray_abort(self):
         """Invoke Abort command on subarray Node"""
         result, message = self.subarray_node.Abort()
         return result, message
 
     @sync_restart(device_dict=device_dict)
-    def restart(self):
+    def subarray_restart(self):
         """Invoke Restart command on subarray Node"""
         result, message = self.subarray_node.Restart()
         return result, message
@@ -148,10 +148,11 @@ class CentralNodeWrapper(object):
             device = DeviceProxy(mock_device)
             device.SetDirectHealthState(HealthState.UNKNOWN)
 
-    def perform_action(self, command_name, input_json):
+    def perform_action(self, command_name: str, input_json: str):
         """Execute provided command on centralnode
         Args:
             command_name (str): Name of command to execute
+            input_string (str): Json send as input to execute command
         """
 
         result, message = self.central_node.command_inout(

@@ -1,3 +1,6 @@
+import logging
+
+from ska_ser_logging import configure_logging
 from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
 
@@ -15,6 +18,9 @@ from tests.resources.test_harness.constant import (
     tmc_subarraynode1,
 )
 from tests.resources.test_harness.utils.common_utils import JsonFactory
+
+configure_logging(logging.DEBUG)
+LOGGER = logging.getLogger(__name__)
 
 
 class CentralNodeWrapperMid(CentralNodeWrapper):
@@ -54,13 +60,14 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
 
     def tear_down(self):
         """Handle Tear down of central Node"""
+        LOGGER.info("Calling Tear down for central node.")
         # reset HealthState.UNKNOWN for mock devices
         self._reset_health_state_for_mock_devices()
         if self.subarray_node.obsState == "IDLE":
             self.invoke_release_resources(self.release_input)
         elif self.subarray_node.obsState == "RESOURCING":
-            self.abort()
-            self.restart()
+            self.subarray_abort()
+            self.subarray_restart()
         elif self.subarray_node.obsState == "ABORTED":
-            self.restart()
+            self.subarray_restart()
         self.move_to_off()
