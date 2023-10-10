@@ -41,3 +41,26 @@ The documentation for this project, including how to get started with it,can be 
 | CSP Subarray Leaf Node| ska-tmc-cspleafnodes |0.9.0|
 | SDP Master Leaf Node| ska-tmc-sdpleafnodes |0.13.1|
 | SDP Subarray Leaf Node| ska-tmc-sdpleafnodes |0.13.1|
+
+
+### Deployment of Subsystem in Integration 
+ #### Deployment of Dish LMC Helm Chart
+ * To Deploy dish lmc chart in integration run following command
+    ```bash
+    make k8s-install-chart-car KUBE_NAMESPACE=<KUBE_NAMESPACE> K8S_CHART_PARAMS='-f charts/dish_lmc_values.yml 
+      --set "global.dishes={001}"' 
+      HELM_RELEASE=<DISH_LMC_HELM_RELEASE> K8S_CHART=<DISH_LMC_CHART_NAME>
+    ```
+    All values required for deploying dish lmc can be provided in charts/dish_lmc_values.yml file.
+
+    Refer this link for set flag option https://gitlab.com/ska-telescope/ska-dish-lmc#-set-flag-options
+    
+    After running above command dish lmc with dish Id 001 deployed in provided Kubernetes Namespace(i.e KUBE_NAMESPACE)
+
+    To deploy multiple dishes provide multiple values to global.dishes. 
+    Example: `global.dishes={036,002,...}`
+
+ * Uninstall dish lmc chart
+    ```bash
+    make k8s-do-uninstall-chart KUBE_NAMESPACE=<KUBE_NAMESPACE> HELM_RELEASE=<DISH_LMC_HELM_RELEASE> K8S_CHART=<DISH_LMC_CHART_NAME>
+    ```
