@@ -153,6 +153,10 @@ device_dict = {
     "sdp_master": sdp_master,
     "dish_master1": dish_master1,
     "dish_master2": dish_master2,
+    "sdp_subarray": sdp_subarray1,
+    "csp_subarray": csp_subarray1,
+    "sdp_subarray_leaf_node": tmc_sdp_subarray_leaf_node,
+    "csp_subarray_leaf_node": tmc_csp_subarray_leaf_node,
 }
 
 device_dict_low = {
@@ -160,6 +164,10 @@ device_dict_low = {
     "tmc_subarraynode": tmc_low_subarraynode1,
     "sdp_master": low_sdp_master,
     "mccs_master": mccs_controller,
+    "sdp_subarray": low_sdp_subarray1,
+    "csp_subarray": low_csp_subarray1,
+    "sdp_subarray_leaf_node": low_sdp_subarray_leaf_node,
+    "csp_subarray_leaf_node": low_csp_subarray_leaf_node,
 }
 
 SIMULATOR_DEVICE_FQDN_DICT = {

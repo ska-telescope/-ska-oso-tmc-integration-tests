@@ -152,6 +152,19 @@ def prepare_json_args_for_commands(
     return input_json
 
 
+def prepare_json_args_for_centralnode_commands(
+    args_for_command: str, command_input_factory: JsonFactory
+) -> str:
+    """This method return input json based on command args"""
+    if args_for_command is not None:
+        input_json = command_input_factory.create_centralnode_configuration(
+            args_for_command
+        )
+    else:
+        input_json = None
+    return input_json
+
+
 def get_command_call_info(device: Any, command_name: str):
     """
     device: Tango Device Proxy Object
@@ -223,3 +236,15 @@ def set_desired_health_state(
         device.SetDirectHealthState(health_state_value)
         device.SetDirectHealthState(health_state_value)
         device.SetDirectHealthState(health_state_value)
+
+
+def check_assigned_resources(device: Any, receiptor_ids: tuple):
+    """
+    Method to verify assignedResources attribute value on subarraynode
+    Args:
+        device : tango device proxy object.
+        receiptor_ids: dish ids.
+    """
+    assigned_resources = device.read_attribute("assignedResources").value
+    LOGGER.info(f"assigned Resources:{assigned_resources}")
+    return assigned_resources == receiptor_ids
