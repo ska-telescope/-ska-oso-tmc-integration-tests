@@ -14,8 +14,9 @@ from tests.resources.test_harness.constant import (
 )
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 from tests.resources.test_harness.utils.sync_decorators import (
-    sync_assign_resources,
+    sync_abort,
     sync_release_resources,
+    sync_restart,
 )
 
 
@@ -49,14 +50,25 @@ class CentralNodeWrapperLow(CentralNodeWrapper):
             )
         )
 
-    @sync_assign_resources(device_dict=device_dict_low)
-    def invoke_assign_resources(self, input_string):
-        result, message = self.central_node.AssignResources(input_string)
+    @sync_release_resources(device_dict=device_dict_low)
+    def invoke_release_resources(self, input_string: str):
+        """Invoke Release Resource command on central Node
+        Args:
+            input_string (str): Release resource input json
+        """
+        result, message = self.central_node.ReleaseResources(input_string)
         return result, message
 
-    @sync_release_resources(device_dict=device_dict_low)
-    def invoke_release_resources(self, input_string):
-        result, message = self.central_node.ReleaseResources(input_string)
+    @sync_abort(device_dict=device_dict_low)
+    def abort(self):
+        """Invoke Abort command on subarray Node"""
+        result, message = self.subarray_node.Abort()
+        return result, message
+
+    @sync_restart(device_dict=device_dict_low)
+    def restart(self):
+        """Invoke Restart command on subarray Node"""
+        result, message = self.subarray_node.Restart()
         return result, message
 
     def tear_down(self):
@@ -65,7 +77,11 @@ class CentralNodeWrapperLow(CentralNodeWrapper):
         self._reset_health_state_for_mock_devices()
         if self.subarray_node.obsState == "IDLE":
             self.invoke_release_resources(self.release_input)
-            self.move_to_off()
+        elif self.subarray_node.obsState == "RESOURCING":
+            self.abort()
+            self.restart()
+        elif self.subarray_node.obsState == "ABORTED":
+            self.restart()
         self.move_to_off()
 
     # def _reset_health_state_for_mock_devices(self):

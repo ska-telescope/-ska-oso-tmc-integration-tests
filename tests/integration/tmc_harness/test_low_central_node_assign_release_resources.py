@@ -45,7 +45,7 @@ class TestLowCentralNodeAssignResources(object):
             central_node_low.subarray_node, "obsState"
         )
         central_node_low.move_to_on()
-        central_node_low.perform("AssignResources", assign_input_json)
+        central_node_low.perform_action("AssignResources", assign_input_json)
         assert event_recorder.has_change_event_occurred(
             sdp_sim,
             "obsState",

@@ -4,8 +4,9 @@ from tango import DeviceProxy, DevState
 from tests.resources.test_harness.constant import device_dict
 from tests.resources.test_harness.utils.enums import DishMode
 from tests.resources.test_harness.utils.sync_decorators import (
-    sync_assign_resources,
+    sync_abort,
     sync_release_resources,
+    sync_restart,
 )
 from tests.resources.test_support.common_utils.common_helpers import Resource
 
@@ -120,14 +121,25 @@ class CentralNodeWrapper(object):
             for device in self.dish_master_list:
                 device.SetDirectState(DevState.STANDBY)
 
-    @sync_assign_resources(device_dict=device_dict)
-    def invoke_assign_resources(self, input_string):
-        result, message = self.central_node.AssignResources(input_string)
-        return result, message
-
     @sync_release_resources(device_dict=device_dict)
     def invoke_release_resources(self, input_string):
+        """Invoke Release Resource command on central Node
+        Args:
+            input_string (str): Release resource input json
+        """
         result, message = self.central_node.ReleaseResources(input_string)
+        return result, message
+
+    @sync_abort(device_dict=device_dict)
+    def abort(self):
+        """Invoke Abort command on subarray Node"""
+        result, message = self.subarray_node.Abort()
+        return result, message
+
+    @sync_restart(device_dict=device_dict)
+    def restart(self):
+        """Invoke Restart command on subarray Node"""
+        result, message = self.subarray_node.Restart()
         return result, message
 
     def _reset_health_state_for_mock_devices(self):
@@ -136,7 +148,7 @@ class CentralNodeWrapper(object):
             device = DeviceProxy(mock_device)
             device.SetDirectHealthState(HealthState.UNKNOWN)
 
-    def perform(self, command_name, input_json):
+    def perform_action(self, command_name, input_json):
         """Execute provided command on centralnode
         Args:
             command_name (str): Name of command to execute

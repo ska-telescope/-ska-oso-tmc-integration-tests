@@ -1,3 +1,5 @@
+import logging
+
 import pytest
 from ska_control_model import ObsState
 
@@ -5,6 +7,8 @@ from tests.resources.test_harness.helpers import (
     get_device_simulators,
     prepare_json_args_for_centralnode_commands,
 )
+
+LOGGER = logging.getLogger(__name__)
 
 
 class TestMidCentralNodeAssignResources(object):
@@ -40,9 +44,11 @@ class TestMidCentralNodeAssignResources(object):
         event_recorder.subscribe_event(
             central_node_mid.subarray_node, "obsState"
         )
-
+        event_recorder.subscribe_event(
+            central_node_mid.subarray_node, "assignedResources"
+        )
         central_node_mid.move_to_on()
-        central_node_mid.perform("AssignResources", assign_input_json)
+        central_node_mid.perform_action("AssignResources", assign_input_json)
         assert event_recorder.has_change_event_occurred(
             sdp_sim,
             "obsState",
@@ -58,3 +64,10 @@ class TestMidCentralNodeAssignResources(object):
             "obsState",
             ObsState.IDLE,
         )
+        # LOGGER.info(f"Attribute value:
+        # {central_node_mid.subarray_node.assignedResources}")
+        # assert event_recorder.has_change_event_occurred(
+        #     central_node_mid.subarray_node,
+        #     "assignedResources",
+        #     ('SKA001', 'SKA002'),
+        # )

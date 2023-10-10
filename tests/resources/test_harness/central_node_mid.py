@@ -58,5 +58,9 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         self._reset_health_state_for_mock_devices()
         if self.subarray_node.obsState == "IDLE":
             self.invoke_release_resources(self.release_input)
-            # self.move_to_off()
+        elif self.subarray_node.obsState == "RESOURCING":
+            self.abort()
+            self.restart()
+        elif self.subarray_node.obsState == "ABORTED":
+            self.restart()
         self.move_to_off()
