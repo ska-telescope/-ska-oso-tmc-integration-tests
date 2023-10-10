@@ -152,7 +152,7 @@ class CentralNodeWrapper(object):
         """Execute provided command on centralnode
         Args:
             command_name (str): Name of command to execute
-            input_string (str): Json send as input to execute command
+            input_json (str): Json send as input to execute command
         """
 
         result, message = self.central_node.command_inout(
