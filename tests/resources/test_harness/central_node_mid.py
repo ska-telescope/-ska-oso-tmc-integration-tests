@@ -1,9 +1,9 @@
 import logging
 
+from ska_control_model import ObsState
 from ska_ser_logging import configure_logging
 from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
-from ska_control_model import ObsState
 
 from tests.resources.test_harness.central_node import CentralNodeWrapper
 from tests.resources.test_harness.constant import (
@@ -22,6 +22,7 @@ from tests.resources.test_harness.utils.common_utils import JsonFactory
 
 configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
+
 
 class CentralNodeWrapperMid(CentralNodeWrapper):
     """A wrapper class to implement common tango specific details
@@ -57,7 +58,6 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         super()._reset_health_state_for_mock_devices()
         for mock_device in self.dish_master_list:
             mock_device.SetDirectHealthState(HealthState.UNKNOWN)
-
 
     def tear_down(self):
         """Handle Tear down of central Node"""

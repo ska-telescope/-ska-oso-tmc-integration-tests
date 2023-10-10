@@ -1,4 +1,6 @@
 import logging
+
+from ska_control_model import ObsState
 from ska_ser_logging import configure_logging
 from tango import DeviceProxy, DevState
 
@@ -20,12 +22,13 @@ from tests.resources.test_harness.utils.sync_decorators import (
     sync_release_resources,
     sync_restart,
 )
-from ska_control_model import ObsState
 
 configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
 # TODO: Currently the code for MCCS has been commented as it will be enabled
 #  in the upcoming sprints of PI-20
+
+
 class CentralNodeWrapperLow(CentralNodeWrapper):
     """A wrapper class to implement common tango specific details
     and standard set of commands for TMC Low CentralNode,

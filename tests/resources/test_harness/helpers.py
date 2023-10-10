@@ -237,7 +237,8 @@ def set_desired_health_state(
         device.SetDirectHealthState(health_state_value)
         device.SetDirectHealthState(health_state_value)
 
-def check_assigned_resources(device:Any, receiptor_ids:tuple):
+
+def check_assigned_resources(device: Any, receiptor_ids: tuple):
     """
     Method to verify assignedResources attribute value on subarraynode
     Args:
