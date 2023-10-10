@@ -28,7 +28,8 @@ class TestMidCentralNodeAssignResources(object):
         for validating the subscribing and receiving events.
         - "simulator_factory": fixture for creating simulator devices for
         mid Telescope respectively.
-        - "command_input_factory": fixture for creating json file.
+        - "command_input_factory": fixture for JsonFactory class,
+        which provides json files for CentralNode
         """
 
         assign_input_json = prepare_json_args_for_centralnode_commands(

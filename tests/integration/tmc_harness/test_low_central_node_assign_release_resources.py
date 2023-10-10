@@ -27,6 +27,8 @@ class TestLowCentralNodeAssignResources(object):
         for validating the subscribing and receiving events.
         - "simulator_factory": fixtur for creating simulator devices for
         low Telescope respectively.
+        - "command_input_factory": fixture for JsonFactory class,
+        which provides json files for CentralNode
         """
         assign_input_json = prepare_json_args_for_centralnode_commands(
             "assign_resources_low", command_input_factory
