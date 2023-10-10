@@ -4,6 +4,7 @@ from ska_control_model import ObsState
 from tests.resources.test_harness.helpers import (
     get_device_simulators,
     prepare_json_args_for_centralnode_commands,
+    check_assigned_resources,
 )
 
 
@@ -60,8 +61,4 @@ class TestMidCentralNodeAssignResources(object):
             "obsState",
             ObsState.IDLE,
         )
-        assert event_recorder.has_change_event_occurred(
-            central_node_mid.subarray_node,
-            "assignedResources",
-            ("SKA001", "SKA002"),
-        )
+        assert check_assigned_resources(central_node_mid.subarray_node, ("SKA001", "SKA002"))

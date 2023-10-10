@@ -3,6 +3,7 @@ import logging
 from ska_ser_logging import configure_logging
 from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
+from ska_control_model import ObsState
 
 from tests.resources.test_harness.central_node import CentralNodeWrapper
 from tests.resources.test_harness.constant import (
@@ -21,7 +22,6 @@ from tests.resources.test_harness.utils.common_utils import JsonFactory
 
 configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
-
 
 class CentralNodeWrapperMid(CentralNodeWrapper):
     """A wrapper class to implement common tango specific details
@@ -58,16 +58,19 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         for mock_device in self.dish_master_list:
             mock_device.SetDirectHealthState(HealthState.UNKNOWN)
 
+
     def tear_down(self):
         """Handle Tear down of central Node"""
         LOGGER.info("Calling Tear down for central node.")
         # reset HealthState.UNKNOWN for mock devices
         self._reset_health_state_for_mock_devices()
-        if self.subarray_node.obsState == "IDLE":
+        if self.subarray_node.obsState == ObsState.IDLE:
+            LOGGER.info("Calling Release Resource on centralnode")
             self.invoke_release_resources(self.release_input)
-        elif self.subarray_node.obsState == "RESOURCING":
+        elif self.subarray_node.obsState == ObsState.RESOURCING:
+            LOGGER.info("Calling Abort and Restar on subarraynode")
             self.subarray_abort()
             self.subarray_restart()
-        elif self.subarray_node.obsState == "ABORTED":
+        elif self.subarray_node.obsState == ObsState.ABORTED:
             self.subarray_restart()
         self.move_to_off()

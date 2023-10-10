@@ -1,3 +1,5 @@
+import logging
+from ska_ser_logging import configure_logging
 from tango import DeviceProxy, DevState
 
 from tests.resources.test_harness.central_node import CentralNodeWrapper
@@ -18,8 +20,10 @@ from tests.resources.test_harness.utils.sync_decorators import (
     sync_release_resources,
     sync_restart,
 )
+from ska_control_model import ObsState
 
-
+configure_logging(logging.DEBUG)
+LOGGER = logging.getLogger(__name__)
 # TODO: Currently the code for MCCS has been commented as it will be enabled
 #  in the upcoming sprints of PI-20
 class CentralNodeWrapperLow(CentralNodeWrapper):
@@ -74,18 +78,15 @@ class CentralNodeWrapperLow(CentralNodeWrapper):
     def tear_down(self):
         """Handle Tear down of central Node"""
         # reset HealthState.UNKNOWN for mock devices
+        LOGGER.info("Calling Tear down for central node.")
         self._reset_health_state_for_mock_devices()
-        if self.subarray_node.obsState == "IDLE":
+        if self.subarray_node.obsState == ObsState.IDLE:
+            LOGGER.info("Calling Release Resource on centralnode")
             self.invoke_release_resources(self.release_input)
-        elif self.subarray_node.obsState == "RESOURCING":
+        elif self.subarray_node.obsState == ObsState.RESOURCING:
+            LOGGER.info("Calling Abort and Restar on subarraynode")
             self.subarray_abort()
             self.subarray_restart()
-        elif self.subarray_node.obsState == "ABORTED":
+        elif self.subarray_node.obsState == ObsState.ABORTED:
             self.subarray_restart()
         self.move_to_off()
-
-    # def _reset_health_state_for_mock_devices(self):
-    #     """Reset Mock devices"""
-    #     super()._reset_health_state_for_mock_devices()
-    #     device = DeviceProxy(self.mccs_master)
-    #     device.SetDirectHealthState(HealthState.UNKNOWN)
