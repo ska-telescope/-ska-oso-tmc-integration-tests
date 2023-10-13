@@ -21,7 +21,7 @@ server:
           - name: "low-sdp/control/0"
         - name: "HelperMCCSController"
           devices:
-          - name: "low-mccs/control/0"
+          - name: "low-mccs/control/control"
         - name: "HelperSdpSubarray"
           devices:
           - name: "low-sdp/subarray/01"
