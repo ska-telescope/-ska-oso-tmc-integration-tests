@@ -7,6 +7,7 @@ entrypoints:
   - name: "ska_tmc_common.test_helpers.helper_csp_subarray.HelperCspSubarray"
   - name: "ska_tmc_common.test_helpers.helper_csp_master_device.HelperCspMasterDevice"
   - name: "ska_tmc_common.test_helpers.helper_sdp_subarray.HelperSdpSubarray"
+  - name: "ska_tmc_common.test_helpers.helper_mccs_controller_device.HelperMCCSController"
 server:
   name: "mocks"
   instances:
@@ -18,6 +19,9 @@ server:
         - name: "HelperBaseDevice"
           devices:
           - name: "low-sdp/control/0"
+        - name: "HelperMCCSController"
+          devices:
+          - name: "low-mccs/control/0"
         - name: "HelperSdpSubarray"
           devices:
           - name: "low-sdp/subarray/01"
@@ -26,6 +30,10 @@ server:
           devices:
           - name: "low-csp/subarray/01"
           - name: "low-csp/subarray/02"
+
+
+
+
 
 depends_on:
   - device: sys/database/2

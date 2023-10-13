@@ -11,6 +11,8 @@ from tests.resources.test_harness.constant import (
     low_csp_master,
     low_csp_master_leaf_node,
     low_csp_subarray1,
+    low_mccs_controller,
+    low_mccs_master_leaf_node,
     low_sdp_master,
     low_sdp_master_leaf_node,
     low_sdp_subarray1,
@@ -40,7 +42,7 @@ class CentralNodeWrapperLow(CentralNodeWrapper):
         self.subarray_node = DeviceProxy(tmc_low_subarraynode1)
         self.csp_master_leaf_node = DeviceProxy(low_csp_master_leaf_node)
         self.sdp_master_leaf_node = DeviceProxy(low_sdp_master_leaf_node)
-        # self.mccs_master_leaf_node = DeviceProxy(mccs_master_leaf_node)
+        self.mccs_master_leaf_node = DeviceProxy(low_mccs_master_leaf_node)
         self.subarray_devices = {
             "csp_subarray": DeviceProxy(low_csp_subarray1),
             "sdp_subarray": DeviceProxy(low_sdp_subarray1),
@@ -48,7 +50,7 @@ class CentralNodeWrapperLow(CentralNodeWrapper):
         }
         self.sdp_master = DeviceProxy(low_sdp_master)
         self.csp_master = DeviceProxy(low_csp_master)
-        # self.mccs_master = mccs_controller
+        self.mccs_master = DeviceProxy(low_mccs_controller)
         self._state = DevState.OFF
         self.json_factory = JsonFactory()
         self.release_input = (
@@ -87,7 +89,7 @@ class CentralNodeWrapperLow(CentralNodeWrapper):
             LOGGER.info("Calling Release Resource on centralnode")
             self.invoke_release_resources(self.release_input)
         elif self.subarray_node.obsState == ObsState.RESOURCING:
-            LOGGER.info("Calling Abort and Restar on subarraynode")
+            LOGGER.info("Calling Abort and Restart on subarraynode")
             self.subarray_abort()
             self.subarray_restart()
         elif self.subarray_node.obsState == ObsState.ABORTED:
