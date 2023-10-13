@@ -43,7 +43,7 @@ global:
   sdp_subarray_prefix: "low-sdp/subarray"
   csp_master: "low-csp/control/0"
   sdp_master: "low-sdp/control/0"
-  mccs_master: "low-mccs/control/0"
+  mccs_master: "low-mccs/control/control"
 
 dsconfig:
   configuration_file: data/tmc-low-config.json
