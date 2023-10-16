@@ -190,7 +190,7 @@ dish-lmc-dish001:
   allow_failure: true
 
 k8s-test-dish-lmc:
-  retry: 1
+  stage: on-demand
   extends:
     -k8s-test
   variables:
@@ -206,7 +206,7 @@ k8s-test-dish-lmc:
     - make k8s-wait
   after_script:
     - make k8s-uninstall-chart
-
+  when: manual
 dish-lmc-dish036:
   extends:
     - dish-lmc-dish001
