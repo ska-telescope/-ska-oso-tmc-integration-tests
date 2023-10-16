@@ -19,7 +19,7 @@ server:
           properties:
           - name: "DishMasterFQDN"
             values:
-              - "$dish_name"
+              - "{{ $dish_name }}"
           - name: "SkaLevel"
             values:
               - "3"
