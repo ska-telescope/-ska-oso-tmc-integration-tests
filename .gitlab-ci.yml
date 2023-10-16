@@ -203,8 +203,6 @@ k8s-test-dish-lmc:
     - make cred SERVICE_ACCOUNT=$DISH_LMC_SERVICE_ACCOUNT
     - make k8s-install-chart KUBE_NAMESPACE=$KUBE_NAMESPACE_dish
     - make k8s-wait
-  after_script:
-    - make k8s-uninstall-chart
   when: manual
 
 dish-lmc-dish036:
