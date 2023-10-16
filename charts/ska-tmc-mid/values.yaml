@@ -9,11 +9,16 @@ system: TM-mid
 telescope: SKA-mid
 subsystem: ska-tmc-mid
 
+
 labels:
   app: ska-tmc-mid
 annotations:
   app.gitlab.com/app: CI_PROJECT_PATH_SLUG
   app.gitlab.com/env: CI_ENVIRONMENT_SLUG
+
+realDish:
+  isAvailable:
+    enabled: false
 
 global:
   minikube: false
@@ -35,7 +40,9 @@ global:
     - "cspsubarrayleafnode"
     - "sdpsubarrayleafnode"
     - "subarraynode"
-  subarray_count: 2
+  subarray_count: 1
+
+  
 
   # fqdn for mid devices
   tmc_subarray_prefix: "ska_mid/tm_subarray_node"
@@ -75,7 +82,7 @@ subarraynode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-subarraynode
-    tag: 0.11.21
+    tag: 0.11.22
     pullPolicy: IfNotPresent
 
 sdpleafnodes:
@@ -103,7 +110,7 @@ dishleafnode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-dishleafnode
-    tag: 0.5.2
+    tag: 0.5.3
     pullPolicy: IfNotPresent
 
 resources:
@@ -113,6 +120,7 @@ resources:
   requests:
     cpu: 100m
     memory: 128Mi
+
     
 deviceServers:
   centralnode:

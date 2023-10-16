@@ -1,6 +1,7 @@
 name: "dishleafnode-test"
 function: telescope-monitoring
 domain: general-monitoring
+{{- $isavail := .Values.realDish.isAvailable.enabled }}
 instances: ["01", "02", "03", "04"]
 entrypoints:
   - name: "ska_tmc_dishleafnode.dish_leaf_node.DishLeafNode"
@@ -17,7 +18,11 @@ server:
           properties:
           - name: "DishMasterFQDN"
             values:
-              - "ska{{ printf "%03s" . }}/{{ $dish_fqdn_suffix }}"
+              {{- if $isavail }}
+              - "tango://databaseds-tango-base.dish-lmc.svc.cluster.local:10000/ska001/elt/master" # Real dish
+              {{- else }}
+              - "ska{{ printf "%03s" . }}/{{ $dish_fqdn_suffix }}" # Mock device FQDN
+              {{- end }}
           - name: "SkaLevel"
             values:
               - "3"
@@ -38,3 +43,7 @@ image:
   image: "{{.Values.dishleafnode.image.image}}"
   tag: "{{.Values.dishleafnode.image.tag}}"
   pullPolicy: "{{.Values.dishleafnode.image.pullPolicy}}"
+
+
+
+#  - "tango://databaseds-tango-base.dish-lmc.svc.cluster.local:10000/ska001/elt/master"
