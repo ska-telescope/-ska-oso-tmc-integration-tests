@@ -191,6 +191,8 @@ dish-lmc-dish001:
 
 k8s-test-dish-lmc:
   stage: on-demand
+  tags:
+    - k8srunner
   variables:
     enabled: "true"
     DISH_INDEX: "001"
