@@ -192,7 +192,7 @@ dish-lmc-dish001:
 k8s-test-dish-lmc:
   stage: on-demand
   extends:
-    -k8s-test
+    - k8s-test
   variables:
     enabled: true
     DISH_INDEX: "001"
@@ -207,6 +207,7 @@ k8s-test-dish-lmc:
   after_script:
     - make k8s-uninstall-chart
   when: manual
+
 dish-lmc-dish036:
   extends:
     - dish-lmc-dish001
