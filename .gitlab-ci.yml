@@ -168,8 +168,6 @@ k8s-test:
 
 dish-lmc-dish001:
   stage: on-demand
-  extends:
-    - k8s-test
   variables:
     DISH_INDEX: "001"
     KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX"
@@ -191,8 +189,6 @@ dish-lmc-dish001:
 
 k8s-test-dish-lmc:
   stage: on-demand
-  extends:
-    - k8s-test
   variables:
     enabled: "true"
     DISH_INDEX: "001"
