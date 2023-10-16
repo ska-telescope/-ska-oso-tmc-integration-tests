@@ -34,6 +34,8 @@ global:
   dish_devices: ["dishmaster", "dishleafnode"]
   dishes: ["01", "02"]
 
+  dish_namespace: ""
+
   # subarray_count, this will be expanded (1 to N inclusive) and applied to instances of:
   # deviceServers.cspsubarrayleafnode, deviceServers.sdpsubarrayleafnode, deviceServers.subarraynode
   subarray_devices:
