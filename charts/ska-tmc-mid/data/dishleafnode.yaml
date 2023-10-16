@@ -19,11 +19,11 @@ server:
           properties:
           - name: "DishMasterFQDN"
             values:
-              {{- if $isavail }}
+              # {{- if $isavail }}
               - "$dish_namespace" # Real dish
-              {{- else }}
-              - "ska{{ printf "%03s" . }}/{{ $dish_fqdn_suffix }}" # Mock device FQDN
-              {{- end }}
+              # {{- else }}
+              # - "ska{{ printf "%03s" . }}/{{ $dish_fqdn_suffix }}" # Mock device FQDN
+              # {{- end }}
           - name: "SkaLevel"
             values:
               - "3"
