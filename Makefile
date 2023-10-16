@@ -39,7 +39,9 @@ UMBRELLA_CHART_PATH ?= charts/$(HELM_CHART)/
 K8S_CHARTS ?= ska-tmc-$(DEPLOYMENT_TYPE) ska-tmc-testing-$(DEPLOYMENT_TYPE)## list of charts
 K8S_CHART ?= $(HELM_CHART)
 
-DISH_NAMESPACE ?= tango://databaseds-tango-base.$(KUBE_NAMESPACE).svc.cluster.local:10000/ska001/elt/master
+namespace_dish ?=
+
+DISH_NAMESPACE ?= tango://databaseds-tango-base.$(namespace_dish).svc.cluster.local:10000/ska001/elt/master
 
 CI_REGISTRY ?= gitlab.com
 
@@ -48,8 +50,6 @@ K8S_TEST_IMAGE_TO_TEST ?= artefact.skao.int/ska-tango-images-tango-itango:9.3.12
 TARANTA_ENABLED ?= false
 
 CI_PROJECT_DIR ?= .
-
-namespace_dish ?=
 
 XAUTHORITY ?= $(HOME)/.Xauthority
 THIS_HOST := $(shell ip a 2> /dev/null | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p' | head -n1)
@@ -85,7 +85,7 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.exposeAllDS=true \
 	--set global.operator=true \
 	--set ska-taranta.enabled=$(TARANTA_ENABLED)\
-	--set global.namespace_dish=$(DISH_NAMESPACE)\
+	--set global.namespace_dish.name_dish="$(DISH_NAMESPACE)"\
 	--set realDish.isAvailable.enabled=true\
 	$(CUSTOM_VALUES)
 
