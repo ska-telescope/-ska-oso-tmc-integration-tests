@@ -49,6 +49,8 @@ TARANTA_ENABLED ?= false
 
 CI_PROJECT_DIR ?= .
 
+namespace_dish ?=
+
 XAUTHORITY ?= $(HOME)/.Xauthority
 THIS_HOST := $(shell ip a 2> /dev/null | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p' | head -n1)
 DISPLAY ?= $(THIS_HOST):0
