@@ -3,12 +3,9 @@ import os
 import time
 
 import pytest
-from dotenv import load_dotenv
 from tango import DeviceProxy
 
 from tests.resources.test_support.constant import centralnode
-
-load_dotenv()
 
 dish_name = os.getenv("DISH_NAMESPACE")
 dish_fqdn = (
