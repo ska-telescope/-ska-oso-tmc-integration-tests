@@ -1,61 +1,42 @@
 """Test Telescope On Command in mid"""
+import os
+import time
+
 import pytest
+from tango import DeviceProxy
 
-from tests.conftest import LOGGER
-from tests.resources.test_support.common_utils.telescope_controls import (
-    BaseTelescopeControl,
-)
-from tests.resources.test_support.common_utils.tmc_helpers import (
-    TmcHelper,
-    tear_down,
-)
-from tests.resources.test_support.constant import (
-    DEVICE_STATE_OFF_INFO,
-    DEVICE_STATE_ON_INFO,
-    DEVICE_STATE_STANDBY_INFO,
-    ON_OFF_DEVICE_COMMAND_DICT,
-    centralnode,
-    tmc_subarraynode1,
+from tests.resources.test_support.constant import centralnode
+
+dish_name = os.getenv("DISH_NAMESPACE")
+dish_fqdn = (
+    f"tango://databaseds-tango-base.{dish_name}.svc.cluster"
+    ".local:10000/ska001/elt/master"
 )
 
 
+@pytest.mark.aki
 @pytest.mark.real_dish
 def test_telescope_on():
-    """TelescopeOn() is executed."""
-    try:
-        tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
-        telescope_control = BaseTelescopeControl()
+    """TelescopeOn() and TelescopeOff() is executed on real dish device."""
 
-        # Checking the availability of Telescope
-        tmc_helper.check_telescope_availability()
-        # Verify Telescope is Off/Standby
-        assert telescope_control.is_in_valid_state(
-            DEVICE_STATE_STANDBY_INFO, "State"
-        )
-        LOGGER.info("Starting up the Telescope")
+    central_node_device = DeviceProxy(centralnode)
 
-        # Invoke TelescopeOn() command on TMC
-        tmc_helper.set_to_on_real_dish(**ON_OFF_DEVICE_COMMAND_DICT)
-        LOGGER.info("TelescopeOn command is invoked successfully")
+    # Invoke TelescopeOn command
+    central_node_device.TelescopeOn()
 
-        # Verify State transitions after TelescopeOn
-        assert telescope_control.is_in_valid_state(
-            DEVICE_STATE_ON_INFO, "State"
-        )
+    # check the dishMode and dishleafnode state
+    dishfqdn = DeviceProxy(dish_fqdn)
 
-        # Checking the availability of Telescope
-        tmc_helper.check_telescope_availability()
+    # Sleep is added for waiting for DISH LMC to respond
+    time.sleep(6)
 
-        # Invoke TelescopeOff() command on TMC
-        tmc_helper.set_to_off_real_dish(**ON_OFF_DEVICE_COMMAND_DICT)
-        LOGGER.info("TelescopeOff command is invoked successfully")
+    # check the dishMode of DISH LMC i.e STANDBYFP
+    assert dishfqdn.dishMode.value == 3
 
-        # Verify State transitions after TelescopeOff
-        assert telescope_control.is_in_valid_state(
-            DEVICE_STATE_OFF_INFO, "State"
-        )
-        LOGGER.info("test_telescope_on Tests complete.")
+    # Invoke TelescopeOff command
 
-    except Exception as e:
-        LOGGER.exception("The exception is: %s", e)
-        tear_down(**ON_OFF_DEVICE_COMMAND_DICT)
+    central_node_device.TelescopeOff()
+
+    time.sleep(6)
+    # check the dishMode of DISH LMC i.e STANDBYLP
+    assert dishfqdn.dishMode.value == 2
