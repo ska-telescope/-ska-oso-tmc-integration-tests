@@ -154,7 +154,6 @@ class TmcHelper:
                 device_proxy = DeviceProxy(device)
                 device_proxy.SetDirectState(DevState.ON)
 
-
     def set_to_off(self, **kwargs: dict) -> None:
         """
         Sets telescope to off
