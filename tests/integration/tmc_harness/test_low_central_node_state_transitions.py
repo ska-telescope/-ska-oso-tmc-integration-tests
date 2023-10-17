@@ -11,7 +11,6 @@ LOGGER = logging.getLogger(__name__)
 
 
 class TestLowCentralNodeStateTransition(object):
-    @pytest.mark.ta
     @pytest.mark.SKA_low
     def test_low_centralnode_state_transitions(
         self,

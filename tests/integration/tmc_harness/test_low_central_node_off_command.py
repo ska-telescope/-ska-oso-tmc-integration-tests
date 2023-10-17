@@ -47,6 +47,16 @@ class TestLowCentralNodeOffCommand(object):
         )
         central_node_low.move_to_off()
         assert event_recorder.has_change_event_occurred(
+            sdp_master_sim,
+            "State",
+            DevState.OFF,
+        )
+        assert event_recorder.has_change_event_occurred(
+            csp_master_sim,
+            "State",
+            DevState.OFF,
+        )
+        assert event_recorder.has_change_event_occurred(
             mccs_master_sim,
             "State",
             DevState.OFF,
