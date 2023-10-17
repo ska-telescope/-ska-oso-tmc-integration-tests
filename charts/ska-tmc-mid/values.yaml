@@ -16,9 +16,7 @@ annotations:
   app.gitlab.com/app: CI_PROJECT_PATH_SLUG
   app.gitlab.com/env: CI_ENVIRONMENT_SLUG
 
-realDish:
-  isAvailable:
-    enabled: false
+
 
 global:
   minikube: false
@@ -34,6 +32,10 @@ global:
   dish_devices: ["dishmaster", "dishleafnode"]
   dishes: ["01", "02"]
 
+  realDish:
+    isAvailable:
+      enabled: false
+      
   namespace_dish:
     name_dish: ""
 

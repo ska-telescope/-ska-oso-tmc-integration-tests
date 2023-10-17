@@ -1,15 +1,15 @@
 name: "dishleafnode-test"
 function: telescope-monitoring
 domain: general-monitoring
-{{- $isavail := .Values.realDish.isAvailable.enabled }}
-{{- $dish_name := .Values.global.namespace_dish.name_dish }}
 instances: ["01", "02", "03", "04"]
 entrypoints:
   - name: "ska_tmc_dishleafnode.dish_leaf_node.DishLeafNode"
 server:
   name: "dish_leaf_node"
   instances:
+  {{- $isavail := .Values.global.realDish.isAvailable.enabled }}
   {{ $dish_fqdn_suffix:= .Values.global.dish_suffix}}
+  {{- $dish_name := .Values.global.namespace_dish.name_dish }}
   {{- range  .Values.deviceServers.dishleafnode.instances }}
     - name: "{{ . }}"
       classes:
@@ -19,7 +19,7 @@ server:
           properties:
           - name: "DishMasterFQDN"
             values:
-              {{- if $isavail }}
+              {{- if eq $isavail true }}
               - "{{ $dish_name }}" # Real dish
               {{- else }}
               - "ska{{ printf "%03s" . }}/{{ $dish_fqdn_suffix }}" # Mock device FQDN
@@ -44,54 +44,3 @@ image:
   image: "{{.Values.dishleafnode.image.image}}"
   tag: "{{.Values.dishleafnode.image.tag}}"
   pullPolicy: "{{.Values.dishleafnode.image.pullPolicy}}"
-
-# name: "dishleafnode-test"
-# function: telescope-monitoring
-# domain: general-monitoring
-# {{- $isavail := .Values.realDish.isAvailable.enabled }}
-# {{- $dish_name := .Values.global.dish_namespace}}
-# instances: ["01", "02", "03", "04"]
-# entrypoints:
-#   - name: "ska_tmc_dishleafnode.dish_leaf_node.DishLeafNode"
-# server:
-#   name: "dish_leaf_node"
-#   instances:
-#   {{ $dish_fqdn_suffix:= .Values.global.dish_suffix}}
-#   {{- range  .Values.deviceServers.dishleafnode.instances }}
-#     - name: "{{ . }}"
-#       classes:
-#       - name: "DishLeafNode"
-#         devices:
-#         - name: "ska_mid/tm_leaf_node/d0{{ printf "%03s" . }}"
-#           properties:
-#           - name: "DishMasterFQDN"
-#             values:
-#               # {{- if $isavail }}
-#               - "$dish_name" # Real dish
-#               # {{- else }}
-#               # - "ska{{ printf "%03s" . }}/{{ $dish_fqdn_suffix }}" # Mock device FQDN
-#               # {{- end }}
-#           - name: "SkaLevel"
-#             values:
-#               - "3"
-#           - name: "LoggingTargetsDefault"
-#             values:
-#               - "tango::logger"
-#           - name: "LoggingLevelDefault"
-#             values:
-#               - "5"
-#           - name: "CommandTimeOut"
-#             values:
-#               - "50"
-#   {{- end }}
-# depends_on:
-#   - device: sys/database/2
-# image:
-#   registry: "{{.Values.dishleafnode.image.registry}}"
-#   image: "{{.Values.dishleafnode.image.image}}"
-#   tag: "{{.Values.dishleafnode.image.tag}}"
-#   pullPolicy: "{{.Values.dishleafnode.image.pullPolicy}}"
-
-
-
-# #  - "tango://databaseds-tango-base.dish-lmc.svc.cluster.local:10000/ska001/elt/master"
