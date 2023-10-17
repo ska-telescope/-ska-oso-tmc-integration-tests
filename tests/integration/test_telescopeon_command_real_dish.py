@@ -1,9 +1,9 @@
 """Test Telescope On Command in mid"""
 import os
 import time
-from dotenv import load_dotenv
 
 import pytest
+from dotenv import load_dotenv
 from tango import DeviceProxy
 
 from tests.resources.test_support.constant import centralnode
@@ -15,6 +15,7 @@ dish_fqdn = (
     f"tango://databaseds-tango-base.{dish_name}.svc.cluster"
     ".local:10000/ska001/elt/master"
 )
+
 
 @pytest.mark.aki
 @pytest.mark.real_dish
