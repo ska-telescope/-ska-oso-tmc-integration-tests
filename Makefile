@@ -41,6 +41,8 @@ K8S_CHART ?= $(HELM_CHART)
 
 namespace_dish ?= dish-lmc
 
+REAL_DISH ?= false
+
 DISH_NAMESPACE ?= tango://databaseds-tango-base.$(namespace_dish).svc.cluster.local:10000/ska001/elt/master
 
 CI_REGISTRY ?= gitlab.com
@@ -86,7 +88,7 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.operator=false \
 	--set ska-taranta.enabled=$(TARANTA_ENABLED)\
 	--set global.namespace_dish.name_dish="$(DISH_NAMESPACE)"\
-	--set global.realDish.isAvailable.enabled=false\
+	--set global.realDish.isAvailable.enabled=$(REAL_DISH)\
 	$(CUSTOM_VALUES)
 
 
