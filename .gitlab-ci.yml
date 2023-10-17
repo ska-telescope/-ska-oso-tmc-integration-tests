@@ -187,7 +187,6 @@ dish-lmc-dish001:
     name: test/$CI_COMMIT_REF_SLUG
     on_stop: stop-k8s-dish-lmc-001
     action: stop
-  when: manual
   allow_failure: true
 
 k8s-test-dish-lmc:
@@ -205,9 +204,10 @@ k8s-test-dish-lmc:
     - make k8s-install-chart
     - make k8s-wait
     - make k8s-test MARK="real_dish"
+  needs:
+    - dish-lmc-dish001
   after_script:
     - make k8s-uninstall-chart
-  when: manual
 
 dish-lmc-dish036:
   extends:
