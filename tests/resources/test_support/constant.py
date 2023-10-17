@@ -1,10 +1,14 @@
 """This module have all required constants for ska-tmc-integration"""
+import os
+
 from ska_control_model import ObsState
 
 from tests.resources.test_support.common_utils.result_code import (
     FaultType,
     ResultCode,
 )
+
+dish_name = os.getenv("DISH_NAMESPACE")
 
 centralnode = "ska_mid/tm_central/central_node"
 tmc_subarraynode1 = "ska_mid/tm_subarray_node/1"
@@ -22,7 +26,10 @@ csp_subarray2 = "mid-csp/subarray/02"
 csp_subarray3 = "mid-csp/subarray/03"
 sdp_master = "mid-sdp/control/0"
 csp_master = "mid-csp/control/0"
-dish_master1 = "ska001/dish/master"
+if "dish-lmc" in dish_name:
+    dish_master1 = dish_name
+else:
+    dish_master1 = "ska001/dish/master"
 dish_master2 = "ska002/dish/master"
 dish_master3 = "ska003/dish/master"
 dish_master4 = "ska004/dish/master"
