@@ -168,7 +168,7 @@ k8s-test:
   retry: 1
 
 dish-lmc-dish001:
-  stage: on-demand
+  stage: test
   tags:
     - k8srunner
   variables:
@@ -190,7 +190,7 @@ dish-lmc-dish001:
   allow_failure: true
 
 k8s-test-dish-lmc:
-  stage: on-demand
+  stage: test
   tags:
     - k8srunner
   variables:
@@ -252,7 +252,7 @@ stop-k8s-test-low:
     - make k8s-delete-namespace
 
 stop-k8s-dish-lmc-001:
-  stage: on-demand
+  stage: test
   extends:
     - stop-k8s-test
   variables:

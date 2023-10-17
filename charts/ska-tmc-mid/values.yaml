@@ -37,7 +37,7 @@ global:
       enabled: false
 
   namespace_dish:
-    name_dish: ""
+    dish_name: ""
 
   # subarray_count, this will be expanded (1 to N inclusive) and applied to instances of:
   # deviceServers.cspsubarrayleafnode, deviceServers.sdpsubarrayleafnode, deviceServers.subarraynode
@@ -45,7 +45,7 @@ global:
     - "cspsubarrayleafnode"
     - "sdpsubarrayleafnode"
     - "subarraynode"
-  subarray_count: 1
+  subarray_count: 2
 
   
 

@@ -132,28 +132,7 @@ class TmcHelper:
             device_proxy = DeviceProxy(dish_master)
             device_proxy.SetDirectState(DevState.STANDBY)
 
-    def set_to_on_real_dish(self, **kwargs: dict) -> None:
-        """
-        Sets telescope to on
-        Args:
-            kwargs (dict): device info which needs set to ON
-        """
-
-        central_node = DeviceProxy(self.centralnode)
-        LOGGER.info(
-            f"Before Sending TelescopeOn command {central_node}\
-            State is:{central_node.State()}"
-        )
-        central_node.TelescopeOn()
-        device_to_on_list = [
-            kwargs.get("csp_subarray"),
-            kwargs.get("sdp_subarray"),
-        ]
-        for device in device_to_on_list:
-            if device:
-                device_proxy = DeviceProxy(device)
-                device_proxy.SetDirectState(DevState.ON)
-
+    @sync_set_to_off
     def set_to_off(self, **kwargs: dict) -> None:
         """
         Sets telescope to off
@@ -175,28 +154,6 @@ class TmcHelper:
         if dish_master:
             device_proxy = DeviceProxy(dish_master)
             device_proxy.SetDirectState(DevState.STANDBY)
-
-        LOGGER.info(
-            f"After invoking TelescopeOff command {central_node} State is:\
-            {central_node.State()}"
-        )
-
-    @sync_set_to_off
-    def set_to_off_real_dish(self, **kwargs: dict) -> None:
-        """
-        Sets telescope to off
-        Args:
-            kwargs (dict): device info which needs set to ON
-        """
-        central_node = DeviceProxy(self.centralnode)
-        central_node.TelescopeOff()
-        device_to_off_list = [
-            kwargs.get("csp_subarray"),
-            kwargs.get("sdp_subarray"),
-        ]
-        for device in device_to_off_list:
-            device_proxy = DeviceProxy(device)
-            device_proxy.SetDirectState(DevState.OFF)
 
         LOGGER.info(
             f"After invoking TelescopeOff command {central_node} State is:\

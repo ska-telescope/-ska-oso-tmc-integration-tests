@@ -7,9 +7,9 @@ entrypoints:
 server:
   name: "dish_leaf_node"
   instances:
-  {{- $isavail := .Values.global.realDish.isAvailable.enabled }}
+  {{- $isAvailable := .Values.global.realDish.isAvailable.enabled }}
   {{ $dish_fqdn_suffix:= .Values.global.dish_suffix}}
-  {{- $dish_name := .Values.global.namespace_dish.name_dish }}
+  {{- $real_dish_name := .Values.global.namespace_dish.dish_name }}
   {{- range  .Values.deviceServers.dishleafnode.instances }}
     - name: "{{ . }}"
       classes:
@@ -19,8 +19,8 @@ server:
           properties:
           - name: "DishMasterFQDN"
             values:
-              {{- if eq $isavail true }}
-              - "{{ $dish_name }}" # Real dish
+              {{- if eq $isAvailable true }}
+              - "{{ $real_dish_name }}" # Real dish
               {{- else }}
               - "ska{{ printf "%03s" . }}/{{ $dish_fqdn_suffix }}" # Mock device FQDN
               {{- end }}
