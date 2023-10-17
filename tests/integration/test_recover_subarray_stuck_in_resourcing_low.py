@@ -37,6 +37,11 @@ from tests.resources.test_support.constant_low import (
 
 
 @pytest.mark.SKA_low
+@pytest.mark.xfail(
+    reason="AssignResources and ReleaseResources"
+    " functionalities are not yet"
+    " implemented on mccs"
+)
 def test_recover_subarray_stuck_in_resourcing_low(
     json_factory, change_event_callbacks
 ):
@@ -133,6 +138,11 @@ def test_recover_subarray_stuck_in_resourcing_low(
 
 
 @pytest.mark.SKA_low
+@pytest.mark.xfail(
+    reason="AssignResources and ReleaseResources"
+    " functionalities are not yet"
+    " implemented on mccs"
+)
 def test_recover_subarray_stuck_in_resourcing_with_sdp_empty_with_abort(
     json_factory, change_event_callbacks
 ):
@@ -250,6 +260,11 @@ def test_recover_subarray_stuck_in_resourcing_with_sdp_empty_with_abort(
 
 
 @pytest.mark.SKA_low
+@pytest.mark.xfail(
+    reason="AssignResources and ReleaseResources"
+    " functionalities are not yet"
+    " implemented on mccs"
+)
 def test_recover_subarray_stuck_in_resourcing_with_csp_empty_with_abort(
     json_factory, change_event_callbacks
 ):
@@ -367,6 +382,11 @@ def test_recover_subarray_stuck_in_resourcing_with_csp_empty_with_abort(
 
 
 @pytest.mark.SKA_low
+@pytest.mark.xfail(
+    reason="AssignResources and ReleaseResources"
+    " functionalities are not yet"
+    " implemented on mccs"
+)
 def test_recover_subarray_stuck_in_resourcing_with_abort_low(
     json_factory, change_event_callbacks
 ):

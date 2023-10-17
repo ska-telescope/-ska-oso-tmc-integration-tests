@@ -31,6 +31,11 @@ from tests.resources.test_support.constant_low import (
 
 
 @pytest.mark.SKA_low
+@pytest.mark.xfail(
+    reason="AssignResources and ReleaseResources"
+    " functionalities are not yet"
+    " implemented on mccs"
+)
 def test_low_abort_restart_in_aborting(json_factory):
     """Abort and Restart is executed."""
     telescope_control = BaseTelescopeControl()

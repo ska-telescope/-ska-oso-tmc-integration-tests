@@ -86,7 +86,7 @@ class CentralNodeWrapperLow(CentralNodeWrapper):
         LOGGER.info("Calling Tear down for central node.")
         self._reset_health_state_for_mock_devices()
         if self.subarray_node.obsState == ObsState.IDLE:
-            LOGGER.info("Calling Release Resource on centralnode")
+            LOGGER.info("Calling ReleaseResources on CentralNode")
             self.invoke_release_resources(self.release_input)
         elif self.subarray_node.obsState == ObsState.RESOURCING:
             LOGGER.info("Calling Abort and Restart on subarraynode")

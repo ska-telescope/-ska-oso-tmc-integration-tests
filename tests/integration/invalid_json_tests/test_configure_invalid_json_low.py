@@ -29,6 +29,11 @@ telescope_control = BaseTelescopeControl()
 
 
 @pytest.mark.SKA_low
+@pytest.mark.xfail(
+    reason="AssignResources and ReleaseResources"
+    " functionalities are not yet"
+    " implemented on mccs"
+)
 @scenario(
     "../features/check_invalid_json_not_allowed.feature",
     "Invalid json rejected by TMC Low for Configure command",

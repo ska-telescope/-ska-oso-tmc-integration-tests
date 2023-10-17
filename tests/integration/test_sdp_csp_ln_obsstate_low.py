@@ -24,6 +24,11 @@ from tests.resources.test_support.constant_low import (
 
 
 @pytest.mark.SKA_low
+@pytest.mark.xfail(
+    reason="AssignResources and ReleaseResources"
+    " functionalities are not yet"
+    " implemented on mccs"
+)
 def test_csp_sdp_ln_obstate_low(json_factory, change_event_callbacks):
     """Verify timeout exception raised when csp set to defective."""
     assign_json = json_factory("command_assign_resource_low")

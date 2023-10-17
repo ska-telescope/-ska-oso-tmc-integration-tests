@@ -9,6 +9,11 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
 class TestLowCentralNodeAssignResources(object):
     @pytest.mark.SKA_low
+    @pytest.mark.xfail(
+        reason="AssignResources and ReleaseResources"
+        " functionalities are not yet"
+        " implemented on mccs"
+    )
     def test_low_centralnode_assign_resources(
         self,
         central_node_low,

@@ -43,6 +43,11 @@ telescope_control = BaseTelescopeControl()
 
 
 @pytest.mark.SKA_low
+@pytest.mark.xfail(
+    reason="AssignResources and ReleaseResources"
+    " functionalities are not yet"
+    " implemented on mccs"
+)
 def test_configure_end_low(json_factory):
     """Configure and End is executed."""
     assign_json = json_factory("command_assign_resource_low")
@@ -117,6 +122,11 @@ def test_configure_end_low(json_factory):
 
 
 @pytest.mark.SKA_low
+@pytest.mark.xfail(
+    reason="AssignResources and ReleaseResources"
+    " functionalities are not yet"
+    " implemented on mccs"
+)
 def test_configure_timeout_and_error_propagation_csp(
     json_factory, change_event_callbacks
 ):
@@ -207,6 +217,11 @@ def test_configure_timeout_and_error_propagation_csp(
 
 
 @pytest.mark.SKA_low
+@pytest.mark.xfail(
+    reason="AssignResources and ReleaseResources"
+    " functionalities are not yet"
+    " implemented on mccs"
+)
 def test_configure_timeout_sdp(json_factory, change_event_callbacks):
     """Verify timeout exception raised when csp set to defective."""
     assign_json = json_factory("command_assign_resource_low")
@@ -295,6 +310,11 @@ def test_configure_timeout_sdp(json_factory, change_event_callbacks):
 
 
 @pytest.mark.SKA_low
+@pytest.mark.xfail(
+    reason="AssignResources and ReleaseResources"
+    " functionalities are not yet"
+    " implemented on mccs"
+)
 def test_configure_error_propagation_sdp(json_factory, change_event_callbacks):
     """Verify timeout exception raised when csp set to defective."""
     assign_json = json_factory("command_assign_resource_low")

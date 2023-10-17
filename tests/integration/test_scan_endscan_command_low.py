@@ -30,6 +30,11 @@ telescope_control = BaseTelescopeControl()
 
 
 @pytest.mark.SKA_low
+@pytest.mark.xfail(
+    reason="AssignResources and ReleaseResources"
+    " functionalities are not yet"
+    " implemented on mccs"
+)
 def test_scan_endscan_low(json_factory):
     """Scan and EndScan is executed."""
     assign_json = json_factory("command_assign_resource_low")

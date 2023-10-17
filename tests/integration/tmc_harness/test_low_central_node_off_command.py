@@ -1,26 +1,19 @@
-import logging
-
 import pytest
-from ska_ser_logging import configure_logging
 from tango import DevState
 
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
-configure_logging(logging.DEBUG)
-LOGGER = logging.getLogger(__name__)
 
-
-class TestLowCentralNodeStateTransition(object):
-    @pytest.mark.ta
+class TestLowCentralNodeOffCommand(object):
     @pytest.mark.SKA_low
-    def test_low_centralnode_state_transitions(
+    def test_low_central_node_off_command(
         self,
         central_node_low,
         event_recorder,
         simulator_factory,
     ):
         """
-        Test to verify transitions that are triggered by On
+        Test to verify transitions that are triggered by Off
         command and followed by a completion transition
         assuming that external subsystems work fine.
         Glossary:
@@ -48,22 +41,18 @@ class TestLowCentralNodeStateTransition(object):
         )
         central_node_low.move_to_on()
         assert event_recorder.has_change_event_occurred(
-            csp_master_sim,
-            "State",
-            DevState.ON,
-        )
-        assert event_recorder.has_change_event_occurred(
-            sdp_master_sim,
-            "State",
-            DevState.ON,
-        )
-        assert event_recorder.has_change_event_occurred(
             mccs_master_sim,
             "State",
             DevState.ON,
         )
+        central_node_low.move_to_off()
+        assert event_recorder.has_change_event_occurred(
+            mccs_master_sim,
+            "State",
+            DevState.OFF,
+        )
         assert event_recorder.has_change_event_occurred(
             central_node_low.central_node,
             "telescopeState",
-            DevState.ON,
+            DevState.OFF,
         )
