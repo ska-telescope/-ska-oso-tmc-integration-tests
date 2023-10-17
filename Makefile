@@ -86,7 +86,7 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.operator=true \
 	--set ska-taranta.enabled=$(TARANTA_ENABLED)\
 	--set global.namespace_dish.name_dish="$(DISH_NAMESPACE)"\
-	--set realDish.isAvailable.enabled=true\
+	--set realDish.isAvailable.enabled=false\
 	$(CUSTOM_VALUES)
 
 
