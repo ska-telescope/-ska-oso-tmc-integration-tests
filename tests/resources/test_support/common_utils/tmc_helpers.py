@@ -132,7 +132,6 @@ class TmcHelper:
             device_proxy = DeviceProxy(dish_master)
             device_proxy.SetDirectState(DevState.STANDBY)
 
-    @sync_telescope_on
     def set_to_on_real_dish(self, **kwargs: dict) -> None:
         """
         Sets telescope to on
@@ -155,7 +154,7 @@ class TmcHelper:
                 device_proxy = DeviceProxy(device)
                 device_proxy.SetDirectState(DevState.ON)
 
-    @sync_set_to_off
+
     def set_to_off(self, **kwargs: dict) -> None:
         """
         Sets telescope to off
