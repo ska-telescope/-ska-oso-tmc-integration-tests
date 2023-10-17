@@ -18,6 +18,7 @@ from tests.resources.test_support.constant import (
     tmc_subarraynode1,
 )
 
+
 @pytest.mark.real_dish
 def test_telescope_on():
     """TelescopeOn() is executed."""
