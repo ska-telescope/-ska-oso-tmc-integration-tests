@@ -7,7 +7,7 @@ from tango import DeviceProxy
 
 from tests.resources.test_support.constant import centralnode
 
-dish_name = os.getenv("DISH_NAMESPACE")
+dish_name = os.getenv("KUBE_NAMESPACE")
 dish_fqdn = (
     f"tango://databaseds-tango-base.{dish_name}.svc.cluster"
     ".local:10000/ska001/elt/master"
