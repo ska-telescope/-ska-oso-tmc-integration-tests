@@ -150,7 +150,6 @@ class CentralNodeWrapper(object):
         for mock_device in [
             self.sdp_master,
             self.csp_master,
-            self.mccs_master,
         ]:
             device = DeviceProxy(mock_device)
             device.SetDirectHealthState(HealthState.UNKNOWN)

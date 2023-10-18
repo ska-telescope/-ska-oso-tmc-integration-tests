@@ -2,6 +2,7 @@ import logging
 
 from ska_control_model import ObsState
 from ska_ser_logging import configure_logging
+from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
 
 from tests.resources.test_harness.central_node import CentralNodeWrapper
@@ -79,6 +80,12 @@ class CentralNodeWrapperLow(CentralNodeWrapper):
         """Invoke Restart command on subarray Node"""
         result, message = self.subarray_node.Restart()
         return result, message
+
+    def _reset_health_state_for_mock_devices(self):
+        """Reset Mock devices"""
+        super()._reset_health_state_for_mock_devices()
+        device = DeviceProxy(self.mccs_master)
+        device.SetDirectHealthState(HealthState.UNKNOWN)
 
     def tear_down(self):
         """Handle Tear down of central Node"""
