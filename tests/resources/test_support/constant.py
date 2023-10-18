@@ -33,7 +33,7 @@ csp_subarray2 = "mid-csp/subarray/02"
 csp_subarray3 = "mid-csp/subarray/03"
 sdp_master = "mid-sdp/control/0"
 csp_master = "mid-csp/control/0"
-if check_real_device_available is "true":
+if check_real_device_available == "true":
     dish_master1 = dish_fqdn
 else:
     dish_master1 = "ska001/dish/master"
