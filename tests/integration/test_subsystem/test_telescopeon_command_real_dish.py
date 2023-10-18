@@ -16,7 +16,6 @@ dish_fqdn = (
 )
 
 
-@pytest.mark.aki
 @pytest.mark.real_dish
 def test_telescope_on():
     """TelescopeOn() and TelescopeOff() is executed on real dish device."""
