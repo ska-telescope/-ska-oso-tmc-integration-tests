@@ -124,6 +124,14 @@ INTERMEDIATE_STATE_DEFECT = {
     "intermediate_state": ObsState.RESOURCING,
 }
 
+INTERMEDIATE_OBSSTATE_EMPTY_DEFECT = {
+    "enabled": True,
+    "fault_type": FaultType.STUCK_IN_INTERMEDIATE_STATE,
+    "error_message": "Device stuck in intermediate state",
+    "result": ResultCode.FAILED,
+    "intermediate_state": ObsState.EMPTY,
+}
+
 low_centralnode = "ska_low/tm_central/central_node"
 tmc_low_subarraynode1 = "ska_low/tm_subarray_node/1"
 tmc_low_subarraynode2 = "ska_low/tm_subarray_node/2"
