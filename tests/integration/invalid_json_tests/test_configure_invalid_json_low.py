@@ -28,12 +28,12 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
-@pytest.mark.SKA_low
-@pytest.mark.xfail(
+@pytest.mark.skip(
     reason="AssignResources and ReleaseResources"
     " functionalities are not yet"
-    " implemented on mccs"
+    " implemented on mccs master leaf node."
 )
+@pytest.mark.SKA_low
 @scenario(
     "../features/check_invalid_json_not_allowed.feature",
     "Invalid json rejected by TMC Low for Configure command",
