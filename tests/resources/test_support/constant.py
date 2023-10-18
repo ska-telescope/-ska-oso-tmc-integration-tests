@@ -1,19 +1,9 @@
 """This module have all required constants for ska-tmc-integration"""
-import os
-
 from ska_control_model import ObsState
 
 from tests.resources.test_support.common_utils.result_code import (
     FaultType,
     ResultCode,
-)
-
-dish_name = os.getenv("DISH_NAMESPACE")
-check_real_device_available = os.getenv("REAL_DISH")
-
-dish_fqdn = (
-    f"tango://databaseds-tango-base.{dish_name}.svc.cluster"
-    ".local:10000/ska001/elt/master"
 )
 
 centralnode = "ska_mid/tm_central/central_node"
@@ -33,10 +23,7 @@ csp_subarray2 = "mid-csp/subarray/02"
 csp_subarray3 = "mid-csp/subarray/03"
 sdp_master = "mid-sdp/control/0"
 csp_master = "mid-csp/control/0"
-if check_real_device_available == "true":
-    dish_master1 = dish_fqdn
-else:
-    dish_master1 = "ska001/dish/master"
+dish_master1 = "ska001/dish/master"
 dish_master2 = "ska002/dish/master"
 dish_master3 = "ska003/dish/master"
 dish_master4 = "ska004/dish/master"

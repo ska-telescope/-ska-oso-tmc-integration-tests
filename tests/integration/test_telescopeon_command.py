@@ -19,7 +19,6 @@ from tests.resources.test_support.constant import (
 )
 
 
-@pytest.mark.real_dish
 @pytest.mark.SKA_mid
 def test_telescope_on():
     """TelescopeOn() is executed."""
