@@ -1,6 +1,5 @@
 """Test Telescope On Command in mid"""
 import os
-import time
 
 import pytest
 from tango import DeviceProxy

@@ -32,9 +32,9 @@ global:
   dish_devices: ["dishmaster", "dishleafnode"]
   dishes: ["01", "02"]
 
-  realDish:
-    isAvailable:
-      enabled: false
+  Dish:
+    isSimulated:
+      enabled: true
 
   namespace_dish:
     dish_name: ""
