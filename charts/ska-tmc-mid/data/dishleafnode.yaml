@@ -19,7 +19,7 @@ server:
           properties:
           - name: "DishMasterFQDN"
             values:
-              {{- if eq $isSimulated false }}
+              {{- if eq $isAvailable false }}
               - "{{ $real_dish_name }}" # Real dish
               {{- else }}
               - "ska{{ printf "%03s" . }}/{{ $dish_fqdn_suffix }}" # Mock device FQDN

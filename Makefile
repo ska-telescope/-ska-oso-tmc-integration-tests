@@ -6,7 +6,6 @@ PROJECT = ska-tmc-integration
 TANGO_HOST ?= tango-databaseds:10000 ## TANGO_HOST connection to the Tango DS
 TELESCOPE ?= SKA-mid
 DISH_NAMESPACE ?= dish-lmc
-REAL_DISH ?= true
 PYTHON_VARS_BEFORE_PYTEST ?= PYTHONPATH=.:./src \
 							 TANGO_HOST=$(TANGO_HOST) \
 							 TELESCOPE=$(TELESCOPE) \
