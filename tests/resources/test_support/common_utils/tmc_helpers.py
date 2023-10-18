@@ -1,6 +1,7 @@
 """This module implement base helper class for tmc
 """
 import logging
+import os
 import re
 from typing import Optional, Tuple
 
@@ -56,6 +57,7 @@ from tests.resources.test_support.constant_low import (
 result, message = "", ""
 configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
+check_real_device_available = os.getenv("REAL_DISH")
 
 
 class TmcHelper:
@@ -128,7 +130,7 @@ class TmcHelper:
 
         # If Dish master provided then set it to standby
         dish_master = kwargs.get("dish_master")
-        if "dish-lmc" not in dish_master:
+        if check_real_device_available is True:
             device_proxy = DeviceProxy(dish_master)
             device_proxy.SetDirectState(DevState.STANDBY)
 
@@ -151,7 +153,7 @@ class TmcHelper:
 
         # If Dish master provided then set it to standby
         dish_master = kwargs.get("dish_master")
-        if "dish-lmc" not in dish_master:
+        if check_real_device_available is True:
             device_proxy = DeviceProxy(dish_master)
             device_proxy.SetDirectState(DevState.STANDBY)
 
