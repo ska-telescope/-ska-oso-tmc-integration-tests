@@ -1,9 +1,18 @@
 """This module have all required constants for ska-tmc-integration"""
+import os
+
 from ska_control_model import ObsState
 
 from tests.resources.test_support.common_utils.result_code import (
     FaultType,
     ResultCode,
+)
+
+dish_name = os.getenv("DISH_NAMESPACE")
+
+dish_fqdn = (
+    f"tango://databaseds-tango-base.{dish_name}.svc.cluster"
+    ".local:10000/ska001/elt/master"
 )
 
 centralnode = "ska_mid/tm_central/central_node"

@@ -1,24 +1,15 @@
-"""Test Telescope On Command in mid"""
-import os
-
+"""Test Telescope On Command on DISH LMC"""
 import pytest
 from tango import DeviceProxy
 
 from tests.conftest import wait_for_dish_mode_change
-from tests.resources.test_support.constant import centralnode
+from tests.resources.test_support.constant import centralnode, dish_fqdn
 from tests.resources.test_support.enum import DishMode
-
-dish_name = os.getenv("DISH_NAMESPACE")
-
-dish_fqdn = (
-    f"tango://databaseds-tango-base.{dish_name}.svc.cluster"
-    ".local:10000/ska001/elt/master"
-)
 
 
 @pytest.mark.real_dish
 def test_telescope_on():
-    """TelescopeOn() and TelescopeOff() is executed on real dish device."""
+    """TelescopeOn() and TelescopeOff() is executed on dishlmc  device."""
 
     central_node_device = DeviceProxy(centralnode)
 
