@@ -5,6 +5,7 @@ import time
 import pytest
 from tango import DeviceProxy
 
+from tests.conftest import wait_for_dish_mode_change
 from tests.resources.test_support.constant import centralnode
 from tests.resources.test_support.enum import DishMode
 
@@ -16,6 +17,7 @@ dish_fqdn = (
 )
 
 
+@pytest.mark.aki
 @pytest.mark.real_dish
 def test_telescope_on():
     """TelescopeOn() and TelescopeOff() is executed on real dish device."""
@@ -25,19 +27,21 @@ def test_telescope_on():
     # Invoke TelescopeOn command
     central_node_device.TelescopeOn()
 
-    # check the dishMode and dishleafnode state
+    # Check the dishMode and dishleafnode state
     dishfqdn = DeviceProxy(dish_fqdn)
 
-    # Sleep is added for waiting for DISH LMC to respond
-    time.sleep(6)
+    # Waiting for DISH LMC to respond
+    wait_for_dish_mode_change(DishMode.STANDBY_FP, dishfqdn, 30)
 
-    # check the dishMode of DISH LMC i.e STANDBYFP
+    # Check the dishMode of DISH LMC i.e STANDBYFP
     assert dishfqdn.dishMode.value == DishMode.STANDBY_FP
 
     # Invoke TelescopeOff command
 
     central_node_device.TelescopeOff()
 
-    time.sleep(6)
+    # Waiting for DISH LMC to respond
+    wait_for_dish_mode_change(DishMode.STANDBY_LP, dishfqdn, 30)
+
     # check the dishMode of DISH LMC i.e STANDBYLP
     assert dishfqdn.dishMode.value == DishMode.STANDBY_LP
