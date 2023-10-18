@@ -6,6 +6,7 @@ import pytest
 from tango import DeviceProxy
 
 from tests.resources.test_support.constant import centralnode
+from tests.resources.test_support.enum import DishMode
 
 dish_name = os.getenv("DISH_NAMESPACE")
 
@@ -31,7 +32,7 @@ def test_telescope_on():
     time.sleep(6)
 
     # check the dishMode of DISH LMC i.e STANDBYFP
-    assert dishfqdn.dishMode.value == 3
+    assert dishfqdn.dishMode.value == DishMode.STANDBY_FP
 
     # Invoke TelescopeOff command
 
@@ -39,4 +40,4 @@ def test_telescope_on():
 
     time.sleep(6)
     # check the dishMode of DISH LMC i.e STANDBYLP
-    assert dishfqdn.dishMode.value == 2
+    assert dishfqdn.dishMode.value == DishMode.STANDBY_LP

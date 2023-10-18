@@ -128,7 +128,7 @@ class TmcHelper:
 
         # If Dish master provided then set it to standby
         dish_master = kwargs.get("dish_master")
-        if dish_master:
+        if "dish-lmc" not in dish_master:
             device_proxy = DeviceProxy(dish_master)
             device_proxy.SetDirectState(DevState.STANDBY)
 
@@ -151,7 +151,7 @@ class TmcHelper:
 
         # If Dish master provided then set it to standby
         dish_master = kwargs.get("dish_master")
-        if dish_master:
+        if "dish-lmc" not in dish_master:
             device_proxy = DeviceProxy(dish_master)
             device_proxy.SetDirectState(DevState.STANDBY)
 
