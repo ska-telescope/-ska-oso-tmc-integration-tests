@@ -173,11 +173,12 @@ def event_recorder() -> EventRecorder:
 def wait_for_dish_mode_change(
     target_mode: int, dishfqdn: str, timeout_seconds: int
 ):
+    """Returns True if the dishMode is changed to a expected value"""
     start_time = time.time()
 
     while time.time() - start_time < timeout_seconds:
         if dishfqdn.dishMode.value == target_mode:
-            return True  # Mode changed to the target mode
-        time.sleep(1)  # Sleep for 1 second before checking again
+            return True
+        time.sleep(1)
 
     return False
