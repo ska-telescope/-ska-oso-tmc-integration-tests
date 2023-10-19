@@ -64,3 +64,10 @@ The documentation for this project, including how to get started with it,can be 
     ```bash
     make k8s-do-uninstall-chart KUBE_NAMESPACE=<KUBE_NAMESPACE> HELM_RELEASE=<DISH_LMC_HELM_RELEASE> K8S_CHART=<DISH_LMC_CHART_NAME>
     ```
+ * Test dish lmc with TMC as an entrypoint
+    To test Dish LMC within the TMC integration, you can set a specific flag to control whether you want to use a real device or a mock device. Here's how you can do it:
+    ```bash
+    --set global.Dish.isSimulated.enabled=true or false
+    ```
+    If you set "enabled" to true, Dish LMC will use a mock device for testing and if you set "enabled" to false, Dish LMC will use a real device for testing.
+
