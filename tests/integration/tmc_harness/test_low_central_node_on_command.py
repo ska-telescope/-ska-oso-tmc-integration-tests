@@ -10,9 +10,9 @@ configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
 
 
-class TestLowCentralNodeStateTransition(object):
+class TestLowCentralNodeOnCommand(object):
     @pytest.mark.SKA_low
-    def test_low_centralnode_state_transitions(
+    def test_low_central_node_on_command(
         self,
         central_node_low,
         event_recorder,

@@ -84,8 +84,7 @@ class CentralNodeWrapperLow(CentralNodeWrapper):
     def _reset_health_state_for_mock_devices(self):
         """Reset Mock devices"""
         super()._reset_health_state_for_mock_devices()
-        device = DeviceProxy(self.mccs_master)
-        device.SetDirectHealthState(HealthState.UNKNOWN)
+        self.mccs_master.SetDirectHealthState(HealthState.UNKNOWN)
 
     def tear_down(self):
         """Handle Tear down of central Node"""
@@ -96,7 +95,7 @@ class CentralNodeWrapperLow(CentralNodeWrapper):
             LOGGER.info("Calling ReleaseResources on CentralNode")
             self.invoke_release_resources(self.release_input)
         elif self.subarray_node.obsState == ObsState.RESOURCING:
-            LOGGER.info("Calling Abort and Restart on subarraynode")
+            LOGGER.info("Calling Abort and Restart on SubarrayNode")
             self.subarray_abort()
             self.subarray_restart()
         elif self.subarray_node.obsState == ObsState.ABORTED:

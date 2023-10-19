@@ -41,8 +41,8 @@ class TestLowCentralNodeOffCommand(object):
         )
         central_node_low.move_to_on()
         assert event_recorder.has_change_event_occurred(
-            mccs_master_sim,
-            "State",
+            central_node_low.central_node,
+            "telescopeState",
             DevState.ON,
         )
         central_node_low.move_to_off()
