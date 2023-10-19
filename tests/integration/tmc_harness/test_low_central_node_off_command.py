@@ -31,7 +31,7 @@ class TestLowCentralNodeOffCommand(object):
             SimulatorDeviceType.LOW_SDP_MASTER_DEVICE
         )
         mccs_master_sim = simulator_factory.get_or_create_simulator_device(
-            SimulatorDeviceType.LOW_MCCS_MASTER_DEVICE
+            SimulatorDeviceType.MCCS_MASTER_DEVICE
         )
         event_recorder.subscribe_event(csp_master_sim, "State")
         event_recorder.subscribe_event(sdp_master_sim, "State")

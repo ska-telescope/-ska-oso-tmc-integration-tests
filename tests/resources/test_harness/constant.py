@@ -176,7 +176,7 @@ SIMULATOR_DEVICE_FQDN_DICT = {
     SimulatorDeviceType.LOW_CSP_DEVICE: [low_csp_subarray1],
     SimulatorDeviceType.LOW_SDP_MASTER_DEVICE: [low_sdp_master],
     SimulatorDeviceType.LOW_CSP_MASTER_DEVICE: [low_csp_master],
-    SimulatorDeviceType.LOW_MCCS_MASTER_DEVICE: [mccs_controller],
+    SimulatorDeviceType.MCCS_MASTER_DEVICE: [mccs_controller],
     SimulatorDeviceType.MID_SDP_DEVICE: [sdp_subarray1],
     SimulatorDeviceType.MID_CSP_DEVICE: [csp_subarray1],
     SimulatorDeviceType.DISH_DEVICE: [dish_master1, dish_master2],
