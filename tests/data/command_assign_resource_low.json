@@ -21,9 +21,7 @@
     "resources": {
       "receptors": [
         "SKA001",
-        "SKA002",
-        "SKA003",
-        "SKA004"
+        "SKA002"
       ]
     },
     "execution_block": {

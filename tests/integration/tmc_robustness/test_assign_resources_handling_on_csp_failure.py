@@ -111,7 +111,6 @@ def csp_subarray_raise_exception(event_recorder, simulator_factory):
         ObsState.EMPTY,
     )
 
-
 @given(
     parsers.parse("the TMC SubarrayNode {subarray_id} stucks in RESOURCING")
 )
@@ -121,12 +120,9 @@ def given_tmc_subarray_stuck_resourcing(
     event_recorder,
 ):
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_node,
-        "obsState",
-        ObsState.RESOURCING,
-    )
-
+    LOGGER.info(f"SA ObsState is ...........: {central_node_mid.subarray_node.obsState}")
+    assert central_node_mid.subarray_node.obsState == ObsState.RESOURCING
+    
 
 @when(
     parsers.parse(
@@ -134,9 +130,9 @@ def given_tmc_subarray_stuck_resourcing(
     )
 )
 def send_command(simulator_factory):
-    _, sdp_sim, _, _ = get_device_simulators(simulator_factory)
+    csp_sim, sdp_sim, _, _ = get_device_simulators(simulator_factory)
     sdp_sim.ReleaseAllResources()
-
+    # csp_sim.SetDefective(json.dumps({"enabled": False}))
 
 @then(
     parsers.parse(
