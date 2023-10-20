@@ -68,7 +68,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             LOGGER.info("Calling Release Resource on centralnode")
             self.invoke_release_resources(self.release_input)
         elif self.subarray_node.obsState == ObsState.RESOURCING:
-            LOGGER.info("Calling Abort and Restar on SubarrayNode")
+            LOGGER.info("Calling Abort and Restart on SubarrayNode")
             self.subarray_abort()
             self.subarray_restart()
         elif self.subarray_node.obsState == ObsState.ABORTED:
