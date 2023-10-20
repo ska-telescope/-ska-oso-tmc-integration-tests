@@ -61,14 +61,14 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
 
     def tear_down(self):
         """Handle Tear down of central Node"""
-        LOGGER.info("Calling Tear down for central node.")
+        LOGGER.info("Calling Tear down for Central node.")
         # reset HealthState.UNKNOWN for mock devices
         self._reset_health_state_for_mock_devices()
         if self.subarray_node.obsState == ObsState.IDLE:
             LOGGER.info("Calling Release Resource on centralnode")
             self.invoke_release_resources(self.release_input)
         elif self.subarray_node.obsState == ObsState.RESOURCING:
-            LOGGER.info("Calling Abort and Restar on subarraynode")
+            LOGGER.info("Calling Abort and Restar on SubarrayNode")
             self.subarray_abort()
             self.subarray_restart()
         elif self.subarray_node.obsState == ObsState.ABORTED:
