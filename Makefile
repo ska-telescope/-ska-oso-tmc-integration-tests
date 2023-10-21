@@ -72,6 +72,9 @@ K8S_TEST_RUNNER = test-runner-$(HELM_RELEASE)
 CI_PROJECT_PATH_SLUG ?= ska-tmc-integration
 CI_ENVIRONMENT_SLUG ?= ska-tmc-integration
 
+XRAY_EXTRA_OPTS ?= -t pytest
+XRAY_TEST_RESULT_FILE ?= build/reports/pytest-junit.xml
+XRAY_EXECUTION_CONFIG_FILE ?= tests/xray-config.json
 
 ifeq ($(MAKECMDGOALS),k8s-test)
 ADD_ARGS +=  --true-context
@@ -106,6 +109,7 @@ K8S_TEST_TEST_COMMAND ?= $(PYTHON_VARS_BEFORE_PYTEST) $(PYTHON_RUNNER) \
 -include .make/release.mk
 -include .make/make.mk
 -include .make/help.mk
+-include .make/xray.mk
 -include PrivateRules.mak
 -include resources/alarmhandler.mk
 
