@@ -32,8 +32,8 @@ from tests.resources.test_support.constant import (
     centralnode,
     csp_subarray1,
     dish_master1,
+    sdp_subarray1,
     tmc_subarraynode1,
-    sdp_subarray1
 )
 
 telescope_control = BaseTelescopeControl()
@@ -242,6 +242,7 @@ def test_abort_in_resourcing(json_factory):
         LOGGER.exception("The exception is: %s", e)
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
+
 @pytest.mark.SKA_mid
 def test_abort_in_resourcing_different_resources(json_factory):
     """Abort and Restart is executed."""
@@ -289,9 +290,7 @@ def test_abort_in_resourcing_different_resources(json_factory):
         the_waiter.set_wait_for_specific_obsstate(
             "RESOURCING", [tmc_subarraynode1, csp_subarray1]
         )
-        the_waiter.set_wait_for_specific_obsstate(
-            "IDLE", [sdp_subarray1]
-        )
+        the_waiter.set_wait_for_specific_obsstate("IDLE", [sdp_subarray1])
         the_waiter.wait(20)
 
         # Setting CSP back to normal

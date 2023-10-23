@@ -35,7 +35,8 @@ from tests.resources.test_support.constant import (
     tmc_subarraynode1,
 )
 
-@pytest.mark.skip(reason="This scenario is getting tested in the bdd test.Also it is not right method to induce fault on SDP Subarray")
+
+@pytest.mark.skip(reason="This scenario is getting tested in the bdd test.")
 @pytest.mark.SKA_mid
 def test_recover_subarray_stuck_in_resourcing(
     json_factory, change_event_callbacks
@@ -135,7 +136,7 @@ def test_recover_subarray_stuck_in_resourcing(
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-@pytest.mark.skip(reason="This scenario is getting tested in the bdd test.Also it is not right method to induce fault on SDP Subarray")
+@pytest.mark.skip(reason="This scenario is getting tested in the bdd test.")
 @pytest.mark.SKA_mid
 def test_recover_subarray_stuck_in_resourcing_with_sdp_empty_with_abort(
     json_factory, change_event_callbacks
@@ -251,6 +252,7 @@ def test_recover_subarray_stuck_in_resourcing_with_sdp_empty_with_abort(
 
     except Exception:
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
+
 
 # Is this test needed now?
 @pytest.mark.SKA_mid
@@ -369,7 +371,8 @@ def test_recover_subarray_stuck_in_resourcing_with_csp_empty_with_abort(
     except Exception:
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
-@pytest.mark.skip(reason="This scenario is getting tested in the bdd test.Also it is not right method to induce fault on SDP Subarray")
+
+@pytest.mark.skip(reason="This scenario is getting tested in the bdd test.")
 @pytest.mark.SKA_mid
 def test_recover_subarray_stuck_in_resourcing_with_abort(
     json_factory, change_event_callbacks
