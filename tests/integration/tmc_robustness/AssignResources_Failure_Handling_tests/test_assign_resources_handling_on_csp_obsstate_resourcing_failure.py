@@ -16,7 +16,7 @@ from tests.resources.test_harness.helpers import (
 @pytest.mark.bdd_assign
 @pytest.mark.SKA_mid
 @scenario(
-    "../features/assign_resources_subsystem_failure_scenarios.feature",
+    "../features/assign_resources_csp_subarray_failure_scenarios.feature",
     "TMC behavior when Csp Subarray is stuck in obsState RESOURCING",
 )
 def test_assign_resources_handling_on_csp_subarray_obsstate_resourcing_failure(
