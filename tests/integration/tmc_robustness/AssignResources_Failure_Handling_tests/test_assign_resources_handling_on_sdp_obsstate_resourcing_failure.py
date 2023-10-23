@@ -11,6 +11,7 @@ from tests.resources.test_harness.helpers import (
 )
 
 
+@pytest.mark.bdd_assign
 @pytest.mark.SKA_mid
 @scenario(
     "../features/assign_resources_subsystem_failure_scenarios.feature",

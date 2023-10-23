@@ -10,7 +10,7 @@ from tests.resources.test_harness.helpers import (
     prepare_json_args_for_centralnode_commands,
 )
 
-
+@pytest.mark.bdd_assign
 @pytest.mark.SKA_mid
 @scenario(
     "../features/assign_resources_subsystem_failure_scenarios.feature",

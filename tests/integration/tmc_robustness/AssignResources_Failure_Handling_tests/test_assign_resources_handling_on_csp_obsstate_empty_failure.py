@@ -14,7 +14,7 @@ from tests.resources.test_harness.helpers import (
     prepare_json_args_for_centralnode_commands,
 )
 
-
+@pytest.mark.bdd_assign
 @pytest.mark.SKA_mid
 @scenario(
     "../features/assign_resources_subsystem_failure_scenarios.feature",
@@ -123,6 +123,9 @@ def given_tmc_subarray_stuck_resourcing(
     event_recorder,
 ):
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
+    event_recorder.subscribe_event(
+        central_node_mid.subarray_node, "longRunningCommandResult"
+    )
     LOGGER.info(
         "SubarrayNode ObsState is: %s", central_node_mid.subarray_node.obsState
     )
