@@ -64,7 +64,7 @@ class TestSubarrayNodeNegative(object):
             expected_long_running_command_result,
         )
 
-    @pytest.mark.test
+    
     @pytest.mark.SKA_mid
     def test_subarray_configure_when_csp_stuck_in_configuring(
         self,
