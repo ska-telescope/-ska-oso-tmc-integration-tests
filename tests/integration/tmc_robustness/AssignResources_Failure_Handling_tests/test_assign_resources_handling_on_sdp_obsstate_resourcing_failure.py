@@ -181,7 +181,8 @@ def tmc_subarray_transitions_to_aborted(central_node_mid, event_recorder):
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "obsState",
-        ObsState.ABORTED, lookahead=10
+        ObsState.ABORTED,
+        lookahead=10,
     )
 
 

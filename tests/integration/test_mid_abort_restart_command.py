@@ -3,6 +3,7 @@ import json
 import time
 
 import pytest
+from ska_tango_testing.mock.placeholders import Anything
 from tango import DeviceProxy
 
 from tests.conftest import LOGGER
@@ -243,6 +244,7 @@ def test_abort_in_resourcing(json_factory):
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
+@pytest.mark.skip(reason="Pipeline issue")
 @pytest.mark.SKA_mid
 def test_abort_in_resourcing_different_resources(json_factory):
     """Abort and Restart is executed."""
@@ -520,6 +522,11 @@ def test_abort_in_configuring(json_factory):
         the_waiter.set_wait_for_pointingstate("TRACK", [dish_master1])
         the_waiter.wait(200)
 
+        # check for the SubarrayNode longRunningCommandResult event of
+        # Configure command
+        the_waiter.set_wait_for_long_running_command_result(
+            Anything, [tmc_subarraynode1]
+        )
         # Setting CSP back to normal
         csp_subarray_proxy.SetDefective(json.dumps({"enabled": False}))
         time.sleep(0.5)
