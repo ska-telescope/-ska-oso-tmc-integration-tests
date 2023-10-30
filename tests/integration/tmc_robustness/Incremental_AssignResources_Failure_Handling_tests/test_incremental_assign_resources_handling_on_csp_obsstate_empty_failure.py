@@ -18,10 +18,11 @@ from tests.resources.test_harness.helpers import (
 @pytest.mark.bdd_assign
 @pytest.mark.SKA_mid
 @scenario(
-    "../features/incremental_assign_resources_csp_subarray_failure_scenarios.feature",
-    "TMC behavior when CSP Subarray incremental AssignResources raises exception",
+    "../features/incremental_assign_resources_csp_subarray_failure.feature",
+    "TMC behavior when CSP Subarray"
+    " incremental AssignResources raises exception",
 )
-def test_incremental_assign_resources_handling_on_csp_subarray_obsstate_empty_failure(
+def test_incremental_assign_resources_csp_subarray_obsstate_empty_failure(
     central_node_mid, subarray_node, event_recorder, simulator_factory
 ):
     """
@@ -114,7 +115,8 @@ def subarray_assign_resources_complete(
 
 @given(
     parsers.parse(
-        "the next TMC SubarrayNode {subarray_id} assign resources is in progress"
+        "the next TMC SubarrayNode "
+        "{subarray_id} assign resources is in progress"
     )
 )
 def given_tmc_subarray_incremental_assign_resources_is_in_progress(

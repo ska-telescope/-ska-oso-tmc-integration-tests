@@ -13,10 +13,11 @@ from tests.resources.test_harness.helpers import (
 @pytest.mark.bdd_assign
 @pytest.mark.SKA_mid
 @scenario(
-    "../features/incremental_assign_resources_sdp_subarray_failure_scenarios.feature",
-    "TMC behavior when SDP Subarray incremental AssignResources raises exception",
+    "../features/incremental_assign_resources_sdp_subarray_failure.feature",
+    "TMC behavior when SDP Subarray "
+    "incremental AssignResources raises exception",
 )
-def test_incremental_assign_resources_handling_on_sdp_subarray_obsstate_empty_failure(
+def test_incremental_assign_resources_sdp_subarray_obsstate_empty_failure(
     central_node_mid, subarray_node, event_recorder, simulator_factory
 ):
     """
@@ -60,7 +61,8 @@ def given_tmc(central_node_mid, event_recorder):
 
 @given(
     parsers.parse(
-        "the TMC SubarrayNode {subarray_id} assignResources is in progress with {input_json1}"
+        "the TMC SubarrayNode {subarray_id} assignResources "
+        "is in progress with {input_json1}"
     )
 )
 def given_tmc_subarray_assign_resources_is_in_progress(
