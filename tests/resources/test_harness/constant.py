@@ -29,6 +29,14 @@ dish_master2 = "ska002/dish/master"
 dish_master3 = "ska003/dish/master"
 dish_master4 = "ska004/dish/master"
 
+COMMAND_FAILED_WITH_EXCEPTION_OBSSTATE_IDLE = {
+    "enabled": True,
+    "fault_type": FaultType.FAILED_RESULT,
+    "error_message": "Default exception.",
+    "result": ResultCode.FAILED,
+    "target_obsstates": [ObsState.CONFIGURING, ObsState.IDLE],
+}
+
 
 DEVICE_HEALTH_STATE_OK_INFO = {
     tmc_csp_subarray_leaf_node: "OK",
