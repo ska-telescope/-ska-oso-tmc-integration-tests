@@ -1,4 +1,5 @@
 Feature: TMC SubarrayNode handles the failure when the Configure command fails on CSP Subarray
+    @XTP-28436
     Scenario Outline: TMC behavior when Csp Subarray Configure raises exception
         Given a TMC
         And the TMC assigns resources 
