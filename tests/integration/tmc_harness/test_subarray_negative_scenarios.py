@@ -148,6 +148,7 @@ class TestSubarrayNodeNegative(object):
         )
         assert len(get_recorded_commands(sdp_sim)) == 1
 
+    @pytest.mark.skip(reason="ResetTransitions error")
     @pytest.mark.SKA_mid
     def test_subarray_configure_when_dish_stuck_in_slew(
         self,

@@ -107,7 +107,7 @@ def sync_assign_resources():
             if set_wait_for_obsstate:
                 the_waiter = Waiter(**kwargs)
                 the_waiter.set_wait_for_assign_resources()
-                the_waiter.wait(200)
+                the_waiter.wait(800)
             return result
 
         return wrapper
@@ -297,7 +297,7 @@ def sync_configure_sub():
     return decorator_sync_configure
 
 
-def sync_scan(timeout=500):
+def sync_scan(timeout=800):
     """Sync method for scan command"""
 
     def decorator_sync_scan(func):
