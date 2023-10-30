@@ -44,8 +44,12 @@ class TestLowCentralNodeAssignResources(object):
         sdp_sim = simulator_factory.get_or_create_simulator_device(
             SimulatorDeviceType.LOW_SDP_DEVICE
         )
+        mccs_master_sim = simulator_factory.get_or_create_simulator_device(
+            SimulatorDeviceType.LOW_SDP_DEVICE
+        )
         event_recorder.subscribe_event(csp_sim, "obsState")
         event_recorder.subscribe_event(sdp_sim, "obsState")
+        event_recorder.subscribe_event(mccs_master_sim, "obsState")
         event_recorder.subscribe_event(
             central_node_low.subarray_node, "obsState"
         )
@@ -59,6 +63,11 @@ class TestLowCentralNodeAssignResources(object):
         assert event_recorder.has_change_event_occurred(
             csp_sim,
             "obsState",
+            ObsState.IDLE,
+        )
+        assert event_recorder.has_change_event_occurred(
+            mccs_master_sim,
+            "State",
             ObsState.IDLE,
         )
         assert event_recorder.has_change_event_occurred(
