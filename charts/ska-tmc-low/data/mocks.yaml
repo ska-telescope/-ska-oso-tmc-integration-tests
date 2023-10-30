@@ -12,9 +12,6 @@ server:
   instances:
     - name: "01"
       classes:
-        - name: "HelperCspMasterDevice"
-          devices:
-          - name: "low-csp/control/0"
         - name: "HelperBaseDevice"
           devices:
           - name: "low-sdp/control/0"
@@ -22,10 +19,6 @@ server:
           devices:
           - name: "low-sdp/subarray/01"
           - name: "low-sdp/subarray/02"
-        - name: "HelperCspSubarray"
-          devices:
-          - name: "low-csp/subarray/01"
-          - name: "low-csp/subarray/02"
 
 depends_on:
   - device: sys/database/2

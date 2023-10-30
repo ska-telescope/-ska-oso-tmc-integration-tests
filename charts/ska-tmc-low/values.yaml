@@ -30,7 +30,7 @@ global:
     - "cspsubarrayleafnode"
     - "sdpsubarrayleafnode"
     - "subarraynode"
-  subarray_count: 2
+  subarray_count: 1
 
   # fqdn for low devices
   tmc_subarray_prefix: "ska_low/tm_subarray_node"
@@ -101,21 +101,35 @@ resources:
     cpu: 100m
     memory: 128Mi
 
+ska-low-cbf:
+  legacy_compatibility: true
+  enabled: true
+  ska-low-cbf-conn:
+    enabled: false
+
+ska-low-cbf-proc:
+  legacy_compatibility: true
+  enabled: true
+
+ska-csp-lmc-low:
+  legacy_compatibility: true
+  enabled: true
+
 deviceServers:
   centralnode:
     enabled: true
     instances: ["01"]
-    subarray_count: 2
+    subarray_count: 1
     file: "data/centralnode.yaml"
 
   subarraynode:
     enabled: true
-    instances: ["01", "02"]
+    instances: ["01"]
     file: "data/subarraynode.yaml"
 
   sdpsubarrayleafnode:
     enabled: true
-    instances: ["01", "02"]
+    instances: ["01"]
     file: "data/sdpsubarrayleafnode.yaml"
 
   sdpmasterleafnode:
@@ -130,7 +144,7 @@ deviceServers:
 
   cspsubarrayleafnode:
     enabled: true
-    instances: ["01", "02"]
+    instances: ["01"]
     file: "data/cspsubarrayleafnode.yaml"
 
   mocks:
