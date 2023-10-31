@@ -1,4 +1,5 @@
 
+# TBD: DELETE THIS FILE
 Feature: Successfully execute a scan after a failed configure
     @XTP-20321 @XTP-28347 #@End_to_end @configuration
     Scenario: 
