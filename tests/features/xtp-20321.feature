@@ -6,7 +6,7 @@ Feature: Default
 	#b) the first Configure command  passes a JSON script that uses resources which are not assigned to the subarray. 
 	#Error reporting for cases a) and b) may be different 
 	@XTP-20321 @XTP-28347 @End_to_end @configuration
-	Scenario: Successfully execute a scan after a failed attempt to configure the subarray, use already assigned resources
+	Scenario: "Successful scan after failed configure, using same resources",
 		Given a subarray <subarray_id> with resources <resources_list> in obsState IDLE
 		When I issue the command Configure passing an invalid JSON script to the subarray <subarray_id>
 		Then the subarray <subarray_id> returns an error message
