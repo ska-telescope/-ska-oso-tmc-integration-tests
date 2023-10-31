@@ -1,5 +1,4 @@
-Feature: Default
-
+Feature: Successfully execute a scan after a failed configure
 	#The scenario is provided to convey the intention, it should refined: 
 	#The test should be repeated for at least two cases:
 	#a) the first Configure command passes an invalid (malformed) JSON script
