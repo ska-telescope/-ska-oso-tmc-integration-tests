@@ -1,8 +1,7 @@
 Feature: TMC SubarrayNode handles the failure when the incremental AssignResources command fails on SDP Subarray
     Scenario Outline: TMC behavior when SDP Subarray incremental AssignResources raises exception
         Given a TMC
-        And the TMC SubarrayNode <subarray_id> assignResources is in progress with <input_json1>
-        And Subarray completes assignResources
+        And AssignResources is executed with <input_json1> successfully on SubarrayNode <subarray_id>
         Given the next TMC SubarrayNode <subarray_id> AssignResources is in progress with <input_json2>
         And Sdp Subarray <subarray_id> returns to obsState IDLE
         And Csp Subarray <subarray_id> completes assignResources
@@ -12,7 +11,7 @@ Feature: TMC SubarrayNode handles the failure when the incremental AssignResourc
 
         Examples:
         | subarray_id  | input_json1                      | input_json2                                |
-        | 1            | incremental_assign_resources_01  | assign_resources_mid_invalid_sdp_resources |
+        | 1            | incremental_assign_resources_01  | incremental_assign_resources_02            |
 
     Scenario Outline: TMC behavior when Sdp Subarray is stuck in obsState RESOURCING after incremental AssignResources
         Given a TMC
