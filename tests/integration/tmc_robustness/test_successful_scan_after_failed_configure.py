@@ -39,7 +39,8 @@ telescope_control = BaseTelescopeControl()
 # )
 @scenario(
     "../features/xtp-20321.feature",
-    "Successfully execute a scan after a failed attempt to configure the subarray, use already assigned resources"
+    "Successfully execute a scan after a failed attempt to configure the\
+          subarray, use already assigned resources",
 )
 def test_configure_resource_with_invalid_json():
     """
