@@ -31,7 +31,7 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
-@pytest.mark.test_key("@XTP-20321")
+@pytest.mark.test_key("XTP-20321")
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_failed_configure.feature",
@@ -201,6 +201,7 @@ def teardown_the_tmc(json_factory):
     )
 
 
+@pytest.mark.test_key("XTP-20320")
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_failed_configure.feature",
