@@ -1,7 +1,6 @@
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
-from ska_tango_testing.mock.placeholders import Anything
 from tango import DevState
 
 from tests.conftest import LOGGER
@@ -11,7 +10,6 @@ from tests.resources.test_harness.helpers import (
 )
 
 
-@pytest.mark.t1
 @pytest.mark.bdd_assign
 @pytest.mark.SKA_mid
 @scenario(
@@ -67,7 +65,7 @@ def given_tmc(central_node_mid, event_recorder):
         " successfully on SubarrayNode {subarray_id}"
     )
 )
-def given_tmc_subarray_assign_resources_is_in_progress(
+def given_assign_resources_executed_on_tmc_subarray(
     central_node_mid,
     event_recorder,
     simulator_factory,
@@ -89,16 +87,8 @@ def given_tmc_subarray_assign_resources_is_in_progress(
         "obsState",
         ObsState.IDLE,
     )
-
-    event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
-    event_recorder.subscribe_event(
-        central_node_mid.subarray_node, "longRunningCommandResult"
-    )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_node,
-        "longRunningCommandResult",
-        Anything,
-    )
+    # wait before next AssignResources
+    LOGGER.info("AssignResources completed on TMC Subarray")
 
 
 @given(

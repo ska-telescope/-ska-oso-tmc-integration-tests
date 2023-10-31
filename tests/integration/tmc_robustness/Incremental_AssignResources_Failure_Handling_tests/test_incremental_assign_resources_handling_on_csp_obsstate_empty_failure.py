@@ -15,6 +15,7 @@ from tests.resources.test_harness.helpers import (
 )
 
 
+@pytest.mark.t1
 @pytest.mark.bdd_assign
 @pytest.mark.SKA_mid
 @scenario(
@@ -66,12 +67,14 @@ def given_tmc(central_node_mid, event_recorder):
 
 @given(
     parsers.parse(
-        "the TMC SubarrayNode {subarray_id} assignResources is in progress"
+        "AssignResources is executed"
+        " successfully on SubarrayNode {subarray_id}"
     )
 )
-def given_tmc_subarray_assign_resources_is_in_progress(
+def given_assign_resources_executed_on_tmc_subarray(
     central_node_mid, event_recorder, simulator_factory, command_input_factory
 ):
+
     csp_sim, sdp_sim, _, _ = get_device_simulators(simulator_factory)
     event_recorder.subscribe_event(csp_sim, "obsState")
     event_recorder.subscribe_event(sdp_sim, "obsState")
@@ -85,32 +88,10 @@ def given_tmc_subarray_assign_resources_is_in_progress(
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "obsState",
-        ObsState.RESOURCING,
-    )
-
-
-@given(parsers.parse("Subarray completes assignResources"))
-def subarray_assign_resources_complete(
-    event_recorder, simulator_factory, central_node_mid
-):
-    csp_sim, sdp_sim, _, _ = get_device_simulators(simulator_factory)
-    event_recorder.subscribe_event(csp_sim, "obsState")
-    event_recorder.subscribe_event(sdp_sim, "obsState")
-    assert event_recorder.has_change_event_occurred(
-        csp_sim,
-        "obsState",
         ObsState.IDLE,
     )
-    assert event_recorder.has_change_event_occurred(
-        sdp_sim,
-        "obsState",
-        ObsState.IDLE,
-    )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_node,
-        "obsState",
-        ObsState.IDLE,
-    )
+    # wait before next AssignResources
+    LOGGER.info("AssignResources completed on TMC Subarray")
 
 
 @given(
@@ -131,7 +112,7 @@ def given_tmc_subarray_incremental_assign_resources_is_in_progress(
         "assign_resources_mid", command_input_factory
     )
 
-    # After AssignResources invocation, CSP Subarray first transtions to
+    # After AssignResources invocation, CSP Subarray first transitions to
     # obsState RESOURCING and then to the obsState EMPTY due to fault injection
     csp_sim.SetDefective(
         json.dumps(COMMAND_FAILED_WITH_EXCEPTION_OBSSTATE_EMPTY)
