@@ -3,8 +3,8 @@ import json
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
-from tango import DevState
 from ska_tango_testing.mock.placeholders import Anything
+from tango import DevState
 
 from tests.conftest import LOGGER
 from tests.resources.test_harness.constant import (
@@ -184,12 +184,16 @@ def assign_resources_executed_on_subarray(
     central_node_mid, event_recorder, command_input_factory
 ):
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
-    event_recorder.subscribe_event(central_node_mid.central_node, "longRunningCommandResult")
+    event_recorder.subscribe_event(
+        central_node_mid.central_node, "longRunningCommandResult"
+    )
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
 
-    _, unique_id = central_node_mid.perform_action("AssignResources", assign_input_json)
+    _, unique_id = central_node_mid.perform_action(
+        "AssignResources", assign_input_json
+    )
     LOGGER.info("Unique id is: %s", unique_id)
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
