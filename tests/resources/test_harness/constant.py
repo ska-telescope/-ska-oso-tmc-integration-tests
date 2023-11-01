@@ -37,6 +37,14 @@ COMMAND_FAILED_WITH_EXCEPTION_OBSSTATE_IDLE = {
     "target_obsstates": [ObsState.CONFIGURING, ObsState.IDLE],
 }
 
+INTERMEDIATE_OBSSTATE_CONFIGURE_DEFECT = {
+    "enabled": True,
+    "fault_type": FaultType.STUCK_IN_INTERMEDIATE_STATE,
+    "error_message": "Device stuck in intermediate state",
+    "result": ResultCode.FAILED,
+    "intermediate_state": ObsState.CONFIGURING,
+}
+
 
 DEVICE_HEALTH_STATE_OK_INFO = {
     tmc_csp_subarray_leaf_node: "OK",
