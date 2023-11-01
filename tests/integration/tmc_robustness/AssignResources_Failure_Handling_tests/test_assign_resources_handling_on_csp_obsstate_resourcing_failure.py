@@ -35,7 +35,7 @@ def test_assign_resources_handling_on_csp_subarray_obsstate_resourcing_failure(
     which provides simulated master devices
     - "event_recorder": fixture for a MockTangoEventCallbackGroup
     for validating the subscribing and receiving events.
-    - "simulator_factory": fixtur for creating simulator devices for
+    - "simulator_factory": fixture for creating simulator devices for
     mid Telescope respectively.
     """
 
@@ -46,7 +46,6 @@ def given_tmc(central_node_mid, event_recorder):
         central_node_mid.central_node, "telescopeState"
     )
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
-    LOGGER.info("Starting up the Telescope")
     central_node_mid.move_to_on()
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,

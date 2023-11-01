@@ -1,6 +1,7 @@
 from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
 
+from tests.conftest import LOGGER
 from tests.resources.test_harness.constant import device_dict
 from tests.resources.test_harness.utils.enums import DishMode
 from tests.resources.test_harness.utils.sync_decorators import (
@@ -67,6 +68,7 @@ class CentralNodeWrapper(object):
         A method to invoke TelescopeOn command to
         put telescope in ON state
         """
+        LOGGER.info("Starting up the Telescope")
         self.central_node.TelescopeOn()
         device_to_on_list = [
             self.subarray_devices.get("csp_subarray"),

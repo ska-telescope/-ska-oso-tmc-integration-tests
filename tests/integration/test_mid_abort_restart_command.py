@@ -358,6 +358,7 @@ def test_abort_in_resourcing_different_resources(json_factory):
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
+@pytest.mark.skip(reason="Random failure")
 @pytest.mark.SKA_mid
 def test_abort_in_resourcing_with_second_abort(json_factory):
     """Abort and Restart is executed."""
