@@ -6,6 +6,7 @@ Feature: TMC SubarrayNode handles the failure when the AssignResources command f
         When Csp Subarray <subarray_id> returns to obsState EMPTY
         And Sdp Subarray <subarray_id> returns to obsState EMPTY
         Then Tmc SubarrayNode <subarray_id> aggregates to obsState EMPTY
+        And AssignResources command is executed successfully on the Subarray <subarray_id>
 
         Examples:
         | subarray_id  |

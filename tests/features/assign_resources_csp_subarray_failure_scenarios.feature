@@ -9,6 +9,7 @@ Feature: TMC SubarrayNode handles the failure when the AssignResources command f
         When I issue the command ReleaseAllResources on SDP Subarray <subarray_id>
         Then the SDP subarray <subarray_id> transitions to obsState EMPTY
         And Tmc SubarrayNode <subarray_id> transitions to obsState EMPTY
+        And AssignResources command is executed successfully on the Subarray <subarray_id>
 
         Examples:
         | subarray_id  |
@@ -30,6 +31,7 @@ Feature: TMC SubarrayNode handles the failure when the AssignResources command f
         Then the SDP subarray <subarray_id> transitions to obsState EMPTY
         And the CSP subarray <subarray_id> transitions to obsState EMPTY
         And Tmc SubarrayNode <subarray_id> transitions to obsState EMPTY
+        And AssignResources command is executed successfully on the Subarray <subarray_id>
 
         Examples:
         | subarray_id  |

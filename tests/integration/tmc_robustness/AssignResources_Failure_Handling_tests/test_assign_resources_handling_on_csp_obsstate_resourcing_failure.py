@@ -3,6 +3,7 @@ import json
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
+from ska_tango_testing.mock.placeholders import Anything
 from tango import DevState
 
 from tests.conftest import LOGGER
@@ -20,7 +21,7 @@ from tests.resources.test_harness.helpers import (
     "TMC behavior when Csp Subarray is stuck in obsState RESOURCING",
 )
 def test_assign_resources_handling_on_csp_subarray_obsstate_resourcing_failure(
-    central_node_mid, subarray_node, event_recorder, simulator_factory
+    central_node_mid, event_recorder, simulator_factory
 ):
     """
     Test to verify TMC failure handling when AssignResources
@@ -115,7 +116,6 @@ def csp_subarray_stuck_in_resourcing(event_recorder, simulator_factory):
 )
 def given_tmc_subarray_stuck_resourcing(
     central_node_mid,
-    subarray_node,
     simulator_factory,
     event_recorder,
 ):
@@ -232,4 +232,32 @@ def tmc_subarray_transitions_to_empty(central_node_mid, event_recorder):
         central_node_mid.subarray_node,
         "obsState",
         ObsState.EMPTY,
+    )
+
+
+@then(
+    parsers.parse(
+        "AssignResources command is executed successfully on the "
+        + "Subarray {subarray_id}"
+    )
+)
+def assign_resources_executed_on_subarray(
+    central_node_mid, event_recorder, command_input_factory
+):
+    event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
+    event_recorder.subscribe_event(central_node_mid.central_node, "longRunningCommandResult")
+    assign_input_json = prepare_json_args_for_centralnode_commands(
+        "assign_resources_mid", command_input_factory
+    )
+
+    _, unique_id = central_node_mid.perform_action("AssignResources", assign_input_json)
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.subarray_node,
+        "obsState",
+        ObsState.IDLE,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.central_node,
+        "longRunningCommandResult",
+        (unique_id[0], Anything),
     )

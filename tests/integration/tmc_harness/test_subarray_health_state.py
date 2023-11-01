@@ -119,19 +119,25 @@ class TestSubarrayHealthState(object):
             subarray_node.subarray_node, "healthState"
         )
         assert event_recorder.has_change_event_occurred(
-            csp_sa_sim, "healthState", HealthState.OK, lookahead=15
+            csp_sa_sim, "healthState", csp_subarray_health_state, lookahead=15
         )
 
         assert event_recorder.has_change_event_occurred(
-            sdp_sa_sim, "healthState", HealthState.OK, lookahead=15
+            sdp_sa_sim, "healthState", sdp_subarray_health_state, lookahead=15
         )
 
         assert event_recorder.has_change_event_occurred(
-            dish_master_sim_1, "healthState", HealthState.OK, lookahead=15
+            dish_master_sim_1,
+            "healthState",
+            dish_master1_health_state,
+            lookahead=15,
         )
 
         assert event_recorder.has_change_event_occurred(
-            dish_master_sim_2, "healthState", HealthState.OK, lookahead=15
+            dish_master_sim_2,
+            "healthState",
+            dish_master2_health_state,
+            lookahead=15,
         )
 
         assert event_recorder.has_change_event_occurred(
@@ -197,19 +203,25 @@ class TestSubarrayHealthState(object):
             subarray_node.subarray_node, "healthState"
         )
         assert event_recorder.has_change_event_occurred(
-            csp_sa_sim, "healthState", HealthState.OK, lookahead=15
+            csp_sa_sim, "healthState", csp_subarray_health_state, lookahead=15
         )
 
         assert event_recorder.has_change_event_occurred(
-            sdp_sa_sim, "healthState", HealthState.OK, lookahead=15
+            sdp_sa_sim, "healthState", sdp_subarray_health_state, lookahead=15
         )
 
         assert event_recorder.has_change_event_occurred(
-            dish_master_sim_1, "healthState", HealthState.OK, lookahead=15
+            dish_master_sim_1,
+            "healthState",
+            dish_master1_health_state,
+            lookahead=15,
         )
 
         assert event_recorder.has_change_event_occurred(
-            dish_master_sim_2, "healthState", HealthState.OK, lookahead=15
+            dish_master_sim_2,
+            "healthState",
+            dish_master2_health_state,
+            lookahead=15,
         )
 
         assert event_recorder.has_change_event_occurred(
@@ -275,19 +287,25 @@ class TestSubarrayHealthState(object):
             subarray_node.subarray_node, "healthState"
         )
         assert event_recorder.has_change_event_occurred(
-            csp_sa_sim, "healthState", HealthState.OK, lookahead=15
+            csp_sa_sim, "healthState", csp_subarray_health_state, lookahead=15
         )
 
         assert event_recorder.has_change_event_occurred(
-            sdp_sa_sim, "healthState", HealthState.OK, lookahead=15
+            sdp_sa_sim, "healthState", sdp_subarray_health_state, lookahead=15
         )
 
         assert event_recorder.has_change_event_occurred(
-            dish_master_sim_1, "healthState", HealthState.OK, lookahead=15
+            dish_master_sim_1,
+            "healthState",
+            dish_master1_health_state,
+            lookahead=15,
         )
 
         assert event_recorder.has_change_event_occurred(
-            dish_master_sim_2, "healthState", HealthState.OK, lookahead=15
+            dish_master_sim_2,
+            "healthState",
+            dish_master2_health_state,
+            lookahead=15,
         )
         assert event_recorder.has_change_event_occurred(
             subarray_node.subarray_node,
@@ -351,19 +369,25 @@ class TestSubarrayHealthState(object):
             subarray_node.subarray_node, "healthState"
         )
         assert event_recorder.has_change_event_occurred(
-            csp_sa_sim, "healthState", HealthState.OK, lookahead=15
+            csp_sa_sim, "healthState", csp_subarray_health_state, lookahead=15
         )
 
         assert event_recorder.has_change_event_occurred(
-            sdp_sa_sim, "healthState", HealthState.OK, lookahead=15
+            sdp_sa_sim, "healthState", sdp_subarray_health_state, lookahead=15
         )
 
         assert event_recorder.has_change_event_occurred(
-            dish_master_sim_1, "healthState", HealthState.OK, lookahead=15
+            dish_master_sim_1,
+            "healthState",
+            dish_master1_health_state,
+            lookahead=15,
         )
 
         assert event_recorder.has_change_event_occurred(
-            dish_master_sim_2, "healthState", HealthState.OK, lookahead=15
+            dish_master_sim_2,
+            "healthState",
+            dish_master2_health_state,
+            lookahead=15,
         )
         assert event_recorder.has_change_event_occurred(
             subarray_node.subarray_node,
@@ -439,19 +463,25 @@ class TestSubarrayHealthState(object):
             subarray_node.subarray_node, "healthState"
         )
         assert event_recorder.has_change_event_occurred(
-            csp_sa_sim, "healthState", HealthState.OK, lookahead=15
+            csp_sa_sim, "healthState", csp_subarray_health_state, lookahead=15
         )
 
         assert event_recorder.has_change_event_occurred(
-            sdp_sa_sim, "healthState", HealthState.OK, lookahead=15
+            sdp_sa_sim, "healthState", sdp_subarray_health_state, lookahead=15
         )
 
         assert event_recorder.has_change_event_occurred(
-            dish_master_sim_1, "healthState", HealthState.OK, lookahead=15
+            dish_master_sim_1,
+            "healthState",
+            dish_master1_health_state,
+            lookahead=15,
         )
 
         assert event_recorder.has_change_event_occurred(
-            dish_master_sim_2, "healthState", HealthState.OK, lookahead=15
+            dish_master_sim_2,
+            "healthState",
+            dish_master2_health_state,
+            lookahead=15,
         )
         assert event_recorder.has_change_event_occurred(
             subarray_node.subarray_node,
@@ -539,19 +569,25 @@ class TestSubarrayHealthState(object):
             subarray_node.subarray_node, "healthState"
         )
         assert event_recorder.has_change_event_occurred(
-            csp_sa_sim, "healthState", HealthState.OK, lookahead=15
+            csp_sa_sim, "healthState", csp_subarray_health_state, lookahead=15
         )
 
         assert event_recorder.has_change_event_occurred(
-            sdp_sa_sim, "healthState", HealthState.OK, lookahead=15
+            sdp_sa_sim, "healthState", sdp_subarray_health_state, lookahead=15
         )
 
         assert event_recorder.has_change_event_occurred(
-            dish_master_sim_1, "healthState", HealthState.OK, lookahead=15
+            dish_master_sim_1,
+            "healthState",
+            dish_master1_health_state,
+            lookahead=15,
         )
 
         assert event_recorder.has_change_event_occurred(
-            dish_master_sim_2, "healthState", HealthState.OK, lookahead=15
+            dish_master_sim_2,
+            "healthState",
+            dish_master2_health_state,
+            lookahead=15,
         )
         assert event_recorder.has_change_event_occurred(
             subarray_node.subarray_node,
