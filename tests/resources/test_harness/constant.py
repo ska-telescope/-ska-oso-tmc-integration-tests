@@ -140,6 +140,13 @@ COMMAND_FAILED_WITH_EXCEPTION_OBSSTATE_EMPTY = {
     "target_obsstates": [ObsState.RESOURCING, ObsState.EMPTY],
 }
 
+COMMAND_FAILED_WITH_EXCEPTION_OBSSTATE_IDLE = {
+    "enabled": True,
+    "fault_type": FaultType.FAILED_RESULT,
+    "error_message": "Default exception.",
+    "result": ResultCode.FAILED,
+    "target_obsstates": [ObsState.RESOURCING, ObsState.IDLE],
+}
 
 low_centralnode = "ska_low/tm_central/central_node"
 tmc_low_subarraynode1 = "ska_low/tm_subarray_node/1"
