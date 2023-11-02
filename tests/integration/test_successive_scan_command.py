@@ -22,6 +22,7 @@ from tests.resources.test_support.constant import (
 )
 
 
+@pytest.mark.skip(reason="Dish interface changed")
 @pytest.mark.SKA_mid
 def test_successive_scan_with_different_configurations(json_factory):
     """Successive Scan command with different configurations."""
@@ -171,6 +172,7 @@ def test_successive_scan_with_different_configurations(json_factory):
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
+@pytest.mark.skip(reason="Dish interface changed")
 @pytest.mark.SKA_mid
 def test_successive_scan_with_same_configurations(json_factory):
     """Successive Scan command with same configurations."""
