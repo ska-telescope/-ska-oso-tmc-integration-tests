@@ -32,10 +32,10 @@ csp_subarray2 = "mid-csp/subarray/02"
 csp_subarray3 = "mid-csp/subarray/03"
 sdp_master = "mid-sdp/control/0"
 csp_master = "mid-csp/control/0"
-dish_master1 = "ska001/dish/master"
-dish_master2 = "ska002/dish/master"
-dish_master3 = "ska003/dish/master"
-dish_master4 = "ska004/dish/master"
+dish_master1 = "ska001/elt/master"
+dish_master2 = "ska002/elt/master"
+dish_master3 = "ska003/elt/master"
+dish_master4 = "ska004/elt/master"
 
 
 DEVICE_HEALTH_STATE_OK_INFO = {

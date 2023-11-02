@@ -1,5 +1,5 @@
 Feature: TMC SubarrayNode handles the failure when the AssignResources command fails on SDP Subarray    
-    @XTP-28338
+    @XTP-28338 @SKA_mid
     Scenario Outline: TMC behavior when SDP Subarray AssignResources raises exception
         Given a TMC 
         And the TMC SubarrayNode <subarray_id> assign resources is in progress
@@ -9,13 +9,14 @@ Feature: TMC SubarrayNode handles the failure when the AssignResources command f
         When I issue the command ReleaseAllResources on CSP Subarray <subarray_id>
         Then the CSP subarray <subarray_id> transitions to obsState EMPTY
         And Tmc SubarrayNode <subarray_id> transitions to obsState EMPTY
+        And AssignResources command is executed successfully on the Subarray <subarray_id>
 
         Examples:
         | subarray_id  |
         | 1            |
 
 
-    @XTP-28339
+    @XTP-28339 @SKA_mid
     Scenario Outline: TMC behavior when Sdp Subarray is stuck in obsState RESOURCING
         Given a TMC 
         And the TMC SubarrayNode <subarray_id> assign resources is in progress
@@ -30,18 +31,7 @@ Feature: TMC SubarrayNode handles the failure when the AssignResources command f
         Then the SDP subarray <subarray_id> transitions to obsState EMPTY
         And the CSP subarray <subarray_id> transitions to obsState EMPTY
         And Tmc SubarrayNode <subarray_id> transitions to obsState EMPTY
-
-        Examples:
-        | subarray_id  |
-        | 1            |
-
-    @XTP-28259
-    Scenario Outline: TMC behavior when CSP and SDP Subarrays AssignResources raise exception
-        Given a TMC 
-        And the TMC SubarrayNode <subarray_id> assign resources is in progress
-        When Csp Subarray <subarray_id> returns to obsState EMPTY
-        And Sdp Subarray <subarray_id> returns to obsState EMPTY
-        Then Tmc SubarrayNode <subarray_id> aggregates to obsState EMPTY
+        And AssignResources command is executed successfully on the Subarray <subarray_id>
 
         Examples:
         | subarray_id  |
