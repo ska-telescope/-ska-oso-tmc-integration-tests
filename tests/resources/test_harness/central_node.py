@@ -1,7 +1,8 @@
+import logging
+
 from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
 
-from tests.conftest import LOGGER
 from tests.resources.test_harness.constant import device_dict
 from tests.resources.test_harness.utils.enums import DishMode
 from tests.resources.test_harness.utils.sync_decorators import (
@@ -10,6 +11,8 @@ from tests.resources.test_harness.utils.sync_decorators import (
     sync_restart,
 )
 from tests.resources.test_support.common_utils.common_helpers import Resource
+
+LOGGER = logging.getLogger(__name__)
 
 
 class CentralNodeWrapper(object):
