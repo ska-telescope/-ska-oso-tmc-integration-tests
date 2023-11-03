@@ -45,6 +45,7 @@ global:
   sdp_master: "low-sdp/control/0"
   mccs_master: "low-mccs/control/control"
 
+
 dsconfig:
   configuration_file: data/tmc-low-config.json
   image:
@@ -64,14 +65,14 @@ centralnode:
    image:
      registry: artefact.skao.int
      image: ska-tmc-centralnode
-     tag: 0.11.0
+     tag: 0.11.1
      pullPolicy: IfNotPresent
 
 subarraynode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-subarraynode
-    tag: 0.11.20
+    tag: 0.13.0
     pullPolicy: IfNotPresent
 
 sdpleafnodes:
@@ -97,9 +98,9 @@ cspsubarrayleafnode:
 
 mccsmasterleafnode:
   image:
-    registry: artefact.skao.int
+    registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-mccsleafnodes
     image: ska-tmc-mccsleafnodes
-    tag: 0.1.2
+    tag: 0.1.3-dev.c15235f50
     pullPolicy: IfNotPresent
 
 

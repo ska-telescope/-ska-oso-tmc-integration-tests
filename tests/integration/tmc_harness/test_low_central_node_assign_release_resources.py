@@ -8,12 +8,12 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
 
 class TestLowCentralNodeAssignResources(object):
-    @pytest.mark.skip(
-        reason="AssignResources and ReleaseResources"
-        " functionalities are not yet"
-        " implemented on mccs master leaf node."
-    )
-    @pytest.mark.SKA_low
+    # @pytest.mark.skip(
+    #     reason="AssignResources and ReleaseResources"
+    #     " functionalities are not yet"
+    #     " implemented on mccs master leaf node."
+    # )
+    @pytest.mark.SKA_low131
     def test_low_centralnode_assign_resources(
         self,
         central_node_low,
@@ -44,12 +44,12 @@ class TestLowCentralNodeAssignResources(object):
         sdp_sim = simulator_factory.get_or_create_simulator_device(
             SimulatorDeviceType.LOW_SDP_DEVICE
         )
-        mccs_master_sim = simulator_factory.get_or_create_simulator_device(
-            SimulatorDeviceType.LOW_SDP_DEVICE
-        )
+        # mccs_master_sim = simulator_factory.get_or_create_simulator_device(
+        #     SimulatorDeviceType.LOW_SDP_DEVICE
+        # )
         event_recorder.subscribe_event(csp_sim, "obsState")
         event_recorder.subscribe_event(sdp_sim, "obsState")
-        event_recorder.subscribe_event(mccs_master_sim, "obsState")
+        #event_recorder.subscribe_event(mccs_master_sim, "obsState")
         event_recorder.subscribe_event(
             central_node_low.subarray_node, "obsState"
         )
@@ -65,11 +65,11 @@ class TestLowCentralNodeAssignResources(object):
             "obsState",
             ObsState.IDLE,
         )
-        assert event_recorder.has_change_event_occurred(
-            mccs_master_sim,
-            "State",
-            ObsState.IDLE,
-        )
+        # assert event_recorder.has_change_event_occurred(
+        #     mccs_master_sim,
+        #     "State",
+        #     ObsState.IDLE,
+        # )
         assert event_recorder.has_change_event_occurred(
             central_node_low.subarray_node,
             "obsState",

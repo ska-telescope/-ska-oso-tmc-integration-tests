@@ -8,6 +8,7 @@ entrypoints:
   - name: "ska_tmc_common.test_helpers.helper_csp_master_device.HelperCspMasterDevice"
   - name: "ska_tmc_common.test_helpers.helper_sdp_subarray.HelperSdpSubarray"
   - name: "ska_tmc_common.test_helpers.helper_mccs_controller_device.HelperMCCSController"
+  - name: "ska_tmc_common.test_helpers.helper_subarray_device.HelperSubArrayDevice"
 server:
   name: "mocks"
   instances:
@@ -30,10 +31,13 @@ server:
           devices:
           - name: "low-csp/subarray/01"
           - name: "low-csp/subarray/02"
+        - name: "HelperSubArrayDevice"
+          devices:
+          - name: "low-mccs/subarray/01"
 depends_on:
   - device: sys/database/2
 image:
-  registry: "{{.Values.centralnode.image.registry}}"
-  image: "{{.Values.centralnode.image.image}}"
-  tag: "{{.Values.centralnode.image.tag}}"
-  pullPolicy: "{{.Values.centralnode.image.pullPolicy}}"
+  registry: "{{.Values.mccsmasterleafnode.image.registry}}"
+  image: "{{.Values.mccsmasterleafnode.image.image}}"
+  tag: "{{.Values.mccsmasterleafnode.image.tag}}"
+  pullPolicy: "{{.Values.mccsmasterleafnode.image.pullPolicy}}"
