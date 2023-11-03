@@ -30,6 +30,7 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
+@pytest.mark.skip(reason="Dish interface is changed")
 @pytest.mark.SKA_mid
 def test_scan_endscan(json_factory):
     """Scan and EndScan is executed."""
