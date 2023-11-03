@@ -14,7 +14,7 @@ from tests.resources.test_harness.helpers import (
 )
 
 
-@pytest.mark.t9
+@pytest.mark.t2
 @pytest.mark.bdd_assign
 @pytest.mark.SKA_mid
 @scenario(
@@ -26,19 +26,19 @@ def test_assign_resources_handling_on_csp_subarray_obsstate_resourcing_failure(
     central_node_mid, subarray_node, event_recorder, simulator_factory
 ):
     """
-    Test to verify TMC failure handling when AssignResources
-    command fails on CSP Subarray. AssignResources completes
-    on SDP Subarray and it transtions to obsState IDLE.
-    Whereas CSP Subarray is stuck in obsState RESOURCING.
-    As a handling Abort + Restart command sequence is executed on
+    Test to verify TMC failure handling when incremental AssignResources
+    command fails on CSP Subarray. First AssignResources completes
+    on SDP and CSP Subarrays, and it transitions to obsState IDLE.
+    Whereas after next AssignResources CSP Subarray is stuck in obsState
+    RESOURCING.As a handling Abort + Restart command sequence is executed on
     the Subarray to take it to the initial obsState EMPTY.
     Glossary:
     - "central_node_mid": fixture for a TMC CentralNode Mid under test
     which provides simulated master devices
     - "event_recorder": fixture for a MockTangoEventCallbackGroup
     for validating the subscribing and receiving events.
-    - "simulator_factory": fixtur for creating simulator devices for
-    mid Telescope respectively.
+    - "simulator_factory": fixture for creating simulator devices for
+    mid-Telescope respectively.
     """
 
 

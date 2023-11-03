@@ -16,6 +16,7 @@ from tests.resources.test_harness.helpers import (
 )
 
 
+@pytest.mark.t1
 @pytest.mark.bdd_assign
 @pytest.mark.SKA_mid
 @scenario(
@@ -28,11 +29,11 @@ def test_incremental_assign_resources_csp_subarray_failure(
 ):
     """
     Test to verify TMC failure handling when incremental AssignResources
-    command fails on SDP Subarray. AssignResources completes
-    on CSP Subarray and it transitions to obsState IDLE.
-    Whereas SDP Subarray raises exception and transitions
-    to obsState EMPTY. As a handling ReleaseAllResources
-    is invoked on CSP Subarray. CSP Subarray then moves to obsState
+    command fails on CSP Subarray. First AssignResources completes
+    on CSP and SDP Subarray, and it transitions to obsState IDLE.
+    Whereas after next AssignResources CSP Subarray raises exception and
+    transitions again to obsState IDLE. As a handling ReleaseAllResources
+    is invoked on SDP Subarray. SDP Subarray then moves to obsState
     EMPTY. SubarrayNode aggregates obsStates of the lower Subarrays
     and transitions to obsState EMPTY.
     Glossary:
@@ -40,8 +41,8 @@ def test_incremental_assign_resources_csp_subarray_failure(
     which provides simulated master devices
     - "event_recorder": fixture for a MockTangoEventCallbackGroup
     for validating the subscribing and receiving events.
-    - "simulator_factory": fixtur for creating simulator devices for
-    mid Telescope respectively.
+    - "simulator_factory": fixture for creating simulator devices for
+    mid-Telescope respectively.
     """
 
 
@@ -90,9 +91,8 @@ def given_assign_resources_executed_on_tmc_subarray(
         "obsState",
         ObsState.IDLE,
     )
-    time.sleep(0.5)
     # wait before next AssignResources
-    # LOGGER.info("AssignResources completed on TMC Subarray")
+    time.sleep(0.5)
 
 
 @given(
@@ -114,7 +114,8 @@ def given_tmc_subarray_incremental_assign_resources_is_in_progress(
     )
 
     # After AssignResources invocation, CSP Subarray first transitions to
-    # obsState RESOURCING and then to the obsState IDLE due to fault injection
+    # obsState RESOURCING and then again to the obsState IDLE due to fault
+    # induction
     csp_sim.SetDefective(
         json.dumps(COMMAND_FAILED_WITH_EXCEPTION_OBSSTATE_IDLE)
     )
@@ -126,22 +127,21 @@ def given_tmc_subarray_incremental_assign_resources_is_in_progress(
     )
 
 
-@given(
-    parsers.parse(
-        "Sdp and Csp Subarray {subarray_id} returns to obsState IDLE"
-    )
-)
-def sdp_csp_subarray_assign_resources_complete(
-    event_recorder, simulator_factory
-):
-    csp_sim, sdp_sim, _, _ = get_device_simulators(simulator_factory)
+@given(parsers.parse("Sdp Subarray {subarray_id} returns to obsState IDLE"))
+def sdp_subarray_assign_resources_complete(event_recorder, simulator_factory):
+    _, sdp_sim, _, _ = get_device_simulators(simulator_factory)
     event_recorder.subscribe_event(sdp_sim, "obsState")
-    event_recorder.subscribe_event(csp_sim, "obsState")
     assert event_recorder.has_change_event_occurred(
         sdp_sim,
         "obsState",
         ObsState.IDLE,
     )
+
+
+@given(parsers.parse("Csp Subarray {subarray_id} completes assignResources"))
+def csp_subarray_assign_resources_complete(event_recorder, simulator_factory):
+    csp_sim, _, _, _ = get_device_simulators(simulator_factory)
+    event_recorder.subscribe_event(csp_sim, "obsState")
     assert event_recorder.has_change_event_occurred(
         csp_sim,
         "obsState",

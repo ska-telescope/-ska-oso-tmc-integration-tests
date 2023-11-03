@@ -9,5 +9,5 @@ Feature: TMC SubarrayNode handles the failure when the AssignResources command f
         Then Tmc SubarrayNode <subarray_id> transitions to obsState EMPTY
 
        Examples:
-       | subarray_id  | input_json1                      | input_json2                                |
-       | 1            | incremental_assign_resources_01  | incremental_assign_resources_02            |
+       | subarray_id  | input_json1                      | input_json2                                         |
+       | 1            | incremental_assign_resources_01  | incremental_assign_invalid_resources_sdp_resources  |

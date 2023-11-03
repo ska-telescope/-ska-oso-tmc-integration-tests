@@ -13,6 +13,7 @@ from tests.resources.test_harness.helpers import (
 )
 
 
+@pytest.mark.t4
 @pytest.mark.bdd_assign
 @pytest.mark.SKA_mid
 @scenario(
@@ -24,19 +25,19 @@ def test_incremental_assign_resources_sdp_subarray_obsstate_resourcing(
     central_node_mid, subarray_node, event_recorder, simulator_factory
 ):
     """
-    Test to verify TMC failure handling when AssignResources
-    command fails on SDP Subarray. AssignResources completes
-    on CSP Subarray and it transtions to obsState IDLE.
-    Whereas SDP Subarray is stuck in obsState RESOURCING command.
-    As a handling Abort + Restart command sequence is executed on
+    Test to verify TMC failure handling when incremental AssignResources
+    command fails on SDP Subarray. First AssignResources completes
+    on SDP and CSP Subarrays, and it transitions to obsState IDLE.
+    Whereas after next AssignResources SDP Subarray is stuck in obsState
+    RESOURCING.As a handling Abort + Restart command sequence is executed on
     the Subarray to take it to the initial obsState EMPTY.
     Glossary:
     - "central_node_mid": fixture for a TMC CentralNode Mid under test
     which provides simulated master devices
     - "event_recorder": fixture for a MockTangoEventCallbackGroup
     for validating the subscribing and receiving events.
-    - "simulator_factory": fixtur for creating simulator devices for
-    mid Telescope respectively.
+    - "simulator_factory": fixture for creating simulator devices for
+    mid-Telescope respectively.
     """
 
 
@@ -150,8 +151,6 @@ def sdp_subarray_stuck_in_resouring(event_recorder, simulator_factory):
 @given(parsers.parse("the TMC SubarrayNode {subarray_id} stuck in RESOURCING"))
 def given_tmc_subarray_stuck_resourcing(
     central_node_mid,
-    subarray_node,
-    simulator_factory,
     event_recorder,
 ):
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")

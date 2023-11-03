@@ -16,7 +16,7 @@ from tests.resources.test_harness.helpers import (
 )
 
 
-@pytest.mark.t6
+@pytest.mark.t3
 @pytest.mark.bdd_assign
 @pytest.mark.SKA_mid
 @scenario(
@@ -28,7 +28,7 @@ def test_incremental_assign_resources_csp_sdp_subarray_failure(
     central_node_mid, subarray_node, event_recorder, simulator_factory
 ):
     """
-    Test to verify TMC failure handling when AssignResources
+    Test to verify TMC failure handling when incremental AssignResources
     command fails on both CSP and SDP Subarrays.
     CSP and SDP Subarrays raise exception and transitions
     to obsState EMPTY. SubarrayNode aggregates obsStates of the lower Subarrays
@@ -38,8 +38,8 @@ def test_incremental_assign_resources_csp_sdp_subarray_failure(
     which provides simulated master devices
     - "event_recorder": fixture for a MockTangoEventCallbackGroup
     for validating the subscribing and receiving events.
-    - "simulator_factory": fixtur for creating simulator devices for
-    mid Telescope respectively.
+    - "simulator_factory": fixture for creating simulator devices for
+    mid-Telescope respectively.
     """
 
 

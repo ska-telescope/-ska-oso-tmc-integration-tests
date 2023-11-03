@@ -1,3 +1,5 @@
+import time
+
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
@@ -10,6 +12,7 @@ from tests.resources.test_harness.helpers import (
 )
 
 
+@pytest.mark.t5
 @pytest.mark.bdd_assign
 @pytest.mark.SKA_mid
 @scenario(
@@ -21,11 +24,11 @@ def test_incremental_assign_resources_sdp_subarray_failure(
     central_node_mid, subarray_node, event_recorder, simulator_factory
 ):
     """
-    Test to verify TMC failure handling when AssignResources
-    command fails on SDP Subarray. AssignResources completes
-    on CSP Subarray and it transtions to obsState IDLE.
-    Whereas SDP Subarray raises exception and transitions
-    to obsState EMPTY. As a handling ReleaseAllResources
+    Test to verify TMC failure handling when incremental AssignResources
+    command fails on SDP Subarray. First AssignResources completes
+    on CSP and SDP Subarray, and it transitions to obsState IDLE.
+    Whereas after next AssignResources SDP Subarray raises exception and
+    transitions again to obsState IDLE. As a handling ReleaseAllResources
     is invoked on CSP Subarray. CSP Subarray then moves to obsState
     EMPTY. SubarrayNode aggregates obsStates of the lower Subarrays
     and transitions to obsState EMPTY.
@@ -34,8 +37,8 @@ def test_incremental_assign_resources_sdp_subarray_failure(
     which provides simulated master devices
     - "event_recorder": fixture for a MockTangoEventCallbackGroup
     for validating the subscribing and receiving events.
-    - "simulator_factory": fixtur for creating simulator devices for
-    mid Telescope respectively.
+    - "simulator_factory": fixture for creating simulator devices for
+    mid-Telescope respectively.
     """
 
 
@@ -87,8 +90,9 @@ def given_assign_resources_executed_on_tmc_subarray(
         "obsState",
         ObsState.IDLE,
     )
+
     # wait before next AssignResources
-    LOGGER.info("AssignResources completed on TMC Subarray")
+    time.sleep(0.5)
 
 
 @given(
