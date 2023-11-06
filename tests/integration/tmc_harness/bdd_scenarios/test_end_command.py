@@ -85,9 +85,7 @@ def tmc_check_status(json_factory):
     )
 
 
-@when(
-    parsers.parse("the END command is invoked")
-)
+@when(parsers.parse("the END command is invoked"))
 def send(json_factory):
     release_json = json_factory("command_release_resource_low")
     try:
