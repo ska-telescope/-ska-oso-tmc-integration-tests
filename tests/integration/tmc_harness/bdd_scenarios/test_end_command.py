@@ -34,9 +34,9 @@ telescope_control = BaseTelescopeControl()
     "../features/check_end_command.feature",
     "TMC executes End commands",
 )
-def test_configure_command():
+def test_end_command():
     """
-    Test SubarrayNode Low Configure command.
+    Test SubarrayNode Low End command.
     """
 
 
@@ -86,7 +86,7 @@ def tmc_check_status(json_factory):
 
 
 @when(
-    parsers.parse("the command Configure is invoked with correct input_json")
+    parsers.parse("the END command is invoked")
 )
 def send(json_factory):
     release_json = json_factory("command_release_resource_low")
