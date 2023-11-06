@@ -150,6 +150,11 @@ def csp_subarray_returns_to_obsstate_idle(event_recorder, simulator_factory):
     assert event_recorder.has_change_event_occurred(
         csp_sim,
         "obsState",
+        ObsState.CONFIGURING,
+    )
+    assert event_recorder.has_change_event_occurred(
+        csp_sim,
+        "obsState",
         ObsState.IDLE,
     )
 
@@ -175,32 +180,8 @@ def given_tmc_subarray_stuck_configuring(
 def send_command_end_on_SDP_subarray(simulator_factory):
     csp_sim, sdp_sim, _, _ = get_device_simulators(simulator_factory)
     sdp_sim.End()
-    # # Disable CSP Subarray fault
-    # csp_sim.SetDefective(json.dumps({"enabled": False}))
-
-
-@then(
-    parsers.parse(
-        "Tmc SubarrayNode {subarray_id} transitions to obsState IDLE"
-    )
-)
-def tmc_subarray_transitions_to_IDLE(
-    subarray_node, simulator_factory, event_recorder
-):
-    csp_sim, _, _, _ = get_device_simulators(simulator_factory)
-    event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
-
-    LOGGER.info(
-        "SubarrayNode ObsState is: %s", subarray_node.subarray_node.obsState
-    )
-    assert event_recorder.has_change_event_occurred(
-        subarray_node.subarray_node,
-        "obsState",
-        ObsState.IDLE,
-    )
     # Disable CSP Subarray fault
     csp_sim.SetDefective(json.dumps({"enabled": False}))
-    # assert subarray_node.subarray_node.obsState == ObsState.IDLE
 
 
 @then(
@@ -213,6 +194,30 @@ def sdp_subarray_transitions_to_idle(simulator_factory, event_recorder):
     event_recorder.subscribe_event(sdp_sim, "obsState")
     assert event_recorder.has_change_event_occurred(
         sdp_sim,
+        "obsState",
+        ObsState.IDLE,
+    )
+
+
+@then(
+    parsers.parse(
+        "Tmc SubarrayNode {subarray_id} transitions to obsState IDLE"
+    )
+)
+def tmc_subarray_transitions_to_IDLE(
+    subarray_node, simulator_factory, event_recorder
+):
+    # csp_sim, _, _, _ = get_device_simulators(simulator_factory)
+    event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
+
+    #  # Disable CSP Subarray fault
+    # csp_sim.SetDefective(json.dumps({"enabled": False}))
+    # assert subarray_node.subarray_node.obsState == ObsState.IDLE
+    LOGGER.info(
+        "SubarrayNode ObsState is: %s", subarray_node.subarray_node.obsState
+    )
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_node,
         "obsState",
         ObsState.IDLE,
     )
