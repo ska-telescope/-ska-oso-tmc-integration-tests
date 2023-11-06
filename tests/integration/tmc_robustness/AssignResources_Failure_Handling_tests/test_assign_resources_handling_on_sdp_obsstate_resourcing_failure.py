@@ -68,6 +68,9 @@ def given_tmc_subarray_assign_resources_is_in_progress(
     event_recorder.subscribe_event(csp_sim, "obsState")
     event_recorder.subscribe_event(sdp_sim, "obsState")
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
+    event_recorder.subscribe_event(
+        central_node_mid.central_node, "longRunningCommandResult"
+    )
 
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid_invalid_eb_id", command_input_factory
@@ -75,11 +78,18 @@ def given_tmc_subarray_assign_resources_is_in_progress(
 
     # Provide assign resources JSON with invalid eb_id to get the SDP Subarray
     # stuck in obsState RESOURCING
-    central_node_mid.perform_action("AssignResources", assign_input_json)
+    _, unique_id = central_node_mid.perform_action(
+        "AssignResources", assign_input_json
+    )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "obsState",
         ObsState.RESOURCING,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.central_node,
+        "longRunningCommandResult",
+        (unique_id[0], Anything),
     )
 
 
@@ -116,18 +126,10 @@ def given_tmc_subarray_stuck_resourcing(
     event_recorder,
 ):
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
-    event_recorder.subscribe_event(
-        central_node_mid.subarray_node, "longRunningCommandResult"
-    )
     LOGGER.info(
         "SubarrayNode ObsState is %s", central_node_mid.subarray_node.obsState
     )
     assert central_node_mid.subarray_node.obsState == ObsState.RESOURCING
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_node,
-        "longRunningCommandResult",
-        Anything,
-    )
 
 
 @when(

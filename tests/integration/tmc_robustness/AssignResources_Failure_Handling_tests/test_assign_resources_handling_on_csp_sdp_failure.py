@@ -71,6 +71,9 @@ def given_tmc_subarray_assign_resources_is_in_progress(
     event_recorder.subscribe_event(csp_sim, "obsState")
     event_recorder.subscribe_event(sdp_sim, "obsState")
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
+    event_recorder.subscribe_event(
+        central_node_mid.central_node, "longRunningCommandResult"
+    )
 
     # After AssignResources invocation, CSP Subarray first transtions to
     # obsState RESOURCING and then to the obsState EMPTY due to fault injection
@@ -83,11 +86,18 @@ def given_tmc_subarray_assign_resources_is_in_progress(
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid_invalid_sdp_resources", command_input_factory
     )
-    central_node_mid.perform_action("AssignResources", assign_input_json)
+    _, unique_id = central_node_mid.perform_action(
+        "AssignResources", assign_input_json
+    )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "obsState",
         ObsState.RESOURCING,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.central_node,
+        "longRunningCommandResult",
+        (unique_id[0], Anything),
     )
 
 

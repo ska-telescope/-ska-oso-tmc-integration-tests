@@ -71,6 +71,9 @@ def given_tmc_subarray_assign_resources_is_in_progress(
     event_recorder.subscribe_event(csp_sim, "obsState")
     event_recorder.subscribe_event(sdp_sim, "obsState")
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
+    event_recorder.subscribe_event(
+        central_node_mid.central_node, "longRunningCommandResult"
+    )
 
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
@@ -78,11 +81,18 @@ def given_tmc_subarray_assign_resources_is_in_progress(
 
     # Induce fault on CSP Subarray so that it is stuck in obsState RESOURCING
     csp_sim.SetDefective(json.dumps(INTERMEDIATE_STATE_DEFECT))
-    central_node_mid.perform_action("AssignResources", assign_input_json)
+    _, unique_id = central_node_mid.perform_action(
+        "AssignResources", assign_input_json
+    )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "obsState",
         ObsState.RESOURCING,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.central_node,
+        "longRunningCommandResult",
+        (unique_id[0], Anything),
     )
 
 
