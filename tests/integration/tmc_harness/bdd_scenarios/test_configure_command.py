@@ -25,9 +25,7 @@ telescope_control = BaseTelescopeControl()
 
 
 @pytest.mark.skip(
-    reason="AssignResources and ReleaseResources"
-    " functionalities are not yet"
-    " implemented on mccs master leaf node."
+    reason="""Assign and Release Resources is not integrated in ska-tmc-integration repository"""
 )
 @pytest.mark.SKA_low
 @scenario(

@@ -1,5 +1,5 @@
 @XTP-28568
-Feature:  TMC executes End commands 
+Feature:  TMC executes End command successfully. 
     Scenario: TMC validates END functionality
         Given the Telescope is On State
         And the subarray is in obsState READY

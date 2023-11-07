@@ -1,5 +1,6 @@
 @XTP-28567
-Feature:  TMC executes Configure commands 
+Feature:  TMC executes Configure command successfully. 
+
     Scenario: TMC validates End functionality
         Given the TMC is On
         And the subarray is in READY obsState
