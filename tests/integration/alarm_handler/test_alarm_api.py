@@ -51,7 +51,7 @@ def alarm_rule_validation(filename, missing_attribute):
         f"/app/tests/resources/tmc_alarm_rules/{filename}", "rb"
     ) as file:
         response = httpx.post(
-            f"http://alarm-handler-configurator.ska-tmc-integration.svc.cluster."
+            f"http://alarm-handler-configurator.{namespace}.svc.cluster."
             + "local:8004/add-alarms?fqdn=alarm%2Fhandler%2F01",
             files={"file": (filename, file, "text/plain")},
             data={"fqdn": "alarm/handler/01"},
@@ -62,7 +62,6 @@ def alarm_rule_validation(filename, missing_attribute):
         )
 
 
-# WIP: Test may get modified
 @pytest.mark.post_deployment
 @pytest.mark.SKA_mid
 def test_configure_alarms():
@@ -70,7 +69,6 @@ def test_configure_alarms():
     add_alarms_api("alarm_rules.txt")
 
 
-# WIP: Test may get modified
 @pytest.mark.post_deployment
 @pytest.mark.SKA_mid
 def test_remove_alarm():
@@ -78,7 +76,6 @@ def test_remove_alarm():
     remove_alarm_api()
 
 
-# WIP: Test may get modified
 @pytest.mark.parametrize(
     "alarm_rule_file, missing_attribute",
     [
