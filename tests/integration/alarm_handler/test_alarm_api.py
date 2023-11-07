@@ -12,8 +12,10 @@ namespace = os.getenv("KUBE_NAMESPACE")
 def add_alarms_api(filename):
     """Test method for add alarms API"""
     # for debugging, it will get removed before merge
-    print(f"http://alarm-handler-configurator.{namespace}.svc.cluster."
-            + "local:8004/add-alarms?fqdn=alarm%2Fhandler%2F01") 
+    print(
+        f"http://alarm-handler-configurator.{namespace}.svc.cluster."
+        + "local:8004/add-alarms?fqdn=alarm%2Fhandler%2F01"
+    )
     with open(
         f"/app/tests/resources/tmc_alarm_rules/{filename}", "rb"
     ) as file:
@@ -64,6 +66,7 @@ def alarm_rule_validation(filename, missing_attribute):
             f"Missing {missing_attribute} property" in response_data["error"]
         )
 
+
 @pytest.mark.alarm_test
 @pytest.mark.post_deployment
 @pytest.mark.SKA_mid
@@ -71,12 +74,14 @@ def test_configure_alarms():
     """test case to configure alarms for mid"""
     add_alarms_api("alarm_rules.txt")
 
+
 @pytest.mark.alarm_test
 @pytest.mark.post_deployment
 @pytest.mark.SKA_mid
 def test_remove_alarm():
     """test case to remove alarm for mid"""
     remove_alarm_api()
+
 
 @pytest.mark.alarm_test
 @pytest.mark.parametrize(
