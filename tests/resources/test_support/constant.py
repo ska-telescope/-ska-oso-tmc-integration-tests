@@ -1,9 +1,18 @@
 """This module have all required constants for ska-tmc-integration"""
+import os
+
 from ska_control_model import ObsState
 
 from tests.resources.test_support.common_utils.result_code import (
     FaultType,
     ResultCode,
+)
+
+dish_name = os.getenv("DISH_NAMESPACE")
+
+dish_fqdn = (
+    f"tango://databaseds-tango-base.{dish_name}.svc.cluster"
+    ".local:10000/ska001/elt/master"
 )
 
 centralnode = "ska_mid/tm_central/central_node"
@@ -14,6 +23,7 @@ tmc_csp_master_leaf_node = "ska_mid/tm_leaf_node/csp_master"
 tmc_sdp_master_leaf_node = "ska_mid/tm_leaf_node/sdp_master"
 tmc_csp_subarray_leaf_node = "ska_mid/tm_leaf_node/csp_subarray01"
 tmc_sdp_subarray_leaf_node = "ska_mid/tm_leaf_node/sdp_subarray01"
+tmc_dish_leaf_node = "ska_mid/tm_leaf_node/d0001"
 sdp_subarray1 = "mid-sdp/subarray/01"
 sdp_subarray2 = "mid-sdp/subarray/02"
 sdp_subarray3 = "mid-sdp/subarray/03"

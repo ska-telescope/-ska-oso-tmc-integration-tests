@@ -28,6 +28,12 @@ server:
         - name: "SdpMasterFQDN"
           values:
           - "{{.Values.global.sdp_master}}"
+        - name: "MccsMasterLeafNodeFQDN"
+          values:
+            - "{{.Values.global.mccs_master_ln_prefix}}"
+        - name: "MccsMasterFQDN"
+          values:
+            - "{{.Values.global.mccs_master}}"
         - name: "TMCSubarrayNodes"
           values:
           {{- range  ( regexSplit " " ((.Values.deviceServers.centralnode.subarray_count | int) | seq ) -1 )  }}

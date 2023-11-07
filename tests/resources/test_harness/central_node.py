@@ -28,9 +28,11 @@ class CentralNodeWrapper(object):
         self.subarray_node = None
         self.csp_master_leaf_node = None
         self.sdp_master_leaf_node = None
+        self.mccs_master_leaf_node = None
         self.subarray_devices = {}
         self.sdp_master = None
         self.csp_master = None
+        self.mccs_master = None
         self.dish_master_list = None
         self._state = DevState.OFF
 
@@ -149,7 +151,11 @@ class CentralNodeWrapper(object):
 
     def _reset_health_state_for_mock_devices(self):
         """Reset Mock devices"""
-        for mock_device in [self.sdp_master, self.csp_master]:
+
+        for mock_device in [
+            self.sdp_master,
+            self.csp_master,
+        ]:
             device = DeviceProxy(mock_device)
             device.SetDirectHealthState(HealthState.UNKNOWN)
 

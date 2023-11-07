@@ -36,6 +36,11 @@ from tests.resources.test_support.constant_low import (
 )
 
 
+@pytest.mark.skip(
+    reason="AssignResources and ReleaseResources"
+    " functionalities are not yet"
+    " implemented on mccs master leaf node."
+)
 @pytest.mark.SKA_low
 def test_recover_subarray_stuck_in_resourcing_low(
     json_factory, change_event_callbacks
@@ -132,6 +137,11 @@ def test_recover_subarray_stuck_in_resourcing_low(
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
+@pytest.mark.skip(
+    reason="AssignResources and ReleaseResources"
+    " functionalities are not yet"
+    " implemented on mccs master leaf node."
+)
 @pytest.mark.SKA_low
 def test_recover_subarray_stuck_in_resourcing_with_sdp_empty_with_abort(
     json_factory, change_event_callbacks
@@ -249,6 +259,11 @@ def test_recover_subarray_stuck_in_resourcing_with_sdp_empty_with_abort(
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
+@pytest.mark.skip(
+    reason="AssignResources and ReleaseResources"
+    " functionalities are not yet"
+    " implemented on mccs master leaf node."
+)
 @pytest.mark.SKA_low
 def test_recover_subarray_stuck_in_resourcing_with_csp_empty_with_abort(
     json_factory, change_event_callbacks
@@ -366,6 +381,11 @@ def test_recover_subarray_stuck_in_resourcing_with_csp_empty_with_abort(
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
+@pytest.mark.skip(
+    reason="AssignResources and ReleaseResources"
+    " functionalities are not yet"
+    " implemented on mccs master leaf node."
+)
 @pytest.mark.SKA_low
 def test_recover_subarray_stuck_in_resourcing_with_abort_low(
     json_factory, change_event_callbacks
