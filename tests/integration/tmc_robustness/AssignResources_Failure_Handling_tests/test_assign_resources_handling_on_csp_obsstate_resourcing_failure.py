@@ -7,7 +7,9 @@ from ska_tango_testing.mock.placeholders import Anything
 from tango import DevState
 
 from tests.conftest import LOGGER
-from tests.resources.test_harness.constant import INTERMEDIATE_STATE_DEFECT
+from tests.resources.test_harness.constant import (
+    OBS_STATE_RESOURCING_STUCK_DEFECT,
+)
 from tests.resources.test_harness.helpers import (
     get_device_simulators,
     prepare_json_args_for_centralnode_commands,
@@ -80,7 +82,7 @@ def given_tmc_subarray_assign_resources_is_in_progress(
     )
 
     # Induce fault on CSP Subarray so that it is stuck in obsState RESOURCING
-    csp_sim.SetDefective(json.dumps(INTERMEDIATE_STATE_DEFECT))
+    csp_sim.SetDefective(json.dumps(OBS_STATE_RESOURCING_STUCK_DEFECT))
     _, unique_id = central_node_mid.perform_action(
         "AssignResources", assign_input_json
     )

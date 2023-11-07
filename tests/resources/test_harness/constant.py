@@ -124,6 +124,14 @@ INTERMEDIATE_STATE_DEFECT = {
     "intermediate_state": ObsState.RESOURCING,
 }
 
+OBS_STATE_RESOURCING_STUCK_DEFECT = {
+    "enabled": True,
+    "fault_type": FaultType.STUCK_IN_OBSTATE,
+    "error_message": "Device stuck in Resourcing state",
+    "result": ResultCode.FAILED,
+    "intermediate_state": ObsState.RESOURCING,
+}
+
 INTERMEDIATE_OBSSTATE_EMPTY_DEFECT = {
     "enabled": True,
     "fault_type": FaultType.STUCK_IN_INTERMEDIATE_STATE,
