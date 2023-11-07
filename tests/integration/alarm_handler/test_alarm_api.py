@@ -38,15 +38,15 @@ def remove_alarm_api():
     """Test method for remove alarms API"""
     response = httpx.post(
         f"http://alarm-handler-configurator.{namespace}.svc.cluster."
-        + "local:8004/remove-alarm?tag=test1&alarmhandlerfqdn=alarm"
+        + "local:8004/remove-alarm?tag=SubarrayNode_obsstate_fault&alarmhandlerfqdn=alarm"
         + "%2Fhandler%2F01",
         data={
             "tag": "SubarrayNode_obsstate_fault",
             "alarmhandlerfqdn": "alarm/handler/01",
         },
     )
+    assert len(response_data["alarm_summary"]["tag"]) == 1
     response_data = response.json()
-    print(response_data)
     assert response_data["alarm_summary"]["tag"] != [
         "SubarrayNode_obsstate_fault"
     ]
