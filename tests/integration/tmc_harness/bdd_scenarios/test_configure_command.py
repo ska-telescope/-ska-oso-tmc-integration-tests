@@ -25,7 +25,8 @@ telescope_control = BaseTelescopeControl()
 
 
 @pytest.mark.skip(
-    reason="""Assign and Release Resources is not integrated in ska-tmc-integration repository"""
+    reason="""Assign and Release Resources is not integrated
+      in ska-tmc-integration repository"""
 )
 @pytest.mark.SKA_low
 @scenario(
