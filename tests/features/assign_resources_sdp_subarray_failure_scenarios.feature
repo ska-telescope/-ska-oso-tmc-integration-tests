@@ -4,7 +4,7 @@ Feature: TMC SubarrayNode handles the failure when the AssignResources command f
         Given a TMC 
         And the TMC SubarrayNode <subarray_id> assign resources is in progress
         And Csp Subarray <subarray_id> completes assignResources
-        And Sdp Subarray <subarray_id> returns to obsState EMPTY
+        And Sdp Subarray <subarray_id> raises exception and returns to obsState EMPTY
         And the TMC SubarrayNode <subarray_id> stucks in RESOURCING
         When I issue the command ReleaseAllResources on CSP Subarray <subarray_id>
         Then the CSP subarray <subarray_id> transitions to obsState EMPTY

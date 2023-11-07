@@ -114,7 +114,12 @@ def sdp_subarray_assign_resources_complete(event_recorder, simulator_factory):
     )
 
 
-@given(parsers.parse("Csp Subarray {subarray_id} returns to obsState EMPTY"))
+@given(
+    parsers.parse(
+        "Csp Subarray {subarray_id} raises exception and "
+        + "returns to obsState EMPTY"
+    )
+)
 def csp_subarray_returns_to_obsstate_empty(event_recorder, simulator_factory):
     csp_sim, _, _, _ = get_device_simulators(simulator_factory)
     event_recorder.subscribe_event(csp_sim, "obsState")
