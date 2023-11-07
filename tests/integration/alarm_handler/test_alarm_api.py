@@ -1,11 +1,12 @@
 """
 This module is used for testing Alarm-Handler configurator API.
 """
+import logging
 import os
 
 import httpx
 import pytest
-import logging
+
 namespace = os.getenv("KUBE_NAMESPACE")
 
 
