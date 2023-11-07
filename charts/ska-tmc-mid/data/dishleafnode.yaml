@@ -8,7 +8,6 @@ server:
   name: "dish_leaf_node"
   instances:
   {{- $isAvailable := .Values.global.Dish.isSimulated.enabled }}
-  {{- $dish_fqdn_suffix:= .Values.global.dish_suffix }}
   {{- $real_dish_name := .Values.global.namespace_dish.dish_name }}
   {{- range  .Values.deviceServers.dishleafnode.instances }}
     - name: "{{ . }}"
@@ -22,7 +21,7 @@ server:
               {{- if eq $isAvailable false }}
               - "{{ $real_dish_name }}" # Real dish
               {{- else }}
-              - "ska{{ printf "%03s" . }}/{{ $dish_fqdn_suffix }}" # Mock device FQDN
+              - "ska{{ printf "%03s" . }}/elt/master" # Mock device FQDN
               {{- end }}
           - name: "SkaLevel"
             values:

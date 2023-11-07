@@ -45,7 +45,7 @@ global:
     - "cspsubarrayleafnode"
     - "sdpsubarrayleafnode"
     - "subarraynode"
-  subarray_count: 2
+  subarray_count: 1
 
   # fqdn for mid devices
   tmc_subarray_prefix: "ska_mid/tm_subarray_node"
@@ -78,14 +78,14 @@ centralnode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-centralnode
-    tag: 0.10.4
+    tag: 0.11.1
     pullPolicy: IfNotPresent
 
 subarraynode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-subarraynode
-    tag: 0.11.21
+    tag: 0.13.1
     pullPolicy: IfNotPresent
 
 sdpleafnodes:
@@ -113,7 +113,7 @@ dishleafnode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-dishleafnode
-    tag: 0.5.2
+    tag: 0.6.1
     pullPolicy: IfNotPresent
 
 resources:
@@ -132,16 +132,23 @@ deviceServers:
     subarray_count: 2
     file: "data/centralnode_mid.yaml"
     DishLeafNodePrefix: "ska_mid/tm_leaf_node/d0"
-    DishIDs: ["SKA001", "SKA002", "SKA003", "SKA004"]
+    DishIDs: ["SKA001"]
+    DishMasterPrefix: "elt"
+    DishMasterPostfix: "master"
+
 
   subarraynode:
     enabled: true
     instances: ["01" , "02"]
     file: "data/subarraynode_mid.yaml"
+    DishLeafNodePrefix: "ska_mid/tm_leaf_node/d0"
+    DishIDs: ["SKA001"]
+    DishMasterPrefix: "elt"
+    DishMasterPostfix: "master"
 
   sdpsubarrayleafnode:
     enabled: true
-    instances: ["01","02"]
+    instances: ["01"]
     file: "data/sdpsubarrayleafnode.yaml"
 
   sdpmasterleafnode:
@@ -161,7 +168,7 @@ deviceServers:
 
   dishleafnode:
     enabled: true
-    instances: ["01", "02"]
+    instances: ["01"]
     file: "data/dishleafnode.yaml"
 
   mocks:
