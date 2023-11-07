@@ -5,14 +5,14 @@ import os
 
 import httpx
 import pytest
-
+import logging
 namespace = os.getenv("KUBE_NAMESPACE")
 
 
 def add_alarms_api(filename):
     """Test method for add alarms API"""
     # for debugging, it will get removed before merge
-    print(
+    logging.debug(
         f"http://alarm-handler-configurator.{namespace}.svc.cluster."
         + "local:8004/add-alarms?fqdn=alarm%2Fhandler%2F01"
     )
