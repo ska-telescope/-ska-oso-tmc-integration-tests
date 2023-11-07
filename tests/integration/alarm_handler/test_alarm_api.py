@@ -21,8 +21,8 @@ def add_alarms_api(filename):
             data={"fqdn": "alarm/handler/01"},
         )
         response_data = response.json()
-        assert len(response_data["alarm summary"]["tag"]) == 2
-        assert response_data["alarm summary"]["tag"] == [
+        assert len(response_data["alarm_summary"]["tag"]) == 2
+        assert response_data["alarm_summary"]["tag"] == [
             "CentralNode_telescopestate_standby",
             "SubarrayNode_obsstate_fault",
         ]
@@ -40,7 +40,7 @@ def remove_alarm_api():
         },
     )
     response_data = response.json()
-    assert response_data["alarm summary"]["tag"] != [
+    assert response_data["alarm_summary"]["tag"] != [
         "SubarrayNode_obsstate_fault"
     ]
 
@@ -51,7 +51,7 @@ def alarm_rule_validation(filename, missing_attribute):
         f"/app/tests/resources/tmc_alarm_rules/{filename}", "rb"
     ) as file:
         response = httpx.post(
-            f"http://alarm-handler-configurator.{namespace}.svc.cluster."
+            f"http://alarm-handler-configurator.ska-tmc-integration.svc.cluster."
             + "local:8004/add-alarms?fqdn=alarm%2Fhandler%2F01",
             files={"file": (filename, file, "text/plain")},
             data={"fqdn": "alarm/handler/01"},
@@ -63,7 +63,6 @@ def alarm_rule_validation(filename, missing_attribute):
 
 
 # WIP: Test may get modified
-@pytest.mark.hope
 @pytest.mark.post_deployment
 @pytest.mark.SKA_mid
 def test_configure_alarms():
@@ -72,7 +71,6 @@ def test_configure_alarms():
 
 
 # WIP: Test may get modified
-@pytest.mark.hope
 @pytest.mark.post_deployment
 @pytest.mark.SKA_mid
 def test_remove_alarm():
@@ -92,7 +90,6 @@ def test_remove_alarm():
     ],
 )
 @pytest.mark.post_deployment
-@pytest.mark.hope
 @pytest.mark.SKA_mid
 def test_validate_attribute_properties(alarm_rule_file, missing_attribute):
     """test case to validate alarm attribute properties for mid"""
