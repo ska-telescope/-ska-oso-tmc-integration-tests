@@ -1,0 +1,1 @@
+tag=CentralNode_telescopehealthstate_degraded;priority=log;group=none;message=(\"alarm for central node telescopehealthstate degraded\")
