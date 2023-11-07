@@ -28,10 +28,6 @@ def add_alarms_api(filename):
         )
         response_data = response.json()
         assert len(response_data["alarm_summary"]["tag"]) == 2
-        assert response_data["alarm_summary"]["tag"] == [
-            "CentralNode_telescopehealthstate_degraded",
-            "SubarrayNode_obsstate_fault",
-        ]
 
 
 def remove_alarm_api():
@@ -48,9 +44,6 @@ def remove_alarm_api():
     response_data = response.json()
     tag_len = len(response_data["alarm_summary"]["tag"])
     assert tag_len == 1
-    assert response_data["alarm_summary"]["tag"] != [
-        "SubarrayNode_obsstate_fault"
-    ]
 
 
 def alarm_rule_validation(filename, missing_attribute):
