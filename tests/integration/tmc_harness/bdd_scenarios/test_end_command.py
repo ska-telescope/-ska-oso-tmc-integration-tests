@@ -85,11 +85,11 @@ def tmc_check_status(json_factory):
     )
 
 
-@when(parsers.parse("the END command is invoked"))
+@when(parsers.parse("the End command is invoked"))
 def send(json_factory):
     release_json = json_factory("command_release_resource_low")
     try:
-        LOGGER.info("Invoking END on TMC")
+        LOGGER.info("Invoking End Command on TMC")
         tmc_helper.end(**ON_OFF_DEVICE_COMMAND_DICT)
 
         #  Verify obsState is IDLE
