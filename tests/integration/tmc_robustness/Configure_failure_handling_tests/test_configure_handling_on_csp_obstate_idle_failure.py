@@ -124,7 +124,9 @@ def given_tmc_subarray_configure_is_in_progress(
     configure_input_json = prepare_json_args_for_commands(
         "configure_mid", command_input_factory
     )
-    subarray_node.execute_transition("Configure", configure_input_json)
+    pytest.command_result = subarray_node.execute_transition(
+        "Configure", configure_input_json
+    )
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",
@@ -174,6 +176,17 @@ def given_tmc_subarray_stuck_configuring(
         "SubarrayNode ObsState is: %s", subarray_node.subarray_node.obsState
     )
     assert subarray_node.subarray_node.obsState == ObsState.CONFIGURING
+    LOGGER.info("message: %s", pytest.command_result[1][0])
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_node,
+        "longRunningCommandResult",
+        (
+            pytest.command_result[1][0],
+            "Exception occurred on the following devices:\nska_mid/"
+            + "tm_leaf_node/csp_subarray01: Exception occured "
+            + "on device: mid-csp/subarray/01\n",
+        ),
+    )
 
 
 @when(parsers.parse("I issue the command End on SDP Subarray {subarray_id}"))
@@ -204,15 +217,12 @@ def sdp_subarray_transitions_to_idle(simulator_factory, event_recorder):
         "Tmc SubarrayNode {subarray_id} transitions to obsState IDLE"
     )
 )
-def tmc_subarray_transitions_to_IDLE(
-    subarray_node, simulator_factory, event_recorder
-):
-    # csp_sim, _, _, _ = get_device_simulators(simulator_factory)
+def tmc_subarray_transitions_to_IDLE(subarray_node, event_recorder):
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
-
-    #  # Disable CSP Subarray fault
-    # csp_sim.SetDefective(json.dumps({"enabled": False}))
-    # assert subarray_node.subarray_node.obsState == ObsState.IDLE
+    LOGGER.info(
+        "SubarrayNode ObsState is: %s", subarray_node.subarray_node.obsState
+    )
+    assert subarray_node.subarray_node.obsState == ObsState.CONFIGURING
     LOGGER.info(
         "SubarrayNode ObsState is: %s", subarray_node.subarray_node.obsState
     )
