@@ -132,23 +132,23 @@ deviceServers:
     subarray_count: 2
     file: "data/centralnode_mid.yaml"
     DishLeafNodePrefix: "ska_mid/tm_leaf_node/d0"
-    DishIDs: ["SKA001"]
+    DishIDs: ["SKA001","SKA002"]
     DishMasterPrefix: "elt"
     DishMasterPostfix: "master"
 
 
   subarraynode:
     enabled: true
-    instances: ["01" , "02"]
+    instances: ["01","02"]
     file: "data/subarraynode_mid.yaml"
     DishLeafNodePrefix: "ska_mid/tm_leaf_node/d0"
-    DishIDs: ["SKA001"]
+    DishIDs: ["SKA001", "SKA002"]
     DishMasterPrefix: "elt"
     DishMasterPostfix: "master"
 
   sdpsubarrayleafnode:
     enabled: true
-    instances: ["01"]
+    instances: ["01","02"]
     file: "data/sdpsubarrayleafnode.yaml"
 
   sdpmasterleafnode:

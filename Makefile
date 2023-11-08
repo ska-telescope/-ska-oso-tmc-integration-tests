@@ -44,7 +44,6 @@ K8S_CHART ?= $(HELM_CHART)
 
 SIMULATED_DISH ?= true
 SUBARRAY_COUNT ?= 2
-DISH_INSTANCES ?="01"
 DISH_NAME ?= tango://databaseds-tango-base.$(DISH_NAMESPACE).svc.cluster.local:10000/ska001/elt/master
 
 CI_REGISTRY ?= gitlab.com
