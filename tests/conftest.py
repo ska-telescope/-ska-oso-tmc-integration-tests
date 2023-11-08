@@ -183,6 +183,7 @@ def wait_for_dish_mode_change(
 
     return False
 
+
 def wait_for_pointing_state_change(
     target_mode: int, dishfqdn: str, timeout_seconds: int
 ):

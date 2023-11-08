@@ -1,14 +1,20 @@
 """Test Telescope On Command on DISH LMC"""
+import time
+
 import pytest
 from tango import DeviceProxy
-import json
-import time
-from tests.conftest import wait_for_dish_mode_change, wait_for_pointing_state_change
-from tests.resources.test_support.constant import centralnode, dish_fqdn, tmc_subarraynode1
-from tests.resources.test_support.enum import DishMode, PointingState
-from tests.resources.test_support.common_utils.common_helpers import (
-    Waiter,
+
+from tests.conftest import (
+    wait_for_dish_mode_change,
+    wait_for_pointing_state_change,
 )
+from tests.resources.test_support.constant import (
+    centralnode,
+    dish_fqdn,
+    tmc_subarraynode1,
+)
+from tests.resources.test_support.enum import DishMode, PointingState
+
 
 @pytest.mark.aki
 @pytest.mark.real_dish
@@ -31,7 +37,6 @@ def test_configure(json_factory):
     # Check the dishMode of DISH LMC i.e STANDBYFP
     assert dishfqdn.dishMode.value == DishMode.STANDBY_FP
 
-    
     # invoke assignresources command from central node
     central_node_device.AssignResources(assign_json)
 
