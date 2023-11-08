@@ -226,12 +226,14 @@ class SubarrayNode(object):
 
     def _clear_command_call_and_transition_data(self, clear_transition=False):
         """Clears the command call data"""
-        for sim_device in [
+        device_list = [
             sdp_subarray1,
             csp_subarray1,
-            dish_master1,
-            dish_master2,
-        ]:
+            # dish_master1,
+            # dish_master2,
+        ]
+
+        for sim_device in device_list:
             device = DeviceProxy(sim_device)
             device.ClearCommandCallInfo()
             if clear_transition:
