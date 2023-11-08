@@ -8,7 +8,6 @@ from tests.conftest import (
     wait_for_dish_mode_change,
     wait_for_pointing_state_change,
 )
-from tests.resources.test_support.common_utils.common_helpers import Waiter
 from tests.resources.test_support.constant import (
     centralnode,
     dish_fqdn,
