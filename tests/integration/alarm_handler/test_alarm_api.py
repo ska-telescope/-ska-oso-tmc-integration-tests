@@ -72,7 +72,6 @@ def alarm_rule_validation(filename, missing_attribute):
         )
 
 
-@pytest.mark.alarm_test
 @pytest.mark.post_deployment
 @pytest.mark.SKA_mid
 def test_configure_alarms():
@@ -80,7 +79,6 @@ def test_configure_alarms():
     add_alarms_api("alarm_rules.txt")
 
 
-@pytest.mark.alarm_test
 @pytest.mark.post_deployment
 @pytest.mark.SKA_mid
 def test_remove_alarm():
@@ -88,7 +86,6 @@ def test_remove_alarm():
     remove_alarm_api()
 
 
-@pytest.mark.alarm_test
 @pytest.mark.parametrize(
     "alarm_rule_file, missing_attribute",
     [
