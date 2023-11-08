@@ -9,6 +9,7 @@ from tests.resources.test_harness.helpers import (
 )
 
 
+@pytest.mark.skip(reason="Dish FQDN needs to be updated on CentralNode.")
 @pytest.mark.SKA_mid
 @scenario(
     "../features/test_harness/telescope_health_state_aggregation.feature",
