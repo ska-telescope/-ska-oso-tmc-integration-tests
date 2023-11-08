@@ -42,8 +42,8 @@ K8S_CHARTS ?= ska-tmc-$(DEPLOYMENT_TYPE) ska-tmc-testing-$(DEPLOYMENT_TYPE)## li
 K8S_CHART ?= $(HELM_CHART)
 
 
-SIMULATED_DISH ?= true
-SUBARRAY_COUNT ?= 2
+SIMULATED_DISH ?= false
+SUBARRAY_COUNT ?= 1
 DISH_NAME ?= tango://databaseds-tango-base.$(DISH_NAMESPACE).svc.cluster.local:10000/ska001/elt/master
 
 CI_REGISTRY ?= gitlab.com
@@ -86,7 +86,7 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set ska-tango-base.xauthority=$(XAUTHORITY) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
 	--set global.exposeAllDS=true \
-	--set global.operator=true \
+	--set global.operator=false \
 	--set ska-taranta.enabled=$(TARANTA_ENABLED)\
 	--set global.namespace_dish.dish_name="$(DISH_NAME)"\
 	--set global.Dish.isSimulated.enabled=$(SIMULATED_DISH)\

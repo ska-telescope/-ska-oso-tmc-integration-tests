@@ -17,7 +17,6 @@ from tests.resources.test_support.constant import (
 from tests.resources.test_support.enum import DishMode, PointingState
 
 
-@pytest.mark.aki
 @pytest.mark.real_dish
 def test_configure(json_factory):
     """TelescopeOn() and TelescopeOff() is executed on dishlmc  device."""
@@ -41,7 +40,7 @@ def test_configure(json_factory):
     # invoke assignresources command from central node
     central_node_device.AssignResources(assign_json)
 
-    time.sleep(5)
+    time.sleep(15)
     # invoke configure command from subarray node
     subarray.Configure(config_json)
 
@@ -50,7 +49,7 @@ def test_configure(json_factory):
 
     the_waiter = Waiter()
     the_waiter.set_wait_for_specific_obsstate("READY", [subarray])
-    the_waiter.wait(300)
+    the_waiter.wait(600)
 
     time.sleep(10)
     # invoke end command from subarray node
