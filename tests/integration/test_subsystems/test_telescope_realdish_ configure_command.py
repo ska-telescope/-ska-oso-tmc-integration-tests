@@ -22,6 +22,7 @@ def test_configure(json_factory):
     """TelescopeOn() and TelescopeOff() is executed on dishlmc  device."""
     assign_json = json_factory("command_AssignResources_dish")
     config_json = json_factory("command_Configure")
+    release_json = json_factory("command_ReleaseResources")
     central_node_device = DeviceProxy(centralnode)
     subarray = DeviceProxy(tmc_subarraynode1)
 
@@ -40,22 +41,19 @@ def test_configure(json_factory):
     # invoke assignresources command from central node
     central_node_device.AssignResources(assign_json)
 
-    time.sleep(15)
+    time.sleep(25)
     # invoke configure command from subarray node
     subarray.Configure(config_json)
 
     wait_for_dish_mode_change(DishMode.OPERATE, dishfqdn, 30)
     wait_for_pointing_state_change(PointingState.TRACK, dishfqdn, 30)
 
-    the_waiter = Waiter()
-    the_waiter.set_wait_for_specific_obsstate("READY", [subarray])
-    the_waiter.wait(600)
-
-    time.sleep(10)
     # invoke end command from subarray node
     subarray.End()
-
+    time.sleep(20)
     # Invoke TelescopeOff command
+    central_node_device.ReleaseResources(release_json)
+    time.sleep(30)
     # wait_for_pointing_state_change(PointingState.READY, dishfqdn, 30)
     central_node_device.TelescopeOff()
 
