@@ -5,7 +5,7 @@ from tests.resources.test_harness.helpers import (
     prepare_json_args_for_centralnode_commands,
 )
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
-
+from tango import DevState
 
 class TestLowCentralNodeAssignResources(object):
     # @pytest.mark.skip(
@@ -38,30 +38,58 @@ class TestLowCentralNodeAssignResources(object):
         assign_input_json = prepare_json_args_for_centralnode_commands(
             "assign_resources_low", command_input_factory
         )
-        csp_sim = simulator_factory.get_or_create_simulator_device(
+        csp_master_sim = simulator_factory.get_or_create_simulator_device(
             SimulatorDeviceType.LOW_CSP_DEVICE
         )
-        sdp_sim = simulator_factory.get_or_create_simulator_device(
+        sdp_master_sim = simulator_factory.get_or_create_simulator_device(
             SimulatorDeviceType.LOW_SDP_DEVICE
         )
-        # mccs_master_sim = simulator_factory.get_or_create_simulator_device(
-        #     SimulatorDeviceType.LOW_SDP_DEVICE
-        # )
-        event_recorder.subscribe_event(csp_sim, "obsState")
-        event_recorder.subscribe_event(sdp_sim, "obsState")
+        mccs_master_sim = simulator_factory.get_or_create_simulator_device(
+            SimulatorDeviceType.MCCS_MASTER_DEVICE
+        )
+        event_recorder.subscribe_event(csp_master_sim, "State")
+        event_recorder.subscribe_event(sdp_master_sim, "State")
+        event_recorder.subscribe_event(mccs_master_sim, "State")
+        event_recorder.subscribe_event(
+            central_node_low.central_node, "telescopeState"
+        )
+        event_recorder.subscribe_event(csp_master_sim, "obsState")
+        event_recorder.subscribe_event(sdp_master_sim, "obsState")
         #event_recorder.subscribe_event(mccs_master_sim, "obsState")
         event_recorder.subscribe_event(
             central_node_low.subarray_node, "obsState"
         )
         central_node_low.move_to_on()
+
+        assert event_recorder.has_change_event_occurred(
+            csp_master_sim,
+            "State",
+            DevState.ON,
+        )
+        assert event_recorder.has_change_event_occurred(
+            sdp_master_sim,
+            "State",
+            DevState.ON,
+        )
+        assert event_recorder.has_change_event_occurred(
+            mccs_master_sim,
+            "State",
+            DevState.ON,
+        )
+        assert event_recorder.has_change_event_occurred(
+            central_node_low.central_node,
+            "telescopeState",
+            DevState.ON,
+        )
+
         central_node_low.perform_action("AssignResources", assign_input_json)
         assert event_recorder.has_change_event_occurred(
-            sdp_sim,
+            sdp_master_sim,
             "obsState",
             ObsState.IDLE,
         )
         assert event_recorder.has_change_event_occurred(
-            csp_sim,
+            csp_master_sim,
             "obsState",
             ObsState.IDLE,
         )
