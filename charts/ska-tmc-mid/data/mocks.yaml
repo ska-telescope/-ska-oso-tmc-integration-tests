@@ -27,11 +27,11 @@ server:
           devices:
           - name: "mid-sdp/subarray/01"
           - name: "mid-sdp/subarray/02"
-        # - name: "HelperDishDevice"
-        #   devices:
-        #   {{- range .Values.deviceServers.dishleafnode.instances }}
-        #   - name: "ska{{ printf "%03s" . }}/elt/master"
-        #   {{- end }}
+        - name: "HelperDishDevice"
+          devices:
+          {{- range .Values.deviceServers.dishleafnode.instances }}
+          - name: "ska{{ printf "%03s" . }}/elt/master"
+          {{- end }}
 depends_on:
   - device: sys/database/2
 image:
