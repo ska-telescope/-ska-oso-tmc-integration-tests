@@ -158,6 +158,7 @@ low-on-demand-destroy:
 k8s-test:
   variables:
     SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA"
+    SIMULATED_DISH: "true"
   before_script:
     - make cred SERVICE_ACCOUNT=$SERVICE_ACCOUNT
     - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
@@ -167,9 +168,9 @@ k8s-test:
   retry: 1
 
 dish-lmc-dish001:
-  stage: on-demand
-  extends:
-    - k8s-test
+  stage: test
+  tags:
+    - k8srunner
   variables:
     DISH_INDEX: "001"
     KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX"
@@ -186,9 +187,27 @@ dish-lmc-dish001:
     name: test/$CI_COMMIT_REF_SLUG
     on_stop: stop-k8s-dish-lmc-001
     action: stop
-  when: manual
   allow_failure: true
 
+k8s-test-dish-lmc:
+  stage: test
+  tags:
+    - k8srunner
+  variables:
+    SIMULATED_DISH: "false"
+    DISH_INDEX: "001"
+    DISH_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX"
+    KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX-test"
+    DISH_LMC_SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX-test"
+  script:
+    - make cred SERVICE_ACCOUNT=$DISH_LMC_SERVICE_ACCOUNT
+    - make k8s-install-chart
+    - make k8s-wait
+    - make k8s-test MARK="real_dish"
+  needs:
+    - dish-lmc-dish001
+  after_script:
+    - make k8s-uninstall-chart
 
 dish-lmc-dish036:
   extends:
@@ -222,6 +241,36 @@ k8s-test-low:
     on_stop: stop-k8s-test-low
     auto_stop_in: 1 minute
 
+csp-k8s-test-low:
+  retry: 1
+  extends:
+    - k8s-test
+  variables:
+    TELESCOPE: 'SKA-low'
+    KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-csp-low'
+    SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-csp-low"
+    MARK: real_csp
+    CSP_REAL_ENABLED: true
+  script:
+    - make cred SERVICE_ACCOUNT=$SERVICE_ACCOUNT
+    - make k8s-install-chart
+    - make k8s-wait
+    - make k8s-test
+  environment:
+    name: test/$CI_COMMIT_REF_SLUG
+    on_stop: csp-stop-k8s-test-low
+    auto_stop_in: 1 minute
+
+csp-stop-k8s-test-low:
+  extends:
+    - stop-k8s-test
+  variables:
+    KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-csp-low'
+  script:
+    - make k8s-uninstall-chart
+    - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all
+    - make k8s-delete-namespace
+    
 stop-k8s-test-low:
   extends:
     - stop-k8s-test
@@ -233,7 +282,7 @@ stop-k8s-test-low:
     - make k8s-delete-namespace
 
 stop-k8s-dish-lmc-001:
-  stage: on-demand
+  stage: test
   extends:
     - stop-k8s-test
   variables:

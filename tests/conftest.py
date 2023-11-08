@@ -2,6 +2,7 @@
 import json
 import logging
 import os
+import time
 from os.path import dirname, join
 
 import pytest
@@ -11,11 +12,16 @@ from ska_tango_testing.mock.tango.event_callback import (
     MockTangoEventCallbackGroup,
 )
 
+from tests.resources.test_harness.central_node_csp import (
+    CentralNodeWrapperCspLow,
+)
 from tests.resources.test_harness.central_node_low import CentralNodeWrapperLow
 from tests.resources.test_harness.central_node_mid import CentralNodeWrapperMid
 from tests.resources.test_harness.event_recorder import EventRecorder
 from tests.resources.test_harness.simulator_factory import SimulatorFactory
+from tests.resources.test_harness.subarray_csp import SubarrayNodeCspLow
 from tests.resources.test_harness.subarray_node import SubarrayNode
+from tests.resources.test_harness.subarray_node_low import SubarrayNodeLow
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 
 configure_logging(logging.DEBUG)
@@ -150,6 +156,33 @@ def subarray_node() -> SubarrayNode:
 
 
 @pytest.fixture()
+def subarray_node_low() -> SubarrayNodeLow:
+    """Return SubarrayNode and calls tear down"""
+    subarray = SubarrayNodeLow()
+    yield subarray
+    # this will call after test complete
+    subarray.tear_down()
+
+
+@pytest.fixture()
+def subarray_node_real_csp_low() -> SubarrayNodeCspLow:
+    """Return SubarrayNode and calls tear down"""
+    subarray = SubarrayNodeCspLow()
+    yield subarray
+    # this will call after test complete
+    subarray.tear_down()
+
+
+@pytest.fixture()
+def central_node_real_csp_low() -> CentralNodeWrapperCspLow:
+    """Return CentralNode for Low Telescope and calls tear down"""
+    central_node_low = CentralNodeWrapperCspLow()
+    yield central_node_low
+    # this will call after test complete
+    central_node_low.tear_down()
+
+
+@pytest.fixture()
 def command_input_factory() -> JsonFactory:
     """Return Json Factory"""
     return JsonFactory()
@@ -167,3 +200,17 @@ def event_recorder() -> EventRecorder:
     event_rec = EventRecorder()
     yield event_rec
     event_rec.clear_events()
+
+
+def wait_for_dish_mode_change(
+    target_mode: int, dishfqdn: str, timeout_seconds: int
+):
+    """Returns True if the dishMode is changed to a expected value"""
+    start_time = time.time()
+
+    while time.time() - start_time < timeout_seconds:
+        if dishfqdn.dishMode.value == target_mode:
+            return True
+        time.sleep(1)
+
+    return False

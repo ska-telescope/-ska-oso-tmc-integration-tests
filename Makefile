@@ -5,9 +5,11 @@ CAR_OCI_REGISTRY_HOST:=artefact.skao.int
 PROJECT = ska-tmc-integration
 TANGO_HOST ?= tango-databaseds:10000 ## TANGO_HOST connection to the Tango DS
 TELESCOPE ?= SKA-mid
+DISH_NAMESPACE ?= dish-lmc
 PYTHON_VARS_BEFORE_PYTEST ?= PYTHONPATH=.:./src \
 							 TANGO_HOST=$(TANGO_HOST) \
-							 TELESCOPE=$(TELESCOPE)
+							 TELESCOPE=$(TELESCOPE) \
+							 DISH_NAMESPACE=$(DISH_NAMESPACE) \
 
 PYTHON_LINT_TARGET ?= tests/
 
@@ -39,6 +41,11 @@ UMBRELLA_CHART_PATH ?= charts/$(HELM_CHART)/
 K8S_CHARTS ?= ska-tmc-$(DEPLOYMENT_TYPE) ska-tmc-testing-$(DEPLOYMENT_TYPE)## list of charts
 K8S_CHART ?= $(HELM_CHART)
 
+
+SIMULATED_DISH ?= true
+
+DISH_NAME ?= tango://databaseds-tango-base.$(DISH_NAMESPACE).svc.cluster.local:10000/ska001/elt/master
+
 CI_REGISTRY ?= gitlab.com
 
 K8S_TEST_IMAGE_TO_TEST ?= artefact.skao.int/ska-tango-images-tango-itango:9.3.12## docker image that will be run for testing purpose
@@ -64,7 +71,7 @@ K8S_TEST_RUNNER = test-runner-$(HELM_RELEASE)
 
 CI_PROJECT_PATH_SLUG ?= ska-tmc-integration
 CI_ENVIRONMENT_SLUG ?= ska-tmc-integration
-
+CSP_REAL_ENABLED ?= false
 
 ifeq ($(MAKECMDGOALS),k8s-test)
 ADD_ARGS +=  --true-context
@@ -81,13 +88,16 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.exposeAllDS=true \
 	--set global.operator=true \
 	--set ska-taranta.enabled=$(TARANTA_ENABLED)\
+	--set global.namespace_dish.dish_name="$(DISH_NAME)"\
+	--set global.Dish.isSimulated.enabled=$(SIMULATED_DISH)\
+	--set deviceServers.mocks.isCspReal = $(CSP_REAL_ENABLED)\
 	$(CUSTOM_VALUES)
 
 
 K8S_TEST_TEST_COMMAND ?= $(PYTHON_VARS_BEFORE_PYTEST) $(PYTHON_RUNNER) \
 						pytest \
 						$(PYTHON_VARS_AFTER_PYTEST) ./tests \
-						 | tee pytest.stdout # k8s-test test command to run in container
+						| tee pytest.stdout # k8s-test test command to run in container
 
 -include .make/k8s.mk
 -include .make/helm.mk

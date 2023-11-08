@@ -42,6 +42,11 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
+@pytest.mark.skip(
+    reason="AssignResources and ReleaseResources"
+    " functionalities are not yet"
+    " implemented on mccs master leaf node."
+)
 @pytest.mark.SKA_low
 def test_configure_end_low(json_factory):
     """Configure and End is executed."""
@@ -116,6 +121,11 @@ def test_configure_end_low(json_factory):
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
+@pytest.mark.skip(
+    reason="AssignResources and ReleaseResources"
+    " functionalities are not yet"
+    " implemented on mccs master leaf node."
+)
 @pytest.mark.SKA_low
 def test_configure_timeout_and_error_propagation_csp(
     json_factory, change_event_callbacks
@@ -206,6 +216,11 @@ def test_configure_timeout_and_error_propagation_csp(
         )
 
 
+@pytest.mark.skip(
+    reason="AssignResources and ReleaseResources"
+    " functionalities are not yet"
+    " implemented on mccs master leaf node."
+)
 @pytest.mark.SKA_low
 def test_configure_timeout_sdp(json_factory, change_event_callbacks):
     """Verify timeout exception raised when csp set to defective."""
@@ -294,6 +309,11 @@ def test_configure_timeout_sdp(json_factory, change_event_callbacks):
         )
 
 
+@pytest.mark.skip(
+    reason="AssignResources and ReleaseResources"
+    " functionalities are not yet"
+    " implemented on mccs master leaf node."
+)
 @pytest.mark.SKA_low
 def test_configure_error_propagation_sdp(json_factory, change_event_callbacks):
     """Verify timeout exception raised when csp set to defective."""

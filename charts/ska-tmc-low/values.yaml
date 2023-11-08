@@ -38,11 +38,14 @@ global:
   sdp_subarray_ln_prefix: "ska_low/tm_leaf_node/sdp_subarray"
   csp_master_ln_prefix: "ska_low/tm_leaf_node/csp_master"
   sdp_master_ln_prefix: "ska_low/tm_leaf_node/sdp_master"
+  mccs_master_ln_prefix: "ska_low/tm_leaf_node/mccs_master"
   csp_subarray_prefix: "low-csp/subarray"
   sdp_subarray_prefix: "low-sdp/subarray"
   csp_master: "low-csp/control/0"
   sdp_master: "low-sdp/control/0"
-
+  mccs_master: "low-mccs/control/control"
+  mccs_subarray_ln_prefix: "ska_low/tm_leaf_node/mccs_subarray"
+  mccs_subarray_prefix: "low-mccs/subarray"
 dsconfig:
   configuration_file: data/tmc-low-config.json
   image:
@@ -62,15 +65,16 @@ centralnode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-centralnode
-    tag: 0.10.4
+    tag: 0.11.0
     pullPolicy: IfNotPresent
 
 subarraynode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-subarraynode
-    tag: 0.11.20
+    tag: 0.13.0
     pullPolicy: IfNotPresent
+
 
 sdpleafnodes:
   image:
@@ -93,6 +97,20 @@ cspsubarrayleafnode:
     tag: 0.9.2
     pullPolicy: IfNotPresent
 
+mccsmasterleafnode:
+  image:
+    registry: artefact.skao.int
+    image: ska-tmc-mccsleafnodes
+    tag: 0.1.3
+    pullPolicy: IfNotPresent
+
+mccsleafnodes:
+  image:
+    registry: artefact.skao.int
+    image: ska-tmc-mccsleafnodes
+    tag: 0.1.3
+    pullPolicy: IfNotPresent
+
 resources:
   limits:
     cpu: 300m
@@ -102,18 +120,34 @@ resources:
     memory: 128Mi
 
 ska-low-cbf:
-  legacy_compatibility: true
-  enabled: true
-  ska-low-cbf-conn:
     enabled: false
+    minikube: true
+    ska-low-cbf-conn:
+      enabled: false
+    ska-low-cbf-proc:
+      enabled: true
+      deviceServers:
+        processor:
+          instances: ["0","1","2"]  # 2x CNIC, 1x SUT
+          # TODO - check if the resources section is needed - in principle, it should be set in -proc chart
+          resources:
+            limits:
+              xilinx.com/fpga-xilinx_u55c_gen3x16_xdma_base_3-0: 0  # no FPGA hardware
+              memory: 512Mi  # reduced
 
-ska-low-cbf-proc:
-  legacy_compatibility: true
-  enabled: true
+
 
 ska-csp-lmc-low:
   legacy_compatibility: true
   enabled: true
+  deviceServers:
+    cspcontroller:
+      instances: ["controller"]
+      file: "data/controller_cbf_only.yaml"
+    cspsubarray:
+      instances: ["subarray1"]
+      file: "data/subarray_cbf_only.yaml"
+
 
 deviceServers:
   centralnode:
@@ -147,9 +181,21 @@ deviceServers:
     instances: ["01"]
     file: "data/cspsubarrayleafnode.yaml"
 
+  mccsmasterleafnode:
+    enabled: true
+    instances: [ "01" ]
+    file: "data/mccsmasterleafnode.yaml"
+
+  # mccssln:
+  #   enabled: true
+  #   instances: ["01"]
+  #   file: "data/mccssubarrayleafnode.yaml"
+  #   MccsSubarrayFQDN: "low-mccs/subarray/01"
+
   mocks:
     enabled: false
     file: "data/mocks.yaml"
+    isCspReal: false
 
 
 nodeSelector: {}

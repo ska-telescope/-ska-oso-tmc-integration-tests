@@ -11,6 +11,8 @@ server:
   {{ $sdp_sa_ln_fqdn_prefix:= .Values.global.sdp_subarray_ln_prefix}}
   {{ $csp_sa_fqdn_prefix:= .Values.global.csp_subarray_prefix}}
   {{ $sdp_sa_fqdn_prefix:= .Values.global.sdp_subarray_prefix}}
+  {{ $mccs_subarray_ln_prefix := .Values.global.mccs_subarray_ln_prefix}}
+  {{ $mccs_subarray_prefix := .Values.global.mccs_subarray_prefix }}
   {{- range  .Values.coalesced_subarray_devices }}
     - name: "{{ . }}"
       classes:
@@ -30,6 +32,12 @@ server:
           - name: "SdpSubarrayFQDN"
             values:
             - "{{ $sdp_sa_fqdn_prefix}}/{{ . }}"
+          - name: "MccsSubarrayLNFQDN"
+            values:
+            - "{{$mccs_subarray_ln_prefix}}{{ . }}"
+          - name: "MccsSubarrayFQDN"
+            values:
+            - "{{$mccs_subarray_prefix}}/{{ . }}"
           - name: "SkaLevel"
             values:
               - "2"

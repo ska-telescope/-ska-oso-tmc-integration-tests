@@ -61,7 +61,8 @@ class SubarrayNode(object):
 
     def __init__(self) -> None:
         super().__init__()
-        self.subarray_node = DeviceProxy(tmc_subarraynode1)
+        self.tmc_subarraynode1 = tmc_subarraynode1
+        self.subarray_node = DeviceProxy(self.tmc_subarraynode1)
         self.csp_subarray_leaf_node = DeviceProxy(tmc_csp_subarray_leaf_node)
         self.sdp_subarray_leaf_node = DeviceProxy(tmc_sdp_subarray_leaf_node)
         self.dish_master_list = [
@@ -77,6 +78,8 @@ class SubarrayNode(object):
         self.IDLE_OBS_STATE = IDLE
         self.READY_OBS_STATE = READY
         self.ABORTED_OBS_STATE = ABORTED
+        self.csp_subarray1 = csp_subarray1
+        self.sdp_subarray1 = sdp_subarray1
 
     def _setup(self):
         """ """
@@ -88,7 +91,7 @@ class SubarrayNode(object):
     @property
     def state(self) -> DevState:
         """TMC SubarrayNode operational state"""
-        self._state = Resource(tmc_subarraynode1).get("State")
+        self._state = Resource(self.tmc_subarraynode1).get("State")
         return self._state
 
     @state.setter
@@ -103,7 +106,7 @@ class SubarrayNode(object):
     @property
     def obs_state(self):
         """TMC SubarrayNode observation state"""
-        self._obs_state = Resource(tmc_subarraynode1).get("obsState")
+        self._obs_state = Resource(self.tmc_subarraynode1).get("obsState")
         return self._obs_state
 
     @obs_state.setter
@@ -118,7 +121,9 @@ class SubarrayNode(object):
     @property
     def health_state(self) -> HealthState:
         """Telescope health state representing overall health of telescope"""
-        self._health_state = Resource(tmc_subarraynode1).get("healthState")
+        self._health_state = Resource(self.tmc_subarraynode1).get(
+            "healthState"
+        )
         return self._health_state
 
     @health_state.setter
@@ -133,14 +138,16 @@ class SubarrayNode(object):
     def move_to_on(self):
         # Move subarray to ON state
         if self.state != self.ON_STATE:
-            Resource(tmc_subarraynode1).assert_attribute("State").equals("OFF")
+            Resource(self.tmc_subarraynode1).assert_attribute("State").equals(
+                "OFF"
+            )
             result, message = self.subarray_node.On()
             LOGGER.info("Invoked ON on SubarrayNode")
             return result, message
 
     def move_to_off(self):
         # Move Subarray to OFF state
-        Resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
+        Resource(self.tmc_subarraynode1).assert_attribute("State").equals("ON")
         result, message = self.subarray_node.Off()
         LOGGER.info("Invoked OFF on SubarrayNode")
         return result, message
@@ -210,7 +217,7 @@ class SubarrayNode(object):
 
     def _reset_simulator_devices(self):
         """Reset Simulator devices to it's original state"""
-        for sim_device_fqdn in [sdp_subarray1, csp_subarray1]:
+        for sim_device_fqdn in [self.sdp_subarray1, self.csp_subarray1]:
             device = DeviceProxy(sim_device_fqdn)
             device.ResetDelay()
             device.SetDirectHealthState(HealthState.UNKNOWN)
@@ -227,8 +234,8 @@ class SubarrayNode(object):
     def _clear_command_call_and_transition_data(self, clear_transition=False):
         """Clears the command call data"""
         for sim_device in [
-            sdp_subarray1,
-            csp_subarray1,
+            self.sdp_subarray1,
+            self.csp_subarray1,
             dish_master1,
             dish_master2,
         ]:

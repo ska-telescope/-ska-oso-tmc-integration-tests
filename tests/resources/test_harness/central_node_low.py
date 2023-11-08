@@ -2,6 +2,7 @@ import logging
 
 from ska_control_model import ObsState
 from ska_ser_logging import configure_logging
+from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
 
 from tests.resources.test_harness.central_node import CentralNodeWrapper
@@ -14,6 +15,9 @@ from tests.resources.test_harness.constant import (
     low_sdp_master,
     low_sdp_master_leaf_node,
     low_sdp_subarray1,
+    mccs_controller,
+    mccs_master_leaf_node,
+    mccs_subarray1,
     tmc_low_subarraynode1,
 )
 from tests.resources.test_harness.utils.common_utils import JsonFactory
@@ -40,15 +44,16 @@ class CentralNodeWrapperLow(CentralNodeWrapper):
         self.subarray_node = DeviceProxy(tmc_low_subarraynode1)
         self.csp_master_leaf_node = DeviceProxy(low_csp_master_leaf_node)
         self.sdp_master_leaf_node = DeviceProxy(low_sdp_master_leaf_node)
-        # self.mccs_master_leaf_node = DeviceProxy(mccs_master_leaf_node)
+        self.mccs_master_leaf_node = DeviceProxy(mccs_master_leaf_node)
         self.subarray_devices = {
             "csp_subarray": DeviceProxy(low_csp_subarray1),
             "sdp_subarray": DeviceProxy(low_sdp_subarray1),
-            # "mccs_subarray": DeviceProxy(mccs_subarray1)
+            "mccs_subarray": DeviceProxy(mccs_subarray1),
         }
+        self.csp_subarray1 = DeviceProxy(low_csp_subarray1)
         self.sdp_master = DeviceProxy(low_sdp_master)
         self.csp_master = DeviceProxy(low_csp_master)
-        # self.mccs_master = mccs_controller
+        self.mccs_master = DeviceProxy(mccs_controller)
         self._state = DevState.OFF
         self.json_factory = JsonFactory()
         self.release_input = (
@@ -67,16 +72,21 @@ class CentralNodeWrapperLow(CentralNodeWrapper):
         return result, message
 
     @sync_abort(device_dict=device_dict_low)
-    def abort(self):
+    def subarray_abort(self):
         """Invoke Abort command on subarray Node"""
         result, message = self.subarray_node.Abort()
         return result, message
 
     @sync_restart(device_dict=device_dict_low)
-    def restart(self):
+    def subarray_restart(self):
         """Invoke Restart command on subarray Node"""
         result, message = self.subarray_node.Restart()
         return result, message
+
+    def _reset_health_state_for_mock_devices(self):
+        """Reset Mock devices"""
+        super()._reset_health_state_for_mock_devices()
+        self.mccs_master.SetDirectHealthState(HealthState.UNKNOWN)
 
     def tear_down(self):
         """Handle Tear down of central Node"""
@@ -84,10 +94,10 @@ class CentralNodeWrapperLow(CentralNodeWrapper):
         LOGGER.info("Calling Tear down for central node.")
         self._reset_health_state_for_mock_devices()
         if self.subarray_node.obsState == ObsState.IDLE:
-            LOGGER.info("Calling Release Resource on centralnode")
+            LOGGER.info("Calling ReleaseResources on CentralNode")
             self.invoke_release_resources(self.release_input)
         elif self.subarray_node.obsState == ObsState.RESOURCING:
-            LOGGER.info("Calling Abort and Restar on subarraynode")
+            LOGGER.info("Calling Abort and Restart on SubarrayNode")
             self.subarray_abort()
             self.subarray_restart()
         elif self.subarray_node.obsState == ObsState.ABORTED:
