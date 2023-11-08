@@ -27,23 +27,32 @@ def add_alarms_api(filename):
             data={"fqdn": "alarm/handler/01"},
         )
         response_data = response.json()
+        print(response_data)
         assert len(response_data["alarm_summary"]["tag"]) == 2
+        assert response_data["alarm_summary"]["tag"] == [
+            "centralnode_telescopehealthstate_degraded",
+            "subarraynode_obsstate_fault",
+        ]
 
 
 def remove_alarm_api():
     """Test method for remove alarms API"""
     response = httpx.post(
         f"http://alarm-handler-configurator.{namespace}.svc.cluster."
-        + "local:8004/remove-alarm?tag=SubarrayNode_obsstate_fault&"
+        + "local:8004/remove-alarm?tag=subarraynode_obsstate_fault&"
         + "alarmhandlerfqdn=alarm%2Fhandler%2F01",
         data={
-            "tag": "SubarrayNode_obsstate_fault",
+            "tag": "subarraynode_obsstate_fault",
             "alarmhandlerfqdn": "alarm/handler/01",
         },
     )
     response_data = response.json()
+    print(response_data)
     tag_len = len(response_data["alarm_summary"]["tag"])
     assert tag_len == 1
+    assert response_data["alarm_summary"]["tag"] != [
+        "subarraynode_obsstate_fault"
+    ]
 
 
 def alarm_rule_validation(filename, missing_attribute):
