@@ -20,7 +20,7 @@ from tests.resources.test_support.enum import DishMode, PointingState
 @pytest.mark.real_dish
 def test_configure(json_factory):
     """TelescopeOn() and TelescopeOff() is executed on dishlmc  device."""
-    assign_json = json_factory("command_AssignResources")
+    assign_json = json_factory("command_AssignResources_dish")
     config_json = json_factory("command_Configure")
     central_node_device = DeviceProxy(centralnode)
     subarray = DeviceProxy(tmc_subarraynode1)
