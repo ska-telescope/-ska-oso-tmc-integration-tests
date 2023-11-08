@@ -249,8 +249,8 @@ csp-k8s-test-low:
     TELESCOPE: 'SKA-low'
     KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-csp-low'
     SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-csp-low"
-    MARK: real_csp
-    CSP_REAL_ENABLED: true
+    MARK: 'real_csp'
+    CSP_REAL_ENABLED: 'true'
   script:
     - make cred SERVICE_ACCOUNT=$SERVICE_ACCOUNT
     - make k8s-install-chart
@@ -270,7 +270,7 @@ csp-stop-k8s-test-low:
     - make k8s-uninstall-chart
     - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all
     - make k8s-delete-namespace
-    
+
 stop-k8s-test-low:
   extends:
     - stop-k8s-test
