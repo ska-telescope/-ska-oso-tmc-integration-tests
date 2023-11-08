@@ -9,7 +9,7 @@ server:
   instances:
   {{- $isAvailable := .Values.global.Dish.isSimulated.enabled }}
   {{- $real_dish_name := .Values.global.namespace_dish.dish_name }}
-  {{- range  .Values.deviceServers.dishleafnode.instances }}
+  {{- range  .Values.coalesced_subarray_devices }}
     - name: "{{ . }}"
       classes:
       - name: "DishLeafNode"
