@@ -182,3 +182,16 @@ def wait_for_dish_mode_change(
         time.sleep(1)
 
     return False
+
+def wait_for_pointing_state_change(
+    target_mode: int, dishfqdn: str, timeout_seconds: int
+):
+    """Returns True if the pointingState is changed to a expected value"""
+    start_time = time.time()
+
+    while time.time() - start_time < timeout_seconds:
+        if dishfqdn.pointingState.value == target_mode:
+            return True
+        time.sleep(1)
+
+    return False
