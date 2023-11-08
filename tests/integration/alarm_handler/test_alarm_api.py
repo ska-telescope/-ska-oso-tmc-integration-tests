@@ -12,11 +12,6 @@ namespace = os.getenv("KUBE_NAMESPACE")
 
 def add_alarms_api(filename):
     """Test method for add alarms API"""
-    # for debugging, it will get removed before merge
-    logging.debug(
-        f"http://alarm-handler-configurator.{namespace}.svc.cluster."
-        + "local:8004/add-alarms?fqdn=alarm%2Fhandler%2F01"
-    )
     with open(
         f"/app/tests/resources/tmc_alarm_rules/{filename}", "rb"
     ) as file:
