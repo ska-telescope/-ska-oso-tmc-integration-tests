@@ -45,7 +45,7 @@ global:
     - "cspsubarrayleafnode"
     - "sdpsubarrayleafnode"
     - "subarraynode"
-  subarray_count: 1
+  subarray_count: 2
 
   # fqdn for mid devices
   tmc_subarray_prefix: "ska_mid/tm_subarray_node"
@@ -168,7 +168,7 @@ deviceServers:
 
   dishleafnode:
     enabled: true
-    instances: ["01"]
+    instances: ["01","02"]
     file: "data/dishleafnode.yaml"
 
   mocks:
