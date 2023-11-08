@@ -195,8 +195,8 @@ k8s-test-dish-lmc:
     - k8srunner
   variables:
     SIMULATED_DISH: "false"
-    DISH_INSTANCE: "["01"]"
-    SUBARRAY_COUNT: "1"
+    DISH_INSTANCE: '["01"]'
+    SUBARRAY_COUNT: 1
     DISH_INDEX: "001"
     DISH_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX"
     KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX-test"
