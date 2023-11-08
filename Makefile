@@ -91,6 +91,8 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.namespace_dish.dish_name="$(DISH_NAME)"\
 	--set global.Dish.isSimulated.enabled=$(SIMULATED_DISH)\
 	--set deviceServers.mocks.isCspReal=$(CSP_REAL_ENABLED)\
+	--set ska-csp-lmc-low.enabled=$(CSP_REAL_ENABLED)\
+	--set ska-low-cbf.ska-low-cbf-proc.enabled=$(CSP_REAL_ENABLED)\
 	$(CUSTOM_VALUES)
 
 

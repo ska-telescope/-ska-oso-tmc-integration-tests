@@ -30,7 +30,7 @@ global:
     - "cspsubarrayleafnode"
     - "sdpsubarrayleafnode"
     - "subarraynode"
-  subarray_count: 1
+  subarray_count: 2
 
   # fqdn for low devices
   tmc_subarray_prefix: "ska_low/tm_subarray_node"
@@ -104,13 +104,6 @@ mccsmasterleafnode:
     tag: 0.1.3
     pullPolicy: IfNotPresent
 
-mccsleafnodes:
-  image:
-    registry: artefact.skao.int
-    image: ska-tmc-mccsleafnodes
-    tag: 0.1.3
-    pullPolicy: IfNotPresent
-
 resources:
   limits:
     cpu: 300m
@@ -125,7 +118,7 @@ ska-low-cbf:
     ska-low-cbf-conn:
       enabled: false
     ska-low-cbf-proc:
-      enabled: true
+      enabled: false
       deviceServers:
         processor:
           instances: ["0","1","2"]  # 2x CNIC, 1x SUT
@@ -135,11 +128,9 @@ ska-low-cbf:
               xilinx.com/fpga-xilinx_u55c_gen3x16_xdma_base_3-0: 0  # no FPGA hardware
               memory: 512Mi  # reduced
 
-
-
 ska-csp-lmc-low:
   legacy_compatibility: true
-  enabled: true
+  enabled: false
   deviceServers:
     cspcontroller:
       instances: ["controller"]
@@ -153,17 +144,17 @@ deviceServers:
   centralnode:
     enabled: true
     instances: ["01"]
-    subarray_count: 1
+    subarray_count: 2
     file: "data/centralnode.yaml"
 
   subarraynode:
     enabled: true
-    instances: ["01"]
+    instances: ["01","02"]
     file: "data/subarraynode.yaml"
 
   sdpsubarrayleafnode:
     enabled: true
-    instances: ["01"]
+    instances: ["01","02"]
     file: "data/sdpsubarrayleafnode.yaml"
 
   sdpmasterleafnode:
@@ -178,19 +169,13 @@ deviceServers:
 
   cspsubarrayleafnode:
     enabled: true
-    instances: ["01"]
+    instances: ["01","02"]
     file: "data/cspsubarrayleafnode.yaml"
 
   mccsmasterleafnode:
     enabled: true
     instances: [ "01" ]
     file: "data/mccsmasterleafnode.yaml"
-
-  # mccssln:
-  #   enabled: true
-  #   instances: ["01"]
-  #   file: "data/mccssubarrayleafnode.yaml"
-  #   MccsSubarrayFQDN: "low-mccs/subarray/01"
 
   mocks:
     enabled: false
