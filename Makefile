@@ -90,7 +90,7 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set ska-taranta.enabled=$(TARANTA_ENABLED)\
 	--set global.namespace_dish.dish_name="$(DISH_NAME)"\
 	--set global.Dish.isSimulated.enabled=$(SIMULATED_DISH)\
-	--set deviceServers.mocks.isCspReal = $(CSP_REAL_ENABLED)\
+	--set deviceServers.mocks.isCspReal=$(CSP_REAL_ENABLED)\
 	$(CUSTOM_VALUES)
 
 
