@@ -8,6 +8,7 @@ from tests.conftest import (
     wait_for_dish_mode_change,
     wait_for_pointing_state_change,
 )
+from tests.resources.test_support.common_utils.common_helpers import Waiter
 from tests.resources.test_support.constant import (
     centralnode,
     dish_fqdn,
@@ -47,21 +48,20 @@ def test_configure(json_factory):
     wait_for_dish_mode_change(DishMode.OPERATE, dishfqdn, 30)
     wait_for_pointing_state_change(PointingState.TRACK, dishfqdn, 30)
 
-    # the_waiter = Waiter()
-    # the_waiter.set_wait_for_specific_obsstate(
-    #     "READY", [subarray]
-    # )
-    # the_waiter.wait(200)
+    the_waiter = Waiter()
+    the_waiter.set_wait_for_specific_obsstate("READY", [subarray])
+    the_waiter.wait(200)
 
-    # # invoke end command from subarray node
-    # subarray.End()
+    time.sleep(10)
+    # invoke end command from subarray node
+    subarray.End()
 
-    # # Invoke TelescopeOff command
-    # # wait_for_pointing_state_change(PointingState.READY, dishfqdn, 30)
-    # central_node_device.TelescopeOff()
+    # Invoke TelescopeOff command
+    # wait_for_pointing_state_change(PointingState.READY, dishfqdn, 30)
+    central_node_device.TelescopeOff()
 
-    # # Waiting for DISH LMC to respond
-    # wait_for_dish_mode_change(DishMode.STANDBY_LP, dishfqdn, 30)
+    # Waiting for DISH LMC to respond
+    wait_for_dish_mode_change(DishMode.STANDBY_LP, dishfqdn, 30)
 
-    # # check the dishMode of DISH LMC i.e STANDBYLP
-    # assert dishfqdn.dishMode.value == DishMode.STANDBY_LP
+    # check the dishMode of DISH LMC i.e STANDBYLP
+    assert dishfqdn.dishMode.value == DishMode.STANDBY_LP
