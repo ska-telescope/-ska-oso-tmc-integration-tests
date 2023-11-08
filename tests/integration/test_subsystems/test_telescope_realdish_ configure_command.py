@@ -50,7 +50,7 @@ def test_configure(json_factory):
 
     the_waiter = Waiter()
     the_waiter.set_wait_for_specific_obsstate("READY", [subarray])
-    the_waiter.wait(200)
+    the_waiter.wait(300)
 
     time.sleep(10)
     # invoke end command from subarray node

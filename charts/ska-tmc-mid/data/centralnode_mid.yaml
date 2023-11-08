@@ -2,6 +2,8 @@ name: "centralnode-test"
 function: telescope-monitoring
 domain: general-monitoring
 instances: ["01"]
+{{- $DishMasterPrefix := .Values.deviceServers.centralnode.DishMasterPrefix }}
+{{- $DishMasterPostfix := .Values.deviceServers.centralnode.DishMasterPostfix }}
 entrypoints:
   - name: "ska_tmc_centralnode.central_node_mid.CentralNodeMid"
 server:
