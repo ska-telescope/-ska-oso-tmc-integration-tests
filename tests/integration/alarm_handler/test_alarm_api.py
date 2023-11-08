@@ -27,7 +27,6 @@ def add_alarms_api(filename):
             data={"fqdn": "alarm/handler/01"},
         )
         response_data = response.json()
-        print(response_data)
         assert len(response_data["alarm_summary"]["tag"]) == 2
         assert response_data["alarm_summary"]["tag"] == [
             "centralnode_telescopehealthstate_degraded",
@@ -47,7 +46,6 @@ def remove_alarm_api():
         },
     )
     response_data = response.json()
-    print(response_data)
     tag_len = len(response_data["alarm_summary"]["tag"])
     assert tag_len == 1
     assert response_data["alarm_summary"]["tag"] != [
