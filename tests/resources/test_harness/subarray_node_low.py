@@ -51,7 +51,7 @@ device_dict = {
 
 
 class SubarrayNodeLow(SubarrayNode):
-    """Subarray Node class which implement methods required for test cases
+    """Subarray Node Low class which implement methods required for test cases
     to test subarray node.
     """
 
