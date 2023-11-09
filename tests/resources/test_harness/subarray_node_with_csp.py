@@ -12,7 +12,7 @@ configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
 
 
-class SubarrayNodeCspLow(SubarrayNodeLow):
+class SubarrayNodeCspWrapperLow(SubarrayNodeLow):
     def _reset_simulator_devices(self):
         """Reset Simulator devices to it's original state"""
         for sim_device_fqdn in [self.sdp_subarray1]:
@@ -22,8 +22,15 @@ class SubarrayNodeCspLow(SubarrayNodeLow):
             device.SetDefective(json.dumps({"enabled": False}))
 
     def force_change_of_obs_state_mock(
-        self, device_name: str, obstate: SubarrayObsState
+        self, device_name: str, obs_state: SubarrayObsState
     ):
+        """
+        Method changes mock device obsState to desired obsState.
+        :param device_name: FQDN of the mock device
+        :type device_name:str
+        :param obs_state: Desired observation state for the mock device.
+        :type obs_state: SubarrayObsState
+        """
         device_proxy = DeviceProxy(device_name)
-        device_proxy.SetDirectObsState(obstate)
-        device_proxy.SetDirectObsState(obstate)
+        device_proxy.SetDirectObsState(obs_state)
+        device_proxy.SetDirectObsState(obs_state)

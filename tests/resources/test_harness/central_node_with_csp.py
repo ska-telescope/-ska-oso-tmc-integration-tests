@@ -11,11 +11,9 @@ from tests.resources.test_harness.utils.wait_helpers import Waiter
 
 configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
-# TODO: Currently the code for MCCS has been commented as it will be enabled
-#  in the upcoming sprints of PI-20
 
 
-class CentralNodeWrapperCspLow(CentralNodeWrapperLow):
+class CentralNodeCspWrapperLow(CentralNodeWrapperLow):
     """A wrapper class to implement common tango specific details
     and standard set of commands for TMC Low CentralNode,
     defined by the SKA Control Model."""
@@ -77,6 +75,8 @@ class CentralNodeWrapperCspLow(CentralNodeWrapperLow):
             device_proxy.SetDirectState(DevState.OFF)
 
     def set_serial_number_of_cbf_processor(self):
+        """Sets serial number for cbf processor
+        """
         self.processor1.serialnumber = "XFL14SLO1LIF"
         self.processor1.subscribetoallocator("low-cbf/allocator/0")
         self.processor1.register()
