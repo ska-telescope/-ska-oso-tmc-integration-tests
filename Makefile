@@ -93,6 +93,7 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set deviceServers.mocks.isCspReal=$(CSP_REAL_ENABLED)\
 	--set ska-csp-lmc-low.enabled=$(CSP_REAL_ENABLED)\
 	--set ska-low-cbf.ska-low-cbf-proc.enabled=$(CSP_REAL_ENABLED)\
+	--set ska-low-cbf.enabled=$(CSP_REAL_ENABLED)\
 	$(CUSTOM_VALUES)
 
 
