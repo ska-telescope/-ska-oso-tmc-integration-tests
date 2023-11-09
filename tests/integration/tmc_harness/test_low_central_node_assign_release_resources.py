@@ -8,6 +8,8 @@ from tests.resources.test_harness.helpers import (
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tango import DevState
 
+from ska_tango_base.commands import ResultCode
+
 class TestLowCentralNodeAssignResources(object):
     # @pytest.mark.skip(
     #     reason="AssignResources and ReleaseResources"
@@ -124,8 +126,9 @@ class TestLowCentralNodeAssignResources(object):
             "release_resources_low", command_input_factory
         )
 
-        central_node_low.perform_action("ReleaseResources", release_resource_json)
-
+        result, message = central_node_low.perform_action("ReleaseResources", release_resource_json)
+        print (result)
+        print (message)
 
 
 
@@ -144,18 +147,35 @@ class TestLowCentralNodeAssignResources(object):
              "obsState",
             ObsState.EMPTY,
         )
-        assert event_recorder.has_change_event_occurred(
-            central_node_low.subarray_node,
-            "obsState",
-            ObsState.EMPTY,
+
+        event_recorder.subscribe_event(
+            self.central_node_low, "longRunningCommandResult"
         )
+        assert event_recorder.has_change_event_occurred(
+            self.central_node_low,
+            "longRunningCommandResult",
+            (message, str(ResultCode.OK.value)),
+        )
+        # assert event_recorder.has_change_event_occurred(
+        #     central_node_low.subarray_node,
+        #     "obsState",
+        #     ObsState.EMPTY,
+        # )
+
+        assert central_node_low.subarray_node.obsState == ObsState.EMPTY
+
 
         #Setting Assigned Resources empty be
-        assigned_resources_json = prepare_json_args_for_commands(
+        assigned_resources_json_empty = prepare_json_args_for_commands(
             "AssignedResources_low_empty", command_input_factory
         )
 
-        mccs_subarray_sim.SetDirectassignedResources(assigned_resources_json)
-
+        mccs_subarray_sim.SetDirectassignedResources(assigned_resources_json_empty)
+        # import time
+        # time.sleep(3)
         print ("After release")
         print(central_node_low.subarray_node.assignedResources)
+
+
+
+
