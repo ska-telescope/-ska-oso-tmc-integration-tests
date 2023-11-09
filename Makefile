@@ -5,11 +5,13 @@ CAR_OCI_REGISTRY_HOST:=artefact.skao.int
 PROJECT = ska-tmc-integration
 TANGO_HOST ?= tango-databaseds:10000 ## TANGO_HOST connection to the Tango DS
 TELESCOPE ?= SKA-mid
-DISH_NAMESPACE ?= dish-lmc
+DISH_NAMESPACE_1 ?= dish-lmc-1
+DISH_NAMESPACE_2 ?= dish-lmc-2
 PYTHON_VARS_BEFORE_PYTEST ?= PYTHONPATH=.:./src \
 							 TANGO_HOST=$(TANGO_HOST) \
 							 TELESCOPE=$(TELESCOPE) \
-							 DISH_NAMESPACE=$(DISH_NAMESPACE) \
+							 DISH_NAMESPACE_1=$(DISH_NAMESPACE_1) \
+							 DISH_NAMESPACE_2=$(DISH_NAMESPACE_2) \
 
 PYTHON_LINT_TARGET ?= tests/
 
@@ -43,8 +45,9 @@ K8S_CHART ?= $(HELM_CHART)
 
 
 SIMULATED_DISH ?= false
-SUBARRAY_COUNT ?= 1
-DISH_NAME ?= tango://databaseds-tango-base.$(DISH_NAMESPACE).svc.cluster.local:10000/ska001/elt/master
+SUBARRAY_COUNT ?= 2
+DISH_NAME_1 ?= tango://databaseds-tango-base.$(DISH_NAMESPACE_1).svc.cluster.local:10000/ska001/elt/master
+DISH_NAME_2 ?= tango://databaseds-tango-base.$(DISH_NAMESPACE_2).svc.cluster.local:10000/ska002/elt/master
 
 CI_REGISTRY ?= gitlab.com
 
@@ -86,9 +89,10 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set ska-tango-base.xauthority=$(XAUTHORITY) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
 	--set global.exposeAllDS=true \
-	--set global.operator=true \
+	--set global.operator=false \
 	--set ska-taranta.enabled=$(TARANTA_ENABLED)\
-	--set global.namespace_dish.dish_name="$(DISH_NAME)"\
+	--set global.namespace_dish.dish_name[0]="$(DISH_NAME_1)"\
+	--set global.namespace_dish.dish_name[1]="$(DISH_NAME_2)"\
 	--set global.Dish.isSimulated.enabled=$(SIMULATED_DISH)\
 	--set global.subarray_count=$(SUBARRAY_COUNT)\
 	$(CUSTOM_VALUES)

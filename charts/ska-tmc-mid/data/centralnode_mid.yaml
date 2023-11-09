@@ -45,7 +45,9 @@ server:
         - name: "DishMasterFQDN"
           values:
           {{- if eq $isAvailable false }}
-          - "{{ $real_dish_name }}" # Real dish
+          {{- range  (.Values.global.namespace_dish.dish_name)  }}
+          - "{{ . }}" # Real dish
+          {{- end }}
           {{- else }}
           {{- range  (.Values.deviceServers.centralnode.DishIDs)  }}
           - "{{ . | lower }}/{{ $DishMasterPrefix }}/{{ $DishMasterPostfix }}"

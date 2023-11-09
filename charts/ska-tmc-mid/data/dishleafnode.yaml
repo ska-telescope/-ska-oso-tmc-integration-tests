@@ -9,7 +9,8 @@ server:
   instances:
   {{- $isAvailable := .Values.global.Dish.isSimulated.enabled }}
   {{- $real_dish_name := .Values.global.namespace_dish.dish_name }}
-  {{- range  .Values.coalesced_subarray_devices }}
+  {{- $range := .Values.deviceServers.dishleafnode.instances }}
+  {{- range  .Values.deviceServers.dishleafnode.instances }}
     - name: "{{ . }}"
       classes:
       - name: "DishLeafNode"
@@ -19,7 +20,9 @@ server:
           - name: "DishMasterFQDN"
             values:
               {{- if eq $isAvailable false }}
-              - "{{ $real_dish_name }}" # Real dish
+              {{- range  $real_dish_name }}
+              - "{{ . }}" # Real dish
+              {{- end}}
               {{- else }}
               - "ska{{ printf "%03s" . }}/elt/master" # Mock device FQDN
               {{- end }}

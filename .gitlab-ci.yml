@@ -197,8 +197,10 @@ k8s-test-dish-lmc:
   variables:
     SIMULATED_DISH: "false"
     SUBARRAY_COUNT: 1
-    DISH_INDEX: "001"
-    DISH_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX"
+    DISH_INDEX_1: "001"
+    DISH_INDEX_2: "002"
+    DISH_NAMESPACE_1: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX_1"
+    DISH_NAMESPACE_2: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX_2"
     KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX-test"
     DISH_LMC_SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX-test"
   script:
@@ -208,15 +210,16 @@ k8s-test-dish-lmc:
     - make k8s-test MARK=real_dish
   needs:
     - dish-lmc-dish001
+    - dish-lmc-dish002
   after_script:
     - make k8s-uninstall-chart
 
-dish-lmc-dish036:
+dish-lmc-dish002:
   extends:
     - dish-lmc-dish001
   variables:
-    DISH_INDEX: "036"
-    KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX"
+    DISH_INDEX: "002"
+    KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX_2"
     DISH_LMC_SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX"
     DISH_HELM_RELEASE: "2.5.0"
     K8S_DISH_LMC_CHART: "ska-dish-lmc"

@@ -52,7 +52,9 @@ server:
           - name: "DishMasterFQDN"
             values:
             {{- if eq $isAvailable false }}
-            - "{{ $real_dish_name }}" # Real dish
+            {{- range  $real_dish_name }}
+            - "{{ . }}" # Real dish
+            {{- end }}
             {{- else }}
             {{- range  $dish_id }}
             - "{{ . | lower }}/{{ $DishMasterPrefix }}/{{ $DishMasterPostfix }}"
