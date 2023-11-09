@@ -12,16 +12,20 @@ from ska_tango_testing.mock.tango.event_callback import (
     MockTangoEventCallbackGroup,
 )
 
+from tests.resources.test_harness.central_node_low import CentralNodeWrapperLow
+from tests.resources.test_harness.central_node_mid import CentralNodeWrapperMid
 from tests.resources.test_harness.central_node_with_csp import (
     CentralNodeCspWrapperLow,
 )
-from tests.resources.test_harness.central_node_low import CentralNodeWrapperLow
-from tests.resources.test_harness.central_node_mid import CentralNodeWrapperMid
 from tests.resources.test_harness.event_recorder import EventRecorder
 from tests.resources.test_harness.simulator_factory import SimulatorFactory
-from tests.resources.test_harness.subarray_node_with_csp import SubarrayNodeCspWrapperLow
-from tests.resources.test_harness.subarray_node import SubarrayNode
-from tests.resources.test_harness.subarray_node_low import SubarrayNodeWrapperLow
+from tests.resources.test_harness.subarray_node import SubarrayNodeWrapper
+from tests.resources.test_harness.subarray_node_low import (
+    SubarrayNodeWrapperLow,
+)
+from tests.resources.test_harness.subarray_node_with_csp import (
+    SubarrayNodeCspWrapperLow,
+)
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 
 configure_logging(logging.DEBUG)
@@ -147,9 +151,9 @@ def central_node_mid() -> CentralNodeWrapperMid:
 
 
 @pytest.fixture()
-def subarray_node() -> SubarrayNode:
+def subarray_node() -> SubarrayNodeWrapper:
     """Return SubarrayNode and calls tear down"""
-    subarray = SubarrayNode()
+    subarray = SubarrayNodeWrapper()
     yield subarray
     # this will call after test complete
     subarray.tear_down()

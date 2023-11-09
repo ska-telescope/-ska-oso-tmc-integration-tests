@@ -50,7 +50,7 @@ device_dict = {
 }
 
 
-class SubarrayNodeLow(SubarrayNode):
+class SubarrayNodeWrapperLow(SubarrayNode):
     """Subarray Node Low class which implement methods required for test cases
     to test subarray node.
     """

@@ -54,7 +54,7 @@ device_dict = {
 }
 
 
-class SubarrayNode(object):
+class SubarrayNodeWrapper(object):
     """Subarray Node class which implement methods required for test cases
     to test subarray node.
     """

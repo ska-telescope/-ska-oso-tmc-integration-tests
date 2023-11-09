@@ -75,8 +75,7 @@ class CentralNodeCspWrapperLow(CentralNodeWrapperLow):
             device_proxy.SetDirectState(DevState.OFF)
 
     def set_serial_number_of_cbf_processor(self):
-        """Sets serial number for cbf processor
-        """
+        """Sets serial number for cbf processor"""
         self.processor1.serialnumber = "XFL14SLO1LIF"
         self.processor1.subscribetoallocator("low-cbf/allocator/0")
         self.processor1.register()
