@@ -2,7 +2,6 @@
 import time
 
 import pytest
-from ska_tango_base.control_model import ObsState
 from tango import DeviceProxy
 
 from tests.conftest import (
@@ -10,6 +9,7 @@ from tests.conftest import (
     wait_for_obsstate_state_change,
     wait_for_pointing_state_change,
 )
+from tests.resources.test_support.common_utils.common_helpers import Waiter
 from tests.resources.test_support.constant import (
     centralnode,
     dish_fqdn,
@@ -47,8 +47,13 @@ def test_configure(json_factory):
     subarray.Configure(config_json)
 
     wait_for_dish_mode_change(DishMode.OPERATE, dishfqdn, 30)
-    wait_for_pointing_state_change(PointingState.TRACK, dishfqdn, 30)
-    wait_for_obsstate_state_change(ObsState.READY, subarray, 30)
+
+    the_waiter = Waiter()
+    the_waiter.set_wait_for_pointingstate("TRACK", [dishfqdn])
+    the_waiter.wait(400)
+
+    the_waiter.set_wait_for_specific_obsstate("READY", [subarray])
+    the_waiter.wait(100)
 
     # invoke end command from subarray node
     subarray.End()
