@@ -14,7 +14,7 @@ from tests.resources.test_harness.constant import (
     low_sdp_subarray_leaf_node,
     tmc_low_subarraynode1,
 )
-from tests.resources.test_harness.subarray_node import SubarrayNode
+from tests.resources.test_harness.subarray_node import SubarrayNodeWrapper
 from tests.resources.test_harness.utils.constant import (
     ABORTED,
     IDLE,
@@ -50,7 +50,7 @@ device_dict = {
 }
 
 
-class SubarrayNodeWrapperLow(SubarrayNode):
+class SubarrayNodeWrapperLow(SubarrayNodeWrapper):
     """Subarray Node Low class which implement methods required for test cases
     to test subarray node.
     """
