@@ -196,7 +196,7 @@ def test_assign_release_timeout_csp(json_factory, change_event_callbacks):
             f"Exception occurred on device: {tmc_subarraynode1}: "
             + "Exception occurred on the following devices:\n"
             + f"{tmc_csp_subarray_leaf_node}: "
-            + "Timeout has occured, command failed\n"
+            + "Timeout has occurred, command failed\n"
         )
         assert exception_message in assertion_data["attribute_value"][1]
         csp_subarray.SetDefective(json.dumps({"enabled": False}))
