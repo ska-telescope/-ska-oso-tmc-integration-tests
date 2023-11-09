@@ -15,7 +15,7 @@ LOGGER = logging.getLogger(__name__)
 
 class CentralNodeCspWrapperLow(CentralNodeWrapperLow):
     """A wrapper class to implement common tango specific details
-    and standard set of commands for TMC Low CentralNode,
+    and standard set of commands for TMC Low CentralNode with real csp device,
     defined by the SKA Control Model."""
 
     def __init__(self) -> None:

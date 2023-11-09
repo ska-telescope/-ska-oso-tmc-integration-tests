@@ -14,7 +14,7 @@ from ska_tango_testing.mock.tango.event_callback import (
 
 from tests.resources.test_harness.central_node_low import CentralNodeWrapperLow
 from tests.resources.test_harness.central_node_mid import CentralNodeWrapperMid
-from tests.resources.test_harness.central_node_with_csp import (
+from tests.resources.test_harness.central_node_with_csp_low import (
     CentralNodeCspWrapperLow,
 )
 from tests.resources.test_harness.event_recorder import EventRecorder
@@ -23,7 +23,7 @@ from tests.resources.test_harness.subarray_node import SubarrayNodeWrapper
 from tests.resources.test_harness.subarray_node_low import (
     SubarrayNodeWrapperLow,
 )
-from tests.resources.test_harness.subarray_node_with_csp import (
+from tests.resources.test_harness.subarray_node_with_csp_low import (
     SubarrayNodeCspWrapperLow,
 )
 from tests.resources.test_harness.utils.common_utils import JsonFactory

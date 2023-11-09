@@ -5,14 +5,20 @@ from ska_ser_logging import configure_logging
 from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy
 
-from tests.resources.test_harness.subarray_node_low import SubarrayNodeLow
+from tests.resources.test_harness.subarray_node_low import (
+    SubarrayNodeLowWrapper,
+)
 from tests.resources.test_harness.utils.enums import SubarrayObsState
 
 configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
 
 
-class SubarrayNodeCspWrapperLow(SubarrayNodeLow):
+class SubarrayNodeCspWrapperLow(SubarrayNodeLowWrapper):
+    """Subarray Node Low class with real csp which implement methods required
+    for test cases to test subarray node.
+    """
+
     def _reset_simulator_devices(self):
         """Reset Simulator devices to it's original state"""
         for sim_device_fqdn in [self.sdp_subarray1]:
