@@ -198,7 +198,6 @@ k8s-test-dish-lmc:
     SIMULATED_DISH: "false"
     SUBARRAY_COUNT: 1
     DISH_INDEX: "001"
-    MARK: "real_dish"
     DISH_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX"
     KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX-test"
     DISH_LMC_SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX-test"
@@ -206,7 +205,7 @@ k8s-test-dish-lmc:
     - make cred SERVICE_ACCOUNT=$DISH_LMC_SERVICE_ACCOUNT
     - make k8s-install-chart
     - make k8s-wait
-    - make k8s-test
+    - make k8s-test MARK=real_dish
   needs:
     - dish-lmc-dish001
   after_script:
