@@ -1,4 +1,6 @@
 """Test Telescope On Command on DISH LMC"""
+import time
+
 import pytest
 from tango import DeviceProxy
 
@@ -21,6 +23,8 @@ def test_telescope_on():
 
     # Waiting for DISH LMC to respond
     wait_for_dish_mode_change(DishMode.STANDBY_FP, dishfqdn, 30)
+
+    time.sleep(5)
 
     # Check the dishMode of DISH LMC i.e STANDBYFP
     assert dishfqdn.dishMode.value == DishMode.STANDBY_FP

@@ -101,7 +101,7 @@ def test_recover_subarray_stuck_in_resourcing(
         )
         assert "AssignResources" in assertion_data["attribute_value"][0]
         assert (
-            "Timeout has occured, command failed"
+            "Timeout has occurred, command failed"
             in assertion_data["attribute_value"][1]
         )
         assert (
@@ -437,7 +437,7 @@ def test_recover_subarray_stuck_in_resourcing_with_abort(
         )
         assert "AssignResources" in assertion_data["attribute_value"][0]
         assert (
-            "Timeout has occured, command failed"
+            "Timeout has occurred, command failed"
             in assertion_data["attribute_value"][1]
         )
         assert (

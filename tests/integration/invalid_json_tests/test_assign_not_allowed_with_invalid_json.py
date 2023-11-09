@@ -102,7 +102,7 @@ def send(json_factory, invalid_json):
                 json.dumps(assign_json), **device_params
             )
     except Exception as e:
-        LOGGER.exception(f"Exception occured: {e}")
+        LOGGER.exception(f"Exception occurred: {e}")
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
