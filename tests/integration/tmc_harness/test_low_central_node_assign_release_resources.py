@@ -103,3 +103,29 @@ class TestLowCentralNodeAssignResources(object):
             "obsState",
             ObsState.IDLE,
         )
+
+        release_resource_json = prepare_json_args_for_centralnode_commands(
+            "release_resources_low", command_input_factory
+        )
+
+        central_node_low.perform_action("ReleaseResources", release_resource_json)
+        assert event_recorder.has_change_event_occurred(
+            sdp_master_sim,
+            "obsState",
+            ObsState.EMPTY,
+        )
+        assert event_recorder.has_change_event_occurred(
+            csp_master_sim,
+            "obsState",
+            ObsState.EMPTY,
+        )
+        # assert event_recorder.has_change_event_occurred(
+        #     mccs_master_sim,
+        #     "State",
+        #     ObsState.IDLE,
+        # )
+        assert event_recorder.has_change_event_occurred(
+            central_node_low.subarray_node,
+            "obsState",
+            ObsState.EMPTY,
+        )
