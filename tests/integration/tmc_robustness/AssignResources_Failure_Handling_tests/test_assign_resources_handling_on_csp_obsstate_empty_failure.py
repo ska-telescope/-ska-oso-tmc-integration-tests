@@ -16,7 +16,7 @@ from tests.resources.test_harness.helpers import (
 )
 
 
-# @pytest.mark.bdd_assign
+@pytest.mark.bdd_assign
 @pytest.mark.SKA_mid
 @scenario(
     "../features/assign_resources_csp_subarray_failure_scenarios.feature",
@@ -75,6 +75,9 @@ def given_tmc_subarray_assign_resources_is_in_progress(
     event_recorder.subscribe_event(csp_sim, "obsState")
     event_recorder.subscribe_event(sdp_sim, "obsState")
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
+    event_recorder.subscribe_event(
+        central_node_mid.central_node, "longRunningCommandResult"
+    )
 
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
@@ -85,11 +88,18 @@ def given_tmc_subarray_assign_resources_is_in_progress(
     csp_sim.SetDefective(
         json.dumps(COMMAND_FAILED_WITH_EXCEPTION_OBSSTATE_EMPTY)
     )
-    central_node_mid.perform_action("AssignResources", assign_input_json)
+    _, unique_id = central_node_mid.perform_action(
+        "AssignResources", assign_input_json
+    )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "obsState",
         ObsState.RESOURCING,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.central_node,
+        "longRunningCommandResult",
+        (unique_id[0], Anything),
     )
 
 
@@ -104,7 +114,12 @@ def sdp_subarray_assign_resources_complete(event_recorder, simulator_factory):
     )
 
 
-@given(parsers.parse("Csp Subarray {subarray_id} returns to obsState EMPTY"))
+@given(
+    parsers.parse(
+        "Csp Subarray {subarray_id} raises exception and "
+        + "returns to obsState EMPTY"
+    )
+)
 def csp_subarray_returns_to_obsstate_empty(event_recorder, simulator_factory):
     csp_sim, _, _, _ = get_device_simulators(simulator_factory)
     event_recorder.subscribe_event(csp_sim, "obsState")
@@ -123,9 +138,6 @@ def given_tmc_subarray_stuck_resourcing(
     event_recorder,
 ):
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
-    event_recorder.subscribe_event(
-        central_node_mid.subarray_node, "longRunningCommandResult"
-    )
     LOGGER.info(
         "SubarrayNode ObsState is: %s", central_node_mid.subarray_node.obsState
     )

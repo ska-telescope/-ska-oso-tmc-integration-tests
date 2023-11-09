@@ -62,6 +62,7 @@ class FaultType(enum.IntEnum):
     FAILED_RESULT = 2
     LONG_RUNNING_EXCEPTION = 3
     STUCK_IN_INTERMEDIATE_STATE = 4
+    STUCK_IN_OBSTATE = 5
 
 
 class ResultCode(enum.IntEnum):

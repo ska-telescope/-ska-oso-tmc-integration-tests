@@ -4,7 +4,7 @@ Feature: TMC SubarrayNode handles the failure when the AssignResources command f
         Given a TMC 
         And the TMC SubarrayNode <subarray_id> assign resources is in progress
         And Csp Subarray <subarray_id> completes assignResources
-        And Sdp Subarray <subarray_id> returns to obsState EMPTY
+        And Sdp Subarray <subarray_id> raises exception and returns to obsState EMPTY
         And the TMC SubarrayNode <subarray_id> stucks in RESOURCING
         When I issue the command ReleaseAllResources on CSP Subarray <subarray_id>
         Then the CSP subarray <subarray_id> transitions to obsState EMPTY
@@ -24,13 +24,9 @@ Feature: TMC SubarrayNode handles the failure when the AssignResources command f
         And Sdp Subarray <subarray_id> is stuck in obsState RESOURCING
         And the TMC SubarrayNode <subarray_id> stucks in RESOURCING
         When I issue the Abort command on TMC SubarrayNode <subarray_id>
-        Then the SDP subarray <subarray_id> transitions to obsState ABORTED
-        And the CSP subarray <subarray_id> transitions to obsState ABORTED
-        And Tmc SubarrayNode <subarray_id> transitions to obsState ABORTED
+        Then the CSP, SDP and TMC subarray <subarray_id> transitions to obsState ABORTED
         When I issue the Restart command on TMC SubarrayNode <subarray_id>
-        Then the SDP subarray <subarray_id> transitions to obsState EMPTY
-        And the CSP subarray <subarray_id> transitions to obsState EMPTY
-        And Tmc SubarrayNode <subarray_id> transitions to obsState EMPTY
+        Then the CSP, SDP and TMC subarray <subarray_id> transitions to obsState EMPTY
         And AssignResources command is executed successfully on the Subarray <subarray_id>
 
         Examples:

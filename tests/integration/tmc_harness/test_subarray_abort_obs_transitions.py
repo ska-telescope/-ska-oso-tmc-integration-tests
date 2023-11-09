@@ -9,7 +9,7 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
         "source_obs_state",
         ["RESOURCING", "IDLE", "CONFIGURING", "READY", "SCANNING"],
     )
-    @pytest.mark.skip(reason="Pipeline issue")
+    @pytest.mark.skip(reason="Configure issue")
     @pytest.mark.SKA_mid
     def test_subarray_obs_transitions_valid_data(
         self,
