@@ -11,12 +11,8 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
 
 class TestLowCentralNodeAssignResources(object):
-    # @pytest.mark.skip(
-    #     reason="AssignResources and ReleaseResources"
-    #     " functionalities are not yet"
-    #     " implemented on mccs master leaf node."
-    # )
     @pytest.mark.SKA_low131
+    @pytest.mark.SKA_low
     def test_low_centralnode_assign_resources(
         self,
         central_node_low,
@@ -67,6 +63,9 @@ class TestLowCentralNodeAssignResources(object):
         event_recorder.subscribe_event(
             central_node_low.subarray_node, "obsState"
         )
+        event_recorder.subscribe_event(
+            central_node_low.central_node, "longRunningCommandResult"
+        )
         central_node_low.move_to_on()
 
         assert event_recorder.has_change_event_occurred(
@@ -93,7 +92,9 @@ class TestLowCentralNodeAssignResources(object):
         event_recorder.subscribe_event(
             central_node_low.subarray_node, "assignedResources"
         )
-        central_node_low.perform_action("AssignResources", assign_input_json)
+        result, message = central_node_low.perform_action(
+            "AssignResources", assign_input_json
+        )
 
         assigned_resources_json = prepare_json_args_for_commands(
             "AssignedResources_low", command_input_factory
@@ -122,7 +123,11 @@ class TestLowCentralNodeAssignResources(object):
             ObsState.IDLE,
         )
 
-        print(central_node_low.subarray_node.assignedResources)
+        assert event_recorder.has_change_event_occurred(
+            central_node_low.central_node,
+            "longRunningCommandResult",
+            (message[0], str(ResultCode.OK.value)),
+        )
 
         release_resource_json = prepare_json_args_for_centralnode_commands(
             "release_resources_low", command_input_factory
@@ -131,8 +136,6 @@ class TestLowCentralNodeAssignResources(object):
         result, message = central_node_low.perform_action(
             "ReleaseResources", release_resource_json
         )
-        print(result)
-        print(message)
 
         assert event_recorder.has_change_event_occurred(
             sdp_subarray_sim,
@@ -150,23 +153,15 @@ class TestLowCentralNodeAssignResources(object):
             ObsState.EMPTY,
         )
 
-        event_recorder.subscribe_event(
-            central_node_low.central_node, "longRunningCommandResult"
-        )
         assert event_recorder.has_change_event_occurred(
             central_node_low.central_node,
             "longRunningCommandResult",
             (message[0], str(ResultCode.OK.value)),
         )
-        # assert event_recorder.has_change_event_occurred(
-        #     central_node_low.subarray_node,
-        #     "obsState",
-        #     ObsState.EMPTY,
-        # )
 
         assert central_node_low.subarray_node.obsState == ObsState.EMPTY
 
-        # Setting Assigned Resources empty be
+        # Setting Assigned Resources empty
         assigned_resources_json_empty = prepare_json_args_for_commands(
             "AssignedResources_low_empty", command_input_factory
         )
@@ -174,7 +169,3 @@ class TestLowCentralNodeAssignResources(object):
         mccs_subarray_sim.SetDirectassignedResources(
             assigned_resources_json_empty
         )
-        # import time
-        # time.sleep(3)
-        print("After release")
-        print(central_node_low.subarray_node.assignedResources)
