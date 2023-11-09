@@ -20,7 +20,6 @@ class TestSubarrayNodeObsStateTransitions(object):
             ("READY", "End", "IDLE"),
         ],
     )
-    @pytest.mark.skip(reason="Configure issue")
     @pytest.mark.SKA_mid
     def test_subarray_obs_transitions_valid_data(
         self,
