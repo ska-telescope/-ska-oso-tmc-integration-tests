@@ -190,6 +190,20 @@ dish-lmc-dish001:
     action: stop
   allow_failure: true
 
+dish-lmc-dish002:
+  extends:
+    - dish-lmc-dish001
+  variables:
+    DISH_INDEX: "002"
+    KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX"
+    DISH_LMC_SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX"
+    DISH_HELM_RELEASE: "2.5.0"
+    K8S_DISH_LMC_CHART: "ska-dish-lmc"
+  environment:
+    name: test/$CI_COMMIT_REF_SLUG
+    on_stop: stop-k8s-dish-lmc-001
+    action: stop
+
 k8s-test-dish-lmc:
   stage: test
   tags:
@@ -213,20 +227,6 @@ k8s-test-dish-lmc:
     - dish-lmc-dish002
   after_script:
     - make k8s-uninstall-chart
-
-dish-lmc-dish002:
-  extends:
-    - dish-lmc-dish001
-  variables:
-    DISH_INDEX: "002"
-    KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX"
-    DISH_LMC_SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX"
-    DISH_HELM_RELEASE: "2.5.0"
-    K8S_DISH_LMC_CHART: "ska-dish-lmc"
-  environment:
-    name: test/$CI_COMMIT_REF_SLUG
-    on_stop: stop-k8s-dish-lmc-001
-    action: stop
 
 k8s-test-low:
   retry: 1
