@@ -253,7 +253,7 @@ csp-k8s-test-low:
     CSP_SIMULATION_ENABLED: 'false'
   script:
     - make cred SERVICE_ACCOUNT=$SERVICE_ACCOUNT
-    - make k8s-install-chart
+    - make k8s-install-chart TELESCOPE=SKA-low
     - make k8s-wait
     - make k8s-test
   environment:
