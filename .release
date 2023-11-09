@@ -1,30 +1,22 @@
-release=0.8.10
-tag=0.8.10
+release=0.8.11
+tag=0.8.11
 tag_description=
 **Charts:**
 **1. ska-tmc-integration 0.8.10 - 0.8.11:**
 
-    **1.1 ska-tmc-mid - 0.12.0 - 0.12.1:
-        a. Exposed Mid device fqdns as helm variable
-        b. Updated configuration files(.yaml) for all the Mid TMC tango devices including centralnode, 
-        subarraynode, cspsubarrayleafnode, sdpsubarrayleafnode, cspmasterleafnode, sdpmasterleafnode and dishleafnode
+    **1.1 ska-tmc-mid - 0.12.0 - 0.13.0:
+        a. Utilise latest CspSubarrayLeafNode Mid version 0.10.1(REL-948)
 
-    **1.2 ska-tmc-low - 0.10.0 - 0.10.1:
-        a. Exposed Low device fqdns as helm variable
-        b. Updated configuration files(.yaml) for all the Low TMC tango devices including centralnode, 
-        subarraynode, cspsubarrayleafnode, sdpsubarrayleafnode, cspmasterleafnode and sdpmasterleafnode
+    **1.2 ska-tmc-low - 0.10.0 - 0.11.0:
+        a. Utilise latest CspSubarrayLeafNode Mid version 0.10.1 to support SP-3652 feature(REL-949)
 
 
 release_notes=
 **Charts:**
 **1. ska-tmc-integration 0.8.10 - 0.8.11:**
 
-    **1.1 ska-tmc-mid - 0.12.0 - 0.12.1:
-        a. Exposed Mid device fqdns as helm variable
-        b. Updated configuration files(.yaml) for all the Mid TMC tango devices including centralnode, 
-        subarraynode, cspsubarrayleafnode, sdpsubarrayleafnode, cspmasterleafnode, sdpmasterleafnode and dishleafnode
+    **1.1 ska-tmc-mid - 0.12.0 - 0.13.0:
+        a. Utilise latest CspSubarrayLeafNode Mid version 0.10.1(REL-948)
 
-    **1.2 ska-tmc-low - 0.10.0 - 0.10.1:
-        a. Exposed Low device fqdns as helm variable
-        b. Updated configuration files(.yaml) for all the Low TMC tango devices including centralnode, 
-        subarraynode, cspsubarrayleafnode, sdpsubarrayleafnode, cspmasterleafnode and sdpmasterleafnode
+    **1.2 ska-tmc-low - 0.10.0 - 0.11.0:
+       a. Utilise latest CspSubarrayLeafNode Mid version 0.10.1 to support SP-3652 feature(REL-949)
