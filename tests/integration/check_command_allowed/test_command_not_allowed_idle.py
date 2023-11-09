@@ -96,7 +96,7 @@ def send(json_factory, unexpected_command):
         assert f"command {unexpected_command} is not allowed \
             in current subarray obsState"
     except Exception as e:
-        LOGGER.info(f"Exception occurred: {e}")
+        LOGGER.info(f"Exception occured: {e}")
 
 
 @then(

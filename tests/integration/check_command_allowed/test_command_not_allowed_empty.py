@@ -104,7 +104,7 @@ def send(json_factory, unexpected_command):
                 **ON_OFF_DEVICE_COMMAND_DICT
             )
     except Exception as e:
-        LOGGER.info(f"Exception occurred: {e}")
+        LOGGER.info(f"Exception occured: {e}")
 
 
 @then(

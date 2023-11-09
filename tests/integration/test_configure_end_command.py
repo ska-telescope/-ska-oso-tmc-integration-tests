@@ -155,7 +155,7 @@ def test_configure_timeout_and_error_propagation_csp(
 
         assert "Configure" in assertion_data["attribute_value"][0]
         assert (
-            "Timeout has occurred, command failed"
+            "Timeout has occured, command failed"
             in assertion_data["attribute_value"][1]
         )
         assert (
@@ -180,7 +180,6 @@ def test_configure_timeout_and_error_propagation_csp(
         )
 
 
-@pytest.mark.skip(reason="Need to update the way to induce fault on SDP SA")
 @pytest.mark.SKA_mid
 def test_configure_timeout_sdp(json_factory, change_event_callbacks):
     """Verify timeout exception raised when csp set to defective."""
@@ -237,7 +236,7 @@ def test_configure_timeout_sdp(json_factory, change_event_callbacks):
 
         assert "Configure" in assertion_data["attribute_value"][0]
         assert (
-            "Timeout has occurred, command failed"
+            "Timeout has occured, command failed"
             in assertion_data["attribute_value"][1]
         )
         assert (
