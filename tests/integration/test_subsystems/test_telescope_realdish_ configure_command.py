@@ -2,10 +2,12 @@
 import time
 
 import pytest
+from ska_tango_base.control_model import ObsState
 from tango import DeviceProxy
 
 from tests.conftest import (
     wait_for_dish_mode_change,
+    wait_for_obsstate_state_change,
     wait_for_pointing_state_change,
 )
 from tests.resources.test_support.constant import (
@@ -40,19 +42,20 @@ def test_configure(json_factory):
     # invoke assignresources command from central node
     central_node_device.AssignResources(assign_json)
 
-    time.sleep(25)
+    time.sleep(5)
     # invoke configure command from subarray node
     subarray.Configure(config_json)
 
     wait_for_dish_mode_change(DishMode.OPERATE, dishfqdn, 30)
     wait_for_pointing_state_change(PointingState.TRACK, dishfqdn, 30)
+    wait_for_obsstate_state_change(ObsState.READY, subarray, 30)
 
     # invoke end command from subarray node
     subarray.End()
-    time.sleep(20)
+    time.sleep(5)
     # Invoke TelescopeOff command
     central_node_device.ReleaseResources(release_json)
-    time.sleep(30)
+    time.sleep(5)
     # wait_for_pointing_state_change(PointingState.READY, dishfqdn, 30)
     central_node_device.TelescopeOff()
 
