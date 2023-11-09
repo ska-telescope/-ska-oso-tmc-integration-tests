@@ -12,9 +12,14 @@ entrypoints:
 server:
   name: "mocks"
   instances:
-    {{- $isCspReal := .Values.deviceServers.mocks.isCspReal}}
+    {{- $isCspSimulated := .Values.global.csp.isSimulated.enabled }}
     - name: "01"
       classes:
+        {{- if eq $isCspSimulated true }}
+        - name: "HelperCspMasterDevice"
+          devices:
+          - name: "low-csp/control/0"
+        {{- end }}
         - name: HelperSubArrayDevice
           devices: 
           - name: "low-mccs/subarray/01"
@@ -29,7 +34,7 @@ server:
           devices:
           - name: "low-sdp/subarray/01"
           - name: "low-sdp/subarray/02"
-        {{- if eq $isCspReal false }}
+        {{- if eq $isCspSimulated true }}
         - name: "HelperCspSubarray"
           devices:
           - name: "low-csp/subarray/01"

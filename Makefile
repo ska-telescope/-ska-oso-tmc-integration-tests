@@ -71,7 +71,7 @@ K8S_TEST_RUNNER = test-runner-$(HELM_RELEASE)
 
 CI_PROJECT_PATH_SLUG ?= ska-tmc-integration
 CI_ENVIRONMENT_SLUG ?= ska-tmc-integration
-CSP_REAL_ENABLED ?= false
+CSP_SIMULATION_ENABLED ?= true
 
 ifeq ($(MAKECMDGOALS),k8s-test)
 ADD_ARGS +=  --true-context
@@ -79,6 +79,13 @@ MARK ?= $(shell echo $(TELESCOPE) | sed "s/-/_/g")
 endif
 
 PYTHON_VARS_AFTER_PYTEST ?= -m '$(MARK)' $(ADD_ARGS) $(FILE)
+
+ifeq ($(CSP_SIMULATION_ENABLED),false)
+CUSTOM_VALUES =	--set global.csp.isSimulated.enabled=$(CSP_SIMULATION_ENABLED)\
+	--set ska-csp-lmc-low.enabled=true\
+	--set ska-low-cbf.enabled=true\
+	--set ska-low-cbf.ska-low-cbf-proc.enabled=true
+endif
 
 K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.tango_host=$(TANGO_HOST) \
@@ -90,10 +97,6 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set ska-taranta.enabled=$(TARANTA_ENABLED)\
 	--set global.namespace_dish.dish_name="$(DISH_NAME)"\
 	--set global.Dish.isSimulated.enabled=$(SIMULATED_DISH)\
-	--set deviceServers.mocks.isCspReal=$(CSP_REAL_ENABLED)\
-	--set ska-csp-lmc-low.enabled=$(CSP_REAL_ENABLED)\
-	--set ska-low-cbf.ska-low-cbf-proc.enabled=$(CSP_REAL_ENABLED)\
-	--set ska-low-cbf.enabled=$(CSP_REAL_ENABLED)\
 	$(CUSTOM_VALUES)
 
 
