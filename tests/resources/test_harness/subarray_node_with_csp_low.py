@@ -6,7 +6,7 @@ from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy
 
 from tests.resources.test_harness.subarray_node_low import (
-    SubarrayNodeLowWrapper,
+    SubarrayNodeWrapperLow,
 )
 from tests.resources.test_harness.utils.enums import SubarrayObsState
 
@@ -14,7 +14,7 @@ configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
 
 
-class SubarrayNodeCspWrapperLow(SubarrayNodeLowWrapper):
+class SubarrayNodeCspWrapperLow(SubarrayNodeWrapperLow):
     """Subarray Node Low class with real csp which implement methods required
     for test cases to test subarray node.
     """
