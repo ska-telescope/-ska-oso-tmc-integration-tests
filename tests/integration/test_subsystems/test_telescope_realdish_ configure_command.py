@@ -4,18 +4,14 @@ import time
 import pytest
 from tango import DeviceProxy
 
-from tests.conftest import (
-    wait_for_dish_mode_change,
-    wait_for_obsstate_state_change,
-    wait_for_pointing_state_change,
-)
+from tests.conftest import wait_for_dish_mode_change
 from tests.resources.test_support.common_utils.common_helpers import Waiter
 from tests.resources.test_support.constant import (
     centralnode,
     dish_fqdn,
     tmc_subarraynode1,
 )
-from tests.resources.test_support.enum import DishMode, PointingState
+from tests.resources.test_support.enum import DishMode
 
 
 @pytest.mark.real_dish
