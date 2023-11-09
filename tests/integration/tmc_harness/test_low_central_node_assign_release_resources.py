@@ -1,3 +1,5 @@
+import json
+
 import pytest
 from ska_control_model import ObsState
 from ska_tango_base.commands import ResultCode
@@ -11,7 +13,7 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
 
 class TestLowCentralNodeAssignResources(object):
-    @pytest.mark.SKA_low131
+    @pytest.mark.SKA_low131  # Marker will be removed.
     @pytest.mark.SKA_low
     def test_low_centralnode_assign_resources(
         self,
@@ -66,6 +68,12 @@ class TestLowCentralNodeAssignResources(object):
         event_recorder.subscribe_event(
             central_node_low.central_node, "longRunningCommandResult"
         )
+
+        event_recorder.subscribe_event(
+            central_node_low.subarray_node, "assignedResources"
+        )
+
+        # Execute ON Command
         central_node_low.move_to_on()
 
         assert event_recorder.has_change_event_occurred(
@@ -89,9 +97,7 @@ class TestLowCentralNodeAssignResources(object):
             DevState.ON,
         )
 
-        event_recorder.subscribe_event(
-            central_node_low.subarray_node, "assignedResources"
-        )
+        # Execute Assign command and perform validations
         result, message = central_node_low.perform_action(
             "AssignResources", assign_input_json
         )
@@ -129,6 +135,24 @@ class TestLowCentralNodeAssignResources(object):
             (message[0], str(ResultCode.OK.value)),
         )
 
+        # Check if assignedResources attribute is set
+        assigned_resources_attribute_value = (
+            central_node_low.subarray_node.assignedResources
+        )
+
+        assigned_resources = json.loads(assigned_resources_attribute_value[0])
+        assert assigned_resources["subarray_beam_ids"] == ["1"]
+        assert assigned_resources["channels"] == [32]
+        assert assigned_resources["station_ids"] == ["1", "2", "3"]
+        assert assigned_resources["apertures"] == [
+            "AP001.01",
+            "AP001.02",
+            "AP002.01",
+            "AP002.02",
+            "AP003.01",
+        ]
+
+        # Execute release command and verify
         release_resource_json = prepare_json_args_for_centralnode_commands(
             "release_resources_low", command_input_factory
         )
@@ -169,3 +193,14 @@ class TestLowCentralNodeAssignResources(object):
         mccs_subarray_sim.SetDirectassignedResources(
             assigned_resources_json_empty
         )
+
+        assigned_resources_attribute_value = (
+            central_node_low.subarray_node.assignedResources
+        )
+
+        assigned_resources = json.loads(assigned_resources_attribute_value[0])
+        assert assigned_resources["subarray_beam_ids"] == []
+        assert assigned_resources["station_beam_ids"] == []
+        assert assigned_resources["station_ids"] == []
+        assert assigned_resources["apertures"] == []
+        assert assigned_resources["channels"] == [0]
