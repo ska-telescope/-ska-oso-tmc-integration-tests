@@ -3,6 +3,7 @@ from ska_control_model import ObsState
 
 from tests.resources.test_harness.helpers import (
     prepare_json_args_for_centralnode_commands,
+    prepare_json_args_for_commands
 )
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tango import DevState
@@ -38,41 +39,46 @@ class TestLowCentralNodeAssignResources(object):
         assign_input_json = prepare_json_args_for_centralnode_commands(
             "assign_resources_low", command_input_factory
         )
-        csp_master_sim = simulator_factory.get_or_create_simulator_device(
+        csp_subarray_sim = simulator_factory.get_or_create_simulator_device(
             SimulatorDeviceType.LOW_CSP_DEVICE
         )
-        sdp_master_sim = simulator_factory.get_or_create_simulator_device(
+        sdp_subarray_sim = simulator_factory.get_or_create_simulator_device(
             SimulatorDeviceType.LOW_SDP_DEVICE
         )
-        mccs_master_sim = simulator_factory.get_or_create_simulator_device(
+        mccs_controller_sim = simulator_factory.get_or_create_simulator_device(
             SimulatorDeviceType.MCCS_MASTER_DEVICE
         )
-        event_recorder.subscribe_event(csp_master_sim, "State")
-        event_recorder.subscribe_event(sdp_master_sim, "State")
-        event_recorder.subscribe_event(mccs_master_sim, "State")
+
+        mccs_subarray_sim = simulator_factory.get_or_create_simulator_device(
+            SimulatorDeviceType.MCCS_SUBARRAY_DEVICE
+        )
+
+        event_recorder.subscribe_event(csp_subarray_sim, "State")
+        event_recorder.subscribe_event(sdp_subarray_sim, "State")
+        event_recorder.subscribe_event(mccs_controller_sim, "State")
         event_recorder.subscribe_event(
             central_node_low.central_node, "telescopeState"
         )
-        event_recorder.subscribe_event(csp_master_sim, "obsState")
-        event_recorder.subscribe_event(sdp_master_sim, "obsState")
-        #event_recorder.subscribe_event(mccs_master_sim, "obsState")
+        event_recorder.subscribe_event(csp_subarray_sim, "obsState")
+        event_recorder.subscribe_event(sdp_subarray_sim, "obsState")
+        event_recorder.subscribe_event(mccs_subarray_sim, "obsState")
         event_recorder.subscribe_event(
             central_node_low.subarray_node, "obsState"
         )
         central_node_low.move_to_on()
 
         assert event_recorder.has_change_event_occurred(
-            csp_master_sim,
+            csp_subarray_sim,
             "State",
             DevState.ON,
         )
         assert event_recorder.has_change_event_occurred(
-            sdp_master_sim,
+            sdp_subarray_sim,
             "State",
             DevState.ON,
         )
         assert event_recorder.has_change_event_occurred(
-            mccs_master_sim,
+            mccs_controller_sim,
             "State",
             DevState.ON,
         )
@@ -82,50 +88,74 @@ class TestLowCentralNodeAssignResources(object):
             DevState.ON,
         )
 
+        event_recorder.subscribe_event(central_node_low.subarray_node, "assignedResources")
         central_node_low.perform_action("AssignResources", assign_input_json)
+
+        assigned_resources_json = prepare_json_args_for_commands(
+            "AssignedResources_low", command_input_factory
+        )
+
+        mccs_subarray_sim.SetDirectassignedResources(assigned_resources_json)
+
         assert event_recorder.has_change_event_occurred(
-            sdp_master_sim,
+            sdp_subarray_sim,
             "obsState",
             ObsState.IDLE,
         )
         assert event_recorder.has_change_event_occurred(
-            csp_master_sim,
+            csp_subarray_sim,
             "obsState",
             ObsState.IDLE,
         )
-        # assert event_recorder.has_change_event_occurred(
-        #     mccs_master_sim,
-        #     "State",
-        #     ObsState.IDLE,
-        # )
+        assert event_recorder.has_change_event_occurred(
+            mccs_subarray_sim,
+            "obsState",
+            ObsState.IDLE,
+        )
         assert event_recorder.has_change_event_occurred(
             central_node_low.subarray_node,
             "obsState",
             ObsState.IDLE,
         )
+
+        print (central_node_low.subarray_node.assignedResources)
 
         release_resource_json = prepare_json_args_for_centralnode_commands(
             "release_resources_low", command_input_factory
         )
 
         central_node_low.perform_action("ReleaseResources", release_resource_json)
+
+
+
+
         assert event_recorder.has_change_event_occurred(
-            sdp_master_sim,
+            sdp_subarray_sim,
             "obsState",
             ObsState.EMPTY,
         )
         assert event_recorder.has_change_event_occurred(
-            csp_master_sim,
+            csp_subarray_sim,
             "obsState",
             ObsState.EMPTY,
         )
-        # assert event_recorder.has_change_event_occurred(
-        #     mccs_master_sim,
-        #     "State",
-        #     ObsState.IDLE,
-        # )
+        assert event_recorder.has_change_event_occurred(
+            mccs_subarray_sim,
+             "obsState",
+            ObsState.EMPTY,
+        )
         assert event_recorder.has_change_event_occurred(
             central_node_low.subarray_node,
             "obsState",
             ObsState.EMPTY,
         )
+
+        #Setting Assigned Resources empty be
+        assigned_resources_json = prepare_json_args_for_commands(
+            "AssignedResources_low_empty", command_input_factory
+        )
+
+        mccs_subarray_sim.SetDirectassignedResources(assigned_resources_json)
+
+        print ("After release")
+        print(central_node_low.subarray_node.assignedResources)

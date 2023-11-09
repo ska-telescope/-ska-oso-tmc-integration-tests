@@ -52,6 +52,7 @@ class SimulatorDeviceType(IntEnum):
     LOW_CSP_MASTER_DEVICE = 7
     LOW_SDP_MASTER_DEVICE = 8
     MCCS_MASTER_DEVICE = 9
+    MCCS_SUBARRAY_DEVICE = 10
 
 
 class FaultType(enum.IntEnum):
