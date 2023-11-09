@@ -1,14 +1,14 @@
 import pytest
 from ska_control_model import ObsState
+from ska_tango_base.commands import ResultCode
+from tango import DevState
 
 from tests.resources.test_harness.helpers import (
     prepare_json_args_for_centralnode_commands,
-    prepare_json_args_for_commands
+    prepare_json_args_for_commands,
 )
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
-from tango import DevState
 
-from ska_tango_base.commands import ResultCode
 
 class TestLowCentralNodeAssignResources(object):
     # @pytest.mark.skip(
@@ -90,7 +90,9 @@ class TestLowCentralNodeAssignResources(object):
             DevState.ON,
         )
 
-        event_recorder.subscribe_event(central_node_low.subarray_node, "assignedResources")
+        event_recorder.subscribe_event(
+            central_node_low.subarray_node, "assignedResources"
+        )
         central_node_low.perform_action("AssignResources", assign_input_json)
 
         assigned_resources_json = prepare_json_args_for_commands(
@@ -120,17 +122,17 @@ class TestLowCentralNodeAssignResources(object):
             ObsState.IDLE,
         )
 
-        print (central_node_low.subarray_node.assignedResources)
+        print(central_node_low.subarray_node.assignedResources)
 
         release_resource_json = prepare_json_args_for_centralnode_commands(
             "release_resources_low", command_input_factory
         )
 
-        result, message = central_node_low.perform_action("ReleaseResources", release_resource_json)
-        print (result)
-        print (message)
-
-
+        result, message = central_node_low.perform_action(
+            "ReleaseResources", release_resource_json
+        )
+        print(result)
+        print(message)
 
         assert event_recorder.has_change_event_occurred(
             sdp_subarray_sim,
@@ -144,17 +146,17 @@ class TestLowCentralNodeAssignResources(object):
         )
         assert event_recorder.has_change_event_occurred(
             mccs_subarray_sim,
-             "obsState",
+            "obsState",
             ObsState.EMPTY,
         )
 
         event_recorder.subscribe_event(
-            self.central_node_low, "longRunningCommandResult"
+            central_node_low.central_node, "longRunningCommandResult"
         )
         assert event_recorder.has_change_event_occurred(
-            self.central_node_low,
+            central_node_low.central_node,
             "longRunningCommandResult",
-            (message, str(ResultCode.OK.value)),
+            (message[0], str(ResultCode.OK.value)),
         )
         # assert event_recorder.has_change_event_occurred(
         #     central_node_low.subarray_node,
@@ -164,18 +166,15 @@ class TestLowCentralNodeAssignResources(object):
 
         assert central_node_low.subarray_node.obsState == ObsState.EMPTY
 
-
-        #Setting Assigned Resources empty be
+        # Setting Assigned Resources empty be
         assigned_resources_json_empty = prepare_json_args_for_commands(
             "AssignedResources_low_empty", command_input_factory
         )
 
-        mccs_subarray_sim.SetDirectassignedResources(assigned_resources_json_empty)
+        mccs_subarray_sim.SetDirectassignedResources(
+            assigned_resources_json_empty
+        )
         # import time
         # time.sleep(3)
-        print ("After release")
+        print("After release")
         print(central_node_low.subarray_node.assignedResources)
-
-
-
-
