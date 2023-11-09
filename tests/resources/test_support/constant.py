@@ -8,7 +8,7 @@ from tests.resources.test_support.common_utils.result_code import (
     ResultCode,
 )
 
-dish_name = os.getenv("DISH_NAMESPACE")
+dish_name = os.getenv("DISH_NAMESPACE_1")
 
 dish_fqdn = (
     f"tango://databaseds-tango-base.{dish_name}.svc.cluster"
