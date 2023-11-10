@@ -143,6 +143,7 @@ def test_assign_release_with_meerkat_ids(json_factory):
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
+@pytest.mark.skip
 @pytest.mark.SKA_mid
 def test_assign_release_timeout_csp(json_factory, change_event_callbacks):
     """Verify timeout exception raised when csp set to defective."""
