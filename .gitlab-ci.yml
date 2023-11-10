@@ -258,7 +258,7 @@ k8s-test-low-with-csp:
     - make k8s-test
   environment:
     name: test/$CI_COMMIT_REF_SLUG
-    on_stop: csp-stop-k8s-test-low
+    on_stop: stop-k8s-test-low-with-csp
     auto_stop_in: 1 minute
 
 stop-k8s-test-low-with-csp:
