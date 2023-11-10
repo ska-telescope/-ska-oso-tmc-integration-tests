@@ -45,6 +45,8 @@ class TestSubarrayConfigure(object):
             subarray_node_real_csp_low.subarray_node, "obsState"
         )
         central_node_real_csp_low.set_serial_number_of_cbf_processor()
+        # Temporary will be updated after the mccs leaf node
+        # changes are integrated
         subarray_node_real_csp_low.force_change_of_obs_state_mock(
             mccs_subarray_leaf_node, ObsState.IDLE
         )
@@ -72,10 +74,12 @@ class TestSubarrayConfigure(object):
         assert event_recorder.has_change_event_occurred(
             subarray_node_real_csp_low.subarray_node, "obsState", ObsState.IDLE
         )
+        # Temporary will be updated after the mccs leaf node
+        # changes are integrated
         subarray_node_real_csp_low.force_change_of_obs_state_mock(
             mccs_subarray_leaf_node, ObsState.EMPTY
         )
-        subarray_node_real_csp_low.force_change_of_obs_state(ObsState.EMPTY)
+
         assert event_recorder.has_change_event_occurred(
             subarray_node_real_csp_low.subarray_node,
             "obsState",

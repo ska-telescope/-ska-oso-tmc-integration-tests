@@ -23,6 +23,7 @@ from tests.resources.test_harness.constant import (
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 from tests.resources.test_harness.utils.sync_decorators import (
     sync_abort,
+    sync_assign_resources,
     sync_release_resources,
     sync_restart,
 )
@@ -64,6 +65,16 @@ class CentralNodeWrapperLow(CentralNodeWrapper):
         self.assign_input = self.json_factory.create_centralnode_configuration(
             "assign_resources_low"
         )
+
+    @sync_assign_resources(device_dict=device_dict_low)
+    def store_resources(self, assign_json: str):
+        """Invoke Assign Resource command on subarray Node
+        Args:
+            assign_json (str): Assign resource input json
+        """
+        result, message = self.subarray_node.AssignResources(assign_json)
+        LOGGER.info("Invoked AssignResources on SubarrayNode")
+        return result, message
 
     @sync_release_resources(device_dict=device_dict_low)
     def invoke_release_resources(self, input_string: str):
