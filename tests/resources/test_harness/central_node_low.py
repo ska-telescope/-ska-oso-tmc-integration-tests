@@ -21,9 +21,6 @@ from tests.resources.test_harness.constant import (
     tmc_low_subarraynode1,
 )
 from tests.resources.test_harness.utils.common_utils import JsonFactory
-from tests.resources.test_harness.utils.obs_state_resetter_low import (
-    ObsStateResetterFactoryLow,
-)
 from tests.resources.test_harness.utils.sync_decorators import (
     sync_abort,
     sync_assign_resources,
@@ -64,6 +61,9 @@ class CentralNodeWrapperLow(CentralNodeWrapper):
             self.json_factory.create_centralnode_configuration(
                 "release_resources_low"
             )
+        )
+        self.assign_input = self.json_factory.create_centralnode_configuration(
+            "assign_resources_low"
         )
 
     @sync_assign_resources(device_dict=device_dict_low)
@@ -117,31 +117,3 @@ class CentralNodeWrapperLow(CentralNodeWrapper):
         elif self.subarray_node.obsState == ObsState.ABORTED:
             self.subarray_restart()
         self.move_to_off()
-
-    def force_change_of_obs_state(self, dest_state_name: str) -> None:
-        """Force CentralNode obsState to provided obsState
-
-        Args:
-            dest_state_name (str): Destination obsState
-        """
-        factory_obj = ObsStateResetterFactoryLow()
-        obs_state_resetter = factory_obj.create_obs_state_resetter(
-            dest_state_name, self
-        )
-        obs_state_resetter.reset()
-        self._clear_command_call_and_transition_data()
-
-    def clear_all_data(self):
-        """Method to clear the observations
-        and put the CentralNode in EMPTY"""
-        if self.obs_state in [
-            "IDLE",
-            "RESOURCING",
-            "READY",
-            "CONFIGURING",
-            "SCANNING",
-        ]:
-            self.subarray_abort()
-            self.subarray_restart()
-        elif self.obs_state == "ABORTED":
-            self.subarray_restart()
