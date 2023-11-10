@@ -12,6 +12,7 @@ from tests.resources.test_harness.constant import (
     low_sdp_master,
     low_sdp_subarray1,
     low_sdp_subarray_leaf_node,
+    mccs_subarray_leaf_node,
     tmc_low_subarraynode1,
 )
 from tests.resources.test_harness.subarray_node import SubarrayNodeWrapper
@@ -47,6 +48,7 @@ device_dict = {
     "centralnode": low_centralnode,
     "csp_subarray_leaf_node": low_csp_subarray_leaf_node,
     "sdp_subarray_leaf_node": low_sdp_subarray_leaf_node,
+    "mccs_subarray_leaf_node": mccs_subarray_leaf_node,
 }
 
 
@@ -60,6 +62,7 @@ class SubarrayNodeWrapperLow(SubarrayNodeWrapper):
         self.subarray_node = DeviceProxy(tmc_low_subarraynode1)
         self.csp_subarray_leaf_node = DeviceProxy(low_csp_subarray_leaf_node)
         self.sdp_subarray_leaf_node = DeviceProxy(low_sdp_subarray_leaf_node)
+        self.mccs_subarray_leaf_node = DeviceProxy(mccs_subarray_leaf_node)
         self._state = DevState.OFF
         self.obs_state = SubarrayObsState.EMPTY
         self.csp_subarray1 = low_csp_subarray1
