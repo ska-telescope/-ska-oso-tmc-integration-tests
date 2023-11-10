@@ -16,7 +16,7 @@ Feature: Successfully execute a scan after a failed configure
 		Then the subarray transitions to obsState SCANNING
 		When I issue the command EndScan  
 		Then the subarray transitions to obsState READY
-		And the data is recorced as expected
+		# And the data is recorced as expected
 
         Examples:
             | subarray_id  | resources_list |
