@@ -6,7 +6,7 @@ from tests.resources.test_harness.helpers import prepare_json_args_for_commands
 
 
 class TestSubarrayConfigure(object):
-    """This class implement test cases to validate obs state of sub array"""
+    """This class implement test cases to validate obsState of sub array"""
 
     @pytest.mark.real_csp
     @pytest.mark.parametrize(

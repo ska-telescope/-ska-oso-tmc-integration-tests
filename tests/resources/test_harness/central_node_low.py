@@ -130,3 +130,18 @@ class CentralNodeWrapperLow(CentralNodeWrapper):
         )
         obs_state_resetter.reset()
         self._clear_command_call_and_transition_data()
+
+    def clear_all_data(self):
+        """Method to clear the observations
+        and put the CentralNode in EMPTY"""
+        if self.obs_state in [
+            "IDLE",
+            "RESOURCING",
+            "READY",
+            "CONFIGURING",
+            "SCANNING",
+        ]:
+            self.subarray_abort()
+            self.subarray_restart()
+        elif self.obs_state == "ABORTED":
+            self.subarray_restart()
