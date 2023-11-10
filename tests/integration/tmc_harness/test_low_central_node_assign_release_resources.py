@@ -12,6 +12,42 @@ from tests.resources.test_harness.helpers import (
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
 
+def check_assigned_resources_attribute_after_release(
+    assigned_resources_attribute_value,
+):
+    """
+    This function will verify if assignedResources attribute is set to
+    empty values after release resources is completed.
+    """
+    assigned_resources = json.loads(assigned_resources_attribute_value[0])
+    assert assigned_resources["subarray_beam_ids"] == []
+    assert assigned_resources["station_beam_ids"] == []
+    assert assigned_resources["station_ids"] == []
+    assert assigned_resources["apertures"] == []
+    assert assigned_resources["channels"] == [0]
+
+
+def check_assigned_resources_attribute_after_assign(
+    assigned_resources_attribute_value,
+):
+    """
+    This function will verify if assignedResources attribute is set to
+    expected values after assign resources command is completed.
+    """
+
+    assigned_resources = json.loads(assigned_resources_attribute_value[0])
+    assert assigned_resources["subarray_beam_ids"] == ["1"]
+    assert assigned_resources["channels"] == [32]
+    assert assigned_resources["station_ids"] == ["1", "2", "3"]
+    assert assigned_resources["apertures"] == [
+        "AP001.01",
+        "AP001.02",
+        "AP002.01",
+        "AP002.02",
+        "AP003.01",
+    ]
+
+
 class TestLowCentralNodeAssignResources(object):
     @pytest.mark.SKA_low131  # Marker will be removed.
     @pytest.mark.SKA_low
@@ -69,10 +105,6 @@ class TestLowCentralNodeAssignResources(object):
             central_node_low.central_node, "longRunningCommandResult"
         )
 
-        event_recorder.subscribe_event(
-            central_node_low.subarray_node, "assignedResources"
-        )
-
         # Execute ON Command
         central_node_low.move_to_on()
 
@@ -97,8 +129,8 @@ class TestLowCentralNodeAssignResources(object):
             DevState.ON,
         )
 
-        # Execute Assign command and perform validations
-        result, message = central_node_low.perform_action(
+        # Execute Assign command and check command completed successfully
+        result, unique_id = central_node_low.perform_action(
             "AssignResources", assign_input_json
         )
 
@@ -132,32 +164,23 @@ class TestLowCentralNodeAssignResources(object):
         assert event_recorder.has_change_event_occurred(
             central_node_low.central_node,
             "longRunningCommandResult",
-            (message[0], str(ResultCode.OK.value)),
+            (unique_id[0], str(ResultCode.OK.value)),
         )
 
-        # Check if assignedResources attribute is set
         assigned_resources_attribute_value = (
             central_node_low.subarray_node.assignedResources
         )
 
-        assigned_resources = json.loads(assigned_resources_attribute_value[0])
-        assert assigned_resources["subarray_beam_ids"] == ["1"]
-        assert assigned_resources["channels"] == [32]
-        assert assigned_resources["station_ids"] == ["1", "2", "3"]
-        assert assigned_resources["apertures"] == [
-            "AP001.01",
-            "AP001.02",
-            "AP002.01",
-            "AP002.02",
-            "AP003.01",
-        ]
+        check_assigned_resources_attribute_after_assign(
+            assigned_resources_attribute_value
+        )
 
-        # Execute release command and verify
+        # Execute release command and verify command completed successfully
         release_resource_json = prepare_json_args_for_centralnode_commands(
             "release_resources_low", command_input_factory
         )
 
-        result, message = central_node_low.perform_action(
+        result, unique_id = central_node_low.perform_action(
             "ReleaseResources", release_resource_json
         )
 
@@ -180,7 +203,7 @@ class TestLowCentralNodeAssignResources(object):
         assert event_recorder.has_change_event_occurred(
             central_node_low.central_node,
             "longRunningCommandResult",
-            (message[0], str(ResultCode.OK.value)),
+            (unique_id[0], str(ResultCode.OK.value)),
         )
 
         assert central_node_low.subarray_node.obsState == ObsState.EMPTY
@@ -197,10 +220,6 @@ class TestLowCentralNodeAssignResources(object):
         assigned_resources_attribute_value = (
             central_node_low.subarray_node.assignedResources
         )
-
-        assigned_resources = json.loads(assigned_resources_attribute_value[0])
-        assert assigned_resources["subarray_beam_ids"] == []
-        assert assigned_resources["station_beam_ids"] == []
-        assert assigned_resources["station_ids"] == []
-        assert assigned_resources["apertures"] == []
-        assert assigned_resources["channels"] == [0]
+        check_assigned_resources_attribute_after_release(
+            assigned_resources_attribute_value
+        )
