@@ -50,7 +50,7 @@ class TestSubarrayNodeNegative(object):
         exception_message = (
             "Exception occured on device"
             ": ska_mid/tm_leaf_node/csp_subarray01: Timeout has "
-            "occured, command failed"
+            "occurred, command failed"
         )
 
         expected_long_running_command_result = (
