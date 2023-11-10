@@ -24,7 +24,6 @@ class ObsStateResetterLow(ObsStateResetter):
         self.configure_input = self.json_factory.create_subarray_configuration(
             "configure_low"
         )
-        self.scan_input = ""
         self.scan_input = self.json_factory.create_subarray_configuration(
             "scan_low"
         )
@@ -125,7 +124,7 @@ class AbortedObsStateResetterLow(ObsStateResetterLow):
 
 class ScanningObsStateResetterLow(ObsStateResetterLow):
     """
-    Put self.device into the "ABORTED" state
+    Put self.device into the "Scanning" state
     """
 
     state_name = "SCANNING"
@@ -138,6 +137,11 @@ class ScanningObsStateResetterLow(ObsStateResetterLow):
 
 
 class ObsStateResetterFactoryLow:
+    """
+    ObsState Resetter Factory used to provide instance of
+    obsState resetter classes.
+    """
+
     table = {
         "EMPTY": EmptyObsStateResetterLow,
         "RESOURCING": ResourcingObsStateResetterLow,

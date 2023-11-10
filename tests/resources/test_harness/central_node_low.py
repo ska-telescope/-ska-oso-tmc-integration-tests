@@ -68,12 +68,12 @@ class CentralNodeWrapperLow(CentralNodeWrapper):
 
     @sync_assign_resources(device_dict=device_dict_low)
     def store_resources(self, assign_json: str):
-        """Invoke Assign Resource command on subarray Node
+        """Invoke Assign Resource command on central Node
         Args:
             assign_json (str): Assign resource input json
         """
-        result, message = self.subarray_node.AssignResources(assign_json)
-        LOGGER.info("Invoked AssignResources on SubarrayNode")
+        result, message = self.central_node.AssignResources(assign_json)
+        LOGGER.info("Invoked AssignResources on CentralNode")
         return result, message
 
     @sync_release_resources(device_dict=device_dict_low)
