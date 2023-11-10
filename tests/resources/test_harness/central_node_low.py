@@ -21,8 +21,12 @@ from tests.resources.test_harness.constant import (
     tmc_low_subarraynode1,
 )
 from tests.resources.test_harness.utils.common_utils import JsonFactory
+from tests.resources.test_harness.utils.obs_state_resetter_low import (
+    ObsStateResetterFactoryLow,
+)
 from tests.resources.test_harness.utils.sync_decorators import (
     sync_abort,
+    sync_assign_resources,
     sync_release_resources,
     sync_restart,
 )
@@ -61,6 +65,16 @@ class CentralNodeWrapperLow(CentralNodeWrapper):
                 "release_resources_low"
             )
         )
+
+    @sync_assign_resources(device_dict=device_dict_low)
+    def store_resources(self, assign_json: str):
+        """Invoke Assign Resource command on central Node
+        Args:
+            assign_json (str): Assign resource input json
+        """
+        result, message = self.central_node.AssignResources(assign_json)
+        LOGGER.info("Invoked AssignResources on CentralNode")
+        return result, message
 
     @sync_release_resources(device_dict=device_dict_low)
     def invoke_release_resources(self, input_string: str):
@@ -103,3 +117,16 @@ class CentralNodeWrapperLow(CentralNodeWrapper):
         elif self.subarray_node.obsState == ObsState.ABORTED:
             self.subarray_restart()
         self.move_to_off()
+
+    def force_change_of_obs_state(self, dest_state_name: str) -> None:
+        """Force CentralNode obsState to provided obsState
+
+        Args:
+            dest_state_name (str): Destination obsState
+        """
+        factory_obj = ObsStateResetterFactoryLow()
+        obs_state_resetter = factory_obj.create_obs_state_resetter(
+            dest_state_name, self
+        )
+        obs_state_resetter.reset()
+        self._clear_command_call_and_transition_data()
