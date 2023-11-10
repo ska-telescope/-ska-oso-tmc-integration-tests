@@ -6,10 +6,12 @@ PROJECT = ska-tmc-integration
 TANGO_HOST ?= tango-databaseds:10000 ## TANGO_HOST connection to the Tango DS
 TELESCOPE ?= SKA-mid
 DISH_NAMESPACE ?= dish-lmc
+KUBE_NAMESPACE ?= ska-tmc-integration
 PYTHON_VARS_BEFORE_PYTEST ?= PYTHONPATH=.:./src \
 							 TANGO_HOST=$(TANGO_HOST) \
 							 TELESCOPE=$(TELESCOPE) \
 							 DISH_NAMESPACE=$(DISH_NAMESPACE) \
+							 KUBE_NAMESPACE=$(KUBE_NAMESPACE) \
 
 PYTHON_LINT_TARGET ?= tests/
 
@@ -27,7 +29,6 @@ endif
 
 # KUBE_NAMESPACE defines the Kubernetes Namespace that will be deployed to
 # using Helm.  If this does not already exist it will be created
-KUBE_NAMESPACE ?= ska-tmc-integration
 ifneq ($(CI_JOB_ID),)
 KUBE_NAMESPACE ?= ci-$(CI_PROJECT_NAME)-$(CI_COMMIT_SHORT_SHA)
 endif
