@@ -45,7 +45,7 @@ K8S_CHARTS ?= ska-tmc-$(DEPLOYMENT_TYPE) ska-tmc-testing-$(DEPLOYMENT_TYPE)## li
 K8S_CHART ?= $(HELM_CHART)
 
 
-SIMULATED_DISH ?= false
+SIMULATED_DISH ?= true
 SUBARRAY_COUNT ?= 2
 DISH_NAME_1 ?= tango://databaseds-tango-base.$(DISH_NAMESPACE_1).svc.cluster.local:10000/ska001/elt/master
 DISH_NAME_2 ?= tango://databaseds-tango-base.$(DISH_NAMESPACE_2).svc.cluster.local:10000/ska002/elt/master
@@ -90,7 +90,7 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set ska-tango-base.xauthority=$(XAUTHORITY) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
 	--set global.exposeAllDS=true \
-	--set global.operator=false \
+	--set global.operator=true \
 	--set ska-taranta.enabled=$(TARANTA_ENABLED)\
 	--set global.namespace_dish.dish_name[0]="$(DISH_NAME_1)"\
 	--set global.namespace_dish.dish_name[1]="$(DISH_NAME_2)"\

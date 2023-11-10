@@ -38,9 +38,7 @@ def test_configure(json_factory):
 
     # invoke assignresources command from central node
     central_node_device.AssignResources(assign_json)
-
-    the_waiter.set_wait_for_specific_obsstate("IDLE", [subarray])
-    the_waiter.wait(400)
+    time.sleep(5)
     # invoke configure command from subarray node
     subarray.Configure(config_json)
 
@@ -49,6 +47,8 @@ def test_configure(json_factory):
     the_waiter.set_wait_for_pointingstate("TRACK", [dishfqdn])
     the_waiter.wait(400)
 
+    the_waiter.set_wait_for_specific_obsstate("IDLE", [subarray])
+    the_waiter.wait(400)
     # invoke end command from subarray node
     subarray.End()
     the_waiter.set_wait_for_pointingstate("READY", [dishfqdn])
