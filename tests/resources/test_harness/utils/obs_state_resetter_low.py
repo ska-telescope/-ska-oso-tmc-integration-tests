@@ -25,9 +25,9 @@ class ObsStateResetterLow(ObsStateResetter):
             "configure_low"
         )
         self.scan_input = ""
-        # self.scan_input = self.json_factory.create_subarray_configuration(
-        #     "scan_low" # not added yet
-        # )
+        self.scan_input = self.json_factory.create_subarray_configuration(
+            "scan_low"
+        )
 
 
 class ReadyObsStateResetterLow(ObsStateResetterLow):
