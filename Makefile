@@ -7,11 +7,13 @@ TANGO_HOST ?= tango-databaseds:10000 ## TANGO_HOST connection to the Tango DS
 TELESCOPE ?= SKA-mid
 DISH_NAMESPACE_1 ?= dish-lmc-1
 DISH_NAMESPACE_2 ?= dish-lmc-2
+KUBE_NAMESPACE ?= ska-tmc-integration
 PYTHON_VARS_BEFORE_PYTEST ?= PYTHONPATH=.:./src \
 							 TANGO_HOST=$(TANGO_HOST) \
 							 TELESCOPE=$(TELESCOPE) \
 							 DISH_NAMESPACE_1=$(DISH_NAMESPACE_1) \
 							 DISH_NAMESPACE_2=$(DISH_NAMESPACE_2) \
+							 KUBE_NAMESPACE=$(KUBE_NAMESPACE) \
 
 PYTHON_LINT_TARGET ?= tests/
 
@@ -29,7 +31,6 @@ endif
 
 # KUBE_NAMESPACE defines the Kubernetes Namespace that will be deployed to
 # using Helm.  If this does not already exist it will be created
-KUBE_NAMESPACE ?= ska-tmc-integration
 ifneq ($(CI_JOB_ID),)
 KUBE_NAMESPACE ?= ci-$(CI_PROJECT_NAME)-$(CI_COMMIT_SHORT_SHA)
 endif
@@ -44,7 +45,7 @@ K8S_CHARTS ?= ska-tmc-$(DEPLOYMENT_TYPE) ska-tmc-testing-$(DEPLOYMENT_TYPE)## li
 K8S_CHART ?= $(HELM_CHART)
 
 
-SIMULATED_DISH ?= true
+SIMULATED_DISH ?= false
 SUBARRAY_COUNT ?= 2
 DISH_NAME_1 ?= tango://databaseds-tango-base.$(DISH_NAMESPACE_1).svc.cluster.local:10000/ska001/elt/master
 DISH_NAME_2 ?= tango://databaseds-tango-base.$(DISH_NAMESPACE_2).svc.cluster.local:10000/ska002/elt/master
@@ -89,7 +90,7 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set ska-tango-base.xauthority=$(XAUTHORITY) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
 	--set global.exposeAllDS=true \
-	--set global.operator=true \
+	--set global.operator=false \
 	--set ska-taranta.enabled=$(TARANTA_ENABLED)\
 	--set global.namespace_dish.dish_name[0]="$(DISH_NAME_1)"\
 	--set global.namespace_dish.dish_name[1]="$(DISH_NAME_2)"\

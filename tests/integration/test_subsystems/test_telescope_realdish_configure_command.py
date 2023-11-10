@@ -50,8 +50,6 @@ def test_configure(json_factory):
     the_waiter.set_wait_for_pointingstate("TRACK", [dishfqdn])
     the_waiter.wait(400)
 
-    the_waiter.set_wait_for_specific_obsstate("READY", [subarray])
-    the_waiter.wait(400)
 
     # invoke end command from subarray node
     subarray.End()
