@@ -156,7 +156,7 @@ def test_configure_timeout_and_error_propagation_csp(
 
         assert "Configure" in assertion_data["attribute_value"][0]
         assert (
-            "Timeout has occured, command failed"
+            "Timeout has occurred, command failed"
             in assertion_data["attribute_value"][1]
         )
         assert (
@@ -238,7 +238,7 @@ def test_configure_timeout_sdp(json_factory, change_event_callbacks):
 
         assert "Configure" in assertion_data["attribute_value"][0]
         assert (
-            "Timeout has occured, command failed"
+            "Timeout has occurred, command failed"
             in assertion_data["attribute_value"][1]
         )
         assert (
