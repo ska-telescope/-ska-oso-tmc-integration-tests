@@ -20,6 +20,7 @@ def test_configure(json_factory):
     assign_json = json_factory("command_AssignResources")
     config_json = json_factory("command_Configure")
     release_json = json_factory("command_ReleaseResources")
+    the_waiter = Waiter()
     central_node_device = DeviceProxy(centralnode)
     subarray = DeviceProxy(tmc_subarraynode1)
 
@@ -38,26 +39,26 @@ def test_configure(json_factory):
     # invoke assignresources command from central node
     central_node_device.AssignResources(assign_json)
 
-    time.sleep(5)
+    the_waiter.set_wait_for_specific_obsstate("IDLE", [subarray])
+    the_waiter.wait(400)
     # invoke configure command from subarray node
     subarray.Configure(config_json)
 
     wait_for_dish_mode_change(DishMode.OPERATE, dishfqdn, 30)
 
-    the_waiter = Waiter()
     the_waiter.set_wait_for_pointingstate("TRACK", [dishfqdn])
     the_waiter.wait(400)
 
     the_waiter.set_wait_for_specific_obsstate("READY", [subarray])
-    the_waiter.wait(100)
+    the_waiter.wait(400)
 
+    the_waiter.set_wait_for_pointingstate("READY", [dishfqdn])
+    the_waiter.wait(400)
     # invoke end command from subarray node
     subarray.End()
-    time.sleep(5)
     # Invoke TelescopeOff command
     central_node_device.ReleaseResources(release_json)
     time.sleep(5)
-    # wait_for_pointing_state_change(PointingState.READY, dishfqdn, 30)
     central_node_device.TelescopeOff()
 
     # Waiting for DISH LMC to respond
