@@ -6,4 +6,3 @@ Feature: TMC is able to load Dish and VCC map configuration file and display cur
         Then TMC should pass the configuration to CSP Controller
         And TMC should set Dish k-numbers provided in file on dish master devices
         And TMC displays the current version of Dish and VCC configuration 
-  

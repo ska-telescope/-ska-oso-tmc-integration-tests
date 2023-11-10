@@ -35,6 +35,3 @@ Feature: TMC is able to handle the failure when load dish cfg command fails
         Examples:
         | error_message |
         | Exception occurred, command failed. |
-
-        
-
