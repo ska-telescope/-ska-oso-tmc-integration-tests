@@ -171,6 +171,7 @@ mccs_controller = "low-mccs/control/control"
 mccs_subarray1 = "low-mccs/subarray/01"
 mccs_subarray2 = "low-mccs/subarray/02"
 mccs_subarray3 = "low-mccs/subarray/03"
+processor1 = "low-cbf/processor/0.0.0"
 
 device_dict = {
     "csp_master": csp_master,

@@ -17,6 +17,7 @@ from tests.resources.test_harness.constant import (
     low_sdp_subarray1,
     mccs_controller,
     mccs_master_leaf_node,
+    mccs_subarray1,
     tmc_low_subarraynode1,
 )
 from tests.resources.test_harness.utils.common_utils import JsonFactory
@@ -47,8 +48,9 @@ class CentralNodeWrapperLow(CentralNodeWrapper):
         self.subarray_devices = {
             "csp_subarray": DeviceProxy(low_csp_subarray1),
             "sdp_subarray": DeviceProxy(low_sdp_subarray1),
-            # "mccs_subarray": DeviceProxy(mccs_subarray1)
+            "mccs_subarray": DeviceProxy(mccs_subarray1),
         }
+        self.csp_subarray1 = DeviceProxy(low_csp_subarray1)
         self.sdp_master = DeviceProxy(low_sdp_master)
         self.csp_master = DeviceProxy(low_csp_master)
         self.mccs_master = DeviceProxy(mccs_controller)
@@ -70,13 +72,13 @@ class CentralNodeWrapperLow(CentralNodeWrapper):
         return result, message
 
     @sync_abort(device_dict=device_dict_low)
-    def abort(self):
+    def subarray_abort(self):
         """Invoke Abort command on subarray Node"""
         result, message = self.subarray_node.Abort()
         return result, message
 
     @sync_restart(device_dict=device_dict_low)
-    def restart(self):
+    def subarray_restart(self):
         """Invoke Restart command on subarray Node"""
         result, message = self.subarray_node.Restart()
         return result, message
