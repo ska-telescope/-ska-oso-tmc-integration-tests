@@ -49,7 +49,6 @@ def check_assigned_resources_attribute_after_assign(
 
 
 class TestLowCentralNodeAssignResources(object):
-    @pytest.mark.SKA_low131  # Marker will be removed.
     @pytest.mark.SKA_low
     def test_low_centralnode_assign_resources(
         self,
