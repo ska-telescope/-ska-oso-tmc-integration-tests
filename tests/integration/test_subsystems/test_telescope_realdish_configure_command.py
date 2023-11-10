@@ -13,6 +13,7 @@ from tests.resources.test_support.constant import (
 )
 from tests.resources.test_support.enum import DishMode
 
+
 @pytest.mark.aki
 @pytest.mark.real_dish
 def test_configure(json_factory):
