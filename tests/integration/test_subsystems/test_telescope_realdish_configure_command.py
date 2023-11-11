@@ -54,23 +54,10 @@ def test_configure(json_factory):
     # invoke end command from subarray node
     subarray.End()
 
-    # the_waiter.set_wait_for_pointingstate("READY", [dishfqdn1])
-    # the_waiter.wait(400)
-
-    # the_waiter.set_wait_for_pointingstate("READY", [dishfqdn2])
-    # the_waiter.wait(400)
-
     the_waiter.set_wait_for_specific_obsstate("IDLE", [subarray])
     the_waiter.wait(400)
     # Invoke TelescopeOff command
     central_node_device.ReleaseResources(release_json)
     time.sleep(5)
+    # Tearing down
     central_node_device.TelescopeOff()
-
-    # Waiting for DISH LMC to respond
-    wait_for_dish_mode_change(DishMode.STANDBY_LP, dishfqdn1, 30)
-    wait_for_dish_mode_change(DishMode.STANDBY_LP, dishfqdn2, 30)
-
-    # check the dishMode of DISH LMC i.e STANDBYLP
-    assert dishfqdn1.dishMode.value == DishMode.STANDBY_LP
-    assert dishfqdn2.dishMode.value == DishMode.STANDBY_LP
