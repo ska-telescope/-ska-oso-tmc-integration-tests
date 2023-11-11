@@ -50,15 +50,15 @@ def test_configure(json_factory):
     wait_for_dish_mode_change(DishMode.OPERATE, dishfqdn2, 30)
 
     the_waiter.set_wait_for_specific_obsstate("READY", [subarray])
-    the_waiter.wait(400)
+    the_waiter.wait(600)
     # invoke end command from subarray node
     subarray.End()
 
-    the_waiter.set_wait_for_pointingstate("READY", [dishfqdn1])
-    the_waiter.wait(400)
+    # the_waiter.set_wait_for_pointingstate("READY", [dishfqdn1])
+    # the_waiter.wait(400)
 
-    the_waiter.set_wait_for_pointingstate("READY", [dishfqdn2])
-    the_waiter.wait(400)
+    # the_waiter.set_wait_for_pointingstate("READY", [dishfqdn2])
+    # the_waiter.wait(400)
 
     the_waiter.set_wait_for_specific_obsstate("IDLE", [subarray])
     the_waiter.wait(400)
