@@ -70,7 +70,7 @@ class CentralNodeWrapperLow(CentralNodeWrapper):
         return result, message
 
     @sync_abort(device_dict=device_dict_low)
-    def abort(self):
+    def subarray_abort(self):
         """Invoke Abort command on subarray Node"""
         result, message = self.subarray_node.Abort()
         return result, message
