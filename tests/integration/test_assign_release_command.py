@@ -143,7 +143,6 @@ def test_assign_release_with_meerkat_ids(json_factory):
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-@pytest.mark.skip
 @pytest.mark.SKA_mid
 def test_assign_release_timeout_csp(json_factory, change_event_callbacks):
     """Verify timeout exception raised when csp set to defective."""
@@ -197,7 +196,7 @@ def test_assign_release_timeout_csp(json_factory, change_event_callbacks):
             f"Exception occurred on device: {tmc_subarraynode1}: "
             + "Exception occurred on the following devices:\n"
             + f"{tmc_csp_subarray_leaf_node}: "
-            + "Timeout has occurred, command failed\n"
+            + "Timeout has occured, command failed\n"
         )
         assert exception_message in assertion_data["attribute_value"][1]
         csp_subarray.SetDefective(json.dumps({"enabled": False}))
@@ -212,7 +211,6 @@ def test_assign_release_timeout_csp(json_factory, change_event_callbacks):
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-@pytest.mark.skip
 @pytest.mark.SKA_mid
 def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
     """Verify timeout exception raised when sdp set to defective."""
@@ -262,7 +260,7 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
         )
         assert "AssignResources" in assertion_data["attribute_value"][0]
         assert (
-            "Timeout has occurred, command failed"
+            "Timeout has occured, command failed"
             in assertion_data["attribute_value"][1]
         )
         assert (
@@ -337,7 +335,7 @@ def test_release_resources_error_propagation(
             f"Exception occurred on device: {tmc_subarraynode1}: "
             + "Exception occurred on the following devices:\n"
             + f"{tmc_csp_subarray_leaf_node}: "
-            + "Timeout has occurred, command failed\n"
+            + "Timeout has occured, command failed\n"
         )
 
         # Invoking ReleaseResources command

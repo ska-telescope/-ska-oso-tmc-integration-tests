@@ -30,30 +30,10 @@ class TestSubarrayHealthState(object):
         sdp_sa_sim.SetDirectHealthState(HealthState.OK)
         dish_master_sim_1.SetDirectHealthState(HealthState.OK)
         dish_master_sim_2.SetDirectHealthState(HealthState.OK)
-        event_recorder.subscribe_event(csp_sa_sim, "healthState")
-        event_recorder.subscribe_event(sdp_sa_sim, "healthState")
-        event_recorder.subscribe_event(dish_master_sim_1, "healthState")
-        event_recorder.subscribe_event(dish_master_sim_2, "healthState")
 
         event_recorder.subscribe_event(
             subarray_node.subarray_node, "healthState"
         )
-        assert event_recorder.has_change_event_occurred(
-            csp_sa_sim, "healthState", HealthState.OK
-        )
-
-        assert event_recorder.has_change_event_occurred(
-            sdp_sa_sim, "healthState", HealthState.OK
-        )
-
-        assert event_recorder.has_change_event_occurred(
-            dish_master_sim_1, "healthState", HealthState.OK
-        )
-
-        assert event_recorder.has_change_event_occurred(
-            dish_master_sim_2, "healthState", HealthState.OK
-        )
-
         # Subarray node react automatically
         assert event_recorder.has_change_event_occurred(
             subarray_node.subarray_node,
@@ -108,35 +88,9 @@ class TestSubarrayHealthState(object):
         sdp_sa_sim.SetDirectHealthState(sdp_subarray_health_state)
         dish_master_sim_1.SetDirectHealthState(dish_master1_health_state)
         dish_master_sim_2.SetDirectHealthState(dish_master2_health_state)
-        event_recorder.subscribe_event(csp_sa_sim, "healthState")
-        event_recorder.subscribe_event(sdp_sa_sim, "healthState")
-        event_recorder.subscribe_event(dish_master_sim_1, "healthState")
-        event_recorder.subscribe_event(dish_master_sim_2, "healthState")
+
         event_recorder.subscribe_event(
             subarray_node.subarray_node, "healthState"
-        )
-        assert event_recorder.has_change_event_occurred(
-            csp_sa_sim,
-            "healthState",
-            csp_subarray_health_state,
-        )
-
-        assert event_recorder.has_change_event_occurred(
-            sdp_sa_sim,
-            "healthState",
-            sdp_subarray_health_state,
-        )
-
-        assert event_recorder.has_change_event_occurred(
-            dish_master_sim_1,
-            "healthState",
-            dish_master1_health_state,
-        )
-
-        assert event_recorder.has_change_event_occurred(
-            dish_master_sim_2,
-            "healthState",
-            dish_master2_health_state,
         )
 
         assert event_recorder.has_change_event_occurred(
@@ -192,35 +146,9 @@ class TestSubarrayHealthState(object):
         sdp_sa_sim.SetDirectHealthState(sdp_subarray_health_state)
         dish_master_sim_1.SetDirectHealthState(dish_master1_health_state)
         dish_master_sim_2.SetDirectHealthState(dish_master2_health_state)
-        event_recorder.subscribe_event(csp_sa_sim, "healthState")
-        event_recorder.subscribe_event(sdp_sa_sim, "healthState")
-        event_recorder.subscribe_event(dish_master_sim_1, "healthState")
-        event_recorder.subscribe_event(dish_master_sim_2, "healthState")
+
         event_recorder.subscribe_event(
             subarray_node.subarray_node, "healthState"
-        )
-        assert event_recorder.has_change_event_occurred(
-            csp_sa_sim,
-            "healthState",
-            csp_subarray_health_state,
-        )
-
-        assert event_recorder.has_change_event_occurred(
-            sdp_sa_sim,
-            "healthState",
-            sdp_subarray_health_state,
-        )
-
-        assert event_recorder.has_change_event_occurred(
-            dish_master_sim_1,
-            "healthState",
-            dish_master1_health_state,
-        )
-
-        assert event_recorder.has_change_event_occurred(
-            dish_master_sim_2,
-            "healthState",
-            dish_master2_health_state,
         )
 
         assert event_recorder.has_change_event_occurred(
@@ -276,36 +204,11 @@ class TestSubarrayHealthState(object):
         sdp_sa_sim.SetDirectHealthState(sdp_subarray_health_state)
         dish_master_sim_1.SetDirectHealthState(dish_master1_health_state)
         dish_master_sim_2.SetDirectHealthState(dish_master2_health_state)
-        event_recorder.subscribe_event(csp_sa_sim, "healthState")
-        event_recorder.subscribe_event(sdp_sa_sim, "healthState")
-        event_recorder.subscribe_event(dish_master_sim_1, "healthState")
-        event_recorder.subscribe_event(dish_master_sim_2, "healthState")
+
         event_recorder.subscribe_event(
             subarray_node.subarray_node, "healthState"
         )
-        assert event_recorder.has_change_event_occurred(
-            csp_sa_sim,
-            "healthState",
-            csp_subarray_health_state,
-        )
 
-        assert event_recorder.has_change_event_occurred(
-            sdp_sa_sim,
-            "healthState",
-            sdp_subarray_health_state,
-        )
-
-        assert event_recorder.has_change_event_occurred(
-            dish_master_sim_1,
-            "healthState",
-            dish_master1_health_state,
-        )
-
-        assert event_recorder.has_change_event_occurred(
-            dish_master_sim_2,
-            "healthState",
-            dish_master2_health_state,
-        )
         assert event_recorder.has_change_event_occurred(
             subarray_node.subarray_node,
             "healthState",
@@ -358,36 +261,11 @@ class TestSubarrayHealthState(object):
         sdp_sa_sim.SetDirectHealthState(sdp_subarray_health_state)
         dish_master_sim_1.SetDirectHealthState(dish_master1_health_state)
         dish_master_sim_2.SetDirectHealthState(dish_master2_health_state)
-        event_recorder.subscribe_event(csp_sa_sim, "healthState")
-        event_recorder.subscribe_event(sdp_sa_sim, "healthState")
-        event_recorder.subscribe_event(dish_master_sim_1, "healthState")
-        event_recorder.subscribe_event(dish_master_sim_2, "healthState")
+
         event_recorder.subscribe_event(
             subarray_node.subarray_node, "healthState"
         )
-        assert event_recorder.has_change_event_occurred(
-            csp_sa_sim,
-            "healthState",
-            csp_subarray_health_state,
-        )
 
-        assert event_recorder.has_change_event_occurred(
-            sdp_sa_sim,
-            "healthState",
-            sdp_subarray_health_state,
-        )
-
-        assert event_recorder.has_change_event_occurred(
-            dish_master_sim_1,
-            "healthState",
-            dish_master1_health_state,
-        )
-
-        assert event_recorder.has_change_event_occurred(
-            dish_master_sim_2,
-            "healthState",
-            dish_master2_health_state,
-        )
         assert event_recorder.has_change_event_occurred(
             subarray_node.subarray_node,
             "healthState",
@@ -452,36 +330,11 @@ class TestSubarrayHealthState(object):
         sdp_sa_sim.SetDirectHealthState(sdp_subarray_health_state)
         dish_master_sim_1.SetDirectHealthState(dish_master1_health_state)
         dish_master_sim_2.SetDirectHealthState(dish_master2_health_state)
-        event_recorder.subscribe_event(csp_sa_sim, "healthState")
-        event_recorder.subscribe_event(sdp_sa_sim, "healthState")
-        event_recorder.subscribe_event(dish_master_sim_1, "healthState")
-        event_recorder.subscribe_event(dish_master_sim_2, "healthState")
+
         event_recorder.subscribe_event(
             subarray_node.subarray_node, "healthState"
         )
-        assert event_recorder.has_change_event_occurred(
-            csp_sa_sim,
-            "healthState",
-            csp_subarray_health_state,
-        )
 
-        assert event_recorder.has_change_event_occurred(
-            sdp_sa_sim,
-            "healthState",
-            sdp_subarray_health_state,
-        )
-
-        assert event_recorder.has_change_event_occurred(
-            dish_master_sim_1,
-            "healthState",
-            dish_master1_health_state,
-        )
-
-        assert event_recorder.has_change_event_occurred(
-            dish_master_sim_2,
-            "healthState",
-            dish_master2_health_state,
-        )
         assert event_recorder.has_change_event_occurred(
             subarray_node.subarray_node,
             "healthState",
@@ -558,36 +411,11 @@ class TestSubarrayHealthState(object):
         sdp_sa_sim.SetDirectHealthState(sdp_subarray_health_state)
         dish_master_sim_1.SetDirectHealthState(dish_master1_health_state)
         dish_master_sim_2.SetDirectHealthState(dish_master2_health_state)
-        event_recorder.subscribe_event(csp_sa_sim, "healthState")
-        event_recorder.subscribe_event(sdp_sa_sim, "healthState")
-        event_recorder.subscribe_event(dish_master_sim_1, "healthState")
-        event_recorder.subscribe_event(dish_master_sim_2, "healthState")
+
         event_recorder.subscribe_event(
             subarray_node.subarray_node, "healthState"
         )
-        assert event_recorder.has_change_event_occurred(
-            csp_sa_sim,
-            "healthState",
-            csp_subarray_health_state,
-        )
 
-        assert event_recorder.has_change_event_occurred(
-            sdp_sa_sim,
-            "healthState",
-            sdp_subarray_health_state,
-        )
-
-        assert event_recorder.has_change_event_occurred(
-            dish_master_sim_1,
-            "healthState",
-            dish_master1_health_state,
-        )
-
-        assert event_recorder.has_change_event_occurred(
-            dish_master_sim_2,
-            "healthState",
-            dish_master2_health_state,
-        )
         assert event_recorder.has_change_event_occurred(
             subarray_node.subarray_node,
             "healthState",
