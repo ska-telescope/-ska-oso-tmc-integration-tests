@@ -212,6 +212,9 @@ k8s-test-dish-lmc:
   variables:
     SIMULATED_DISH: "false"
     SUBARRAY_COUNT: 2
+    DISH_TANGO_HOST: "databaseds-tango-base"
+    CLUSTER_DOMAIN: "svc.cluster.local"
+    PORT: "10000"
     DISH_INDEX_1: "001"
     DISH_INDEX_2: "002"
     DISH_NAMESPACE_1: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX_1"

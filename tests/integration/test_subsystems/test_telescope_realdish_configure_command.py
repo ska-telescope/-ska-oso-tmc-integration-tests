@@ -29,16 +29,16 @@ def test_configure(json_factory):
     central_node_device.TelescopeOn()
 
     # Check the dishMode and dishleafnode state
-    dishfqdn1 = DeviceProxy(dish_fqdn_1)
-    dishfqdn2 = DeviceProxy(dish_fqdn_2)
+    dish_master_1 = DeviceProxy(dish_fqdn_1)
+    dish_master_2 = DeviceProxy(dish_fqdn_2)
 
     # Waiting for DISH LMC to respond
-    wait_for_dish_mode_change(DishMode.STANDBY_FP, dishfqdn1, 30)
-    wait_for_dish_mode_change(DishMode.STANDBY_FP, dishfqdn2, 30)
+    wait_for_dish_mode_change(DishMode.STANDBY_FP, dish_master_1, 30)
+    wait_for_dish_mode_change(DishMode.STANDBY_FP, dish_master_2, 30)
 
     # Check the dishMode of DISH LMC i.e STANDBYFP
-    assert dishfqdn1.dishMode.value == DishMode.STANDBY_FP
-    assert dishfqdn2.dishMode.value == DishMode.STANDBY_FP
+    assert dish_master_1.dishMode.value == DishMode.STANDBY_FP
+    assert dish_master_2.dishMode.value == DishMode.STANDBY_FP
 
     # invoke assignresources command from central node
     central_node_device.AssignResources(assign_json)
@@ -46,8 +46,8 @@ def test_configure(json_factory):
     # invoke configure command from subarray node
     subarray.Configure(config_json)
 
-    wait_for_dish_mode_change(DishMode.OPERATE, dishfqdn1, 30)
-    wait_for_dish_mode_change(DishMode.OPERATE, dishfqdn2, 30)
+    wait_for_dish_mode_change(DishMode.OPERATE, dish_master_1, 30)
+    wait_for_dish_mode_change(DishMode.OPERATE, dish_master_2, 30)
 
     the_waiter.set_wait_for_specific_obsstate("READY", [subarray])
     the_waiter.wait(600)

@@ -44,11 +44,13 @@ UMBRELLA_CHART_PATH ?= charts/$(HELM_CHART)/
 K8S_CHARTS ?= ska-tmc-$(DEPLOYMENT_TYPE) ska-tmc-testing-$(DEPLOYMENT_TYPE)## list of charts
 K8S_CHART ?= $(HELM_CHART)
 
-
-SIMULATED_DISH ?= true
+DISH_TANGO_HOST ?= databaseds-tango-base
+CLUSTER_DOMAIN ?= svc.cluster.local
+PORT ?= 10000
+SIMULATED_DISH ?= false
 SUBARRAY_COUNT ?= 2
-DISH_NAME_1 ?= tango://databaseds-tango-base.$(DISH_NAMESPACE_1).svc.cluster.local:10000/ska001/elt/master
-DISH_NAME_2 ?= tango://databaseds-tango-base.$(DISH_NAMESPACE_2).svc.cluster.local:10000/ska002/elt/master
+DISH_NAME_1 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_1).$(CLUSTER_DOMAIN):$(PORT)/ska001/elt/master
+DISH_NAME_2 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_2).$(CLUSTER_DOMAIN):$(PORT)/ska002/elt/master
 
 CI_REGISTRY ?= gitlab.com
 
