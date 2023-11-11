@@ -1,7 +1,6 @@
 import pytest
 from ska_tango_base.control_model import ObsState
 
-from tests.resources.test_harness.constant import mccs_subarray_leaf_node
 from tests.resources.test_harness.helpers import prepare_json_args_for_commands
 
 
@@ -45,8 +44,10 @@ class TestSubarrayConfigure(object):
             subarray_node_real_csp_low.subarray_node, "obsState"
         )
         central_node_real_csp_low.set_serial_number_of_cbf_processor()
-        
-        central_node_real_csp_low.store_resources(central_node_real_csp_low.assign_input)
+
+        central_node_real_csp_low.store_resources(
+            central_node_real_csp_low.assign_input
+        )
         assert event_recorder.has_change_event_occurred(
             subarray_node_real_csp_low.subarray_node, "obsState", ObsState.IDLE
         )
@@ -69,7 +70,10 @@ class TestSubarrayConfigure(object):
         assert event_recorder.has_change_event_occurred(
             subarray_node_real_csp_low.subarray_node, "obsState", ObsState.IDLE
         )
-        central_node_real_csp_low.invoke_release_resources(central_node_real_csp_low.release_input)
+        central_node_real_csp_low.invoke_release_resources(
+            central_node_real_csp_low.release_input
+        )
+
         assert event_recorder.has_change_event_occurred(
             subarray_node_real_csp_low.subarray_node,
             "obsState",
