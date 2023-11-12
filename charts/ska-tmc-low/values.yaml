@@ -197,7 +197,6 @@ deviceServers:
   mocks:
     enabled: false
     file: "data/mocks.yaml"
-    isCspReal: false
 
 
 nodeSelector: {}
