@@ -33,14 +33,14 @@ The documentation for this project, including how to get started with it,can be 
 
 ### TMC Low
 
-|Component| OCI Name | Version|
-| :-- | :-- | :-- |
-| Central Node| ska-tmc-centralnode |0.10.3|
-| Subarray Node| ska-tmc-subarraynode |0.11.15|
-| CSP Master Leaf Node| ska-tmc-cspleafnodes |0.9.0|
-| CSP Subarray Leaf Node| ska-tmc-cspleafnodes |0.9.0|
-| SDP Master Leaf Node| ska-tmc-sdpleafnodes |0.13.1|
-| SDP Subarray Leaf Node| ska-tmc-sdpleafnodes |0.13.1|
+|Component| OCI Name | Version |
+| :-- | :-- |:--------|
+| Central Node| ska-tmc-centralnode | 0.11.1  |
+| Subarray Node| ska-tmc-subarraynode | 0.11.15 |
+| CSP Master Leaf Node| ska-tmc-cspleafnodes | 0.9.0   |
+| CSP Subarray Leaf Node| ska-tmc-cspleafnodes | 0.9.0   |
+| SDP Master Leaf Node| ska-tmc-sdpleafnodes | 0.13.1  |
+| SDP Subarray Leaf Node| ska-tmc-sdpleafnodes | 0.13.1  |
 
 
 ### Deployment of Subsystem in Integration 
