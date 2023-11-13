@@ -11,7 +11,7 @@ server:
   {{- $sdp_sa_ln_fqdn_prefix:= .Values.global.sdp_subarray_ln_prefix}}
   {{- $csp_sa_fqdn_prefix:= .Values.global.csp_subarray_prefix}}
   {{- $sdp_sa_fqdn_prefix:= .Values.global.sdp_subarray_prefix}} 
-  {{- $isAvailable := .Values.global.Dish.isSimulatedDish.enabled }} 
+  {{- $isSimulatedDish := .Values.global.Dish.isSimulated.enabled }} 
   {{- $real_dish_name := .Values.global.namespace_dish.dish_name }}
   {{- $DishMasterPrefix := .Values.deviceServers.subarraynode.DishMasterPrefix }}
   {{- $DishMasterPostfix := .Values.deviceServers.subarraynode.DishMasterPostfix }}
@@ -51,7 +51,7 @@ server:
             {{- end }}
           - name: "DishMasterFQDN"
             values:
-            {{- if eq $isAvailable false }}
+            {{- if eq $isSimulatedDish false }}
             {{- range  $real_dish_name }}
             - "{{ . }}" # Real dish
             {{- end }}
@@ -71,7 +71,7 @@ server:
               - "5"
           - name: "CommandTimeOut"
             values:
-              {{- if eq $isAvailable false }}
+              {{- if eq $isSimulatedDish false }}
               - "60"
               {{- end }}
   {{- end}}

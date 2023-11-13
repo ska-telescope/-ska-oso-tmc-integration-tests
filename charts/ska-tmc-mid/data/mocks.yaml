@@ -11,7 +11,7 @@ entrypoints:
 server:
   name: "mocks"
   instances:
-  {{- $isAvailable := .Values.global.Dish.isSimulatedDish.enabled }}
+  {{- $isSimulatedDish := .Values.global.Dish.isSimulated.enabled }}
     - name: "01"
       classes:
         - name: "HelperBaseDevice"
@@ -28,7 +28,7 @@ server:
           devices:
           - name: "mid-sdp/subarray/01"
           - name: "mid-sdp/subarray/02"
-        {{- if eq $isAvailable true }}
+        {{- if eq $isSimulatedDish true }}
         - name: "HelperDishDevice"
           devices:
           {{- range .Values.deviceServers.dishleafnode.instances }}

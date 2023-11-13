@@ -33,7 +33,7 @@ global:
   dishes: ["01", "02"]
 
   Dish:
-    isSimulatedDish:
+    isSimulated:
       enabled: true
 
   namespace_dish:

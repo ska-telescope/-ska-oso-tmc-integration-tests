@@ -7,7 +7,7 @@ entrypoints:
 server:
   name: "dish_leaf_node"
   instances:
-  {{- $isAvailable := .Values.global.Dish.isSimulatedDish.enabled }}
+  {{- $isSimulatedDish := .Values.global.Dish.isSimulated.enabled }}
   {{- $real_dish_name := .Values.global.namespace_dish.dish_name }}
   {{- range $index, $instance := .Values.deviceServers.dishleafnode.instances }}
     - name: "{{ $instance }}"
@@ -18,7 +18,7 @@ server:
           properties:
           - name: "DishMasterFQDN"
             values:
-              {{- if eq $isAvailable false }}
+              {{- if eq $isSimulatedDish false }}
               {{- range $index_real, $instance_real := $real_dish_name }}
               {{- if eq $index_real $index }}
               - "{{ $instance_real }}"
