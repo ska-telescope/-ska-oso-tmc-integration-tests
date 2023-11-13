@@ -1,4 +1,5 @@
 """Test Telescope On Command on DISH LMC"""
+import time
 
 import pytest
 from tango import DeviceProxy
@@ -41,10 +42,12 @@ def test_configure(json_factory):
 
     # invoke assignresources command from central node
     central_node_device.AssignResources(assign_json)
+
     the_waiter.set_wait_for_specific_obsstate("IDLE", [subarray])
     the_waiter.wait(400)
 
-    the_waiter.wait(100)
+    time.sleep(5)
+
     # invoke configure command from subarray node
     subarray.Configure(config_json)
 
