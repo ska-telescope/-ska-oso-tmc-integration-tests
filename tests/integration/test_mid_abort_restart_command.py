@@ -140,7 +140,6 @@ def test_abort_in_empty(json_factory):
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-@pytest.mark.skip
 @pytest.mark.SKA_mid
 def test_abort_in_resourcing(json_factory):
     """Abort and Restart is executed."""
@@ -243,7 +242,6 @@ def test_abort_in_resourcing(json_factory):
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-@pytest.mark.skip
 @pytest.mark.SKA_mid
 def test_abort_in_resourcing_different_resources(json_factory):
     """Abort and Restart is executed."""
