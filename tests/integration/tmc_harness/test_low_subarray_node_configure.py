@@ -1,12 +1,11 @@
 import pytest
 from ska_tango_base.control_model import ObsState
 
-from tests.resources.test_harness.constant import mccs_subarray_leaf_node
 from tests.resources.test_harness.helpers import prepare_json_args_for_commands
 
 
 class TestSubarrayConfigure(object):
-    """This class implement test cases to validate obs state of sub array"""
+    """This class implement test cases to validate obsState of sub array"""
 
     @pytest.mark.real_csp
     @pytest.mark.parametrize(
@@ -45,11 +44,10 @@ class TestSubarrayConfigure(object):
             subarray_node_real_csp_low.subarray_node, "obsState"
         )
         central_node_real_csp_low.set_serial_number_of_cbf_processor()
-        subarray_node_real_csp_low.force_change_of_obs_state_mock(
-            mccs_subarray_leaf_node, ObsState.IDLE
-        )
-        subarray_node_real_csp_low.force_change_of_obs_state(source_obs_state)
 
+        central_node_real_csp_low.store_resources(
+            central_node_real_csp_low.assign_input
+        )
         assert event_recorder.has_change_event_occurred(
             subarray_node_real_csp_low.subarray_node, "obsState", ObsState.IDLE
         )
@@ -72,10 +70,10 @@ class TestSubarrayConfigure(object):
         assert event_recorder.has_change_event_occurred(
             subarray_node_real_csp_low.subarray_node, "obsState", ObsState.IDLE
         )
-        subarray_node_real_csp_low.force_change_of_obs_state_mock(
-            mccs_subarray_leaf_node, ObsState.EMPTY
+        central_node_real_csp_low.invoke_release_resources(
+            central_node_real_csp_low.release_input
         )
-        subarray_node_real_csp_low.release_resources_subarray()
+
         assert event_recorder.has_change_event_occurred(
             subarray_node_real_csp_low.subarray_node,
             "obsState",
