@@ -1,5 +1,4 @@
 """Test Telescope On Command on DISH LMC"""
-import time
 
 import pytest
 from tango import DeviceProxy
