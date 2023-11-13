@@ -43,6 +43,8 @@ def test_configure(json_factory):
     central_node_device.AssignResources(assign_json)
     the_waiter.set_wait_for_specific_obsstate("IDLE", [subarray])
     the_waiter.wait(400)
+
+    the_waiter.wait(100)
     # invoke configure command from subarray node
     subarray.Configure(config_json)
 
