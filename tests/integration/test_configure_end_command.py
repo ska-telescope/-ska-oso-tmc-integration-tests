@@ -180,6 +180,9 @@ def test_configure_timeout_and_error_propagation_csp(
         )
 
 
+@pytest.mark.skip(
+    reason="Induce fault not working for sdp subarray configure command"
+)
 @pytest.mark.SKA_mid
 def test_configure_timeout_sdp(json_factory, change_event_callbacks):
     """Verify timeout exception raised when csp set to defective."""
