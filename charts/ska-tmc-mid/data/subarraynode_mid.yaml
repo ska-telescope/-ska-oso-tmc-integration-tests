@@ -71,7 +71,9 @@ server:
               - "5"
           - name: "CommandTimeOut"
             values:
+              {{- if eq $isAvailable false }}
               - "60"
+              {{- end }}
   {{- end}}
 depends_on:
   - device: sys/database/2
