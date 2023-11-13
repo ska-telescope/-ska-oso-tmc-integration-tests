@@ -6,4 +6,5 @@ Feature:  TMC executes Configure command successfully.
 		Given a subarray in the IDLE state
 		When I configure it for a scan
 		Then the subarray must be in the READY state
+        And test goes for the tear down
 
