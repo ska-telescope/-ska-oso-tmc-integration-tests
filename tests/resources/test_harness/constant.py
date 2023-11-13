@@ -171,6 +171,7 @@ mccs_controller = "low-mccs/control/control"
 mccs_subarray1 = "low-mccs/subarray/01"
 mccs_subarray2 = "low-mccs/subarray/02"
 mccs_subarray3 = "low-mccs/subarray/03"
+processor1 = "low-cbf/processor/0.0.0"
 
 device_dict = {
     "csp_master": csp_master,
@@ -207,4 +208,5 @@ SIMULATOR_DEVICE_FQDN_DICT = {
     SimulatorDeviceType.DISH_DEVICE: [dish_master1, dish_master2],
     SimulatorDeviceType.MID_SDP_MASTER_DEVICE: [sdp_master],
     SimulatorDeviceType.MID_CSP_MASTER_DEVICE: [csp_master],
+    SimulatorDeviceType.MCCS_SUBARRAY_DEVICE: [mccs_subarray1],
 }

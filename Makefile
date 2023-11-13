@@ -18,7 +18,7 @@ PYTHON_VARS_BEFORE_PYTEST ?= PYTHONPATH=.:./src \
 PYTHON_LINT_TARGET ?= tests/
 
 DEPLOYMENT_TYPE = $(shell echo $(TELESCOPE) | cut -d '-' -f2)
-MARK = $(shell echo $(TELESCOPE) | sed "s/-/_/g") ## What -m opt to pass to pytest
+MARK ?= $(shell echo $(TELESCOPE) | sed "s/-/_/g") ## What -m opt to pass to pytest
 # run one test with FILE=acceptance/test_subarray_node.py::test_check_internal_model_according_to_the_tango_ecosystem_deployed
 FILE ?= tests## A specific test file to pass to pytest
 ADD_ARGS ?= ## Additional args to pass to pytest
@@ -77,14 +77,21 @@ K8S_TEST_RUNNER = test-runner-$(HELM_RELEASE)
 
 CI_PROJECT_PATH_SLUG ?= ska-tmc-integration
 CI_ENVIRONMENT_SLUG ?= ska-tmc-integration
-
+CSP_SIMULATION_ENABLED ?= true
 
 ifeq ($(MAKECMDGOALS),k8s-test)
 ADD_ARGS +=  --true-context
-MARK = $(shell echo $(TELESCOPE) | sed "s/-/_/g")
+MARK ?= $(shell echo $(TELESCOPE) | sed "s/-/_/g")
 endif
 
 PYTHON_VARS_AFTER_PYTEST ?= -m '$(MARK)' $(ADD_ARGS) $(FILE)
+
+ifeq ($(CSP_SIMULATION_ENABLED),false)
+CUSTOM_VALUES =	--set global.csp.isSimulated.enabled=$(CSP_SIMULATION_ENABLED)\
+	--set tmc-low.ska-csp-lmc-low.enabled=true\
+	--set tmc-low.ska-low-cbf.enabled=true\
+	--set tmc-low.ska-low-cbf.ska-low-cbf-proc.enabled=true
+endif
 
 K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.tango_host=$(TANGO_HOST) \
@@ -104,7 +111,7 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 K8S_TEST_TEST_COMMAND ?= $(PYTHON_VARS_BEFORE_PYTEST) $(PYTHON_RUNNER) \
 						pytest \
 						$(PYTHON_VARS_AFTER_PYTEST) ./tests \
-						 | tee pytest.stdout # k8s-test test command to run in container
+						| tee pytest.stdout # k8s-test test command to run in container
 
 -include .make/k8s.mk
 -include .make/helm.mk
