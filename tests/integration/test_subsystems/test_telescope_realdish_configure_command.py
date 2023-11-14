@@ -42,9 +42,7 @@ def test_configure(json_factory):
 
     # invoke assignresources command from central node
     central_node_device.AssignResources(assign_json)
-
-    time.sleep(5)
-
+    time.sleep(10)
     # invoke configure command from subarray node
     subarray.Configure(config_json)
 
@@ -60,6 +58,6 @@ def test_configure(json_factory):
     the_waiter.wait(400)
     # Invoke TelescopeOff command
     central_node_device.ReleaseResources(release_json)
-    the_waiter.wait(100)
+    time.sleep(5)
     # Tearing down
     central_node_device.TelescopeOff()
