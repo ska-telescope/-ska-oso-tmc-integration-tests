@@ -11,6 +11,7 @@ entrypoints:
 server:
   name: "mocks"
   instances:
+  {{- $isSimulatedDish := .Values.global.Dish.isSimulated.enabled }}
     - name: "01"
       classes:
         - name: "HelperBaseDevice"
@@ -27,11 +28,13 @@ server:
           devices:
           - name: "mid-sdp/subarray/01"
           - name: "mid-sdp/subarray/02"
+        {{- if eq $isSimulatedDish true }}
         - name: "HelperDishDevice"
           devices:
           {{- range .Values.deviceServers.dishleafnode.instances }}
           - name: "ska{{ printf "%03s" . }}/elt/master"
           {{- end }}
+        {{- end }}
 depends_on:
   - device: sys/database/2
 image:
