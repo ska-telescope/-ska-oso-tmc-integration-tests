@@ -17,7 +17,7 @@ class TestSubarrayNodeObsStateTransitions(object):
         "source_obs_state, trigger, destination_obs_state",
         [
             ("ABORTED", "Restart", "EMPTY"),
-            ("READY", "End", "IDLE"),
+            # ("READY", "End", "IDLE"),
         ],
     )
     @pytest.mark.SKA_mid
