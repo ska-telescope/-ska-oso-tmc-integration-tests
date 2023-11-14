@@ -14,7 +14,6 @@ from tests.resources.test_support.constant import (
 )
 from tests.resources.test_support.enum import DishMode
 
-
 @pytest.mark.real_dish
 def test_configure(json_factory):
     """TelescopeOn() and TelescopeOff() is executed on dishlmc  device."""
@@ -42,7 +41,8 @@ def test_configure(json_factory):
 
     # invoke assignresources command from central node
     central_node_device.AssignResources(assign_json)
-    time.sleep(10)
+
+    time.sleep(5)
     # invoke configure command from subarray node
     subarray.Configure(config_json)
 
