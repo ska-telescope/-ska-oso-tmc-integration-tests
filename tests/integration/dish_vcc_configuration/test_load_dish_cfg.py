@@ -12,7 +12,6 @@ from tests.resources.test_harness.helpers import (
 from tests.resources.test_support.common_utils.result_code import ResultCode
 
 
-@pytest.mark.test
 @pytest.mark.SKA_mid
 @scenario(
     "../features/load_dish_cfg_command.feature",

@@ -11,7 +11,6 @@ from tests.resources.test_harness.helpers import (
 from tests.resources.test_support.common_utils.result_code import ResultCode
 
 
-@pytest.mark.xfail(reason="fix in central node release 0.11.5")
 @pytest.mark.SKA_mid
 @scenario(
     "../features/load_dish_cfg_command_negative_scenario.feature",
@@ -88,7 +87,7 @@ def invoke_load_dish_cfg(central_node_mid, command_input_factory, file_name):
 def test_tmc_rejects_command_with_error(error_message):
     """Test validate that command failed with error message"""
     assert pytest.command_result_code == ResultCode.REJECTED
-    assert error_message in pytest.command_result_message
+    assert error_message in pytest.command_result_message[0]
 
 
 @when(
