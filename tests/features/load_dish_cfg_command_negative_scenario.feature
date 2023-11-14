@@ -7,7 +7,7 @@ Feature: TMC is able to handle the failure when load dish cfg command fails
         Then TMC rejects the command with error <error_message>
         Examples:
         | file_name                         | error_message                                                                                                      |
-        | mid_cbf_initial_parameters_1.json | No telescope model data with key instrument/dishid_vcc_map_configuration/mid_cbf_initial_parameters_1.json exists! |
+        | invalid_file_name                 | No telescope model data with key instrument/dishid_vcc_map_configuration/invalid_file_name.json exists! |
 
     @XTP-28682
     Scenario Outline: TMC returns error when invalid dish id is provided in configuration
