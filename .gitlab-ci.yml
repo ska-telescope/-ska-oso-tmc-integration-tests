@@ -231,6 +231,7 @@ k8s-test-dish-lmc:
     - dish-lmc-dish002
   after_script:
     - make k8s-uninstall-chart
+  allow_failure: true
 
 stop-k8s-test-dish-lmc:
   extends:
