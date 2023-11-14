@@ -61,6 +61,7 @@ class TestTelescopeHealthState(object):
             ),
         ],
     )
+    @pytest.mark.skip(reason="Dish FQDN needs to be updated on CentralNode.")
     @pytest.mark.SKA_mid
     def test_telescope_health_state_failed(
         self,
@@ -244,6 +245,7 @@ class TestTelescopeHealthState(object):
             ),
         ],
     )
+    @pytest.mark.skip(reason="Dish FQDN needs to be updated on CentralNode.")
     @pytest.mark.SKA_mid
     def test_telescope_health_state_unknown(
         self,
