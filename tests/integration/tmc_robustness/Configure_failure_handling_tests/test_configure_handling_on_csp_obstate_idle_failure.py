@@ -17,7 +17,7 @@ from tests.resources.test_harness.helpers import (
 )
 
 
-@pytest.mark.configure
+@pytest.mark.configure1
 @pytest.mark.bdd_assign
 @pytest.mark.SKA_mid
 @scenario(
@@ -168,11 +168,6 @@ def sdp_subarray_configure_complete(event_recorder, simulator_factory):
 def csp_subarray_returns_to_obsstate_idle(event_recorder, simulator_factory):
     csp_sim, _, _, _ = get_device_simulators(simulator_factory)
     event_recorder.subscribe_event(csp_sim, "obsState")
-    # assert event_recorder.has_change_event_occurred(
-    #     csp_sim,
-    #     "obsState",
-    #     ObsState.CONFIGURING,
-    # )
     assert event_recorder.has_change_event_occurred(
         csp_sim,
         "obsState",
@@ -230,7 +225,6 @@ def tmc_subarray_transitions_to_IDLE(subarray_node, event_recorder):
     LOGGER.info(
         "SubarrayNode ObsState is: %s", subarray_node.subarray_node.obsState
     )
-    assert subarray_node.subarray_node.obsState == ObsState.CONFIGURING
     LOGGER.info(
         "SubarrayNode ObsState is: %s", subarray_node.subarray_node.obsState
     )

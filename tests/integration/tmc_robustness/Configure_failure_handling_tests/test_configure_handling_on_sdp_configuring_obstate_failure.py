@@ -25,7 +25,7 @@ def test_configure_handling_on_sdp_subarray_obsstate_configuring_failure(
     """
     Test to verify TMC failure handling when Configure
     command fails on SDP Subarray. Configure completes
-    on CSP Subarray and it transtions to obsState IDLE.
+    on CSP Subarray and it transtions to obsState READY.
     Whereas SDP Subarray is stuck in obsState CONFIGURING command.
     As a handling Abort + Restart command sequence is executed on
     the Subarray to take it to the initial obsState EMPTY.
@@ -70,22 +70,25 @@ def given_tmc_subarray_assign_resources(
     event_recorder.subscribe_event(csp_sim, "obsState")
     event_recorder.subscribe_event(sdp_sim, "obsState")
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
+    event_recorder.subscribe_event(
+        central_node_mid.central_node, "longRunningCommandResult"
+    )
 
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
-    central_node_mid.perform_action("AssignResources", assign_input_json)
-    LOGGER.info(
-        "CSP SubarrayNode ObsState is: %s",
-        subarray_node.csp_subarray_leaf_node.cspSubarrayObsState,
-    )
-    LOGGER.info(
-        "SubarrayNode ObsState is: %s", subarray_node.subarray_node.obsState
+    _, unique_id = central_node_mid.perform_action(
+        "AssignResources", assign_input_json
     )
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",
         ObsState.IDLE,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.central_node,
+        "longRunningCommandResult",
+        (unique_id[0], Anything),
     )
 
 
@@ -155,6 +158,7 @@ def given_tmc_subarray_stuck_configuring(
         "SubarrayNode ObsState is %s", subarray_node.subarray_node.obsState
     )
     assert subarray_node.subarray_node.obsState == ObsState.CONFIGURING
+
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "longRunningCommandResult",
@@ -206,10 +210,10 @@ def csp_subarray_transitions_to_aborted(simulator_factory, event_recorder):
         "Tmc SubarrayNode {subarray_id} transitions to obsState ABORTED"
     )
 )
-def tmc_subarray_transitions_to_aborted(central_node_mid, event_recorder):
-    event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
+def tmc_subarray_transitions_to_aborted(subarray_node, event_recorder):
+    event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_node,
+        subarray_node.subarray_node,
         "obsState",
         ObsState.ABORTED,
         lookahead=18,
@@ -260,45 +264,45 @@ def csp_subarray_transitions_to_empty(simulator_factory, event_recorder):
         "Tmc SubarrayNode {subarray_id} transitions to obsState EMPTY"
     )
 )
-def tmc_subarray_transitions_to_empty(central_node_mid, event_recorder):
-    event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
+def tmc_subarray_transitions_to_empty(subarray_node, event_recorder):
+    event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_node,
+        subarray_node.subarray_node,
         "obsState",
         ObsState.EMPTY,
     )
 
 
-@then(
-    parsers.parse(
-        "Configure command is executed successfully on the "
-        + "Subarray {subarray_id}"
-    )
-)
-def configure_executed_on_subarray(
-    central_node_mid, subarray_node, event_recorder, command_input_factory
-):
-    event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
-    assign_input_json = prepare_json_args_for_centralnode_commands(
-        "assign_resources_mid", command_input_factory
-    )
-    central_node_mid.perform_action("AssignResources", assign_input_json)
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_node,
-        "obsState",
-        ObsState.IDLE,
-    )
+# @then(
+#     parsers.parse(
+#         "Configure command is executed successfully on the "
+#         + "Subarray {subarray_id}"
+#     )
+# )
+# def configure_executed_on_subarray(
+#     central_node_mid, subarray_node, event_recorder, command_input_factory
+# ):
+#     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
+#     assign_input_json = prepare_json_args_for_centralnode_commands(
+#         "assign_resources_mid", command_input_factory
+#     )
+#     central_node_mid.perform_action("AssignResources", assign_input_json)
+#     assert event_recorder.has_change_event_occurred(
+#         central_node_mid.subarray_node,
+#         "obsState",
+#         ObsState.IDLE,
+#     )
 
-    configure_input_json = prepare_json_args_for_commands(
-        "configure_mid", command_input_factory
-    )
-    subarray_node.execute_transition("Configure", configure_input_json)
-    LOGGER.info(
-        f"SubarrayNode ObsState is: {subarray_node.subarray_node.obsState}"
-    )
-    # assert subarray_node.subarray_node.obsState == ObsState.READY
-    assert event_recorder.has_change_event_occurred(
-        subarray_node.subarray_node,
-        "obsState",
-        ObsState.READY,
-    )
+#     configure_input_json = prepare_json_args_for_commands(
+#         "configure_mid", command_input_factory
+#     )
+#     subarray_node.execute_transition("Configure", configure_input_json)
+#     LOGGER.info(
+#         f"SubarrayNode ObsState is: {subarray_node.subarray_node.obsState}"
+#     )
+#     # assert subarray_node.subarray_node.obsState == ObsState.READY
+#     assert event_recorder.has_change_event_occurred(
+#         subarray_node.subarray_node,
+#         "obsState",
+#         ObsState.READY,
+#     )

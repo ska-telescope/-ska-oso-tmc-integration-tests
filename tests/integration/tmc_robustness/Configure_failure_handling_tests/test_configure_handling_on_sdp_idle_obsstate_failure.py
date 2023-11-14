@@ -75,15 +75,25 @@ def given_tmc_subarray_assign_resources(
     event_recorder.subscribe_event(csp_sim, "obsState")
     event_recorder.subscribe_event(sdp_sim, "obsState")
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
+    event_recorder.subscribe_event(
+        central_node_mid.central_node, "longRunningCommandResult"
+    )
 
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
-    central_node_mid.perform_action("AssignResources", assign_input_json)
+    _, unique_id = central_node_mid.perform_action(
+        "AssignResources", assign_input_json
+    )
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",
         ObsState.IDLE,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.central_node,
+        "longRunningCommandResult",
+        (unique_id[0], Anything),
     )
 
 
@@ -99,17 +109,27 @@ def given_tmc_subarray_configure_is_in_progress(
     event_recorder.subscribe_event(csp_sim, "obsState")
     event_recorder.subscribe_event(sdp_sim, "obsState")
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
+    event_recorder.subscribe_event(
+        subarray_node.subarray_node, "longRunningCommandResult"
+    )
 
     # Induce fault on SDP Subarry so that it raises exception and
     # returns to the obsState EMPTY
     configure_input_json = prepare_json_args_for_commands(
-        "configure_with_invalid_interface_value", command_input_factory
+        "configure_with_invalid_scan_type", command_input_factory
     )
-    subarray_node.execute_transition("Configure", configure_input_json)
+    _, unique_id = subarray_node.execute_transition(
+        "Configure", configure_input_json
+    )
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",
         ObsState.CONFIGURING,
+    )
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_node,
+        "longRunningCommandResult",
+        (unique_id[0], Anything),
     )
 
 
@@ -149,21 +169,12 @@ def given_tmc_subarray_stuck_configuring(
     LOGGER.info(
         "SubarrayNode ObsState is: %s", subarray_node.subarray_node.obsState
     )
-    assert event_recorder.has_change_event_occurred(
-        subarray_node.subarray_node,
-        "obsState",
-        ObsState.CONFIGURING,
-    )
-    assert event_recorder.has_change_event_occurred(
-        subarray_node.subarray_node,
-        "longRunningCommandResult",
-        Anything,
-    )
+    assert subarray_node.subarray_node.obsState == ObsState.CONFIGURING
 
 
 @when(parsers.parse("I issue the command End on CSP Subarray {subarray_id}"))
 def send_command(simulator_factory):
-    csp_sim, sdp_sim, _, _ = get_device_simulators(simulator_factory)
+    csp_sim, _, _, _ = get_device_simulators(simulator_factory)
     csp_sim.End()
 
 

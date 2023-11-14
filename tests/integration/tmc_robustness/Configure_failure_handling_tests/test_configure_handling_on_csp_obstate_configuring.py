@@ -7,7 +7,7 @@ from tango import DevState
 
 from tests.conftest import LOGGER
 from tests.resources.test_harness.constant import (
-    INTERMEDIATE_OBSSTATE_CONFIGURE_DEFECT,
+    OBS_STATE_CONFIGURING_STUCK_DEFECT,
 )
 from tests.resources.test_harness.helpers import (
     get_device_simulators,
@@ -16,7 +16,7 @@ from tests.resources.test_harness.helpers import (
 )
 
 
-@pytest.mark.configure1
+@pytest.mark.configure2
 @pytest.mark.bdd_assign
 @pytest.mark.SKA_mid
 @scenario(
@@ -105,7 +105,7 @@ def given_tmc_subarray_configure_is_in_progress(
         "configure_mid", command_input_factory
     )
     # Induce fault on CSP Subarray so that it is stuck in obsState CONFIGURING
-    csp_sim.SetDefective(json.dumps(INTERMEDIATE_OBSSTATE_CONFIGURE_DEFECT))
+    csp_sim.SetDefective(json.dumps(OBS_STATE_CONFIGURING_STUCK_DEFECT))
     subarray_node.execute_transition("Configure", configure_input_json)
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
