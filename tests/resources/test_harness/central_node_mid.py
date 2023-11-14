@@ -79,7 +79,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         LOGGER.info("Calling Tear down for Central node.")
         # reset HealthState.UNKNOWN for mock devices
         self._reset_health_state_for_mock_devices()
-        # self._reset_sys_param_and_k_value()
+        self._reset_sys_param_and_k_value()
         if self.subarray_node.obsState == ObsState.IDLE:
             LOGGER.info("Calling Release Resource on centralnode")
             self.invoke_release_resources(self.release_input)

@@ -42,6 +42,17 @@ def test_central_node_return_error_for_invalid_dish_id():
     """
 
 
+@pytest.mark.SKA_mid
+@scenario(
+    "../features/load_dish_cfg_command_negative_scenario.feature",
+    "TMC returns error when duplicate vcc id is provided in configuration",
+)
+def test_central_node_return_error_for_duplicate_vcc_id():
+    """This test validate that when duplicate vcc id provided
+    in dish vcc map json then command is rejected with error
+    """
+
+
 @given("a TMC")
 def given_tmc():
     """Given a TMC"""
@@ -90,6 +101,17 @@ def test_tmc_rejects_command_with_error(error_message):
     assert error_message in pytest.command_result_message[0]
 
 
+@then(
+    "TMC rejects the command with error due to Duplicate Vcc ids found in json"
+)
+def test_tmc_rejects_command_for_duplicate_vcc_id():
+    """Test validate that command failed with error message"""
+    assert pytest.command_result_code == ResultCode.REJECTED
+    assert (
+        "Duplicate Vcc ids found in json" in pytest.command_result_message[0]
+    )
+
+
 @when(
     parsers.parse(
         "I issue the command LoadDishCfg on TMC with invalid {dish_id}"
@@ -102,6 +124,26 @@ def invoke_command_with_invalid_dish_id(
     # Prepare input for load dish configuration
     load_dish_cfg_json = prepare_json_args_for_centralnode_commands(
         "load_dish_cfg_invalid_dish_id", command_input_factory
+    )
+
+    result_code, message = central_node_mid.load_dish_vcc_configuration(
+        load_dish_cfg_json
+    )
+    pytest.command_result_code = result_code
+    pytest.command_result_message = message
+
+
+@when(
+    "I issue the command LoadDishCfg on TMC with duplicate "
+    "vcc id in configuration"
+)
+def invoke_command_with_duplicate_vcc_id(
+    central_node_mid, command_input_factory
+):
+    """Call load dish cfg command with invalid duplicate vcc id"""
+    # Prepare input for load dish configuration
+    load_dish_cfg_json = prepare_json_args_for_centralnode_commands(
+        "load_dish_cfg_duplicate_vcc_id", command_input_factory
     )
 
     result_code, message = central_node_mid.load_dish_vcc_configuration(
