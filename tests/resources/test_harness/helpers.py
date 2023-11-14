@@ -5,7 +5,7 @@ from ska_tango_base.control_model import HealthState
 from tests.conftest import LOGGER
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
-from tests.resources.test_harness.utils.wait_helpers import Waiter
+from tests.resources.test_harness.utils.wait_helpers import Waiter, watch
 from tests.resources.test_support.common_utils.common_helpers import Resource
 from tests.resources.test_support.constant import (
     csp_subarray1,
@@ -248,3 +248,29 @@ def check_assigned_resources(device: Any, receiptor_ids: tuple):
     assigned_resources = device.read_attribute("assignedResources").value
     LOGGER.info(f"assigned Resources:{assigned_resources}")
     return assigned_resources == receiptor_ids
+
+
+def device_attribute_changed(
+    device: Any,
+    attribute_name_list: list,
+    attribute_value_list: list,
+    timeout: int,
+):
+    """
+    Method to verify device attribute changed to speicified attribute value
+    """
+
+    waiter = Waiter()
+    for attribute_name, attribute_value in zip(
+        attribute_name_list, attribute_value_list
+    ):
+        waiter.waits.append(
+            watch(Resource(device.dev_name())).to_become(
+                attribute_name, attribute_value
+            )
+        )
+    try:
+        waiter.wait(timeout)
+    except Exception:
+        return False
+    return True

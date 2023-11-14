@@ -18,9 +18,7 @@ from tests.resources.test_support.common_utils.result_code import ResultCode
     "TMC returns error message when non existent file is provided "
     "in configuration",
 )
-def test_central_node_return_error_for_invalid_file(
-    central_node_mid, event_recorder, simulator_factory
-):
+def test_central_node_return_error_for_invalid_file():
     """This test validate that when non existent file
     provided in dish vcc configuration json then command is rejected
     with error
