@@ -37,8 +37,7 @@ global:
       enabled: true
 
   namespace_dish:
-    dish_name: ""
-
+    dish_name: ["dish1", "dish2"]
   # subarray_count, this will be expanded (1 to N inclusive) and applied to instances of:
   # deviceServers.cspsubarrayleafnode, deviceServers.sdpsubarrayleafnode, deviceServers.subarraynode
   subarray_devices:
@@ -87,7 +86,7 @@ subarraynode:
     image: ska-tmc-subarraynode
     tag: 0.13.3-dev.c6c6985f6
     pullPolicy: IfNotPresent
-
+  
 sdpleafnodes:
   image:
     registry: artefact.skao.int
@@ -99,21 +98,21 @@ cspmasterleafnode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-cspleafnodes
-    tag: 0.9.2
+    tag: 0.10.1
     pullPolicy: IfNotPresent
 
 cspsubarrayleafnode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-cspleafnodes
-    tag: 0.9.2
+    tag: 0.10.1
     pullPolicy: IfNotPresent
 
 dishleafnode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-dishleafnode
-    tag: 0.6.0
+    tag: 0.6.1
     pullPolicy: IfNotPresent
 
 resources:
@@ -132,18 +131,15 @@ deviceServers:
     subarray_count: 2
     file: "data/centralnode_mid.yaml"
     DishLeafNodePrefix: "ska_mid/tm_leaf_node/d0"
-    DishIDs: ["SKA001", "SKA002"]
+    DishIDs: ["SKA001","SKA002"]
     DishMasterPrefix: "elt"
     DishMasterPostfix: "master"
 
+
   subarraynode:
     enabled: true
-    instances: ["01" , "02"]
+    instances: ["01","02"]
     file: "data/subarraynode_mid.yaml"
-    DishLeafNodePrefix: "ska_mid/tm_leaf_node/d0"
-    DishIDs: ["SKA001", "SKA002"]
-    DishMasterPrefix: "elt"
-    DishMasterPostfix: "master"
 
   sdpsubarrayleafnode:
     enabled: true
@@ -167,7 +163,7 @@ deviceServers:
 
   dishleafnode:
     enabled: true
-    instances: ["01", "02"]
+    instances: ["01","02"]
     file: "data/dishleafnode.yaml"
 
   mocks:

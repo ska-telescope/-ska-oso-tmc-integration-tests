@@ -9,9 +9,13 @@ entrypoints:
 server:
   name: "central_node_mid"
   instances:
-  {{ $tmc_sa_fqdn_prefix:= .Values.global.tmc_subarray_prefix}}
-  {{ $csp_sa_ln_fqdn_prefix:= .Values.global.csp_subarray_ln_prefix}}
-  {{ $sdp_sa_ln_fqdn_prefix:= .Values.global.sdp_subarray_ln_prefix}}
+  {{- $tmc_sa_fqdn_prefix:= .Values.global.tmc_subarray_prefix}}
+  {{- $csp_sa_ln_fqdn_prefix:= .Values.global.csp_subarray_ln_prefix}}
+  {{- $sdp_sa_ln_fqdn_prefix:= .Values.global.sdp_subarray_ln_prefix}}
+  {{- $isSimulatedDish := .Values.global.Dish.isSimulated.enabled }}
+  {{- $real_dish_name := .Values.global.namespace_dish.dish_name }}
+  {{- $DishMasterPrefix := .Values.deviceServers.centralnode.DishMasterPrefix }}
+  {{- $DishMasterPostfix := .Values.deviceServers.centralnode.DishMasterPostfix }}
   - name: "01"
     classes:
     - name: "CentralNodeMid"
@@ -40,8 +44,14 @@ server:
           {{- end }}
         - name: "DishMasterFQDN"
           values:
+          {{- if eq $isSimulatedDish false }}
+          {{- range  (.Values.global.namespace_dish.dish_name)  }}
+          - "{{ . }}" # Real dish
+          {{- end }}
+          {{- else }}
           {{- range  (.Values.deviceServers.centralnode.DishIDs)  }}
           - "{{ . | lower }}/{{ $DishMasterPrefix }}/{{ $DishMasterPostfix }}"
+          {{- end }}
           {{- end }}
         - name: "TMCSubarrayNodes"
           values:

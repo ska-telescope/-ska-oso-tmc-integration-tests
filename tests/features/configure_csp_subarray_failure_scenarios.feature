@@ -30,6 +30,7 @@ Feature: TMC SubarrayNode handles the failure when the Configure command fails o
         Then the SDP subarray <subarray_id> transitions to obsState EMPTY
         And the CSP subarray <subarray_id> transitions to obsState EMPTY
         And Tmc SubarrayNode <subarray_id> transitions to obsState EMPTY
+        And Configure command is executed successfully on the Subarray <subarray_id>
 
         Examples:
         | subarray_id  |

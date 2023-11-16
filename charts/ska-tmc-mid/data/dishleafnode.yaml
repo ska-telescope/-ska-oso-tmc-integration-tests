@@ -7,22 +7,25 @@ entrypoints:
 server:
   name: "dish_leaf_node"
   instances:
-  {{- $isAvailable := .Values.global.Dish.isSimulated.enabled }}
-  {{- $dish_fqdn_suffix:= .Values.global.dish_suffix }}
+  {{- $isSimulatedDish := .Values.global.Dish.isSimulated.enabled }}
   {{- $real_dish_name := .Values.global.namespace_dish.dish_name }}
-  {{- range  .Values.deviceServers.dishleafnode.instances }}
-    - name: "{{ . }}"
+  {{- range $index, $instance := .Values.deviceServers.dishleafnode.instances }}
+    - name: "{{ $instance }}"
       classes:
       - name: "DishLeafNode"
         devices:
-        - name: "ska_mid/tm_leaf_node/d0{{ printf "%03s" . }}"
+        - name: "ska_mid/tm_leaf_node/d0{{ printf "%03s" $instance }}"
           properties:
           - name: "DishMasterFQDN"
             values:
-              {{- if eq $isAvailable false }}
-              - "{{ $real_dish_name }}" # Real dish
+              {{- if eq $isSimulatedDish false }}
+              {{- range $index_real, $instance_real := $real_dish_name }}
+              {{- if eq $index_real $index }}
+              - "{{ $instance_real }}"
+              {{- end }}
+              {{- end }}
               {{- else }}
-              - "ska{{ printf "%03s" . }}/{{ $dish_fqdn_suffix }}" # Mock device FQDN
+              - "ska{{ printf "%03s" $instance }}/elt/master" # Mock device FQDN
               {{- end }}
           - name: "SkaLevel"
             values:
