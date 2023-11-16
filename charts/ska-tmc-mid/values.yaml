@@ -141,7 +141,7 @@ deviceServers:
     instances: ["01","02"]
     file: "data/subarraynode_mid.yaml"
     DishLeafNodePrefix: "ska_mid/tm_leaf_node/d0"
-    DishIDs: ["SKA001", "MKT001", "SKA002"]
+    DishIDs: ["SKA001", "SKA002"]
     DishMasterPrefix: "elt"
     DishMasterPostfix: "master"
 
