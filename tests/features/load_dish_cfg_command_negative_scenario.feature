@@ -29,8 +29,9 @@ Feature: TMC is able to handle the failure when load dish cfg command fails
     @XTP-28679
     Scenario Outline: TMC handling exception from CSP Subarray  
         Given a TMC
-        When I issue the command LoadDishCfg on TMC AND CSP Subarray raises an exception
-        Then sysParam and sourceSysParam attributes remains unchanged on CSP Subarray Leaf Node
+        And Telescope is in ON state
+        When I issue the command LoadDishCfg on TMC and CSP Controller raises an exception
+        Then sysParam and sourceSysParam attributes remains unchanged on CSP Master Leaf Node
         And command returns with error message <error_message>
         Examples:
         | error_message |

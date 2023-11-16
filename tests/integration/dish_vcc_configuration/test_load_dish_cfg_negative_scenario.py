@@ -8,8 +8,10 @@ from tango import DevState
 from tests.resources.test_harness.helpers import (
     prepare_json_args_for_centralnode_commands,
 )
-from tests.resources.test_support.common_utils.result_code import ResultCode
 
+from tests.resources.test_harness.constant import ERROR_PROPAGATION_DEFECT,RESET_DEFECT
+from tests.resources.test_support.common_utils.result_code import ResultCode
+from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
 @pytest.mark.SKA_mid
 @scenario(
@@ -52,6 +54,16 @@ def test_central_node_return_error_for_duplicate_vcc_id():
     in dish vcc map json then command is rejected with error
     """
 
+@pytest.mark.SKA_mid
+@pytest.mark.new
+@scenario(
+    "../features/load_dish_cfg_command_negative_scenario.feature",
+    "TMC handling exception from CSP Subarray",
+)
+def test_central_node_handle_exception():
+    """This test validate that when duplicate vcc id provided
+    in dish vcc map json then command is rejected with error
+    """
 
 @given("a TMC")
 def given_tmc():
@@ -151,3 +163,62 @@ def invoke_command_with_duplicate_vcc_id(
     )
     pytest.command_result_code = result_code
     pytest.command_result_message = message
+
+@when("I issue the command LoadDishCfg on TMC " 
+      "and CSP Controller raises an exception")
+def invoke_command_load_cfg_on_defective_csp(
+    central_node_mid, event_recorder, command_input_factory, simulator_factory,
+):
+    """Call load_dish_cfg method which invoke LoadDishCfg
+    command on CentralNode
+    Args:
+    :param central_node_mid: fixture for a TMC CentralNode Mid under test
+    which provides simulated master devices
+    :param event_recorder: fixture for a MockTangoEventCallbackGroup
+    for validating the subscribing and receiving events.
+    :param simulator_factory: fixture for creating simulator devices for
+    mid Telescope respectively.
+    :param command_input_factory: fixture for creating input required
+    for command
+    """
+    event_recorder.subscribe_event(
+        central_node_mid.central_node, "longRunningCommandResult"
+    )
+    # Prepare input for load dish configuration
+    load_dish_cfg_json = prepare_json_args_for_centralnode_commands(
+        "load_dish_cfg", command_input_factory
+    )
+    csp_sim = simulator_factory.get_or_create_simulator_device(
+            SimulatorDeviceType.MID_CSP_MASTER_DEVICE
+        )
+    pytest.initial_sysParam = central_node_mid.csp_master_leaf_node.sysParam
+    pytest.initial_sourceSysParam = central_node_mid.csp_master_leaf_node.sourceSysParam
+    
+    csp_sim.SetDefective(ERROR_PROPAGATION_DEFECT)
+    _, unique_id = central_node_mid.load_dish_vcc_configuration(
+        load_dish_cfg_json
+    )
+    csp_master_leaf_node_name = central_node_mid.csp_master_leaf_node.dev_name()
+    exception_msg = ("Exception occurred on device: Command failed on device "
+                     +f"{csp_master_leaf_node_name}: Exception occurred, command failed.")
+    pytest.command_result = event_recorder.has_change_event_occurred(
+        central_node_mid.central_node,
+        "longRunningCommandResult",
+        (unique_id[0], exception_msg),
+        lookahead=5,
+    )
+    print(pytest.command_result)
+    csp_sim.SetDefective(RESET_DEFECT)
+    
+@then("sysParam and sourceSysParam attributes "
+      "remains unchanged on CSP Master Leaf Node")
+def check_sys_param_source_sys_param_attributes(central_node_mid):
+    
+    assert pytest.initial_sysParam == central_node_mid.csp_master_leaf_node.sysParam
+    assert pytest.initial_sourceSysParam == central_node_mid.csp_master_leaf_node.sourceSysParam
+
+@then(parsers.parse(
+    "command returns with error message {error_message}")
+      )
+def check_return_msg(error_message:str):
+    assert error_message in pytest.command_result["attribute_value"][1]

@@ -1,7 +1,7 @@
 """Define Constants
 """
 from ska_control_model import ObsState
-
+import json
 from tests.resources.test_harness.utils.enums import (
     FaultType,
     ResultCode,
@@ -148,6 +148,22 @@ COMMAND_FAILED_WITH_EXCEPTION_OBSSTATE_EMPTY = {
     "target_obsstates": [ObsState.RESOURCING, ObsState.EMPTY],
 }
 
+ERROR_PROPAGATION_DEFECT = json.dumps(
+    {
+        "enabled": True,
+        "fault_type": FaultType.LONG_RUNNING_EXCEPTION,
+        "error_message": "Exception occurred, command failed.",
+        "result": ResultCode.FAILED,
+    }
+)
+RESET_DEFECT = json.dumps(
+    {
+        "enabled": False,
+        "fault_type": FaultType.FAILED_RESULT,
+        "error_message": "Default exception.",
+        "result": ResultCode.FAILED,
+    }
+)
 
 low_centralnode = "ska_low/tm_central/central_node"
 tmc_low_subarraynode1 = "ska_low/tm_subarray_node/1"
