@@ -1,7 +1,9 @@
 """Define Constants
 """
-from ska_control_model import ObsState
 import json
+
+from ska_control_model import ObsState
+
 from tests.resources.test_harness.utils.enums import (
     FaultType,
     ResultCode,
