@@ -273,36 +273,41 @@ def tmc_subarray_transitions_to_empty(subarray_node, event_recorder):
     )
 
 
-# @then(
-#     parsers.parse(
-#         "Configure command is executed successfully on the "
-#         + "Subarray {subarray_id}"
-#     )
-# )
-# def configure_executed_on_subarray(
-#     central_node_mid, subarray_node, event_recorder, command_input_factory
-# ):
-#     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
-#     assign_input_json = prepare_json_args_for_centralnode_commands(
-#         "assign_resources_mid", command_input_factory
-#     )
-#     central_node_mid.perform_action("AssignResources", assign_input_json)
-#     assert event_recorder.has_change_event_occurred(
-#         central_node_mid.subarray_node,
-#         "obsState",
-#         ObsState.IDLE,
-#     )
+@then(
+    parsers.parse(
+        "Configure command is executed successfully on the "
+        + "Subarray {subarray_id}"
+    )
+)
+def configure_executed_on_subarray(
+    central_node_mid, subarray_node, event_recorder, command_input_factory
+):
+    event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
+    assign_input_json = prepare_json_args_for_centralnode_commands(
+        "assign_resources_mid", command_input_factory
+    )
+    central_node_mid.perform_action("AssignResources", assign_input_json)
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.subarray_node,
+        "obsState",
+        ObsState.IDLE,
+    )
 
-#     configure_input_json = prepare_json_args_for_commands(
-#         "configure_mid", command_input_factory
-#     )
-#     subarray_node.execute_transition("Configure", configure_input_json)
-#     LOGGER.info(
-#         f"SubarrayNode ObsState is: {subarray_node.subarray_node.obsState}"
-#     )
-#     # assert subarray_node.subarray_node.obsState == ObsState.READY
-#     assert event_recorder.has_change_event_occurred(
-#         subarray_node.subarray_node,
-#         "obsState",
-#         ObsState.READY,
-#     )
+    configure_input_json = prepare_json_args_for_commands(
+        "configure_mid", command_input_factory
+    )
+    subarray_node.execute_transition("Configure", configure_input_json)
+    LOGGER.info(
+        f"SubarrayNode ObsState is: {subarray_node.subarray_node.obsState}"
+    )
+    # assert subarray_node.subarray_node.obsState == ObsState.READY
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_node,
+        "obsState",
+        ObsState.CONFIGURING,
+    )
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_node,
+        "obsState",
+        ObsState.READY,
+    )

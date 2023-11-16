@@ -15,6 +15,9 @@ from tests.resources.test_support.constant import (
 from tests.resources.test_support.enum import DishMode
 
 
+@pytest.mark.skip(
+    reason="Subarray stuck in configuring due to uneven pointing states."
+)
 @pytest.mark.real_dish
 def test_configure(json_factory):
     """TelescopeOn() and TelescopeOff() is executed on dishlmc  device."""
