@@ -208,6 +208,7 @@ def invoke_command_load_cfg_on_defective_csp(
     )
 
     csp_sim.SetDefective(ERROR_PROPAGATION_DEFECT)
+    assert csp_sim.defective
     _, unique_id = central_node_mid.load_dish_vcc_configuration(
         load_dish_cfg_json
     )
