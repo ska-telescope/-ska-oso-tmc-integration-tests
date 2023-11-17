@@ -1,21 +1,32 @@
 import json
 import logging
 
+import msgpack
+import msgpack_numpy
+from ska_control_model import ObsState
 from ska_ser_logging import configure_logging
 from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
 
 from tests.resources.test_harness.constant import (
+    POINTING_OFFSETS,
     centralnode,
     csp_master,
     csp_subarray1,
     dish_master1,
     dish_master2,
     sdp_master,
+    sdp_queue_connector,
     sdp_subarray1,
     tmc_csp_subarray_leaf_node,
+    tmc_dish_leaf_node1,
+    tmc_dish_leaf_node2,
     tmc_sdp_subarray_leaf_node,
     tmc_subarraynode1,
+)
+from tests.resources.test_harness.helpers import (
+    check_subarray_obs_state,
+    prepare_json_args_for_commands,
 )
 from tests.resources.test_harness.utils.constant import (
     ABORTED,
@@ -65,6 +76,10 @@ class SubarrayNodeWrapper(object):
         self.subarray_node = DeviceProxy(self.tmc_subarraynode1)
         self.csp_subarray_leaf_node = DeviceProxy(tmc_csp_subarray_leaf_node)
         self.sdp_subarray_leaf_node = DeviceProxy(tmc_sdp_subarray_leaf_node)
+        self.dish_leaf_node_list = [
+            DeviceProxy(tmc_dish_leaf_node1),
+            DeviceProxy(tmc_dish_leaf_node2),
+        ]
         self.dish_master_list = [
             DeviceProxy(dish_master1),
             DeviceProxy(dish_master2),
@@ -293,3 +308,140 @@ class SubarrayNodeWrapper(object):
         )
         obs_state_resetter.reset()
         self._clear_command_call_and_transition_data()
+
+    def simulate_receive_addresses_event(self, sdp_sim, command_input_factory):
+        """Sets the receive addresses attribute on SDP Subarray so an event can
+        be simulated for Subarray Node to process.
+        """
+        receive_addresses = prepare_json_args_for_commands(
+            "receive_addresses_mid", command_input_factory
+        )
+        sdp_sim.SetDirectreceiveAddresses(receive_addresses)
+
+        # Setting pointing offsets after encoding the data.
+        sdp_qc = DeviceProxy(sdp_queue_connector)
+        encoded_data = msgpack.packb(
+            POINTING_OFFSETS, default=msgpack_numpy.encode
+        )
+        sdp_qc.SetDirectPointingOffsets(("msgpack_numpy", encoded_data))
+
+    def execute_five_point_calibration_scan(
+        self,
+        partial_configure_jsons: list[str],
+        scan_jsons: list[str],
+        event_recorder,
+        command_input_factory,
+    ) -> None:
+        """Perform a five point calibration scan on Subarray Node using the
+        partial configuration jsons and scan jsons provided as inputs.
+
+        Args:
+            partial_configure_jsons (list[str]): Partial configuration json
+                file names
+            scan_jsons (list[str]): Scan json file names
+        """
+        partial_configure_1 = prepare_json_args_for_commands(
+            partial_configure_jsons[0], command_input_factory
+        )
+        partial_configure_2 = prepare_json_args_for_commands(
+            partial_configure_jsons[1], command_input_factory
+        )
+        partial_configure_3 = prepare_json_args_for_commands(
+            partial_configure_jsons[2], command_input_factory
+        )
+        partial_configure_4 = prepare_json_args_for_commands(
+            partial_configure_jsons[3], command_input_factory
+        )
+
+        scan_1 = prepare_json_args_for_commands(
+            scan_jsons[0], command_input_factory
+        )
+        scan_2 = prepare_json_args_for_commands(
+            scan_jsons[1], command_input_factory
+        )
+        scan_3 = prepare_json_args_for_commands(
+            scan_jsons[2], command_input_factory
+        )
+        scan_4 = prepare_json_args_for_commands(
+            scan_jsons[3], command_input_factory
+        )
+
+        # Partial configure 1
+        self.execute_transition("Configure", partial_configure_1)
+        assert event_recorder.has_change_event_occurred(
+            self.subarray_node,
+            "obsState",
+            ObsState.CONFIGURING,
+            lookahead=15,
+        )
+        assert check_subarray_obs_state(obs_state="READY")
+
+        # Scan 1
+        self.execute_transition("Scan", scan_1)
+        assert event_recorder.has_change_event_occurred(
+            self.subarray_node,
+            "obsState",
+            ObsState.SCANNING,
+            lookahead=15,
+        )
+        assert check_subarray_obs_state(obs_state="READY")
+
+        # Partial configure 2
+        self.execute_transition("Configure", partial_configure_2)
+        assert event_recorder.has_change_event_occurred(
+            self.subarray_node,
+            "obsState",
+            ObsState.CONFIGURING,
+            lookahead=15,
+        )
+        assert check_subarray_obs_state(obs_state="READY")
+
+        # Scan 2
+        self.execute_transition("Scan", scan_2)
+        assert event_recorder.has_change_event_occurred(
+            self.subarray_node,
+            "obsState",
+            ObsState.SCANNING,
+            lookahead=15,
+        )
+        assert check_subarray_obs_state(obs_state="READY")
+
+        # Partial configure 3
+        self.execute_transition("Configure", partial_configure_3)
+        assert event_recorder.has_change_event_occurred(
+            self.subarray_node,
+            "obsState",
+            ObsState.CONFIGURING,
+            lookahead=15,
+        )
+        assert check_subarray_obs_state(obs_state="READY")
+
+        # Scan 3
+        self.execute_transition("Scan", scan_3)
+        assert event_recorder.has_change_event_occurred(
+            self.subarray_node,
+            "obsState",
+            ObsState.SCANNING,
+            lookahead=15,
+        )
+        assert check_subarray_obs_state(obs_state="READY")
+
+        # Partial configure 4
+        self.execute_transition("Configure", partial_configure_4)
+        assert event_recorder.has_change_event_occurred(
+            self.subarray_node,
+            "obsState",
+            ObsState.CONFIGURING,
+            lookahead=15,
+        )
+        assert check_subarray_obs_state(obs_state="READY")
+
+        # Scan 4
+        self.execute_transition("Scan", scan_4)
+        assert event_recorder.has_change_event_occurred(
+            self.subarray_node,
+            "obsState",
+            ObsState.SCANNING,
+            lookahead=15,
+        )
+        assert check_subarray_obs_state("READY")
