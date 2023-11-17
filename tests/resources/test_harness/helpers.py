@@ -1,3 +1,4 @@
+import json
 import logging
 from typing import Any
 
@@ -20,7 +21,6 @@ from tests.resources.test_support.constant import (
     tmc_sdp_subarray_leaf_node,
     tmc_subarraynode1,
 )
-import json
 
 configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
@@ -186,7 +186,7 @@ def get_command_call_info(device: Any, command_name: str):
         if command_info[0] == command_name
     ]
     input_str = json.loads("".join(command_info[0][1].split()))
-    
+
     received_command_call_data = (
         command_call_info[0][0],
         sorted(input_str),
