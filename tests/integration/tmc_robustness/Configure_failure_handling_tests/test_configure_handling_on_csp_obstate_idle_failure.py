@@ -17,7 +17,6 @@ from tests.resources.test_harness.helpers import (
 )
 
 
-@pytest.mark.configure1
 @pytest.mark.bdd_assign
 @pytest.mark.SKA_mid
 @scenario(

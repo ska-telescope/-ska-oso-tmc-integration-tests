@@ -12,7 +12,6 @@ from tests.resources.test_harness.helpers import (
 )
 
 
-@pytest.mark.configure3
 @pytest.mark.bdd_assign
 @pytest.mark.SKA_mid
 @scenario(
@@ -300,7 +299,6 @@ def configure_executed_on_subarray(
     LOGGER.info(
         f"SubarrayNode ObsState is: {subarray_node.subarray_node.obsState}"
     )
-    # assert subarray_node.subarray_node.obsState == ObsState.READY
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",
