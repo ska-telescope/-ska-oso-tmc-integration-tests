@@ -12,7 +12,6 @@ from tests.resources.test_harness.helpers import (
 
 
 @pytest.mark.SKA_mid
-@pytest.mark.only_configure
 @scenario(
     "../features/test_harness/five_point_scan.feature",
     "TMC behaviour during five point calibration scan.",
