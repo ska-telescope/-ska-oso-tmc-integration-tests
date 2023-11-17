@@ -1,24 +1,28 @@
-"""Testing the 5 point calibration scan"""
+"""Testing the Science Scan after a five point calibration scan"""
 import pytest
-from pytest_bdd import given, parsers, scenario, then, when
+from pytest_bdd import given, scenario, then, when
 from ska_control_model import ObsState
+from ska_tango_base.commands import ResultCode
 from tango import DevState
 
 from tests.resources.test_harness.helpers import (
+    check_lrcr_events,
     check_subarray_obs_state,
     get_device_simulators,
     prepare_json_args_for_commands,
 )
+from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
 
 @pytest.mark.SKA_mid
 @scenario(
-    "../features/test_harness/five_point_scan.feature",
-    "TMC behaviour during five point calibration scan.",
+    "../features/test_harness/science_scan_after_calibration_scan.feature",
+    "TMC behaviour during a science scan after a five point calibration scan.",
 )
-def test_five_point_calibration_scan():
+def test_science_scan_after_five_point_calibration_scan():
     """
-    Test case to verify the 5 point calibration scan functionality on TMC
+    Test case to verify the Science scan functionality after a five point
+    calibration scan on TMC
     """
 
 
@@ -42,11 +46,11 @@ def given_tmc(central_node_mid, event_recorder):
     )
 
 
-@given("a subarray configured for a calibration scan")
-def a_configured_subarray(
+@given("a subarray post five point calibration")
+def a_subarray_after_five_point_calibration(
     subarray_node, event_recorder, simulator_factory, command_input_factory
 ):
-    """Given a subarray configured for a calibration scan."""
+    """Given a Subarray after the five point Calibration scan."""
     csp_sim, sdp_sim, _, _ = get_device_simulators(simulator_factory)
 
     event_recorder.subscribe_event(csp_sim, "obsState")
@@ -73,38 +77,18 @@ def a_configured_subarray(
         "scan_mid", command_input_factory
     )
     subarray_node.execute_transition("Scan", scan_command_input)
-
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",
         ObsState.SCANNING,
         lookahead=15,
     )
-
-
-@given("the subarray is in READY obsState")
-def a_subarray_in_ready_obsstate():
-    """A subarray in READY obsState."""
     assert check_subarray_obs_state("READY")
 
-
-@when(
-    parsers.parse(
-        "I perform four partial configurations with json "
-        + "{partial_configuration_json} and scans"
-    )
-)
-def when_i_perform_partial_configurations_and_scans(
-    subarray_node,
-    event_recorder,
-    command_input_factory,
-    partial_configuration_json,
-):
-    """When I perform partial configurations and scans."""
     scan_jsons = ["scan_mid" for _ in range(4)]
-    partial_configuration_jsons = partial_configuration_json.rstrip().split(
-        ","
-    )
+    partial_configuration_jsons = [
+        f"partial_configure_{i}" for i in range(1, 5)
+    ]
 
     subarray_node.execute_five_point_calibration_scan(
         partial_configuration_jsons,
@@ -114,9 +98,44 @@ def when_i_perform_partial_configurations_and_scans(
     )
 
 
+@when("I invoke Configure command for a science scan")
+def configure_for_science_scan(
+    subarray_node, event_recorder, simulator_factory, command_input_factory
+):
+    """When Configure is invoked for a Science Scan."""
+    configure_command_input = prepare_json_args_for_commands(
+        "configure_mid", command_input_factory
+    )
+    subarray_node.execute_transition("Configure", configure_command_input)
+    sdp_sim = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.MID_SDP_DEVICE
+    )
+    subarray_node.simulate_receive_addresses_event(
+        sdp_sim, command_input_factory
+    )
+
+
 @then(
-    "the subarray executes the commands successfully and is in READY obsState"
+    "the subarray fetches calibration solutions from SDP and applies them to "
+    + "the Dishes"
 )
-def subarray_executes_commands_successfully():
-    """Subarray executes the commands successfully and is in READY obsState."""
+def subarray_applies_calibration_solutions_to_dishes(
+    subarray_node, event_recorder
+):
+    """Then the Subarray fetches and applies the configuration solutions to the
+    dishes."""
+    for dish_leaf_node in subarray_node.dish_leaf_node_list:
+        event_recorder.subscribe_event(
+            dish_leaf_node, "longRunningCommandResult"
+        )
+
+    for dish_leaf_node in subarray_node.dish_leaf_node_list:
+        check_lrcr_events(
+            event_recorder, dish_leaf_node, "TrackLoadStaticOff", ResultCode.OK
+        )
+
+
+@then("is in READY obsState")
+def subarray_is_in_ready_obsstate():
+    """Subarray is in READY obsState."""
     assert check_subarray_obs_state("READY")
