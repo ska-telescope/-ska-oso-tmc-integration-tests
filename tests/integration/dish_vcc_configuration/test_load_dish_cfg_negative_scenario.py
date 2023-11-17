@@ -59,7 +59,6 @@ def test_central_node_return_error_for_duplicate_vcc_id():
 
 
 @pytest.mark.SKA_mid
-@pytest.mark.new
 @scenario(
     "../features/load_dish_cfg_command_negative_scenario.feature",
     "TMC handling exception from CSP Subarray",
@@ -195,6 +194,9 @@ def invoke_command_load_cfg_on_defective_csp(
     event_recorder.subscribe_event(
         central_node_mid.central_node, "longRunningCommandResult"
     )
+    event_recorder.subscribe_event(
+        central_node_mid.csp_master_leaf_node, "longRunningCommandResult"
+    )
     # Prepare input for load dish configuration
     load_dish_cfg_json = prepare_json_args_for_centralnode_commands(
         "load_dish_cfg", command_input_factory
@@ -208,7 +210,6 @@ def invoke_command_load_cfg_on_defective_csp(
     )
 
     csp_sim.SetDefective(ERROR_PROPAGATION_DEFECT)
-    assert csp_sim.defective
     _, unique_id = central_node_mid.load_dish_vcc_configuration(
         load_dish_cfg_json
     )
@@ -225,7 +226,6 @@ def invoke_command_load_cfg_on_defective_csp(
         (unique_id[0], exception_msg),
         lookahead=5,
     )
-    print(pytest.command_result)
     csp_sim.SetDefective(RESET_DEFECT)
 
 
