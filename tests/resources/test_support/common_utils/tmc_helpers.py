@@ -402,14 +402,16 @@ def tear_down(
         )
 
 
-def tear_down_configured_alarms(alarm_handler_device: DeviceProxy, alarms_to_remove: list):
+def tear_down_configured_alarms(
+    alarm_handler_device: DeviceProxy, alarms_to_remove: list
+):
     """
     A method to remove configured alarms using the tag
     Arg:
-        alarm_handler_device(DeviceProxy): device proxy for alarm handler device
+        alarm_handler_device(DeviceProxy): device proxy for
+        alarm handler device
         alarms_to_remove(list): list of alarms to remove
     """
     for tag in alarms_to_remove:
         alarm_handler_device.Remove(tag)
     assert alarm_handler_device.alarmList == ()
-
