@@ -31,7 +31,7 @@ def test_science_scan_after_five_point_calibration_scan():
 def given_tmc(subarray_node, event_recorder):
     """Given a TMC"""
     # Adding a temporary sleep to test the tear down.
-    time.sleep(15)
+    time.sleep(50)
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
     subarray_node.move_to_on()
     assert event_recorder.has_change_event_occurred(
