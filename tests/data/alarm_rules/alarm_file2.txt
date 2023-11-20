@@ -1,0 +1,2 @@
+tag=CentralNode_telescopehealthstate_degraded;formula=(ska_mid/tm_central/central_node/telescopehealthState == 1);priority=log;group=none;message=(\"alarm for central node telescopehealthstate degraded\")
+tag=CentralNode_healthstate_degraded;formula=(ska_mid/tm_central/central_node/healthState == 1);priority=log;group=none;message=(\"alarm for central node healthstate degraded\")
