@@ -102,7 +102,7 @@
     },
     "sdp": {
       "interface": "https://schema.skao.int/ska-sdp-assign/0.3",
-      "scan_type": "science_B"
+      "scan_type": "xxxxxxx_X"
       
     },
     "tmc": {

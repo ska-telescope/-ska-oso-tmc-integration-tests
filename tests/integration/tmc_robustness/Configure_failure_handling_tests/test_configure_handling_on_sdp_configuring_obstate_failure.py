@@ -12,7 +12,8 @@ from tests.resources.test_harness.helpers import (
 )
 
 
-@pytest.mark.bdd_assign
+@pytest.mark.configure4
+@pytest.mark.bdd_configure
 @pytest.mark.SKA_mid
 @scenario(
     "../features/configure_sdp_subarray_failure_scenario.feature",

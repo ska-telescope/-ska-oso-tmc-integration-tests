@@ -12,7 +12,8 @@ from tests.resources.test_harness.helpers import (
 )
 
 
-@pytest.mark.bdd_assign
+@pytest.mark.configure3
+@pytest.mark.bdd_configure
 @pytest.mark.SKA_mid
 @scenario(
     "../features/configure_sdp_subarray_failure_scenario.feature",
@@ -81,9 +82,13 @@ def given_tmc_subarray_assign_resources(
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
+    invalid_receiptor_json = prepare_json_args_for_commands(
+        "invalid_receiptor", command_input_factory
+    )
     _, unique_id = central_node_mid.perform_action(
         "AssignResources", assign_input_json
     )
+    sdp_sim.SetDirectreceiveAddresses(invalid_receiptor_json)
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",
@@ -144,14 +149,20 @@ def csp_subarray_configure_complete(event_recorder, simulator_factory):
 
 
 @given(parsers.parse("Sdp Subarray {subarray_id} returns to obsState IDLE"))
-def sdp_subarray_returns_to_obsstate_idle(event_recorder, simulator_factory):
+def sdp_subarray_returns_to_obsstate_idle(
+    event_recorder, simulator_factory, command_input_factory
+):
     _, sdp_sim, _, _ = get_device_simulators(simulator_factory)
     event_recorder.subscribe_event(sdp_sim, "obsState")
+    valid_receiptor_json = prepare_json_args_for_commands(
+        "science_A_receiver_address", command_input_factory
+    )
     assert event_recorder.has_change_event_occurred(
         sdp_sim,
         "obsState",
         ObsState.IDLE,
     )
+    sdp_sim.SetDirectreceiveAddresses(valid_receiptor_json)
 
 
 @given(

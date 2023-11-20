@@ -3,7 +3,9 @@ import json
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
-from ska_tango_testing.mock.placeholders import Anything
+from ska_tango_base.commands import ResultCode
+
+# from ska_tango_testing.mock.placeholders import Anything
 from tango import DevState
 
 from tests.conftest import LOGGER
@@ -17,7 +19,8 @@ from tests.resources.test_harness.helpers import (
 )
 
 
-@pytest.mark.bdd_assign
+@pytest.mark.configure1
+@pytest.mark.bdd_configure
 @pytest.mark.SKA_mid
 @scenario(
     "../features/configure_csp_subarray_failure_scenarios.feature",
@@ -93,13 +96,6 @@ def given_tmc_subarray_assign_resources(
     _, unique_id = central_node_mid.perform_action(
         "AssignResources", assign_input_json
     )
-    LOGGER.info(
-        "CSP SubarrayNode ObsState is: %s",
-        subarray_node.csp_subarray_leaf_node.cspSubarrayObsState,
-    )
-    LOGGER.info(
-        "SubarrayNode ObsState is: %s", subarray_node.subarray_node.obsState
-    )
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",
@@ -108,7 +104,7 @@ def given_tmc_subarray_assign_resources(
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
         "longRunningCommandResult",
-        (unique_id[0], Anything),
+        (unique_id[0], str(ResultCode.OK.value)),
     )
 
 
@@ -146,9 +142,9 @@ def given_tmc_subarray_configure_is_in_progress(
         ObsState.CONFIGURING,
     )
     assert event_recorder.has_change_event_occurred(
-        subarray_node.subarray_node,
+        central_node_mid.central_node,
         "longRunningCommandResult",
-        (unique_id[0], Anything),
+        (unique_id[0], str(ResultCode.OK.value)),
     )
 
 
