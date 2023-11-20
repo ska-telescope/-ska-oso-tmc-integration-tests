@@ -1,3 +1,4 @@
+@XTP-28838
 Scenario Outline: TMC behaviour during five point calibration scan.
     Given a TMC
     And a subarray configured for a calibration scan

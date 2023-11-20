@@ -1,3 +1,4 @@
+@XTP-28839
 Scenario Outline: TMC behaviour during a science scan after a five point calibration scan.
     Given a TMC
     And a subarray post five point calibration
