@@ -16,10 +16,13 @@ def test_configure_alarms_with_multiple_files():
     """Test method to configure alarm rules using
     multiple alarm rules files
     """
-    for filename in os.listdir("/app/tests/data/alarm_rules/"):
+    for filename in os.listdir("/app/tests/data/alarm_rules/valid_rules/"):
         if filename.endswith(".txt"):
             with open(
-                os.path.join("/app/tests/data/alarm_rules/", filename), "r"
+                os.path.join(
+                    "/app/tests/data/alarm_rules/valid_rules/", filename
+                ),
+                "r",
             ) as file:
                 response = httpx.post(
                     f"http://alarm-handler-configurator.{namespace}.svc."
