@@ -3,8 +3,8 @@ import json
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
-from tango import DevState
 from ska_tango_base.commands import ResultCode
+from tango import DevState
 
 from tests.conftest import LOGGER
 from tests.resources.test_harness.constant import (
@@ -86,7 +86,9 @@ def given_tmc_subarray_assigns_resources(
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
-    _, unique_id = central_node_mid.perform_action("AssignResources", assign_input_json)
+    _, unique_id = central_node_mid.perform_action(
+        "AssignResources", assign_input_json
+    )
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",
@@ -116,7 +118,9 @@ def given_tmc_subarray_configure_is_in_progress(
     )
     # Induce fault on CSP Subarray so that it is stuck in obsState CONFIGURING
     csp_sim.SetDefective(json.dumps(OBS_STATE_CONFIGURING_STUCK_DEFECT))
-    pytest.command_result = subarray_node.execute_transition("Configure", configure_input_json)
+    pytest.command_result = subarray_node.execute_transition(
+        "Configure", configure_input_json
+    )
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",

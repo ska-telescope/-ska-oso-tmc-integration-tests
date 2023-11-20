@@ -4,8 +4,6 @@ import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
 from ska_tango_base.commands import ResultCode
-
-# from ska_tango_testing.mock.placeholders import Anything
 from tango import DevState
 
 from tests.conftest import LOGGER
@@ -244,6 +242,7 @@ def tmc_subarray_transitions_to_IDLE(subarray_node, event_recorder):
         "obsState",
         ObsState.IDLE,
     )
+
 
 @then(
     parsers.parse(

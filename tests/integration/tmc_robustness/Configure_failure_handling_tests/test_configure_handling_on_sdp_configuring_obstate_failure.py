@@ -1,9 +1,10 @@
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
+from ska_tango_base.commands import ResultCode
+
 # from ska_tango_testing.mock.placeholders import Anything
 from tango import DevState
-from ska_tango_base.commands import ResultCode
 
 from tests.conftest import LOGGER
 from tests.resources.test_harness.helpers import (
@@ -110,7 +111,9 @@ def given_tmc_subarray_configure_is_in_progress(
     configure_input_json = prepare_json_args_for_commands(
         "configure_with_invalid_interface", command_input_factory
     )
-    pytest.command_result = subarray_node.execute_transition("Configure", configure_input_json)
+    pytest.command_result = subarray_node.execute_transition(
+        "Configure", configure_input_json
+    )
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",

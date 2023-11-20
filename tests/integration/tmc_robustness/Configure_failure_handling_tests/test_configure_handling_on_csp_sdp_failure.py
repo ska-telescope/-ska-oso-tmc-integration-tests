@@ -3,9 +3,10 @@ import json
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
-#from ska_tango_testing.mock.placeholders import Anything
-from tango import DevState
 from ska_tango_base.commands import ResultCode
+
+# from ska_tango_testing.mock.placeholders import Anything
+from tango import DevState
 
 # from tests.conftest import LOGGER
 from tests.resources.test_harness.constant import (
@@ -139,7 +140,6 @@ def given_tmc_subarray_configure_is_in_progress(
     )
 
 
-
 @when(
     parsers.parse(
         "Csp Subarray {subarray_id} raises exception and returns "
@@ -193,6 +193,7 @@ def tmc_subarray_transitions_to_idle(
     )
     # Disable CSP Subarray fault
     csp_sim.SetDefective(json.dumps({"enabled": False}))
+
 
 @then(
     parsers.parse(
