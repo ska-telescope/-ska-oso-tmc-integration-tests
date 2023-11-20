@@ -1,3 +1,4 @@
+import json
 import logging
 from typing import Any
 
@@ -184,7 +185,8 @@ def get_command_call_info(device: Any, command_name: str):
         for command_info in command_call_info
         if command_info[0] == command_name
     ]
-    input_str = "".join(command_info[0][1].split())
+    input_str = json.loads("".join(command_info[0][1].split()))
+
     received_command_call_data = (
         command_call_info[0][0],
         sorted(input_str),
@@ -208,8 +210,7 @@ def device_received_this_command(
     received_command_call_data = get_command_call_info(
         device, expected_command_name
     )
-    expected_input_str = "".join(expected_inp_str.split())
-
+    expected_input_str = json.loads("".join(expected_inp_str.split()))
     return received_command_call_data == (
         expected_command_name,
         sorted(expected_input_str),
