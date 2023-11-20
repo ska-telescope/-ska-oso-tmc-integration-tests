@@ -3,11 +3,12 @@ from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
 from tango import DevState
 
-from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_harness.helpers import (
     prepare_json_args_for_centralnode_commands,
-    prepare_json_args_for_commands
+    prepare_json_args_for_commands,
 )
+from tests.resources.test_harness.utils.enums import SimulatorDeviceType
+
 
 @pytest.mark.bdd_scan
 @pytest.mark.scan1
@@ -16,7 +17,7 @@ from tests.resources.test_harness.helpers import (
     "../features/check_scan_command.feature",
     "Successful Execution of Scan Command on Low Telescope Subarray in TMC",
 )
-def test_tmc_mccssln_configure_command():
+def test_tmc_mccssln_scan_command():
     """BDD test scenario for verifying successful execution of
     the Scan command in a TMC."""
 
@@ -41,7 +42,7 @@ def given_tmc(central_node_low, event_recorder):
     )
 
 
-@given("a subarray in READY state")
+@given("a subarray in READY obsState")
 def given_subarray_in_ready(
     command_input_factory,
     central_node_low,
@@ -66,15 +67,11 @@ def given_subarray_in_ready(
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_low", command_input_factory
     )
-    central_node_low.perform_action(
-        "AssignResources", assign_input_json
-    )
+    central_node_low.perform_action("AssignResources", assign_input_json)
     configure_input_json = prepare_json_args_for_commands(
         "configure_low", command_input_factory
     )
-    subarray_node_low.execute_transition(
-        "Configure", configure_input_json
-    )
+    subarray_node_low.execute_transition("Configure", configure_input_json)
     assert event_recorder.has_change_event_occurred(
         csp_subarray_sim,
         "obsState",
@@ -106,18 +103,16 @@ def send_scan(
     scan_input_json = prepare_json_args_for_commands(
         "command_scan_low", command_input_factory
     )
-    subarray_node_low.execute_transition(
-        "Scan", scan_input_json
-    )
+    subarray_node_low.execute_transition("Scan", scan_input_json)
 
 
-@then("the subarray must be in the SCANNING state until finished")
+@then("the subarray must be in the SCANNING obsState until finished")
 def scan_complete(
     subarray_node_low,
     event_recorder,
     simulator_factory,
 ):
-    """Verify that the subarray is in the SCANNING state."""
+    """Verify that the subarray is in the SCANNING obsState."""
     csp_subarray_sim = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.LOW_CSP_DEVICE
     )

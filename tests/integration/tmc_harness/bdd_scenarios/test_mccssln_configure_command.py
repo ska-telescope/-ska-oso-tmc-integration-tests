@@ -3,11 +3,12 @@ from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
 from tango import DevState
 
-from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_harness.helpers import (
     prepare_json_args_for_centralnode_commands,
-    prepare_json_args_for_commands
+    prepare_json_args_for_commands,
 )
+from tests.resources.test_harness.utils.enums import SimulatorDeviceType
+
 
 @pytest.mark.bdd_configure
 @pytest.mark.configure1
@@ -41,14 +42,14 @@ def given_tmc(central_node_low, event_recorder):
     )
 
 
-@given("a subarray in the IDLE state")
+@given("a subarray in the IDLE obsState")
 def given_subarray_in_idle(
     command_input_factory,
     central_node_low,
     event_recorder,
     simulator_factory,
 ):
-    """Set up a subarray in the IDLE state."""
+    """Set up a subarray in the IDLE obsState."""
     csp_subarray_sim = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.LOW_CSP_DEVICE
     )
@@ -65,9 +66,7 @@ def given_subarray_in_idle(
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_low", command_input_factory
     )
-    central_node_low.perform_action(
-        "AssignResources", assign_input_json
-    )
+    central_node_low.perform_action("AssignResources", assign_input_json)
     assert event_recorder.has_change_event_occurred(
         csp_subarray_sim,
         "obsState",
@@ -99,18 +98,16 @@ def send_configure(
     configure_input_json = prepare_json_args_for_commands(
         "configure_low", command_input_factory
     )
-    subarray_node_low.execute_transition(
-        "Configure", configure_input_json
-    )
+    subarray_node_low.execute_transition("Configure", configure_input_json)
 
 
-@then("the subarray must be in the READY state")
+@then("the subarray must be in the READY obsState")
 def configure_complete(
     subarray_node_low,
     event_recorder,
     simulator_factory,
 ):
-    """Verify that the subarray is in the READY state."""
+    """Verify that the subarray is in the READY obsState."""
     csp_subarray_sim = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.LOW_CSP_DEVICE
     )
