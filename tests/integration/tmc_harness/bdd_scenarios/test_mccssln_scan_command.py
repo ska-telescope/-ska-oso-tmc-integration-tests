@@ -9,16 +9,16 @@ from tests.resources.test_harness.helpers import (
     prepare_json_args_for_commands
 )
 
-@pytest.mark.bdd_configure
-@pytest.mark.configure1
+@pytest.mark.bdd_scan
+@pytest.mark.scan1
 @pytest.mark.SKA_low
 @scenario(
-    "../features/check_configure_command.feature",
-    "Successful Configuration of Low Telescope Subarray in TMC",
+    "../features/check_scan_command.feature",
+    "Successful Execution of Scan Command on Low Telescope Subarray in TMC",
 )
 def test_tmc_mccssln_configure_command():
     """BDD test scenario for verifying successful execution of
-    the Configure command in a TMC."""
+    the Scan command in a TMC."""
 
 
 @given("a TMC")
@@ -41,14 +41,15 @@ def given_tmc(central_node_low, event_recorder):
     )
 
 
-@given("a subarray in the IDLE state")
-def given_subarray_in_idle(
+@given("a subarray in READY state")
+def given_subarray_in_ready(
     command_input_factory,
     central_node_low,
+    subarray_node_low,
     event_recorder,
     simulator_factory,
 ):
-    """Set up a subarray in the IDLE state."""
+    """Set up a subarray in the READY state."""
     csp_subarray_sim = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.LOW_CSP_DEVICE
     )
@@ -68,49 +69,55 @@ def given_subarray_in_idle(
     central_node_low.perform_action(
         "AssignResources", assign_input_json
     )
-    assert event_recorder.has_change_event_occurred(
-        csp_subarray_sim,
-        "obsState",
-        ObsState.IDLE,
-    )
-    assert event_recorder.has_change_event_occurred(
-        sdp_subarray_sim,
-        "obsState",
-        ObsState.IDLE,
-    )
-    assert event_recorder.has_change_event_occurred(
-        mccs_subarray_sim,
-        "obsState",
-        ObsState.IDLE,
-    )
-    assert event_recorder.has_change_event_occurred(
-        central_node_low.subarray_node,
-        "obsState",
-        ObsState.IDLE,
-    )
-
-
-@when(parsers.parse("I configure it for a scan"))
-def send_configure(
-    command_input_factory,
-    subarray_node_low,
-):
-    """Send a Configure command to the subarray."""
     configure_input_json = prepare_json_args_for_commands(
         "configure_low", command_input_factory
     )
     subarray_node_low.execute_transition(
         "Configure", configure_input_json
     )
+    assert event_recorder.has_change_event_occurred(
+        csp_subarray_sim,
+        "obsState",
+        ObsState.READY,
+    )
+    assert event_recorder.has_change_event_occurred(
+        sdp_subarray_sim,
+        "obsState",
+        ObsState.READY,
+    )
+    assert event_recorder.has_change_event_occurred(
+        mccs_subarray_sim,
+        "obsState",
+        ObsState.READY,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_low.subarray_node,
+        "obsState",
+        ObsState.READY,
+    )
 
 
-@then("the subarray must be in the READY state")
-def configure_complete(
+@when(parsers.parse("I command it to scan for a given period"))
+def send_scan(
+    command_input_factory,
+    subarray_node_low,
+):
+    """Send a Scan command to the subarray."""
+    scan_input_json = prepare_json_args_for_commands(
+        "command_scan_low", command_input_factory
+    )
+    subarray_node_low.execute_transition(
+        "Scan", scan_input_json
+    )
+
+
+@then("the subarray must be in the SCANNING state until finished")
+def scan_complete(
     subarray_node_low,
     event_recorder,
     simulator_factory,
 ):
-    """Verify that the subarray is in the READY state."""
+    """Verify that the subarray is in the SCANNING state."""
     csp_subarray_sim = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.LOW_CSP_DEVICE
     )
@@ -128,20 +135,20 @@ def configure_complete(
     assert event_recorder.has_change_event_occurred(
         csp_subarray_sim,
         "obsState",
-        ObsState.READY,
+        ObsState.SCANNING,
     )
     assert event_recorder.has_change_event_occurred(
         sdp_subarray_sim,
         "obsState",
-        ObsState.READY,
+        ObsState.SCANNING,
     )
     assert event_recorder.has_change_event_occurred(
         mccs_subarray_sim,
         "obsState",
-        ObsState.READY,
+        ObsState.SCANNING,
     )
     assert event_recorder.has_change_event_occurred(
         subarray_node_low.subarray_node,
         "obsState",
-        ObsState.READY,
+        ObsState.SCANNING,
     )
