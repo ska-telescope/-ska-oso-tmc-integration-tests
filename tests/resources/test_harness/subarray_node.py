@@ -280,6 +280,7 @@ class SubarrayNodeWrapper(object):
         self.move_to_off()
         self._reset_dishes()
         self._reset_simulator_devices()
+        assert check_subarray_obs_state("EMPTY")
 
     def clear_all_data(self):
         """Method to clear the observations

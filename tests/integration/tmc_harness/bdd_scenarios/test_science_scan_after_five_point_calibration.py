@@ -1,9 +1,10 @@
 """Testing the Science Scan after a five point calibration scan"""
+import time
+
 import pytest
 from pytest_bdd import given, scenario, then, when
 from ska_control_model import ObsState
 from ska_tango_base.commands import ResultCode
-from tango import DevState
 
 from tests.resources.test_harness.helpers import (
     check_lrcr_events,
@@ -27,20 +28,14 @@ def test_science_scan_after_five_point_calibration_scan():
 
 
 @given("a TMC")
-def given_tmc(central_node_mid, event_recorder):
+def given_tmc(subarray_node, event_recorder):
     """Given a TMC"""
-    event_recorder.subscribe_event(
-        central_node_mid.central_node, "telescopeState"
-    )
-    event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
-    central_node_mid.move_to_on()
+    # Adding a temporary sleep to test the tear down.
+    time.sleep(15)
+    event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
+    subarray_node.move_to_on()
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.central_node,
-        "telescopeState",
-        DevState.ON,
-    )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_node,
+        subarray_node.subarray_node,
         "obsState",
         ObsState.EMPTY,
     )
