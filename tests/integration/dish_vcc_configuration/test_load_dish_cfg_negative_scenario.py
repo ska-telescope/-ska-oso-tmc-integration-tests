@@ -64,8 +64,10 @@ def test_central_node_return_error_for_duplicate_vcc_id():
     "TMC handling exception from CSP Subarray",
 )
 def test_central_node_handle_exception():
-    """This test validate that when duplicate vcc id provided
-    in dish vcc map json then command is rejected with error
+    """This test validate that when exception is raised on csp controller
+    device then the csp master should raise the error to central node and
+    sysParam and sourceSysParam attributes are not updated at csp master leaf
+    node device
     """
 
 
@@ -234,7 +236,9 @@ def invoke_command_load_cfg_on_defective_csp(
     "remains unchanged on CSP Master Leaf Node"
 )
 def check_sys_param_source_sys_param_attributes(central_node_mid):
-
+    """Test validate that sysParam and sourceSysParam attributes
+    are not updated after error
+    """
     assert (
         pytest.initial_sysParam
         == central_node_mid.csp_master_leaf_node.sysParam
@@ -247,4 +251,5 @@ def check_sys_param_source_sys_param_attributes(central_node_mid):
 
 @then(parsers.parse("command returns with error message {error_message}"))
 def check_return_msg(error_message: str):
+    """Test validate that command failed with error message"""
     assert error_message in pytest.command_result["attribute_value"][1]
