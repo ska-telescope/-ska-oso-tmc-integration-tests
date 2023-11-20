@@ -3,8 +3,9 @@ import json
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
-from ska_tango_testing.mock.placeholders import Anything
+#from ska_tango_testing.mock.placeholders import Anything
 from tango import DevState
+from ska_tango_base.commands import ResultCode
 
 # from tests.conftest import LOGGER
 from tests.resources.test_harness.constant import (
@@ -93,7 +94,7 @@ def given_tmc_subarray_assign_resources(
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
         "longRunningCommandResult",
-        (unique_id[0], Anything),
+        (unique_id[0], str(ResultCode.OK.value)),
     )
 
 
@@ -120,7 +121,7 @@ def given_tmc_subarray_configure_is_in_progress(
     configure_input_json = prepare_json_args_for_commands(
         "configure_with_invalid_scan_type", command_input_factory
     )
-    _, unique_id = subarray_node.execute_transition(
+    pytest.command_result = subarray_node.execute_transition(
         "Configure", configure_input_json
     )
     assert event_recorder.has_change_event_occurred(
@@ -131,8 +132,12 @@ def given_tmc_subarray_configure_is_in_progress(
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "longRunningCommandResult",
-        (unique_id[0], Anything),
+        (
+            pytest.command_result[1][0],
+            str(ResultCode.FAILED.value),
+        ),
     )
+
 
 
 @when(
@@ -188,3 +193,23 @@ def tmc_subarray_transitions_to_idle(
     )
     # Disable CSP Subarray fault
     csp_sim.SetDefective(json.dumps({"enabled": False}))
+
+@then(
+    parsers.parse(
+        "Configure command is executed successfully on the "
+        + "Subarray {subarray_id}"
+    )
+)
+def configure_executed_on_subarray(
+    subarray_node, event_recorder, command_input_factory
+):
+    event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
+    configure_input_json = prepare_json_args_for_commands(
+        "configure_mid", command_input_factory
+    )
+    subarray_node.execute_transition("Configure", configure_input_json)
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_node,
+        "obsState",
+        ObsState.READY,
+    )

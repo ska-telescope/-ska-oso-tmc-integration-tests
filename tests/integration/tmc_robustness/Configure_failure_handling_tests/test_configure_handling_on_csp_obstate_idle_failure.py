@@ -196,7 +196,7 @@ def given_tmc_subarray_stuck_configuring(
         "longRunningCommandResult",
         (
             pytest.command_result[1][0],
-            "Exception occured on device: mid-csp/subarray/01",
+            str(ResultCode.FAILED.value),
         ),
     )
 
@@ -243,4 +243,27 @@ def tmc_subarray_transitions_to_IDLE(subarray_node, event_recorder):
         subarray_node.subarray_node,
         "obsState",
         ObsState.IDLE,
+    )
+
+@then(
+    parsers.parse(
+        "Configure command is executed successfully on the "
+        + "Subarray {subarray_id}"
+    )
+)
+def configure_executed_on_subarray(
+    subarray_node, event_recorder, command_input_factory
+):
+    event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
+    configure_input_json = prepare_json_args_for_commands(
+        "configure_mid", command_input_factory
+    )
+    subarray_node.execute_transition("Configure", configure_input_json)
+    LOGGER.info(
+        f"SubarrayNode ObsState is: {subarray_node.subarray_node.obsState}"
+    )
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_node,
+        "obsState",
+        ObsState.READY,
     )

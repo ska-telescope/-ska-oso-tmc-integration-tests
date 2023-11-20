@@ -4,6 +4,7 @@ import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
 from tango import DevState
+from ska_tango_base.commands import ResultCode
 
 from tests.conftest import LOGGER
 from tests.resources.test_harness.constant import (
@@ -78,15 +79,23 @@ def given_tmc_subarray_assigns_resources(
     event_recorder.subscribe_event(csp_sim, "obsState")
     event_recorder.subscribe_event(sdp_sim, "obsState")
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
+    event_recorder.subscribe_event(
+        central_node_mid.central_node, "longRunningCommandResult"
+    )
 
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
-    central_node_mid.perform_action("AssignResources", assign_input_json)
+    _, unique_id = central_node_mid.perform_action("AssignResources", assign_input_json)
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",
         ObsState.IDLE,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.central_node,
+        "longRunningCommandResult",
+        (unique_id[0], str(ResultCode.OK.value)),
     )
 
 
@@ -107,7 +116,7 @@ def given_tmc_subarray_configure_is_in_progress(
     )
     # Induce fault on CSP Subarray so that it is stuck in obsState CONFIGURING
     csp_sim.SetDefective(json.dumps(OBS_STATE_CONFIGURING_STUCK_DEFECT))
-    subarray_node.execute_transition("Configure", configure_input_json)
+    pytest.command_result = subarray_node.execute_transition("Configure", configure_input_json)
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",
@@ -143,7 +152,9 @@ def csp_subarray_stuck_in_configuring(event_recorder, simulator_factory):
         "obsState",
         ObsState.CONFIGURING,
     )
-    csp_sim, _, _, _ = get_device_simulators(simulator_factory)
+    csp_sim = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.MID_CSP_DEVICE
+    )
     csp_sim.SetDefective(json.dumps({"enabled": False}))
 
 
@@ -155,10 +166,21 @@ def given_tmc_subarray_stuck_configuring(
     event_recorder,
 ):
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
+    event_recorder.subscribe_event(
+        subarray_node.subarray_node, "longRunningCommandResult"
+    )
     LOGGER.info(
         f"SubarrayNode ObsState is: {subarray_node.subarray_node.obsState}"
     )
     assert subarray_node.subarray_node.obsState == ObsState.CONFIGURING
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_node,
+        "longRunningCommandResult",
+        (
+            pytest.command_result[1][0],
+            str(ResultCode.FAILED.value),
+        ),
+    )
 
 
 @when(

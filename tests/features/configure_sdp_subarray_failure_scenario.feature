@@ -10,6 +10,7 @@ Feature: TMC SubarrayNode handles the failure when the Configure command fails o
         When I issue the command End on CSP Subarray <subarray_id>
         Then the CSP subarray <subarray_id> transitions to obsState IDLE
         And Tmc SubarrayNode <subarray_id> transitions to obsState IDLE
+        And Configure command is executed successfully on the Subarray <subarray_id>
 
         Examples:
         | subarray_id  |

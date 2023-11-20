@@ -1,8 +1,9 @@
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
-from ska_tango_testing.mock.placeholders import Anything
+# from ska_tango_testing.mock.placeholders import Anything
 from tango import DevState
+from ska_tango_base.commands import ResultCode
 
 from tests.conftest import LOGGER
 from tests.resources.test_harness.helpers import (
@@ -89,7 +90,7 @@ def given_tmc_subarray_assign_resources(
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
         "longRunningCommandResult",
-        (unique_id[0], Anything),
+        (unique_id[0], str(ResultCode.OK.value)),
     )
 
 
@@ -109,7 +110,7 @@ def given_tmc_subarray_configure_is_in_progress(
     configure_input_json = prepare_json_args_for_commands(
         "configure_with_invalid_interface", command_input_factory
     )
-    subarray_node.execute_transition("Configure", configure_input_json)
+    pytest.command_result = subarray_node.execute_transition("Configure", configure_input_json)
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",
@@ -161,12 +162,18 @@ def given_tmc_subarray_stuck_configuring(
     LOGGER.info(
         "SubarrayNode ObsState is %s", subarray_node.subarray_node.obsState
     )
-    assert subarray_node.subarray_node.obsState == ObsState.CONFIGURING
-
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_node,
+        "obsState",
+        ObsState.CONFIGURING,
+    )
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "longRunningCommandResult",
-        Anything,
+        (
+            pytest.command_result[1][0],
+            str(ResultCode.FAILED.value),
+        ),
     )
 
 
