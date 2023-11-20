@@ -8,6 +8,7 @@ entrypoints:
   - name: "ska_tmc_common.test_helpers.helper_csp_subarray.HelperCspSubarray"
   - name: "ska_tmc_common.test_helpers.helper_csp_master_device.HelperCspMasterDevice"
   - name: "ska_tmc_common.test_helpers.helper_sdp_subarray.HelperSdpSubarray"
+  - name: "ska_tmc_common.test_helpers.helper_sdp_queue_connector_device.HelperSdpQueueConnector"
 server:
   name: "mocks"
   instances:
@@ -28,6 +29,9 @@ server:
           devices:
           - name: "mid-sdp/subarray/01"
           - name: "mid-sdp/subarray/02"
+        - name: "HelperSdpQueueConnector"
+          devices:
+          - name: "mid-sdp/queueconnector/01"
         {{- if eq $isSimulatedDish true }}
         - name: "HelperDishDevice"
           devices:

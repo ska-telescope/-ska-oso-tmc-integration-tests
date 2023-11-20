@@ -59,6 +59,19 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         for mock_device in self.dish_master_list:
             mock_device.SetDirectHealthState(HealthState.UNKNOWN)
 
+    def _clear_command_call_and_transition_data(self, clear_transition=False):
+        """Clears the command call data"""
+        for sim_device in [
+            csp_subarray1,
+            sdp_subarray1,
+            dish_master1,
+            dish_master2,
+        ]:
+            device = DeviceProxy(sim_device)
+            device.ClearCommandCallInfo()
+            if clear_transition:
+                device.ResetTransitions()
+
     def tear_down(self):
         """Handle Tear down of central Node"""
         LOGGER.info("Calling Tear down for Central node.")
@@ -74,3 +87,4 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         elif self.subarray_node.obsState == ObsState.ABORTED:
             self.subarray_restart()
         self.move_to_off()
+        self._clear_command_call_and_transition_data(clear_transition=True)
