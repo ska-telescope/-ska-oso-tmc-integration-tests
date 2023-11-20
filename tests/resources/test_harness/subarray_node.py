@@ -27,6 +27,7 @@ from tests.resources.test_harness.constant import (
 from tests.resources.test_harness.helpers import (
     check_subarray_obs_state,
     prepare_json_args_for_commands,
+    wait_for_actual_pointing_events,
 )
 from tests.resources.test_harness.utils.constant import (
     ABORTED,
@@ -259,7 +260,7 @@ class SubarrayNodeWrapper(object):
             if clear_transition:
                 device.ResetTransitions()
 
-    def tear_down(self):
+    def tear_down(self, event_recorder):
         """Tear down after each test run"""
 
         LOGGER.info("Calling Tear down for subarray")
@@ -281,6 +282,10 @@ class SubarrayNodeWrapper(object):
         self._reset_dishes()
         self._reset_simulator_devices()
         assert check_subarray_obs_state("EMPTY")
+        # Consuming all actual pointing events.
+        for dish_leaf_node in self.dish_leaf_node_list:
+            event_recorder.subscribe_event(dish_leaf_node, "actualPointing")
+            wait_for_actual_pointing_events(event_recorder, dish_leaf_node)
 
     def clear_all_data(self):
         """Method to clear the observations

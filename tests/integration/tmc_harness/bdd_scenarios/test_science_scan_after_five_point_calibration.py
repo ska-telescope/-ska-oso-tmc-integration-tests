@@ -1,6 +1,4 @@
 """Testing the Science Scan after a five point calibration scan"""
-import time
-
 import pytest
 from pytest_bdd import given, scenario, then, when
 from ska_control_model import ObsState
@@ -30,8 +28,6 @@ def test_science_scan_after_five_point_calibration_scan():
 @given("a TMC")
 def given_tmc(subarray_node, event_recorder):
     """Given a TMC"""
-    # Adding a temporary sleep to test the tear down.
-    time.sleep(50)
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
     subarray_node.move_to_on()
     assert event_recorder.has_change_event_occurred(
@@ -95,7 +91,7 @@ def a_subarray_after_five_point_calibration(
 
 @when("I invoke Configure command for a science scan")
 def configure_for_science_scan(
-    subarray_node, event_recorder, simulator_factory, command_input_factory
+    subarray_node, simulator_factory, command_input_factory
 ):
     """When Configure is invoked for a Science Scan."""
     configure_command_input = prepare_json_args_for_commands(
