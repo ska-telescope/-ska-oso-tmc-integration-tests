@@ -265,6 +265,10 @@ class SubarrayNodeWrapper(object):
 
         LOGGER.info("Calling Tear down for subarray")
         self._clear_command_call_and_transition_data(clear_transition=True)
+        clear_actual_pointing_events = False
+        if self.obs_state in ["CONFIGURING", "READY", "SCANNING"]:
+            clear_actual_pointing_events = True
+
         if self.obs_state in ("RESOURCING", "CONFIGURING", "SCANNING"):
             """Invoke Abort and Restart"""
             LOGGER.info("Invoking Abort on Subarray")
@@ -277,15 +281,19 @@ class SubarrayNodeWrapper(object):
         else:
             self.force_change_of_obs_state("EMPTY")
 
+        if clear_actual_pointing_events:
+            # Consuming all actual pointing events.
+            for dish_leaf_node in self.dish_leaf_node_list:
+                event_recorder.subscribe_event(
+                    dish_leaf_node, "actualPointing"
+                )
+                wait_for_actual_pointing_events(event_recorder, dish_leaf_node)
+
         # Move Subarray to OFF state
         self.move_to_off()
         self._reset_dishes()
         self._reset_simulator_devices()
         assert check_subarray_obs_state("EMPTY")
-        # Consuming all actual pointing events.
-        for dish_leaf_node in self.dish_leaf_node_list:
-            event_recorder.subscribe_event(dish_leaf_node, "actualPointing")
-            wait_for_actual_pointing_events(event_recorder, dish_leaf_node)
 
     def clear_all_data(self):
         """Method to clear the observations
