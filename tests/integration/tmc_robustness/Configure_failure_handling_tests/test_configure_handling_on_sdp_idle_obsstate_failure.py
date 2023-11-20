@@ -10,6 +10,7 @@ from tests.resources.test_harness.helpers import (
     prepare_json_args_for_centralnode_commands,
     prepare_json_args_for_commands,
 )
+from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
 
 @pytest.mark.configure3
@@ -139,7 +140,9 @@ def given_tmc_subarray_configure_is_in_progress(
 
 @given(parsers.parse("Csp Subarray {subarray_id} completes Configure"))
 def csp_subarray_configure_complete(event_recorder, simulator_factory):
-    csp_sim, _, _, _ = get_device_simulators(simulator_factory)
+    csp_sim = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.MID_CSP_DEVICE
+    )
     event_recorder.subscribe_event(csp_sim, "obsState")
     assert event_recorder.has_change_event_occurred(
         csp_sim,
@@ -148,11 +151,18 @@ def csp_subarray_configure_complete(event_recorder, simulator_factory):
     )
 
 
-@given(parsers.parse("Sdp Subarray {subarray_id} returns to obsState IDLE"))
+@given(
+    parsers.parse(
+        "Sdp Subarray {subarray_id} raises exception and returns to "
+        + "obsState IDLE"
+    )
+)
 def sdp_subarray_returns_to_obsstate_idle(
     event_recorder, simulator_factory, command_input_factory
 ):
-    _, sdp_sim, _, _ = get_device_simulators(simulator_factory)
+    sdp_sim = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.MID_SDP_DEVICE
+    )
     event_recorder.subscribe_event(sdp_sim, "obsState")
     valid_receiptor_json = prepare_json_args_for_commands(
         "science_A_receiver_address", command_input_factory
@@ -184,7 +194,9 @@ def given_tmc_subarray_stuck_configuring(
 
 @when(parsers.parse("I issue the command End on CSP Subarray {subarray_id}"))
 def send_command(simulator_factory):
-    csp_sim, _, _, _ = get_device_simulators(simulator_factory)
+    csp_sim = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.MID_CSP_DEVICE
+    )
     csp_sim.End()
 
 
@@ -194,7 +206,9 @@ def send_command(simulator_factory):
     )
 )
 def csp_subarray_transitions_to_idle(simulator_factory, event_recorder):
-    csp_sim, _, _, _ = get_device_simulators(simulator_factory)
+    csp_sim = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.MID_CSP_DEVICE
+    )
     event_recorder.subscribe_event(csp_sim, "obsState")
     assert event_recorder.has_change_event_occurred(
         csp_sim,

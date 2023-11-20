@@ -17,6 +17,7 @@ from tests.resources.test_harness.helpers import (
     prepare_json_args_for_centralnode_commands,
     prepare_json_args_for_commands,
 )
+from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
 
 @pytest.mark.configure1
@@ -101,6 +102,7 @@ def given_tmc_subarray_assign_resources(
         "obsState",
         ObsState.IDLE,
     )
+    LOGGER.info(f"result code: {unique_id}")
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
         "longRunningCommandResult",
@@ -133,7 +135,7 @@ def given_tmc_subarray_configure_is_in_progress(
     configure_input_json = prepare_json_args_for_commands(
         "configure_mid", command_input_factory
     )
-    _, unique_id = subarray_node.execute_transition(
+    pytest.command_result = subarray_node.execute_transition(
         "Configure", configure_input_json
     )
     assert event_recorder.has_change_event_occurred(
@@ -141,16 +143,13 @@ def given_tmc_subarray_configure_is_in_progress(
         "obsState",
         ObsState.CONFIGURING,
     )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.central_node,
-        "longRunningCommandResult",
-        (unique_id[0], str(ResultCode.OK.value)),
-    )
 
 
 @given(parsers.parse("Sdp Subarray {subarray_id} completes Configure"))
 def sdp_subarray_configure_complete(event_recorder, simulator_factory):
-    _, sdp_sim, _, _ = get_device_simulators(simulator_factory)
+    sdp_sim = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.MID_SDP_DEVICE
+    )
     event_recorder.subscribe_event(sdp_sim, "obsState")
     assert event_recorder.has_change_event_occurred(
         sdp_sim,
@@ -159,9 +158,16 @@ def sdp_subarray_configure_complete(event_recorder, simulator_factory):
     )
 
 
-@given(parsers.parse("Csp Subarray {subarray_id} returns to obsState IDLE"))
+@given(
+    parsers.parse(
+        "Csp Subarray {subarray_id} raises exception and "
+        + "returns to obsState IDLE"
+    )
+)
 def csp_subarray_returns_to_obsstate_idle(event_recorder, simulator_factory):
-    csp_sim, _, _, _ = get_device_simulators(simulator_factory)
+    csp_sim = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.MID_CSP_DEVICE
+    )
     event_recorder.subscribe_event(csp_sim, "obsState")
     assert event_recorder.has_change_event_occurred(
         csp_sim,
@@ -185,6 +191,14 @@ def given_tmc_subarray_stuck_configuring(
         "SubarrayNode ObsState is: %s", subarray_node.subarray_node.obsState
     )
     assert subarray_node.subarray_node.obsState == ObsState.CONFIGURING
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_node,
+        "longRunningCommandResult",
+        (
+            pytest.command_result[1][0],
+            "Exception occured on device: mid-csp/subarray/01",
+        ),
+    )
 
 
 @when(parsers.parse("I issue the command End on SDP Subarray {subarray_id}"))
@@ -201,7 +215,9 @@ def send_command_end_on_SDP_subarray(simulator_factory):
     )
 )
 def sdp_subarray_transitions_to_idle(simulator_factory, event_recorder):
-    _, sdp_sim, _, _ = get_device_simulators(simulator_factory)
+    sdp_sim = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.MID_SDP_DEVICE
+    )
     event_recorder.subscribe_event(sdp_sim, "obsState")
     assert event_recorder.has_change_event_occurred(
         sdp_sim,

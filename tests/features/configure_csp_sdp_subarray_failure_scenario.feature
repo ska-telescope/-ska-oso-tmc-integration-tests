@@ -4,8 +4,8 @@ Feature: TMC SubarrayNode handles the failure when the Configure command fails o
         Given a TMC
         And the TMC assigns resources is succesfully executed 
         And the TMC SubarrayNode <subarray_id> configure is in progress
-        When Csp Subarray <subarray_id> returns to obsState IDLE
-        And Sdp Subarray <subarray_id> returns to obsState IDLE
+        When Csp Subarray <subarray_id> raises exception and returns to obsState IDLE
+        And Sdp Subarray <subarray_id> raises exception and returns to obsState IDLE
         Then Tmc SubarrayNode <subarray_id> aggregates to obsState IDLE
 
         Examples:

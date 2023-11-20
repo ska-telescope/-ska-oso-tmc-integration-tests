@@ -14,6 +14,7 @@ from tests.resources.test_harness.helpers import (
     prepare_json_args_for_centralnode_commands,
     prepare_json_args_for_commands,
 )
+from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
 
 @pytest.mark.configure2
@@ -116,7 +117,9 @@ def given_tmc_subarray_configure_is_in_progress(
 
 @given(parsers.parse("Sdp Subarray {subarray_id} completes Configure"))
 def sdp_subarray_configure_complete(event_recorder, simulator_factory):
-    _, sdp_sim, _, _ = get_device_simulators(simulator_factory)
+    sdp_sim = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.MID_SDP_DEVICE
+    )
     event_recorder.subscribe_event(sdp_sim, "obsState")
     assert event_recorder.has_change_event_occurred(
         sdp_sim,
@@ -131,7 +134,9 @@ def sdp_subarray_configure_complete(event_recorder, simulator_factory):
     )
 )
 def csp_subarray_stuck_in_configuring(event_recorder, simulator_factory):
-    csp_sim, _, _, _ = get_device_simulators(simulator_factory)
+    csp_sim = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.MID_CSP_DEVICE
+    )
     event_recorder.subscribe_event(csp_sim, "obsState")
     assert event_recorder.has_change_event_occurred(
         csp_sim,
@@ -147,7 +152,6 @@ def csp_subarray_stuck_in_configuring(event_recorder, simulator_factory):
 )
 def given_tmc_subarray_stuck_configuring(
     subarray_node,
-    simulator_factory,
     event_recorder,
 ):
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
@@ -172,7 +176,9 @@ def send_command_abort(subarray_node):
     )
 )
 def sdp_subarray_transitions_to_aborted(simulator_factory, event_recorder):
-    _, sdp_sim, _, _ = get_device_simulators(simulator_factory)
+    sdp_sim = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.MID_SDP_DEVICE
+    )
     event_recorder.subscribe_event(sdp_sim, "obsState")
     assert event_recorder.has_change_event_occurred(
         sdp_sim,
@@ -187,7 +193,9 @@ def sdp_subarray_transitions_to_aborted(simulator_factory, event_recorder):
     )
 )
 def csp_subarray_transitions_to_aborted(simulator_factory, event_recorder):
-    csp_sim, _, _, _ = get_device_simulators(simulator_factory)
+    csp_sim = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.MID_CSP_DEVICE
+    )
     event_recorder.subscribe_event(csp_sim, "obsState")
     assert event_recorder.has_change_event_occurred(
         csp_sim,
@@ -225,7 +233,9 @@ def send_command_restart(subarray_node):
     )
 )
 def sdp_subarray_transitions_to_empty(simulator_factory, event_recorder):
-    _, sdp_sim, _, _ = get_device_simulators(simulator_factory)
+    sdp_sim = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.MID_SDP_DEVICE
+    )
     event_recorder.subscribe_event(sdp_sim, "obsState")
     assert event_recorder.has_change_event_occurred(
         sdp_sim,
@@ -240,7 +250,9 @@ def sdp_subarray_transitions_to_empty(simulator_factory, event_recorder):
     )
 )
 def csp_subarray_transitions_to_empty(simulator_factory, event_recorder):
-    csp_sim, _, _, _ = get_device_simulators(simulator_factory)
+    csp_sim = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.MID_CSP_DEVICE
+    )
     event_recorder.subscribe_event(csp_sim, "obsState")
     assert event_recorder.has_change_event_occurred(
         csp_sim,
