@@ -59,6 +59,7 @@ class SubarrayNodeWrapperLow(SubarrayNodeWrapper):
 
     def __init__(self) -> None:
         self.tmc_subarraynode1 = tmc_low_subarraynode1
+        self.central_node = DeviceProxy(low_centralnode)
         self.subarray_node = DeviceProxy(tmc_low_subarraynode1)
         self.csp_subarray_leaf_node = DeviceProxy(low_csp_subarray_leaf_node)
         self.sdp_subarray_leaf_node = DeviceProxy(low_sdp_subarray_leaf_node)
@@ -109,8 +110,8 @@ class SubarrayNodeWrapperLow(SubarrayNodeWrapper):
         Args:
             assign_json (str): Assign resource input json
         """
-        result, message = self.subarray_node.AssignResources(assign_json)
-        LOGGER.info("Invoked AssignResources on SubarrayNode")
+        result, message = self.central_node.AssignResources(assign_json)
+        LOGGER.info("Invoked AssignResources on CentralNode")
         return result, message
 
     @sync_release_resources(device_dict=device_dict_low)
@@ -118,6 +119,18 @@ class SubarrayNodeWrapperLow(SubarrayNodeWrapper):
         result, message = self.subarray_node.ReleaseAllResources()
         LOGGER.info("Invoked Release Resource on SubarrayNode")
         return result, message
+
+    def execute_transition(self, command_name: str, argin=None):
+        """Execute provided command on subarray
+        Args:
+            command_name (str): Name of command to execute
+        """
+        if command_name == "AssignResources":
+            result, message = self.central_node.AssignResources(argin)
+            LOGGER.info("Invoked Assign Resource on CentralNode")
+            return result, message
+        else:
+            return super().execute_transition(command_name, argin)
 
     def force_change_of_obs_state(self, dest_state_name: str) -> None:
         """Force SubarrayNode obsState to provided obsState

@@ -2,7 +2,6 @@ import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
 
-from tests.resources.test_harness.helpers import check_subarray_obs_state
 from tests.resources.test_support.common_utils.result_code import ResultCode
 
 
@@ -94,4 +93,9 @@ def check_obs_state(
         ObsState.ABORTED,
         lookahead=15,
     )
-    assert check_subarray_obs_state(obs_state="ABORTED")
+    assert event_recorder.has_change_event_occurred(
+        subarray_node_low.subarray_node,
+        "obsState",
+        ObsState.ABORTED,
+        lookahead=15,
+    )
