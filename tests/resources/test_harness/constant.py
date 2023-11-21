@@ -1,5 +1,7 @@
 """Define Constants
 """
+import json
+
 import numpy as np
 from ska_control_model import ObsState
 
@@ -152,6 +154,22 @@ COMMAND_FAILED_WITH_EXCEPTION_OBSSTATE_EMPTY = {
     "target_obsstates": [ObsState.RESOURCING, ObsState.EMPTY],
 }
 
+ERROR_PROPAGATION_DEFECT = json.dumps(
+    {
+        "enabled": True,
+        "fault_type": FaultType.LONG_RUNNING_EXCEPTION,
+        "error_message": "Exception occurred, command failed.",
+        "result": ResultCode.FAILED,
+    }
+)
+RESET_DEFECT = json.dumps(
+    {
+        "enabled": False,
+        "fault_type": FaultType.FAILED_RESULT,
+        "error_message": "Default exception.",
+        "result": ResultCode.FAILED,
+    }
+)
 POINTING_OFFSETS = np.array(
     [
         [
