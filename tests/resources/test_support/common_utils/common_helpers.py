@@ -580,6 +580,17 @@ class Waiter:
                 )
             )
 
+    def set_wait_for_long_running_command_result(
+        self, command_result: str, devices: list
+    ):
+        """Waits for the longRunningCommandResult event of given devices"""
+        for device in devices:
+            self.waits.append(
+                watch(Resource(device)).to_become(
+                    "longRunningCommandResult", changed_to=command_result
+                )
+            )
+
     def set_wait_for_pointingstate(self, pointingstate: str, devices: list):
         """Waits for intermidiate obsState change for given devices."""
         for device in devices:

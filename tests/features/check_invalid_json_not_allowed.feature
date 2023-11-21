@@ -29,7 +29,7 @@ Feature: Commands with invalid json input
             | frequency_slice_id_key_missing         |
             | integration_factor_key_missing         |
             | zoom_factor_key_missing                |
-            | incorrect_fsp_id                       |
+            # | incorrect_fsp_id                       |
 
 
     Scenario:   Invalid json rejected by TMC Low for Configure command

@@ -8,11 +8,17 @@ from tests.resources.test_support.common_utils.result_code import (
     ResultCode,
 )
 
-dish_name = os.getenv("DISH_NAMESPACE")
+dish_name_1 = os.getenv("DISH_NAMESPACE_1")
+dish_name_2 = os.getenv("DISH_NAMESPACE_2")
 
-dish_fqdn = (
-    f"tango://databaseds-tango-base.{dish_name}.svc.cluster"
+dish_fqdn_1 = (
+    f"tango://databaseds-tango-base.{dish_name_1}.svc.cluster"
     ".local:10000/ska001/elt/master"
+)
+
+dish_fqdn_2 = (
+    f"tango://databaseds-tango-base.{dish_name_2}.svc.cluster"
+    ".local:10000/ska002/elt/master"
 )
 
 centralnode = "ska_mid/tm_central/central_node"
@@ -32,10 +38,10 @@ csp_subarray2 = "mid-csp/subarray/02"
 csp_subarray3 = "mid-csp/subarray/03"
 sdp_master = "mid-sdp/control/0"
 csp_master = "mid-csp/control/0"
-dish_master1 = "ska001/dish/master"
-dish_master2 = "ska002/dish/master"
-dish_master3 = "ska003/dish/master"
-dish_master4 = "ska004/dish/master"
+dish_master1 = "ska001/elt/master"
+dish_master2 = "ska002/elt/master"
+dish_master3 = "ska003/elt/master"
+dish_master4 = "ska004/elt/master"
 
 
 DEVICE_HEALTH_STATE_OK_INFO = {

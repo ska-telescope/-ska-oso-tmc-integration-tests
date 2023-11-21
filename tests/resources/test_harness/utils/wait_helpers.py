@@ -32,6 +32,8 @@ class Waiter:
         self.dish_master_list = kwargs.get("dish_master_list")
         self.tmc_csp_subarray_leaf_node = kwargs.get("csp_subarray_leaf_node")
         self.tmc_sdp_subarray_leaf_node = kwargs.get("sdp_subarray_leaf_node")
+        self.cbf_subarray1 = kwargs.get("cbf_subarray1")
+        self.cbf_controller = kwargs.get("cbf_controller")
 
     def clear_watches(self):
         self.waits = []
@@ -116,6 +118,18 @@ class Waiter:
         )
         if self.dish_master_list:
             self.set_wait_for_dish("dishMode", "STANDBY_FP")
+
+        if self.cbf_subarray1:
+            watch(Resource(self.cbf_subarray1)).to_become(
+                "State", changed_to="ON"
+            )
+        if self.cbf_controller:
+            watch(Resource(self.cbf_controller)).to_become(
+                "State", changed_to="ON"
+            )
+            watch(Resource(self.cbf_controller)).to_become(
+                "reportVccState", changed_to="[0, 0, 0, 0]"
+            )
 
     def set_wait_for_going_to_empty(self):
         self.waits.append(
