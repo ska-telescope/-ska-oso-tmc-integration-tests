@@ -18,6 +18,7 @@ from tests.resources.test_support.constant_low import (
     tmc_subarraynode1,
 )
 
+
 @pytest.mark.test
 @pytest.mark.SKA_low
 def test_telescope_on():
