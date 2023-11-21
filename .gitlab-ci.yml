@@ -23,8 +23,8 @@ stages:
   - build
   - on-demand
   - test
-  - integration
   - publish
+  - integration
   - staging
   - pages
   - scan
@@ -60,9 +60,9 @@ include:
 - project: 'ska-telescope/templates-repository'
   file: 'gitlab-ci/includes/finaliser.gitlab-ci.yml'
 
-# Publish bdd test results on Jira.
-- project: 'ska-telescope/templates-repository'
-  file: 'gitlab-ci/includes/xray-publish.gitlab-ci.yml'
+# # Publish bdd test results on Jira.
+# - project: 'ska-telescope/templates-repository'
+#   file: 'gitlab-ci/includes/xray-publish.gitlab-ci.yml'
 
 k8s-test:
   variables:

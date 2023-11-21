@@ -53,7 +53,7 @@ K8S_TEST_IMAGE_TO_TEST ?= artefact.skao.int/ska-tango-images-tango-itango:9.3.12
 TARANTA_ENABLED ?= false
 
 CI_PROJECT_DIR ?= .
-
+XRAY_TEST_RESULT_FILE = "build/cucumber.json"
 XAUTHORITY ?= $(HOME)/.Xauthority
 THIS_HOST := $(shell ip a 2> /dev/null | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p' | head -n1)
 DISPLAY ?= $(THIS_HOST):0
@@ -72,13 +72,13 @@ K8S_TEST_RUNNER = test-runner-$(HELM_RELEASE)
 CI_PROJECT_PATH_SLUG ?= ska-tmc-integration
 CI_ENVIRONMENT_SLUG ?= ska-tmc-integration
 
-XRAY_EXTRA_OPTS ?= -t pytest
-XRAY_TEST_RESULT_FILE ?= build/reports/pytest-junit.xml
-XRAY_EXECUTION_CONFIG_FILE ?= tests/xray-config.json
+# XRAY_EXTRA_OPTS ?= -t pytest
+# XRAY_TEST_RESULT_FILE ?= build/reports/pytest-junit.xml
+# XRAY_EXECUTION_CONFIG_FILE ?= tests/xray-config.json
 
 ifeq ($(MAKECMDGOALS),k8s-test)
 ADD_ARGS +=  --true-context
-MARK = $(shell echo $(TELESCOPE) | sed "s/-/_/g")
+MARK = XTP-20320
 endif
 
 PYTHON_VARS_AFTER_PYTEST ?= -m '$(MARK)' $(ADD_ARGS) $(FILE)
