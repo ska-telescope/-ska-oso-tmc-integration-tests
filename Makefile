@@ -4,7 +4,7 @@ ALARM_HANDLER_FQDN= "alarm/handler/01"
 CAR_OCI_REGISTRY_HOST:=artefact.skao.int
 PROJECT = ska-tmc-integration
 TANGO_HOST ?= tango-databaseds:10000 ## TANGO_HOST connection to the Tango DS
-TELESCOPE ?= SKA-mid
+TELESCOPE ?= SKA-low
 DISH_NAMESPACE_1 ?= dish-lmc-1
 DISH_NAMESPACE_2 ?= dish-lmc-2
 KUBE_NAMESPACE ?= ska-tmc-integration
@@ -99,7 +99,7 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set ska-tango-base.xauthority=$(XAUTHORITY) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
 	--set global.exposeAllDS=true \
-	--set global.operator=true \
+	--set global.operator=false \
 	--set ska-taranta.enabled=$(TARANTA_ENABLED)\
 	--set global.namespace_dish.dish_name[0]="$(DISH_NAME_1)"\
 	--set global.namespace_dish.dish_name[1]="$(DISH_NAME_2)"\

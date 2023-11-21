@@ -11,7 +11,7 @@ from tests.resources.test_support.common_utils.result_code import ResultCode
     "../features/check_abort_command.feature",
     "TMC validates Abort Command",
 )
-def test_mccssln_abort_command():
+def test_tmc_abort_command():
     """BDD test scenario for verifying successful execution of
     the Abort command in a TMC."""
 
@@ -21,10 +21,10 @@ def given_tmc(subarray_node_low, event_recorder, obs_state):
     """Set up a TMC and ensure it is in the ON state."""
     event_recorder.subscribe_event(subarray_node_low.subarray_node, "obsState")
     event_recorder.subscribe_event(
-        subarray_node_low.csp_subarray_leaf_node, "obsState"
+        subarray_node_low.csp_subarray_leaf_node, "cspSubarrayObsState"
     )
     event_recorder.subscribe_event(
-        subarray_node_low.sdp_subarray_leaf_node, "obsState"
+        subarray_node_low.sdp_subarray_leaf_node, "sdpSubarrayObsState"
     )
     event_recorder.subscribe_event(
         subarray_node_low.mccs_subarray_leaf_node, "obsState"
@@ -40,12 +40,12 @@ def given_tmc(subarray_node_low, event_recorder, obs_state):
 
     assert event_recorder.has_change_event_occurred(
         subarray_node_low.csp_subarray_leaf_node,
-        "obsState",
+        "cspSubarrayObsState",
         ObsState[obs_state],
     )
     assert event_recorder.has_change_event_occurred(
         subarray_node_low.sdp_subarray_leaf_node,
-        "obsState",
+        "sdpSubarrayObsState",
         ObsState[obs_state],
     )
     assert event_recorder.has_change_event_occurred(
@@ -55,7 +55,7 @@ def given_tmc(subarray_node_low, event_recorder, obs_state):
     )
 
 
-@when(parsers("I Abort it"))
+@when("I Abort it")
 def invoke_abort_command(
     subarray_node_low,
 ):
@@ -78,13 +78,13 @@ def check_obs_state(
     )
     assert event_recorder.has_change_event_occurred(
         subarray_node_low.sdp_subarray_leaf_node,
-        "obsState",
+        "sdpSubarrayObsState",
         ObsState.ABORTED,
         lookahead=15,
     )
     assert event_recorder.has_change_event_occurred(
         subarray_node_low.csp_subarray_leaf_node,
-        "obsState",
+        "cspSubarrayObsState",
         ObsState.ABORTED,
         lookahead=15,
     )
