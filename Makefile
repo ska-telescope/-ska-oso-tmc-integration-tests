@@ -78,7 +78,7 @@ CI_ENVIRONMENT_SLUG ?= ska-tmc-integration
 
 ifeq ($(MAKECMDGOALS),k8s-test)
 ADD_ARGS +=  --true-context
-MARK = SKA_mid and XTP-20320
+MARK ?= 
 endif
 
 PYTHON_VARS_AFTER_PYTEST ?= -m '$(MARK)' $(ADD_ARGS) $(FILE)
