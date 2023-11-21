@@ -151,12 +151,12 @@ def central_node_mid() -> CentralNodeWrapperMid:
 
 
 @pytest.fixture()
-def subarray_node() -> SubarrayNodeWrapper:
+def subarray_node(event_recorder) -> SubarrayNodeWrapper:
     """Return SubarrayNode and calls tear down"""
     subarray = SubarrayNodeWrapper()
     yield subarray
     # this will call after test complete
-    subarray.tear_down()
+    subarray.tear_down(event_recorder)
 
 
 @pytest.fixture()
@@ -214,6 +214,34 @@ def wait_for_dish_mode_change(
 
     while time.time() - start_time < timeout_seconds:
         if dishfqdn.dishMode.value == target_mode:
+            return True
+        time.sleep(1)
+
+    return False
+
+
+def wait_for_pointing_state_change(
+    target_mode: int, dishfqdn: str, timeout_seconds: int
+):
+    """Returns True if the pointingState is changed to a expected value"""
+    start_time = time.time()
+
+    while time.time() - start_time < timeout_seconds:
+        if dishfqdn.pointingState.value == target_mode:
+            return True
+        time.sleep(1)
+
+    return False
+
+
+def wait_for_obsstate_state_change(
+    target_mode: int, device: str, timeout_seconds: int
+):
+    """Returns True if the pointingState is changed to a expected value"""
+    start_time = time.time()
+
+    while time.time() - start_time < timeout_seconds:
+        if device.obsState.value == target_mode:
             return True
         time.sleep(1)
 
