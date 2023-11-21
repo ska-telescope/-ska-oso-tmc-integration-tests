@@ -1,5 +1,4 @@
 import json
-import time
 
 import pytest
 from ska_control_model import ObsState
@@ -224,7 +223,6 @@ class TestLowCentralNodeAssignResources(object):
             assigned_resources_attribute_value
         )
 
-    @pytest.mark.kk1
     @pytest.mark.SKA_low
     def test_low_centralnode_assign_resources_exception_propagation(
         self,
@@ -331,10 +329,7 @@ class TestLowCentralNodeAssignResources(object):
             expected_long_running_command_result,
         )
         mccs_controller_sim.SetRaiseException(False)
-        # mccs_subarray_sim.SetDirectObsState(ObsState.IDLE)
-        time.sleep(10)
 
-    @pytest.mark.kr1
     @pytest.mark.SKA_low
     def test_low_centralnode_release_resources_exception_propogation(
         self,
@@ -490,4 +485,3 @@ class TestLowCentralNodeAssignResources(object):
             expected_long_running_command_result,
         )
         mccs_controller_sim.SetRaiseException(False)
-        time.sleep(10)

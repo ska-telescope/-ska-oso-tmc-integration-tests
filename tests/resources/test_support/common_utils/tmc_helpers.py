@@ -97,10 +97,10 @@ class TmcHelper:
 
         # Check if CSP/SDP master nodes are true in telescopeavailability
         assert "true" in re.findall(
-            r"csp_master_leaf_node\": (.*),", telescopeavailability, re.DOTALL
+            r"csp_master_leaf_node\": (.*?),", telescopeavailability, re.DOTALL
         )
         assert "true" in re.findall(
-            r"sdp_master_leaf_node\": (.*)}", telescopeavailability, re.DOTALL
+            r"sdp_master_leaf_node\": (.*?)}", telescopeavailability, re.DOTALL
         )
 
     @sync_telescope_on
