@@ -21,9 +21,11 @@ def add_alarms_api(filename):
             data={"fqdn": "alarm/handler/01"},
         )
         response_data = response.json()
-        assert len(response_data["alarm_summary"]["tag"]) == 2
+        assert len(response_data["alarm_summary"]["tag"]) == 4
         assert response_data["alarm_summary"]["tag"] == [
-            "centralnode_telescopehealthstate_degraded",
+            "centralnode_health_degraded",
+            "centralnode_health_failed",
+            "subarraynode_health",
             "subarraynode_obsstate_fault",
         ]
 
@@ -31,8 +33,10 @@ def add_alarms_api(filename):
 def remove_alarm_api():
     """Test method for remove alarms API"""
     tags_to_remove = [
-        "centralnode_telescopehealthstate_degraded",
+        "centralnode_health_degraded",
+        "centralnode_health_failed",
         "subarraynode_obsstate_fault",
+        "subarraynode_health",
     ]
     for tag in tags_to_remove:
         response = httpx.post(

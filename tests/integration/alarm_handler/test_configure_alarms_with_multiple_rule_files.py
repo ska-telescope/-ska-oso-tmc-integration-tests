@@ -32,15 +32,15 @@ def test_configure_alarms_with_multiple_files():
                     data={"fqdn": "alarm/handler/01"},
                 )
     response_data = response.json()
-    assert len(response_data["alarm_summary"]["tag"]) == 3
+    assert len(response_data["alarm_summary"]["tag"]) == 5
     assert response_data["alarm_summary"]["tag"] == [
-        "centralnode_healthstate_degraded",
-        "centralnode_telescopehealthstate_degraded",
+        "centralnode_health_degraded",
+        "centralnode_health_failed",
+        "centralnode_telescopestate_failed",
+        "subarraynode_health",
         "subarraynode_obsstate_fault",
     ]
-    error_message = (
-        "alarm 'centralnode_telescopehealthstate_degraded' already exist"
-    )
+    error_message = "alarm 'centralnode_health_degraded' already exist"
     assert error_message in str(response_data["error"])
     tear_down_alarms(response_data["alarm_summary"]["tag"])
 
