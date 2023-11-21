@@ -16,5 +16,5 @@ Examples:
 Scenario: TMC executes Abort Command in EMPTY obsState.
     Given a Subarray in EMPTY obsState
     When I Abort it
-    Then TMC should reject the Abort command with ResultCode.Rejected
-    Then the Subarray remains in the obsState EMPTY
+    Then TMC should reject the command with ResultCode.REJECTED
+    And the Subarray remains in obsState EMPTY
