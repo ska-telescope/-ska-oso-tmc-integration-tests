@@ -68,14 +68,14 @@ itango:
 
 centralnode:
    image:
-     registry: artefact.skao.int
+     registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-centralnode
      image: ska-tmc-centralnode
      tag: 0.11.7-dev.c60d6da85
-     pullPolicy: Never
+     pullPolicy: IfNotPresent
 
 subarraynode:
   image:
-    registry: artefact.skao.int
+    registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-subarraynode
     image: ska-tmc-subarraynode
     tag: 0.13.8-dev.caf93b2a8
     pullPolicy: IfNotPresent
@@ -104,14 +104,14 @@ cspsubarrayleafnode:
 
 mccsmasterleafnode:
   image:
-    registry: artefact.skao.int
+    registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-mccsleafnodes
     image: ska-tmc-mccsleafnodes
     tag: 0.1.5-dev.c39750169
-    pullPolicy: Never
+    pullPolicy: IfNotPresent
 
 mccssubarrayleafnode:
   image:
-    registry: artefact.skao.int
+    registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-mccsleafnodes
     image: ska-tmc-mccsleafnodes
     tag: 0.1.5-dev.c39750169
     pullPolicy: IfNotPresent
