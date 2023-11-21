@@ -100,7 +100,7 @@ class TmcHelper:
             r"csp_master_leaf_node\": (.*?),", telescopeavailability, re.DOTALL
         )
         assert "true" in re.findall(
-            r"sdp_master_leaf_node\": (.*?)}", telescopeavailability, re.DOTALL
+            r"sdp_master_leaf_node\": (.*),", telescopeavailability, re.DOTALL
         )
 
     @sync_telescope_on
