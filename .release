@@ -1,11 +1,11 @@
-release=0.8.12
-tag=0.8.12
+release=0.8.13
+tag=0.8.13
 tag_description=
 **Charts:**
-**1. ska-tmc-integration 0.8.11 - 0.8.12:**
+**1. ska-tmc-integration 0.8.11 - 0.8.13:**
 
-    **1.1 ska-tmc-mid - 0.13.0 - 0.13.1:
-        a. TMC is able to accept the configurable dish names.(resolves bug SKB-257)
+    **1.1 ska-tmc-mid - 0.13.1 - 0.14.0:
+        a. TMC is able to perform a five point calibration scan
 
     **1.2 ska-tmc-low - 0.10.0 - 0.11.0:
         a. Utilise latest CspSubarrayLeafNode Low version 0.10.1 to support SP-3652 feature(REL-949)
@@ -13,10 +13,10 @@ tag_description=
 
 release_notes=
 **Charts:**
-**1. ska-tmc-integration 0.8.11 - 0.8.12:**
+**1. ska-tmc-integration 0.8.11 - 0.8.13:**
 
-    **1.1 ska-tmc-mid - 0.13.0 - 0.13.1:
-        a. TMC is able to accept the configurable dish names.(resolves bug SKB-257)
+    **1.1 ska-tmc-mid - 0.13.0 - 0.14.0:
+        a. TMC is able to perform a five point calibration scan
 
     **1.2 ska-tmc-low - 0.10.0 - 0.11.0:
        a. Utilise latest CspSubarrayLeafNode Low version 0.10.1 to support SP-3652 feature(REL-949)
