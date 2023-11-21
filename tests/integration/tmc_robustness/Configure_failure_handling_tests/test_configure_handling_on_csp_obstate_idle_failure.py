@@ -234,9 +234,6 @@ def tmc_subarray_transitions_to_IDLE(subarray_node, event_recorder):
     LOGGER.info(
         "SubarrayNode ObsState is: %s", subarray_node.subarray_node.obsState
     )
-    LOGGER.info(
-        "SubarrayNode ObsState is: %s", subarray_node.subarray_node.obsState
-    )
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",
