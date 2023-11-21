@@ -6,4 +6,8 @@ Feature:  TMC executes Abort Command.
 
 Examples:
 | obs_state   |
+| RESOURCING  |
 | IDLE        |
+| READY       |
+| SCANNING    |
+| CONFIGURING |

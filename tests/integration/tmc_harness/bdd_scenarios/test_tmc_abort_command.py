@@ -7,6 +7,7 @@ from tests.resources.test_support.common_utils.result_code import ResultCode
 
 
 @pytest.mark.bdd_abort
+@pytest.mark.abort1
 @pytest.mark.SKA_low
 @scenario(
     "../features/check_abort_command.feature",
@@ -60,7 +61,7 @@ def given_tmc(subarray_node_low, event_recorder, obs_state):
     )
 
 
-@when(parsers.parse("I Abort it"))
+@when(parsers("I Abort it"))
 def invoke_abort_command(
     subarray_node_low,
 ):
