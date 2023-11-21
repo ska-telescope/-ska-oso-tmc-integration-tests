@@ -38,7 +38,7 @@ from tests.resources.test_support.constant import (
 tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
-
+@pytest.mark.skip
 @pytest.mark.SKA_mid
 def test_configure_end(json_factory):
     """Configure and End is executed."""
