@@ -70,14 +70,14 @@ centralnode:
    image:
      registry: artefact.skao.int
      image: ska-tmc-centralnode
-     tag: 0.11.3
-     pullPolicy: IfNotPresent
+     tag: 0.11.7-dev.c60d6da85
+     pullPolicy: Never
 
 subarraynode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-subarraynode
-    tag: 0.13.4
+    tag: 0.13.8-dev.caf93b2a8
     pullPolicy: IfNotPresent
 
 
@@ -106,14 +106,14 @@ mccsmasterleafnode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-mccsleafnodes
-    tag: 0.1.4
-    pullPolicy: IfNotPresent
+    tag: 0.1.5-dev.c39750169
+    pullPolicy: Never
 
 mccssubarrayleafnode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-mccsleafnodes
-    tag: 0.1.4
+    tag: 0.1.5-dev.c39750169
     pullPolicy: IfNotPresent
 
 resources:
