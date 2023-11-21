@@ -8,9 +8,11 @@ entrypoints:
   - name: "ska_tmc_common.test_helpers.helper_csp_subarray.HelperCspSubarray"
   - name: "ska_tmc_common.test_helpers.helper_csp_master_device.HelperCspMasterDevice"
   - name: "ska_tmc_common.test_helpers.helper_sdp_subarray.HelperSdpSubarray"
+  - name: "ska_tmc_common.test_helpers.helper_sdp_queue_connector_device.HelperSdpQueueConnector"
 server:
   name: "mocks"
   instances:
+  {{- $isSimulatedDish := .Values.global.Dish.isSimulated.enabled }}
     - name: "01"
       classes:
         - name: "HelperBaseDevice"
@@ -27,11 +29,16 @@ server:
           devices:
           - name: "mid-sdp/subarray/01"
           - name: "mid-sdp/subarray/02"
+        - name: "HelperSdpQueueConnector"
+          devices:
+          - name: "mid-sdp/queueconnector/01"
+        {{- if eq $isSimulatedDish true }}
         - name: "HelperDishDevice"
           devices:
           {{- range .Values.deviceServers.dishleafnode.instances }}
           - name: "ska{{ printf "%03s" . }}/elt/master"
           {{- end }}
+        {{- end }}
 depends_on:
   - device: sys/database/2
 image:

@@ -320,11 +320,16 @@ def tear_down(
         kwargs.get("central_node"), kwargs.get("tmc_subarraynode")
     )
     telescope_control = BaseTelescopeControl()
+    DEVICE_LIST = [
+        kwargs.get("sdp_subarray"),
+        kwargs.get("csp_subarray"),
+    ]
     if "mid" in kwargs.get("tmc_subarraynode"):
         ABORT_INFO = MID_OBS_STATE_ABORT_INFO
         EMPTY_INFO = MID_OBS_STATE_EMPTY_INFO
         IDLE_INFO = MID_OBS_STATE_IDLE_INFO
         STANDBY_INFO = MID_OBS_STATE_STANDBY_INFO
+        DEVICE_LIST.extend(kwargs.get("dish_master_list"))
     else:
         ABORT_INFO = LOW_OBS_STATE_ABORT_INFO
         EMPTY_INFO = LOW_OBS_STATE_EMPTY_INFO
@@ -390,6 +395,10 @@ def tear_down(
         assert telescope_control.is_in_valid_state(STANDBY_INFO, "State")
 
         LOGGER.info("Tear Down complete. Telescope is in Standby State")
+
+    for device in DEVICE_LIST:
+        device_proxy = DeviceProxy(device)
+        device_proxy.ClearCommandCallInfo()
 
     LOGGER.info("Tear Down Successful, raising an exception for failure")
     if raise_exception:
