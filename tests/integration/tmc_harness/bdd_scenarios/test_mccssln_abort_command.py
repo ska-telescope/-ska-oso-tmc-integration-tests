@@ -26,10 +26,10 @@ def given_tmc(subarray_node_low, event_recorder, obs_state):
     """Set up a TMC and ensure it is in the ON state."""
     event_recorder.subscribe_event(subarray_node_low.subarray_node, "obsState")
     event_recorder.subscribe_event(
-        subarray_node_low.csp_subarray_leaf_node, "cspSubarrayObsState"
+        subarray_node_low.csp_subarray_leaf_node, "obsState"
     )
     event_recorder.subscribe_event(
-        subarray_node_low.sdp_subarray_leaf_node, "sdpSubarrayObsState"
+        subarray_node_low.sdp_subarray_leaf_node, "obsState"
     )
     event_recorder.subscribe_event(
         subarray_node_low.mccs_subarray_leaf_node, "obsState"
