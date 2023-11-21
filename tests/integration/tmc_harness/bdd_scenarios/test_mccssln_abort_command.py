@@ -7,7 +7,6 @@ from tests.resources.test_support.common_utils.result_code import ResultCode
 
 
 @pytest.mark.bdd_abort
-@pytest.mark.abort1
 @pytest.mark.SKA_low
 @scenario(
     "../features/check_abort_command.feature",
@@ -91,6 +90,12 @@ def check_obs_state(
     assert event_recorder.has_change_event_occurred(
         subarray_node_low.csp_subarray_leaf_node,
         "cspSubarrayObsState",
+        ObsState.ABORTED,
+        lookahead=15,
+    )
+    assert event_recorder.has_change_event_occurred(
+        subarray_node_low.mccs_subarray_leaf_node,
+        "obsState",
         ObsState.ABORTED,
         lookahead=15,
     )

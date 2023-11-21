@@ -11,7 +11,6 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
 
 @pytest.mark.bdd_configure
-@pytest.mark.configure1
 @pytest.mark.SKA_low
 @scenario(
     "../features/check_configure_command.feature",

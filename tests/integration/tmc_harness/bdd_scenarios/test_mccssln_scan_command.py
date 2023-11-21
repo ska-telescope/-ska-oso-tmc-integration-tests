@@ -11,7 +11,6 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
 
 @pytest.mark.bdd_scan
-@pytest.mark.scan1
 @pytest.mark.SKA_low
 @scenario(
     "../features/check_scan_command.feature",
@@ -68,6 +67,26 @@ def given_subarray_in_ready(
         "assign_resources_low", command_input_factory
     )
     central_node_low.perform_action("AssignResources", assign_input_json)
+    assert event_recorder.has_change_event_occurred(
+        csp_subarray_sim,
+        "obsState",
+        ObsState.IDLE,
+    )
+    assert event_recorder.has_change_event_occurred(
+        sdp_subarray_sim,
+        "obsState",
+        ObsState.IDLE,
+    )
+    assert event_recorder.has_change_event_occurred(
+        mccs_subarray_sim,
+        "obsState",
+        ObsState.IDLE,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_low.subarray_node,
+        "obsState",
+        ObsState.IDLE,
+    )
     configure_input_json = prepare_json_args_for_commands(
         "configure_low", command_input_factory
     )
@@ -101,7 +120,7 @@ def send_scan(
 ):
     """Send a Scan command to the subarray."""
     scan_input_json = prepare_json_args_for_commands(
-        "command_scan_low", command_input_factory
+        "scan_low", command_input_factory
     )
     subarray_node_low.execute_transition("Scan", scan_input_json)
 
