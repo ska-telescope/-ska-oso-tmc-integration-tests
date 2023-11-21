@@ -1,7 +1,5 @@
 @XTP-28567
-Feature:  TMC executes Configure command successfully. 
-
-    Scenario: Successful Configuration of Low Telescope Subarray in TMC
+Scenario: Successful Configuration of Low Telescope Subarray in TMC
 	Given a TMC
 	Given a subarray in the IDLE obsState
 	When I configure it for a scan

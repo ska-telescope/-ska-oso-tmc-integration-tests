@@ -10,7 +10,6 @@ from tests.resources.test_harness.helpers import (
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
 
-@pytest.mark.bdd_scan
 @pytest.mark.SKA_low
 @scenario(
     "../features/check_scan_command.feature",
@@ -18,7 +17,7 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 )
 def test_tmc_mccssln_scan_command():
     """BDD test scenario for verifying successful execution of
-    the Scan command in a TMC."""
+    the Low Scan command in a TMC."""
 
 
 @given("a TMC")
@@ -129,6 +128,7 @@ def send_scan(
 def check_scan_completion(
     subarray_node_low,
     event_recorder,
+    check_subarray_obs_state,
     simulator_factory,
 ):
     """Verify that the subarray is in the SCANNING obsState."""
@@ -141,11 +141,6 @@ def check_scan_completion(
     mccs_subarray_sim = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.MCCS_SUBARRAY_DEVICE
     )
-
-    event_recorder.subscribe_event(csp_subarray_sim, "obsState")
-    event_recorder.subscribe_event(sdp_subarray_sim, "obsState")
-    event_recorder.subscribe_event(mccs_subarray_sim, "obsState")
-    event_recorder.subscribe_event(subarray_node_low.subarray_node, "obsState")
     assert event_recorder.has_change_event_occurred(
         csp_subarray_sim,
         "obsState",
@@ -166,3 +161,4 @@ def check_scan_completion(
         "obsState",
         ObsState.SCANNING,
     )
+    assert check_subarray_obs_state("READY")

@@ -1,7 +1,5 @@
 @XTP-28568
-Feature:  TMC executes Scan command successfully. 
-
-    Scenario: Successful Execution of Scan Command on Low Telescope Subarray in TMC
+Scenario: Successful Execution of Scan Command on Low Telescope Subarray in TMC
     Given a TMC
     Given a subarray in READY obsState
     When I command it to scan for a given period

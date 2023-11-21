@@ -10,15 +10,14 @@ from tests.resources.test_harness.helpers import (
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
 
-@pytest.mark.bdd_configure
 @pytest.mark.SKA_low
 @scenario(
     "../features/check_configure_command.feature",
     "Successful Configuration of Low Telescope Subarray in TMC",
 )
-def test_tmc_mccssln_configure_command():
+def test_tmc_configure_command():
     """BDD test scenario for verifying successful execution of
-    the Configure command in a TMC."""
+    the Low Configure command in a TMC."""
 
 
 @given("a TMC")
@@ -116,11 +115,6 @@ def check_configure_completion(
     mccs_subarray_sim = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.MCCS_SUBARRAY_DEVICE
     )
-
-    event_recorder.subscribe_event(csp_subarray_sim, "obsState")
-    event_recorder.subscribe_event(sdp_subarray_sim, "obsState")
-    event_recorder.subscribe_event(mccs_subarray_sim, "obsState")
-    event_recorder.subscribe_event(subarray_node_low.subarray_node, "obsState")
     assert event_recorder.has_change_event_occurred(
         csp_subarray_sim,
         "obsState",
