@@ -73,6 +73,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         for mock_device in self.dish_master_list:
             mock_device.SetKValue(0)
         self.csp_master.ResetSysParams()
+
     def _clear_command_call_and_transition_data(self, clear_transition=False):
         """Clears the command call data"""
         for sim_device in [

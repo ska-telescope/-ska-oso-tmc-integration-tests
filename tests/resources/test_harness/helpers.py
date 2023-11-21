@@ -282,6 +282,8 @@ def device_attribute_changed(
     except Exception:
         return False
     return True
+
+
 def wait_for_actual_pointing_events(
     event_recorder,
     device,
