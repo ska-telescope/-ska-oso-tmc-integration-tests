@@ -66,7 +66,7 @@ def given_tmc(central_node_mid, subarray_node, event_recorder):
     )
 
 
-@given(parsers.parse("the TMC assigns resources is succesfully executed"))
+@given(parsers.parse("the resources are assigned to TMC SubarrayNode"))
 def given_tmc_subarray_assign_resources(
     central_node_mid,
     subarray_node,
@@ -150,7 +150,7 @@ def csp_subarray_configure_complete(event_recorder, simulator_factory):
 
 @given(
     parsers.parse(
-        "Sdp Subarray {subarray_id} raises exception and returns to "
+        "Sdp Subarray {subarray_id} raises exception and goes back to "
         + "obsState IDLE"
     )
 )

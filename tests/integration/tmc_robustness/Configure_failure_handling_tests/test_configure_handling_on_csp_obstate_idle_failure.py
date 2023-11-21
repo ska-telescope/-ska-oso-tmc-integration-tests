@@ -73,7 +73,7 @@ def given_tmc(central_node_mid, subarray_node, event_recorder):
     )
 
 
-@given(parsers.parse("the TMC assigns resources is succesfully executed"))
+@given(parsers.parse("the resources are assigned to TMC SubarrayNode"))
 def given_tmc_subarray_assign_resources(
     central_node_mid,
     subarray_node,
@@ -127,6 +127,8 @@ def given_tmc_subarray_configure_is_in_progress(
     event_recorder.subscribe_event(
         subarray_node.subarray_node, "longRunningCommandResult"
     )
+    # When Configure invoke on csp subarray and it raises exception first it
+    # goes to CONFIGURING and after exception get it return back to IDLE.
     csp_sim.SetDefective(
         json.dumps(COMMAND_FAILED_WITH_EXCEPTION_OBSSTATE_IDLE)
     )
@@ -159,7 +161,7 @@ def sdp_subarray_configure_complete(event_recorder, simulator_factory):
 @given(
     parsers.parse(
         "Csp Subarray {subarray_id} raises exception and "
-        + "returns to obsState IDLE"
+        + "goes back to obsState IDLE"
     )
 )
 def csp_subarray_returns_to_obsstate_idle(event_recorder, simulator_factory):

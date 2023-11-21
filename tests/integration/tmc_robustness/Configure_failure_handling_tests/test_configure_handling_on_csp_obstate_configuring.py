@@ -67,7 +67,7 @@ def given_tmc(central_node_mid, subarray_node, event_recorder):
     )
 
 
-@given(parsers.parse("the TMC assigns resources is succesfully executed"))
+@given(parsers.parse("the resources are assigned to TMC SubarrayNode"))
 def given_tmc_subarray_assigns_resources(
     central_node_mid,
     subarray_node,
@@ -156,9 +156,7 @@ def csp_subarray_stuck_in_configuring(event_recorder, simulator_factory):
         "obsState",
         ObsState.CONFIGURING,
     )
-    csp_sim = simulator_factory.get_or_create_simulator_device(
-        SimulatorDeviceType.MID_CSP_DEVICE
-    )
+    # Disable CSP Subarray fault
     csp_sim.SetDefective(json.dumps({"enabled": False}))
 
 
@@ -314,15 +312,14 @@ def configure_executed_on_subarray(
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
+    configure_input_json = prepare_json_args_for_commands(
+        "configure_mid", command_input_factory
+    )
     central_node_mid.perform_action("AssignResources", assign_input_json)
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "obsState",
         ObsState.IDLE,
-    )
-
-    configure_input_json = prepare_json_args_for_commands(
-        "configure_mid", command_input_factory
     )
     subarray_node.execute_transition("Configure", configure_input_json)
     LOGGER.info(

@@ -2,10 +2,10 @@ Feature: TMC SubarrayNode handles the failure when the Configure command fails o
     @SKA_mid @XTP-28436
     Scenario Outline: TMC behavior when Csp Subarray Configure raises exception
         Given a TMC
-        And the TMC assigns resources is succesfully executed
+        And the resources are assigned to TMC SubarrayNode
         And the TMC SubarrayNode <subarray_id> Configure is in progress
         And Sdp Subarray <subarray_id> completes Configure
-        And Csp Subarray <subarray_id> raises exception and returns to obsState IDLE
+        And Csp Subarray <subarray_id> raises exception and goes back to obsState IDLE
         And the TMC SubarrayNode <subarray_id> stucks in CONFIGURING
         When I issue the command End on SDP Subarray <subarray_id>
         Then Tmc SubarrayNode <subarray_id> transitions to obsState IDLE
@@ -19,7 +19,7 @@ Feature: TMC SubarrayNode handles the failure when the Configure command fails o
     @SKA_mid @XTP-28834
     Scenario Outline: TMC behavior when Csp Subarray is stuck in obsState CONFIGURING
         Given a TMC
-        And the TMC assigns resources is succesfully executed
+        And the resources are assigned to TMC SubarrayNode
         And the TMC SubarrayNode <subarray_id> Configure is in progress
         And Sdp Subarray <subarray_id> completes Configure
         And Csp Subarray <subarray_id> is stuck in obsState CONFIGURING
