@@ -176,7 +176,7 @@ low-on-demand-destroy:
 
 k8s-test:
   variables:
-    MARK: (SKA_mid and XTP-20320)
+    MARK: XTP-20320
     SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA"
     SIMULATED_DISH: "true"
   before_script:
@@ -248,7 +248,7 @@ k8s-test-low:
   extends:
     - k8s-test
   variables:
-    MARK: (SKA_low and test)
+    MARK: test
     TELESCOPE: 'SKA-low'
     KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-low'
     SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-low"
