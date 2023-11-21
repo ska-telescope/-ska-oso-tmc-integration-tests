@@ -45,12 +45,12 @@ def given_tmc(subarray_node_low, event_recorder, obs_state):
 
     assert event_recorder.has_change_event_occurred(
         subarray_node_low.csp_subarray_leaf_node,
-        "cspSubarrayObsState",
+        "obsState",
         ObsState[obs_state],
     )
     assert event_recorder.has_change_event_occurred(
         subarray_node_low.sdp_subarray_leaf_node,
-        "sdpSubarrayObsState",
+        "obsState",
         ObsState[obs_state],
     )
     assert event_recorder.has_change_event_occurred(
@@ -83,13 +83,13 @@ def check_obs_state(
     )
     assert event_recorder.has_change_event_occurred(
         subarray_node_low.sdp_subarray_leaf_node,
-        "sdpSubarrayObsState",
+        "obsState",
         ObsState.ABORTED,
         lookahead=15,
     )
     assert event_recorder.has_change_event_occurred(
         subarray_node_low.csp_subarray_leaf_node,
-        "cspSubarrayObsState",
+        "obsState",
         ObsState.ABORTED,
         lookahead=15,
     )
