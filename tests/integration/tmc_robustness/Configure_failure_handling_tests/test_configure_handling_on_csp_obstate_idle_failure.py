@@ -6,7 +6,6 @@ from ska_control_model import ObsState
 from ska_tango_base.commands import ResultCode
 from tango import DevState
 
-from tests.conftest import LOGGER
 from tests.resources.test_harness.constant import (
     COMMAND_FAILED_WITH_EXCEPTION_OBSSTATE_IDLE,
 )
@@ -18,7 +17,6 @@ from tests.resources.test_harness.helpers import (
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
 
-@pytest.mark.configure1
 @pytest.mark.bdd_configure
 @pytest.mark.SKA_mid
 @scenario(
@@ -44,7 +42,7 @@ def test_configure_handling_on_csp_subarray_obsstate_idle_failure(
     which provides simulated subarray and master devices
     - "event_recorder": fixture for a MockTangoEventCallbackGroup
     for validating the subscribing and receiving events.
-    - "simulator_factory": fixtur for creating simulator devices for
+    - "simulator_factory": fixture for creating simulator devices for
     mid Telescope respectively.
     """
 
@@ -55,16 +53,11 @@ def given_tmc(central_node_mid, subarray_node, event_recorder):
         central_node_mid.central_node, "telescopeState"
     )
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
-    LOGGER.info(f"Subarray node:{subarray_node.subarray_node}")
-    LOGGER.info("Starting up the Telescope")
     central_node_mid.move_to_on()
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
         "telescopeState",
         DevState.ON,
-    )
-    LOGGER.info(
-        "SubarrayNode ObsState is: %s", subarray_node.subarray_node.obsState
     )
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
@@ -100,7 +93,6 @@ def given_tmc_subarray_assign_resources(
         "obsState",
         ObsState.IDLE,
     )
-    LOGGER.info(f"result code: {unique_id}")
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
         "longRunningCommandResult",
@@ -187,9 +179,6 @@ def given_tmc_subarray_stuck_configuring(
     event_recorder.subscribe_event(
         subarray_node.subarray_node, "longRunningCommandResult"
     )
-    LOGGER.info(
-        "SubarrayNode ObsState is: %s", subarray_node.subarray_node.obsState
-    )
     assert subarray_node.subarray_node.obsState == ObsState.CONFIGURING
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
@@ -201,8 +190,8 @@ def given_tmc_subarray_stuck_configuring(
     )
 
 
-@when(parsers.parse("I issue the command End on SDP Subarray {subarray_id}"))
-def send_command_end_on_SDP_subarray(simulator_factory):
+@when(parsers.parse("I issue End command on SDP Subarray {subarray_id}"))
+def end_configuratation_on_SDP_subarray(simulator_factory):
     csp_sim, sdp_sim, _, _ = get_device_simulators(simulator_factory)
     sdp_sim.End()
     # Disable CSP Subarray fault
@@ -233,9 +222,6 @@ def sdp_subarray_transitions_to_idle(simulator_factory, event_recorder):
 )
 def tmc_subarray_transitions_to_IDLE(subarray_node, event_recorder):
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
-    LOGGER.info(
-        "SubarrayNode ObsState is: %s", subarray_node.subarray_node.obsState
-    )
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",
@@ -257,9 +243,6 @@ def configure_executed_on_subarray(
         "configure_mid", command_input_factory
     )
     subarray_node.execute_transition("Configure", configure_input_json)
-    LOGGER.info(
-        f"SubarrayNode ObsState is: {subarray_node.subarray_node.obsState}"
-    )
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",

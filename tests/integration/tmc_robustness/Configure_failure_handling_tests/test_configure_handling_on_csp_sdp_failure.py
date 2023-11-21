@@ -4,11 +4,8 @@ import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
 from ska_tango_base.commands import ResultCode
-
-# from ska_tango_testing.mock.placeholders import Anything
 from tango import DevState
 
-# from tests.conftest import LOGGER
 from tests.resources.test_harness.constant import (
     COMMAND_FAILED_WITH_EXCEPTION_OBSSTATE_IDLE,
 )
@@ -20,7 +17,6 @@ from tests.resources.test_harness.helpers import (
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
 
-@pytest.mark.configure5
 @pytest.mark.bdd_configure
 @pytest.mark.SKA_mid
 @scenario(
@@ -42,6 +38,8 @@ def test_configure_handling_on_csp_sdp_subarray_obsstate_idle_failure(
     which provides simulated master devices
     - "event_recorder": fixture for a MockTangoEventCallbackGroup
     for validating the subscribing and receiving events.
+    - "simulator_factory": fixture for creating simulator devices for
+    mid Telescope respectively.
     - "simulator_factory": fixture for creating simulator devices for
     mid Telescope respectively.
     """

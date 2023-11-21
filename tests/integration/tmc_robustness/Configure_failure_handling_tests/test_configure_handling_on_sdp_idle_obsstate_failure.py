@@ -6,7 +6,6 @@ from ska_tango_base.commands import ResultCode
 # from ska_tango_testing.mock.placeholders import Anything
 from tango import DevState
 
-from tests.conftest import LOGGER
 from tests.resources.test_harness.helpers import (
     get_device_simulators,
     prepare_json_args_for_centralnode_commands,
@@ -15,7 +14,6 @@ from tests.resources.test_harness.helpers import (
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
 
-@pytest.mark.configure3
 @pytest.mark.bdd_configure
 @pytest.mark.SKA_mid
 @scenario(
@@ -41,7 +39,7 @@ def test_configure_handling_on_sdp_subarray_obsstate_idle_failure(
     which provides simulated subarray and master devices
     - "event_recorder": fixture for a MockTangoEventCallbackGroup
     for validating the subscribing and receiving events.
-    - "simulator_factory": fixtur for creating simulator devices for
+    - "simulator_factory": fixture for creating simulator devices for
     mid Telescope respectively.
     """
 
@@ -52,7 +50,6 @@ def given_tmc(central_node_mid, subarray_node, event_recorder):
         central_node_mid.central_node, "telescopeState"
     )
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
-    LOGGER.info("Starting up the Telescope")
     central_node_mid.move_to_on()
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
@@ -182,9 +179,6 @@ def given_tmc_subarray_stuck_configuring(
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
     event_recorder.subscribe_event(
         subarray_node.subarray_node, "longRunningCommandResult"
-    )
-    LOGGER.info(
-        "SubarrayNode ObsState is: %s", subarray_node.subarray_node.obsState
     )
     assert subarray_node.subarray_node.obsState == ObsState.CONFIGURING
     assert event_recorder.has_change_event_occurred(

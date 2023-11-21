@@ -1,4 +1,4 @@
-Feature: TMC SubarrayNode handles the failure when the Configure command fails on CSP and SDP Subarrays    
+Feature: TMC SubarrayNode handles failure for Configure command    
     @SKA_mid @XTP-28837
     Scenario Outline: TMC behavior when CSP and SDP Subarray raises exception for Configure command
         Given a TMC
