@@ -151,12 +151,12 @@ def central_node_mid() -> CentralNodeWrapperMid:
 
 
 @pytest.fixture()
-def subarray_node() -> SubarrayNodeWrapper:
+def subarray_node(event_recorder) -> SubarrayNodeWrapper:
     """Return SubarrayNode and calls tear down"""
     subarray = SubarrayNodeWrapper()
     yield subarray
     # this will call after test complete
-    subarray.tear_down()
+    subarray.tear_down(event_recorder)
 
 
 @pytest.fixture()
