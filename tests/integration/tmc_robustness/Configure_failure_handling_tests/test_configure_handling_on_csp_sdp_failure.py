@@ -25,7 +25,8 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 @pytest.mark.SKA_mid
 @scenario(
     "../features/configure_csp_sdp_subarray_failure_scenario.feature",
-    "TMC behavior when CSP and SDP Subarrays Configure raise exception",
+    "TMC behavior when CSP and SDP Subarray raises exception for "
+    "Configure command",
 )
 def test_configure_handling_on_csp_sdp_subarray_obsstate_idle_failure(
     central_node_mid, subarray_node, event_recorder, simulator_factory
@@ -65,7 +66,7 @@ def given_tmc(central_node_mid, subarray_node, event_recorder):
     )
 
 
-@given(parsers.parse("the TMC assigns resources is succesfully executed"))
+@given(parsers.parse("the resources are assigned to TMC SubarrayNode"))
 def given_tmc_subarray_assign_resources(
     central_node_mid,
     subarray_node,
@@ -142,7 +143,7 @@ def given_tmc_subarray_configure_is_in_progress(
 
 @when(
     parsers.parse(
-        "Csp Subarray {subarray_id} raises exception and returns "
+        "Csp Subarray {subarray_id} raises exception and goes back "
         + "to obsState IDLE"
     )
 )
@@ -160,7 +161,7 @@ def csp_subarray_returns_to_obsstate_idle(event_recorder, simulator_factory):
 
 @when(
     parsers.parse(
-        "Sdp Subarray {subarray_id} raises exception and returns "
+        "Sdp Subarray {subarray_id} raises exception and goes back "
         + "to obsState IDLE"
     )
 )
@@ -177,7 +178,9 @@ def sdp_subarray_returns_to_obsstate_idle(event_recorder, simulator_factory):
 
 
 @then(
-    parsers.parse("Tmc SubarrayNode {subarray_id} aggregates to obsState IDLE")
+    parsers.parse(
+        "Tmc SubarrayNode {subarray_id} aggregates and goes " + "back to IDLE"
+    )
 )
 def tmc_subarray_transitions_to_idle(
     subarray_node, simulator_factory, event_recorder
