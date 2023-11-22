@@ -1,7 +1,7 @@
 """This module implement base helper class for tmc
 """
+import json
 import logging
-import re
 from typing import Optional, Tuple
 
 from ska_ser_logging import configure_logging
@@ -90,18 +90,15 @@ class TmcHelper:
         telescopeavailability = central_node.read_attribute(
             "telescopeAvailability"
         ).value
-        nodes = re.findall(
-            r"tmc_subarrays\": {(.*?)}", telescopeavailability, re.DOTALL
-        )
-        assert "true" in re.findall(r": (\w*)", nodes[0], re.DOTALL)
+        telescopeavailability = json.loads(telescopeavailability)
+        # provides key as subarray's and their availability
+        # we are just checking only availability
+        for _, availability in telescopeavailability["tmc_subarrays"].items():
+            assert availability
 
         # Check if CSP/SDP master nodes are true in telescopeavailability
-        assert "true" in re.findall(
-            r"csp_master_leaf_node\": (.*),", telescopeavailability, re.DOTALL
-        )
-        assert "true" in re.findall(
-            r"sdp_master_leaf_node\": (.*)}", telescopeavailability, re.DOTALL
-        )
+        assert telescopeavailability["csp_master_leaf_node"]
+        assert telescopeavailability["sdp_master_leaf_node"]
 
     @sync_telescope_on
     def set_to_on(self, **kwargs: dict) -> None:
