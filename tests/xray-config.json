@@ -3,8 +3,6 @@
     {
       "select_from_tag": {
         "default": "XTP-28347",
-        "XTP-28838":"XTP-28838",
-        "XTP-28839":"XTP-28839",
         "SP-3715": "SP-3715"
       }
     }
