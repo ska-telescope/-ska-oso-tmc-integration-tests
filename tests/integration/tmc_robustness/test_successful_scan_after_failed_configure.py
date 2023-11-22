@@ -213,10 +213,10 @@ def teardown_the_tmc(json_factory):
 )
 def test_configure_resource_with_unassigned_resources():
     """
-    Test Configure command with input as json
-    with resources that are not assigned.
+        Test Configure command with input as json
+        with resources that are not assigned.
 
-#     """
+    #"""
 
 
 # @when(
