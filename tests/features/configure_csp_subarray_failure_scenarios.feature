@@ -7,9 +7,10 @@ Feature: TMC SubarrayNode handles failure for Configure command
         And Sdp Subarray <subarray_id> completes Configure
         And Csp Subarray <subarray_id> raises exception and goes back to obsState IDLE
         And the TMC SubarrayNode <subarray_id> stucks in CONFIGURING
-        When I issue End command on SDP Subarray<subarray_id>
+        When I issue End command on SDP Subarray <subarray_id>
         Then Tmc SubarrayNode <subarray_id> transitions to obsState IDLE
         And the SDP subarray <subarray_id> transitions to obsState IDLE
+        And the resources are assigned to TMC SubarrayNode
         And Configure command is executed successfully on the Subarray <subarray_id>
 
         Examples:
