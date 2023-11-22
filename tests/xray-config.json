@@ -16,10 +16,10 @@
   "chart_info": {
     "env": "DEPLOYMENT_CONFIGURATION",
     "maps_to": {
-      "default": "charts/ska-tmc-testing-mid/Chart.yaml"
+      "default": "charts/ska-tmc-mid/Chart.yaml"
     }
   },
-  "test_report": "build/reports/report.json",
+  "test_report": "build/report.json",
   "jira_url": "https://jira.skatelescope.org",
   "project": {
     "id": "XTP",
@@ -61,8 +61,8 @@
       "env": "CI_COMMIT_BRANCH",
       "maps_to": {
         "default": "",
-        "main": "PI16",
-        "master": "PI16"
+        "main": "PI20",
+        "master": "PI20"
       }
     }
   ],
