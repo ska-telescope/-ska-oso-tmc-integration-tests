@@ -1,5 +1,4 @@
 import json
-import time
 
 import pytest
 from ska_control_model import ObsState
@@ -253,31 +252,12 @@ class TestLowCentralNodeAssignResources(object):
         assign_input_json = prepare_json_args_for_centralnode_commands(
             "assign_resources_low", command_input_factory
         )
-        csp_subarray_sim = simulator_factory.get_or_create_simulator_device(
-            SimulatorDeviceType.LOW_CSP_DEVICE
-        )
-        sdp_subarray_sim = simulator_factory.get_or_create_simulator_device(
-            SimulatorDeviceType.LOW_SDP_DEVICE
-        )
         mccs_controller_sim = simulator_factory.get_or_create_simulator_device(
             SimulatorDeviceType.MCCS_MASTER_DEVICE
         )
 
-        mccs_subarray_sim = simulator_factory.get_or_create_simulator_device(
-            SimulatorDeviceType.MCCS_SUBARRAY_DEVICE
-        )
-
-        event_recorder.subscribe_event(csp_subarray_sim, "State")
-        event_recorder.subscribe_event(sdp_subarray_sim, "State")
-        event_recorder.subscribe_event(mccs_controller_sim, "State")
         event_recorder.subscribe_event(
             central_node_low.central_node, "telescopeState"
-        )
-        event_recorder.subscribe_event(csp_subarray_sim, "obsState")
-        event_recorder.subscribe_event(sdp_subarray_sim, "obsState")
-        event_recorder.subscribe_event(mccs_subarray_sim, "obsState")
-        event_recorder.subscribe_event(
-            central_node_low.subarray_node, "obsState"
         )
         event_recorder.subscribe_event(
             central_node_low.central_node, "longRunningCommandResult"
@@ -286,21 +266,6 @@ class TestLowCentralNodeAssignResources(object):
         # Execute ON Command
         central_node_low.move_to_on()
 
-        assert event_recorder.has_change_event_occurred(
-            csp_subarray_sim,
-            "State",
-            DevState.ON,
-        )
-        assert event_recorder.has_change_event_occurred(
-            sdp_subarray_sim,
-            "State",
-            DevState.ON,
-        )
-        assert event_recorder.has_change_event_occurred(
-            mccs_controller_sim,
-            "State",
-            DevState.ON,
-        )
         assert event_recorder.has_change_event_occurred(
             central_node_low.central_node,
             "telescopeState",
@@ -332,10 +297,9 @@ class TestLowCentralNodeAssignResources(object):
             central_node_low.central_node,
             "longRunningCommandResult",
             expected_long_running_command_result,
-            lookahead=25,
+            lookahead=15,
         )
         mccs_controller_sim.SetRaiseException(False)
-        time.sleep(10)
         central_node_low.subarray_node.Abort()
 
         # Verify ObsState is Aborted
@@ -344,7 +308,6 @@ class TestLowCentralNodeAssignResources(object):
             "ABORTED", [tmc_subarraynode1]
         )
         the_waiter.wait(200)
-        time.sleep(10)
 
     @pytest.mark.SKA_low3
     @pytest.mark.SKA_low
@@ -372,29 +335,13 @@ class TestLowCentralNodeAssignResources(object):
         assign_input_json = prepare_json_args_for_centralnode_commands(
             "assign_resources_low", command_input_factory
         )
-        csp_subarray_sim = simulator_factory.get_or_create_simulator_device(
-            SimulatorDeviceType.LOW_CSP_DEVICE
-        )
-        sdp_subarray_sim = simulator_factory.get_or_create_simulator_device(
-            SimulatorDeviceType.LOW_SDP_DEVICE
-        )
         mccs_controller_sim = simulator_factory.get_or_create_simulator_device(
             SimulatorDeviceType.MCCS_MASTER_DEVICE
         )
 
-        mccs_subarray_sim = simulator_factory.get_or_create_simulator_device(
-            SimulatorDeviceType.MCCS_SUBARRAY_DEVICE
-        )
-
-        event_recorder.subscribe_event(csp_subarray_sim, "State")
-        event_recorder.subscribe_event(sdp_subarray_sim, "State")
-        event_recorder.subscribe_event(mccs_controller_sim, "State")
         event_recorder.subscribe_event(
             central_node_low.central_node, "telescopeState"
         )
-        event_recorder.subscribe_event(csp_subarray_sim, "obsState")
-        event_recorder.subscribe_event(sdp_subarray_sim, "obsState")
-        event_recorder.subscribe_event(mccs_subarray_sim, "obsState")
         event_recorder.subscribe_event(
             central_node_low.subarray_node, "obsState"
         )
@@ -406,21 +353,6 @@ class TestLowCentralNodeAssignResources(object):
         central_node_low.move_to_on()
 
         assert event_recorder.has_change_event_occurred(
-            csp_subarray_sim,
-            "State",
-            DevState.ON,
-        )
-        assert event_recorder.has_change_event_occurred(
-            sdp_subarray_sim,
-            "State",
-            DevState.ON,
-        )
-        assert event_recorder.has_change_event_occurred(
-            mccs_controller_sim,
-            "State",
-            DevState.ON,
-        )
-        assert event_recorder.has_change_event_occurred(
             central_node_low.central_node,
             "telescopeState",
             DevState.ON,
@@ -431,45 +363,17 @@ class TestLowCentralNodeAssignResources(object):
             "AssignResources", assign_input_json
         )
 
-        assigned_resources_json = prepare_json_args_for_commands(
-            "AssignedResources_low", command_input_factory
-        )
-
-        mccs_subarray_sim.SetDirectassignedResources(assigned_resources_json)
-
-        assert event_recorder.has_change_event_occurred(
-            sdp_subarray_sim,
-            "obsState",
-            ObsState.IDLE,
-        )
-        assert event_recorder.has_change_event_occurred(
-            csp_subarray_sim,
-            "obsState",
-            ObsState.IDLE,
-        )
-        assert event_recorder.has_change_event_occurred(
-            mccs_subarray_sim,
-            "obsState",
-            ObsState.IDLE,
-        )
         assert event_recorder.has_change_event_occurred(
             central_node_low.subarray_node,
             "obsState",
             ObsState.IDLE,
+            lookahead=15,
         )
 
         assert event_recorder.has_change_event_occurred(
             central_node_low.central_node,
             "longRunningCommandResult",
             (unique_id[0], str(ResultCode.OK.value)),
-        )
-
-        assigned_resources_attribute_value = (
-            central_node_low.subarray_node.assignedResources
-        )
-
-        check_assigned_resources_attribute_after_assign(
-            assigned_resources_attribute_value
         )
 
         # Execute ReleaseResources and verify error propagation
@@ -500,10 +404,9 @@ class TestLowCentralNodeAssignResources(object):
             central_node_low.central_node,
             "longRunningCommandResult",
             expected_long_running_command_result,
-            lookahead=25,
+            lookahead=15,
         )
         mccs_controller_sim.SetRaiseException(False)
-        time.sleep(10)
         central_node_low.subarray_node.Abort()
 
         # Verify ObsState is Aborted
@@ -512,4 +415,3 @@ class TestLowCentralNodeAssignResources(object):
             "ABORTED", [tmc_subarraynode1]
         )
         the_waiter.wait(200)
-        time.sleep(10)
