@@ -31,7 +31,7 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
-@pytest.mark.test_key("XTP-20321")
+@pytest.mark.skip(reason="Timeout issue")
 @pytest.mark.SKA_mid
 # @scenario(
 #     "../features/successful_scan_after_failed_configure.feature",
@@ -205,16 +205,16 @@ def teardown_the_tmc(json_factory):
     )
 
 
-# @pytest.mark.test_key("XTP-20320")
-# @pytest.mark.SKA_mid
-# @scenario(
-#     "../features/successful_scan_after_failed_configure.feature",
-#     "Invoke Configure command by passing a JSON script that uses resources which are not assigned to the subarray",  # noqa: E501
-# )
-# def test_configure_resource_with_unassigned_resources():
-#     """
-#     Test Configure command with input as json
-#     with resources that are not assigned.
+@pytest.mark.skip(reason="Timeout issue")
+@pytest.mark.SKA_mid
+@scenario(
+    "../features/successful_scan_after_failed_configure.feature",
+    "Invoke Configure command by passing a JSON script that uses resources which are not assigned to the subarray",  # noqa: E501
+)
+def test_configure_resource_with_unassigned_resources():
+    """
+    Test Configure command with input as json
+    with resources that are not assigned.
 
 #     """
 

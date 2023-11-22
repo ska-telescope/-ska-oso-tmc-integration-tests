@@ -1,11 +1,16 @@
+import json
+import logging
 from typing import Any
 
+import pytest
+from ska_ser_logging import configure_logging
+from ska_tango_base.commands import ResultCode
 from ska_tango_base.control_model import HealthState
+from ska_tango_testing.mock.placeholders import Anything
 
-from tests.conftest import LOGGER
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
-from tests.resources.test_harness.utils.wait_helpers import Waiter
+from tests.resources.test_harness.utils.wait_helpers import Waiter, watch
 from tests.resources.test_support.common_utils.common_helpers import Resource
 from tests.resources.test_support.constant import (
     csp_subarray1,
@@ -16,6 +21,9 @@ from tests.resources.test_support.constant import (
     tmc_sdp_subarray_leaf_node,
     tmc_subarraynode1,
 )
+
+configure_logging(logging.DEBUG)
+LOGGER = logging.getLogger(__name__)
 
 
 def check_subarray_obs_state(obs_state=None, timeout=50):
@@ -177,7 +185,8 @@ def get_command_call_info(device: Any, command_name: str):
         for command_info in command_call_info
         if command_info[0] == command_name
     ]
-    input_str = "".join(command_info[0][1].split())
+    input_str = json.loads("".join(command_info[0][1].split()))
+
     received_command_call_data = (
         command_call_info[0][0],
         sorted(input_str),
@@ -201,8 +210,7 @@ def device_received_this_command(
     received_command_call_data = get_command_call_info(
         device, expected_command_name
     )
-    expected_input_str = "".join(expected_inp_str.split())
-
+    expected_input_str = json.loads("".join(expected_inp_str.split()))
     return received_command_call_data == (
         expected_command_name,
         sorted(expected_input_str),
@@ -248,3 +256,83 @@ def check_assigned_resources(device: Any, receiptor_ids: tuple):
     assigned_resources = device.read_attribute("assignedResources").value
     LOGGER.info(f"assigned Resources:{assigned_resources}")
     return assigned_resources == receiptor_ids
+
+
+def device_attribute_changed(
+    device: Any,
+    attribute_name_list: list,
+    attribute_value_list: list,
+    timeout: int,
+):
+    """
+    Method to verify device attribute changed to speicified attribute value
+    """
+
+    waiter = Waiter()
+    for attribute_name, attribute_value in zip(
+        attribute_name_list, attribute_value_list
+    ):
+        waiter.waits.append(
+            watch(Resource(device.dev_name())).to_become(
+                attribute_name, attribute_value
+            )
+        )
+    try:
+        waiter.wait(timeout)
+    except Exception:
+        return False
+    return True
+
+
+def wait_for_actual_pointing_events(
+    event_recorder,
+    device,
+):
+    """Wait till Dish Leaf Node processes all the achievedPointing events."""
+    COUNT = 0
+    while True:
+        assertion_data = event_recorder.has_change_event_occurred(
+            device, "actualPointing", Anything, lookahead=1
+        )
+        if assertion_data:
+            COUNT += 1
+        else:
+            LOGGER.info("Processed %s actualPointing Events", COUNT)
+            LOGGER.info(
+                "No actualPointing event received within given timeout"
+            )
+            break
+
+
+def check_lrcr_events(
+    event_recorder,
+    device,
+    command_name: str,
+    result_code: ResultCode = ResultCode.OK,
+    retries: int = 10,
+):
+    """Used to assert command name and result code in
+       longRunningCommandResult event callbacks.
+
+    Args:
+        event_recorder (EventRecorder):fixture used to
+        capture event callbacks
+        device (str): device for which attribute needs to be checked
+        command_name (str): command name to check
+        result_code (ResultCode): result_code to check.
+        Defaults to ResultCode.OK.
+        retries (int):number of events to check. Defaults to 10.
+    """
+    COUNT = 0
+    while COUNT <= retries:
+        assertion_data = event_recorder.has_change_event_occurred(
+            device, "longRunningCommandResult", Anything, lookahead=1
+        )
+        unique_id, result = assertion_data["attribute_value"]
+        if unique_id.endswith(command_name):
+            if result == str(result_code.value):
+                LOGGER.debug("TRACKLOADSTATICOFF_UID: %s", unique_id)
+                break
+        COUNT = COUNT + 1
+        if COUNT >= retries:
+            pytest.fail("Assertion Failed")
