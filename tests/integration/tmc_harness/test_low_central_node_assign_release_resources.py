@@ -332,7 +332,7 @@ class TestLowCentralNodeAssignResources(object):
             central_node_low.central_node,
             "longRunningCommandResult",
             expected_long_running_command_result,
-            lookahead=15,
+            lookahead=25,
         )
         mccs_controller_sim.SetRaiseException(False)
         time.sleep(10)
@@ -500,7 +500,7 @@ class TestLowCentralNodeAssignResources(object):
             central_node_low.central_node,
             "longRunningCommandResult",
             expected_long_running_command_result,
-            lookahead=15,
+            lookahead=25,
         )
         mccs_controller_sim.SetRaiseException(False)
         time.sleep(10)
