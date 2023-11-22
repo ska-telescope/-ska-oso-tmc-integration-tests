@@ -33,13 +33,9 @@ telescope_control = BaseTelescopeControl()
 
 @pytest.mark.skip(reason="Timeout issue")
 @pytest.mark.SKA_mid
-# @scenario(
-#     "../features/successful_scan_after_failed_configure.feature",
-#     "Successfully execute a scan after a failed attempt to configure",
-# )
 @scenario(
-    "../features/xtp-20321.feature",
-    "Successful scan after failed configure, using same resources",
+    "../features/successful_scan_after_failed_configure.feature",
+    "Successfully execute a scan after a failed attempt to configure",
 )
 def test_configure_resource_with_invalid_json():
     """
