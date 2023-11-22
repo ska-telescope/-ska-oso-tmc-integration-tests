@@ -52,6 +52,7 @@ def check_assigned_resources_attribute_after_assign(
 
 
 class TestLowCentralNodeAssignResources(object):
+    @pytest.mark.SKA_low1
     @pytest.mark.SKA_low
     def test_low_centralnode_assign_resources(
         self,
@@ -226,6 +227,7 @@ class TestLowCentralNodeAssignResources(object):
             assigned_resources_attribute_value
         )
 
+    @pytest.mark.SKA_low2
     @pytest.mark.SKA_low
     def test_low_centralnode_assign_resources_exception_propagation(
         self,
@@ -330,11 +332,21 @@ class TestLowCentralNodeAssignResources(object):
             central_node_low.central_node,
             "longRunningCommandResult",
             expected_long_running_command_result,
+            lookahead=15,
         )
         mccs_controller_sim.SetRaiseException(False)
         time.sleep(10)
+        central_node_low.subarray_node.Abort()
 
-    @pytest.mark.SKA_low12
+        # Verify ObsState is Aborted
+        the_waiter = Waiter()
+        the_waiter.set_wait_for_specific_obsstate(
+            "ABORTED", [tmc_subarraynode1]
+        )
+        the_waiter.wait(200)
+        time.sleep(10)
+
+    @pytest.mark.SKA_low3
     @pytest.mark.SKA_low
     def test_low_centralnode_release_resources_exception_propogation(
         self,
@@ -488,6 +500,7 @@ class TestLowCentralNodeAssignResources(object):
             central_node_low.central_node,
             "longRunningCommandResult",
             expected_long_running_command_result,
+            lookahead=15,
         )
         mccs_controller_sim.SetRaiseException(False)
         time.sleep(10)
