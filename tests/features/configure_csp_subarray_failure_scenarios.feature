@@ -7,9 +7,14 @@ Feature: TMC SubarrayNode handles failure for Configure command
         And Sdp Subarray <subarray_id> completes Configure
         And Csp Subarray <subarray_id> raises exception and goes back to obsState IDLE
         And the TMC SubarrayNode <subarray_id> stucks in CONFIGURING
-        When I issue End command on SDP Subarray <subarray_id>
-        Then Tmc SubarrayNode <subarray_id> transitions to obsState IDLE
-        And the SDP subarray <subarray_id> transitions to obsState IDLE
+        When I issue the Abort command on TMC SubarrayNode <subarray_id>
+        Then the SDP subarray <subarray_id> transitions to obsState ABORTED
+        And the CSP subarray <subarray_id> transitions to obsState ABORTED
+        And Tmc SubarrayNode <subarray_id> transitions to obsState ABORTED
+        When I issue the Restart command on TMC SubarrayNode <subarray_id>
+        Then the SDP subarray <subarray_id> transitions to obsState EMPTY
+        And the CSP subarray <subarray_id> transitions to obsState EMPTY
+        And Tmc SubarrayNode <subarray_id> transitions to obsState EMPTY
         And the resources are assigned to TMC SubarrayNode
         And Configure command is executed successfully on the Subarray <subarray_id>
 
@@ -33,6 +38,7 @@ Feature: TMC SubarrayNode handles failure for Configure command
         Then the SDP subarray <subarray_id> transitions to obsState EMPTY
         And the CSP subarray <subarray_id> transitions to obsState EMPTY
         And Tmc SubarrayNode <subarray_id> transitions to obsState EMPTY
+        And the resources are assigned to TMC SubarrayNode
         And Configure command is executed successfully on the Subarray <subarray_id>
 
         Examples:
