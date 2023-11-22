@@ -19,10 +19,9 @@ Feature: Enable and Demonstrate 5-point calibration using TMC
 
 	
 	@XTP-28839
-	Scenario: TMC implements five point calibration scan: TMC executes Science scan after calibration successfully.
-		Scenario Outline: TMC behaviour during a science scan after a five point calibration scan.
-		    Given a TMC
-		    And a subarray post five point calibration
-		    When I invoke Configure command for a science scan
-		    Then the subarray fetches calibration solutions from SDP and applies them to the Dishes
-		    And is in READY obsState
+	Scenario Outline: TMC behaviour during a science scan after a five point calibration scan.
+		Given a TMC
+		And a subarray post five point calibration
+		When I invoke Configure command for a science scan
+		Then the subarray fetches calibration solutions from SDP and applies them to the Dishes
+		And is in READY obsState
