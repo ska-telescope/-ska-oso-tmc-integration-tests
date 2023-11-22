@@ -59,11 +59,40 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         for mock_device in self.dish_master_list:
             mock_device.SetDirectHealthState(HealthState.UNKNOWN)
 
+    def load_dish_vcc_configuration(self, dish_vcc_config: str):
+        """Invoke LoadDishCfg command on central Node
+        :param dish_vcc_config: Dish vcc configuration json string
+        """
+        result, message = self.central_node.LoadDishCfg(dish_vcc_config)
+        return result, message
+
+    def _reset_sys_param_and_k_value(self):
+        """Reset sysParam and sourceSysParam attribute of csp master
+        reset kValue of Dish master
+        """
+        for mock_device in self.dish_master_list:
+            mock_device.SetKValue(0)
+        self.csp_master.ResetSysParams()
+
+    def _clear_command_call_and_transition_data(self, clear_transition=False):
+        """Clears the command call data"""
+        for sim_device in [
+            csp_subarray1,
+            sdp_subarray1,
+            dish_master1,
+            dish_master2,
+        ]:
+            device = DeviceProxy(sim_device)
+            device.ClearCommandCallInfo()
+            if clear_transition:
+                device.ResetTransitions()
+
     def tear_down(self):
         """Handle Tear down of central Node"""
         LOGGER.info("Calling Tear down for Central node.")
         # reset HealthState.UNKNOWN for mock devices
         self._reset_health_state_for_mock_devices()
+        self._reset_sys_param_and_k_value()
         if self.subarray_node.obsState == ObsState.IDLE:
             LOGGER.info("Calling Release Resource on centralnode")
             self.invoke_release_resources(self.release_input)
@@ -74,3 +103,4 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         elif self.subarray_node.obsState == ObsState.ABORTED:
             self.subarray_restart()
         self.move_to_off()
+        self._clear_command_call_and_transition_data(clear_transition=True)

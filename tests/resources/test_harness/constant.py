@@ -1,5 +1,8 @@
 """Define Constants
 """
+import json
+
+import numpy as np
 from ska_control_model import ObsState
 
 from tests.resources.test_harness.utils.enums import (
@@ -16,6 +19,8 @@ tmc_csp_master_leaf_node = "ska_mid/tm_leaf_node/csp_master"
 tmc_sdp_master_leaf_node = "ska_mid/tm_leaf_node/sdp_master"
 tmc_csp_subarray_leaf_node = "ska_mid/tm_leaf_node/csp_subarray01"
 tmc_sdp_subarray_leaf_node = "ska_mid/tm_leaf_node/sdp_subarray01"
+tmc_dish_leaf_node1 = "ska_mid/tm_leaf_node/d0001"
+tmc_dish_leaf_node2 = "ska_mid/tm_leaf_node/d0002"
 sdp_subarray1 = "mid-sdp/subarray/01"
 sdp_subarray2 = "mid-sdp/subarray/02"
 sdp_subarray3 = "mid-sdp/subarray/03"
@@ -28,6 +33,7 @@ dish_master1 = "ska001/elt/master"
 dish_master2 = "ska002/elt/master"
 dish_master3 = "ska003/elt/master"
 dish_master4 = "ska004/elt/master"
+sdp_queue_connector = "mid-sdp/queueconnector/01"
 
 
 DEVICE_HEALTH_STATE_OK_INFO = {
@@ -147,6 +153,57 @@ COMMAND_FAILED_WITH_EXCEPTION_OBSSTATE_EMPTY = {
     "result": ResultCode.FAILED,
     "target_obsstates": [ObsState.RESOURCING, ObsState.EMPTY],
 }
+
+ERROR_PROPAGATION_DEFECT = json.dumps(
+    {
+        "enabled": True,
+        "fault_type": FaultType.LONG_RUNNING_EXCEPTION,
+        "error_message": "Exception occurred, command failed.",
+        "result": ResultCode.FAILED,
+    }
+)
+RESET_DEFECT = json.dumps(
+    {
+        "enabled": False,
+        "fault_type": FaultType.FAILED_RESULT,
+        "error_message": "Default exception.",
+        "result": ResultCode.FAILED,
+    }
+)
+POINTING_OFFSETS = np.array(
+    [
+        [
+            "SKA001",
+            -4.115211938625473,
+            69.9725295732531,
+            -7.090356031104502,
+            104.10028693155607,
+            70.1182176899719,
+            78.8829949012184,
+            95.49061976199042,
+            729.5782881970024,
+            119.27311545171803,
+            1065.4074085647912,
+            0.9948872678443994,
+            0.8441090109163307,
+        ],
+        [
+            "SKA002",
+            -4.115211938625473,
+            69.10028693155607,
+            -7.5782881970024,
+            104.10028693155607,
+            70.1182176899719,
+            78.8829949012184,
+            95.49061976199042,
+            729.5782881970024,
+            119.27311545171803,
+            1065.4074085647912,
+            0.9948872678443994,
+            0.8441090109163307,
+        ],
+    ]
+)
 
 
 low_centralnode = "ska_low/tm_central/central_node"
