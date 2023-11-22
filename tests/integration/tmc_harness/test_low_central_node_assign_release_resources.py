@@ -11,6 +11,8 @@ from tests.resources.test_harness.helpers import (
     prepare_json_args_for_commands,
 )
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
+from tests.resources.test_support.common_utils.common_helpers import Waiter
+from tests.resources.test_support.constant_low import tmc_subarraynode1
 
 
 def check_assigned_resources_attribute_after_release(
@@ -332,6 +334,7 @@ class TestLowCentralNodeAssignResources(object):
         mccs_controller_sim.SetRaiseException(False)
         time.sleep(10)
 
+    @pytest.mark.SKA_low12
     @pytest.mark.SKA_low
     def test_low_centralnode_release_resources_exception_propogation(
         self,
@@ -487,4 +490,13 @@ class TestLowCentralNodeAssignResources(object):
             expected_long_running_command_result,
         )
         mccs_controller_sim.SetRaiseException(False)
+        time.sleep(10)
+        central_node_low.subarray_node.Abort()
+
+        # Verify ObsState is Aborted
+        the_waiter = Waiter()
+        the_waiter.set_wait_for_specific_obsstate(
+            "ABORTED", [tmc_subarraynode1]
+        )
+        the_waiter.wait(200)
         time.sleep(10)
