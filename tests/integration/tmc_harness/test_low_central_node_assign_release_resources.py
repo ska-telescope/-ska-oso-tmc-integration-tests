@@ -77,6 +77,19 @@ class TestLowCentralNodeAssignResources(object):
         assign_input_json = prepare_json_args_for_centralnode_commands(
             "assign_resources_low", command_input_factory
         )
+
+        release_resource_json = prepare_json_args_for_centralnode_commands(
+            "release_resources_low", command_input_factory
+        )
+
+        assigned_resources_json = prepare_json_args_for_commands(
+            "AssignedResources_low", command_input_factory
+        )
+
+        assigned_resources_json_empty = prepare_json_args_for_commands(
+            "AssignedResources_low_empty", command_input_factory
+        )
+
         csp_subarray_sim = simulator_factory.get_or_create_simulator_device(
             SimulatorDeviceType.LOW_CSP_DEVICE
         )
@@ -136,10 +149,6 @@ class TestLowCentralNodeAssignResources(object):
             "AssignResources", assign_input_json
         )
 
-        assigned_resources_json = prepare_json_args_for_commands(
-            "AssignedResources_low", command_input_factory
-        )
-
         mccs_subarray_sim.SetDirectassignedResources(assigned_resources_json)
 
         assert event_recorder.has_change_event_occurred(
@@ -178,9 +187,6 @@ class TestLowCentralNodeAssignResources(object):
         )
 
         # Execute release command and verify command completed successfully
-        release_resource_json = prepare_json_args_for_centralnode_commands(
-            "release_resources_low", command_input_factory
-        )
 
         result, unique_id = central_node_low.perform_action(
             "ReleaseResources", release_resource_json
@@ -211,9 +217,6 @@ class TestLowCentralNodeAssignResources(object):
         assert central_node_low.subarray_node.obsState == ObsState.EMPTY
 
         # Setting Assigned Resources empty
-        assigned_resources_json_empty = prepare_json_args_for_commands(
-            "AssignedResources_low_empty", command_input_factory
-        )
 
         mccs_subarray_sim.SetDirectassignedResources(
             assigned_resources_json_empty
@@ -311,7 +314,7 @@ class TestLowCentralNodeAssignResources(object):
 
     @pytest.mark.SKA_low3
     @pytest.mark.SKA_low
-    def test_low_centralnode_release_resources_exception_propogation(
+    def test_low_centralnode_release_resources_exception_propagation(
         self,
         central_node_low,
         event_recorder,
@@ -334,6 +337,9 @@ class TestLowCentralNodeAssignResources(object):
         """
         assign_input_json = prepare_json_args_for_centralnode_commands(
             "assign_resources_low", command_input_factory
+        )
+        release_resource_json = prepare_json_args_for_centralnode_commands(
+            "release_resources_low", command_input_factory
         )
         mccs_controller_sim = simulator_factory.get_or_create_simulator_device(
             SimulatorDeviceType.MCCS_MASTER_DEVICE
@@ -377,9 +383,6 @@ class TestLowCentralNodeAssignResources(object):
         )
 
         # Execute ReleaseResources and verify error propagation
-        release_resource_json = prepare_json_args_for_centralnode_commands(
-            "release_resources_low", command_input_factory
-        )
 
         # Setting device to defective
         mccs_controller_sim.SetRaiseException(True)
