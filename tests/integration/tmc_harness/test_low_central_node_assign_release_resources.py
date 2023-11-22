@@ -5,13 +5,17 @@ from ska_control_model import ObsState
 from ska_tango_base.commands import ResultCode
 from tango import DevState
 
+from tests.resources.test_harness.constant import (
+    mccs_controller,
+    mccs_master_leaf_node,
+    tmc_low_subarraynode1,
+)
 from tests.resources.test_harness.helpers import (
     prepare_json_args_for_centralnode_commands,
     prepare_json_args_for_commands,
 )
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.common_utils.common_helpers import Waiter
-from tests.resources.test_support.constant_low import tmc_subarraynode1
 
 
 def check_assigned_resources_attribute_after_release(
@@ -51,7 +55,6 @@ def check_assigned_resources_attribute_after_assign(
 
 
 class TestLowCentralNodeAssignResources(object):
-    @pytest.mark.SKA_low1
     @pytest.mark.SKA_low
     def test_low_centralnode_assign_resources(
         self,
@@ -229,7 +232,6 @@ class TestLowCentralNodeAssignResources(object):
             assigned_resources_attribute_value
         )
 
-    @pytest.mark.SKA_low2
     @pytest.mark.SKA_low
     def test_low_centralnode_assign_resources_exception_propagation(
         self,
@@ -283,10 +285,10 @@ class TestLowCentralNodeAssignResources(object):
         )
 
         exception_message = (
-            "Exception occurred on the following devices:"
-            " ska_low/tm_leaf_node/mccs_master: Exception "
-            "occurred on device:"
-            " low-mccs/control/controlska_low/tm_subarray_node/1:"
+            "Exception occurred on the following devices: "
+            + f"{mccs_master_leaf_node}: Exception "
+            "occurred on device: "
+            + f"{mccs_controller}{tmc_low_subarraynode1}:"
             " Timeout has "
             "occurred, command failed"
         )
@@ -300,7 +302,7 @@ class TestLowCentralNodeAssignResources(object):
             central_node_low.central_node,
             "longRunningCommandResult",
             expected_long_running_command_result,
-            lookahead=15,
+            lookahead=25,
         )
         mccs_controller_sim.SetRaiseException(False)
         central_node_low.subarray_node.Abort()
@@ -308,11 +310,10 @@ class TestLowCentralNodeAssignResources(object):
         # Verify ObsState is Aborted
         the_waiter = Waiter()
         the_waiter.set_wait_for_specific_obsstate(
-            "ABORTED", [tmc_subarraynode1]
+            "ABORTED", [tmc_low_subarraynode1]
         )
         the_waiter.wait(200)
 
-    @pytest.mark.SKA_low3
     @pytest.mark.SKA_low
     def test_low_centralnode_release_resources_exception_propagation(
         self,
@@ -373,7 +374,7 @@ class TestLowCentralNodeAssignResources(object):
             central_node_low.subarray_node,
             "obsState",
             ObsState.IDLE,
-            lookahead=15,
+            lookahead=25,
         )
 
         assert event_recorder.has_change_event_occurred(
@@ -392,10 +393,12 @@ class TestLowCentralNodeAssignResources(object):
         )
 
         exception_message = (
-            "Exception occurred on the following devices:"
-            " ska_low/tm_leaf_node/mccs_master: Exception occurred on "
-            "device: low-mccs/control/controlska_low/tm_subarray_node/1:"
-            " Timeout has occurred, command failed"
+            "Exception occurred on the following devices: "
+            + f"{mccs_master_leaf_node}: Exception "
+            "occurred on device: "
+            + f"{mccs_controller}{tmc_low_subarraynode1}:"
+            " Timeout has "
+            "occurred, command failed"
         )
 
         expected_long_running_command_result = (
@@ -407,7 +410,7 @@ class TestLowCentralNodeAssignResources(object):
             central_node_low.central_node,
             "longRunningCommandResult",
             expected_long_running_command_result,
-            lookahead=15,
+            lookahead=25,
         )
         mccs_controller_sim.SetRaiseException(False)
         central_node_low.subarray_node.Abort()
@@ -415,6 +418,6 @@ class TestLowCentralNodeAssignResources(object):
         # Verify ObsState is Aborted
         the_waiter = Waiter()
         the_waiter.set_wait_for_specific_obsstate(
-            "ABORTED", [tmc_subarraynode1]
+            "ABORTED", [tmc_low_subarraynode1]
         )
         the_waiter.wait(200)
