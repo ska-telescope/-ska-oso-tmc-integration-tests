@@ -1,7 +1,7 @@
 import json
 
 import pytest
-from pytest_bdd import given, parsers, scenario, then, when
+from pytest_bdd import given, parsers, then, when
 from tango import DeviceProxy
 
 from tests.conftest import LOGGER
@@ -33,10 +33,10 @@ telescope_control = BaseTelescopeControl()
 
 @pytest.mark.skip(reason="Timeout issue")
 @pytest.mark.SKA_mid
-@scenario(
-    "../features/successful_scan_after_failed_configure.feature",
-    "Successfully execute a scan after a failed attempt to configure",
-)
+# @scenario(
+#     "../features/successful_scan_after_failed_configure.feature",
+#     "Successfully execute a scan after a failed attempt to configure",
+# )
 def test_configure_resource_with_invalid_json():
     """
     Test Configure command with input as invalid json.
@@ -203,10 +203,10 @@ def teardown_the_tmc(json_factory):
 
 @pytest.mark.skip(reason="Timeout issue")
 @pytest.mark.SKA_mid
-@scenario(
-    "../features/successful_scan_after_failed_configure.feature",
-    "Invoke Configure command by passing a JSON script that uses resources which are not assigned to the subarray",  # noqa: E501
-)
+# @scenario(
+#     "../features/successful_scan_after_failed_configure.feature",
+#     "Invoke Configure command by passing a JSON script that uses resources which are not assigned to the subarray",  # noqa: E501
+# )
 def test_configure_resource_with_unassigned_resources():
     """
         Test Configure command with input as json
