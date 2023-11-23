@@ -2,7 +2,8 @@
   "test_plans": [
     {
       "select_from_tag": {
-        "default": "XTP-28347"
+        "default": "XTP-28347",
+        "SP-3715": "SP-3715"
       }
     }
   ],

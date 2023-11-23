@@ -19,6 +19,7 @@ from tests.resources.test_support.constant_low import (
 )
 
 
+@pytest.mark.test
 @pytest.mark.SKA_low
 def test_telescope_on():
     """TelescopeOn() is executed."""

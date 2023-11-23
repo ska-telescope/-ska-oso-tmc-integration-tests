@@ -18,7 +18,7 @@ PYTHON_VARS_BEFORE_PYTEST ?= PYTHONPATH=.:./src \
 PYTHON_LINT_TARGET ?= tests/
 
 DEPLOYMENT_TYPE = $(shell echo $(TELESCOPE) | cut -d '-' -f2)
-MARK ?= $(shell echo $(TELESCOPE) | sed "s/-/_/g") ## What -m opt to pass to pytest
+MARK ?= xtp_test # $(shell echo $(TELESCOPE) | sed "s/-/_/g") ## What -m opt to pass to pytest
 # run one test with FILE=acceptance/test_subarray_node.py::test_check_internal_model_according_to_the_tango_ecosystem_deployed
 FILE ?= tests## A specific test file to pass to pytest
 ADD_ARGS ?= ## Additional args to pass to pytest
@@ -59,7 +59,7 @@ K8S_TEST_IMAGE_TO_TEST ?= artefact.skao.int/ska-tango-images-tango-itango:9.3.12
 TARANTA_ENABLED ?= false
 
 CI_PROJECT_DIR ?= .
-
+XRAY_TEST_RESULT_FILE = "build/cucumber.json"
 XAUTHORITY ?= $(HOME)/.Xauthority
 THIS_HOST := $(shell ip a 2> /dev/null | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p' | head -n1)
 DISPLAY ?= $(THIS_HOST):0
@@ -77,10 +77,6 @@ K8S_TEST_RUNNER = test-runner-$(HELM_RELEASE)
 
 CI_PROJECT_PATH_SLUG ?= ska-tmc-integration
 CI_ENVIRONMENT_SLUG ?= ska-tmc-integration
-
-XRAY_EXTRA_OPTS ?= -t pytest
-XRAY_TEST_RESULT_FILE ?= build/reports/pytest-junit.xml
-XRAY_EXECUTION_CONFIG_FILE ?= tests/xray-config.json
 CSP_SIMULATION_ENABLED ?= true
 
 ifeq ($(MAKECMDGOALS),k8s-test)
