@@ -98,7 +98,6 @@ def test_assign_release_low(json_factory):
     " implemented on mccs master leaf node."
 )
 @pytest.mark.SKA_low
-@pytest.mark.ms
 def test_assign_release_timeout_csp(json_factory, change_event_callbacks):
     """Verify timeout exception raised when csp set to defective."""
     assign_json = json_factory("command_assign_resource_low")

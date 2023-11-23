@@ -40,7 +40,6 @@ telescope_control = BaseTelescopeControl()
 def test_configure_resource_with_invalid_json():
     """
     Test Configure command with input as invalid json.
-
     """
 
 
