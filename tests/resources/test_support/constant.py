@@ -42,7 +42,7 @@ dish_master1 = "ska001/elt/master"
 dish_master2 = "ska002/elt/master"
 dish_master3 = "ska003/elt/master"
 dish_master4 = "ska004/elt/master"
-
+alarm_handler1 = "alarm/handler/01"
 
 DEVICE_HEALTH_STATE_OK_INFO = {
     tmc_csp_subarray_leaf_node: "OK",
