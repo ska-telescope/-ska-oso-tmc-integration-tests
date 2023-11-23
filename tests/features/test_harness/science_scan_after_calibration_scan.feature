@@ -18,7 +18,7 @@ Feature: Enable and Demonstrate 5-point calibration using TMC
 	# * Opportunity to validate the interfaces between OSO-scripting, TMC, Dish LMC and SDP for this observing mode.
 
 	
-	@XTP-28839
+	@XTP-28839 @SKA_mid
 	Scenario Outline: TMC behaviour during a science scan after a five point calibration scan.
 		Given a TMC
 		And a subarray post five point calibration
