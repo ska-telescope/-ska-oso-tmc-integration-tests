@@ -1,7 +1,7 @@
 """This module implement base helper class for tmc
 """
+import json
 import logging
-import re
 from typing import Optional, Tuple
 
 from ska_ser_logging import configure_logging
@@ -90,18 +90,15 @@ class TmcHelper:
         telescopeavailability = central_node.read_attribute(
             "telescopeAvailability"
         ).value
-        nodes = re.findall(
-            r"tmc_subarrays\": {(.*?)}", telescopeavailability, re.DOTALL
-        )
-        assert "true" in re.findall(r": (\w*)", nodes[0], re.DOTALL)
+        telescopeavailability = json.loads(telescopeavailability)
+        # provides key as subarray's and their availability
+        # we are just checking only availability
+        for _, availability in telescopeavailability["tmc_subarrays"].items():
+            assert availability
 
         # Check if CSP/SDP master nodes are true in telescopeavailability
-        assert "true" in re.findall(
-            r"csp_master_leaf_node\": (.*),", telescopeavailability, re.DOTALL
-        )
-        assert "true" in re.findall(
-            r"sdp_master_leaf_node\": (.*)}", telescopeavailability, re.DOTALL
-        )
+        assert telescopeavailability["csp_master_leaf_node"]
+        assert telescopeavailability["sdp_master_leaf_node"]
 
     @sync_telescope_on
     def set_to_on(self, **kwargs: dict) -> None:
@@ -409,3 +406,18 @@ def tear_down(
             f"Test case failed and Subarray obsState was: "
             f"{subarray_node_obsstate}"
         )
+
+
+def tear_down_configured_alarms(
+    alarm_handler_device: DeviceProxy, alarms_to_remove: list
+):
+    """
+    A method to remove configured alarms using the tag
+    Arg:
+        alarm_handler_device(DeviceProxy): device proxy for
+        alarm handler device
+        alarms_to_remove(list): list of alarms to remove
+    """
+    for tag in alarms_to_remove:
+        alarm_handler_device.Remove(tag)
+    assert alarm_handler_device.alarmList == ()
