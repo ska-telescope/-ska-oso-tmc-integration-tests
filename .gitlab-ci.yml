@@ -23,8 +23,8 @@ stages:
   - build
   - on-demand
   - test
-  - publish
   - integration
+  - publish
   - staging
   - pages
   - scan
