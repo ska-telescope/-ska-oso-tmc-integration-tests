@@ -83,7 +83,7 @@ def given_tmc_subarray_assign_resources(
         "assign_resources_mid", command_input_factory
     )
     invalid_receiptor_json = prepare_json_args_for_commands(
-        "invalid_receiptor", command_input_factory
+        "invalid_receiver_address2", command_input_factory
     )
     _, unique_id = central_node_mid.perform_action(
         "AssignResources", assign_input_json

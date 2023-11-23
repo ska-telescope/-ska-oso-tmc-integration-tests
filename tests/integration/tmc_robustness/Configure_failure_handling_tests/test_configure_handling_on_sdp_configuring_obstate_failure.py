@@ -14,7 +14,7 @@ from tests.resources.test_harness.helpers import (
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
 
-@pytest.mark.skip
+@pytest.mark.bdd_configure
 @pytest.mark.bdd_configure
 @pytest.mark.SKA_mid
 @scenario(
@@ -77,10 +77,13 @@ def given_tmc_subarray_assign_resources(
     event_recorder.subscribe_event(
         central_node_mid.central_node, "longRunningCommandResult"
     )
-
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
+    invalid_receiptor_json = prepare_json_args_for_commands(
+        "invalid_receiver_address1", command_input_factory
+    )
+    sdp_sim.SetDirectreceiveAddresses(invalid_receiptor_json)
     _, unique_id = central_node_mid.perform_action(
         "AssignResources", assign_input_json
     )
@@ -163,11 +166,7 @@ def given_tmc_subarray_stuck_configuring(
     event_recorder.subscribe_event(
         subarray_node.subarray_node, "longRunningCommandResult"
     )
-    assert event_recorder.has_change_event_occurred(
-        subarray_node.subarray_node,
-        "obsState",
-        ObsState.CONFIGURING,
-    )
+    assert subarray_node.subarray_node.obsState == ObsState.CONFIGURING
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "longRunningCommandResult",
@@ -312,13 +311,24 @@ def tmc_subarray_transitions_to_empty(subarray_node, event_recorder):
     )
 )
 def configure_executed_on_subarray(
-    central_node_mid, subarray_node, event_recorder, command_input_factory
+    central_node_mid,
+    subarray_node,
+    simulator_factory,
+    event_recorder,
+    command_input_factory,
 ):
+    sdp_sim = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.MID_SDP_DEVICE
+    )
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
+    valid_receiptor_json = prepare_json_args_for_commands(
+        "science_A_receiver_address", command_input_factory
+    )
     central_node_mid.perform_action("AssignResources", assign_input_json)
+    sdp_sim.SetDirectreceiveAddresses(valid_receiptor_json)
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "obsState",
