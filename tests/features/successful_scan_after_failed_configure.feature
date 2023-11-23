@@ -17,6 +17,7 @@ Feature: Successfully execute a scan after a failed configure
             | subarray_id  | resources_list |
             | 1            | "SKA001"       |
 
+    @XTP-20321
     Scenario: Invoke Configure command by passing a JSON script that uses resources which are not assigned to the subarray
         Given a subarray <subarray_id> with resources <resources_list> in obsState IDLE
         When I issue the command Configure passing an JSON script that uses resources which are not assigned to the subarray
