@@ -60,29 +60,6 @@ def pytest_addoption(parser):
     )
 
 
-def pytest_collection_modifyitems(session, config, items):
-    """
-    Pytest hook; Called after collection has been performed. Filters the BDD
-    test cases for xray report generation
-    :param session: a pytest Session object
-    :type session: :py:class:`pytest.Session`
-    :param: config: a pytest config object
-    :type: Config: :py:class:`pytest.Config`
-    :param: items: List of item objects
-    :type: List[py:class:`pytest:items`]: :py:class:List
-    """
-    for item in items:
-        for marker in item.iter_markers(name="test_key"):
-            test_key = marker.args[0]
-            item.user_properties.append(("test_key", test_key))
-
-    test_plan_keys = [
-        marker.args[0] for marker in item.iter_markers(name="test_plan")
-    ]
-    if test_plan_keys:
-        item.user_properties.append(("test_plans", ",".join(test_plan_keys)))
-
-
 def get_input_str(path):
     """
     Returns input json string
