@@ -45,7 +45,7 @@
         "receive_nodes": 1
       },
       "execution_block": {
-        "eb_id": "eb-mvp01-20220916-00000",
+        "eb_id": "eb-test-20220916-00000",
         "context": {
 
         },
