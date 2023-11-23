@@ -59,7 +59,7 @@ K8S_TEST_IMAGE_TO_TEST ?= artefact.skao.int/ska-tango-images-tango-itango:9.3.12
 TARANTA_ENABLED ?= false
 
 CI_PROJECT_DIR ?= .
-
+XRAY_TEST_RESULT_FILE = "build/cucumber.json"
 XAUTHORITY ?= $(HOME)/.Xauthority
 THIS_HOST := $(shell ip a 2> /dev/null | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p' | head -n1)
 DISPLAY ?= $(THIS_HOST):0
@@ -121,6 +121,7 @@ K8S_TEST_TEST_COMMAND ?= $(PYTHON_VARS_BEFORE_PYTEST) $(PYTHON_RUNNER) \
 -include .make/release.mk
 -include .make/make.mk
 -include .make/help.mk
+-include .make/xray.mk
 -include PrivateRules.mak
 -include resources/alarmhandler.mk
 
