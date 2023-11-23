@@ -10,7 +10,6 @@ from tests.resources.test_harness.helpers import (
 )
 
 
-@pytest.mark.xtp_test
 @pytest.mark.SKA_mid
 @scenario(
     "../features/test_harness/five_point_scan.feature",
