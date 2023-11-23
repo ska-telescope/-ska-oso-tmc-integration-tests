@@ -81,6 +81,7 @@ mid-on-demand-deploy:
     - make k8s-install-chart
     - make k8s-wait
     - make taranta-link
+    - make alarm-handler-configurator-link
   environment:
     name: $CI_PROJECT_NAME/$CI_COMMIT_REF_SLUG
     kubernetes:
@@ -125,6 +126,7 @@ low-on-demand-deploy:
     - make k8s-install-chart
     - make k8s-wait
     - make taranta-link
+    - make alarm-handler-configurator-link
   environment:
     name: $CI_PROJECT_NAME/$CI_COMMIT_REF_SLUG
     kubernetes:
