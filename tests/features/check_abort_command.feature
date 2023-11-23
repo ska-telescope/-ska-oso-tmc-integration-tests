@@ -12,7 +12,7 @@ Examples:
 | SCANNING    |
 | CONFIGURING |
 
-@XTp-28865
+@XTP-28865
 Scenario: TMC executes Abort Command in EMPTY obsState.
     Given a Subarray in EMPTY obsState
     When I Abort it
