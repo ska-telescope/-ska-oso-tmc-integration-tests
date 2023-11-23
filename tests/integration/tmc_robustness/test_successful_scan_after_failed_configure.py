@@ -42,8 +42,6 @@
 #     Test Configure command with input as invalid json.
 
 
-
-
 # @given(
 #     parsers.parse(
 #         "a subarray {subarray_id} with resources {resources_list} in obsState IDLE"  # noqa: E501
