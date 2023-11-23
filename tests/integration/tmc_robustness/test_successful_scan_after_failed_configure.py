@@ -1,7 +1,7 @@
 import json
 
 import pytest
-from pytest_bdd import given, parsers, then, when
+from pytest_bdd import given, parsers, scenario, then, when
 from tango import DeviceProxy
 
 from tests.conftest import LOGGER
@@ -41,6 +41,7 @@ def test_configure_resource_with_invalid_json():
     """
     Test Configure command with input as invalid json.
     """
+
 
 @given(
     parsers.parse(
@@ -207,10 +208,11 @@ def teardown_the_tmc(json_factory):
 )
 def test_configure_resource_with_unassigned_resources():
     """
-        Test Configure command with input as json
-        with resources that are not assigned.
+    Test Configure command with input as json
+    with resources that are not assigned.
 
     """
+
 
 @when(
     parsers.parse(
