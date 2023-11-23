@@ -4,6 +4,7 @@ from ska_control_model import ObsState
 from tango import DevState
 
 from tests.resources.test_harness.helpers import (
+    check_subarray_obs_state,
     prepare_json_args_for_centralnode_commands,
     prepare_json_args_for_commands,
 )
@@ -128,7 +129,6 @@ def send_scan(
 def check_scan_completion(
     subarray_node_low,
     event_recorder,
-    check_subarray_obs_state,
     simulator_factory,
 ):
     """Verify that the subarray is in the SCANNING obsState."""
