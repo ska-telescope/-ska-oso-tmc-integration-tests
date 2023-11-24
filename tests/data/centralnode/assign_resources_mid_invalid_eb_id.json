@@ -8,7 +8,7 @@
     "sdp": {
         "interface": "https://schema.skao.int/ska-sdp-assignres/0.4",
         "execution_block": {
-            "eb_id": "eb-abc01-20210623-00000",
+            "eb_id": "eb-xxx01-20210623-00000",
             "max_length": 100.0,
             "context": {},
             "beams": [{
