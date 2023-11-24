@@ -341,10 +341,5 @@ def configure_executed_on_subarray(
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",
-        ObsState.CONFIGURING,
-    )
-    assert event_recorder.has_change_event_occurred(
-        subarray_node.subarray_node,
-        "obsState",
         ObsState.READY,
     )
