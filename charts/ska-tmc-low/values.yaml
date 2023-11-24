@@ -185,12 +185,12 @@ deviceServers:
 
   mccsmasterleafnode:
     enabled: true
-    instances: [ "01" ]
+    instances: ["01"]
     file: "data/mccsmasterleafnode.yaml"
 
   mccssubarrayleafnode:
     enabled: true
-    instances: [ "01" ]
+    instances: ["01", "02"]
     file: "data/mccssubarrayleafnode.yaml"
 
   mocks:
