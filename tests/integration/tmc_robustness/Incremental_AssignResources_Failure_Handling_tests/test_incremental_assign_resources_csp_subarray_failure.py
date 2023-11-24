@@ -17,7 +17,6 @@ from tests.resources.test_harness.helpers import (
 )
 
 
-@pytest.mark.t1
 @pytest.mark.bdd_assign
 @pytest.mark.SKA_mid
 @scenario(
@@ -178,14 +177,15 @@ def csp_subarray_assign_resources_complete(event_recorder, simulator_factory):
     parsers.parse("the TMC SubarrayNode {subarray_id} stucks in RESOURCING")
 )
 def given_tmc_subarray_stuck_resourcing(
-    central_node_mid,
-    event_recorder,
+    central_node_mid, event_recorder, simulator_factory
 ):
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
     LOGGER.info(
         "SubarrayNode ObsState is: %s", central_node_mid.subarray_node.obsState
     )
     assert central_node_mid.subarray_node.obsState == ObsState.RESOURCING
+    csp_sim, _, _, _ = get_device_simulators(simulator_factory)
+    csp_sim.SetDefective(json.dumps({"enabled": False}))
 
 
 @when(

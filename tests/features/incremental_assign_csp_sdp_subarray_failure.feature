@@ -3,10 +3,12 @@ Feature: TMC SubarrayNode handles the failure when the AssignResources command f
         Given a TMC
         And AssignResources is executed successfully on SubarrayNode <subarray_id> with <input_json1>
         Given the next TMC SubarrayNode <subarray_id> AssignResources is in progress with <input_json2>
-        When Csp Subarray <subarray_id> returns to obsState IDLE
-        And Sdp Subarray <subarray_id> returns to obsState IDLE
-        When I issue the command ReleaseAllResources on SDP Subarray <subarray_id>
+        And Csp Subarray <subarray_id> raises exception and returns to obsState IDLE
+        And Sdp Subarray <subarray_id> raises exception and returns to obsState IDLE
+        And the TMC SubarrayNode <subarray_id> stucks in RESOURCING
+        When I issue the command ReleaseAllResources on SDP and CSP Subarray <subarray_id>
         Then Tmc SubarrayNode <subarray_id> transitions to obsState EMPTY
+        Then AssignResources command is executed successfully on the Subarray <subarray_id>
 
        Examples:
        | subarray_id  | input_json1                      | input_json2                                         |

@@ -4,6 +4,7 @@ import time
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
+from ska_tango_testing.mock.placeholders import Anything
 from tango import DevState
 
 from tests.conftest import LOGGER
@@ -16,7 +17,6 @@ from tests.resources.test_harness.helpers import (
 )
 
 
-@pytest.mark.t3
 @pytest.mark.bdd_assign
 @pytest.mark.SKA_mid
 @scenario(
@@ -134,7 +134,12 @@ def given_tmc_subarray_incremental_assign_resources_is_in_progress(
     )
 
 
-@when(parsers.parse("Csp Subarray {subarray_id} returns to obsState IDLE"))
+@given(
+    parsers.parse(
+        "Csp Subarray {subarray_id} raises exception and returns to obsState "
+        + "IDLE"
+    )
+)
 def csp_subarray_returns_to_obsstate_idle(event_recorder, simulator_factory):
     csp_sim, _, _, _ = get_device_simulators(simulator_factory)
     event_recorder.subscribe_event(csp_sim, "obsState")
@@ -145,7 +150,12 @@ def csp_subarray_returns_to_obsstate_idle(event_recorder, simulator_factory):
     )
 
 
-@when(parsers.parse("Sdp Subarray {subarray_id} returns to obsState IDLE"))
+@given(
+    parsers.parse(
+        "Sdp Subarray {subarray_id} raises exception and returns to obsState "
+        + "IDLE"
+    )
+)
 def sdp_subarray_returns_to_obsstate_idle(event_recorder, simulator_factory):
     _, sdp_sim, _, _ = get_device_simulators(simulator_factory)
     event_recorder.subscribe_event(sdp_sim, "obsState")
@@ -156,14 +166,39 @@ def sdp_subarray_returns_to_obsstate_idle(event_recorder, simulator_factory):
     )
 
 
+@given(
+    parsers.parse("the TMC SubarrayNode {subarray_id} stucks in RESOURCING")
+)
+def given_tmc_subarray_stuck_resourcing(
+    central_node_mid, event_recorder, simulator_factory
+):
+    event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
+    event_recorder.subscribe_event(
+        central_node_mid.subarray_node, "longRunningCommandResult"
+    )
+    LOGGER.info(
+        "SubarrayNode ObsState is %s", central_node_mid.subarray_node.obsState
+    )
+    assert central_node_mid.subarray_node.obsState == ObsState.RESOURCING
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.subarray_node,
+        "longRunningCommandResult",
+        Anything,
+    )
+    csp_sim, _, _, _ = get_device_simulators(simulator_factory)
+    csp_sim.SetDefective(json.dumps({"enabled": False}))
+
+
 @when(
     parsers.parse(
-        "I issue the command ReleaseAllResources on SDP Subarray {subarray_id}"
+        "I issue the command ReleaseAllResources on SDP and CSP Subarray "
+        + "{subarray_id}"
     )
 )
 def send_command_release(simulator_factory):
     csp_sim, sdp_sim, _, _ = get_device_simulators(simulator_factory)
     sdp_sim.ReleaseAllResources()
+    csp_sim.ReleaseAllResources()
 
 
 @then(
@@ -177,4 +212,36 @@ def tmc_subarray_transitions_to_empty(central_node_mid, event_recorder):
         central_node_mid.subarray_node,
         "obsState",
         ObsState.EMPTY,
+    )
+
+
+@then(
+    parsers.parse(
+        "AssignResources command is executed successfully on the "
+        + "Subarray {subarray_id}"
+    )
+)
+def assign_resources_executed_on_subarray(
+    central_node_mid, event_recorder, command_input_factory
+):
+    event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
+    event_recorder.subscribe_event(
+        central_node_mid.central_node, "longRunningCommandResult"
+    )
+    assign_input_json = prepare_json_args_for_centralnode_commands(
+        "assign_resources_mid", command_input_factory
+    )
+
+    _, unique_id = central_node_mid.perform_action(
+        "AssignResources", assign_input_json
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.subarray_node,
+        "obsState",
+        ObsState.IDLE,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.central_node,
+        "longRunningCommandResult",
+        (unique_id[0], Anything),
     )
