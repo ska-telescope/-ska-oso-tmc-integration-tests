@@ -97,6 +97,7 @@ class TmcHelper:
             assert availability
 
         # Check if CSP/SDP master nodes are true in telescopeavailability
+
         assert telescopeavailability["csp_master_leaf_node"]
         assert telescopeavailability["sdp_master_leaf_node"]
 

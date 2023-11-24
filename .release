@@ -1,22 +1,22 @@
-release=0.8.14
-tag=0.8.14
+release=0.9.0
+tag=0.9.0
 tag_description=
 **Charts:**
-**1. ska-tmc-integration 0.8.13 - 0.8.14:**
+**1. ska-tmc-integration 0.8.14 - 0.9.0:**
 
     **1.1 ska-tmc-mid - 0.14.0 - 0.15.0:
         a. Utilise latest Central node,CSP leaf node and Dish leaf node to perform DishVcc mapping functionality
 
-    **1.2 ska-tmc-low - 0.10.0 - 0.11.0:
-        a. Utilise latest CspSubarrayLeafNode Low version 0.10.1 to support SP-3652 feature(REL-949)
+    **1.2 ska-tmc-low - 0.11.0 - 0.12.0:
+        a. TMC low version with MCCS Master Leaf Nodes to support Assign and Release commands- SPO-2772 feature(REL-929)
 
 
 release_notes=
 **Charts:**
-**1. ska-tmc-integration 0.8.13 - 0.8.14:**
+**1. ska-tmc-integration 0.8.14 - 0.9.0:**
 
     **1.1 ska-tmc-mid - 0.14.0 - 0.15.0:
         a. Utilise latest Central node,CSP leaf node and Dish leaf node to perform DishVcc mapping functionality 
 
-    **1.2 ska-tmc-low - 0.10.0 - 0.11.0:
-       a. Utilise latest CspSubarrayLeafNode Low version 0.10.1 to support SP-3652 feature(REL-949)
+    **1.2 ska-tmc-low - 0.11.0 - 0.12.0:
+         a. TMC low version with MCCS Master Leaf Nodes to support Assign and Release commands- SPO-2772 feature(REL-929)
