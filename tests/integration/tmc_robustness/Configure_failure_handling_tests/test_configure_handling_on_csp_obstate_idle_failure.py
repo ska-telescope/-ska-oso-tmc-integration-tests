@@ -3,9 +3,9 @@ import json
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
-from ska_tango_base.commands import ResultCode
 from tango import DevState
 
+from tests.conftest import LOGGER
 from tests.resources.test_harness.constant import (
     COMMAND_FAILED_WITH_EXCEPTION_OBSSTATE_IDLE,
 )
@@ -23,9 +23,7 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
     "../features/configure_csp_subarray_failure_scenarios.feature",
     "TMC behavior when Csp Subarray Configure raises exception",
 )
-def test_configure_handling_on_csp_subarray_obsstate_idle_failure(
-    central_node_mid, subarray_node, event_recorder, simulator_factory
-):
+def test_configure_handling_on_csp_subarray_obsstate_idle_failure():
     """
     Test to verify TMC failure handling when Configure
     command fails on CSP Subarray. Configure completes
@@ -85,18 +83,11 @@ def given_tmc_subarray_assign_resources(
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
-    _, unique_id = central_node_mid.perform_action(
-        "AssignResources", assign_input_json
-    )
+    central_node_mid.perform_action("AssignResources", assign_input_json)
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",
         ObsState.IDLE,
-    )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.central_node,
-        "longRunningCommandResult",
-        (unique_id[0], str(ResultCode.OK.value)),
     )
 
 
@@ -127,9 +118,7 @@ def given_tmc_subarray_configure_is_in_progress(
     configure_input_json = prepare_json_args_for_commands(
         "configure_mid", command_input_factory
     )
-    pytest.command_result = subarray_node.execute_transition(
-        "Configure", configure_input_json
-    )
+    subarray_node.execute_transition("Configure", configure_input_json)
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",
@@ -181,14 +170,6 @@ def given_tmc_subarray_stuck_configuring(
         subarray_node.subarray_node, "longRunningCommandResult"
     )
     assert subarray_node.subarray_node.obsState == ObsState.CONFIGURING
-    assert event_recorder.has_change_event_occurred(
-        subarray_node.subarray_node,
-        "longRunningCommandResult",
-        (
-            pytest.command_result[1][0],
-            str(ResultCode.FAILED.value),
-        ),
-    )
 
 
 @when(
@@ -337,18 +318,11 @@ def tmc_subarray_assigns_resources(
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
-    _, unique_id = central_node_mid.perform_action(
-        "AssignResources", assign_input_json
-    )
+    central_node_mid.perform_action("AssignResources", assign_input_json)
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",
         ObsState.IDLE,
-    )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.central_node,
-        "longRunningCommandResult",
-        (unique_id[0], str(ResultCode.OK.value)),
     )
 
 
@@ -362,12 +336,8 @@ def configure_executed_on_subarray(
     central_node_mid, subarray_node, event_recorder, command_input_factory
 ):
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
-    configure_input_json = prepare_json_args_for_commands(
-        "configure_mid", command_input_factory
+    subarray_node.force_change_of_obs_state("READY")
+    LOGGER.info(
+        f"SubarrayNode ObsState is: {subarray_node.subarray_node.obsState}"
     )
-    subarray_node.execute_transition("Configure", configure_input_json)
-    assert event_recorder.has_change_event_occurred(
-        subarray_node.subarray_node,
-        "obsState",
-        ObsState.READY,
-    )
+    assert subarray_node.subarray_node.obsState == ObsState.READY

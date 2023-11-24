@@ -256,6 +256,7 @@ class Waiter:
             )
         )
         if self.dish_master_list:
+            self.set_wait_for_dish("dishMode", "OPERATE")
             self.set_wait_for_dish("pointingState", "TRACK")
 
     def set_wait_for_idle(self):
