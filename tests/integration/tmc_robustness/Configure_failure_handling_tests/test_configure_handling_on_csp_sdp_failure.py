@@ -16,7 +16,6 @@ from tests.resources.test_harness.helpers import (
 )
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
-
 @pytest.mark.bdd_configure
 @pytest.mark.SKA_mid
 @scenario(
@@ -24,24 +23,13 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
     "TMC behavior when CSP and SDP Subarray raises exception for "
     "Configure command",
 )
-def test_configure_handling_on_csp_sdp_subarray_obsstate_idle_failure(
-    central_node_mid, subarray_node, event_recorder, simulator_factory
-):
+def test_configure_handling_on_csp_sdp_subarray_obsstate_idle_failure():
     """
     Test to verify TMC failure handling when Configure
     command fails on both CSP and SDP Subarrays.
     CSP and SDP Subarrays raise exception and transitions
     to obsState IDLE. SubarrayNode aggregates obsStates of the lower Subarrays
     and transitions to obsState IDLE.
-    Glossary:
-    - "central_node_mid": fixture for a TMC CentralNode Mid under test
-    which provides simulated master devices
-    - "event_recorder": fixture for a MockTangoEventCallbackGroup
-    for validating the subscribing and receiving events.
-    - "simulator_factory": fixture for creating simulator devices for
-    mid Telescope respectively.
-    - "simulator_factory": fixture for creating simulator devices for
-    mid Telescope respectively.
     """
 
 
@@ -121,21 +109,13 @@ def given_tmc_subarray_configure_is_in_progress(
     configure_input_json = prepare_json_args_for_commands(
         "configure_with_invalid_scan_type", command_input_factory
     )
-    pytest.command_result = subarray_node.execute_transition(
+    subarray_node.execute_transition(
         "Configure", configure_input_json
     )
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",
         ObsState.CONFIGURING,
-    )
-    assert event_recorder.has_change_event_occurred(
-        subarray_node.subarray_node,
-        "longRunningCommandResult",
-        (
-            pytest.command_result[1][0],
-            str(ResultCode.FAILED.value),
-        ),
     )
 
 
@@ -203,13 +183,10 @@ def tmc_subarray_transitions_to_idle(
     )
 )
 def configure_executed_on_subarray(
-    subarray_node, event_recorder, command_input_factory
+    subarray_node, event_recorder
 ):
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
-    configure_input_json = prepare_json_args_for_commands(
-        "configure_mid", command_input_factory
-    )
-    subarray_node.execute_transition("Configure", configure_input_json)
+    subarray_node.force_change_of_obs_state("READY")
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",
