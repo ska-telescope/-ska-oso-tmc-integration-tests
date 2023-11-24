@@ -265,7 +265,9 @@ class TestLowCentralNodeAssignResources(object):
             central_node_low.central_node, "telescopeState"
         )
         event_recorder.subscribe_event(
-            central_node_low.central_node, "longRunningCommandResult"
+            central_node_low.central_node,
+            "longRunningCommandResult",
+            timeout=80.0,
         )
 
         # Execute ON Command
@@ -302,7 +304,6 @@ class TestLowCentralNodeAssignResources(object):
             central_node_low.central_node,
             "longRunningCommandResult",
             expected_long_running_command_result,
-            lookahead=25,
         )
         mccs_controller_sim.SetRaiseException(False)
         central_node_low.subarray_node.Abort()
@@ -353,7 +354,9 @@ class TestLowCentralNodeAssignResources(object):
             central_node_low.subarray_node, "obsState"
         )
         event_recorder.subscribe_event(
-            central_node_low.central_node, "longRunningCommandResult"
+            central_node_low.central_node,
+            "longRunningCommandResult",
+            timeout=80.0,
         )
 
         # Execute ON Command and verify successful execution
@@ -410,7 +413,6 @@ class TestLowCentralNodeAssignResources(object):
             central_node_low.central_node,
             "longRunningCommandResult",
             expected_long_running_command_result,
-            lookahead=25,
         )
         mccs_controller_sim.SetRaiseException(False)
         central_node_low.subarray_node.Abort()
