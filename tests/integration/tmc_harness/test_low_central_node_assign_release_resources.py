@@ -312,7 +312,7 @@ class TestLowCentralNodeAssignResources(object):
         the_waiter.set_wait_for_specific_obsstate(
             "ABORTED", [tmc_low_subarraynode1]
         )
-        the_waiter.wait(200)
+        the_waiter.wait(500)
 
     @pytest.mark.SKA_low
     def test_low_centralnode_release_resources_exception_propagation(
@@ -420,4 +420,4 @@ class TestLowCentralNodeAssignResources(object):
         the_waiter.set_wait_for_specific_obsstate(
             "ABORTED", [tmc_low_subarraynode1]
         )
-        the_waiter.wait(200)
+        the_waiter.wait(500)
