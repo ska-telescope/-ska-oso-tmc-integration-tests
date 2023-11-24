@@ -5,11 +5,17 @@ from ska_control_model import ObsState
 from ska_tango_base.commands import ResultCode
 from tango import DevState
 
+from tests.resources.test_harness.constant import (
+    mccs_controller,
+    mccs_master_leaf_node,
+    tmc_low_subarraynode1,
+)
 from tests.resources.test_harness.helpers import (
     prepare_json_args_for_centralnode_commands,
     prepare_json_args_for_commands,
 )
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
+from tests.resources.test_support.common_utils.common_helpers import Waiter
 
 
 def check_assigned_resources_attribute_after_release(
@@ -74,6 +80,19 @@ class TestLowCentralNodeAssignResources(object):
         assign_input_json = prepare_json_args_for_centralnode_commands(
             "assign_resources_low", command_input_factory
         )
+
+        release_resource_json = prepare_json_args_for_centralnode_commands(
+            "release_resources_low", command_input_factory
+        )
+
+        assigned_resources_json = prepare_json_args_for_commands(
+            "AssignedResources_low", command_input_factory
+        )
+
+        assigned_resources_json_empty = prepare_json_args_for_commands(
+            "AssignedResources_low_empty", command_input_factory
+        )
+
         csp_subarray_sim = simulator_factory.get_or_create_simulator_device(
             SimulatorDeviceType.LOW_CSP_DEVICE
         )
@@ -133,10 +152,6 @@ class TestLowCentralNodeAssignResources(object):
             "AssignResources", assign_input_json
         )
 
-        assigned_resources_json = prepare_json_args_for_commands(
-            "AssignedResources_low", command_input_factory
-        )
-
         mccs_subarray_sim.SetDirectassignedResources(assigned_resources_json)
 
         assert event_recorder.has_change_event_occurred(
@@ -175,9 +190,6 @@ class TestLowCentralNodeAssignResources(object):
         )
 
         # Execute release command and verify command completed successfully
-        release_resource_json = prepare_json_args_for_centralnode_commands(
-            "release_resources_low", command_input_factory
-        )
 
         result, unique_id = central_node_low.perform_action(
             "ReleaseResources", release_resource_json
@@ -208,9 +220,6 @@ class TestLowCentralNodeAssignResources(object):
         assert central_node_low.subarray_node.obsState == ObsState.EMPTY
 
         # Setting Assigned Resources empty
-        assigned_resources_json_empty = prepare_json_args_for_commands(
-            "AssignedResources_low_empty", command_input_factory
-        )
 
         mccs_subarray_sim.SetDirectassignedResources(
             assigned_resources_json_empty
@@ -222,3 +231,193 @@ class TestLowCentralNodeAssignResources(object):
         check_assigned_resources_attribute_after_release(
             assigned_resources_attribute_value
         )
+
+    @pytest.mark.SKA_low
+    def test_low_centralnode_assign_resources_exception_propagation(
+        self,
+        central_node_low,
+        event_recorder,
+        simulator_factory,
+        command_input_factory,
+    ):
+        """
+        Test to verify the exception received on longRunningCommandResult
+        attribute when AssignResources command in invoked on CentralNode.
+
+        Glossary:
+        - "central_node_low": fixture for a TMC CentralNode Low under test
+        which provides simulated master devices
+        - "event_recorder": fixture for a MockTangoEventCallbackGroup
+        for validating the subscribing and receiving events.
+        - "simulator_factory": fixture for creating simulator devices for
+        low Telescope respectively.
+        - "command_input_factory": fixture for JsonFactory class,
+        which provides json files for CentralNode
+        """
+        assign_input_json = prepare_json_args_for_centralnode_commands(
+            "assign_resources_low", command_input_factory
+        )
+        mccs_controller_sim = simulator_factory.get_or_create_simulator_device(
+            SimulatorDeviceType.MCCS_MASTER_DEVICE
+        )
+
+        event_recorder.subscribe_event(
+            central_node_low.central_node, "telescopeState"
+        )
+        event_recorder.subscribe_event(
+            central_node_low.central_node, "longRunningCommandResult"
+        )
+
+        # Execute ON Command
+        central_node_low.move_to_on()
+
+        assert event_recorder.has_change_event_occurred(
+            central_node_low.central_node,
+            "telescopeState",
+            DevState.ON,
+        )
+        # Setting device to defective
+        mccs_controller_sim.SetRaiseException(True)
+
+        # Execute Assign command and check command completed successfully
+        result, unique_id = central_node_low.perform_action(
+            "AssignResources", assign_input_json
+        )
+
+        exception_message = (
+            "Exception occurred on the following devices: "
+            + f"{mccs_master_leaf_node}: Exception "
+            "occurred on device: "
+            + f"{mccs_controller}{tmc_low_subarraynode1}:"
+            " Timeout has "
+            "occurred, command failed"
+        )
+
+        expected_long_running_command_result = (
+            unique_id[0],
+            exception_message,
+        )
+
+        assert event_recorder.has_change_event_occurred(
+            central_node_low.central_node,
+            "longRunningCommandResult",
+            expected_long_running_command_result,
+            lookahead=25,
+        )
+        mccs_controller_sim.SetRaiseException(False)
+        central_node_low.subarray_node.Abort()
+
+        # Verify ObsState is Aborted
+        the_waiter = Waiter()
+        the_waiter.set_wait_for_specific_obsstate(
+            "ABORTED", [tmc_low_subarraynode1]
+        )
+        the_waiter.wait(200)
+
+    @pytest.mark.SKA_low
+    def test_low_centralnode_release_resources_exception_propagation(
+        self,
+        central_node_low,
+        event_recorder,
+        simulator_factory,
+        command_input_factory,
+    ):
+        """
+        Test to verify the exception received on longRunningCommandResult
+        attribute when AssignResources command in invoked on CentralNode.
+
+        Glossary:
+        - "central_node_low": fixture for a TMC CentralNode Low under test
+        which provides simulated master devices
+        - "event_recorder": fixture for a MockTangoEventCallbackGroup
+        for validating the subscribing and receiving events.
+        - "simulator_factory": fixture for creating simulator devices for
+        low Telescope respectively.
+        - "command_input_factory": fixture for JsonFactory class,
+        which provides json files for CentralNode
+        """
+        assign_input_json = prepare_json_args_for_centralnode_commands(
+            "assign_resources_low", command_input_factory
+        )
+        release_resource_json = prepare_json_args_for_centralnode_commands(
+            "release_resources_low", command_input_factory
+        )
+        mccs_controller_sim = simulator_factory.get_or_create_simulator_device(
+            SimulatorDeviceType.MCCS_MASTER_DEVICE
+        )
+
+        event_recorder.subscribe_event(
+            central_node_low.central_node, "telescopeState"
+        )
+        event_recorder.subscribe_event(
+            central_node_low.subarray_node, "obsState"
+        )
+        event_recorder.subscribe_event(
+            central_node_low.central_node, "longRunningCommandResult"
+        )
+
+        # Execute ON Command and verify successful execution
+        central_node_low.move_to_on()
+
+        assert event_recorder.has_change_event_occurred(
+            central_node_low.central_node,
+            "telescopeState",
+            DevState.ON,
+        )
+
+        # Execute Assign command and verify successful execution
+        result, unique_id = central_node_low.perform_action(
+            "AssignResources", assign_input_json
+        )
+
+        assert event_recorder.has_change_event_occurred(
+            central_node_low.subarray_node,
+            "obsState",
+            ObsState.IDLE,
+            lookahead=25,
+        )
+
+        assert event_recorder.has_change_event_occurred(
+            central_node_low.central_node,
+            "longRunningCommandResult",
+            (unique_id[0], str(ResultCode.OK.value)),
+        )
+
+        # Execute ReleaseResources and verify error propagation
+
+        # Setting device to defective
+        mccs_controller_sim.SetRaiseException(True)
+
+        result, unique_id = central_node_low.perform_action(
+            "ReleaseResources", release_resource_json
+        )
+
+        exception_message = (
+            "Exception occurred on the following devices: "
+            + f"{mccs_master_leaf_node}: Exception "
+            "occurred on device: "
+            + f"{mccs_controller}{tmc_low_subarraynode1}:"
+            " Timeout has "
+            "occurred, command failed"
+        )
+
+        expected_long_running_command_result = (
+            unique_id[0],
+            exception_message,
+        )
+
+        assert event_recorder.has_change_event_occurred(
+            central_node_low.central_node,
+            "longRunningCommandResult",
+            expected_long_running_command_result,
+            lookahead=25,
+        )
+        mccs_controller_sim.SetRaiseException(False)
+        central_node_low.subarray_node.Abort()
+
+        # Verify ObsState is Aborted
+        the_waiter = Waiter()
+        the_waiter.set_wait_for_specific_obsstate(
+            "ABORTED", [tmc_low_subarraynode1]
+        )
+        the_waiter.wait(200)
