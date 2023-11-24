@@ -44,7 +44,6 @@ server:
           - name: "SdpSubarrayFQDN"
             values:
             - "{{ $sdp_sa_fqdn_prefix}}/{{ . }}"
-<<<<<<< HEAD
           - name: "DishIDs"
             values:
             {{- range  $dish_id  }}
@@ -61,19 +60,6 @@ server:
             - "{{ . | lower }}/{{ $DishMasterPrefix }}/{{ $DishMasterPostfix }}"
             {{- end }}
             {{- end }}
-=======
-          - name: "DishMasterPrefix"
-            values:
-            - "{{ $DishMasterPrefix }}"
-          - name: "DishMasterPostfix"
-            values:
-            - "{{ $DishMasterPostfix }}"
-          - name: "DishMasterFQDN"
-            values:
-            {{- range  $dish_id }}
-            - "{{ . | lower }}/{{ $DishMasterPrefix }}/{{ $DishMasterPostfix }}"
-            {{- end }}
->>>>>>> d672972bcff11f0406a50b60ef874de9369af3d2
           - name: "SkaLevel"
             values:
               - "2"
