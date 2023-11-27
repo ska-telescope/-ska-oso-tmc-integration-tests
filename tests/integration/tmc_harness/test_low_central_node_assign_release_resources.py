@@ -1,4 +1,5 @@
 import json
+import time
 
 import pytest
 from ska_control_model import ObsState
@@ -188,6 +189,8 @@ class TestLowCentralNodeAssignResources(object):
         check_assigned_resources_attribute_after_assign(
             assigned_resources_attribute_value
         )
+
+        time.sleep(10)
 
         # Execute release command and verify command completed successfully
 
