@@ -25,6 +25,7 @@ from tests.resources.test_support.constant import (
 
 configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
+TIMEOUT = 20
 
 
 def check_subarray_obs_state(obs_state=None, timeout=50):
@@ -311,7 +312,7 @@ def wait_for_attribute_update(
     """Wait for the attribute to reflect necessary changes."""
     start_time = time.time()
     elapsed_time = time.time() - start_time
-    while elapsed_time <= 20:
+    while elapsed_time <= TIMEOUT:
         unique_id, result = device.read_attribute(attribute_name).value
         if expected_id in unique_id:
             LOGGER.info("The attribute value is: %s, %s", unique_id, result)
