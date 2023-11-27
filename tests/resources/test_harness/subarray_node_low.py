@@ -110,6 +110,8 @@ class SubarrayNodeWrapperLow(SubarrayNodeWrapper):
         Args:
             assign_json (str): Assign resource input json
         """
+        # This methods needs to change, with subsequent changes in the Tear
+        # Down of the fixtures. Will be done as an improvement later.
         result, message = self.central_node.AssignResources(assign_json)
         LOGGER.info("Invoked AssignResources on CentralNode")
         return result, message
@@ -125,6 +127,8 @@ class SubarrayNodeWrapperLow(SubarrayNodeWrapper):
         Args:
             command_name (str): Name of command to execute
         """
+        # This methods needs to change, with subsequent changes in the Tear
+        # Down of the fixtures. Will be done as an improvement later.
         if command_name == "AssignResources":
             result, message = self.central_node.AssignResources(argin)
             LOGGER.info("Invoked Assign Resource on CentralNode")

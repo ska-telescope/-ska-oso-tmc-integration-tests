@@ -84,6 +84,8 @@ ADD_ARGS +=  --true-context
 MARK ?= $(shell echo $(TELESCOPE) | sed "s/-/_/g")
 endif
 
+# EXIT_AT_FAIL option isn't functioning correctly, so the option -x is added
+# at the end. Will be debugged and fixed as a part of improvement.
 PYTHON_VARS_AFTER_PYTEST ?= -m '$(MARK)' $(ADD_ARGS) $(FILE) -x
 
 ifeq ($(CSP_SIMULATION_ENABLED),false)
