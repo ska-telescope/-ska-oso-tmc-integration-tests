@@ -1,5 +1,4 @@
 import json
-import time
 
 import pytest
 from ska_control_model import ObsState
@@ -14,6 +13,7 @@ from tests.resources.test_harness.constant import (
 from tests.resources.test_harness.helpers import (
     prepare_json_args_for_centralnode_commands,
     prepare_json_args_for_commands,
+    wait_for_attribute_update,
 )
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.common_utils.common_helpers import Waiter
@@ -176,6 +176,13 @@ class TestLowCentralNodeAssignResources(object):
             ObsState.IDLE,
         )
 
+        assert wait_for_attribute_update(
+            central_node_low.subarray_node,
+            "longRunningCommandResult",
+            "AssignResources",
+            ResultCode.OK,
+        )
+
         assert event_recorder.has_change_event_occurred(
             central_node_low.central_node,
             "longRunningCommandResult",
@@ -189,8 +196,6 @@ class TestLowCentralNodeAssignResources(object):
         check_assigned_resources_attribute_after_assign(
             assigned_resources_attribute_value
         )
-
-        time.sleep(10)
 
         # Execute release command and verify command completed successfully
 

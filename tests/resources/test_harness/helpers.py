@@ -1,5 +1,6 @@
 import json
 import logging
+import time
 from typing import Any
 
 import pytest
@@ -302,6 +303,22 @@ def wait_for_actual_pointing_events(
                 "No actualPointing event received within given timeout"
             )
             break
+
+
+def wait_for_attribute_update(
+    device, attribute_name: str, expected_id: str, expected_result: ResultCode
+):
+    """Wait for the attribute to reflect necessary changes."""
+    start_time = time.time()
+    elapsed_time = time.time() - start_time
+    while elapsed_time <= 20:
+        unique_id, result = device.read_attribute(attribute_name).value
+        if expected_id in unique_id:
+            LOGGER.info("The attribute value is: %s, %s", unique_id, result)
+            return result == str(expected_result.value)
+        time.sleep(1)
+        elapsed_time = time.time() - start_time
+    return False
 
 
 def check_lrcr_events(
