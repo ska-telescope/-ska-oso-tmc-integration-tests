@@ -40,6 +40,7 @@ server:
         - name: "HelperSubArrayDevice"
           devices:
           - name: "low-mccs/subarray/01"
+          - name: "low-mccs/subarray/02"
 depends_on:
   - device: sys/database/2
 image:

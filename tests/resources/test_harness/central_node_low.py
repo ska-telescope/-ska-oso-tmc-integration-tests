@@ -66,6 +66,21 @@ class CentralNodeWrapperLow(CentralNodeWrapper):
             "assign_resources_low"
         )
 
+    def move_to_off(self):
+        """
+        A method to invoke TelescopeOff command to
+        put telescope in OFF state
+
+        """
+        self.central_node.TelescopeOff()
+        device_to_on_list = [
+            self.subarray_devices.get("csp_subarray"),
+            self.subarray_devices.get("sdp_subarray"),
+        ]
+        for device in device_to_on_list:
+            device_proxy = DeviceProxy(device)
+            device_proxy.SetDirectState(DevState.OFF)
+
     @sync_assign_resources(device_dict=device_dict_low)
     def store_resources(self, assign_json: str):
         """Invoke Assign Resource command on central Node

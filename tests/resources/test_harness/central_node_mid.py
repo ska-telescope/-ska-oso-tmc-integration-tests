@@ -10,6 +10,7 @@ from tests.resources.test_harness.constant import (
     centralnode,
     csp_master,
     csp_subarray1,
+    device_dict,
     dish_master1,
     dish_master2,
     sdp_master,
@@ -19,6 +20,8 @@ from tests.resources.test_harness.constant import (
     tmc_subarraynode1,
 )
 from tests.resources.test_harness.utils.common_utils import JsonFactory
+from tests.resources.test_harness.utils.enums import DishMode
+from tests.resources.test_harness.utils.sync_decorators import sync_set_to_off
 
 configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
@@ -86,6 +89,25 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             device.ClearCommandCallInfo()
             if clear_transition:
                 device.ResetTransitions()
+
+    @sync_set_to_off(device_dict=device_dict)
+    def move_to_off(self):
+        """
+        A method to invoke TelescopeOff command to
+        put telescope in OFF state
+
+        """
+        self.central_node.TelescopeOff()
+        device_to_on_list = [
+            self.subarray_devices.get("csp_subarray"),
+            self.subarray_devices.get("sdp_subarray"),
+        ]
+        for device in device_to_on_list:
+            device_proxy = DeviceProxy(device)
+            device_proxy.SetDirectState(DevState.OFF)
+
+        for device in self.dish_master_list:
+            device.SetDirectDishMode(DishMode.STANDBY_LP)
 
     def tear_down(self):
         """Handle Tear down of central Node"""
