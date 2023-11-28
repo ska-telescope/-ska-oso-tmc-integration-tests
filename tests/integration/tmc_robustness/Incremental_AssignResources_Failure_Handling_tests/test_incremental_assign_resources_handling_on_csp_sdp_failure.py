@@ -17,7 +17,6 @@ from tests.resources.test_harness.helpers import (
 )
 
 
-@pytest.mark.bdd_assign
 @pytest.mark.SKA_mid
 @scenario(
     "../features/incremental_assign_csp_sdp_subarray_failure.feature",

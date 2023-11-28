@@ -15,8 +15,6 @@ from tests.resources.test_harness.helpers import (
 )
 
 
-# @pytest.mark.skip(reason="Randomly Failing due to timeout")
-@pytest.mark.bdd_assign
 @pytest.mark.SKA_mid
 @scenario(
     "../features/assign_resources_csp_sdp_subarray_failure_scenarios.feature",

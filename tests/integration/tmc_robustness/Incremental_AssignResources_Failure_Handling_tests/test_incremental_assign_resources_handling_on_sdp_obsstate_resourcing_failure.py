@@ -137,7 +137,12 @@ def given_tmc_subarray_incremental_assign_resources_is_in_progress(
     )
 
 
-@given(parsers.parse("Csp Subarray {subarray_id} completes AssignResources"))
+@given(
+    parsers.parse(
+        "Csp Subarray {subarray_id} completes assign "
+        + "resources and transitions to obsState IDLE"
+    )
+)
 def csp_subarray_assign_resources_complete(event_recorder, simulator_factory):
     csp_sim, _, _, _ = get_device_simulators(simulator_factory)
     event_recorder.subscribe_event(csp_sim, "obsState")

@@ -141,7 +141,12 @@ def given_tmc_subarray_incremental_assign_resources_is_in_progress(
     )
 
 
-@given(parsers.parse("Sdp Subarray {subarray_id} returns to obsState IDLE"))
+@given(
+    parsers.parse(
+        "Sdp Subarray {subarray_id} completes assign "
+        + "resources and transitions to obsState IDLE"
+    )
+)
 def sdp_subarray_assign_resources_complete(event_recorder, simulator_factory):
     _, sdp_sim, _, _ = get_device_simulators(simulator_factory)
     event_recorder.subscribe_event(sdp_sim, "obsState")

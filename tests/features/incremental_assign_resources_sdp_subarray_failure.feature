@@ -4,7 +4,7 @@ Feature: TMC SubarrayNode handles the failure when the incremental AssignResourc
         And AssignResources is executed with <input_json1> successfully on SubarrayNode <subarray_id>
         Given the next TMC SubarrayNode <subarray_id> AssignResources is in progress with <input_json2>
         And Sdp Subarray <subarray_id> raises exception and returns to obsState IDLE
-        And Csp Subarray <subarray_id> completes assignResources
+        And Csp Subarray <subarray_id> completes assign resources and transitions to obsState IDLE
         And the TMC SubarrayNode <subarray_id> stucks in RESOURCING
         When I issue the Abort command on TMC SubarrayNode <subarray_id>
         Then the CSP, SDP and TMC subarray <subarray_id> transitions to obsState ABORTED
@@ -20,7 +20,7 @@ Feature: TMC SubarrayNode handles the failure when the incremental AssignResourc
         Given a TMC
         And AssignResources is executed with <input_json1> successfully on SubarrayNode <subarray_id>
         Given the next TMC SubarrayNode <subarray_id> AssignResources is in progress with <input_json2>
-        And Csp Subarray <subarray_id> completes AssignResources
+        And Csp Subarray <subarray_id> completes assign resources and transitions to obsState IDLE
         And Sdp Subarray <subarray_id> is stuck in obsState RESOURCING
         And the TMC SubarrayNode <subarray_id> stuck in RESOURCING
         When I issue the Abort command on TMC SubarrayNode <subarray_id>
@@ -31,4 +31,4 @@ Feature: TMC SubarrayNode handles the failure when the incremental AssignResourc
 
         Examples:
         | subarray_id  | input_json1                      | input_json2                                |
-        | 1            | incremental_assign_resources_01  | incremental_assign_resources_eb_id         |
+        | 1            | incremental_assign_resources_01  | incremental_assign_resources_invalid_eb_id |
