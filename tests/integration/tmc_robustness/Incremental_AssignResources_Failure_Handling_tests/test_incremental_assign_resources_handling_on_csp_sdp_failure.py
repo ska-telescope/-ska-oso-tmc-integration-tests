@@ -19,7 +19,7 @@ from tests.resources.test_harness.helpers import (
 
 @pytest.mark.SKA_mid
 @scenario(
-    "../features/incremental_assign_csp_sdp_subarray_failure.feature",
+    "../features/xtp-29011.feature",
     "TMC behavior when CSP and SDP Subarrays"
     " incremental AssignResources raise exception",
 )

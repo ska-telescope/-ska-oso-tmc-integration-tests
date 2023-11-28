@@ -16,7 +16,7 @@ from tests.resources.test_harness.helpers import (
 
 @pytest.mark.SKA_mid
 @scenario(
-    "../features/incremental_assign_resources_csp_subarray_failure.feature",
+    "../features/xtp-29013.feature",
     "TMC behavior when Csp Subarray is stuck"
     " in obsState RESOURCING after incremental AssignResources",
 )

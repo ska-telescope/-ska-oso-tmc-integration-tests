@@ -13,7 +13,7 @@ from tests.resources.test_harness.helpers import (
 
 @pytest.mark.SKA_mid
 @scenario(
-    "../features/incremental_assign_resources_sdp_subarray_failure.feature",
+    "../features/xtp-29014.feature",
     "TMC behavior when SDP Subarray "
     "incremental AssignResources raises exception",
 )

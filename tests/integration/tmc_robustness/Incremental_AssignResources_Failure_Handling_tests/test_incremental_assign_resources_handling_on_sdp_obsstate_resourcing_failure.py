@@ -13,7 +13,7 @@ from tests.resources.test_harness.helpers import (
 
 @pytest.mark.SKA_mid
 @scenario(
-    "../features/incremental_assign_resources_sdp_subarray_failure.feature",
+    "../features/xtp-29015.feature",
     "TMC behavior when Sdp Subarray is stuck "
     "in obsState RESOURCING after incremental AssignResources",
 )
