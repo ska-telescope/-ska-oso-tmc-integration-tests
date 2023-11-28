@@ -13,6 +13,7 @@ from tests.resources.test_harness.constant import (
 from tests.resources.test_harness.helpers import (
     prepare_json_args_for_centralnode_commands,
     prepare_json_args_for_commands,
+    wait_for_attribute_update,
 )
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.common_utils.common_helpers import Waiter
@@ -175,6 +176,13 @@ class TestLowCentralNodeAssignResources(object):
             ObsState.IDLE,
         )
 
+        assert wait_for_attribute_update(
+            central_node_low.subarray_node,
+            "longRunningCommandResult",
+            "AssignResources",
+            ResultCode.OK,
+        )
+
         assert event_recorder.has_change_event_occurred(
             central_node_low.central_node,
             "longRunningCommandResult",
@@ -265,7 +273,9 @@ class TestLowCentralNodeAssignResources(object):
             central_node_low.central_node, "telescopeState"
         )
         event_recorder.subscribe_event(
-            central_node_low.central_node, "longRunningCommandResult"
+            central_node_low.central_node,
+            "longRunningCommandResult",
+            timeout=80.0,
         )
 
         # Execute ON Command
@@ -302,7 +312,6 @@ class TestLowCentralNodeAssignResources(object):
             central_node_low.central_node,
             "longRunningCommandResult",
             expected_long_running_command_result,
-            lookahead=25,
         )
         mccs_controller_sim.SetRaiseException(False)
         central_node_low.subarray_node.Abort()
@@ -353,7 +362,9 @@ class TestLowCentralNodeAssignResources(object):
             central_node_low.subarray_node, "obsState"
         )
         event_recorder.subscribe_event(
-            central_node_low.central_node, "longRunningCommandResult"
+            central_node_low.central_node,
+            "longRunningCommandResult",
+            timeout=80.0,
         )
 
         # Execute ON Command and verify successful execution
@@ -410,7 +421,6 @@ class TestLowCentralNodeAssignResources(object):
             central_node_low.central_node,
             "longRunningCommandResult",
             expected_long_running_command_result,
-            lookahead=25,
         )
         mccs_controller_sim.SetRaiseException(False)
         central_node_low.subarray_node.Abort()
