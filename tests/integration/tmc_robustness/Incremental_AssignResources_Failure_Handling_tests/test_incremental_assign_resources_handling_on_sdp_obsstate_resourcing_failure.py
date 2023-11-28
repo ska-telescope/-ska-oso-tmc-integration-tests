@@ -1,5 +1,3 @@
-import time
-
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
@@ -13,7 +11,6 @@ from tests.resources.test_harness.helpers import (
 )
 
 
-@pytest.mark.bdd_assign
 @pytest.mark.SKA_mid
 @scenario(
     "../features/incremental_assign_resources_sdp_subarray_failure.feature",
@@ -97,8 +94,6 @@ def given_assign_resources_executed_on_tmc_subarray(
         "longRunningCommandResult",
         (unique_id[0], Anything),
     )
-
-    time.sleep(0.5)
 
 
 @given(
