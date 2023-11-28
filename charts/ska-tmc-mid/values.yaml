@@ -77,7 +77,7 @@ centralnode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-centralnode
-    tag: 0.11.1
+    tag: 0.11.6
     pullPolicy: IfNotPresent
 
 subarraynode:
@@ -98,7 +98,7 @@ cspmasterleafnode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-cspleafnodes
-    tag: 0.9.2
+    tag: 0.10.3
     pullPolicy: IfNotPresent
 
 cspsubarrayleafnode:
@@ -112,7 +112,7 @@ dishleafnode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-dishleafnode
-    tag: 0.6.0
+    tag: 0.7.0
     pullPolicy: IfNotPresent
 
 resources:
@@ -140,7 +140,7 @@ deviceServers:
     instances: ["01","02"]
     file: "data/subarraynode_mid.yaml"
     DishLeafNodePrefix: "ska_mid/tm_leaf_node/d0"
-    DishIDs: ["SKA001","SKA002"]
+    DishIDs: ["SKA001", "SKA002"]
     DishMasterPrefix: "elt"
     DishMasterPostfix: "master"
 

@@ -48,7 +48,6 @@ def given_tmc(central_node_mid, event_recorder):
         central_node_mid.central_node, "telescopeState"
     )
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
-    LOGGER.info("Starting up the Telescope")
     central_node_mid.move_to_on()
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
