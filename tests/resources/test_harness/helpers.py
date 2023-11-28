@@ -4,16 +4,20 @@ import time
 from typing import Any
 
 import pytest
+from ska_control_model import ObsState
 from ska_ser_logging import configure_logging
 from ska_tango_base.commands import ResultCode
 from ska_tango_base.control_model import HealthState
 from ska_tango_testing.mock.placeholders import Anything
+from tango import DeviceProxy
 
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_harness.utils.wait_helpers import Waiter, watch
 from tests.resources.test_support.common_utils.common_helpers import Resource
 from tests.resources.test_support.constant import (
+    INTERMEDIATE_CONFIGURING_OBS_STATE_DEFECT,
+    INTERMEDIATE_STATE_DEFECT,
     csp_subarray1,
     dish_master1,
     dish_master2,
@@ -194,6 +198,34 @@ def get_command_call_info(device: Any, command_name: str):
         sorted(input_str),
     )
     return received_command_call_data
+
+
+def set_subarray_to_given_obs_state(
+    subarray_node: DeviceProxy, obs_state: ObsState
+):
+    """Set the Subarray node to given obsState."""
+    # This method with be removed after the helper devices are updated to have
+    # a ThreadPoolExecutor.
+    match obs_state:
+        case ObsState.RESOURCING:
+            csp_subarray = DeviceProxy(csp_subarray1)
+            csp_subarray.SetDefective(json.dumps(INTERMEDIATE_STATE_DEFECT))
+            subarray_node.force_change_of_obs_state("RESOURCING")
+        case ObsState.CONFIGURING:
+            subarray_node.force_change_of_obs_state("READY")
+            csp_subarray = DeviceProxy(csp_subarray1)
+            csp_subarray.SetDefective(
+                json.dumps(INTERMEDIATE_CONFIGURING_OBS_STATE_DEFECT)
+            )
+            subarray_node.force_change_of_obs_state("CONFIGURING")
+
+
+def reset_device_defects_for_intermediate_state():
+    """Reset the device defects on CSP Subarray for intermediate state."""
+    # This method with be removed after the helper devices are updated to have
+    # a ThreadPoolExecutor.
+    csp_subarray = DeviceProxy(csp_subarray1)
+    csp_subarray.SetDefective(json.dumps({"enabled": False}))
 
 
 def device_received_this_command(

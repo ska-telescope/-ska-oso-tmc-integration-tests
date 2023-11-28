@@ -4,13 +4,22 @@ Scenario: TMC validates Abort Command
     When I Abort it
     Then the Subarray transitions to ABORTED obsState
 
-Examples:
-| obs_state   |
-| RESOURCING  |
-| IDLE        |
-| READY       |
-| SCANNING    |
-| CONFIGURING |
+    Examples:
+    | obs_state   |
+    | IDLE        |
+    | READY       |
+    | SCANNING    |
+
+@XTP-29003
+Scenario: TMC validates Abort Command in intermediate obsState
+    Given a Subarray in intermediate obsState <obs_state>
+    When I Abort it
+    Then the Subarray transitions to ABORTED obsState
+
+    Examples:
+    | obs_state         |
+    | RESOURCING        |
+    | CONFIGURING       |
 
 @XTP-28865
 Scenario: TMC executes Abort Command in EMPTY obsState.

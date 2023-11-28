@@ -2,6 +2,10 @@ import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
 
+from tests.resources.test_harness.helpers import (
+    reset_device_defects_for_intermediate_state,
+    set_subarray_to_given_obs_state,
+)
 from tests.resources.test_support.common_utils.result_code import ResultCode
 
 
@@ -15,12 +19,38 @@ def test_tmc_abort_command():
     the Abort command in a TMC."""
 
 
+@pytest.mark.SKA_low
+@scenario(
+    "../features/check_abort_command.feature",
+    "TMC validates Abort Command in intermediate obsState",
+)
+def test_tmc_abort_command_in_intermediate_obs_state():
+    """BDD test scenario for verifying successful execution of
+    the Abort command in a TMC for intermediate obsStates."""
+
+
 @given(parsers.parse("a Subarray in {obs_state} obsState"))
 def given_tmc(subarray_node_low, event_recorder, obs_state):
-    """Set up a TMC and ensure it is in the ON state."""
+    """Set up a TMC and ensure it is in the given ObsState."""
     event_recorder.subscribe_event(subarray_node_low.subarray_node, "obsState")
     subarray_node_low.move_to_on()
     subarray_node_low.force_change_of_obs_state(obs_state)
+
+    assert event_recorder.has_change_event_occurred(
+        subarray_node_low.subarray_node,
+        "obsState",
+        ObsState[obs_state],
+    )
+
+
+@given(parsers.parse("a Subarray in intermediate obsState {obs_state}"))
+def given_tmc_in_intermediate_obsstate(
+    subarray_node_low, event_recorder, obs_state
+):
+    """Set up a TMC and ensure it is in the given ObsState."""
+    event_recorder.subscribe_event(subarray_node_low.subarray_node, "obsState")
+    subarray_node_low.move_to_on()
+    set_subarray_to_given_obs_state(subarray_node_low, obs_state)
 
     assert event_recorder.has_change_event_occurred(
         subarray_node_low.subarray_node,
@@ -56,3 +86,4 @@ def check_obs_state(
         ObsState.ABORTED,
         lookahead=15,
     )
+    reset_device_defects_for_intermediate_state()
