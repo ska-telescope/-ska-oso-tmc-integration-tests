@@ -210,6 +210,7 @@ def set_subarray_to_given_obs_state(
     subarray_node: DeviceProxy,
     obs_state: str,
     event_recorder,
+    command_input_factory,
 ):
     """Set the Subarray node to given obsState."""
     # This method with be removed after the helper devices are updated to have
@@ -220,7 +221,7 @@ def set_subarray_to_given_obs_state(
             csp_subarray = DeviceProxy(csp_subarray1_low)
             csp_subarray.SetDefective(json.dumps(INTERMEDIATE_STATE_DEFECT))
 
-            subarray_node.force_change_of_obs_state("RESOURCING")
+            subarray_node.force_change_of_obs_state(obs_state)
 
             # Waiting for SDP Subarray to go to ObsState.IDLE
             sdp_subarray = DeviceProxy(sdp_subarray1_low)
@@ -241,7 +242,10 @@ def set_subarray_to_given_obs_state(
                 json.dumps(INTERMEDIATE_CONFIGURING_OBS_STATE_DEFECT)
             )
 
-            subarray_node.force_change_of_obs_state("CONFIGURING")
+            configure_input = prepare_json_args_for_commands(
+                "configure_low", command_input_factory
+            )
+            subarray_node.execute_transition("Configure", configure_input)
 
             # Waiting for SDP Subarray to go to ObsState.READY
             sdp_subarray = DeviceProxy(sdp_subarray1_low)

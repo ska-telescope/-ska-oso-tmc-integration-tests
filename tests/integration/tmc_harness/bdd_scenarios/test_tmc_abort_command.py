@@ -44,13 +44,13 @@ def given_tmc(subarray_node_low, event_recorder, obs_state):
 
 @given(parsers.parse("a Subarray in intermediate obsState {obs_state}"))
 def given_tmc_in_intermediate_obsstate(
-    subarray_node_low, event_recorder, obs_state
+    subarray_node_low, event_recorder, obs_state, command_input_factory
 ):
     """Set up a TMC and ensure it is in the given ObsState."""
     event_recorder.subscribe_event(subarray_node_low.subarray_node, "obsState")
     subarray_node_low.move_to_on()
     set_subarray_to_given_obs_state(
-        subarray_node_low, obs_state, event_recorder
+        subarray_node_low, obs_state, event_recorder, command_input_factory
     )
 
     assert event_recorder.has_change_event_occurred(
