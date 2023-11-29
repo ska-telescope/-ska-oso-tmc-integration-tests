@@ -106,6 +106,8 @@ def given_tmc_subarray_incremental_assign_resources_is_in_progress(
     command_input_factory,
 ):
     csp_sim, sdp_sim, _, _ = get_device_simulators(simulator_factory)
+    event_recorder.subscribe_event(csp_sim, "obsState")
+    event_recorder.subscribe_event(sdp_sim, "obsState")
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
     event_recorder.subscribe_event(
         central_node_mid.central_node, "longRunningCommandResult"
@@ -118,6 +120,16 @@ def given_tmc_subarray_incremental_assign_resources_is_in_progress(
     # stuck in obsState RESOURCING
     _, unique_id = central_node_mid.perform_action(
         "AssignResources", assign_input_json
+    )
+    assert event_recorder.has_change_event_occurred(
+        csp_sim,
+        "obsState",
+        ObsState.RESOURCING,
+    )
+    assert event_recorder.has_change_event_occurred(
+        sdp_sim,
+        "obsState",
+        ObsState.RESOURCING,
     )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
