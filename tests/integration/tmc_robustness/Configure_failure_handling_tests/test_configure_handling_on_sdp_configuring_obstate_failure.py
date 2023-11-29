@@ -11,6 +11,7 @@ from tests.resources.test_harness.helpers import (
 )
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
+
 @pytest.mark.skip
 @pytest.mark.configure1_trial
 @pytest.mark.bdd_configure
@@ -83,7 +84,7 @@ def given_tmc_subarray_assign_resources(
     )
 )
 def given_tmc_subarray_configure_is_in_progress(
-    subarray_node, event_recorder, _ , command_input_factory
+    subarray_node, event_recorder, _, command_input_factory
 ):
     configure_input_json = prepare_json_args_for_commands(
         "configure_with_invalid_interface", command_input_factory
@@ -130,7 +131,8 @@ def sdp_subarray_stuck_in_configuring(event_recorder, simulator_factory):
     parsers.parse("the TMC SubarrayNode {subarray_id} stucks in CONFIGURING")
 )
 def given_tmc_subarray_stuck_configuring(
-    subarray_node,):
+    subarray_node,
+):
     assert subarray_node.subarray_node.obsState == ObsState.CONFIGURING
 
 

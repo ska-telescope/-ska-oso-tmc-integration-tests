@@ -145,10 +145,7 @@ def csp_subarray_returns_to_obsstate_idle(event_recorder, simulator_factory):
 @given(
     parsers.parse("the TMC SubarrayNode {subarray_id} stucks in CONFIGURING")
 )
-def given_tmc_subarray_stuck_configuring(
-    subarray_node,
-    simulator_factory
-):
+def given_tmc_subarray_stuck_configuring(subarray_node, simulator_factory):
     csp_sim = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.MID_CSP_DEVICE
     )
@@ -275,15 +272,14 @@ def tmc_subarray_transitions_to_empty(subarray_node, event_recorder):
         ObsState.EMPTY,
     )
 
+
 @then(
     parsers.parse(
         "Configure command is executed successfully on the "
         + "Subarray {subarray_id}"
     )
 )
-def configure_executed_on_subarray(
-    subarray_node, event_recorder
-):
+def configure_executed_on_subarray(subarray_node, event_recorder):
     subarray_node.force_change_of_obs_state("READY")
     LOGGER.info(
         f"SubarrayNode ObsState is: {subarray_node.subarray_node.obsState}"

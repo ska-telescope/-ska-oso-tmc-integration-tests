@@ -2,7 +2,6 @@ import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
 from ska_tango_base.commands import ResultCode
-
 from tango import DevState
 
 from tests.resources.test_harness.helpers import (
@@ -11,6 +10,7 @@ from tests.resources.test_harness.helpers import (
     prepare_json_args_for_commands,
 )
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
+
 
 @pytest.mark.skip
 @pytest.mark.configure1_trial
@@ -126,9 +126,7 @@ def csp_subarray_configure_complete(event_recorder, simulator_factory):
         + "obsState IDLE"
     )
 )
-def sdp_subarray_returns_to_obsstate_idle(
-    event_recorder, simulator_factory
-):
+def sdp_subarray_returns_to_obsstate_idle(event_recorder, simulator_factory):
     sdp_sim = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.MID_SDP_DEVICE
     )

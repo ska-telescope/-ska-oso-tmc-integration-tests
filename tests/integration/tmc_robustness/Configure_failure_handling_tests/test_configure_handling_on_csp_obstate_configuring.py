@@ -167,7 +167,6 @@ def sdp_subarray_transitions_to_aborted(simulator_factory, event_recorder):
     )
 
 
-
 @then(
     parsers.parse(
         "the CSP subarray {subarray_id} transitions to obsState ABORTED"
@@ -256,15 +255,14 @@ def tmc_subarray_transitions_to_empty(subarray_node, event_recorder):
         ObsState.EMPTY,
     )
 
+
 @then(
     parsers.parse(
         "Configure command is executed successfully on the "
         + "Subarray {subarray_id}"
     )
 )
-def configure_executed_on_subarray(
-    subarray_node, event_recorder
-):
+def configure_executed_on_subarray(subarray_node, event_recorder):
     subarray_node.force_change_of_obs_state("READY")
 
     assert event_recorder.has_change_event_occurred(
