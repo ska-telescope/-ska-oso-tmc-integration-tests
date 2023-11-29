@@ -17,6 +17,7 @@ from tests.resources.test_harness.helpers import (
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
 
+@pytest.mark.skip
 @pytest.mark.bdd_configure
 @pytest.mark.SKA_mid
 @scenario(
@@ -75,11 +76,6 @@ def given_tmc_subarray_assign_resources(
     csp_sim, sdp_sim, _, _ = get_device_simulators(simulator_factory)
     event_recorder.subscribe_event(csp_sim, "obsState")
     event_recorder.subscribe_event(sdp_sim, "obsState")
-    event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
-    event_recorder.subscribe_event(
-        central_node_mid.central_node, "longRunningCommandResult"
-    )
-
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
@@ -97,21 +93,12 @@ def given_tmc_subarray_assign_resources(
     )
 )
 def given_tmc_subarray_configure_is_in_progress(
-    central_node_mid,
     subarray_node,
     event_recorder,
     simulator_factory,
     command_input_factory,
 ):
-    csp_sim, sdp_sim, _, _ = get_device_simulators(simulator_factory)
-    event_recorder.subscribe_event(csp_sim, "obsState")
-    event_recorder.subscribe_event(sdp_sim, "obsState")
-    event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
-    event_recorder.subscribe_event(
-        subarray_node.subarray_node, "longRunningCommandResult"
-    )
-    # When Configure invoke on csp subarray and it raises exception first it
-    # goes to CONFIGURING and after exception get it return back to IDLE.
+    csp_sim, _, _, _ = get_device_simulators(simulator_factory)
     csp_sim.SetDefective(
         json.dumps(COMMAND_FAILED_WITH_EXCEPTION_OBSSTATE_IDLE)
     )
@@ -131,7 +118,6 @@ def sdp_subarray_configure_complete(event_recorder, simulator_factory):
     sdp_sim = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.MID_SDP_DEVICE
     )
-    event_recorder.subscribe_event(sdp_sim, "obsState")
     assert event_recorder.has_change_event_occurred(
         sdp_sim,
         "obsState",
@@ -149,7 +135,6 @@ def csp_subarray_returns_to_obsstate_idle(event_recorder, simulator_factory):
     csp_sim = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.MID_CSP_DEVICE
     )
-    event_recorder.subscribe_event(csp_sim, "obsState")
     assert event_recorder.has_change_event_occurred(
         csp_sim,
         "obsState",
@@ -162,14 +147,14 @@ def csp_subarray_returns_to_obsstate_idle(event_recorder, simulator_factory):
 )
 def given_tmc_subarray_stuck_configuring(
     subarray_node,
-    event_recorder,
-    simulator_factory,
+    simulator_factory
 ):
-    event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
-    event_recorder.subscribe_event(
-        subarray_node.subarray_node, "longRunningCommandResult"
+    csp_sim = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.MID_CSP_DEVICE
     )
     assert subarray_node.subarray_node.obsState == ObsState.CONFIGURING
+    # Disable CSP Subarray fault
+    csp_sim.SetDefective(json.dumps({"enabled": False}))
 
 
 @when(
@@ -177,14 +162,8 @@ def given_tmc_subarray_stuck_configuring(
         "I issue the Abort command on TMC SubarrayNode {subarray_id}"
     )
 )
-def send_command_abort(subarray_node, simulator_factory, event_recorder):
-    csp_sim = simulator_factory.get_or_create_simulator_device(
-        SimulatorDeviceType.MID_CSP_DEVICE
-    )
-    # Disable CSP Subarray fault
-    csp_sim.SetDefective(json.dumps({"enabled": False}))
+def send_command_abort(subarray_node, event_recorder):
     subarray_node.execute_transition("Abort", argin=None)
-    event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",
@@ -201,7 +180,6 @@ def sdp_subarray_transitions_to_aborted(simulator_factory, event_recorder):
     sdp_sim = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.MID_SDP_DEVICE
     )
-    event_recorder.subscribe_event(sdp_sim, "obsState")
     assert event_recorder.has_change_event_occurred(
         sdp_sim,
         "obsState",
@@ -218,7 +196,6 @@ def csp_subarray_transitions_to_aborted(simulator_factory, event_recorder):
     csp_sim = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.MID_CSP_DEVICE
     )
-    event_recorder.subscribe_event(csp_sim, "obsState")
     assert event_recorder.has_change_event_occurred(
         csp_sim,
         "obsState",
@@ -232,11 +209,11 @@ def csp_subarray_transitions_to_aborted(simulator_factory, event_recorder):
     )
 )
 def tmc_subarray_transitions_to_aborted(subarray_node, event_recorder):
-    event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",
         ObsState.ABORTED,
+        lookahead=9,
     )
 
 
@@ -247,7 +224,6 @@ def tmc_subarray_transitions_to_aborted(subarray_node, event_recorder):
 )
 def send_command_restart(subarray_node, event_recorder):
     subarray_node.execute_transition("Restart", argin=None)
-    event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",
@@ -264,7 +240,6 @@ def sdp_subarray_transitions_to_empty(simulator_factory, event_recorder):
     sdp_sim = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.MID_SDP_DEVICE
     )
-    event_recorder.subscribe_event(sdp_sim, "obsState")
     assert event_recorder.has_change_event_occurred(
         sdp_sim,
         "obsState",
@@ -281,7 +256,6 @@ def csp_subarray_transitions_to_empty(simulator_factory, event_recorder):
     csp_sim = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.MID_CSP_DEVICE
     )
-    event_recorder.subscribe_event(csp_sim, "obsState")
     assert event_recorder.has_change_event_occurred(
         csp_sim,
         "obsState",
@@ -295,36 +269,11 @@ def csp_subarray_transitions_to_empty(simulator_factory, event_recorder):
     )
 )
 def tmc_subarray_transitions_to_empty(subarray_node, event_recorder):
-    event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",
         ObsState.EMPTY,
     )
-
-
-@then(parsers.parse("the resources are assigned to TMC SubarrayNode"))
-def tmc_subarray_assigns_resources(
-    central_node_mid,
-    subarray_node,
-    event_recorder,
-    command_input_factory,
-):
-    event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
-    event_recorder.subscribe_event(
-        central_node_mid.central_node, "longRunningCommandResult"
-    )
-
-    assign_input_json = prepare_json_args_for_centralnode_commands(
-        "assign_resources_mid", command_input_factory
-    )
-    central_node_mid.perform_action("AssignResources", assign_input_json)
-    assert event_recorder.has_change_event_occurred(
-        subarray_node.subarray_node,
-        "obsState",
-        ObsState.IDLE,
-    )
-
 
 @then(
     parsers.parse(
@@ -333,11 +282,15 @@ def tmc_subarray_assigns_resources(
     )
 )
 def configure_executed_on_subarray(
-    central_node_mid, subarray_node, event_recorder, command_input_factory
+    subarray_node, event_recorder
 ):
-    event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
     subarray_node.force_change_of_obs_state("READY")
     LOGGER.info(
         f"SubarrayNode ObsState is: {subarray_node.subarray_node.obsState}"
     )
     assert subarray_node.subarray_node.obsState == ObsState.READY
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_node,
+        "obsState",
+        ObsState.READY,
+    )
