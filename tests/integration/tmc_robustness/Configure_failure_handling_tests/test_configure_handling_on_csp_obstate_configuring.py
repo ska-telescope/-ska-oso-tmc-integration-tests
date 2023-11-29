@@ -16,7 +16,6 @@ from tests.resources.test_harness.helpers import (
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
 
-@pytest.mark.configure1_trial
 @pytest.mark.bdd_configure
 @pytest.mark.SKA_mid
 @scenario(
