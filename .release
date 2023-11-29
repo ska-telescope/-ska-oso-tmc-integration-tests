@@ -1,11 +1,12 @@
-release=0.9.1
-tag=0.9.1
+release=0.9.2
+tag=0.9.2
 tag_description=
 **Charts:**
-**1. ska-tmc-integration 0.9.0 - 0.9.1:**
+**1. ska-tmc-integration 0.9.1 - 0.9.2:**
 
     **1.1 ska-tmc-mid - 0.15.0 - 0.15.1:
         a. Implement BDD tests around TMC failure handling scenarios in case of the subsystem failures
+        b. Bug fix on SubarrayNode for Abort aggregation when command in progress is None
 
     **1.2 ska-tmc-low - 0.12.0:
         a. TMC low version with MCCS Master Leaf Nodes to support Assign and Release commands- SPO-2772 feature(REL-929)
@@ -13,10 +14,11 @@ tag_description=
 
 release_notes=
 **Charts:**
-**1. ska-tmc-integration 0.9.0 - 0.9.1:**
+**1. ska-tmc-integration 0.9.1 - 0.9.2:**
 
     **1.1 ska-tmc-mid - 0.15.0 - 0.15.1:
         a. Implement BDD tests around TMC failure handling scenarios in case of the subsystem failures
+        b. Bug fix on SubarrayNode for Abort aggregation when command in progress is None
 
     **1.2 ska-tmc-low - 0.12.0:
          a. TMC low version with MCCS Master Leaf Nodes to support Assign and Release commands- SPO-2772 feature(REL-929)
