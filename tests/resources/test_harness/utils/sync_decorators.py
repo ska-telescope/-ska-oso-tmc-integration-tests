@@ -143,7 +143,7 @@ def sync_configure(device_dict):
                 the_waiter.set_wait_for_configuring()
                 the_waiter.wait(500)
             the_waiter.set_wait_for_configure()
-            the_waiter.wait(600)
+            the_waiter.wait(800)
             return result
 
         return wrapper

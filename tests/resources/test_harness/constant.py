@@ -35,6 +35,21 @@ dish_master3 = "ska003/elt/master"
 dish_master4 = "ska004/elt/master"
 sdp_queue_connector = "mid-sdp/queueconnector/01"
 
+COMMAND_FAILED_WITH_EXCEPTION_OBSSTATE_IDLE = {
+    "enabled": True,
+    "fault_type": FaultType.FAILED_RESULT,
+    "error_message": "Default exception.",
+    "result": ResultCode.FAILED,
+    "target_obsstates": [ObsState.CONFIGURING, ObsState.IDLE],
+}
+
+OBS_STATE_CONFIGURING_STUCK_DEFECT = {
+    "enabled": True,
+    "fault_type": FaultType.STUCK_IN_OBSTATE,
+    "error_message": "Device stuck in configuring state",
+    "result": ResultCode.FAILED,
+    "intermediate_state": ObsState.CONFIGURING,
+}
 
 DEVICE_HEALTH_STATE_OK_INFO = {
     tmc_csp_subarray_leaf_node: "OK",

@@ -15,6 +15,9 @@ from tests.resources.test_support.constant import (
 from tests.resources.test_support.enum import DishMode
 
 
+@pytest.mark.skip(
+    reason="Subarray stuck in configuring due to uneven pointing states."
+)
 @pytest.mark.real_dish
 @pytest.mark.skip(
     reason="Configure fails due to uneven pointingState events in case of "
