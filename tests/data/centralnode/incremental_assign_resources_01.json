@@ -3,12 +3,12 @@
     "transaction_id": "txn-....-00001",
     "subarray_id": 1,
     "dish": {
-        "receptor_ids": ["SKA001", "SKA002"]
+        "receptor_ids": ["SKA001"]
     },
     "sdp": {
         "interface": "https://schema.skao.int/ska-sdp-assignres/0.4",
         "execution_block": {
-            "eb_id": "eb-xxx01-20210623-00000",
+            "eb_id": "eb-mvp01-20210623-00000",
             "max_length": 100.0,
             "context": {},
             "beams": [{
