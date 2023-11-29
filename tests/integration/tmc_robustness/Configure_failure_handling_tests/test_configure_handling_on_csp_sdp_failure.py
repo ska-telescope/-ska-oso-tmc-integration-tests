@@ -19,7 +19,7 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 @pytest.mark.bdd_configure
 @pytest.mark.SKA_mid
 @scenario(
-    "../features/configure_csp_sdp_subarray_failure_scenario.feature",
+    "../features/xtp-28837.feature",
     "TMC behavior when CSP and SDP Subarray raises exception for "
     "Configure command",
 )

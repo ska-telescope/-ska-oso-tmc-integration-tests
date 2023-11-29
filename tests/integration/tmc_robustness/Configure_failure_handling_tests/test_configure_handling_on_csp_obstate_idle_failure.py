@@ -23,7 +23,7 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 @pytest.mark.bdd_configure
 @pytest.mark.SKA_mid
 @scenario(
-    "../features/configure_csp_subarray_failure_scenarios.feature",
+    "../features/xtp-28436.feature",
     "TMC behavior when Csp Subarray Configure raises exception",
 )
 def test_configure_handling_on_csp_subarray_obsstate_idle_failure():

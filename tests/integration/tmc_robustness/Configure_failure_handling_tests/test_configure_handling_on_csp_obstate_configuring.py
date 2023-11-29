@@ -19,7 +19,7 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 @pytest.mark.bdd_configure
 @pytest.mark.SKA_mid
 @scenario(
-    "../features/configure_csp_subarray_failure_scenarios.feature",
+    "../features/xtp-28834.feature",
     "TMC behavior when Csp Subarray is stuck in obsState CONFIGURING",
 )
 def test_configure_handling_on_csp_subarray_obsstate_configuring_failure():

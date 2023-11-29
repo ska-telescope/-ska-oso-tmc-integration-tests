@@ -17,7 +17,7 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 @pytest.mark.bdd_configure
 @pytest.mark.SKA_mid
 @scenario(
-    "../features/configure_sdp_subarray_failure_scenario.feature",
+    "../features/xtp-28835.feature",
     "TMC behavior when SDP Subarray Configure raises exception",
 )
 def test_configure_handling_on_sdp_subarray_obsstate_idle_failure():
