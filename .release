@@ -1,8 +1,8 @@
-release=0.9.0
-tag=0.9.0
+release=0.9.1
+tag=0.9.1
 tag_description=
 **Charts:**
-**1. ska-tmc-integration 0.8.14 - 0.9.0:**
+**1. ska-tmc-integration 0.9.0 - 0.9.1:**
 
     **1.1 ska-tmc-mid - 0.14.0 - 0.15.0:
         a. Utilise latest Central node,CSP leaf node and Dish leaf node to perform DishVcc mapping functionality
@@ -13,7 +13,7 @@ tag_description=
 
 release_notes=
 **Charts:**
-**1. ska-tmc-integration 0.8.14 - 0.9.0:**
+**1. ska-tmc-integration 0.9.0 - 0.9.1:**
 
     **1.1 ska-tmc-mid - 0.14.0 - 0.15.0:
         a. Utilise latest Central node,CSP leaf node and Dish leaf node to perform DishVcc mapping functionality 
