@@ -17,7 +17,9 @@ from tests.resources.test_harness.helpers import (
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
 
-@pytest.mark.skip
+@pytest.mark.skip(
+    reason="Test passes independently, fails when executed with all tests"
+)
 @pytest.mark.bdd_configure
 @pytest.mark.SKA_mid
 @scenario(
@@ -34,15 +36,6 @@ def test_configure_handling_on_csp_subarray_obsstate_idle_failure():
     SDP Subarray then moves to obsState IDLE.
     SubarrayNode aggregates obsStates of the lower Subarrays
     and transitions to obsState IDLE.
-    Glossary:
-    - "central_node_mid": fixture for a TMC CentralNode Mid under test
-    which provides simulated master devices
-    - "subarray_node": fixture for a TMC SubarrayNode under test
-    which provides simulated subarray and master devices
-    - "event_recorder": fixture for a MockTangoEventCallbackGroup
-    for validating the subscribing and receiving events.
-    - "simulator_factory": fixture for creating simulator devices for
-    mid Telescope respectively.
     """
 
 

@@ -11,7 +11,9 @@ from tests.resources.test_harness.helpers import (
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
 
-@pytest.mark.skip
+@pytest.mark.skip(
+    reason="Test passes independently, fails when executed with all tests"
+)
 @pytest.mark.bdd_configure
 @pytest.mark.SKA_mid
 @scenario(
@@ -28,15 +30,6 @@ def test_configure_handling_on_sdp_subarray_obsstate_idle_failure():
     CSP Subarray then moves to obsState IDLE.
     SubarrayNode aggregates obsStates of the lower Subarrays
     and transitions to obsState IDLE.
-    Glossary:
-    - "central_node_mid": fixture for a TMC CentralNode Mid under test
-    which provides simulated master devices
-    - "subarray_node": fixture for a TMC SubarrayNode under test
-    which provides simulated subarray and master devices
-    - "event_recorder": fixture for a MockTangoEventCallbackGroup
-    for validating the subscribing and receiving events.
-    - "simulator_factory": fixture for creating simulator devices for
-    mid Telescope respectively.
     """
 
 
@@ -74,7 +67,7 @@ def given_tmc_subarray_assign_resources(
     invalid_receiptor_json = prepare_json_args_for_commands(
         "invalid_receiver_address2", command_input_factory
     )
-    _, unique_id = central_node_mid.perform_action(
+    _, _ = central_node_mid.perform_action(
         "AssignResources", assign_input_json
     )
     sdp_sim.SetDirectreceiveAddresses(invalid_receiptor_json)
@@ -140,7 +133,6 @@ def sdp_subarray_returns_to_obsstate_idle(event_recorder, simulator_factory):
 )
 def given_tmc_subarray_stuck_configuring(
     subarray_node,
-    event_recorder,
 ):
     assert subarray_node.subarray_node.obsState == ObsState.CONFIGURING
 
