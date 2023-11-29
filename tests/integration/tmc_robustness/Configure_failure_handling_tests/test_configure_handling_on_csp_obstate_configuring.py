@@ -5,7 +5,6 @@ from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
 from tango import DevState
 
-from tests.conftest import LOGGER
 from tests.resources.test_harness.constant import (
     OBS_STATE_CONFIGURING_STUCK_DEFECT,
 )

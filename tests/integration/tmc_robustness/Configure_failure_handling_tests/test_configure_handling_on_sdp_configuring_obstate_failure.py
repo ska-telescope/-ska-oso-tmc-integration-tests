@@ -1,7 +1,6 @@
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
-from ska_tango_base.commands import ResultCode
 from tango import DevState
 
 from tests.resources.test_harness.helpers import (
