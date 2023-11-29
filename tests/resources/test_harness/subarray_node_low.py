@@ -12,6 +12,7 @@ from tests.resources.test_harness.constant import (
     low_sdp_master,
     low_sdp_subarray1,
     low_sdp_subarray_leaf_node,
+    mccs_subarray_leaf_node,
     tmc_low_subarraynode1,
 )
 from tests.resources.test_harness.subarray_node import SubarrayNodeWrapper
@@ -47,6 +48,7 @@ device_dict = {
     "centralnode": low_centralnode,
     "csp_subarray_leaf_node": low_csp_subarray_leaf_node,
     "sdp_subarray_leaf_node": low_sdp_subarray_leaf_node,
+    "mccs_subarray_leaf_node": mccs_subarray_leaf_node,
 }
 
 
@@ -57,9 +59,11 @@ class SubarrayNodeWrapperLow(SubarrayNodeWrapper):
 
     def __init__(self) -> None:
         self.tmc_subarraynode1 = tmc_low_subarraynode1
+        self.central_node = DeviceProxy(low_centralnode)
         self.subarray_node = DeviceProxy(tmc_low_subarraynode1)
         self.csp_subarray_leaf_node = DeviceProxy(low_csp_subarray_leaf_node)
         self.sdp_subarray_leaf_node = DeviceProxy(low_sdp_subarray_leaf_node)
+        self.mccs_subarray_leaf_node = DeviceProxy(mccs_subarray_leaf_node)
         self._state = DevState.OFF
         self.obs_state = SubarrayObsState.EMPTY
         self.csp_subarray1 = low_csp_subarray1
@@ -106,8 +110,10 @@ class SubarrayNodeWrapperLow(SubarrayNodeWrapper):
         Args:
             assign_json (str): Assign resource input json
         """
-        result, message = self.subarray_node.AssignResources(assign_json)
-        LOGGER.info("Invoked AssignResources on SubarrayNode")
+        # This methods needs to change, with subsequent changes in the Tear
+        # Down of the fixtures. Will be done as an improvement later.
+        result, message = self.central_node.AssignResources(assign_json)
+        LOGGER.info("Invoked AssignResources on CentralNode")
         return result, message
 
     @sync_release_resources(device_dict=device_dict_low)
@@ -115,6 +121,20 @@ class SubarrayNodeWrapperLow(SubarrayNodeWrapper):
         result, message = self.subarray_node.ReleaseAllResources()
         LOGGER.info("Invoked Release Resource on SubarrayNode")
         return result, message
+
+    def execute_transition(self, command_name: str, argin=None):
+        """Execute provided command on subarray
+        Args:
+            command_name (str): Name of command to execute
+        """
+        # This methods needs to change, with subsequent changes in the Tear
+        # Down of the fixtures. Will be done as an improvement later.
+        if command_name == "AssignResources":
+            result, message = self.central_node.AssignResources(argin)
+            LOGGER.info("Invoked Assign Resource on CentralNode")
+            return result, message
+        else:
+            return super().execute_transition(command_name, argin)
 
     def force_change_of_obs_state(self, dest_state_name: str) -> None:
         """Force SubarrayNode obsState to provided obsState

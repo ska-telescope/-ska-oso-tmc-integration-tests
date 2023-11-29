@@ -20,16 +20,19 @@ def sync_telescope_on(func):
     return wrapper
 
 
-def sync_set_to_off(func):
-    @functools.wraps(func)
-    def wrapper(*args, **kwargs):
-        the_waiter = Waiter(**kwargs)
-        the_waiter.set_wait_for_going_to_off()
-        result = func(*args, **kwargs)
-        the_waiter.wait(TIMEOUT)
-        return result
+def sync_set_to_off(device_dict: dict):
+    def decorator_sync_set_to_off(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            the_waiter = Waiter(**device_dict)
+            the_waiter.set_wait_for_going_to_off()
+            result = func(*args, **kwargs)
+            the_waiter.wait(TIMEOUT)
+            return result
 
-    return wrapper
+        return wrapper
+
+    return decorator_sync_set_to_off
 
 
 # defined as a context manager

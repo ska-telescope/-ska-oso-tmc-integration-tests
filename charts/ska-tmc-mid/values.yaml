@@ -91,21 +91,21 @@ sdpleafnodes:
   image:
     registry: artefact.skao.int
     image: ska-tmc-sdpleafnodes
-    tag: 0.14.1
+    tag: 0.14.2
     pullPolicy: IfNotPresent
 
 cspmasterleafnode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-cspleafnodes
-    tag: 0.10.1
+    tag: 0.10.3
     pullPolicy: IfNotPresent
 
 cspsubarrayleafnode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-cspleafnodes
-    tag: 0.10.1
+    tag: 0.10.3
     pullPolicy: IfNotPresent
 
 dishleafnode:
@@ -123,7 +123,7 @@ resources:
     cpu: 100m
     memory: 128Mi
 
-
+    
 deviceServers:
   centralnode:
     enabled: true
@@ -134,7 +134,6 @@ deviceServers:
     DishIDs: ["SKA001","SKA002"]
     DishMasterPrefix: "elt"
     DishMasterPostfix: "master"
-
 
   subarraynode:
     enabled: true

@@ -88,26 +88,6 @@ class CentralNodeWrapper(object):
             for device in self.dish_master_list:
                 device.SetDirectDishMode(DishMode.STANDBY_FP)
 
-    def move_to_off(self):
-        """
-        A method to invoke TelescopeOff command to
-        put telescope in OFF state
-
-        """
-        self.central_node.TelescopeOff()
-        device_to_on_list = [
-            self.subarray_devices.get("csp_subarray"),
-            self.subarray_devices.get("sdp_subarray"),
-        ]
-        for device in device_to_on_list:
-            device_proxy = DeviceProxy(device)
-            device_proxy.SetDirectState(DevState.OFF)
-
-        # If Dish master provided then set it to standby
-        if self.dish_master_list:
-            for device in self.dish_master_list:
-                device.SetDirectDishMode(DishMode.STANDBY_LP)
-
     def set_standby(self):
         """
         A method to invoke TelescopeStandby command to
