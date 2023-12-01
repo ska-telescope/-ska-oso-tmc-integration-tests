@@ -27,7 +27,6 @@ from tests.resources.test_harness.constant import (
 from tests.resources.test_harness.helpers import (
     check_subarray_obs_state,
     prepare_json_args_for_commands,
-    wait_for_actual_pointing_events,
 )
 from tests.resources.test_harness.utils.constant import (
     ABORTED,
@@ -265,9 +264,6 @@ class SubarrayNodeWrapper(object):
 
         LOGGER.info("Calling Tear down for subarray")
         self._clear_command_call_and_transition_data(clear_transition=True)
-        clear_actual_pointing_events = False
-        if self.obs_state in ["CONFIGURING", "READY", "SCANNING"]:
-            clear_actual_pointing_events = True
 
         if self.obs_state in ("RESOURCING", "CONFIGURING", "SCANNING"):
             """Invoke Abort and Restart"""
@@ -280,14 +276,6 @@ class SubarrayNodeWrapper(object):
             self.restart_subarray()
         else:
             self.force_change_of_obs_state("EMPTY")
-
-        if clear_actual_pointing_events:
-            # Consuming all actual pointing events.
-            for dish_leaf_node in self.dish_leaf_node_list:
-                event_recorder.subscribe_event(
-                    dish_leaf_node, "actualPointing"
-                )
-                wait_for_actual_pointing_events(event_recorder, dish_leaf_node)
 
         # Move Subarray to OFF state
         self.move_to_off()

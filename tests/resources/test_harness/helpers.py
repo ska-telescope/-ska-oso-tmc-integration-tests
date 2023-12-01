@@ -349,26 +349,6 @@ def device_attribute_changed(
     return True
 
 
-def wait_for_actual_pointing_events(
-    event_recorder,
-    device,
-):
-    """Wait till Dish Leaf Node processes all the achievedPointing events."""
-    COUNT = 0
-    while True:
-        assertion_data = event_recorder.has_change_event_occurred(
-            device, "actualPointing", Anything, lookahead=1
-        )
-        if assertion_data:
-            COUNT += 1
-        else:
-            LOGGER.info("Processed %s actualPointing Events", COUNT)
-            LOGGER.info(
-                "No actualPointing event received within given timeout"
-            )
-            break
-
-
 def wait_for_attribute_update(
     device, attribute_name: str, expected_id: str, expected_result: ResultCode
 ):
