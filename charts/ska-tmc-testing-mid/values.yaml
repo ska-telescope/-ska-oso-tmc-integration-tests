@@ -28,9 +28,6 @@ global:
       image: ska-tango-images-tango-itango
       tag: 9.3.10
       pullPolicy: IfNotPresent
-  sdp:
-    isSimulated:
-      enabled: true
 
 ska-tango-base:
   enabled: true
@@ -66,14 +63,14 @@ tmc-mid:
   enabled: true
   deviceServers:
     mocks:
-      enabled: false
+      enabled: true
 
 ska-sdp:
   legacy_compatibility: true
   enabled: false
   lmc:
     prefix: mid
-    nsubarray: 3
+    nsubarray: 2
   console:
     enabled: true
   data-pvc:

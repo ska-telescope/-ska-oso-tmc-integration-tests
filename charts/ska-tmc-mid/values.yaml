@@ -35,7 +35,10 @@ global:
   Dish:
     isSimulated:
       enabled: true
-
+  sdp:
+    isSimulated:
+      enabled: true
+      
   namespace_dish:
     dish_name: ["dish1", "dish2"]
   # subarray_count, this will be expanded (1 to N inclusive) and applied to instances of:
