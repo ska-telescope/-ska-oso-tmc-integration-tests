@@ -78,6 +78,7 @@ K8S_TEST_RUNNER = test-runner-$(HELM_RELEASE)
 CI_PROJECT_PATH_SLUG ?= ska-tmc-integration
 CI_ENVIRONMENT_SLUG ?= ska-tmc-integration
 CSP_SIMULATION_ENABLED ?= true
+CSP_SIMULATION_MID_ENABLED ?= false
 
 ifeq ($(MAKECMDGOALS),k8s-test)
 ADD_ARGS +=  --true-context
@@ -95,13 +96,20 @@ CUSTOM_VALUES =	--set global.csp.isSimulated.enabled=$(CSP_SIMULATION_ENABLED)\
 	--set tmc-low.ska-low-cbf.ska-low-cbf-proc.enabled=true
 endif
 
+ifeq ($(CSP_SIMULATION_MID_ENABLED),false)
+CUSTOM_VALUES =	--set global.csp.isSimulated.enabled=$(CSP_SIMULATION_MID_ENABLED)\
+	--set tmc-mid.ska-csp-lmc-mid.enabled=true\
+	--set tmc-mid.ska-mid-cbf.enabled=true\
+	--set tmc-mid.ska-mid-cbf-mcs.enabled=true
+endif
+
 K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.tango_host=$(TANGO_HOST) \
 	--set ska-tango-base.display=$(DISPLAY) \
 	--set ska-tango-base.xauthority=$(XAUTHORITY) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
 	--set global.exposeAllDS=true \
-	--set global.operator=true \
+	--set global.operator=false \
 	--set ska-taranta.enabled=$(TARANTA_ENABLED)\
 	--set global.namespace_dish.dish_name[0]="$(DISH_NAME_1)"\
 	--set global.namespace_dish.dish_name[1]="$(DISH_NAME_2)"\

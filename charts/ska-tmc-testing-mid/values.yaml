@@ -28,6 +28,9 @@ global:
       image: ska-tango-images-tango-itango
       tag: 9.3.10
       pullPolicy: IfNotPresent
+  csp:
+    isSimulated:
+      enabled: true
 
 ska-tango-base:
   enabled: true
@@ -64,6 +67,9 @@ tmc-mid:
   deviceServers:
     mocks:
       enabled: true
+  csp:
+    isSimulated:
+      enabled: true
  
 # SKUID
 ska-ser-skuid:
@@ -93,4 +99,7 @@ ska-tmc-simulators:
     
     powersupplysimulator:
       enabled: true
+
+ska-csp-lmc-mid:
+  enabled: true
 
