@@ -136,6 +136,23 @@ K8S_TEST_TEST_COMMAND ?= $(PYTHON_VARS_BEFORE_PYTEST) $(PYTHON_RUNNER) \
 -include PrivateRules.mak
 -include resources/alarmhandler.mk
 
+
+# use hook to create SDP namespace
+k8s-pre-install-chart:
+	@echo "k8s-pre-install-chart: creating the SDP namespace $(KUBE_NAMESPACE_SDP)"
+	@make k8s-namespace KUBE_NAMESPACE=$(KUBE_NAMESPACE_SDP)
+
+# use hook to create SDP namespace
+k8s-pre-install-chart-car:
+	@echo "k8s-pre-install-chart-car: creating the SDP namespace $(KUBE_NAMESPACE_SDP)"
+	@make k8s-namespace KUBE_NAMESPACE=$(KUBE_NAMESPACE_SDP)
+
+# use hook to delete SDP namespace
+k8s-post-uninstall-chart:
+	@echo "k8s-post-uninstall-chart: deleting the SDP namespace $(KUBE_NAMESPACE_SDP)"
+	@make k8s-delete-namespace KUBE_NAMESPACE=$(KUBE_NAMESPACE_SDP)
+	
+
 taranta-link:
 	@echo "#            https://k8s.stfc.skao.int/$(KUBE_NAMESPACE)/taranta/dashboard"
 
