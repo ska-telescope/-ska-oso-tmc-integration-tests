@@ -243,7 +243,7 @@ dish-lmc-dish003:
 
 dish-lmc-dish004:
   extends:
-    - dish-lmc-dish004
+    - dish-lmc-dish001
   variables:
     DISH_INDEX: "004"
     KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX"
