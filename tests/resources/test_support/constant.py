@@ -10,6 +10,8 @@ from tests.resources.test_support.common_utils.result_code import (
 
 dish_name_1 = os.getenv("DISH_NAMESPACE_1")
 dish_name_2 = os.getenv("DISH_NAMESPACE_2")
+dish_name_3 = os.getenv("DISH_NAMESPACE_3")
+dish_name_4 = os.getenv("DISH_NAMESPACE_4")
 
 dish_fqdn_1 = (
     f"tango://databaseds-tango-base.{dish_name_1}.svc.cluster"
@@ -19,6 +21,16 @@ dish_fqdn_1 = (
 dish_fqdn_2 = (
     f"tango://databaseds-tango-base.{dish_name_2}.svc.cluster"
     ".local:10000/ska002/elt/master"
+)
+
+dish_fqdn_3 = (
+    f"tango://databaseds-tango-base.{dish_name_3}.svc.cluster"
+    ".local:10000/ska003/elt/master"
+)
+
+dish_fqdn_4 = (
+    f"tango://databaseds-tango-base.{dish_name_4}.svc.cluster"
+    ".local:10000/ska004/elt/master"
 )
 
 centralnode = "ska_mid/tm_central/central_node"
