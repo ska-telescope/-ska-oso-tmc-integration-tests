@@ -100,7 +100,7 @@ endif
 
 ifeq ($(SDP_SIMULATION_ENABLED),false)
 CUSTOM_VALUES =	--set global.sdp.isSimulated.enabled=$(SDP_SIMULATION_ENABLED)\
-	--set tmc-mid.ska-sdp.enabled=true 
+	--set ska-sdp.enabled=true 
 endif
 
 K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
@@ -151,7 +151,7 @@ k8s-pre-install-chart-car:
 k8s-post-uninstall-chart:
 	@echo "k8s-post-uninstall-chart: deleting the SDP namespace $(KUBE_NAMESPACE_SDP)"
 	@make k8s-delete-namespace KUBE_NAMESPACE=$(KUBE_NAMESPACE_SDP)
-	
+
 
 taranta-link:
 	@echo "#            https://k8s.stfc.skao.int/$(KUBE_NAMESPACE)/taranta/dashboard"

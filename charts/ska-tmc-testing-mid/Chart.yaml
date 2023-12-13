@@ -24,7 +24,7 @@ dependencies:
   - name: ska-sdp
     version: 0.18.0
     repository: https://artefact.skao.int/repository/helm-internal
-    condition: tmc-mid.ska-sdp.enabled
+    condition: ska-sdp.enabled
   - name: ska-ser-skuid
     version: 0.3.0
     repository: https://artefact.skao.int/repository/helm-internal
