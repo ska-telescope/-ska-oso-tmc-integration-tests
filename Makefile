@@ -49,7 +49,6 @@ DISH_TANGO_HOST ?= databaseds-tango-base
 CLUSTER_DOMAIN ?= svc.cluster.local
 PORT ?= 10000
 SIMULATED_DISH ?= true
-# SIMULATED_SDP ?= true
 SUBARRAY_COUNT ?= 2
 DISH_NAME_1 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_1).$(CLUSTER_DOMAIN):$(PORT)/ska001/elt/master
 DISH_NAME_2 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_2).$(CLUSTER_DOMAIN):$(PORT)/ska002/elt/master
