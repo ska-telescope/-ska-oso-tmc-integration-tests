@@ -56,7 +56,7 @@ CI_REGISTRY ?= gitlab.com
 
 K8S_TEST_IMAGE_TO_TEST ?= artefact.skao.int/ska-tango-images-tango-itango:9.3.12## docker image that will be run for testing purpose
 
-TARANTA_ENABLED ?= false
+TARANTA_ENABLED ?= true
 
 CI_PROJECT_DIR ?= .
 XRAY_TEST_RESULT_FILE = "build/cucumber.json"
