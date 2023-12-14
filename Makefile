@@ -50,6 +50,7 @@ DISH_TANGO_HOST ?= databaseds-tango-base
 CLUSTER_DOMAIN ?= svc.cluster.local
 PORT ?= 10000
 SIMULATED_DISH ?= true
+SIMULATED_SDP ?= true
 SUBARRAY_COUNT ?= 2
 DISH_NAME_1 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_1).$(CLUSTER_DOMAIN):$(PORT)/ska001/elt/master
 DISH_NAME_2 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_2).$(CLUSTER_DOMAIN):$(PORT)/ska002/elt/master
@@ -98,10 +99,10 @@ CUSTOM_VALUES =	--set global.csp.isSimulated.enabled=$(CSP_SIMULATION_ENABLED)\
 	--set tmc-low.ska-low-cbf.ska-low-cbf-proc.enabled=true
 endif
 
-ifeq ($(SDP_SIMULATION_ENABLED),false)
-CUSTOM_VALUES =	--set global.sdp.isSimulated.enabled=$(SDP_SIMULATION_ENABLED)\
-	--set ska-sdp.enabled=true 
-endif
+# ifeq ($(SDP_SIMULATION_ENABLED),false)
+# CUSTOM_VALUES =	--set global.sdp.isSimulated.enabled=$(SDP_SIMULATION_ENABLED)\
+# 	--set ska-sdp.enabled=true 
+# endif
 
 K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.tango_host=$(TANGO_HOST) \
@@ -109,7 +110,7 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set ska-tango-base.xauthority=$(XAUTHORITY) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
 	--set global.exposeAllDS=true \
-	--set global.operator=true \
+	--set global.operator=false \
 	--set ska-taranta.enabled=$(TARANTA_ENABLED)\
 	--set global.namespace_dish.dish_name[0]="$(DISH_NAME_1)"\
 	--set global.namespace_dish.dish_name[1]="$(DISH_NAME_2)"\
