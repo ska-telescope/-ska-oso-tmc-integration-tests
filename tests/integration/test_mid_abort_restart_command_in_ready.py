@@ -25,7 +25,8 @@ from tests.resources.test_support.constant import (
 )
 
 
-@pytest.mark.skip(reason="Configure failure maybe due to updates in dish")
+@pytest.mark.SKA_midtn
+# @pytest.mark.skip(reason="Configure failure maybe due to updates in dish")
 @pytest.mark.SKA_mid
 def test_mid_abort_restart_in_ready(json_factory):
     """Abort and Restart is executed."""

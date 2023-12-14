@@ -13,7 +13,8 @@ Feature: Commands with invalid json input
             | missing_count_key             |
             | missing_receptor_id_key       |
 
-            
+
+    @SKA_midtn
     Scenario:   Invalid json rejected by TMC for Configure command
         Given the TMC is On
         And the subarray is in IDLE obsState
