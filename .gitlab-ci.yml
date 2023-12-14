@@ -328,6 +328,9 @@ k8s-test-tmc-with-sdp:
     - k8s-test
   variables:
     TELESCOPE: 'SKA-mid'
+    SDP_TANGO_HOST: "databaseds-tango-base"
+    CLUSTER_DOMAIN: "svc.cluster.local"
+    PORT: "10000"
     KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-tmc-sdp'
     KUBE_NAMESPACE_SDP: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-sdp'
     SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-tmc-sdp"

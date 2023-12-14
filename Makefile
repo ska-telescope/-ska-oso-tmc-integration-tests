@@ -47,12 +47,16 @@ K8S_CHARTS ?= ska-tmc-$(DEPLOYMENT_TYPE) ska-tmc-testing-$(DEPLOYMENT_TYPE)## li
 K8S_CHART ?= $(HELM_CHART)
 
 DISH_TANGO_HOST ?= databaseds-tango-base
+SDP_TANGO_HOST ?= databaseds-tango-base
+
 CLUSTER_DOMAIN ?= svc.cluster.local
 PORT ?= 10000
 SIMULATED_DISH ?= true
 SUBARRAY_COUNT ?= 2
 DISH_NAME_1 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_1).$(CLUSTER_DOMAIN):$(PORT)/ska001/elt/master
 DISH_NAME_2 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_2).$(CLUSTER_DOMAIN):$(PORT)/ska002/elt/master
+SDP_MASTER ?= tango://$(SDP_TANGO_HOST).$(KUBE_NAMESPACE_SDP).$(CLUSTER_DOMAIN):$(PORT)/mid-sdp/control/0
+SDP_SUBARRAY_PREFIX ?= tango://$(SDP_TANGO_HOST).$(KUBE_NAMESPACE_SDP).$(CLUSTER_DOMAIN):$(PORT)/mid-sdp/subarray
 
 CI_REGISTRY ?= gitlab.com
 
@@ -99,7 +103,7 @@ CUSTOM_VALUES =	--set global.csp.isSimulated.enabled=$(CSP_SIMULATION_ENABLED)\
 endif
 
 ifeq ($(SDP_SIMULATION_ENABLED),false)
-CUSTOM_VALUES =	--set global.sdp.isSimulated.enabled=$(SDP_SIMULATION_ENABLED)\
+CUSTOM_VALUES =	--set deviceServers.mocks.is_simulated.sdp=$(SDP_SIMULATION_ENABLED)\
 	--set ska-sdp.enabled=true 
 endif
 
@@ -116,6 +120,8 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.Dish.isSimulated.enabled=$(SIMULATED_DISH)\
 	--set global.subarray_count=$(SUBARRAY_COUNT)\
 	--set ska-sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP)\
+	--set global.sdp_master="$(SDP_MASTER)"\
+	--set global.sdp_subarray_prefix="$(SDP_SUBARRAY_PREFIX)"\
 	$(CUSTOM_VALUES)
 
 
