@@ -36,7 +36,7 @@ server:
         - name: "HelperDishDevice"
           devices:
           {{- range .Values.deviceServers.dishleafnode.instances }}
-          - name: "ska{{ printf "%03s" . }}/elt/master"
+          - name: "ska{{ printf . }}/elt/master"
           {{- end }}
         {{- end }}
 depends_on:
