@@ -191,15 +191,15 @@ def get_command_call_info(device: Any, command_name: str):
 
     """
     command_call_info = device.read_attribute("commandCallInfo").value
-    LOGGER.info("Command info %s", command_call_info)
+    # LOGGER.info("Command info %s", command_call_info)
     command_info = [
         command_info
         for command_info in command_call_info
         if command_info[0] == command_name
     ]
 
-    LOGGER.info("command_info[0][1] - %s", command_info[0][1])
-    LOGGER.info("command_info[0][1] - %s", type(command_info[0][1]))
+    # LOGGER.info("command_info[0][1] - %s", command_info[0][1])
+    # LOGGER.info("command_info[0][1] - %s", type(command_info[0][1]))
 
     if (
         command_info[0][1] == "True"
