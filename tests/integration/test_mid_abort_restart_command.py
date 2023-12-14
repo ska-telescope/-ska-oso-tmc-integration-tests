@@ -142,7 +142,7 @@ def test_abort_in_empty(json_factory):
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-@pytest.mark.skip(reason="random failure")
+@pytest.mark.test2
 @pytest.mark.SKA_mid
 def test_abort_in_resourcing(json_factory):
     """Abort and Restart is executed."""
@@ -169,7 +169,7 @@ def test_abort_in_resourcing(json_factory):
         csp_subarray_proxy = DeviceProxy(csp_subarray1)
         csp_subarray_proxy.SetDefective(json.dumps(INTERMEDIATE_STATE_DEFECT))
 
-        # Invoke AssignResources() Command on TMC
+        # Invoke AssignResources() Command on TMCkrishna
         Resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
         Resource(tmc_subarraynode1).assert_attribute("obsState").equals(
             "EMPTY"
@@ -245,7 +245,7 @@ def test_abort_in_resourcing(json_factory):
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-@pytest.mark.skip(reason="Pipeline issue")
+@pytest.mark.test2
 @pytest.mark.SKA_mid
 def test_abort_in_resourcing_different_resources(json_factory):
     """Abort and Restart is executed."""
@@ -358,7 +358,7 @@ def test_abort_in_resourcing_different_resources(json_factory):
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-@pytest.mark.skip(reason="Random failure")
+@pytest.mark.test2
 @pytest.mark.SKA_mid
 def test_abort_in_resourcing_with_second_abort(json_factory):
     """Abort and Restart is executed."""
@@ -471,7 +471,7 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-@pytest.mark.skip(reason="random failure")
+@pytest.mark.test2
 @pytest.mark.SKA_mid
 def test_abort_in_configuring(json_factory):
     """Abort and Restart is executed."""
