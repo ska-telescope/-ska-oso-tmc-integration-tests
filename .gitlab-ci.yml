@@ -269,7 +269,6 @@ sdp-lmc:
   tags:
     - k8srunner
   variables:
-    # DISH_INDEX: "001"
     KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-tmc-sdp-lmc"
     KUBE_NAMESPACE_SDP: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-sdp-lmc"
     SDP_LMC_SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-tmc-sdp-lmc"
@@ -321,6 +320,7 @@ k8s-test-sdp-lmc:
     - sdp-lmc
   after_script:
     - make k8s-uninstall-chart
+    - k8s-post-uninstall-chart
 
 k8s-test-low:
   retry: 1
