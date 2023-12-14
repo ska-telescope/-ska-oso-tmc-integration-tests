@@ -15,6 +15,7 @@ PYTHON_VARS_BEFORE_PYTEST ?= PYTHONPATH=.:./src \
 							 DISH_NAMESPACE_1=$(DISH_NAMESPACE_1) \
 							 DISH_NAMESPACE_2=$(DISH_NAMESPACE_2) \
 							 KUBE_NAMESPACE=$(KUBE_NAMESPACE) \
+							 KUBE_NAMESPACE_SDP=$(KUBE_NAMESPACE_SDP)
 
 PYTHON_LINT_TARGET ?= tests/
 
@@ -113,7 +114,6 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.namespace_dish.dish_name[0]="$(DISH_NAME_1)"\
 	--set global.namespace_dish.dish_name[1]="$(DISH_NAME_2)"\
 	--set global.Dish.isSimulated.enabled=$(SIMULATED_DISH)\
-	--set global.sdp.isSimulated.enabled=$(SDP_SIMULATION_ENABLED)\
 	--set global.subarray_count=$(SUBARRAY_COUNT)\
 	--set ska-sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP)\
 	$(CUSTOM_VALUES)
