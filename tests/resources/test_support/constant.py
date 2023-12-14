@@ -20,17 +20,17 @@ dish_fqdn_1 = (
 
 dish_fqdn_36 = (
     f"tango://databaseds-tango-base.{dish_name_36}.svc.cluster"
-    ".local:10000/ska002/elt/master"
+    ".local:10000/ska036/elt/master"
 )
 
 dish_fqdn_63 = (
     f"tango://databaseds-tango-base.{dish_name_63}.svc.cluster"
-    ".local:10000/ska003/elt/master"
+    ".local:10000/ska063/elt/master"
 )
 
 dish_fqdn_100 = (
     f"tango://databaseds-tango-base.{dish_name_100}.svc.cluster"
-    ".local:10000/ska004/elt/master"
+    ".local:10000/ska100/elt/master"
 )
 
 centralnode = "ska_mid/tm_central/central_node"
