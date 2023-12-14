@@ -54,9 +54,9 @@ PORT ?= 10000
 SIMULATED_DISH ?= true
 SUBARRAY_COUNT ?= 2
 DISH_NAME_1 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_1).$(CLUSTER_DOMAIN):$(PORT)/ska001/elt/master
-DISH_NAME_2 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_2).$(CLUSTER_DOMAIN):$(PORT)/ska002/elt/master
-DISH_NAME_3 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_3).$(CLUSTER_DOMAIN):$(PORT)/ska003/elt/master
-DISH_NAME_4 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_4).$(CLUSTER_DOMAIN):$(PORT)/ska004/elt/master
+DISH_NAME_36 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_2).$(CLUSTER_DOMAIN):$(PORT)/ska036/elt/master
+DISH_NAME_63 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_3).$(CLUSTER_DOMAIN):$(PORT)/ska063/elt/master
+DISH_NAME_100 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_4).$(CLUSTER_DOMAIN):$(PORT)/ska100/elt/master
 
 CI_REGISTRY ?= gitlab.com
 
@@ -110,9 +110,9 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.operator=true \
 	--set ska-taranta.enabled=$(TARANTA_ENABLED)\
 	--set global.namespace_dish.dish_name[0]="$(DISH_NAME_1)"\
-	--set global.namespace_dish.dish_name[1]="$(DISH_NAME_2)"\
-	--set global.namespace_dish.dish_name[2]="$(DISH_NAME_3)"\
-	--set global.namespace_dish.dish_name[3]="$(DISH_NAME_4)"\
+	--set global.namespace_dish.dish_name[1]="$(DISH_NAME_36)"\
+	--set global.namespace_dish.dish_name[2]="$(DISH_NAME_63)"\
+	--set global.namespace_dish.dish_name[3]="$(DISH_NAME_100)"\
 	--set global.Dish.isSimulated.enabled=$(SIMULATED_DISH)\
 	--set global.subarray_count=$(SUBARRAY_COUNT)\
 	$(CUSTOM_VALUES)
