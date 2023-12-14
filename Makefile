@@ -98,7 +98,7 @@ endif
 
 ifeq ($(CSP_SIMULATION_MID_ENABLED),false)
 CUSTOM_VALUES =	--set global.csp.isSimulated.enabled=$(CSP_SIMULATION_MID_ENABLED)\
-	--set tmc-mid.ska-csp-lmc-mid.enabled=true\
+	--set tmc-mid.ska-csp-lmc-mid.enabled=true
 endif
 
 K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
