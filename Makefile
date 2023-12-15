@@ -48,6 +48,7 @@ DISH_TANGO_HOST ?= databaseds-tango-base
 CLUSTER_DOMAIN ?= svc.cluster.local
 PORT ?= 10000
 SIMULATED_DISH ?= true
+SIMULATED_CSP ?= true
 SUBARRAY_COUNT ?= 2
 DISH_NAME_1 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_1).$(CLUSTER_DOMAIN):$(PORT)/ska001/elt/master
 DISH_NAME_2 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_2).$(CLUSTER_DOMAIN):$(PORT)/ska002/elt/master
@@ -115,6 +116,7 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.namespace_dish.dish_name[0]="$(DISH_NAME_1)"\
 	--set global.namespace_dish.dish_name[1]="$(DISH_NAME_2)"\
 	--set global.Dish.isSimulated.enabled=$(SIMULATED_DISH)\
+	--set global.csp.isSimulated.enabled=$(SIMULATED_CSP)\
 	--set global.subarray_count=$(SUBARRAY_COUNT)\
 	$(CUSTOM_VALUES)
 
