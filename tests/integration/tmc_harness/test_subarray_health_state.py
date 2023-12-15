@@ -14,7 +14,6 @@ class TestSubarrayHealthState(object):
     https://docs.google.com/spreadsheets/d/1XbNb8We7fK-EhmOcw3S-h0V_Pu-WAfPTkEd13MSmIns/edit#gid=747888622
     """
 
-    @pytest.mark.skip
     @pytest.mark.SKA_mid
     def test_health_state_ok(
         self, subarray_node, simulator_factory, event_recorder
