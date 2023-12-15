@@ -36,7 +36,7 @@ Configurable options
 
     #. **Sdp Subarray Leaf Node** : ["01", "02"]
 
-    #. **Dish Leaf Node** : ["01", "02", "03", "04"]
+    #. **Dish Leaf Node** : ["001", "036", "063", "004"]
 
 * b. **file** : User can provide custom device server configuration file to  nodes.Default is  `configuration files <https://gitlab.com/ska-telescope/ska-tmc/ska-tmc-integration/-/blob/main/charts/ska-tmc-mid/data/>`_
 

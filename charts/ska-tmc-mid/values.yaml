@@ -30,7 +30,7 @@ global:
   # List the dishes, if set, then this list will be applied to instances of:
   # deviceServers.dishmaster, deviceServers.dishleafnode
   dish_devices: ["dishmaster", "dishleafnode"]
-  dishes: ["001", "036", "0", "04"]
+  dishes: ["001", "036", "063", "004"]
 
   Dish:
     isSimulated:
