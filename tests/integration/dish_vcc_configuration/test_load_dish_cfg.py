@@ -102,7 +102,7 @@ def tmc_pass_configuration_to_csp_controller(simulator_factory):
         "/ska-mid-cbf-initial-parameters/2.2",
         "dish_parameters": {
             "SKA001": {"vcc": 1, "k": 11},
-            "SKA002": {"vcc": 2, "k": 101},
+            "SKA036": {"vcc": 2, "k": 101},
         },
     }
     assert json.loads(csp_master_sim.sysParam) == expected_sys_param
@@ -123,7 +123,7 @@ def validate_sys_param_attribute_set(central_node_mid):
             "interface": interface_schema,
             "dish_parameters": {
                 "SKA001": {"vcc": 1, "k": 11},
-                "SKA002": {"vcc": 2, "k": 101},
+                "SKA036": {"vcc": 2, "k": 101},
             },
         }
     )

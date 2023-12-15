@@ -69,4 +69,4 @@ a. **subarray_count** : User can set this subarray count according to number of 
 
 b. **DishLeafNodePrefix** : User can set this value according to the FQDN prefix required by the deployed dish leaf node devices. Default is  "ska_mid/tm_leaf_node/d0" .
 
-c. **DishIDs** : User can set this value to provide the ID's of dishes present in the deployment. Default is ["SKA001", "SKA002", "SKA003", "SKA004"]
+c. **DishIDs** : User can set this value to provide the ID's of dishes present in the deployment. Default is ["SKA001", "SKA036", "SKA063", "SKA004"]

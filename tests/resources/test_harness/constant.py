@@ -20,7 +20,7 @@ tmc_sdp_master_leaf_node = "ska_mid/tm_leaf_node/sdp_master"
 tmc_csp_subarray_leaf_node = "ska_mid/tm_leaf_node/csp_subarray01"
 tmc_sdp_subarray_leaf_node = "ska_mid/tm_leaf_node/sdp_subarray01"
 tmc_dish_leaf_node1 = "ska_mid/tm_leaf_node/d0001"
-tmc_dish_leaf_node2 = "ska_mid/tm_leaf_node/d0002"
+tmc_dish_leaf_node2 = "ska_mid/tm_leaf_node/d0036"
 sdp_subarray1 = "mid-sdp/subarray/01"
 sdp_subarray2 = "mid-sdp/subarray/02"
 sdp_subarray3 = "mid-sdp/subarray/03"
@@ -30,8 +30,8 @@ csp_subarray3 = "mid-csp/subarray/03"
 sdp_master = "mid-sdp/control/0"
 csp_master = "mid-csp/control/0"
 dish_master1 = "ska001/elt/master"
-dish_master2 = "ska002/elt/master"
-dish_master3 = "ska003/elt/master"
+dish_master2 = "ska036/elt/master"
+dish_master3 = "ska063/elt/master"
 dish_master4 = "ska004/elt/master"
 sdp_queue_connector = "mid-sdp/queueconnector/01"
 
@@ -203,7 +203,7 @@ POINTING_OFFSETS = np.array(
             0.8441090109163307,
         ],
         [
-            "SKA002",
+            "SKA036",
             -4.115211938625473,
             69.10028693155607,
             -7.5782881970024,

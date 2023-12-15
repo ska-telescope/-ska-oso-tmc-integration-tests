@@ -5,7 +5,7 @@
     "dish": {
       "receptor_ids": [
         "SKA001",
-        "SKA002"
+        "SKA036"
       ]
     },
     "sdp": {
@@ -13,7 +13,7 @@
       "resources": {
         "receptors": [
           "SKA001",
-          "SKA002"
+          "SKA036"
         ]
       },
       "execution_block": {
