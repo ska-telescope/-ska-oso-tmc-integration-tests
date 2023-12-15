@@ -102,7 +102,7 @@ CUSTOM_VALUES =	--set global.csp.isSimulated.enabled=$(CSP_SIMULATION_ENABLED)\
 endif
 
 ifeq ($(SDP_SIMULATION_ENABLED),false)
-CUSTOM_VALUES =	--set deviceServers.mocks.is_simulated.sdp=$(SDP_SIMULATION_ENABLED)\
+CUSTOM_VALUES =	--set tmc-mid.deviceServers.mocks.is_simulated.sdp=$(SDP_SIMULATION_ENABLED)\
 	--set ska-sdp.enabled=true 
 endif
 
