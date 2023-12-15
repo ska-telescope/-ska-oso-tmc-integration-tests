@@ -20,10 +20,14 @@ server:
         - name: "HelperBaseDevice"
           devices:
           - name: "mid-sdp/control/0"
+        {{- end }}
+        {{- if eq $isSimulatedSdp true }}
         - name: "HelperSdpSubarray"
           devices:
           - name: "mid-sdp/subarray/01"
           - name: "mid-sdp/subarray/02"
+        {{- end }}
+        {{- if eq $isSimulatedSdp true }}
         - name: "HelperSdpQueueConnector"
           devices:
           - name: "mid-sdp/queueconnector/01"
