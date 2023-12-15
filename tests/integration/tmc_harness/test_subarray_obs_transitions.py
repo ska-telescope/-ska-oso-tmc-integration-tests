@@ -112,7 +112,7 @@ class TestSubarrayNodeObsStateTransitions(object):
             ),
         ],
     )
-    @pytest.mark.SKA_mid
+    @pytest.mark.SKA_mid32
     def test_subarray_pair_transition(
         self,
         subarray_node,

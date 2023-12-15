@@ -12,7 +12,7 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
     )
     # @pytest.mark.skip(reason="Configure issue")
     @pytest.mark.SKA_mid
-    @pytest.mark.SKA_midtn1
+    @pytest.mark.SKA_midtn
     def test_subarray_obs_transitions_valid_data(
         self,
         subarray_node,

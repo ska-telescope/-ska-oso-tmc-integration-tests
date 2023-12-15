@@ -174,7 +174,7 @@ def test_successive_scan_with_different_configurations(json_factory):
 
 
 @pytest.mark.SKA_midtn
-@pytest.mark.skip(reason="Dish interface changed")
+# @pytest.mark.skip(reason="Dish interface changed")
 @pytest.mark.SKA_mid
 def test_successive_scan_with_same_configurations(json_factory):
     """Successive Scan command with same configurations."""

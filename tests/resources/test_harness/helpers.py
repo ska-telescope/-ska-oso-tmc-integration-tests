@@ -185,40 +185,49 @@ def prepare_json_args_for_centralnode_commands(
     return input_json
 
 
-def get_command_call_info(device: Any, command_name: str):
+def get_command_call_info_boolean(device: Any, command_name: str):
     """
     device: Tango Device Proxy Object
 
     """
     command_call_info = device.read_attribute("commandCallInfo").value
-    # LOGGER.info("Command info %s", command_call_info)
+    LOGGER.info("Command info %s", command_call_info)
     command_info = [
         command_info
         for command_info in command_call_info
         if command_info[0] == command_name
     ]
 
-    # LOGGER.info("command_info[0][1] - %s", command_info[0][1])
-    # LOGGER.info("command_info[0][1] - %s", type(command_info[0][1]))
+    received_command_call_data = (
+        command_call_info[0][0],
+        command_info[0][1],
+    )
 
-    if (
-        command_info[0][1] == "True"
-        or command_info[0][1] == "False"
-        or command_info[0][1] == ""
-    ):
+    return received_command_call_data
 
-        received_command_call_data = (
-            command_call_info[0][0],
-            command_info[0][1],
-        )
 
-    else:
-        input_str = json.loads("".join(command_info[0][1].split()))
+def get_command_call_info(device: Any, command_name: str):
+    """
+    device: Tango Device Proxy Object
 
-        received_command_call_data = (
-            command_call_info[0][0],
-            sorted(input_str),
-        )
+    """
+    command_call_info = device.read_attribute("commandCallInfo").value
+    LOGGER.info("Command info %s", command_call_info)
+    command_info = [
+        command_info
+        for command_info in command_call_info
+        if command_info[0] == command_name
+    ]
+
+    LOGGER.info("command_info[0][1] - %s", command_info[0][1])
+    LOGGER.info("command_info[0][1] - %s", type(command_info[0][1]))
+
+    input_str = json.loads("".join(command_info[0][1].split()))
+
+    received_command_call_data = (
+        command_call_info[0][0],
+        sorted(input_str),
+    )
 
     return received_command_call_data
 
@@ -289,19 +298,21 @@ def device_received_this_command(
     Returns:
         Boolean: True if received data is equal to expected data.
     """
-    received_command_call_data = get_command_call_info(
-        device, expected_command_name
-    )
-    LOGGER.info("received_command_call_data - %s", received_command_call_data)
-    LOGGER.info("expected_inp_str - %s", expected_inp_str)
 
-    LOGGER.info("expected_inp_str type - %s", type(expected_inp_str))
+    LOGGER.info("expected_inp_str - %s", expected_inp_str)
 
     if (
         expected_inp_str == "True"
         or expected_inp_str == "False"
         or expected_inp_str == ""
     ):
+
+        received_command_call_data = get_command_call_info_boolean(
+            device, expected_command_name
+        )
+        LOGGER.info(
+            "received_command_call_data - %s", received_command_call_data
+        )
 
         LOGGER.info("expected_inp_str %s", expected_inp_str)
         return received_command_call_data == (
@@ -310,6 +321,14 @@ def device_received_this_command(
         )
 
     else:
+
+        received_command_call_data = get_command_call_info(
+            device, expected_command_name
+        )
+        LOGGER.info(
+            "received_command_call_data - %s", received_command_call_data
+        )
+
         expected_input_str = json.loads("".join(expected_inp_str.split()))
         LOGGER.info("expected_input_str %s", expected_input_str)
         return received_command_call_data == (
