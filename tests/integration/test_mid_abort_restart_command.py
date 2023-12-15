@@ -597,7 +597,7 @@ def test_abort_in_configuring(json_factory):
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-@pytest.mark.skip(reason="timeout issue")
+@pytest.mark.test3
 @pytest.mark.SKA_mid
 def test_abort_in_scanning(json_factory):
     """Abort and Restart is executed."""
