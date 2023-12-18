@@ -65,11 +65,9 @@ tmc-mid:
     mocks:
       enabled: true
       isSimulated:
-        enabled: true
+        sdp: true
+        csp: true
 
-csp:
-  isSimulated:
-    enabled: true
 
 # SKUID
 ska-ser-skuid:
@@ -102,4 +100,3 @@ ska-tmc-simulators:
 
 ska-csp-lmc-mid:
   enabled: true
-
