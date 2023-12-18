@@ -113,7 +113,7 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.namespace_dish.dish_name[1]="$(DISH_NAME_36)"\
 	--set global.namespace_dish.dish_name[2]="$(DISH_NAME_63)"\
 	--set global.namespace_dish.dish_name[3]="$(DISH_NAME_4)"\
-	--set global.Dish.isSimulated.enabled=$(SIMULATED_DISH)\
+	--set deviceServers.mocks.is_simulated.dish=$(SIMULATED_DISH)\
 	--set global.subarray_count=$(SUBARRAY_COUNT)\
 	$(CUSTOM_VALUES)
 

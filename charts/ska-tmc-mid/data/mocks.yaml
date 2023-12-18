@@ -12,7 +12,7 @@ entrypoints:
 server:
   name: "mocks"
   instances:
-  {{- $isSimulatedDish := .Values.global.Dish.isSimulated.enabled }}
+  {{- $isSimulatedDish := .Values.deviceServers.mocks.is_simulated.dish }}
     - name: "01"
       classes:
         - name: "HelperBaseDevice"
