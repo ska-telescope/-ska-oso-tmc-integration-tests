@@ -101,7 +101,7 @@ class TestSubarrayNodeObsStateTransitions(object):
                 "sdp_assign_resources_mid",
             ),
             # reason: "IndexError: list index out of range"
-            # this error is reapearing 
+            # this error is reapearing
             # (
             #     "READY",
             #     "Scan",
