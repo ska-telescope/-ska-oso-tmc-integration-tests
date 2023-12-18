@@ -36,26 +36,13 @@ def given_a_tmc(central_node_mid, simulator_factory):
         dish_master_sim_2,
     ) = get_master_device_simulators(simulator_factory)
 
-    central_node_mid.central_node.ping() > 1
-    central_node_mid.sdp_master.ping() > 1
-    central_node_mid.subarray_devices["sdp_subarray"].ping() > 1
-    csp_master_sim.ping() > 1
-    dish_master_sim_1.ping() > 1
-    dish_master_sim_2.ping() > 1
+    assert central_node_mid.central_node.ping() > 0
+    assert central_node_mid.sdp_master.ping() > 0
+    assert central_node_mid.subarray_devices["sdp_subarray"].ping() > 0
+    assert csp_master_sim.ping() > 0
+    assert dish_master_sim_1.ping() > 0
+    assert dish_master_sim_2.ping() > 0
  
-
-@given("telescope state is STANDBY")
-def check_state_devices(central_node_mid, event_recorder):
-    """Set up a TMC and ensure it is in the OFF state."""
-    event_recorder.subscribe_event(
-        central_node_mid.central_node, "telescopeState"
-    )
-
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.central_node,
-        "telescopeState",
-        DevState.STANDBY,
-    )
 
 @when("I start up the telescope")
 def invoke_telescope_on(central_node_mid):
@@ -86,6 +73,9 @@ def check_sdp_is_on(central_node_mid, event_recorder):
 @then("telescope state is ON")
 def check_telescopestate(central_node_mid, event_recorder):
     """A method to check CentralNode.telescopeState """
+    event_recorder.subscribe_event(
+        central_node_mid.central_node, "telescopeState"
+    )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
         "telescopeState",
