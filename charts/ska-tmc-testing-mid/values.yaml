@@ -64,6 +64,8 @@ tmc-mid:
   deviceServers:
     mocks:
       enabled: true
+      is_simulated:
+        dish: true
  
 # SKUID
 ska-ser-skuid:
