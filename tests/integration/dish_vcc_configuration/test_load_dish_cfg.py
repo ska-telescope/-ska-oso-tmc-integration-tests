@@ -131,7 +131,8 @@ def validate_sys_param_attribute_set(central_node_mid):
         {
             "interface": interface_schema,
             "tm_data_sources": [
-                "car://gitlab.com/ska-telescope/ska-telmodel-data?main#tmdata"
+                "gitlab://gitlab.com/ska-telescope/ska-telmodel-data?main#"
+                + "tmdata"
             ],
             "tm_data_filepath": (
                 "instrument/dishid_vcc_configuration/mid_cbf_parameters.json"
