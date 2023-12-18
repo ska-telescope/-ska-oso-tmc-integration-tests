@@ -1,5 +1,5 @@
 import logging
-
+import os
 from ska_control_model import ObsState
 from ska_ser_logging import configure_logging
 from ska_tango_base.control_model import HealthState
@@ -26,6 +26,8 @@ from tests.resources.test_harness.utils.sync_decorators import sync_set_to_off
 configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
 
+SDP_SIMULATION_ENABLED = os.getenv("SDP_SIMULATION_ENABLED")
+
 
 class CentralNodeWrapperMid(CentralNodeWrapper):
     """A wrapper class to implement common tango specific details
@@ -38,11 +40,11 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         self.subarray_node = DeviceProxy(tmc_subarraynode1)
         self.csp_master_leaf_node = DeviceProxy(tmc_csp_master_leaf_node)
         self.sdp_master_leaf_node = DeviceProxy(tmc_sdp_master_leaf_node)
-        self.subarray_devices = {
-            "csp_subarray": DeviceProxy(csp_subarray1),
-            "sdp_subarray": DeviceProxy(sdp_subarray1),
-        }
         self.sdp_master = DeviceProxy(sdp_master)
+        self.subarray_devices = {
+        "csp_subarray": DeviceProxy(csp_subarray1),
+        "sdp_subarray": DeviceProxy(sdp_subarray1),}
+
         self.csp_master = DeviceProxy(csp_master)
         self.dish_master_list = [
             DeviceProxy(dish_master1),
@@ -59,8 +61,9 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
     def _reset_health_state_for_mock_devices(self):
         """Reset Mock devices"""
         super()._reset_health_state_for_mock_devices()
-        for mock_device in self.dish_master_list:
-            mock_device.SetDirectHealthState(HealthState.UNKNOWN)
+        if self.simulated_devices_dict["sdp_and_dish"] or self.simulated_devices_dict["csp_and_dish"] or self.simulated_devices_dict["all_mocks"]:
+            for mock_device in self.dish_master_list:
+                mock_device.SetDirectHealthState(HealthState.UNKNOWN)
 
     def load_dish_vcc_configuration(self, dish_vcc_config: str):
         """Invoke LoadDishCfg command on central Node
@@ -73,22 +76,24 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         """Reset sysParam and sourceSysParam attribute of csp master
         reset kValue of Dish master
         """
-        for mock_device in self.dish_master_list:
-            mock_device.SetKValue(0)
-        self.csp_master.ResetSysParams()
+        if self.simulated_devices_dict["sdp_and_dish"] or self.simulated_devices_dict["csp_and_dish"] or self.simulated_devices_dict["all_mocks"]:
+            for mock_device in self.dish_master_list:
+                mock_device.SetKValue(0)
+            self.csp_master.ResetSysParams()
 
     def _clear_command_call_and_transition_data(self, clear_transition=False):
         """Clears the command call data"""
-        for sim_device in [
-            csp_subarray1,
-            sdp_subarray1,
-            dish_master1,
-            dish_master2,
-        ]:
-            device = DeviceProxy(sim_device)
-            device.ClearCommandCallInfo()
-            if clear_transition:
-                device.ResetTransitions()
+        if self.simulated_devices_dict["all_mocks"]:
+            for sim_device in [
+                csp_subarray1,
+                sdp_subarray1,
+                dish_master1,
+                dish_master2,
+            ]:
+                device = DeviceProxy(sim_device)
+                device.ClearCommandCallInfo()
+                if clear_transition:
+                    device.ResetTransitions()
 
     @sync_set_to_off(device_dict=device_dict)
     def move_to_off(self):
@@ -97,17 +102,29 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         put telescope in OFF state
 
         """
-        self.central_node.TelescopeOff()
-        device_to_on_list = [
-            self.subarray_devices.get("csp_subarray"),
-            self.subarray_devices.get("sdp_subarray"),
-        ]
-        for device in device_to_on_list:
-            device_proxy = DeviceProxy(device)
-            device_proxy.SetDirectState(DevState.OFF)
+        if self.simulated_devices_dict["all_mocks"]:
+            LOGGER.info("Invoking commands with all Mocks")
+            self.central_node.TelescopeOff()
+            self.set_values_with_all_mocks(DevState.OFF, DishMode.STANDBY_LP)
+            
+        elif self.simulated_devices_dict["csp_and_sdp"]:
+            LOGGER.info("Invoking command with csp and sdp simulated")
+            self.central_node.TelescopeOff()
+            self.set_value_with_csp_sdp_mocks(DevState.OFF)
 
-        for device in self.dish_master_list:
-            device.SetDirectDishMode(DishMode.STANDBY_LP)
+        elif self.simulated_devices_dict["csp_and_dish"]:
+            LOGGER.info("Invoking command with csp and Dish simulated")
+            self.central_node.TelescopeOff()
+            self.set_values_with_csp_dish_mocks(DevState.OFF, DishMode.STANDBY_LP)
+
+        elif self.simulated_devices_dict["sdp_and_dish"]:
+            LOGGER.info("Invoking command with sdp and dish simulated")
+            self.central_node.TelescopeOff()
+            self.set_values_with_sdp_dish_mocks(DevState.OFF, DishMode.STANDBY_LP)
+
+        else:
+            LOGGER.info("Invoke command with all real sub-systems")
+            self.central_node.TelescopeOff()
 
     def tear_down(self):
         """Handle Tear down of central Node"""
