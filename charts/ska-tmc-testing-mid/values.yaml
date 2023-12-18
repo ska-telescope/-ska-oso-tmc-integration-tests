@@ -64,8 +64,7 @@ tmc-mid:
   deviceServers:
     mocks:
       enabled: true
-      isSimulated:
-        sdp: true
+      is_simulated:
         csp: true
 
 

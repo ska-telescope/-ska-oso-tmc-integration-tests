@@ -100,13 +100,8 @@ CUSTOM_VALUES =	--set global.csp.isSimulated.enabled=$(CSP_SIMULATION_ENABLED)\
 endif
 
 ifeq ($(CSP_SIMULATION_MID_ENABLED),false)
-CUSTOM_VALUES =	--set global.csp.isSimulated.enabled=$(CSP_SIMULATION_MID_ENABLED)\
+CUSTOM_VALUES =	--set tmc-mid.deviceServers.mocks.is_simulated.csp=$(CSP_SIMULATION_MID_ENABLED)\
 	--set tmc-mid.ska-csp-lmc-mid.enabled=true
-endif
-
-ifeq ($(CSP_SIMULATION_MID_ENABLED),true)
-CUSTOM_VALUES =	--set global.csp.isSimulated.enabled=$(CSP_SIMULATION_MID_ENABLED)\
-	--set tmc-mid.ska-csp-lmc-mid.enabled=false
 endif
 
 K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
@@ -120,7 +115,6 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.namespace_dish.dish_name[0]="$(DISH_NAME_1)"\
 	--set global.namespace_dish.dish_name[1]="$(DISH_NAME_2)"\
 	--set global.Dish.isSimulated.enabled=$(SIMULATED_DISH)\
-	--set global.csp.isSimulated.enabled=$(CSP_SIMULATION_MID_ENABLED)\
 	--set global.subarray_count=$(SUBARRAY_COUNT)\
 	$(CUSTOM_VALUES)
 
