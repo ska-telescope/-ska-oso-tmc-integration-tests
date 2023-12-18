@@ -104,6 +104,11 @@ CUSTOM_VALUES =	--set global.csp.isSimulated.enabled=$(CSP_SIMULATION_MID_ENABLE
 	--set tmc-mid.ska-csp-lmc-mid.enabled=true
 endif
 
+ifeq ($(CSP_SIMULATION_MID_ENABLED),true)
+CUSTOM_VALUES =	--set global.csp.isSimulated.enabled=$(CSP_SIMULATION_MID_ENABLED)\
+	--set tmc-mid.ska-csp-lmc-mid.enabled=false
+endif
+
 K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.tango_host=$(TANGO_HOST) \
 	--set ska-tango-base.display=$(DISPLAY) \

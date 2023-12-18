@@ -67,6 +67,10 @@ tmc-mid:
       isSimulated:
         enabled: true
 
+csp:
+  isSimulated:
+    enabled: true
+
 # SKUID
 ska-ser-skuid:
   labels:

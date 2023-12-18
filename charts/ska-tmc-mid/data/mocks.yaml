@@ -13,7 +13,7 @@ server:
   name: "mocks"
   instances:
   {{- $isSimulatedDish := .Values.global.Dish.isSimulated.enabled }}
-  {{- $isCspSimulated := .Values.deviceServers.mocks.is_simulated.csp }}
+  {{- $isCspSimulated := .Values.global.csp.isSimulated.enabled }}
     - name: "01"
       classes:
         - name: "HelperBaseDevice"
