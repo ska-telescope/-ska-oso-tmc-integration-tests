@@ -103,6 +103,8 @@ endif
 
 ifeq ($(SDP_SIMULATION_ENABLED),false)
 CUSTOM_VALUES =	--set tmc-mid.deviceServers.mocks.is_simulated.sdp=$(SDP_SIMULATION_ENABLED)\
+	--set global.sdp_master="$(SDP_MASTER)"\
+	--set global.sdp_subarray_prefix="$(SDP_SUBARRAY_PREFIX)"\
 	--set ska-sdp.enabled=true 
 endif
 
@@ -119,8 +121,6 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.Dish.isSimulated.enabled=$(SIMULATED_DISH)\
 	--set global.subarray_count=$(SUBARRAY_COUNT)\
 	--set ska-sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP)\
-	--set global.sdp_master="$(SDP_MASTER)"\
-	--set global.sdp_subarray_prefix="$(SDP_SUBARRAY_PREFIX)"\
 	$(CUSTOM_VALUES)
 
 
