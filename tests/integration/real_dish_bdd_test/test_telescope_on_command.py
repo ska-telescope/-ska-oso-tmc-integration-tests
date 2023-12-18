@@ -20,17 +20,16 @@ def test_telescope_on():
     telesopeOn command on Dishlmc"""
 
 
-# Given a Telescope consisting of  TMC, DISH , simulated CSP and simulated SDP
 @given(
     "a Telescope consisting of  TMC, DISH , simulated CSP and simulated SDP"
 )
 def given_tmc():
-    "Given TMC"
+    """Given TMC"""
 
 
 @given("telescope state is OFF")
 def given_tmc_off(central_node_with_dish, event_recorder):
-    """"""
+    """Checking if TMC central node is OFF"""
     event_recorder.subscribe_event(
         central_node_with_dish.central_node, "telescopeState"
     )
@@ -43,14 +42,15 @@ def given_tmc_off(central_node_with_dish, event_recorder):
 
 @when("I start up the telescope")
 def turn_on_telescope(central_node_with_dish):
-    """"""
+    """Invoke telescopeOn on TMC"""
     # Invoke TelescopeOn command
     central_node_with_dish.move_to_on()
 
 
 @then("DISH must go to STANDBY-FP mode")
 def check_dish_state(central_node_with_dish, event_recorder):
-
+    """Checking Dish state after invoking
+    telescopeOn command on central node"""
     event_recorder.subscribe_event(
         central_node_with_dish.central_node, "telescopeState"
     )
@@ -63,7 +63,7 @@ def check_dish_state(central_node_with_dish, event_recorder):
     )
     the_waiter = Waiter()
     the_waiter.wait(50)
-    # Check the dishMode of DISH LMC i.e STANDBYFP
+    # Check the dishMode of DISH LMC i.e STANDBY-FP
     assert (
         central_node_with_dish.dish_master_1.dishMode.value
         == DishMode.STANDBY_FP
@@ -76,6 +76,7 @@ def check_dish_state(central_node_with_dish, event_recorder):
 
 @then("telescope state is ON")
 def check_telescope_state(central_node_with_dish, event_recorder):
+    """Checking if TMC central node is ON"""
     assert event_recorder.has_change_event_occurred(
         central_node_with_dish.central_node,
         "telescopeState",

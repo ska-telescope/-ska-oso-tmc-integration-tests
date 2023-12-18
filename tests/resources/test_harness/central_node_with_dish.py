@@ -12,7 +12,7 @@ configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
 
 
-class CentralNodeCspWrapperMid(CentralNodeWrapperMid):
+class CentralNodeWrapperDish(CentralNodeWrapperMid):
     """A wrapper class to implement common tango specific details
     and standard set of commands for TMC Mid CentralNode with real Dish device,
     defined by the SKA Control Model."""
