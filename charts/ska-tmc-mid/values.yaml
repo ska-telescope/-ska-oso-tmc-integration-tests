@@ -44,7 +44,7 @@ global:
     - "cspsubarrayleafnode"
     - "sdpsubarrayleafnode"
     - "subarraynode"
-  subarray_count: 2
+  subarray_count: 1
 
   # fqdn for mid devices
   tmc_subarray_prefix: "ska_mid/tm_subarray_node"
@@ -128,7 +128,7 @@ deviceServers:
   centralnode:
     enabled: true
     instances: ["01"]
-    subarray_count: 2
+    subarray_count: 1
     file: "data/centralnode_mid.yaml"
     DishLeafNodePrefix: "ska_mid/tm_leaf_node/d0"
     DishIDs: ["SKA001", "SKA036", "SKA063", "SKA004"]
@@ -137,7 +137,7 @@ deviceServers:
 
   subarraynode:
     enabled: true
-    instances: ["01","02"]
+    instances: ["01"]
     file: "data/subarraynode_mid.yaml"
     DishLeafNodePrefix: "ska_mid/tm_leaf_node/d0"
     DishIDs: ["SKA001", "SKA036", "SKA063", "SKA004"]
@@ -146,7 +146,7 @@ deviceServers:
 
   sdpsubarrayleafnode:
     enabled: true
-    instances: ["01","02"]
+    instances: ["01"]
     file: "data/sdpsubarrayleafnode.yaml"
 
   sdpmasterleafnode:
@@ -161,7 +161,7 @@ deviceServers:
 
   cspsubarrayleafnode:
     enabled: true
-    instances: ["01","02"]
+    instances: ["01"]
     file: "data/cspsubarrayleafnode.yaml"
 
   dishleafnode:

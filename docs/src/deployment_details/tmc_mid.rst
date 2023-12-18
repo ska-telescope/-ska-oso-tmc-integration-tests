@@ -26,15 +26,15 @@ Configurable options
 
     #. **Central Node** : ["01"] 
 
-    #. **Subarray Node** :["01", "02"]
+    #. **Subarray Node** :["01"]
 
     #. **Csp Master Leaf Node** : ["01"] 
 
-    #. **Csp Subarray Leaf Node** : ["01", "02"]
+    #. **Csp Subarray Leaf Node** : ["01"]
 
     #. **Sdp Master Leaf Node** : ["01"]
 
-    #. **Sdp Subarray Leaf Node** : ["01", "02"]
+    #. **Sdp Subarray Leaf Node** : ["01"]
 
     #. **Dish Leaf Node** : ["001", "036", "063", "004"]
 
