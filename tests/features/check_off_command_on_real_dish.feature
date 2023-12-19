@@ -1,4 +1,4 @@
-Scenario : ShutDown with TMC and DISH devices
+Scenario: ShutDown with TMC and DISH devices
     Given a Telescope consisting of TMC and DISH that is in ON state
     And simulated SDP and CSP in ON state
     And telescope state is ON

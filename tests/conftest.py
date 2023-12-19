@@ -17,9 +17,6 @@ from tests.resources.test_harness.central_node_mid import CentralNodeWrapperMid
 from tests.resources.test_harness.central_node_with_csp_low import (
     CentralNodeCspWrapperLow,
 )
-from tests.resources.test_harness.central_node_with_dish import (
-    CentralNodeWrapperDish,
-)
 from tests.resources.test_harness.event_recorder import EventRecorder
 from tests.resources.test_harness.simulator_factory import SimulatorFactory
 from tests.resources.test_harness.subarray_node import SubarrayNodeWrapper
@@ -187,15 +184,6 @@ def central_node_real_csp_low() -> CentralNodeCspWrapperLow:
     yield central_node_low
     # this will call after test complete
     central_node_low.tear_down()
-
-
-@pytest.fixture()
-def central_node_with_dish() -> CentralNodeWrapperDish:
-    """Return CentralNode for Mid-Telescope and calls tear down"""
-    central_node_dish = CentralNodeWrapperDish()
-    yield central_node_dish
-    # this will call after test complete
-    central_node_dish.tear_down()
 
 
 @pytest.fixture()
