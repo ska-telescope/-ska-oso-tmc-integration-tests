@@ -4,20 +4,16 @@ import time
 from typing import Any
 
 import pytest
-from ska_control_model import ObsState
 from ska_ser_logging import configure_logging
 from ska_tango_base.commands import ResultCode
 from ska_tango_base.control_model import HealthState
 from ska_tango_testing.mock.placeholders import Anything
-from tango import DeviceProxy
 
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_harness.utils.wait_helpers import Waiter, watch
 from tests.resources.test_support.common_utils.common_helpers import Resource
 from tests.resources.test_support.constant import (
-    INTERMEDIATE_CONFIGURING_OBS_STATE_DEFECT,
-    INTERMEDIATE_STATE_DEFECT,
     csp_subarray1,
     dish_master1,
     dish_master2,
@@ -25,12 +21,6 @@ from tests.resources.test_support.constant import (
     tmc_csp_subarray_leaf_node,
     tmc_sdp_subarray_leaf_node,
     tmc_subarraynode1,
-)
-from tests.resources.test_support.constant_low import (
-    csp_subarray1 as csp_subarray1_low,
-)
-from tests.resources.test_support.constant_low import (
-    sdp_subarray1 as sdp_subarray1_low,
 )
 
 configure_logging(logging.DEBUG)
@@ -206,57 +196,58 @@ def get_command_call_info(device: Any, command_name: str):
     return received_command_call_data
 
 
-def set_subarray_to_given_obs_state(
-    subarray_node: DeviceProxy,
-    obs_state: str,
-    event_recorder,
-    command_input_factory,
-):
-    """Set the Subarray node to given obsState."""
-    # This method with be removed after the helper devices are updated to have
-    # a ThreadPoolExecutor.
-    match obs_state:
-        case "RESOURCING":
-            # Setting the device defective
-            csp_subarray = DeviceProxy(csp_subarray1_low)
-            csp_subarray.SetDefective(json.dumps(INTERMEDIATE_STATE_DEFECT))
+# def set_subarray_to_given_obs_state(
+#     subarray_node: DeviceProxy,
+#     obs_state: str,
+#     event_recorder,
+#     command_input_factory,
+# ):
+#     """Set the Subarray node to given obsState."""
+#     # This method with be removed after the helper devices are updated to
+# have
+#     # a ThreadPoolExecutor.
+#     match obs_state:
+#         case "RESOURCING":
+#             # Setting the device defective
+#             csp_subarray = DeviceProxy(csp_subarray1_low)
+#             csp_subarray.SetDefective(json.dumps(INTERMEDIATE_STATE_DEFECT))
 
-            subarray_node.force_change_of_obs_state(obs_state)
+#             subarray_node.force_change_of_obs_state(obs_state)
 
-            # Waiting for SDP Subarray to go to ObsState.IDLE
-            sdp_subarray = DeviceProxy(sdp_subarray1_low)
-            event_recorder.subscribe_event(sdp_subarray, "obsState")
-            assert event_recorder.has_change_event_occurred(
-                sdp_subarray,
-                "obsState",
-                ObsState.IDLE,
-            )
-            # Resetting defect on CSP Subarray.
-            csp_subarray.SetDefective(json.dumps({"enabled": False}))
+#             # Waiting for SDP Subarray to go to ObsState.IDLE
+#             sdp_subarray = DeviceProxy(sdp_subarray1_low)
+#             event_recorder.subscribe_event(sdp_subarray, "obsState")
+#             assert event_recorder.has_change_event_occurred(
+#                 sdp_subarray,
+#                 "obsState",
+#                 ObsState.IDLE,
+#             )
+#             # Resetting defect on CSP Subarray.
+#             csp_subarray.SetDefective(json.dumps({"enabled": False}))
 
-        case "CONFIGURING":
-            subarray_node.force_change_of_obs_state("IDLE")
-            # Setting the device defective
-            csp_subarray = DeviceProxy(csp_subarray1_low)
-            csp_subarray.SetDefective(
-                json.dumps(INTERMEDIATE_CONFIGURING_OBS_STATE_DEFECT)
-            )
+#         case "CONFIGURING":
+#             subarray_node.force_change_of_obs_state("IDLE")
+#             # Setting the device defective
+#             csp_subarray = DeviceProxy(csp_subarray1_low)
+#             csp_subarray.SetDefective(
+#                 json.dumps(INTERMEDIATE_CONFIGURING_OBS_STATE_DEFECT)
+#             )
 
-            configure_input = prepare_json_args_for_commands(
-                "configure_low", command_input_factory
-            )
-            subarray_node.execute_transition("Configure", configure_input)
+#             configure_input = prepare_json_args_for_commands(
+#                 "configure_low", command_input_factory
+#             )
+#             subarray_node.execute_transition("Configure", configure_input)
 
-            # Waiting for SDP Subarray to go to ObsState.READY
-            sdp_subarray = DeviceProxy(sdp_subarray1_low)
-            event_recorder.subscribe_event(sdp_subarray, "obsState")
-            assert event_recorder.has_change_event_occurred(
-                sdp_subarray,
-                "obsState",
-                ObsState.READY,
-            )
-            # Resetting defect on CSP Subarray.
-            csp_subarray.SetDefective(json.dumps({"enabled": False}))
+#             # Waiting for SDP Subarray to go to ObsState.READY
+#             sdp_subarray = DeviceProxy(sdp_subarray1_low)
+#             event_recorder.subscribe_event(sdp_subarray, "obsState")
+#             assert event_recorder.has_change_event_occurred(
+#                 sdp_subarray,
+#                 "obsState",
+#                 ObsState.READY,
+#             )
+#             # Resetting defect on CSP Subarray.
+#             csp_subarray.SetDefective(json.dumps({"enabled": False}))
 
 
 def device_received_this_command(
