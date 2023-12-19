@@ -9,13 +9,6 @@ DISH_NAMESPACE_1 ?= dish-lmc-1
 DISH_NAMESPACE_2 ?= dish-lmc-2
 KUBE_NAMESPACE ?= ska-tmc-integration
 KUBE_NAMESPACE_SDP ?= ska-tmc-integration-sdp
-PYTHON_VARS_BEFORE_PYTEST ?= PYTHONPATH=.:./src \
-							 TANGO_HOST=$(TANGO_HOST) \
-							 TELESCOPE=$(TELESCOPE) \
-							 DISH_NAMESPACE_1=$(DISH_NAMESPACE_1) \
-							 DISH_NAMESPACE_2=$(DISH_NAMESPACE_2) \
-							 KUBE_NAMESPACE=$(KUBE_NAMESPACE) \
-							 KUBE_NAMESPACE_SDP=$(KUBE_NAMESPACE_SDP)
 
 PYTHON_LINT_TARGET ?= tests/
 
@@ -57,6 +50,10 @@ DISH_NAME_2 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_2).$(CLUSTER_DOMAIN):
 SDP_MASTER ?= tango://$(TANGO_HOST).$(KUBE_NAMESPACE).$(CLUSTER_DOMAIN):$(PORT)/mid-sdp/control/0
 SDP_SUBARRAY_PREFIX ?= tango://$(TANGO_HOST).$(KUBE_NAMESPACE).$(CLUSTER_DOMAIN):$(PORT)/mid-sdp/subarray
 
+CSP_SIMULATION_ENABLED ?= true
+SDP_SIMULATION_ENABLED ?= true
+DISH_SIMULATION_ENABLED ?= true
+
 CI_REGISTRY ?= gitlab.com
 
 K8S_TEST_IMAGE_TO_TEST ?= artefact.skao.int/ska-tango-images-tango-itango:9.3.12## docker image that will be run for testing purpose
@@ -82,8 +79,7 @@ K8S_TEST_RUNNER = test-runner-$(HELM_RELEASE)
 
 CI_PROJECT_PATH_SLUG ?= ska-tmc-integration
 CI_ENVIRONMENT_SLUG ?= ska-tmc-integration
-CSP_SIMULATION_ENABLED ?= true
-SDP_SIMULATION_ENABLED ?= true
+
 
 ifeq ($(MAKECMDGOALS),k8s-test)
 ADD_ARGS +=  --true-context
@@ -122,6 +118,18 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.subarray_count=$(SUBARRAY_COUNT)\
 	--set ska-sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP)\
 	$(CUSTOM_VALUES)
+
+
+PYTHON_VARS_BEFORE_PYTEST ?= PYTHONPATH=.:./src \
+							 TANGO_HOST=$(TANGO_HOST) \
+							 TELESCOPE=$(TELESCOPE) \
+							 CSP_SIMULATION_ENABLED=$(CSP_SIMULATION_ENABLED) \
+							 SDP_SIMULATION_ENABLED=$(SDP_SIMULATION_ENABLED) \
+							 DISH_SIMULATION_ENABLED=$(DISH_SIMULATION_ENABLED) \
+							 DISH_NAMESPACE_1=$(DISH_NAMESPACE_1) \
+							 DISH_NAMESPACE_2=$(DISH_NAMESPACE_2) \
+							 KUBE_NAMESPACE=$(KUBE_NAMESPACE) \
+							 KUBE_NAMESPACE_SDP=$(KUBE_NAMESPACE_SDP)
 
 
 K8S_TEST_TEST_COMMAND ?= $(PYTHON_VARS_BEFORE_PYTEST) $(PYTHON_RUNNER) \
