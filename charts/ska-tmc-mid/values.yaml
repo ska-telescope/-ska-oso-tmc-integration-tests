@@ -30,7 +30,7 @@ global:
   # List the dishes, if set, then this list will be applied to instances of:
   # deviceServers.dishmaster, deviceServers.dishleafnode
   dish_devices: ["dishmaster", "dishleafnode"]
-  dishes: ["001", "036", "063", "101"]
+  dishes: ["001", "036", "063", "099"]
 
   # Dish:
   #   isSimulated:
@@ -131,7 +131,7 @@ deviceServers:
     subarray_count: 1
     file: "data/centralnode_mid.yaml"
     DishLeafNodePrefix: "ska_mid/tm_leaf_node/d0"
-    DishIDs: ["SKA001", "SKA036", "SKA063", "SKA101"]
+    DishIDs: ["SKA001", "SKA036", "SKA063", "SKA099"]
     DishMasterPrefix: "elt"
     DishMasterPostfix: "master"
 
@@ -140,7 +140,7 @@ deviceServers:
     instances: ["01"]
     file: "data/subarraynode_mid.yaml"
     DishLeafNodePrefix: "ska_mid/tm_leaf_node/d0"
-    DishIDs: ["SKA001", "SKA036", "SKA063", "SKA101"]
+    DishIDs: ["SKA001", "SKA036", "SKA063", "SKA099"]
     DishMasterPrefix: "elt"
     DishMasterPostfix: "master"
 
@@ -166,7 +166,7 @@ deviceServers:
 
   dishleafnode:
     enabled: true
-    instances: ["001","036","063","101"]
+    instances: ["001","036","063","099"]
     file: "data/dishleafnode.yaml"
 
   mocks:
