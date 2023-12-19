@@ -94,13 +94,6 @@ endif
 # at the end. Will be debugged and fixed as a part of improvement.
 PYTHON_VARS_AFTER_PYTEST ?= -m '$(MARK)' $(ADD_ARGS) $(FILE) -x
 
-ifeq ($(CSP_SIMULATION_ENABLED),false)
-CUSTOM_VALUES =	--set global.csp.isSimulated.enabled=$(CSP_SIMULATION_ENABLED)\
-	--set tmc-low.ska-csp-lmc-low.enabled=true\
-	--set tmc-low.ska-low-cbf.enabled=true\
-	--set tmc-low.ska-low-cbf.ska-low-cbf-proc.enabled=true
-endif
-
 ifeq ($(SDP_SIMULATION_ENABLED),false)
 CUSTOM_VALUES =	--set tmc-mid.deviceServers.mocks.is_simulated.sdp=$(SDP_SIMULATION_ENABLED)\
 	--set global.sdp_master="$(SDP_MASTER)"\
@@ -113,7 +106,7 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set ska-tango-base.display=$(DISPLAY) \
 	--set ska-tango-base.xauthority=$(XAUTHORITY) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
-	--set global.exposeAllDS=true \
+	--set global.exposeAllDS=false \
 	--set global.operator=true \
 	--set ska-taranta.enabled=$(TARANTA_ENABLED)\
 	--set global.namespace_dish.dish_name[0]="$(DISH_NAME_1)"\

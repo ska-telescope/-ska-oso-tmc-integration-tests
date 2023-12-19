@@ -204,7 +204,7 @@ def get_command_call_info(device: Any, command_name: str):
 # ):
 #     """Set the Subarray node to given obsState."""
 #     # This method with be removed after the helper devices are updated to
-# have
+#  have
 #     # a ThreadPoolExecutor.
 #     match obs_state:
 #         case "RESOURCING":

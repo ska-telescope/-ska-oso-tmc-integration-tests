@@ -313,7 +313,6 @@ def tear_down(
         kwargs.get("sdp_subarray"),
         kwargs.get("csp_subarray"),
     ]
-
     ABORT_INFO = MID_OBS_STATE_ABORT_INFO
     EMPTY_INFO = MID_OBS_STATE_EMPTY_INFO
     IDLE_INFO = MID_OBS_STATE_IDLE_INFO
