@@ -1,5 +1,6 @@
 import logging
 import os
+
 from ska_control_model import ObsState
 from ska_ser_logging import configure_logging
 from ska_tango_base.control_model import HealthState
@@ -42,8 +43,9 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         self.sdp_master_leaf_node = DeviceProxy(tmc_sdp_master_leaf_node)
         self.sdp_master = DeviceProxy(sdp_master)
         self.subarray_devices = {
-        "csp_subarray": DeviceProxy(csp_subarray1),
-        "sdp_subarray": DeviceProxy(sdp_subarray1),}
+            "csp_subarray": DeviceProxy(csp_subarray1),
+            "sdp_subarray": DeviceProxy(sdp_subarray1),
+        }
 
         self.csp_master = DeviceProxy(csp_master)
         self.dish_master_list = [
@@ -61,7 +63,11 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
     def _reset_health_state_for_mock_devices(self):
         """Reset Mock devices"""
         super()._reset_health_state_for_mock_devices()
-        if self.simulated_devices_dict["sdp_and_dish"] or self.simulated_devices_dict["csp_and_dish"] or self.simulated_devices_dict["all_mocks"]:
+        if (
+            self.simulated_devices_dict["sdp_and_dish"]
+            or self.simulated_devices_dict["csp_and_dish"]
+            or self.simulated_devices_dict["all_mocks"]
+        ):
             for mock_device in self.dish_master_list:
                 mock_device.SetDirectHealthState(HealthState.UNKNOWN)
 
@@ -76,7 +82,11 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         """Reset sysParam and sourceSysParam attribute of csp master
         reset kValue of Dish master
         """
-        if self.simulated_devices_dict["sdp_and_dish"] or self.simulated_devices_dict["csp_and_dish"] or self.simulated_devices_dict["all_mocks"]:
+        if (
+            self.simulated_devices_dict["sdp_and_dish"]
+            or self.simulated_devices_dict["csp_and_dish"]
+            or self.simulated_devices_dict["all_mocks"]
+        ):
             for mock_device in self.dish_master_list:
                 mock_device.SetKValue(0)
             self.csp_master.ResetSysParams()
@@ -106,7 +116,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             LOGGER.info("Invoking commands with all Mocks")
             self.central_node.TelescopeOff()
             self.set_values_with_all_mocks(DevState.OFF, DishMode.STANDBY_LP)
-            
+
         elif self.simulated_devices_dict["csp_and_sdp"]:
             LOGGER.info("Invoking command with csp and sdp simulated")
             self.central_node.TelescopeOff()
@@ -115,12 +125,16 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         elif self.simulated_devices_dict["csp_and_dish"]:
             LOGGER.info("Invoking command with csp and Dish simulated")
             self.central_node.TelescopeOff()
-            self.set_values_with_csp_dish_mocks(DevState.OFF, DishMode.STANDBY_LP)
+            self.set_values_with_csp_dish_mocks(
+                DevState.OFF, DishMode.STANDBY_LP
+            )
 
         elif self.simulated_devices_dict["sdp_and_dish"]:
             LOGGER.info("Invoking command with sdp and dish simulated")
             self.central_node.TelescopeOff()
-            self.set_values_with_sdp_dish_mocks(DevState.OFF, DishMode.STANDBY_LP)
+            self.set_values_with_sdp_dish_mocks(
+                DevState.OFF, DishMode.STANDBY_LP
+            )
 
         else:
             LOGGER.info("Invoke command with all real sub-systems")

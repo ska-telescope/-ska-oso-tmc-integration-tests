@@ -1,5 +1,6 @@
 import logging
 import os
+
 from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
 
@@ -80,30 +81,35 @@ class CentralNodeWrapper(object):
         put telescope in ON state
         """
         LOGGER.info("Starting up the Telescope")
-        LOGGER.info(f"Received simulated devices: {self.simulated_devices_dict}")
+        LOGGER.info(
+            f"Received simulated devices: {self.simulated_devices_dict}"
+        )
         if self.simulated_devices_dict["all_mocks"]:
             LOGGER.info("Invoking commands with all Mocks")
             self.central_node.TelescopeOn()
             self.set_values_with_all_mocks(DevState.ON, DishMode.STANDBY_FP)
-        
+
         elif self.simulated_devices_dict["csp_and_sdp"]:
             LOGGER.info("Invoking command with csp and sdp simulated")
             self.central_node.TelescopeOn()
             self.set_value_with_csp_sdp_mocks(DevState.ON)
-        
+
         elif self.simulated_devices_dict["csp_and_dish"]:
             LOGGER.info("Invoking command with csp and Dish simulated")
             self.central_node.TelescopeOn()
-            self.set_values_with_csp_dish_mocks(DevState.ON, DishMode.STANDBY_FP)
+            self.set_values_with_csp_dish_mocks(
+                DevState.ON, DishMode.STANDBY_FP
+            )
 
         elif self.simulated_devices_dict["sdp_and_dish"]:
             LOGGER.info("Invoking command with sdp and dish simulated")
             self.central_node.TelescopeOn()
-            self.set_values_with_sdp_dish_mocks(DevState.ON, DishMode.STANDBY_FP)
+            self.set_values_with_sdp_dish_mocks(
+                DevState.ON, DishMode.STANDBY_FP
+            )
         else:
             LOGGER.info("Invoke command with all real sub-systems")
             self.central_node.TelescopeOn()
-
 
     def set_standby(self):
         """
@@ -125,16 +131,20 @@ class CentralNodeWrapper(object):
         elif self.simulated_devices_dict["csp_and_dish"]:
             LOGGER.info("Invoking command with csp and Dish simulated")
             self.central_node.TelescopeStandBy()
-            self.set_values_with_csp_dish_mocks(DevState.STANDBY, DishMode.STANDBY)
+            self.set_values_with_csp_dish_mocks(
+                DevState.STANDBY, DishMode.STANDBY
+            )
 
         elif self.simulated_devices_dict["sdp_and_dish"]:
             LOGGER.info("Invoking command with sdp and dish simulated")
             self.central_node.TelescopeStandBy()
-            self.set_values_with_sdp_dish_mocks(DevState.STANDBY, DishMode.STANDBY)
+            self.set_values_with_sdp_dish_mocks(
+                DevState.STANDBY, DishMode.STANDBY
+            )
         else:
             LOGGER.info("Invoke command with all real sub-systems")
             self.central_node.TelescopeStandBy()
-           
+
     @sync_release_resources(device_dict=device_dict)
     def invoke_release_resources(self, input_string):
         """Invoke Release Resource command on central Node
@@ -158,7 +168,10 @@ class CentralNodeWrapper(object):
 
     def _reset_health_state_for_mock_devices(self):
         """Reset Mock devices"""
-        if self.simulated_devices_dict["csp_and_sdp"] or self.simulated_devices_dict["all_mocks"]:
+        if (
+            self.simulated_devices_dict["csp_and_sdp"]
+            or self.simulated_devices_dict["all_mocks"]
+        ):
             for mock_device in [
                 self.sdp_master,
                 self.csp_master,
@@ -180,7 +193,6 @@ class CentralNodeWrapper(object):
         else:
             LOGGER.info("No devices to reset healthState")
 
-
     def perform_action(self, command_name: str, input_json: str):
         """Execute provided command on centralnode
         Args:
@@ -194,9 +206,16 @@ class CentralNodeWrapper(object):
         return result, message
 
     def set_values_with_all_mocks(self, subarray_state, dish_mode):
+        """
+        A method to set values on mock CSP, SDP and Dish devices.
+        Args:
+            subarray_state: DevState - subarray state value for
+                                        CSP and SDP Subarrays
+            dish_mode: DishMode - dish mode value for Dish Masters
+        """
         device_to_on_list = [
             self.subarray_devices.get("csp_subarray"),
-            self.subarray_devices.get("sdp_subarray")
+            self.subarray_devices.get("sdp_subarray"),
         ]
         for device in device_to_on_list:
             device_proxy = DeviceProxy(device)
@@ -208,16 +227,28 @@ class CentralNodeWrapper(object):
                 device.SetDirectDishMode(dish_mode)
 
     def set_value_with_csp_sdp_mocks(self, subarray_state):
+        """
+        A method to set values on mock CSP and SDP devices.
+        Args:
+            subarray_state: DevState - subarray state value for
+                                    CSP and SDP Subarrays
+        """
         device_to_on_list = [
             self.subarray_devices.get("csp_subarray"),
-            self.subarray_devices.get("sdp_subarray")
+            self.subarray_devices.get("sdp_subarray"),
         ]
         for device in device_to_on_list:
             device_proxy = DeviceProxy(device)
             device_proxy.SetDirectState(subarray_state)
-    
 
     def set_values_with_csp_dish_mocks(self, subarray_state, dish_mode):
+        """
+        A method to set values on mock CSP and Dish devices.
+        Args:
+            subarray_state: DevState - subarray state value for
+                                    CSP Subarray
+            dish_mode: DishMode - dish mode value for Dish Masters
+        """
         device_to_on_list = [
             self.subarray_devices.get("csp_subarray"),
         ]
@@ -231,9 +262,14 @@ class CentralNodeWrapper(object):
                 device.SetDirectDishMode(dish_mode)
 
     def set_values_with_sdp_dish_mocks(self, subarray_state, dish_mode):
-        device_to_on_list = [
-            self.subarray_devices.get("sdp_subarray")
-        ]
+        """
+        A method to set values on mock SDP and Dish devices.
+        Args:
+            subarray_state: DevState - subarray state value for
+                                    SDP Subarray
+            dish_mode: DishMode - dish mode value for Dish Masters
+        """
+        device_to_on_list = [self.subarray_devices.get("sdp_subarray")]
         for device in device_to_on_list:
             device_proxy = DeviceProxy(device)
             device_proxy.SetDirectState(subarray_state)
@@ -243,12 +279,30 @@ class CentralNodeWrapper(object):
             for device in self.dish_master_list:
                 device.SetDirectDishMode(dish_mode)
 
-    def get_simulated_devices_info(self):
+    def get_simulated_devices_info(self) -> dict:
+        """
+        A method to get simulated devices present in the deployement.
+
+        return: dict
+        """
         self.is_csp_simulated = CSP_SIMULATION_ENABLED.lower() == "true"
         self.is_sdp_simulated = SDP_SIMULATION_ENABLED.lower() == "true"
         self.is_dish_simulated = DISH_SIMULATION_ENABLED.lower() == "true"
-        return {"csp_and_sdp": all([self.is_csp_simulated, self.is_sdp_simulated]), # dish real
-                "csp_and_dish": all([self.is_csp_simulated, self.is_dish_simulated]), # sdp real
-                "sdp_and_dish": all([self.is_sdp_simulated, self.is_dish_simulated]), # csp real                                                           # csp real
-                "all_mocks": all([self.is_csp_simulated, self.is_sdp_simulated, self.is_dish_simulated])
-                }
+        return {
+            "csp_and_sdp": all(
+                [self.is_csp_simulated, self.is_sdp_simulated]
+            ),  # real DISH.LMC enabled
+            "csp_and_dish": all(
+                [self.is_csp_simulated, self.is_dish_simulated]
+            ),  # real SDP enabled
+            "sdp_and_dish": all(
+                [self.is_sdp_simulated, self.is_dish_simulated]
+            ),  # real CSP.LMC enabled                                                         # csp real
+            "all_mocks": all(
+                [
+                    self.is_csp_simulated,
+                    self.is_sdp_simulated,
+                    self.is_dish_simulated,
+                ]
+            ),
+        }

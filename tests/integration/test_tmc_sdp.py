@@ -4,9 +4,8 @@ import pytest
 from pytest_bdd import given, scenario, then, when
 from tango import DevState
 
-from tests.resources.test_harness.helpers import (
-    get_master_device_simulators,
-)
+from tests.resources.test_harness.helpers import get_master_device_simulators
+
 
 @pytest.mark.real_sdp
 @scenario(
@@ -18,6 +17,7 @@ def test_tmc_sdp_telescope_on():
     Test case to verify TMC-SDP TelescopeOn() functionality
     """
 
+
 @given("a Telescope consisting of TMC, SDP, simulated CSP and simulated DISH")
 def given_a_tmc(central_node_mid, simulator_factory):
     """
@@ -27,11 +27,11 @@ def given_a_tmc(central_node_mid, simulator_factory):
         simulator_factory: fixture for SimulatorFactory class,
         which provides simulated subarray and master devices
         event_recorder: fixture for EventRecorder class
-    
+
     """
     (
         csp_master_sim,
-        _, 
+        _,
         dish_master_sim_1,
         dish_master_sim_2,
     ) = get_master_device_simulators(simulator_factory)
@@ -42,7 +42,7 @@ def given_a_tmc(central_node_mid, simulator_factory):
     assert csp_master_sim.ping() > 0
     assert dish_master_sim_1.ping() > 0
     assert dish_master_sim_2.ping() > 0
- 
+
 
 @when("I start up the telescope")
 def invoke_telescope_on(central_node_mid):
@@ -53,9 +53,7 @@ def invoke_telescope_on(central_node_mid):
 @then("the SDP must go to ON state")
 def check_sdp_is_on(central_node_mid, event_recorder):
     """A method to check SDP controller and SDP subarray states"""
-    event_recorder.subscribe_event(
-        central_node_mid.sdp_master, "State"
-    )
+    event_recorder.subscribe_event(central_node_mid.sdp_master, "State")
     event_recorder.subscribe_event(
         central_node_mid.subarray_devices["sdp_subarray"], "State"
     )
@@ -70,9 +68,10 @@ def check_sdp_is_on(central_node_mid, event_recorder):
         DevState.ON,
     )
 
+
 @then("telescope state is ON")
 def check_telescopestate(central_node_mid, event_recorder):
-    """A method to check CentralNode.telescopeState """
+    """A method to check CentralNode.telescopeState"""
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
     )
