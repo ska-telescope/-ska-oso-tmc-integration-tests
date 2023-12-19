@@ -51,6 +51,7 @@ def check_tmc_and_sdp_is_on(central_node_mid, event_recorder):
 
 @given("simulated CSP and Dish in ON States")
 def check_simulated_devices_states(simulator_factory, event_recorder):
+    """A method to check CSP and Dish"""
     (
         csp_master_sim,
         _,
