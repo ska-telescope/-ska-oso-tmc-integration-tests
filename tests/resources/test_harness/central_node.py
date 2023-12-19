@@ -121,7 +121,7 @@ class CentralNodeWrapper(object):
         if self.simulated_devices_dict["all_mocks"]:
             LOGGER.info("Invoking commands with all Mocks")
             self.central_node.TelescopeStandBy()
-            self.set_values_with_all_mocks(DevState.STANDBY, DishMode.STANDBY)
+            self.set_values_with_all_mocks(DevState.STANDBY, DevState.STANDBY)
 
         elif self.simulated_devices_dict["csp_and_sdp"]:
             LOGGER.info("Invoking command with csp and sdp simulated")
@@ -132,14 +132,14 @@ class CentralNodeWrapper(object):
             LOGGER.info("Invoking command with csp and Dish simulated")
             self.central_node.TelescopeStandBy()
             self.set_values_with_csp_dish_mocks(
-                DevState.STANDBY, DishMode.STANDBY
+                DevState.STANDBY, DevState.STANDBY
             )
 
         elif self.simulated_devices_dict["sdp_and_dish"]:
             LOGGER.info("Invoking command with sdp and dish simulated")
             self.central_node.TelescopeStandBy()
             self.set_values_with_sdp_dish_mocks(
-                DevState.STANDBY, DishMode.STANDBY
+                DevState.STANDBY, DevState.STANDBY
             )
         else:
             LOGGER.info("Invoke command with all real sub-systems")
@@ -297,7 +297,7 @@ class CentralNodeWrapper(object):
             ),  # real SDP enabled
             "sdp_and_dish": all(
                 [self.is_sdp_simulated, self.is_dish_simulated]
-            ),  # real CSP.LMC enabled                                                         # csp real
+            ),  # real CSP.LMC enabled
             "all_mocks": all(
                 [
                     self.is_csp_simulated,
