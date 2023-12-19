@@ -30,7 +30,7 @@ dish_fqdn_63 = (
 
 dish_fqdn_4 = (
     f"tango://databaseds-tango-base.{dish_name_4}.svc.cluster"
-    ".local:10000/ska004/elt/master"
+    ".local:10000/ska101/elt/master"
 )
 
 centralnode = "ska_mid/tm_central/central_node"
@@ -53,7 +53,7 @@ csp_master = "mid-csp/control/0"
 dish_master1 = "ska001/elt/master"
 dish_master2 = "ska036/elt/master"
 dish_master3 = "ska063/elt/master"
-dish_master4 = "ska004/elt/master"
+dish_master4 = "ska101/elt/master"
 alarm_handler1 = "alarm/handler/01"
 
 DEVICE_HEALTH_STATE_OK_INFO = {
