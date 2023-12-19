@@ -101,7 +101,7 @@ endif
 
 ifeq ($(CSP_SIMULATION_MID_ENABLED),false)
 CUSTOM_VALUES =	--set tmc-mid.deviceServers.mocks.is_simulated.csp=$(CSP_SIMULATION_MID_ENABLED)\
-	--set tmc-mid.ska-csp-lmc-mid.enabled=true
+	--set ska-csp-lmc-mid.enabled=true
 endif
 
 K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
