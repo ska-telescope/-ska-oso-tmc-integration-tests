@@ -21,74 +21,64 @@ def test_telescopeOff_command():
 
 
 @given("a Telescope consisting of TMC and DISH that is in ON state")
-def turn_on_telescope(central_node_with_dish):
+def turn_on_telescope(central_node_mid):
     """Given TMC"""
-    central_node_with_dish.move_to_on()
+    central_node_mid.move_to_on()
 
 
 @given("simulated SDP and CSP in ON state")
-def check_devices_turn_on(central_node_with_dish, event_recorder):
+def check_devices_turn_on(central_node_mid, event_recorder):
     """Checking if simulate devices are turned ON"""
     event_recorder.subscribe_event(
-        central_node_with_dish.sdp_master, "telescopeState"
+        central_node_mid.sdp_master, "telescopeState"
     )
     event_recorder.subscribe_event(
-        central_node_with_dish.csp_master, "telescopeState"
+        central_node_mid.csp_master, "telescopeState"
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_with_dish.sdp_master,
+        central_node_mid.sdp_master,
         "State",
         DevState.OFF,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_with_dish.csp_master,
+        central_node_mid.csp_master,
         "State",
         DevState.OFF,
     )
 
 
 @given("telescope state is ON")
-def check_telescope_state(central_node_with_dish, event_recorder):
+def check_telescope_state(central_node_mid, event_recorder):
     """Invoke telescopeOn on TMC"""
 
     event_recorder.subscribe_event(
-        central_node_with_dish.central_node, "telescopeState"
+        central_node_mid.central_node, "telescopeState"
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_with_dish.central_node,
+        central_node_mid.central_node,
         "telescopeState",
         DevState.ON,
     )
 
 
 @when("I switch off the telescope")
-def turn_off_telescope(central_node_with_dish):
+def turn_off_telescope(central_node_mid):
     """Invoke telescopeOff on TMC"""
-    central_node_with_dish.move_to_off()
+    central_node_mid.move_to_off()
 
 
 @then("DISH must go to STANDBY-LP mode")
-def check_dish_state(central_node_with_dish):
+def check_dish_state(central_node_mid):
     """Checking Dish state"""
-
-    # Waiting for DISH LMC to respond
-    wait_for_dish_mode_change(
-        DishMode.STANDBY_LP, central_node_with_dish.dish_master_1, 30
-    )
-    wait_for_dish_mode_change(
-        DishMode.STANDBY_LP, central_node_with_dish.dish_master_2, 30
-    )
-    the_waiter = Waiter()
-    the_waiter.wait(50)
-    # Check the dishMode of DISH LMC i.e STANDBY-LP
-    assert (
-        central_node_with_dish.dish_master_1.dishMode.value
-        == DishMode.STANDBY_LP
-    )
-    assert (
-        central_node_with_dish.dish_master_2.dishMode.value
-        == DishMode.STANDBY_LP
-    )
+    for dish in central_node_mid.real_dish_master_list:
+        # Waiting for DISH LMC to respond
+        wait_for_dish_mode_change(DishMode.STANDBY_LP, dish.dish_master_1, 30)
+        wait_for_dish_mode_change(DishMode.STANDBY_LP, dish.dish_master_2, 30)
+        the_waiter = Waiter()
+        the_waiter.wait(50)
+        # Check the dishMode of DISH LMC i.e STANDBY-LP
+        assert dish.dish_master_1.dishMode.value == DishMode.STANDBY_LP
+        assert dish.dish_master_2.dishMode.value == DishMode.STANDBY_LP
 
 
 @then("telescope is OFF")
