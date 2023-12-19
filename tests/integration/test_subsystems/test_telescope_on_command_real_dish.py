@@ -45,10 +45,10 @@ def test_telescope_on():
     wait_for_dish_mode_change(DishMode.STANDBY_FP, dish_master_4, 30)
 
     the_waiter.wait(50)
-    LOGGER.info("Dish 1: %s", dish_master_1.dishMode)
-    LOGGER.info("Dish 36: %s", dish_master_36.dishMode)
-    LOGGER.info("Dish 63: %s", dish_master_63.dishMode)
-    LOGGER.info("Dish 4: %s", dish_master_4.dishMode)
+    LOGGER.info("Dish 1 dishMode: %s", dish_master_1.dishMode)
+    LOGGER.info("Dish 36 dishMode: %s", dish_master_36.dishMode)
+    LOGGER.info("Dish 63 dishMode: %s", dish_master_63.dishMode)
+    LOGGER.info("Dish 4 dishMode: %s", dish_master_4.dishMode)
 
     # Check the dishMode of DISH LMC i.e STANDBYFP
     assert dish_master_1.dishMode.value == DishMode.STANDBY_FP
@@ -66,10 +66,10 @@ def test_telescope_on():
     wait_for_dish_mode_change(DishMode.STANDBY_LP, dish_master_63, 30)
     wait_for_dish_mode_change(DishMode.STANDBY_LP, dish_master_4, 30)
 
-    LOGGER.info("Dish 1: %s", dish_master_1.dishMode)
-    LOGGER.info("Dish 36: %s", dish_master_36.dishMode)
-    LOGGER.info("Dish 63: %s", dish_master_63.dishMode)
-    LOGGER.info("Dish 4: %s", dish_master_4.dishMode)
+    LOGGER.info("Dish 1 dishMode: %s", dish_master_1.dishMode)
+    LOGGER.info("Dish 36 dishMode: %s", dish_master_36.dishMode)
+    LOGGER.info("Dish 63 dishMode: %s", dish_master_63.dishMode)
+    LOGGER.info("Dish 4 dishMode: %s", dish_master_4.dishMode)
     # check the dishMode of DISH LMC i.e STANDBYLP
     assert dish_master_1.dishMode.value == DishMode.STANDBY_LP
     assert dish_master_36.dishMode.value == DishMode.STANDBY_LP
