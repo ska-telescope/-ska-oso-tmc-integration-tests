@@ -16,9 +16,6 @@ from tests.resources.test_harness.central_node_mid import CentralNodeWrapperMid
 from tests.resources.test_harness.event_recorder import EventRecorder
 from tests.resources.test_harness.simulator_factory import SimulatorFactory
 from tests.resources.test_harness.subarray_node import SubarrayNodeWrapper
-from tests.resources.test_harness.subarray_node_with_csp_low import (
-    SubarrayNodeCspWrapperLow,
-)
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 
 configure_logging(logging.DEBUG)
@@ -141,15 +138,6 @@ def subarray_node(event_recorder) -> SubarrayNodeWrapper:
     yield subarray
     # this will call after test complete
     subarray.tear_down(event_recorder)
-
-
-@pytest.fixture()
-def subarray_node_real_csp_low() -> SubarrayNodeCspWrapperLow:
-    """Return SubarrayNode and calls tear down"""
-    subarray = SubarrayNodeCspWrapperLow()
-    yield subarray
-    # this will call after test complete
-    subarray.tear_down()
 
 
 @pytest.fixture()
