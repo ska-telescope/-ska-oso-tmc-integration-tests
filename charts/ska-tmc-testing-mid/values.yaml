@@ -67,7 +67,6 @@ tmc-mid:
       is_simulated:
         csp: true
 
-
 # SKUID
 ska-ser-skuid:
   labels:
@@ -98,4 +97,4 @@ ska-tmc-simulators:
       enabled: true
 
 ska-csp-lmc-mid:
-  enabled: true
+  enabled: false
