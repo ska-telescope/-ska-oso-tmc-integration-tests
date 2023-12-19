@@ -75,6 +75,24 @@ class CentralNodeWrapper(object):
         """
         self._telescope_health_state = value
 
+    @property
+    def telescope_state(self) -> DevState:
+        """Telescope health state representing overall state of telescope"""
+
+        self._telescope_state = Resource(self.central_node).get(
+            "telescopeState"
+        )
+        return self._telescope_state
+
+    @telescope_state.setter
+    def telescope_state(self, value):
+        """Telescope health state representing overall state of telescope
+
+        Args:
+            value (DevState): telescope state value
+        """
+        self._telescope_state = value
+
     def move_to_on(self):
         """
         A method to invoke TelescopeOn command to
