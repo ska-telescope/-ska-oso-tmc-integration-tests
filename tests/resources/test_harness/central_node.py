@@ -43,8 +43,8 @@ class CentralNodeWrapper(object):
         self.dish_master_list = None
         self._state = DevState.OFF
         self.simulated_devices_dict = self.get_simulated_devices_info()
-        # device_dict["cbf_subarray1"] = "mid_csp_cbf/sub_elt/subarray_01"
-        # device_dict["cbf_controller"] = "mid_csp_cbf/sub_elt/controller"
+        device_dict["cbf_subarray1"] = "mid_csp_cbf/sub_elt/subarray_01"
+        device_dict["cbf_controller"] = "mid_csp_cbf/sub_elt/controller"
         self.wait = Waiter(**device_dict)
 
     @property
@@ -127,6 +127,7 @@ class CentralNodeWrapper(object):
             LOGGER.info("Invoking command with sdp and dish simulated")
             self.csp_master.adminMode = 0
             self.wait.set_wait_for_csp_master_to_become_online()
+            LOGGER.info("CspMaster State is: %s", self.csp_master.state())
             self.central_node.TelescopeOn()
             self.wait.set_wait_for_turn_on_tmc_csp()
             self.set_values_with_sdp_dish_mocks(

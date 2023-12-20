@@ -66,13 +66,13 @@ def move_telescope_to_on(central_node_mid):
     """A method to turn on the telescope."""
     central_node_mid.move_to_on()
     LOGGER.info("Telescope is switched on")
+    LOGGER.info("CspMaster State is:")
+    LOGGER.info(central_node_mid.csp_master.state())
 
 
 @then("the CSP must go to ON state")
 def check_sdp_is_on(central_node_mid, event_recorder):
     """A method to check CSP controller and CSP subarray states."""
-    LOGGER.info("CspMaster State is:")
-    LOGGER.info(central_node_mid.csp_master.state())
     event_recorder.subscribe_event(central_node_mid.csp_master, "State")
     event_recorder.subscribe_event(
         central_node_mid.subarray_devices["csp_subarray"], "State"
