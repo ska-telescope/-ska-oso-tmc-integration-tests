@@ -11,7 +11,6 @@ from tests.resources.test_harness.utils.sync_decorators import (
     sync_release_resources,
     sync_restart,
 )
-from tests.resources.test_harness.utils.wait_helpers import Waiter
 from tests.resources.test_support.common_utils.common_helpers import Resource
 
 LOGGER = logging.getLogger(__name__)
@@ -43,9 +42,6 @@ class CentralNodeWrapper(object):
         self.dish_master_list = None
         self._state = DevState.OFF
         self.simulated_devices_dict = self.get_simulated_devices_info()
-        device_dict["cbf_subarray1"] = "mid_csp_cbf/sub_elt/subarray_01"
-        device_dict["cbf_controller"] = "mid_csp_cbf/sub_elt/controller"
-        self.wait = Waiter(**device_dict)
 
     @property
     def state(self) -> DevState:

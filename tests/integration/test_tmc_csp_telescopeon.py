@@ -1,4 +1,4 @@
-"""Test module for TMC-SDP StartUp functionality"""
+"""Test module for TMC-CSP StartUp functionality"""
 import logging
 import time
 
@@ -25,7 +25,7 @@ def test_tmc_csp_startup_telescope():
 
 @given(
     "a Telescope consisting of TMC, CSP, simulated DISH and simulated"
-    + " SDP devices"
+    + " CSP devices"
 )
 def given_a_tmc(central_node_mid, simulator_factory):
     """
@@ -53,9 +53,6 @@ def given_a_tmc(central_node_mid, simulator_factory):
 @given("telescope state is OFF")
 def check_state_devices(central_node_mid):
     """Set up a TMC and ensure it is in the OFF state."""
-    LOGGER.info("Telescope State is:")
-    LOGGER.info(central_node_mid.central_node.telescopeState)
-
     assert (
         central_node_mid.central_node.telescopeState
         == tango._tango.DevState(7)
@@ -67,16 +64,12 @@ def move_telescope_to_on(central_node_mid):
     """A method to turn on the telescope."""
     central_node_mid.csp_master.adminMode = 0
     central_node_mid.wait.set_wait_for_csp_master_to_become_online()
-    time.sleep(30)
-    LOGGER.info("CspMaster State is: %s", central_node_mid.csp_master.state())
+    time.sleep(30)  # Yes, This sleep will be removed.
     central_node_mid.move_to_on()
-    LOGGER.info("Telescope is switched on")
-    LOGGER.info("CspMaster State is:")
-    LOGGER.info(central_node_mid.csp_master.state())
 
 
 @then("the CSP must go to ON state")
-def check_sdp_is_on(central_node_mid, event_recorder):
+def check_csp_is_on(central_node_mid, event_recorder):
     """A method to check CSP controller and CSP subarray states."""
     event_recorder.subscribe_event(central_node_mid.csp_master, "State")
     event_recorder.subscribe_event(
@@ -97,8 +90,6 @@ def check_sdp_is_on(central_node_mid, event_recorder):
 @then("telescope state is ON")
 def check_telescope_state(central_node_mid, event_recorder):
     """A method to check CentralNode.telescopeState"""
-    LOGGER.info("Telescope State is:")
-    LOGGER.info(central_node_mid.central_node.telescopeState)
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
     )
