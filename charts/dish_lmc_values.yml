@@ -1,11 +1,11 @@
 global:
-  dishes: ["100"]
+  # dishes: ["100"]
   # exposeDatabaseDS: true
   # exposeAllDS: true
   minikube: false
-  sub-system:
-    ska-tango-base:
-      enabled: false
+  # sub-system:
+  #   ska-tango-base:
+  #     enabled: false
 
 # DISH LMC
 dishlmc:
