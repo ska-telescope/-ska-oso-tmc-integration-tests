@@ -17,7 +17,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 SDP_SIMULATION_ENABLED = os.getenv("SDP_SIMULATION_ENABLED")
-CSP_SIMULATION_ENABLED = os.getenv("CSP_SIMULATION_ENABLED")
+CSP_SIMULATION_ENABLED = os.getenv("CSP_SIMULATION_MID_ENABLED")
 DISH_SIMULATION_ENABLED = os.getenv("DISH_SIMULATION_ENABLED")
 
 
@@ -74,6 +74,24 @@ class CentralNodeWrapper(object):
             value (HealthState): telescope health state value
         """
         self._telescope_health_state = value
+
+    @property
+    def telescope_state(self) -> DevState:
+        """Telescope state representing overall state of telescope"""
+
+        self._telescope_state = Resource(self.central_node).get(
+            "telescopeState"
+        )
+        return self._telescope_state
+
+    @telescope_state.setter
+    def telescope_state(self, value):
+        """Telescope state representing overall state of telescope
+
+        Args:
+            value (DevState): telescope state value
+        """
+        self._telescope_state = value
 
     def move_to_on(self):
         """
