@@ -1,6 +1,9 @@
+import logging
+
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
+from ska_ser_logging import configure_logging
 from tango import DevState
 
 from tests.resources.test_harness.helpers import (
@@ -9,6 +12,9 @@ from tests.resources.test_harness.helpers import (
     prepare_json_args_for_commands,
 )
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
+
+configure_logging(logging.DEBUG)
+LOGGER = logging.getLogger(__name__)
 
 
 @pytest.mark.skip(
@@ -58,7 +64,7 @@ def given_tmc_subarray_assign_resources(
     simulator_factory,
     command_input_factory,
 ):
-    csp_sim, sdp_sim, _, _ = get_device_simulators(simulator_factory)
+    csp_sim, sdp_sim, p1, p2 = get_device_simulators(simulator_factory)
     event_recorder.subscribe_event(csp_sim, "obsState")
     event_recorder.subscribe_event(sdp_sim, "obsState")
     assign_input_json = prepare_json_args_for_centralnode_commands(
@@ -68,7 +74,7 @@ def given_tmc_subarray_assign_resources(
         "invalid_receiver_address1", command_input_factory
     )
     sdp_sim.SetDirectreceiveAddresses(invalid_receiptor_json)
-    _, unique_id = central_node_mid.perform_action(
+    message, unique_id = central_node_mid.perform_action(
         "AssignResources", assign_input_json
     )
     assert event_recorder.has_change_event_occurred(
@@ -76,6 +82,7 @@ def given_tmc_subarray_assign_resources(
         "obsState",
         ObsState.IDLE,
     )
+    LOGGER.info("assert done")
 
 
 @given(
@@ -84,7 +91,7 @@ def given_tmc_subarray_assign_resources(
     )
 )
 def given_tmc_subarray_configure_is_in_progress(
-    subarray_node, event_recorder, _, command_input_factory
+    subarray_node, event_recorder, command_input_factory
 ):
     configure_input_json = prepare_json_args_for_commands(
         "configure_with_invalid_interface", command_input_factory

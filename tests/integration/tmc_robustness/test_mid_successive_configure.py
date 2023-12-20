@@ -26,7 +26,7 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
-@pytest.mark.SKA_midtn
+@pytest.mark.SKA_midtn14
 # @pytest.mark.skip(reason="ON failed")
 @pytest.mark.SKA_mid
 @scenario(
