@@ -43,8 +43,8 @@ class CentralNodeWrapper(object):
         self.dish_master_list = None
         self._state = DevState.OFF
         self.simulated_devices_dict = self.get_simulated_devices_info()
-        device_dict["cbf_subarray1"] = "mid-cbf/subarray/01"
-        device_dict["cbf_controller"] = "mid-cbf/control/0"
+        device_dict["cbf_subarray1"] = "mid_csp_cbf/sub_elt/subarray_01"
+        device_dict["cbf_controller"] = "mid_csp_cbf/sub_elt/controller"
         self.wait = Waiter(**device_dict)
 
     @property
