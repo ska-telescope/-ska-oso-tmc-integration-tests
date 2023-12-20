@@ -3,7 +3,6 @@ import logging
 import time
 
 import pytest
-import tango
 from pytest_bdd import given, scenario, then, when
 from tango import DevState
 
@@ -51,12 +50,20 @@ def given_a_tmc(central_node_mid, simulator_factory):
 
 
 @given("telescope state is OFF")
-def check_state_devices(central_node_mid):
-    """Set up a TMC and ensure it is in the OFF state."""
-    assert (
-        central_node_mid.central_node.telescopeState
-        == tango._tango.DevState(7)
+def check_state_devices(central_node_mid, event_recorder):
+    """Set up a TMC and ensure it is in the STANDBY state."""
+    event_recorder.subscribe_event(
+        central_node_mid.central_node, "telescopeState"
     )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.central_node,
+        "telescopeState",
+        DevState.STANDBY,
+    )
+    # assert (
+    #     central_node_mid.central_node.telescopeState
+    #     == tango._tango.DevState(7)
+    # )
 
 
 @when("I start up the telescope")
@@ -90,9 +97,6 @@ def check_csp_is_on(central_node_mid, event_recorder):
 @then("telescope state is ON")
 def check_telescope_state(central_node_mid, event_recorder):
     """A method to check CentralNode.telescopeState"""
-    event_recorder.subscribe_event(
-        central_node_mid.central_node, "telescopeState"
-    )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
         "telescopeState",
