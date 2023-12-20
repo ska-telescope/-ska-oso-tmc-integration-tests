@@ -377,6 +377,13 @@ class Waiter:
             )
         )
 
+    def set_wait_for_csp_master_to_become_online(self):
+        self.waits.append(
+            watch(Resource(self.csp_master)).to_become(
+                "adminMode", changed_to="ONLINE"
+            )
+        )
+
     def wait(self, timeout=30, resolution=0.1):
         self.logs = ""
         while self.waits:

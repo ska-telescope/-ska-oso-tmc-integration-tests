@@ -11,6 +11,7 @@ from tests.resources.test_harness.utils.sync_decorators import (
     sync_release_resources,
     sync_restart,
 )
+from tests.resources.test_harness.utils.wait_helpers import Waiter
 from tests.resources.test_support.common_utils.common_helpers import Resource
 
 LOGGER = logging.getLogger(__name__)
@@ -42,6 +43,9 @@ class CentralNodeWrapper(object):
         self.dish_master_list = None
         self._state = DevState.OFF
         self.simulated_devices_dict = self.get_simulated_devices_info()
+        device_dict["cbf_subarray1"] = "mid-cbf/subarray/01"
+        device_dict["cbf_controller"] = "mid-cbf/control/0"
+        self.wait = Waiter(**device_dict)
 
     @property
     def state(self) -> DevState:
@@ -121,7 +125,10 @@ class CentralNodeWrapper(object):
 
         elif self.simulated_devices_dict["sdp_and_dish"]:
             LOGGER.info("Invoking command with sdp and dish simulated")
+            self.csp_master.adminMode = 0
+            self.wait.set_wait_for_csp_master_to_become_online()
             self.central_node.TelescopeOn()
+            self.wait.set_wait_for_telescope_on()
             self.set_values_with_sdp_dish_mocks(
                 DevState.ON, DishMode.STANDBY_FP
             )
