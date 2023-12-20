@@ -65,6 +65,7 @@ tmc-mid:
     mocks:
       enabled: true
       is_simulated:
+        csp: true
         sdp: true
 
 ska-sdp:
@@ -98,7 +99,7 @@ ska-sdp:
             cpu: 100m
   ska-tango-base:
     enabled: false
- 
+
 # SKUID
 ska-ser-skuid:
   labels:
@@ -128,3 +129,5 @@ ska-tmc-simulators:
     powersupplysimulator:
       enabled: true
 
+ska-csp-lmc-mid:
+  enabled: false

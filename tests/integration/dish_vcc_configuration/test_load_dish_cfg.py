@@ -12,7 +12,9 @@ from tests.resources.test_harness.helpers import (
 from tests.resources.test_support.common_utils.result_code import ResultCode
 
 
-@pytest.mark.skip
+@pytest.mark.skip(
+    reason="Test fails randomly, Issue will be fixed as a part of SAH-1456"
+)
 @pytest.mark.SKA_mid
 @scenario(
     "../features/load_dish_cfg_command.feature",
