@@ -170,6 +170,7 @@ deviceServers:
     file: "data/mocks.yaml"
     is_simulated:
       dish: true
+      csp: false
       sdp: false
 
 nodeSelector: {}
