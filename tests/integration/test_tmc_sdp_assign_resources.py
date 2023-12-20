@@ -102,4 +102,5 @@ def check_tmc_is_in_idle_obsstate(central_node_mid, event_recorder):
     )
 )
 def check_assign_resources_to_tmc(central_node_mid, receptors):
+    """Methos checks whether proper resources are assign or not."""
     central_node_mid.subarray_node.assignedResources = receptors
