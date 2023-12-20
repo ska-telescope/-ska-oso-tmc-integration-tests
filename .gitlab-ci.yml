@@ -242,18 +242,18 @@ dish-lmc-dish063:
     on_stop: stop-k8s-dish-lmc-063
     action: stop
 
-dish-lmc-dish004:
+dish-lmc-dish100:
   extends:
     - dish-lmc-dish001
   variables:
-    DISH_INDEX: "004"
+    DISH_INDEX: "100"
     KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX"
     DISH_LMC_SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX"
     DISH_HELM_RELEASE: "2.5.0"
     K8S_DISH_LMC_CHART: "ska-dish-lmc"
   environment:
     name: test/$CI_COMMIT_REF_SLUG
-    on_stop: stop-k8s-dish-lmc-004
+    on_stop: stop-k8s-dish-lmc-100
     action: stop
 
 
@@ -270,7 +270,7 @@ k8s-test-dish-lmc:
     DISH_INDEX_1: "001"
     DISH_INDEX_36: "036"
     DISH_INDEX_63: "063"
-    DISH_INDEX_4: "004"
+    DISH_INDEX_4: "100"
     DISH_NAMESPACE_1: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX_1"
     DISH_NAMESPACE_2: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX_36"
     DISH_NAMESPACE_3: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX_63"
@@ -286,7 +286,7 @@ k8s-test-dish-lmc:
     - dish-lmc-dish001
     - dish-lmc-dish036
     - dish-lmc-dish063
-    - dish-lmc-dish004
+    - dish-lmc-dish100
   after_script:
     - make k8s-uninstall-chart
 
@@ -424,11 +424,11 @@ stop-k8s-dish-lmc-063:
     DISH_HELM_RELEASE: "2.5.0"
     K8S_DISH_LMC_CHART: "ska-dish-lmc"
 
-stop-k8s-dish-lmc-004:
+stop-k8s-dish-lmc-100:
   extends:
     - stop-k8s-dish-lmc-001
   variables:
-    KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-004"
+    KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-100"
     DISH_HELM_RELEASE: "2.5.0"
     K8S_DISH_LMC_CHART: "ska-dish-lmc"
 
