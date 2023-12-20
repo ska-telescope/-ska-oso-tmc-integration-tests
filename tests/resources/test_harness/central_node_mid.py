@@ -51,14 +51,16 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
 
         self.csp_master = DeviceProxy(csp_master)
 
-        self.dish_master_list = [
-            DeviceProxy(dish_master1),
-            DeviceProxy(dish_master2),
-        ]
+        if self.simulated_devices_dict["csp_and_sdp"]:
+            dish_fqdn1 = real_dish_fqdn_1
+            dish_fqdn2 = real_dish_fqdn_2
+        else:
+            dish_fqdn1 = dish_master1
+            dish_fqdn2 = dish_master2
 
-        self.real_dish_master_list = [
-            DeviceProxy(real_dish_fqdn_1),
-            DeviceProxy(real_dish_fqdn_2),
+        self.dish_master_list = [
+            DeviceProxy(dish_fqdn1),
+            DeviceProxy(dish_fqdn2),
         ]
 
         self._state = DevState.OFF

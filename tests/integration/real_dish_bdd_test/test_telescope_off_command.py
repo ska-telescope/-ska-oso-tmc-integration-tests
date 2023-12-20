@@ -4,12 +4,11 @@ import pytest
 from pytest_bdd import given, scenario, then, when
 from tango import DevState
 
-from tests.conftest import wait_for_dish_mode_change
-from tests.resources.test_support.common_utils.common_helpers import Waiter
+from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.enum import DishMode
 
 
-@pytest.mark.t2
+@pytest.mark.t1
 @pytest.mark.real_dish
 @scenario(
     "../features/check_off_command_on_real_dish.feature",
@@ -21,29 +20,61 @@ def test_telescopeOff_command():
 
 
 @given("a Telescope consisting of TMC and DISH that is in ON state")
-def turn_on_telescope(central_node_mid):
+def turn_on_telescope(central_node_mid, event_recorder):
     """Given TMC"""
-    central_node_mid.move_to_on()
+    event_recorder.subscribe_event(
+        central_node_mid.central_node, "telescopeState"
+    )
+    event_recorder.subscribe_event(
+        central_node_mid.dish_master_list[0], "dishMode"
+    )
+    event_recorder.subscribe_event(
+        central_node_mid.dish_master_list[1], "dishMode"
+    )
+
+    if central_node_mid.telescope_state != "ON":
+        central_node_mid.move_to_on()
+
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[0],
+        "dishMode",
+        DishMode.STANDBY_FP,
+    )
+
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[1],
+        "dishMode",
+        DishMode.STANDBY_FP,
+    )
+
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.central_node,
+        "telescopeState",
+        DevState.ON,
+    )
 
 
 @given("simulated SDP and CSP in ON state")
-def check_devices_turn_on(central_node_mid, event_recorder):
+def check_devices_turn_on(event_recorder, simulator_factory):
     """Checking if simulate devices are turned ON"""
-    event_recorder.subscribe_event(
-        central_node_mid.sdp_master, "telescopeState"
+    csp_master_sim = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.MID_CSP_MASTER_DEVICE
     )
-    event_recorder.subscribe_event(
-        central_node_mid.csp_master, "telescopeState"
+    sdp_master_sim = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.MID_SDP_MASTER_DEVICE
+    )
+    event_recorder.subscribe_event(csp_master_sim, "State")
+    event_recorder.subscribe_event(sdp_master_sim, "State")
+
+    assert event_recorder.has_change_event_occurred(
+        csp_master_sim,
+        "State",
+        DevState.ON,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.sdp_master,
+        sdp_master_sim,
         "State",
-        DevState.OFF,
-    )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.csp_master,
-        "State",
-        DevState.OFF,
+        DevState.ON,
     )
 
 
@@ -68,27 +99,34 @@ def turn_off_telescope(central_node_mid):
 
 
 @then("DISH must go to STANDBY-LP mode")
-def check_dish_state(central_node_mid):
-    """Checking Dish state"""
-    for dish in central_node_mid.real_dish_master_list:
-        # Waiting for DISH LMC to respond
-        wait_for_dish_mode_change(DishMode.STANDBY_LP, dish.dish_master_1, 30)
-        wait_for_dish_mode_change(DishMode.STANDBY_LP, dish.dish_master_2, 30)
-        the_waiter = Waiter()
-        the_waiter.wait(50)
-        # Check the dishMode of DISH LMC i.e STANDBY-LP
-        assert dish.dish_master_1.dishMode.value == DishMode.STANDBY_LP
-        assert dish.dish_master_2.dishMode.value == DishMode.STANDBY_LP
+def check_dish_state(central_node_mid, event_recorder):
+    """Checking dishMode"""
+    event_recorder.subscribe_event(
+        central_node_mid.dish_master_list[0], "dishMode"
+    )
+    event_recorder.subscribe_event(
+        central_node_mid.dish_master_list[1], "dishMode"
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[0],
+        "dishMode",
+        DishMode.STANDBY_LP,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[1],
+        "dishMode",
+        DishMode.STANDBY_LP,
+    )
 
 
 @then("telescope is OFF")
-def check_telescopeOff_state(central_node_with_dish, event_recorder):
+def check_telescopeOff_state(central_node_mid, event_recorder):
     """Checking if telescope is turned OFF"""
     event_recorder.subscribe_event(
-        central_node_with_dish.central_node, "telescopeState"
+        central_node_mid.central_node, "telescopeState"
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_with_dish.central_node,
+        central_node_mid.central_node,
         "telescopeState",
         DevState.OFF,
     )

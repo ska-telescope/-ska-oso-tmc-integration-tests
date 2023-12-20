@@ -4,8 +4,7 @@ import pytest
 from pytest_bdd import given, scenario, then, when
 from tango import DevState
 
-from tests.conftest import wait_for_dish_mode_change
-from tests.resources.test_support.common_utils.common_helpers import Waiter
+from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.enum import DishMode
 
 
@@ -23,21 +22,21 @@ def test_telescope_on():
 @given(
     "a Telescope consisting of  TMC, DISH , simulated CSP and simulated SDP"
 )
-def given_tmc():
+def given_tmc(central_node_mid, simulator_factory, event_recorder):
     """Given TMC"""
-
-
-@given("telescope state is OFF")
-def given_tmc_off(central_node_mid, event_recorder):
-    """Checking if TMC central node is OFF"""
-    event_recorder.subscribe_event(
-        central_node_mid.central_node, "telescopeState"
+    csp_master_sim = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.MID_CSP_MASTER_DEVICE
     )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.central_node,
-        "telescopeState",
-        DevState.OFF,
+    sdp_master_sim = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.MID_SDP_MASTER_DEVICE
     )
+    event_recorder.subscribe_event(csp_master_sim, "State")
+    event_recorder.subscribe_event(sdp_master_sim, "State")
+
+    assert csp_master_sim.ping() > 0
+    assert sdp_master_sim.ping() > 0
+    assert central_node_mid.dish_master_list[0].ping() > 0
+    assert central_node_mid.dish_master_list[1].ping() > 0
 
 
 @when("I start up the telescope")
@@ -51,24 +50,30 @@ def turn_on_telescope(central_node_mid):
 def check_dish_state(central_node_mid, event_recorder):
     """Checking Dish state after invoking
     telescopeOn command on central node"""
-    for dish in central_node_mid.real_dish_master_list:
-        # to check if dish has telescopestate attribute
-        # event_recorder.subscribe_event(
-        #     dish , "telescopeState"
-        # )
-        # Waiting for DISH LMC to respond
-        wait_for_dish_mode_change(DishMode.STANDBY_FP, dish, 30)
-        wait_for_dish_mode_change(DishMode.STANDBY_FP, dish, 30)
-        the_waiter = Waiter()
-        the_waiter.wait(50)
-        # Check the dishMode of DISH LMC i.e STANDBY-FP
-        assert dish == DishMode.STANDBY_FP
-        assert dish == DishMode.STANDBY_FP
+    event_recorder.subscribe_event(
+        central_node_mid.dish_master_list[0], "dishMode"
+    )
+    event_recorder.subscribe_event(
+        central_node_mid.dish_master_list[1], "dishMode"
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[0],
+        "dishMode",
+        DishMode.STANDBY_FP,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[1],
+        "dishMode",
+        DishMode.STANDBY_FP,
+    )
 
 
 @then("telescope state is ON")
 def check_telescope_state(central_node_mid, event_recorder):
     """Checking if TMC central node is ON"""
+    event_recorder.subscribe_event(
+        central_node_mid.central_node, "telescopeState"
+    )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
         "telescopeState",
