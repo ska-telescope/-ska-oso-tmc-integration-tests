@@ -21,6 +21,10 @@ dependencies:
     version: 0.15.2
     repository: file://../ska-tmc-mid
     alias: tmc-mid
+  - name: ska-sdp
+    version: 0.18.0
+    repository: https://artefact.skao.int/repository/helm-internal
+    condition: ska-sdp.enabled
   - name: ska-ser-skuid
     version: 0.3.0
     repository: https://artefact.skao.int/repository/helm-internal
