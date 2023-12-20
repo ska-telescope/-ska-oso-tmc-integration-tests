@@ -47,12 +47,14 @@ SIMULATED_DISH ?= true
 SUBARRAY_COUNT ?= 2
 DISH_NAME_1 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_1).$(CLUSTER_DOMAIN):$(PORT)/ska001/elt/master
 DISH_NAME_2 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_2).$(CLUSTER_DOMAIN):$(PORT)/ska002/elt/master
+CSP_MASTER ?= tango://$(TANGO_HOST).$(KUBE_NAMESPACE).$(CLUSTER_DOMAIN):$(PORT)/mid-csp/control/0
+CSP_SUBARRAY_PREFIX ?= tango://$(TANGO_HOST).$(KUBE_NAMESPACE).$(CLUSTER_DOMAIN):$(PORT)/mid-csp/subarray
 SDP_MASTER ?= tango://$(TANGO_HOST).$(KUBE_NAMESPACE).$(CLUSTER_DOMAIN):$(PORT)/mid-sdp/control/0
 SDP_SUBARRAY_PREFIX ?= tango://$(TANGO_HOST).$(KUBE_NAMESPACE).$(CLUSTER_DOMAIN):$(PORT)/mid-sdp/subarray
 
-CSP_SIMULATION_ENABLED ?= true
-SDP_SIMULATION_ENABLED ?= true
-DISH_SIMULATION_ENABLED ?= true
+# # CSP_SIMULATION_ENABLED ?= true
+# SDP_SIMULATION_ENABLED ?= true
+# DISH_SIMULATION_ENABLED ?= true
 
 CI_REGISTRY ?= gitlab.com
 
@@ -79,7 +81,10 @@ K8S_TEST_RUNNER = test-runner-$(HELM_RELEASE)
 
 CI_PROJECT_PATH_SLUG ?= ska-tmc-integration
 CI_ENVIRONMENT_SLUG ?= ska-tmc-integration
-
+CSP_SIMULATION_ENABLED ?= true
+CSP_SIMULATION_MID_ENABLED ?= true
+SDP_SIMULATION_ENABLED ?= true
+DISH_SIMULATION_ENABLED ?= true
 
 ifeq ($(MAKECMDGOALS),k8s-test)
 ADD_ARGS +=  --true-context
@@ -95,6 +100,11 @@ CUSTOM_VALUES =	--set global.csp.isSimulated.enabled=$(CSP_SIMULATION_ENABLED)\
 	--set tmc-low.ska-csp-lmc-low.enabled=true\
 	--set tmc-low.ska-low-cbf.enabled=true\
 	--set tmc-low.ska-low-cbf.ska-low-cbf-proc.enabled=true
+endif
+
+ifeq ($(CSP_SIMULATION_MID_ENABLED),false)
+CUSTOM_VALUES =	--set tmc-mid.deviceServers.mocks.is_simulated.csp=$(CSP_SIMULATION_MID_ENABLED)\
+	--set ska-csp-lmc-mid.enabled=true
 endif
 
 ifeq ($(SDP_SIMULATION_ENABLED),false)
@@ -123,7 +133,7 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 PYTHON_VARS_BEFORE_PYTEST ?= PYTHONPATH=.:./src \
 							 TANGO_HOST=$(TANGO_HOST) \
 							 TELESCOPE=$(TELESCOPE) \
-							 CSP_SIMULATION_ENABLED=$(CSP_SIMULATION_ENABLED) \
+							 CSP_SIMULATION_MID_ENABLED=$(CSP_SIMULATION_MID_ENABLED) \
 							 SDP_SIMULATION_ENABLED=$(SDP_SIMULATION_ENABLED) \
 							 DISH_SIMULATION_ENABLED=$(DISH_SIMULATION_ENABLED) \
 							 DISH_NAMESPACE_1=$(DISH_NAMESPACE_1) \

@@ -13,6 +13,7 @@ server:
   name: "mocks"
   instances:
   {{- $isSimulatedDish := .Values.global.Dish.isSimulated.enabled }}
+  {{- $isSimulatedCsp := .Values.deviceServers.mocks.is_simulated.csp }}
   {{- $isSimulatedSdp := .Values.deviceServers.mocks.is_simulated.sdp }}
     - name: "01"
       classes:
@@ -28,6 +29,7 @@ server:
           devices:
           - name: "mid-sdp/queueconnector/01"
         {{- end }}
+        {{- if eq $isSimulatedCsp true }}
         - name: "HelperCspMasterDevice"
           devices:
           - name: "mid-csp/control/0"
@@ -35,6 +37,7 @@ server:
           devices:
           - name: "mid-csp/subarray/01"
           - name: "mid-csp/subarray/02"
+        {{- end }}
         {{- if eq $isSimulatedDish true }}
         - name: "HelperDishDevice"
           devices:

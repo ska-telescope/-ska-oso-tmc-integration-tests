@@ -1,5 +1,4 @@
-"""Test TMC-SDP TelescopeOn functionality"""
-
+"""Test module for TMC-SDP StartUp functionality"""
 import pytest
 from pytest_bdd import given, scenario, then, when
 from tango import DevState
@@ -12,9 +11,15 @@ from tests.resources.test_harness.helpers import get_master_device_simulators
     "../features/start_up_tmc_sdp.feature",
     "Start up the telescope having TMC and SDP subsystems",
 )
-def test_tmc_sdp_telescope_on():
+def test_tmc_sdp_startup_telescope():
     """
-    Test case to verify TMC-SDP TelescopeOn() functionality
+    Test case to verify TMC-SDP StartUp functionality
+
+    Glossary:
+        - "central_node_mid": fixture for a TMC CentralNode under test
+        - "simulator_factory": fixture for SimulatorFactory class,
+        which provides simulated subarray and master devices
+        - "event_recorder": fixture for EventRecorder class
     """
 
 
@@ -26,8 +31,6 @@ def given_a_tmc(central_node_mid, simulator_factory):
     Args:
         simulator_factory: fixture for SimulatorFactory class,
         which provides simulated subarray and master devices
-        event_recorder: fixture for EventRecorder class
-
     """
     (
         csp_master_sim,
@@ -45,8 +48,8 @@ def given_a_tmc(central_node_mid, simulator_factory):
 
 
 @when("I start up the telescope")
-def invoke_telescope_on(central_node_mid):
-    """A method to invoke TelescopeOn command"""
+def move_sdp_to_on(central_node_mid):
+    """A method to put SDP to ON"""
     central_node_mid.move_to_on()
 
 
@@ -70,7 +73,7 @@ def check_sdp_is_on(central_node_mid, event_recorder):
 
 
 @then("telescope state is ON")
-def check_telescopestate(central_node_mid, event_recorder):
+def check_telescope_state(central_node_mid, event_recorder):
     """A method to check CentralNode.telescopeState"""
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
