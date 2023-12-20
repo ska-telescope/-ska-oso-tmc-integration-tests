@@ -22,7 +22,10 @@ from tests.resources.test_harness.constant import (
 )
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 from tests.resources.test_harness.utils.enums import DishMode
-from tests.resources.test_harness.utils.sync_decorators import sync_set_to_off
+from tests.resources.test_harness.utils.sync_decorators import (
+    sync_assign_resources,
+    sync_set_to_off,
+)
 
 configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
@@ -139,6 +142,16 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         else:
             LOGGER.info("Invoke command with all real sub-systems")
             self.central_node.TelescopeOff()
+
+    @sync_assign_resources(device_dict=device_dict)
+    def store_resources(self, assign_json: str):
+        """Invoke Assign Resource command on central Node
+        Args:
+            assign_json (str): Assign resource input json
+        """
+        result, message = self.central_node.AssignResources(assign_json)
+        LOGGER.info("Invoked AssignResources on CentralNode")
+        return result, message
 
     def tear_down(self):
         """Handle Tear down of central Node"""
