@@ -1,20 +1,20 @@
-"""Test module for TMC-SDP ShutDown functionality"""
+"""Test module for TMC-SDP StartUp functionality"""
 import pytest
 from pytest_bdd import given, scenario, then, when
 from tango import DevState
 
 from tests.resources.test_harness.helpers import get_master_device_simulators
-from tests.resources.test_harness.utils.enums import DishMode
 
 
 @pytest.mark.real_sdp
 @scenario(
-    "../features/shut_down_tmc_sdp.feature",
-    "Switch off the telescope having TMC and SDP subsystems",
+    "../features/start_up_tmc_sdp.feature",
+    "Start up the telescope having TMC and SDP subsystems",
 )
-def test_tmc_sdp_shutdown_telescope():
+def test_tmc_sdp_startup_telescope():
     """
-    Test case to verify TMC-SDP ShutDown functionality
+    Test case to verify TMC-SDP StartUp functionality
+
     Glossary:
         - "central_node_mid": fixture for a TMC CentralNode under test
         - "simulator_factory": fixture for SimulatorFactory class,
@@ -23,37 +23,15 @@ def test_tmc_sdp_shutdown_telescope():
     """
 
 
-@given("a Telescope consisting of TMC and SDP that is in ON State")
-def check_tmc_and_sdp_is_on(central_node_mid, event_recorder):
+@given("a Telescope consisting of TMC, SDP, simulated CSP and simulated DISH")
+def given_a_tmc(central_node_mid, simulator_factory):
     """
-    Given a TMC and SDP in ON state
+    Given a TMC
+
+    Args:
+        simulator_factory: fixture for SimulatorFactory class,
+        which provides simulated subarray and master devices
     """
-    event_recorder.subscribe_event(
-        central_node_mid.central_node, "telescopeState"
-    )
-    event_recorder.subscribe_event(central_node_mid.sdp_master, "State")
-    event_recorder.subscribe_event(
-        central_node_mid.subarray_devices["sdp_subarray"], "State"
-    )
-
-    if central_node_mid.telescope_state != "ON":
-        central_node_mid.move_to_on()
-
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.sdp_master,
-        "State",
-        DevState.ON,
-    )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_devices["sdp_subarray"],
-        "State",
-        DevState.ON,
-    )
-
-
-@given("simulated CSP and Dish in ON States")
-def check_simulated_devices_states(simulator_factory, event_recorder):
-    """A method to check CSP and Dish"""
     (
         csp_master_sim,
         _,
@@ -61,63 +39,47 @@ def check_simulated_devices_states(simulator_factory, event_recorder):
         dish_master_sim_2,
     ) = get_master_device_simulators(simulator_factory)
 
-    event_recorder.subscribe_event(csp_master_sim, "State")
-    event_recorder.subscribe_event(dish_master_sim_1, "dishMode")
-    event_recorder.subscribe_event(dish_master_sim_2, "dishMode")
+    assert central_node_mid.central_node.ping() > 0
+    assert central_node_mid.sdp_master.ping() > 0
+    assert central_node_mid.subarray_devices["sdp_subarray"].ping() > 0
+    assert csp_master_sim.ping() > 0
+    assert dish_master_sim_1.ping() > 0
+    assert dish_master_sim_2.ping() > 0
 
-    assert event_recorder.has_change_event_occurred(
-        csp_master_sim,
-        "State",
-        DevState.ON,
+
+@when("I start up the telescope")
+def move_sdp_to_on(central_node_mid):
+    """A method to put SDP to ON"""
+    central_node_mid.move_to_on()
+
+
+@then("the SDP must go to ON state")
+def check_sdp_is_on(central_node_mid, event_recorder):
+    """A method to check SDP controller and SDP subarray states"""
+    event_recorder.subscribe_event(central_node_mid.sdp_master, "State")
+    event_recorder.subscribe_event(
+        central_node_mid.subarray_devices["sdp_subarray"], "State"
     )
-    assert event_recorder.has_change_event_occurred(
-        dish_master_sim_1,
-        "dishMode",
-        DishMode.STANDBY_FP,
-    )
-    assert event_recorder.has_change_event_occurred(
-        dish_master_sim_2,
-        "dishMode",
-        DishMode.STANDBY_FP,
-    )
-
-
-@given("telescope state is ON")
-def check_telescope_state_is_on(central_node_mid, event_recorder):
-    """A method to check CentralNode.telescopeState"""
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.central_node,
-        "telescopeState",
-        DevState.ON,
-    )
-
-
-@when("I switch off the telescope")
-def move_sdp_to_off(central_node_mid):
-    """A method to put SDP to OFF"""
-    central_node_mid.move_to_off()
-
-
-@then("the sdp must go to OFF State")
-def check_sdp_is_off(central_node_mid, event_recorder):
-    """A method to check SDP State"""
     assert event_recorder.has_change_event_occurred(
         central_node_mid.sdp_master,
         "State",
-        DevState.OFF,
+        DevState.ON,
     )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_devices["sdp_subarray"],
         "State",
-        DevState.OFF,
+        DevState.ON,
     )
 
 
-@then("telescope state is OFF")
-def check_telescope_state_off(central_node_mid, event_recorder):
+@then("telescope state is ON")
+def check_telescope_state(central_node_mid, event_recorder):
     """A method to check CentralNode.telescopeState"""
+    event_recorder.subscribe_event(
+        central_node_mid.central_node, "telescopeState"
+    )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
         "telescopeState",
-        DevState.OFF,
+        DevState.ON,
     )
