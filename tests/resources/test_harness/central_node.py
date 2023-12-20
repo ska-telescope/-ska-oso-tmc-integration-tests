@@ -77,7 +77,7 @@ class CentralNodeWrapper(object):
 
     @property
     def telescope_state(self) -> DevState:
-        """Telescope health state representing overall state of telescope"""
+        """Telescope state representing overall state of telescope"""
 
         self._telescope_state = Resource(self.central_node).get(
             "telescopeState"
@@ -86,7 +86,7 @@ class CentralNodeWrapper(object):
 
     @telescope_state.setter
     def telescope_state(self, value):
-        """Telescope health state representing overall state of telescope
+        """Telescope state representing overall state of telescope
 
         Args:
             value (DevState): telescope state value
