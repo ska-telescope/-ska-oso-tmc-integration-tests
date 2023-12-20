@@ -173,6 +173,7 @@ deviceServers:
     enabled: false
     file: "data/mocks.yaml"
     is_simulated:
+      csp: false
       sdp: false
 
 nodeSelector: {}

@@ -13,7 +13,7 @@ from tests.resources.test_support.common_utils.result_code import ResultCode
 
 
 @pytest.mark.skip(
-    reason="Test fails randomly, Issue is getting fixed under SAH-1456"
+    reason="Test fails randomly, Issue will be fixed as a part of SAH-1456"
 )
 @pytest.mark.SKA_mid
 @scenario(
