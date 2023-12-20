@@ -1,21 +1,29 @@
 global:
+  dishes: ["100"]
+  exposeDatabaseDS: true
+  exposeAllDS: true
   minikube: false
+  sub-system:
+    ska-tango-base:
+      enabled: false
 
 # DISH LMC
-ska-mid-dish-manager:
-  ska-mid-dish-simulators:
-    enabled: true
-    deviceServers:
-      spfdevice:
-        enabled: true
-      spfrxdevice:
-        enabled: true
-ska-mid-dish-ds-manager:
-  ska-tango-base:
-    enabled: false
-  ska-mid-dish-simulators:
-    enabled: true
-    dsOpcuaSimulator:
+dishlmc:
+  ska-mid-dish-manager:
+    legacy_compatibility: true
+    ska-mid-dish-simulators:
       enabled: true
+      legacy_compatibility: true
+      ska-tango-base:
+        enabled: false
+      dsOpcuaSimulator:
+        enabled: true
+      deviceServers:
+        spfdevice:
+          enabled: true
+        spfrxdevice:
+          enabled: true
+  ska-mid-dish-ds-manager:
+    enabled: true
     ska-tango-base:
       enabled: false
