@@ -1,3 +1,4 @@
+"""Test TMC-CSP TelescopeOn functionality"""
 import pytest
 
 
