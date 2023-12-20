@@ -8,7 +8,7 @@ from tests.resources.test_harness.helpers import check_subarray_obs_state
 class TestSubarrayNodeAbortCommandObsStateTransitions(object):
     @pytest.mark.parametrize(
         "source_obs_state",
-        ["READY"],
+        ["READY", "RESOURCING", "IDLE", "CONFIGURING", "READY", "SCANNING"],
     )
     # @pytest.mark.skip(reason="Configure issue")
     @pytest.mark.SKA_mid

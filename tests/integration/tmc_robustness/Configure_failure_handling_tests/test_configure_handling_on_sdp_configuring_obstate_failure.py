@@ -64,7 +64,7 @@ def given_tmc_subarray_assign_resources(
     simulator_factory,
     command_input_factory,
 ):
-    csp_sim, sdp_sim, p1, p2 = get_device_simulators(simulator_factory)
+    csp_sim, sdp_sim, _, _ = get_device_simulators(simulator_factory)
     event_recorder.subscribe_event(csp_sim, "obsState")
     event_recorder.subscribe_event(sdp_sim, "obsState")
     assign_input_json = prepare_json_args_for_centralnode_commands(
@@ -74,7 +74,7 @@ def given_tmc_subarray_assign_resources(
         "invalid_receiver_address1", command_input_factory
     )
     sdp_sim.SetDirectreceiveAddresses(invalid_receiptor_json)
-    message, unique_id = central_node_mid.perform_action(
+    _, unique_id = central_node_mid.perform_action(
         "AssignResources", assign_input_json
     )
     assert event_recorder.has_change_event_occurred(
