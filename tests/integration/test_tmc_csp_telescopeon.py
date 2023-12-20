@@ -65,6 +65,7 @@ def check_state_devices(central_node_mid):
 def move_telescope_to_on(central_node_mid):
     """A method to turn on the telescope."""
     central_node_mid.move_to_on()
+    LOGGER.info("Telescope is switched on")
 
 
 @then("the CSP must go to ON state")

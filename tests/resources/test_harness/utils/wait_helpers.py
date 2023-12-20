@@ -131,6 +131,30 @@ class Waiter:
                 "reportVccState", changed_to="[0, 0, 0, 0]"
             )
 
+    def set_wait_for_turn_on_tmc_csp(self):
+        self.waits.append(
+            watch(Resource(self.sdp_master)).to_become(
+                "State", changed_to="ON"
+            )
+        )
+        self.waits.append(
+            watch(Resource(self.sdp_subarray1)).to_become(
+                "State", changed_to="ON"
+            )
+        )
+        self.waits.append(
+            watch(Resource(self.csp_master)).to_become(
+                "State", changed_to="ON"
+            )
+        )
+        self.waits.append(
+            watch(Resource(self.csp_subarray1)).to_become(
+                "State", changed_to="ON"
+            )
+        )
+        if self.dish_master_list:
+            self.set_wait_for_dish("dishMode", "STANDBY_FP")
+
     def set_wait_for_going_to_empty(self):
         self.waits.append(
             watch(Resource(self.tmc_csp_subarray_leaf_node)).to_become(
