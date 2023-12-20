@@ -15,6 +15,11 @@ from tests.resources.test_harness.utils.enums import DishMode
 def test_tmc_sdp_shutdown_telescope():
     """
     Test case to verify TMC-SDP ShutDown functionality
+    Glossary:
+        - "central_node_mid": fixture for a TMC CentralNode under test
+        - "simulator_factory": fixture for SimulatorFactory class,
+        which provides simulated subarray and master devices
+        - "event_recorder": fixture for EventRecorder class
     """
 
 
@@ -22,9 +27,6 @@ def test_tmc_sdp_shutdown_telescope():
 def check_tmc_and_sdp_is_on(central_node_mid, event_recorder):
     """
     Given a TMC and SDP in ON state
-    Args:
-        event_recorder: fixture for EventRecorder class
-
     """
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"

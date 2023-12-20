@@ -14,6 +14,12 @@ from tests.resources.test_harness.helpers import get_master_device_simulators
 def test_tmc_sdp_startup_telescope():
     """
     Test case to verify TMC-SDP StartUp functionality
+
+    Glossary:
+        - "central_node_mid": fixture for a TMC CentralNode under test
+        - "simulator_factory": fixture for SimulatorFactory class,
+        which provides simulated subarray and master devices
+        - "event_recorder": fixture for EventRecorder class
     """
 
 
