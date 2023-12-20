@@ -1,5 +1,6 @@
 """Test module for TMC-SDP StartUp functionality"""
 import logging
+import time
 
 import pytest
 import tango
@@ -66,7 +67,7 @@ def move_telescope_to_on(central_node_mid):
     """A method to turn on the telescope."""
     central_node_mid.csp_master.adminMode = 0
     central_node_mid.wait.set_wait_for_csp_master_to_become_online()
-    central_node_mid.wait.wait(60)
+    time.sleep(30)
     LOGGER.info("CspMaster State is: %s", central_node_mid.csp_master.state())
     central_node_mid.move_to_on()
     LOGGER.info("Telescope is switched on")
