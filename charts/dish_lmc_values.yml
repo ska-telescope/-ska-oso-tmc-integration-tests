@@ -1,7 +1,7 @@
 global:
   dishes: ["100"]
-  exposeDatabaseDS: true
-  exposeAllDS: true
+  # exposeDatabaseDS: true
+  # exposeAllDS: true
   minikube: false
   sub-system:
     ska-tango-base:
