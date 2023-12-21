@@ -20,9 +20,7 @@ class TestSubarrayNodeObsStateTransitions(object):
             ("READY", "End", "IDLE"),
         ],
     )
-    # @pytest.mark.skip(reason="Configure issue")
     @pytest.mark.SKA_mid
-    @pytest.mark.SKA_midtn
     def test_subarray_obs_transitions_valid_data(
         self,
         subarray_node,
@@ -103,6 +101,9 @@ class TestSubarrayNodeObsStateTransitions(object):
             ),
             # (#TODo :: pair_transition fails for this combination , it needs
             # to be debugged separately
+            # reason: "IndexError: list index out of range"
+            # this error is reapearing
+            # (
             #     "READY",
             #     "Scan",
             #     "scan_mid",
@@ -113,7 +114,6 @@ class TestSubarrayNodeObsStateTransitions(object):
             # ),
         ],
     )
-    @pytest.mark.SKA_mid32
     def test_subarray_pair_transition(
         self,
         subarray_node,

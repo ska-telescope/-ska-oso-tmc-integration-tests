@@ -13,18 +13,14 @@ server:
   name: "mocks"
   instances:
   {{- $isSimulatedDish := .Values.global.Dish.isSimulated.enabled }}
+  {{- $isSimulatedCsp := .Values.deviceServers.mocks.is_simulated.csp }}
+  {{- $isSimulatedSdp := .Values.deviceServers.mocks.is_simulated.sdp }}
     - name: "01"
       classes:
+        {{- if eq $isSimulatedSdp true }}
         - name: "HelperBaseDevice"
           devices:
           - name: "mid-sdp/control/0"
-        - name: "HelperCspMasterDevice"
-          devices:
-          - name: "mid-csp/control/0"
-        - name: "HelperCspSubarray"
-          devices:
-          - name: "mid-csp/subarray/01"
-          - name: "mid-csp/subarray/02"
         - name: "HelperSdpSubarray"
           devices:
           - name: "mid-sdp/subarray/01"
@@ -32,6 +28,16 @@ server:
         - name: "HelperSdpQueueConnector"
           devices:
           - name: "mid-sdp/queueconnector/01"
+        {{- end }}
+        {{- if eq $isSimulatedCsp true }}
+        - name: "HelperCspMasterDevice"
+          devices:
+          - name: "mid-csp/control/0"
+        - name: "HelperCspSubarray"
+          devices:
+          - name: "mid-csp/subarray/01"
+          - name: "mid-csp/subarray/02"
+        {{- end }}
         {{- if eq $isSimulatedDish true }}
         - name: "HelperDishDevice"
           devices:

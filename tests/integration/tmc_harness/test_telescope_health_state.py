@@ -96,8 +96,6 @@ class TestTelescopeHealthState(object):
             HealthState.FAILED,
         )
 
-    @pytest.mark.SKA_midtn
-    # @pytest.mark.skip(reason="Requires new SubarrayNode image version")
     @pytest.mark.SKA_mid
     def test_telescope_state_ok(
         self,

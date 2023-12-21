@@ -17,7 +17,6 @@ from tests.resources.test_harness.helpers import (
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
 
-@pytest.mark.SKA_midtn51
 @pytest.mark.skip(
     reason="Test passes independently, fails when executed with all tests"
 )
