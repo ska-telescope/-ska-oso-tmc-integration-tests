@@ -71,6 +71,7 @@ def check_telescope_state_is_on(central_node_mid, event_recorder):
 def move_sdp_to_standby(central_node_mid):
     """A method to put tmc to STANDBY"""
     central_node_mid.set_standby()
+    time.sleep(30)
 
 
 @then("the CSP must go to standby state")
