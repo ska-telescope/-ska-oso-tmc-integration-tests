@@ -8,7 +8,7 @@ from tests.resources.test_harness.helpers import get_master_device_simulators
 
 @pytest.mark.real_sdp
 @scenario(
-    "../features/start_up_tmc_sdp.feature",
+    "../features/tmc_sdp_on.feature",
     "Start up the telescope having TMC and SDP subsystems",
 )
 def test_tmc_sdp_startup_telescope():
@@ -42,8 +42,7 @@ def given_a_tmc(central_node_mid, simulator_factory):
     assert dish_master_sim_1.ping() > 0
     assert dish_master_sim_2.ping() > 0
 
-
-@given("telescope state is STANDBY")
+@given("telescope state is OFF")
 def check_telescope_state_standby(central_node_mid, event_recorder):
     """A method to check CentralNode telescopeState STANDBY"""
     event_recorder.subscribe_event(
@@ -52,9 +51,8 @@ def check_telescope_state_standby(central_node_mid, event_recorder):
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
         "telescopeState",
-        DevState.STANDBY,
+        DevState.OFF,
     )
-
 
 @when("I start up the telescope")
 def move_sdp_to_on(central_node_mid):
@@ -79,7 +77,6 @@ def check_sdp_is_on(central_node_mid, event_recorder):
         "State",
         DevState.ON,
     )
-
 
 @then("telescope state is ON")
 def check_telescope_state(central_node_mid, event_recorder):
