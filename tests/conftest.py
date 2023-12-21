@@ -12,7 +12,7 @@ from ska_tango_testing.mock.tango.event_callback import (
     MockTangoEventCallbackGroup,
 )
 
-from tests.resources.test_harness.central_node import CentralNodeWrapper
+from tests.resources.test_harness.central_node_mid import CentralNodeWrapperMid
 from tests.resources.test_harness.event_recorder import EventRecorder
 from tests.resources.test_harness.simulator_factory import SimulatorFactory
 from tests.resources.test_harness.subarray_node import SubarrayNodeWrapper
@@ -123,9 +123,9 @@ def change_event_callbacks() -> MockTangoEventCallbackGroup:
 
 
 @pytest.fixture()
-def central_node_mid() -> CentralNodeWrapper:
+def central_node_mid() -> CentralNodeWrapperMid:
     """Return CentralNode for Mid Telescope and calls tear down"""
-    central_node = CentralNodeWrapper()
+    central_node = CentralNodeWrapperMid()
     yield central_node
     # this will call after test complete
     central_node.tear_down()

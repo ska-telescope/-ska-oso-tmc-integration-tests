@@ -1,30 +1,15 @@
 import logging
 import os
 
-from ska_control_model import ObsState
 from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
 
-from tests.resources.test_harness.constant import (
-    centralnode,
-    csp_master,
-    csp_subarray1,
-    device_dict,
-    dish_master1,
-    dish_master2,
-    sdp_master,
-    sdp_subarray1,
-    tmc_csp_master_leaf_node,
-    tmc_sdp_master_leaf_node,
-    tmc_subarraynode1,
-)
-from tests.resources.test_harness.utils.common_utils import JsonFactory
+from tests.resources.test_harness.constant import device_dict
 from tests.resources.test_harness.utils.enums import DishMode
 from tests.resources.test_harness.utils.sync_decorators import (
     sync_abort,
     sync_release_resources,
     sync_restart,
-    sync_set_to_off,
 )
 from tests.resources.test_support.common_utils.common_helpers import Resource
 
@@ -45,28 +30,17 @@ class CentralNodeWrapper(object):
     def __init__(
         self,
     ) -> None:
-        self.central_node = DeviceProxy(centralnode)
-        self.subarray_node = DeviceProxy(tmc_subarraynode1)
-        self.csp_master_leaf_node = DeviceProxy(tmc_csp_master_leaf_node)
-        self.sdp_master_leaf_node = DeviceProxy(tmc_sdp_master_leaf_node)
-        self.sdp_master = DeviceProxy(sdp_master)
-        self.subarray_devices = {
-            "csp_subarray": DeviceProxy(csp_subarray1),
-            "sdp_subarray": DeviceProxy(sdp_subarray1),
-        }
-
-        self.csp_master = DeviceProxy(csp_master)
-        self.dish_master_list = [
-            DeviceProxy(dish_master1),
-            DeviceProxy(dish_master2),
-        ]
+        self.central_node = None
+        self.subarray_node = None
+        self.csp_master_leaf_node = None
+        self.sdp_master_leaf_node = None
+        self.mccs_master_leaf_node = None
+        self.subarray_devices = {}
+        self.sdp_master = None
+        self.csp_master = None
+        self.mccs_master = None
+        self.dish_master_list = None
         self._state = DevState.OFF
-        self.json_factory = JsonFactory()
-        self.release_input = (
-            self.json_factory.create_centralnode_configuration(
-                "release_resources_mid"
-            )
-        )
         self.simulated_devices_dict = self.get_simulated_devices_info()
 
     @property
@@ -236,13 +210,6 @@ class CentralNodeWrapper(object):
                 device.SetDirectHealthState(HealthState.UNKNOWN)
         else:
             LOGGER.info("No devices to reset healthState")
-        if (
-            self.simulated_devices_dict["sdp_and_dish"]
-            or self.simulated_devices_dict["csp_and_dish"]
-            or self.simulated_devices_dict["all_mocks"]
-        ):
-            for mock_device in self.dish_master_list:
-                mock_device.SetDirectHealthState(HealthState.UNKNOWN)
 
     def perform_action(self, command_name: str, input_json: str):
         """Execute provided command on centralnode
@@ -357,90 +324,3 @@ class CentralNodeWrapper(object):
                 ]
             ),
         }
-
-    def load_dish_vcc_configuration(self, dish_vcc_config: str):
-        """Invoke LoadDishCfg command on central Node
-        :param dish_vcc_config: Dish vcc configuration json string
-        """
-        result, message = self.central_node.LoadDishCfg(dish_vcc_config)
-        return result, message
-
-    def _reset_sys_param_and_k_value(self):
-        """Reset sysParam and sourceSysParam attribute of csp master
-        reset kValue of Dish master
-        """
-        if (
-            self.simulated_devices_dict["sdp_and_dish"]
-            or self.simulated_devices_dict["csp_and_dish"]
-            or self.simulated_devices_dict["all_mocks"]
-        ):
-            for mock_device in self.dish_master_list:
-                mock_device.SetKValue(0)
-            self.csp_master.ResetSysParams()
-
-    def _clear_command_call_and_transition_data(self, clear_transition=False):
-        """Clears the command call data"""
-        if self.simulated_devices_dict["all_mocks"]:
-            for sim_device in [
-                csp_subarray1,
-                sdp_subarray1,
-                dish_master1,
-                dish_master2,
-            ]:
-                device = DeviceProxy(sim_device)
-                device.ClearCommandCallInfo()
-                if clear_transition:
-                    device.ResetTransitions()
-
-    @sync_set_to_off(device_dict=device_dict)
-    def move_to_off(self):
-        """
-        A method to invoke TelescopeOff command to
-        put telescope in OFF state
-
-        """
-        if self.simulated_devices_dict["all_mocks"]:
-            LOGGER.info("Invoking commands with all Mocks")
-            self.central_node.TelescopeOff()
-            self.set_values_with_all_mocks(DevState.OFF, DishMode.STANDBY_LP)
-
-        elif self.simulated_devices_dict["csp_and_sdp"]:
-            LOGGER.info("Invoking command with csp and sdp simulated")
-            self.central_node.TelescopeOff()
-            self.set_value_with_csp_sdp_mocks(DevState.OFF)
-
-        elif self.simulated_devices_dict["csp_and_dish"]:
-            LOGGER.info("Invoking command with csp and Dish simulated")
-            self.central_node.TelescopeOff()
-            self.set_values_with_csp_dish_mocks(
-                DevState.OFF, DishMode.STANDBY_LP
-            )
-
-        elif self.simulated_devices_dict["sdp_and_dish"]:
-            LOGGER.info("Invoking command with sdp and dish simulated")
-            self.central_node.TelescopeOff()
-            self.set_values_with_sdp_dish_mocks(
-                DevState.OFF, DishMode.STANDBY_LP
-            )
-
-        else:
-            LOGGER.info("Invoke command with all real sub-systems")
-            self.central_node.TelescopeOff()
-
-    def tear_down(self):
-        """Handle Tear down of central Node"""
-        LOGGER.info("Calling Tear down for Central node.")
-        # reset HealthState.UNKNOWN for mock devices
-        self._reset_health_state_for_mock_devices()
-        self._reset_sys_param_and_k_value()
-        if self.subarray_node.obsState == ObsState.IDLE:
-            LOGGER.info("Calling Release Resource on centralnode")
-            self.invoke_release_resources(self.release_input)
-        elif self.subarray_node.obsState == ObsState.RESOURCING:
-            LOGGER.info("Calling Abort and Restart on SubarrayNode")
-            self.subarray_abort()
-            self.subarray_restart()
-        elif self.subarray_node.obsState == ObsState.ABORTED:
-            self.subarray_restart()
-        self.move_to_off()
-        self._clear_command_call_and_transition_data(clear_transition=True)
