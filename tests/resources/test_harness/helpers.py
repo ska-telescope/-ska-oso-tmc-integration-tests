@@ -223,9 +223,6 @@ def get_command_call_info(device: Any, command_name: str):
         if command_info[0] == command_name
     ]
 
-    # LOGGER.info("command_info[0][1] - %s", command_info[0][1])
-    # LOGGER.info("command_info[0][1] - %s", type(command_info[0][1]))
-
     input_str = json.loads("".join(command_info[0][1].split()))
 
     received_command_call_data = (
