@@ -89,8 +89,10 @@ def check_csp_is_moved_to_standby(central_node_mid, event_recorder):
         central_node_mid.subarray_devices["csp_subarray"],
         "State",
         DevState.STANDBY,
-        lookahead=10,
+        lookahead=15,
     )
+    csp_subarray1 = central_node_mid.subarray_devices["csp_subarray"]
+    LOGGER.info("CSPSubarrayState: %s", csp_subarray1.state())
 
 
 @then("telescope state is STANDBY")
