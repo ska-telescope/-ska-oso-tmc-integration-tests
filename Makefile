@@ -9,13 +9,6 @@ DISH_NAMESPACE_1 ?= dish-lmc-1
 DISH_NAMESPACE_2 ?= dish-lmc-2
 KUBE_NAMESPACE ?= ska-tmc-integration
 KUBE_NAMESPACE_SDP ?= ska-tmc-integration-sdp
-PYTHON_VARS_BEFORE_PYTEST ?= PYTHONPATH=.:./src \
-							 TANGO_HOST=$(TANGO_HOST) \
-							 TELESCOPE=$(TELESCOPE) \
-							 DISH_NAMESPACE_1=$(DISH_NAMESPACE_1) \
-							 DISH_NAMESPACE_2=$(DISH_NAMESPACE_2) \
-							 KUBE_NAMESPACE=$(KUBE_NAMESPACE) \
-							 KUBE_NAMESPACE_SDP=$(KUBE_NAMESPACE_SDP)
 
 PYTHON_LINT_TARGET ?= tests/
 
@@ -86,6 +79,7 @@ CI_PROJECT_PATH_SLUG ?= ska-tmc-integration
 CI_ENVIRONMENT_SLUG ?= ska-tmc-integration
 CSP_SIMULATION_ENABLED ?= true
 SDP_SIMULATION_ENABLED ?= true
+DISH_SIMULATION_ENABLED ?= true
 
 
 ifeq ($(MAKECMDGOALS),k8s-test)
@@ -124,6 +118,16 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set ska-sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP)\
 	$(CUSTOM_VALUES)
 
+PYTHON_VARS_BEFORE_PYTEST ?= PYTHONPATH=.:./src \
+							 TANGO_HOST=$(TANGO_HOST) \
+							 TELESCOPE=$(TELESCOPE) \
+							 CSP_SIMULATION_MID_ENABLED=$(CSP_SIMULATION_MID_ENABLED) \
+							 SDP_SIMULATION_ENABLED=$(SDP_SIMULATION_ENABLED) \
+							 DISH_SIMULATION_ENABLED=$(DISH_SIMULATION_ENABLED) \
+							 DISH_NAMESPACE_1=$(DISH_NAMESPACE_1) \
+							 DISH_NAMESPACE_2=$(DISH_NAMESPACE_2) \
+							 KUBE_NAMESPACE=$(KUBE_NAMESPACE) \
+							 KUBE_NAMESPACE_SDP=$(KUBE_NAMESPACE_SDP)
 
 K8S_TEST_TEST_COMMAND ?= $(PYTHON_VARS_BEFORE_PYTEST) $(PYTHON_RUNNER) \
 						pytest \
@@ -142,22 +146,26 @@ K8S_TEST_TEST_COMMAND ?= $(PYTHON_VARS_BEFORE_PYTEST) $(PYTHON_RUNNER) \
 -include PrivateRules.mak
 -include resources/alarmhandler.mk
 
-
 # to create SDP namespace
 k8s-pre-install-chart:
+ifeq ($(SDP_SIMULATION_ENABLED),false)
 	@echo "k8s-pre-install-chart: creating the SDP namespace $(KUBE_NAMESPACE_SDP)"
 	@make k8s-namespace KUBE_NAMESPACE=$(KUBE_NAMESPACE_SDP)
+endif
 
 # to create SDP namespace
 k8s-pre-install-chart-car:
+ifeq ($(SDP_SIMULATION_ENABLED),false)
 	@echo "k8s-pre-install-chart-car: creating the SDP namespace $(KUBE_NAMESPACE_SDP)"
 	@make k8s-namespace KUBE_NAMESPACE=$(KUBE_NAMESPACE_SDP)
+endif
 
 # to delete SDP namespace
 k8s-post-uninstall-chart:
+ifeq ($(SDP_SIMULATION_ENABLED),false)
 	@echo "k8s-post-uninstall-chart: deleting the SDP namespace $(KUBE_NAMESPACE_SDP)"
 	@make k8s-delete-namespace KUBE_NAMESPACE=$(KUBE_NAMESPACE_SDP)
-
+endif
 
 taranta-link:
 	@echo "#            https://k8s.stfc.skao.int/$(KUBE_NAMESPACE)/taranta/dashboard"
