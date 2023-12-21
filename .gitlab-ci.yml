@@ -132,6 +132,8 @@ mid-on-demand-destroy:
   allow_failure: true # need to keep this to unlock the pipeline
 
 k8s-test:
+  tags:
+    - k8srunner-large
   variables:
     SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA"
     SIMULATED_DISH: "true"
