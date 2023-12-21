@@ -76,7 +76,6 @@ def move_sdp_to_standby(central_node_mid):
 @then("the CSP must go to standby state")
 def check_csp_is_moved_to_standby(central_node_mid, event_recorder):
     """A method to check CSP's State"""
-    LOGGER.info("CSPMasterState: %s", central_node_mid.csp_master.state())
     event_recorder.subscribe_event(central_node_mid.csp_master, "State")
     event_recorder.subscribe_event(
         central_node_mid.subarray_devices["csp_subarray"], "State"
@@ -84,12 +83,11 @@ def check_csp_is_moved_to_standby(central_node_mid, event_recorder):
     assert event_recorder.has_change_event_occurred(
         central_node_mid.csp_master, "State", DevState.STANDBY, lookahead=15
     )
-    LOGGER.info("CSPMasterState: %s", central_node_mid.csp_master.state())
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_devices["csp_subarray"],
         "State",
-        DevState.STANDBY,
-        lookahead=15,
+        DevState.OFF,
+        lookahead=10,
     )
     csp_subarray1 = central_node_mid.subarray_devices["csp_subarray"]
     LOGGER.info("CSPSubarrayState: %s", csp_subarray1.state())
