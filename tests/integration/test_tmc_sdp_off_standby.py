@@ -1,4 +1,4 @@
-"""Test module for TMC-SDP ShutDown functionality"""
+"""Test module for TMC-SDP Off and Standby functionality"""
 import pytest
 from pytest_bdd import given, scenario, then, when
 from tango import DevState
@@ -146,7 +146,7 @@ def check_telescope_state_off(central_node_mid, event_recorder):
 
 
 @then("telescope state is STANDBY")
-def check_telescope_state_off(central_node_mid, event_recorder):
+def check_telescope_state_standby(central_node_mid, event_recorder):
     """A method to check CentralNode.telescopeState"""
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
@@ -156,7 +156,7 @@ def check_telescope_state_off(central_node_mid, event_recorder):
 
 
 @then("the sdp controller must go to STANDBY State")
-def check_sdp_is_off(central_node_mid, event_recorder):
+def check_sdp_controller_is_standby(central_node_mid, event_recorder):
     """A method to check SDP State"""
     assert event_recorder.has_change_event_occurred(
         central_node_mid.sdp_master,
@@ -166,7 +166,7 @@ def check_sdp_is_off(central_node_mid, event_recorder):
 
 
 @then("the sdp subarray must go to OFF State")
-def check_sdp_is_off(central_node_mid, event_recorder):
+def check_sdp_subarray_is_off(central_node_mid, event_recorder):
     """A method to check SDP State"""
     assert event_recorder.has_change_event_occurred(
         central_node_mid.sdp_master,
