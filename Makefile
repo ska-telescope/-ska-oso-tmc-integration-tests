@@ -87,6 +87,7 @@ CI_ENVIRONMENT_SLUG ?= ska-tmc-integration
 CSP_SIMULATION_ENABLED ?= true
 SDP_SIMULATION_ENABLED ?= true
 
+
 ifeq ($(MAKECMDGOALS),k8s-test)
 ADD_ARGS +=  --true-context
 MARK ?= $(shell echo $(TELESCOPE) | sed "s/-/_/g")
