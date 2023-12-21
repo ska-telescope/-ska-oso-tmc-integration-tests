@@ -8,7 +8,7 @@ from tests.resources.test_harness.helpers import get_master_device_simulators
 
 @pytest.mark.real_sdp
 @scenario(
-    "../features/tmc_sdp_on.feature",
+    "../features/tmc_sdp/tmc_sdp_on.feature",
     "Start up the telescope having TMC and SDP subsystems",
 )
 def test_tmc_sdp_startup_telescope():
