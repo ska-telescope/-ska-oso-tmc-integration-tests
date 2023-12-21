@@ -284,7 +284,7 @@ k8s-test-mid-with-csp:
     KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-csp-mid'
     SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-csp-mid"
     MARK: 'real_csp_mid'
-    CSP_SIMULATION_MID_ENABLED: 'false'
+    CSP_SIMULATION_ENABLED: 'false'
   script:
     - make cred SERVICE_ACCOUNT=$SERVICE_ACCOUNT
     - make k8s-install-chart TELESCOPE=SKA-mid
