@@ -1,8 +1,10 @@
+"""Test module for TMC-CSP ReleaseResources functionality"""
 import time
 
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
-from tango import DevState, ObsState
+from ska_control_model import ObsState
+from tango import DevState
 
 from tests.resources.test_harness.helpers import get_master_device_simulators
 
