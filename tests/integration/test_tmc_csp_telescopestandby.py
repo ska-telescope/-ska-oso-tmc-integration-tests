@@ -71,11 +71,10 @@ def check_telescope_state_is_on(central_node_mid, event_recorder):
 def move_sdp_to_standby(central_node_mid):
     """A method to put tmc to STANDBY"""
     central_node_mid.set_standby()
-    time.sleep(30)
 
 
 @then("the CSP must go to standby state")
-def check_csp_is_off(central_node_mid, event_recorder):
+def check_csp_is_moved_to_standby(central_node_mid, event_recorder):
     """A method to check CSP's State"""
     LOGGER.info("CSPMasterState: %s", central_node_mid.csp_master.state())
     event_recorder.subscribe_event(central_node_mid.csp_master, "State")
@@ -83,14 +82,14 @@ def check_csp_is_off(central_node_mid, event_recorder):
         central_node_mid.subarray_devices["csp_subarray"], "State"
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.csp_master,
-        "State",
-        DevState.STANDBY,
+        central_node_mid.csp_master, "State", DevState.STANDBY, lookahead=15
     )
+    LOGGER.info("CSPMasterState: %s", central_node_mid.csp_master.state())
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_devices["csp_subarray"],
         "State",
         DevState.STANDBY,
+        lookahead=10,
     )
 
 
