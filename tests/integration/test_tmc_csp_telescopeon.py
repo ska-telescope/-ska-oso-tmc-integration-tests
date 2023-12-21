@@ -24,7 +24,7 @@ def test_tmc_csp_startup_telescope():
 
 @given(
     "a Telescope consisting of TMC, CSP, simulated DISH and simulated"
-    + " CSP devices"
+    + " SDP devices"
 )
 def given_a_tmc(central_node_mid, simulator_factory):
     """
