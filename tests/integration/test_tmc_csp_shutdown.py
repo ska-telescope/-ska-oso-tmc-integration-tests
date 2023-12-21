@@ -64,7 +64,7 @@ def check_telescope_state_is_on(central_node_mid, event_recorder):
     )
 
 
-@when("I switch off the telescope")
+@when("I switch off telescope")
 def move_sdp_to_off(central_node_mid):
     """A method to put tmc to OFF"""
     central_node_mid.move_to_off()
