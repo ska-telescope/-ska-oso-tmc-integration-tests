@@ -1,4 +1,4 @@
-"""BDD test Telescope Off Command on DISH LMC"""
+"""Test module for TMC-DISH ShutDown functionality"""
 
 import pytest
 from pytest_bdd import given, scenario, then, when
@@ -14,17 +14,40 @@ from tests.resources.test_support.enum import DishMode
     "../features/check_off_command_on_real_dish.feature",
     "ShutDown with TMC and DISH devices",
 )
-def test_telescopeOff_command():
-    """This test validates that TMC is able to invoke
-    telesopeOff command on Dishlmc"""
+def test_tmc_dish_shutdown_telescope():
+    """
+    Test case to verify TMC-DISH ShutDown functionality
+    Glossary:
+        - "central_node_mid": fixture for a TMC CentralNode under test
+        - "simulator_factory": fixture for SimulatorFactory class,
+        which provides simulated master devices
+        - "event_recorder": fixture for EventRecorder class
+    """
 
 
-@given("a Telescope consisting of TMC and DISH that is in ON state")
-def turn_on_telescope(central_node_mid, event_recorder):
-    """Given TMC"""
+@given(
+    "a Telescope consisting of  TMC, DISH , simulated CSP and simulated SDP \
+        is in ON state"
+)
+def check_tmc_and_dish_is_on(
+    central_node_mid, event_recorder, simulator_factory
+):
+    """
+    Given a TMC , DISH , simulated CSP and simulated in ON state
+    """
+
+    csp_master_sim = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.MID_CSP_MASTER_DEVICE
+    )
+    sdp_master_sim = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.MID_SDP_MASTER_DEVICE
+    )
+
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
     )
+    event_recorder.subscribe_event(csp_master_sim, "State")
+    event_recorder.subscribe_event(sdp_master_sim, "State")
     event_recorder.subscribe_event(
         central_node_mid.dish_master_list[0], "dishMode"
     )
@@ -32,59 +55,20 @@ def turn_on_telescope(central_node_mid, event_recorder):
         central_node_mid.dish_master_list[1], "dishMode"
     )
 
-    if central_node_mid.telescope_state != "ON":
-        central_node_mid.move_to_on()
+    assert csp_master_sim.ping() > 0
+    assert sdp_master_sim.ping() > 0
+    assert central_node_mid.dish_master_list[0].ping() > 0
+    assert central_node_mid.dish_master_list[1].ping() > 0
+
+    central_node_mid.move_to_on()
 
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[0],
-        "dishMode",
-        DishMode.STANDBY_FP,
-    )
-
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[1],
-        "dishMode",
-        DishMode.STANDBY_FP,
-    )
-
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.central_node,
-        "telescopeState",
-        DevState.ON,
-    )
-
-
-@given("simulated SDP and CSP in ON state")
-def check_devices_turn_on(event_recorder, simulator_factory):
-    """Checking if simulate devices are turned ON"""
-    csp_master_sim = simulator_factory.get_or_create_simulator_device(
-        SimulatorDeviceType.MID_CSP_MASTER_DEVICE
-    )
-    sdp_master_sim = simulator_factory.get_or_create_simulator_device(
-        SimulatorDeviceType.MID_SDP_MASTER_DEVICE
-    )
-    event_recorder.subscribe_event(csp_master_sim, "State")
-    event_recorder.subscribe_event(sdp_master_sim, "State")
-
-    assert event_recorder.has_change_event_occurred(
-        csp_master_sim,
-        "State",
-        DevState.ON,
+        central_node_mid.dish_master_list[0], "dishMode", DishMode.STANDBY_FP
     )
     assert event_recorder.has_change_event_occurred(
-        sdp_master_sim,
-        "State",
-        DevState.ON,
+        central_node_mid.dish_master_list[1], "dishMode", DishMode.STANDBY_FP
     )
 
-
-@given("telescope state is ON")
-def check_telescope_state(central_node_mid, event_recorder):
-    """Invoke telescopeOn on TMC"""
-
-    event_recorder.subscribe_event(
-        central_node_mid.central_node, "telescopeState"
-    )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
         "telescopeState",

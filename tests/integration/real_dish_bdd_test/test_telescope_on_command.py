@@ -1,4 +1,4 @@
-"""BDD test Telescope On Command on DISH LMC"""
+"""Test module for TMC-DISH StartUp functionality"""
 
 import pytest
 from pytest_bdd import given, scenario, then, when
@@ -14,16 +14,29 @@ from tests.resources.test_support.enum import DishMode
     "../features/check_on_command_on_real_dish.feature",
     "StartUp Telescope with TMC and DISH devices",
 )
-def test_telescope_on():
-    """This test validates that TMC is able to invoke
-    telesopeOn command on Dishlmc"""
+def test_tmc_dish_startup_telescope():
+    """
+    Test case to verify TMC-DISH StartUp functionality
+
+    Glossary:
+        - "central_node_mid": fixture for a TMC CentralNode under test
+        - "simulator_factory": fixture for SimulatorFactory class,
+        which provides simulated master devices
+        - "event_recorder": fixture for EventRecorder class
+    """
 
 
 @given(
     "a Telescope consisting of  TMC, DISH , simulated CSP and simulated SDP"
 )
 def given_tmc(central_node_mid, simulator_factory, event_recorder):
-    """Given TMC"""
+    """
+    Given a TMC
+
+    Args:
+        simulator_factory: fixture for SimulatorFactory class,
+        which provides simulated master devices
+    """
     csp_master_sim = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.MID_CSP_MASTER_DEVICE
     )
@@ -40,16 +53,16 @@ def given_tmc(central_node_mid, simulator_factory, event_recorder):
 
 
 @when("I start up the telescope")
-def turn_on_telescope(central_node_mid):
-    """Invoke telescopeOn on TMC"""
-    # Invoke TelescopeOn command
+def move_dish_to_on(central_node_mid):
+    """A method to put DISH to ON"""
     central_node_mid.move_to_on()
 
 
 @then("DISH must go to STANDBY-FP mode")
-def check_dish_state(central_node_mid, event_recorder):
-    """Checking Dish state after invoking
+def check_dish_is_on(central_node_mid, event_recorder):
+    """Method to check dishMode after invoking
     telescopeOn command on central node"""
+
     event_recorder.subscribe_event(
         central_node_mid.dish_master_list[0], "dishMode"
     )
@@ -70,7 +83,7 @@ def check_dish_state(central_node_mid, event_recorder):
 
 @then("telescope state is ON")
 def check_telescope_state(central_node_mid, event_recorder):
-    """Checking if TMC central node is ON"""
+    """Method to check if TMC central node is ON"""
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
     )
