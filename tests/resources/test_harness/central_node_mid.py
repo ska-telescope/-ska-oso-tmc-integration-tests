@@ -55,6 +55,9 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         ]
         self._state = DevState.OFF
         self.json_factory = JsonFactory()
+        self.assign_input = self.json_factory.create_centralnode_configuration(
+            "assign_resources_mid"
+        )
         self.release_input = (
             self.json_factory.create_centralnode_configuration(
                 "release_resources_mid"
