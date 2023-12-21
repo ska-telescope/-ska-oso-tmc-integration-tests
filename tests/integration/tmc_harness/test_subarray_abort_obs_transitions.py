@@ -4,11 +4,10 @@ from ska_tango_base.control_model import ObsState
 from tests.resources.test_harness.helpers import check_subarray_obs_state
 
 
-# ["RESOURCING", "IDLE", "CONFIGURING", "READY", "SCANNING"],
 class TestSubarrayNodeAbortCommandObsStateTransitions(object):
     @pytest.mark.parametrize(
         "source_obs_state",
-        ["READY", "RESOURCING", "IDLE", "CONFIGURING", "READY", "SCANNING"],
+        ["READY", "RESOURCING", "IDLE", "CONFIGURING", "SCANNING"],
     )
     # @pytest.mark.skip(reason="Configure issue")
     @pytest.mark.SKA_mid

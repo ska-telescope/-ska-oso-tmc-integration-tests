@@ -185,8 +185,10 @@ def prepare_json_args_for_centralnode_commands(
     return input_json
 
 
-def get_command_call_info_boolean(device: Any, command_name: str):
+def get_boolean_command_call_info(device: DeviceProxy, command_name: str):
     """
+    Returns recorded information from commandCallInfo attribute.
+    This function is used when expected information is of type boolean.
     device: Tango Device Proxy Object
 
     """
@@ -208,6 +210,8 @@ def get_command_call_info_boolean(device: Any, command_name: str):
 
 def get_command_call_info(device: Any, command_name: str):
     """
+    Returns recorded information from commandCallInfo attribute.
+    This function is used when expected information is json
     device: Tango Device Proxy Object
 
     """
@@ -286,38 +290,38 @@ def set_subarray_to_given_obs_state(
 
 
 def device_received_this_command(
-    device: Any, expected_command_name: str, expected_inp_str: str | bool
-):
+    device: Any, expected_command_name: str, expected_input: str | bool
+) -> bool:
     """Method to verify received command and command argument
 
     Args:
         device (Any): Tango Device Proxy Object
         expected_command_name (str): Command name received on simulator device
-        expected_inp_str (str): Command argument received on simulator device
+        expected_input (str): Command argument received on simulator device
 
     Returns:
         Boolean: True if received data is equal to expected data.
     """
 
-    LOGGER.info("expected_inp_str - %s", expected_inp_str)
+    LOGGER.debug("expected_input - %s", expected_input)
 
     if (
-        expected_inp_str == "True"
-        or expected_inp_str == "False"
-        or expected_inp_str == ""
+        expected_input == "True"
+        or expected_input == "False"
+        or expected_input == ""
     ):
 
-        received_command_call_data = get_command_call_info_boolean(
+        received_command_call_data = get_boolean_command_call_info(
             device, expected_command_name
         )
-        LOGGER.info(
+        LOGGER.debug(
             "received_command_call_data - %s", received_command_call_data
         )
 
-        LOGGER.info("expected_inp_str %s", expected_inp_str)
+        LOGGER.debug("expected_input %s", expected_input)
         return received_command_call_data == (
             expected_command_name,
-            expected_inp_str,
+            expected_input,
         )
 
     else:
@@ -325,34 +329,18 @@ def device_received_this_command(
         received_command_call_data = get_command_call_info(
             device, expected_command_name
         )
-        LOGGER.info(
+        LOGGER.debug(
             "received_command_call_data - %s", received_command_call_data
         )
 
-        expected_input_str = json.loads("".join(expected_inp_str.split()))
-        LOGGER.info("expected_input_str %s", expected_input_str)
+        expected_input_str = json.loads("".join(expected_input.split()))
+        LOGGER.debug("expected_input_str %s", expected_input_str)
         return received_command_call_data == (
             expected_command_name,
             sorted(expected_input_str),
         )
 
-    # if type(expected_inp_str) is str:
-    #     expected_input_str = json.loads("".join(expected_inp_str.split()))
-    #     LOGGER.info("expected_input_str %s", expected_input_str)
-    #     return received_command_call_data == (
-    #         expected_command_name,
-    #         sorted(expected_input_str),
-    #     )
-    # else:
-    #
-    #     LOGGER.info("expected_inp_str %s", expected_inp_str)
-    #     return received_command_call_data == (
-    #         expected_command_name,
-    #         expected_inp_str,
-    #     )
 
-
-#
 def get_recorded_commands(device: Any):
     """A method to get data from simulator device
 

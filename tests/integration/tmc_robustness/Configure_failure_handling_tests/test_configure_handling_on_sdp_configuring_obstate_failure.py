@@ -82,7 +82,6 @@ def given_tmc_subarray_assign_resources(
         "obsState",
         ObsState.IDLE,
     )
-    LOGGER.info("assert done")
 
 
 @given(

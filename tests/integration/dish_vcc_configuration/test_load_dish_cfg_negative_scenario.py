@@ -59,7 +59,7 @@ def test_central_node_return_error_for_duplicate_vcc_id():
 
 
 @pytest.mark.skip(
-    "Test case needs to be updated with change of attribite names"
+    "Test case needs to be updated with change of attributes names"
 )
 @pytest.mark.SKA_mid
 @scenario(
