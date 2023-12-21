@@ -8,7 +8,6 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.enum import DishMode
 
 
-@pytest.mark.t1
 @pytest.mark.real_dish
 @scenario(
     "../features/check_off_command_on_real_dish.feature",
@@ -26,8 +25,8 @@ def test_tmc_dish_shutdown_telescope():
 
 
 @given(
-    "a Telescope consisting of  TMC, DISH , simulated CSP and simulated SDP \
-        is in ON state"
+    "a Telescope consisting of TMC, DISH, simulated CSP"
+    " and simulated SDP is in ON state"
 )
 def check_tmc_and_dish_is_on(
     central_node_mid, event_recorder, simulator_factory
