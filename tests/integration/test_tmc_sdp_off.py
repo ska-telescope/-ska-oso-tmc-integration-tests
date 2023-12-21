@@ -121,4 +121,3 @@ def check_telescope_state_off(central_node_mid, event_recorder):
         "telescopeState",
         DevState.OFF,
     )
-    assert 0
