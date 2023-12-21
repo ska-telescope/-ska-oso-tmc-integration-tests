@@ -91,8 +91,8 @@ endif
 # at the end. Will be debugged and fixed as a part of improvement.
 PYTHON_VARS_AFTER_PYTEST ?= -m '$(MARK)' $(ADD_ARGS) $(FILE) -x
 
-ifeq ($(CSP_SIMULATION_ENABLED),false)
-CUSTOM_VALUES =	--set tmc-mid.deviceServers.mocks.is_simulated.csp=$(CSP_SIMULATION_ENABLED)\
+ifeq ($(CSP_SIMULATION_MID_ENABLED),false)
+CUSTOM_VALUES =	--set tmc-mid.deviceServers.mocks.is_simulated.csp=$(CSP_SIMULATION_MID_ENABLED)\
 	--set ska-csp-lmc-mid.enabled=true
 endif
 
