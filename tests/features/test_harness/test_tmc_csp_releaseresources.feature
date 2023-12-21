@@ -1,4 +1,4 @@
-Scenerio : Release resources to CSP subarray using TMC
+Scenerio: Release resources to CSP subarray using TMC
     Given the telescope is in ON state
     And TMC subarray <subarray_id> is in IDLE ObsState
     When I release all resources assign to TMC subarray <subarray_id>
