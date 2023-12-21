@@ -1,4 +1,4 @@
-"""Test module for TMC-CSP StartUp functionality"""
+"""Test module for TMC-CSP standby functionality"""
 import logging
 import time
 
@@ -13,12 +13,12 @@ LOGGER = logging.getLogger(__name__)
 
 @pytest.mark.real_csp_mid
 @scenario(
-    "../features/tmc_csp_on.feature",
-    "StartUp Telescope with TMC and CSP devices",
+    "../features/tmc_csp_standby.feature",
+    "Standby the Telescope with real TMC and CSP devices",
 )
-def test_tmc_csp_startup_telescope():
+def test_tmc_csp_standby_telescope():
     """
-    Test case to verify TMC-CSP StartUp functionality
+    Test case to verify TMC-CSP Standby functionality
     """
 
 
@@ -26,7 +26,7 @@ def test_tmc_csp_startup_telescope():
     "a Telescope consisting of TMC, CSP, simulated DISH and simulated"
     + " SDP devices"
 )
-def given_a_tmc(central_node_mid, simulator_factory):
+def check_a_tmc(central_node_mid, simulator_factory):
     """
     Given a TMC
 
@@ -47,33 +47,36 @@ def given_a_tmc(central_node_mid, simulator_factory):
     assert sdp_master_sim.ping() > 0
     assert dish_master_sim_1.ping() > 0
     assert dish_master_sim_2.ping() > 0
+    if central_node_mid.telescope_state != "ON":
+        central_node_mid.csp_master.adminMode = 0
+        central_node_mid.wait.set_wait_for_csp_master_to_become_online()
+        time.sleep(30)  # Yes, This sleep will be removed.
+        central_node_mid.move_to_on()
 
 
-@given("telescope state is OFF")
-def check_state_devices(central_node_mid, event_recorder):
-    """Set up a TMC and ensure it is in the STANDBY state."""
+@given("telescope is in ON state")
+def check_telescope_state_is_on(central_node_mid, event_recorder):
+    """A method to check if telescopeState is on"""
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
     )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
         "telescopeState",
-        DevState.STANDBY,
+        DevState.ON,
     )
 
 
-@when("I start up the telescope")
-def move_telescope_to_on(central_node_mid):
-    """A method to turn on the telescope."""
-    central_node_mid.csp_master.adminMode = 0
-    central_node_mid.wait.set_wait_for_csp_master_to_become_online()
-    time.sleep(30)  # Yes, This sleep will be removed.
-    central_node_mid.move_to_on()
+@when("I standby the telescope")
+def move_sdp_to_standby(central_node_mid):
+    """A method to put tmc to STANDBY"""
+    central_node_mid.set_standby()
 
 
-@then("the CSP must go to ON state")
-def check_csp_is_on(central_node_mid, event_recorder):
-    """A method to check CSP controller and CSP subarray states."""
+@then("the CSP must go to standby state")
+def check_csp_is_off(central_node_mid, event_recorder):
+    """A method to check CSP's State"""
+    LOGGER.info("CSPMasterState: %s", central_node_mid.csp_master.state())
     event_recorder.subscribe_event(central_node_mid.csp_master, "State")
     event_recorder.subscribe_event(
         central_node_mid.subarray_devices["csp_subarray"], "State"
@@ -81,20 +84,20 @@ def check_csp_is_on(central_node_mid, event_recorder):
     assert event_recorder.has_change_event_occurred(
         central_node_mid.csp_master,
         "State",
-        DevState.ON,
+        DevState.STANDBY,
     )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_devices["csp_subarray"],
         "State",
-        DevState.ON,
+        DevState.STANDBY,
     )
 
 
-@then("telescope state is ON")
-def check_telescope_state(central_node_mid, event_recorder):
+@then("telescope state is STANDBY")
+def check_telescope_state_off(central_node_mid, event_recorder):
     """A method to check CentralNode.telescopeState"""
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
         "telescopeState",
-        DevState.ON,
+        DevState.STANDBY,
     )

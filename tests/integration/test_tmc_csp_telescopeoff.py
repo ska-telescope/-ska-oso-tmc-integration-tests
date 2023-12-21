@@ -1,5 +1,4 @@
 """Test module for TMC-CSP ShutDown functionality"""
-import logging
 import time
 
 import pytest
@@ -8,12 +7,10 @@ from tango import DevState
 
 from tests.resources.test_harness.helpers import get_master_device_simulators
 
-LOGGER = logging.getLogger(__name__)
-
 
 @pytest.mark.real_csp_mid
 @scenario(
-    "../features/shut_down_tmc_csp.feature",
+    "../features/tmc_csp_off.feature",
     "Turn Off Telescope with real TMC and CSP devices",
 )
 def test_tmc_csp_shutdown_telescope():
@@ -51,9 +48,7 @@ def check_a_tmc(central_node_mid, simulator_factory):
         central_node_mid.csp_master.adminMode = 0
         central_node_mid.wait.set_wait_for_csp_master_to_become_online()
         time.sleep(30)  # Yes, This sleep will be removed.
-        LOGGER.info("CspMasterState: %s", central_node_mid.csp_master.state())
         central_node_mid.move_to_on()
-        LOGGER.info("CspMasterState: %s", central_node_mid.csp_master.state())
 
 
 @given("telescope is in ON state")
