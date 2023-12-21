@@ -77,7 +77,7 @@ K8S_TEST_RUNNER = test-runner-$(HELM_RELEASE)
 
 CI_PROJECT_PATH_SLUG ?= ska-tmc-integration
 CI_ENVIRONMENT_SLUG ?= ska-tmc-integration
-CSP_SIMULATION_MID_ENABLED ?= true
+CSP_SIMULATION_ENABLED ?= true
 SDP_SIMULATION_ENABLED ?= true
 DISH_SIMULATION_ENABLED ?= true
 
@@ -91,8 +91,8 @@ endif
 # at the end. Will be debugged and fixed as a part of improvement.
 PYTHON_VARS_AFTER_PYTEST ?= -m '$(MARK)' $(ADD_ARGS) $(FILE) -x
 
-ifeq ($(CSP_SIMULATION_MID_ENABLED),false)
-CUSTOM_VALUES =	--set tmc-mid.deviceServers.mocks.is_simulated.csp=$(CSP_SIMULATION_MID_ENABLED)\
+ifeq ($(CSP_SIMULATION_ENABLED),false)
+CUSTOM_VALUES =	--set tmc-mid.deviceServers.mocks.is_simulated.csp=$(CSP_SIMULATION_ENABLED)\
 	--set ska-csp-lmc-mid.enabled=true
 endif
 
@@ -121,7 +121,7 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 PYTHON_VARS_BEFORE_PYTEST ?= PYTHONPATH=.:./src \
 							 TANGO_HOST=$(TANGO_HOST) \
 							 TELESCOPE=$(TELESCOPE) \
-							 CSP_SIMULATION_MID_ENABLED=$(CSP_SIMULATION_MID_ENABLED) \
+							 CSP_SIMULATION_ENABLED=$(CSP_SIMULATION_ENABLED) \
 							 SDP_SIMULATION_ENABLED=$(SDP_SIMULATION_ENABLED) \
 							 DISH_SIMULATION_ENABLED=$(DISH_SIMULATION_ENABLED) \
 							 DISH_NAMESPACE_1=$(DISH_NAMESPACE_1) \

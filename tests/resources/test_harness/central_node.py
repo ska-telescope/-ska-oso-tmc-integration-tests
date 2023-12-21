@@ -17,7 +17,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 SDP_SIMULATION_ENABLED = os.getenv("SDP_SIMULATION_ENABLED")
-CSP_SIMULATION_MID_ENABLED = os.getenv("CSP_SIMULATION_MID_ENABLED")
+CSP_SIMULATION_ENABLED = os.getenv("CSP_SIMULATION_ENABLED")
 DISH_SIMULATION_ENABLED = os.getenv("DISH_SIMULATION_ENABLED")
 
 
@@ -303,7 +303,7 @@ class CentralNodeWrapper(object):
 
         return: dict
         """
-        self.is_csp_simulated = CSP_SIMULATION_MID_ENABLED.lower() == "true"
+        self.is_csp_simulated = CSP_SIMULATION_ENABLED.lower() == "true"
         self.is_sdp_simulated = SDP_SIMULATION_ENABLED.lower() == "true"
         self.is_dish_simulated = DISH_SIMULATION_ENABLED.lower() == "true"
         return {
