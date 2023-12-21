@@ -60,10 +60,6 @@ def check_state_devices(central_node_mid, event_recorder):
         "telescopeState",
         DevState.STANDBY,
     )
-    # assert (
-    #     central_node_mid.central_node.telescopeState
-    #     == tango._tango.DevState(7)
-    # )
 
 
 @when("I start up the telescope")
