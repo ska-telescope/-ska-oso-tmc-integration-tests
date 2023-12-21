@@ -73,6 +73,10 @@ def move_sdp_to_off(central_node_mid):
 @then("the CSP must go to OFF state")
 def check_csp_is_off(central_node_mid, event_recorder):
     """A method to check CSP's State"""
+    event_recorder.subscribe_event(central_node_mid.csp_master, "State")
+    event_recorder.subscribe_event(
+        central_node_mid.subarray_devices["csp_subarray"], "State"
+    )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.csp_master,
         "State",
