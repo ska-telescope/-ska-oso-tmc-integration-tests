@@ -38,6 +38,7 @@ def test_tmc_sdp_standby_telescope():
         - "event_recorder": fixture for EventRecorder class
     """
 
+
 @given("a Telescope consisting of TMC and SDP that is in ON State")
 def check_tmc_and_sdp_is_on(central_node_mid, event_recorder):
     """
@@ -64,6 +65,7 @@ def check_tmc_and_sdp_is_on(central_node_mid, event_recorder):
         "State",
         DevState.ON,
     )
+
 
 @given("simulated CSP and Dish in ON States")
 def check_simulated_devices_states(simulator_factory, event_recorder):
@@ -95,6 +97,7 @@ def check_simulated_devices_states(simulator_factory, event_recorder):
         DishMode.STANDBY_FP,
     )
 
+
 @given("telescope state is ON")
 def check_telescope_state_is_on(central_node_mid, event_recorder):
     """A method to check CentralNode.telescopeState"""
@@ -103,6 +106,7 @@ def check_telescope_state_is_on(central_node_mid, event_recorder):
         "telescopeState",
         DevState.ON,
     )
+
 
 @when("I switch off the telescope")
 def move_sdp_to_off(central_node_mid):
@@ -130,6 +134,7 @@ def check_sdp_is_off(central_node_mid, event_recorder):
         DevState.OFF,
     )
 
+
 @then("telescope state is OFF")
 def check_telescope_state_off(central_node_mid, event_recorder):
     """A method to check CentralNode.telescopeState"""
@@ -138,6 +143,7 @@ def check_telescope_state_off(central_node_mid, event_recorder):
         "telescopeState",
         DevState.OFF,
     )
+
 
 @then("telescope state is STANDBY")
 def check_telescope_state_off(central_node_mid, event_recorder):
@@ -148,6 +154,7 @@ def check_telescope_state_off(central_node_mid, event_recorder):
         DevState.STANDBY,
     )
 
+
 @then("the sdp controller must go to STANDBY State")
 def check_sdp_is_off(central_node_mid, event_recorder):
     """A method to check SDP State"""
@@ -156,6 +163,7 @@ def check_sdp_is_off(central_node_mid, event_recorder):
         "State",
         DevState.STANDBY,
     )
+
 
 @then("the sdp subarray must go to OFF State")
 def check_sdp_is_off(central_node_mid, event_recorder):
