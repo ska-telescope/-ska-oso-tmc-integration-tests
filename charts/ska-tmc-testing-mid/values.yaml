@@ -67,6 +67,7 @@ tmc-mid:
     mocks:
       enabled: true
       is_simulated:
+        csp: true
         sdp: true
 
 ska-sdp:
@@ -123,3 +124,6 @@ ska-tmc-simulators:
     
     powersupplysimulator:
       enabled: true
+
+ska-csp-lmc-mid:
+  enabled: false

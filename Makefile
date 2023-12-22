@@ -47,12 +47,10 @@ SIMULATED_DISH ?= true
 SUBARRAY_COUNT ?= 2
 DISH_NAME_1 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_1).$(CLUSTER_DOMAIN):$(PORT)/ska001/elt/master
 DISH_NAME_2 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_2).$(CLUSTER_DOMAIN):$(PORT)/ska002/elt/master
+CSP_MASTER ?= tango://$(TANGO_HOST).$(KUBE_NAMESPACE).$(CLUSTER_DOMAIN):$(PORT)/mid-csp/control/0
+CSP_SUBARRAY_PREFIX ?= tango://$(TANGO_HOST).$(KUBE_NAMESPACE).$(CLUSTER_DOMAIN):$(PORT)/mid-csp/subarray
 SDP_MASTER ?= tango://$(TANGO_HOST).$(KUBE_NAMESPACE).$(CLUSTER_DOMAIN):$(PORT)/mid-sdp/control/0
 SDP_SUBARRAY_PREFIX ?= tango://$(TANGO_HOST).$(KUBE_NAMESPACE).$(CLUSTER_DOMAIN):$(PORT)/mid-sdp/subarray
-
-CSP_SIMULATION_ENABLED ?= true
-SDP_SIMULATION_ENABLED ?= true
-DISH_SIMULATION_ENABLED ?= true
 
 CI_REGISTRY ?= gitlab.com
 
@@ -80,7 +78,7 @@ K8S_TEST_RUNNER = test-runner-$(HELM_RELEASE)
 CI_PROJECT_PATH_SLUG ?= ska-tmc-integration
 CI_ENVIRONMENT_SLUG ?= ska-tmc-integration
 CSP_SIMULATION_ENABLED ?= true
-SDP_SIMULATION_ENABLED ?= true
+SDP_SIMULATION_ENABLED ?= false
 DISH_SIMULATION_ENABLED ?= true
 
 
@@ -102,8 +100,7 @@ ifeq ($(SDP_SIMULATION_ENABLED),false)
 CUSTOM_VALUES =	--set tmc-mid.deviceServers.mocks.is_simulated.sdp=$(SDP_SIMULATION_ENABLED)\
 	--set global.sdp_master="$(SDP_MASTER)"\
 	--set global.sdp_subarray_prefix="$(SDP_SUBARRAY_PREFIX)"\
-	--set ska-sdp.enabled=true\
-	--set global.sdp.processingNamespace=$(KUBE_NAMESPACE_SDP)
+	--set ska-sdp.enabled=true 
 endif
 
 K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
@@ -112,14 +109,14 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set ska-tango-base.xauthority=$(XAUTHORITY) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
 	--set global.exposeAllDS=false \
-	--set global.operator=true \
+	--set global.operator=false \
 	--set ska-taranta.enabled=$(TARANTA_ENABLED)\
 	--set global.namespace_dish.dish_name[0]="$(DISH_NAME_1)"\
 	--set global.namespace_dish.dish_name[1]="$(DISH_NAME_2)"\
 	--set global.Dish.isSimulated.enabled=$(SIMULATED_DISH)\
 	--set global.subarray_count=$(SUBARRAY_COUNT)\
+	--set ska-sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP)\
 	$(CUSTOM_VALUES)
-
 
 PYTHON_VARS_BEFORE_PYTEST ?= PYTHONPATH=.:./src \
 							 TANGO_HOST=$(TANGO_HOST) \
@@ -131,7 +128,6 @@ PYTHON_VARS_BEFORE_PYTEST ?= PYTHONPATH=.:./src \
 							 DISH_NAMESPACE_2=$(DISH_NAMESPACE_2) \
 							 KUBE_NAMESPACE=$(KUBE_NAMESPACE) \
 							 KUBE_NAMESPACE_SDP=$(KUBE_NAMESPACE_SDP)
-
 
 K8S_TEST_TEST_COMMAND ?= $(PYTHON_VARS_BEFORE_PYTEST) $(PYTHON_RUNNER) \
 						pytest \
@@ -150,22 +146,26 @@ K8S_TEST_TEST_COMMAND ?= $(PYTHON_VARS_BEFORE_PYTEST) $(PYTHON_RUNNER) \
 -include PrivateRules.mak
 -include resources/alarmhandler.mk
 
-
 # to create SDP namespace
 k8s-pre-install-chart:
+ifeq ($(SDP_SIMULATION_ENABLED),false)
 	@echo "k8s-pre-install-chart: creating the SDP namespace $(KUBE_NAMESPACE_SDP)"
 	@make k8s-namespace KUBE_NAMESPACE=$(KUBE_NAMESPACE_SDP)
+endif
 
 # to create SDP namespace
 k8s-pre-install-chart-car:
+ifeq ($(SDP_SIMULATION_ENABLED),false)
 	@echo "k8s-pre-install-chart-car: creating the SDP namespace $(KUBE_NAMESPACE_SDP)"
 	@make k8s-namespace KUBE_NAMESPACE=$(KUBE_NAMESPACE_SDP)
+endif
 
 # to delete SDP namespace
 k8s-post-uninstall-chart:
+ifeq ($(SDP_SIMULATION_ENABLED),false)
 	@echo "k8s-post-uninstall-chart: deleting the SDP namespace $(KUBE_NAMESPACE_SDP)"
 	@make k8s-delete-namespace KUBE_NAMESPACE=$(KUBE_NAMESPACE_SDP)
-
+endif
 
 taranta-link:
 	@echo "#            https://k8s.stfc.skao.int/$(KUBE_NAMESPACE)/taranta/dashboard"
