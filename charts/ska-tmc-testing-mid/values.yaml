@@ -119,7 +119,7 @@ ska-tmc-simulators:
       enabled: false
     
     weatherstation:
-      enabled: true
+      enabled: false
     
     powersupplysimulator:
       enabled: true

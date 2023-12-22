@@ -79,6 +79,9 @@ K8S_TEST_RUNNER = test-runner-$(HELM_RELEASE)
 
 CI_PROJECT_PATH_SLUG ?= ska-tmc-integration
 CI_ENVIRONMENT_SLUG ?= ska-tmc-integration
+CSP_SIMULATION_ENABLED ?= true
+SDP_SIMULATION_ENABLED ?= true
+DISH_SIMULATION_ENABLED ?= true
 
 
 ifeq ($(MAKECMDGOALS),k8s-test)
@@ -91,10 +94,8 @@ endif
 PYTHON_VARS_AFTER_PYTEST ?= -m '$(MARK)' $(ADD_ARGS) $(FILE) -x
 
 ifeq ($(CSP_SIMULATION_ENABLED),false)
-CUSTOM_VALUES =	--set global.csp.isSimulated.enabled=$(CSP_SIMULATION_ENABLED)\
-	--set tmc-low.ska-csp-lmc-low.enabled=true\
-	--set tmc-low.ska-low-cbf.enabled=true\
-	--set tmc-low.ska-low-cbf.ska-low-cbf-proc.enabled=true
+CUSTOM_VALUES =	--set tmc-mid.deviceServers.mocks.is_simulated.csp=$(CSP_SIMULATION_ENABLED)\
+	--set ska-csp-lmc-mid.enabled=true
 endif
 
 ifeq ($(SDP_SIMULATION_ENABLED),false)
