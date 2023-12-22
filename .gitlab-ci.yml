@@ -181,7 +181,7 @@ mid-on-demand-destroy:
 k8s-test:
   variables:
     SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA"
-    SIMULATED_DISH: "true"
+    DISH_SIMULATION_ENABLED: "true"
     SUBARRAY_COUNT: 2
     KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA'
   before_script:
@@ -233,7 +233,7 @@ k8s-test-dish-lmc:
   tags:
     - k8srunner
   variables:
-    SIMULATED_DISH: "false"
+    DISH_SIMULATION_ENABLED: "false"
     SUBARRAY_COUNT: 2
     DISH_TANGO_HOST: "databaseds-tango-base"
     CLUSTER_DOMAIN: "svc.cluster.local"
