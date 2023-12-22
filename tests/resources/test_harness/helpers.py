@@ -185,7 +185,7 @@ def prepare_json_args_for_centralnode_commands(
     return input_json
 
 
-def get_boolean_command_call_info(device: DeviceProxy, command_name: str):
+def get_boolean_command_call_info(device: Any, command_name: str):
     """
     Returns recorded information from commandCallInfo attribute.
     This function is used when expected information is of type boolean.
