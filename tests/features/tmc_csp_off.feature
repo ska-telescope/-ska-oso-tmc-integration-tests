@@ -1,3 +1,4 @@
+@XTP-29250 @real_csp_mid
 Scenario: Turn Off Telescope with real TMC and CSP devices
     Given a Telescope consisting of TMC, CSP, simulated DISH and simulated SDP devices
     And telescope is in ON state
