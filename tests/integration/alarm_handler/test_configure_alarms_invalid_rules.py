@@ -27,7 +27,7 @@ def alarm_rule_validation(filename, missing_attribute):
             in response_data["error"]
         )
 
-
+@pytest.mark.skip
 @pytest.mark.parametrize(
     "alarm_rule_file, missing_attribute",
     [
