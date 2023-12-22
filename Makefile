@@ -78,10 +78,9 @@ K8S_TEST_RUNNER = test-runner-$(HELM_RELEASE)
 CI_PROJECT_PATH_SLUG ?= ska-tmc-integration
 CI_ENVIRONMENT_SLUG ?= ska-tmc-integration
 CSP_SIMULATION_ENABLED ?= true
-
-CSP_SIMULATION_MID_ENABLED ?= true
 SDP_SIMULATION_ENABLED ?= true
 DISH_SIMULATION_ENABLED ?= true
+
 
 ifeq ($(MAKECMDGOALS),k8s-test)
 ADD_ARGS +=  --true-context
@@ -93,14 +92,7 @@ endif
 PYTHON_VARS_AFTER_PYTEST ?= -m '$(MARK)' $(ADD_ARGS) $(FILE) -x
 
 ifeq ($(CSP_SIMULATION_ENABLED),false)
-CUSTOM_VALUES =	--set global.csp.isSimulated.enabled=$(CSP_SIMULATION_ENABLED)\
-	--set tmc-low.ska-csp-lmc-low.enabled=true\
-	--set tmc-low.ska-low-cbf.enabled=true\
-	--set tmc-low.ska-low-cbf.ska-low-cbf-proc.enabled=true
-endif
-
-ifeq ($(CSP_SIMULATION_MID_ENABLED),false)
-CUSTOM_VALUES =	--set tmc-mid.deviceServers.mocks.is_simulated.csp=$(CSP_SIMULATION_MID_ENABLED)\
+CUSTOM_VALUES =	--set tmc-mid.deviceServers.mocks.is_simulated.csp=$(CSP_SIMULATION_ENABLED)\
 	--set ska-csp-lmc-mid.enabled=true
 endif
 
@@ -116,7 +108,7 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set ska-tango-base.display=$(DISPLAY) \
 	--set ska-tango-base.xauthority=$(XAUTHORITY) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
-	--set global.exposeAllDS=true \
+	--set global.exposeAllDS=false \
 	--set global.operator=true \
 	--set ska-taranta.enabled=$(TARANTA_ENABLED)\
 	--set global.namespace_dish.dish_name[0]="$(DISH_NAME_1)"\
@@ -129,7 +121,7 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 PYTHON_VARS_BEFORE_PYTEST ?= PYTHONPATH=.:./src \
 							 TANGO_HOST=$(TANGO_HOST) \
 							 TELESCOPE=$(TELESCOPE) \
-							 CSP_SIMULATION_MID_ENABLED=$(CSP_SIMULATION_MID_ENABLED) \
+							 CSP_SIMULATION_ENABLED=$(CSP_SIMULATION_ENABLED) \
 							 SDP_SIMULATION_ENABLED=$(SDP_SIMULATION_ENABLED) \
 							 DISH_SIMULATION_ENABLED=$(DISH_SIMULATION_ENABLED) \
 							 DISH_NAMESPACE_1=$(DISH_NAMESPACE_1) \

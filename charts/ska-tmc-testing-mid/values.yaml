@@ -33,7 +33,7 @@ ska-tango-base:
   enabled: true
   vnc:
     replicas: 1
-    enabled: true
+    enabled: false
   tangorest:
     enabled: true
     replicas: 1
@@ -113,7 +113,7 @@ ska-ser-skuid:
 ska-tango-alarmhandler:
   labels: 
     app: ska-tmc-integration
-  enabled: true
+  enabled: false
 
 ska-tmc-simulators:
   labels: 
@@ -124,7 +124,7 @@ ska-tmc-simulators:
       enabled: false
     
     weatherstation:
-      enabled: true
+      enabled: false
     
     powersupplysimulator:
       enabled: true

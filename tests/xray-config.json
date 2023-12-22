@@ -18,7 +18,6 @@
     "env": "DEPLOYMENT_CONFIGURATION",
     "maps_to": {
       "default": "charts/ska-tmc-mid/Chart.yaml",
-      "tmc_low": "charts/ska-tmc-low/Chart.yaml",
        "tmc_mid": "charts/ska-tmc-mid/Chart.yaml"
     }
   },
@@ -40,11 +39,8 @@
       "env": "TEST_ENV",
       "maps_to": {
         "default": "STFC-CI",
-        "PSI-LOW-TOPIC": "PSI-LOW-TOPIC",
-        "PSI-LOW": "PSI-LOW",
         "PSI-MID-MDA": "PSI-MID-MDA",
         "dev": "dev-testing",
-        "ITF-LOW": "ITF-LOW",
         "ITF-MID": "ITF-MID"
       }
     }
