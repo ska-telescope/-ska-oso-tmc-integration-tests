@@ -1,4 +1,6 @@
 """Test module for TMC-CSP ShutDown functionality"""
+import time
+
 import pytest
 from pytest_bdd import given, scenario, then, when
 from tango import DevState
@@ -56,6 +58,7 @@ def check_a_tmc(central_node_mid, simulator_factory):
     if central_node_mid.telescope_state != "ON":
         central_node_mid.csp_master.adminMode = 0
         central_node_mid.wait.set_wait_for_csp_master_to_become_online()
+        time.sleep(30)
         central_node_mid.move_to_on()
 
 
