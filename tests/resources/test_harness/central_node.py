@@ -24,6 +24,8 @@ DISH_SIMULATION_ENABLED = os.getenv("DISH_SIMULATION_ENABLED")
 # TODO ::
 # This class needs to be enhanced as a part of upcoming
 # Test harness work
+
+
 class BaseNodeWrapper(object):
 
     """A wrapper class to implement common tango specific details
