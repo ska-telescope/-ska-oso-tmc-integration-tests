@@ -56,7 +56,7 @@ def given_the_sut(central_node_mid, simulator_factory):
     if central_node_mid.telescope_state != "ON":
         central_node_mid.wait.set_wait_for_csp_master_to_become_off()
         central_node_mid.csp_master.adminMode = 0
-        central_node_mid.wait.wait()
+        central_node_mid.wait.wait(300)
         central_node_mid.move_to_on()
 
 
