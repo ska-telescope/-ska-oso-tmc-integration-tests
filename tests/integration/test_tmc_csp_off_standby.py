@@ -13,7 +13,18 @@ from tests.resources.test_harness.helpers import get_master_device_simulators
     "../features/tmc_csp_off.feature",
     "Turn Off Telescope with real TMC and CSP devices",
 )
-def test_tmc_csp_shutdown_telescope():
+def test_tmc_csp_telescope_off():
+    """
+    Test case to verify TMC-CSP ShutDown functionality
+    """
+
+
+@pytest.mark.real_csp_mid
+@scenario(
+    "../features/tmc_csp_standby.feature",
+    "Standby Telescope with real TMC and CSP devices",
+)
+def test_tmc_csp_telescope_standby():
     """
     Test case to verify TMC-CSP ShutDown functionality
     """
@@ -70,6 +81,12 @@ def move_sdp_to_off(central_node_mid):
     central_node_mid.move_to_off()
 
 
+@when("I standby the telescope")
+def move_sdp_to_standby(central_node_mid):
+    """A method to put tmc to STANDBY"""
+    central_node_mid.set_standby()
+
+
 @then("the CSP must go to OFF state")
 def check_csp_is_off(central_node_mid, event_recorder):
     """A method to check CSP's State"""
@@ -96,4 +113,37 @@ def check_telescope_state_off(central_node_mid, event_recorder):
         central_node_mid.central_node,
         "telescopeState",
         DevState.OFF,
+    )
+
+
+@then("the csp controller must go to standby state")
+def check_csp_master_is_moved_to_standby(central_node_mid, event_recorder):
+    """A method to check CSP controllers State"""
+    event_recorder.subscribe_event(central_node_mid.csp_master, "State")
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.csp_master, "State", DevState.STANDBY, lookahead=15
+    )
+
+
+@then("the csp subarray must go to off state")
+def check_csp_subarray_is_moved_to_off(central_node_mid, event_recorder):
+    """A method to check CSP Subarray's State"""
+    event_recorder.subscribe_event(
+        central_node_mid.subarray_devices["csp_subarray"], "State"
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.subarray_devices["csp_subarray"],
+        "State",
+        DevState.OFF,
+        lookahead=10,
+    )
+
+
+@then("telescope state is STANDBY")
+def check_telescope_state_is_standby(central_node_mid, event_recorder):
+    """A method to check CentralNode.telescopeState"""
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.central_node,
+        "telescopeState",
+        DevState.STANDBY,
     )
