@@ -71,7 +71,6 @@ def test_assign_invalid_json(json_factory):
         tear_down(**ON_OFF_DEVICE_COMMAND_DICT)
 
 
-@pytest.mark.test2
 @pytest.mark.SKA_mid
 def test_release_invalid_json(json_factory):
     """Test release with invalid json"""
