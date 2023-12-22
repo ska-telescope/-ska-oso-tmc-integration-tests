@@ -54,6 +54,7 @@ def check_state_devices(central_node_mid, event_recorder):
         central_node_mid.central_node,
         "telescopeState",
         DevState.OFF,
+        lookahead=10,
     )
 
 

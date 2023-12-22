@@ -69,6 +69,7 @@ def check_telescope_state_is_on(central_node_mid, event_recorder):
         central_node_mid.central_node,
         "telescopeState",
         DevState.ON,
+        lookahead=15,
     )
 
 
