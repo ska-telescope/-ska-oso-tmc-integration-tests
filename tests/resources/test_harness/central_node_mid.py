@@ -14,8 +14,6 @@ from tests.resources.test_harness.constant import (
     device_dict,
     dish_master1,
     dish_master2,
-    real_dish_fqdn_1,
-    real_dish_fqdn_2,
     sdp_master,
     sdp_subarray1,
     tmc_csp_master_leaf_node,
@@ -30,6 +28,8 @@ configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
 
 SDP_SIMULATION_ENABLED = os.getenv("SDP_SIMULATION_ENABLED")
+REAL_DISH1_FQDN = os.getenv("DISH_NAME_1")
+REAL_DISH2_FQDN = os.getenv("DISH_NAME_2")
 
 
 class CentralNodeWrapperMid(CentralNodeWrapper):
@@ -52,8 +52,8 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         self.csp_master = DeviceProxy(csp_master)
 
         if self.simulated_devices_dict["csp_and_sdp"]:
-            dish_fqdn1 = real_dish_fqdn_1
-            dish_fqdn2 = real_dish_fqdn_2
+            dish_fqdn1 = REAL_DISH1_FQDN
+            dish_fqdn2 = REAL_DISH2_FQDN
         else:
             dish_fqdn1 = dish_master1
             dish_fqdn2 = dish_master2
