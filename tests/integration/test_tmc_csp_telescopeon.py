@@ -51,14 +51,14 @@ def given_a_tmc(central_node_mid, simulator_factory):
 
 @given("telescope state is OFF")
 def check_state_devices(central_node_mid, event_recorder):
-    """Set up a TMC and ensure it is in the STANDBY state."""
+    """Set up a TMC and ensure it is in the OFF state."""
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
     )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
         "telescopeState",
-        DevState.STANDBY,
+        DevState.OFF,
     )
 
 
