@@ -14,6 +14,8 @@ from tests.resources.test_harness.constant import (
     device_dict,
     dish_master1,
     dish_master2,
+    real_dish_fqdn_1,
+    real_dish_fqdn_2,
     sdp_master,
     sdp_subarray1,
     tmc_csp_master_leaf_node,
@@ -48,10 +50,19 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         }
 
         self.csp_master = DeviceProxy(csp_master)
+
+        if self.simulated_devices_dict["csp_and_sdp"]:
+            dish_fqdn1 = real_dish_fqdn_1
+            dish_fqdn2 = real_dish_fqdn_2
+        else:
+            dish_fqdn1 = dish_master1
+            dish_fqdn2 = dish_master2
+
         self.dish_master_list = [
-            DeviceProxy(dish_master1),
-            DeviceProxy(dish_master2),
+            DeviceProxy(dish_fqdn1),
+            DeviceProxy(dish_fqdn2),
         ]
+
         self._state = DevState.OFF
         self.json_factory = JsonFactory()
         self.release_input = (
