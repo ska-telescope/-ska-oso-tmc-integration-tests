@@ -122,7 +122,6 @@ class CentralNodeWrapper(object):
         elif self.simulated_devices_dict["sdp_and_dish"]:
             LOGGER.info("Invoking command with sdp and dish simulated")
             self.central_node.TelescopeOn()
-            self.wait.set_wait_for_turn_on_tmc_csp()
             self.set_values_with_sdp_dish_mocks(
                 DevState.ON, DishMode.STANDBY_FP
             )
