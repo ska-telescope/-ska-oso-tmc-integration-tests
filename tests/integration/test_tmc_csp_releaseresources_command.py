@@ -75,7 +75,9 @@ def given_a_telescope_in_on_state(
 def subarray_in_idle_obsstate(central_node_mid, event_recorder):
     """Checks if SubarrayNode's obsState attribute value is IDLE"""
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
-    central_node_mid.store_resources(central_node_mid.assign_input)
+    central_node_mid.perform_action(
+        "AssignResources", central_node_mid.assign_input
+    )
     event_recorder.subscribe_event(central_node_mid.csp_subarray, "obsState")
     assert event_recorder.has_change_event_occurred(
         central_node_mid.csp_subarray, "obsState", ObsState.IDLE

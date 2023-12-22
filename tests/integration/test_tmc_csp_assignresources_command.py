@@ -90,7 +90,9 @@ def subarray_in_empty_obsstate(central_node_mid, event_recorder):
 )
 def invoke_assignresources(central_node_mid, event_recorder):
     """Invokes AssignResources command on TMC"""
-    central_node_mid.store_resources(central_node_mid.assign_input)
+    central_node_mid.perform_action(
+        "AssignResources", central_node_mid.assign_input
+    )
 
 
 @then(
