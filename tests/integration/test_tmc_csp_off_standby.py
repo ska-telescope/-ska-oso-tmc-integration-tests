@@ -22,7 +22,7 @@ def test_tmc_csp_telescope_off():
 @pytest.mark.real_csp_mid
 @scenario(
     "../features/tmc_csp_standby.feature",
-    "Standby Telescope with real TMC and CSP devices",
+    "Standby the Telescope with real TMC and CSP devices",
 )
 def test_tmc_csp_telescope_standby():
     """
