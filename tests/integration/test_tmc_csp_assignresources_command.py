@@ -23,7 +23,7 @@ def test_assignresources_command():
     testing."""
 
 
-@given("Given the telescope is in ON state")
+@given("the telescope is in ON state")
 def given_a_telescope_in_on_state(
     central_node_mid, event_recorder, simulator_factory
 ):
