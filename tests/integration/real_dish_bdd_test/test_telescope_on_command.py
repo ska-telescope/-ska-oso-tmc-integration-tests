@@ -8,7 +8,6 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.enum import DishMode
 
 
-@pytest.mark.t1
 @pytest.mark.real_dish
 @scenario(
     "../features/check_on_command_on_real_dish.feature",
