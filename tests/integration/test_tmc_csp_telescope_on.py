@@ -23,7 +23,7 @@ def test_tmc_csp_startup_telescope():
     "a Telescope consisting of TMC, CSP, simulated DISH and simulated"
     + " SDP devices"
 )
-def given_a_tmc_and_real_csp(central_node_mid, simulator_factory):
+def given_the_sut(central_node_mid, simulator_factory):
     """
     Given a TMC
 

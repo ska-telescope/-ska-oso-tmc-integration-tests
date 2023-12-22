@@ -34,7 +34,7 @@ def test_tmc_csp_telescope_standby():
     "a Telescope consisting of TMC, CSP, simulated DISH and simulated"
     + " SDP devices"
 )
-def check_a_tmc(central_node_mid, simulator_factory):
+def given_the_sut(central_node_mid, simulator_factory):
     """
     Given a TMC
 
