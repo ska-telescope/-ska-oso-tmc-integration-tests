@@ -78,9 +78,13 @@ def subarray_in_idle_obsstate(central_node_mid, event_recorder):
     central_node_mid.perform_action(
         "AssignResources", central_node_mid.assign_input
     )
-    event_recorder.subscribe_event(central_node_mid.csp_subarray, "obsState")
+    event_recorder.subscribe_event(
+        central_node_mid.subarray_devices["csp_subarray"], "obsState"
+    )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.csp_subarray, "obsState", ObsState.IDLE
+        central_node_mid.subarray_devices["csp_subarray"],
+        "obsState",
+        ObsState.IDLE,
     )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node, "obsState", ObsState.IDLE
@@ -103,7 +107,9 @@ def invoke_releaseresources(central_node_mid, event_recorder):
 def csp_subarray_empty(central_node_mid, event_recorder):
     """Checks if Csp Subarray's obsState attribute value is EMPTY"""
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.csp_subarray, "obsState", ObsState.EMPTY
+        central_node_mid.subarray_devices["csp_subarray"],
+        "obsState",
+        ObsState.EMPTY,
     )
 
 

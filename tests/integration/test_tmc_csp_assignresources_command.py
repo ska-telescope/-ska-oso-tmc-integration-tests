@@ -100,9 +100,13 @@ def invoke_assignresources(central_node_mid, event_recorder):
 )
 def csp_subarray_idle(central_node_mid, event_recorder):
     """Checks if Csp Subarray's obsState attribute value is IDLE"""
-    event_recorder.subscribe_event(central_node_mid.csp_subarray, "obsState")
+    event_recorder.subscribe_event(
+        central_node_mid.subarray_devices["csp_subarray"], "obsState"
+    )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.csp_subarray, "obsState", ObsState.IDLE
+        central_node_mid.subarray_devices["csp_subarray"],
+        "obsState",
+        ObsState.IDLE,
     )
 
 
