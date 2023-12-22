@@ -116,7 +116,7 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set ska-tango-base.display=$(DISPLAY) \
 	--set ska-tango-base.xauthority=$(XAUTHORITY) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
-	--set global.exposeAllDS=true \
+	--set global.exposeAllDS=false \
 	--set global.operator=true \
 	--set ska-taranta.enabled=$(TARANTA_ENABLED)\
 	--set global.namespace_dish.dish_name[0]="$(DISH_NAME_1)"\
@@ -134,6 +134,8 @@ PYTHON_VARS_BEFORE_PYTEST ?= PYTHONPATH=.:./src \
 							 DISH_SIMULATION_ENABLED=$(DISH_SIMULATION_ENABLED) \
 							 DISH_NAMESPACE_1=$(DISH_NAMESPACE_1) \
 							 DISH_NAMESPACE_2=$(DISH_NAMESPACE_2) \
+							 DISH_NAME_1=$(DISH_NAME_1) \
+							 DISH_NAME_2=$(DISH_NAME_2) \
 							 KUBE_NAMESPACE=$(KUBE_NAMESPACE) \
 							 KUBE_NAMESPACE_SDP=$(KUBE_NAMESPACE_SDP)
 

@@ -1,7 +1,6 @@
 """Define Constants
 """
 import json
-import os
 
 import numpy as np
 from ska_control_model import ObsState
@@ -10,19 +9,6 @@ from tests.resources.test_harness.utils.enums import (
     FaultType,
     ResultCode,
     SimulatorDeviceType,
-)
-
-dish_name_1 = os.getenv("DISH_NAMESPACE_1")
-dish_name_2 = os.getenv("DISH_NAMESPACE_2")
-
-real_dish_fqdn_1 = (
-    f"tango://databaseds-tango-base.{dish_name_1}.svc.cluster"
-    ".local:10000/ska001/elt/master"
-)
-
-real_dish_fqdn_2 = (
-    f"tango://databaseds-tango-base.{dish_name_2}.svc.cluster"
-    ".local:10000/ska002/elt/master"
 )
 
 centralnode = "ska_mid/tm_central/central_node"
