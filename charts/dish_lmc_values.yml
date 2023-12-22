@@ -1,5 +1,6 @@
 global:
   minikube: false
+  operator: true
 
 # DISH LMC
 ska-mid-dish-manager:
