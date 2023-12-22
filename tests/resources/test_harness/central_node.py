@@ -109,25 +109,25 @@ class CentralNodeWrapper(object):
             self.set_values_with_all_mocks(DevState.ON, DishMode.STANDBY_FP)
 
         elif self.simulated_devices_dict["csp_and_sdp"]:
-            LOGGER.info("Invoking TelescopeOn() with csp and sdp simulated")
+            LOGGER.info("Invoking TelescopeOn() on simulated csp and sdp")
             self.central_node.TelescopeOn()
             self.set_value_with_csp_sdp_mocks(DevState.ON)
 
         elif self.simulated_devices_dict["csp_and_dish"]:
-            LOGGER.info("Invoking TelescopeOn() with csp and Dish simulated")
+            LOGGER.info("Invoking TelescopeOn() on simulated csp and Dish")
             self.central_node.TelescopeOn()
             self.set_values_with_csp_dish_mocks(
                 DevState.ON, DishMode.STANDBY_FP
             )
 
         elif self.simulated_devices_dict["sdp_and_dish"]:
-            LOGGER.info("Invoking TelescopeOn() with sdp and dish simulated")
+            LOGGER.info("Invoking TelescopeOn() on simulated sdp and dish")
             self.central_node.TelescopeOn()
             self.set_values_with_sdp_dish_mocks(
                 DevState.ON, DishMode.STANDBY_FP
             )
         else:
-            LOGGER.info("Invoke TelescopeOn() with all real sub-systems")
+            LOGGER.info("Invoke TelescopeOn() on all real sub-systems")
             self.central_node.TelescopeOn()
 
     def set_standby(self):
@@ -143,15 +143,13 @@ class CentralNodeWrapper(object):
             self.set_values_with_all_mocks(DevState.STANDBY, DevState.STANDBY)
 
         elif self.simulated_devices_dict["csp_and_sdp"]:
-            LOGGER.info(
-                "Invoking TelescopeStandBy() with csp and sdp simulated"
-            )
+            LOGGER.info("Invoking TelescopeStandBy() on simulated csp and sdp")
             self.central_node.TelescopeStandBy()
             self.set_value_with_csp_sdp_mocks(DevState.STANDBY)
 
         elif self.simulated_devices_dict["csp_and_dish"]:
             LOGGER.info(
-                "Invoking TelescopeStandBy() with csp and Dish simulated"
+                "Invoking TelescopeStandBy() on simulated csp and Dish"
             )
             self.central_node.TelescopeStandBy()
             self.set_values_with_csp_dish_mocks(
@@ -160,7 +158,7 @@ class CentralNodeWrapper(object):
 
         elif self.simulated_devices_dict["sdp_and_dish"]:
             LOGGER.info(
-                "Invoking TelescopeStandBy() with sdp and dish simulated"
+                "Invoking TelescopeStandBy() on simulated sdp and dish"
             )
             self.central_node.TelescopeStandBy()
             self.set_values_with_sdp_dish_mocks(

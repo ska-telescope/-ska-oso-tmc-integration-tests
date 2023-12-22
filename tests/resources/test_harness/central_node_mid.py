@@ -127,19 +127,19 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             self.set_values_with_all_mocks(DevState.OFF, DishMode.STANDBY_LP)
 
         elif self.simulated_devices_dict["csp_and_sdp"]:
-            LOGGER.info("Invoking TelescopeOff() with csp and sdp simulated")
+            LOGGER.info("Invoking TelescopeOff() on simulated csp and sdp")
             self.central_node.TelescopeOff()
             self.set_value_with_csp_sdp_mocks(DevState.OFF)
 
         elif self.simulated_devices_dict["csp_and_dish"]:
-            LOGGER.info("Invoking TelescopeOff() with csp and Dish simulated")
+            LOGGER.info("Invoking TelescopeOff() on simulated csp and Dish")
             self.central_node.TelescopeOff()
             self.set_values_with_csp_dish_mocks(
                 DevState.OFF, DishMode.STANDBY_LP
             )
 
         elif self.simulated_devices_dict["sdp_and_dish"]:
-            LOGGER.info("Invoking TelescopeOff() with sdp and dish simulated")
+            LOGGER.info("Invoking TelescopeOff() on simulated sdp and dish")
             self.central_node.TelescopeOff()
             self.set_values_with_sdp_dish_mocks(
                 DevState.OFF, DishMode.STANDBY_LP
