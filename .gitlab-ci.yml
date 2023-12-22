@@ -200,14 +200,14 @@ dish-lmc-dish001:
     DISH_INDEX: "001"
     KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX"
     DISH_LMC_SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX"
-    DISH_HELM_RELEASE: "2.5.0"
+    DISH_HELM_RELEASE: "2.6.0"
     K8S_DISH_LMC_CHART: "ska-dish-lmc"
     TARANTA_ENABLED: "true"
   before_script:
     - make cred SERVICE_ACCOUNT=$DISH_LMC_SERVICE_ACCOUNT
   script:
     - make k8s-install-chart-car KUBE_NAMESPACE=$KUBE_NAMESPACE K8S_CHART_PARAMS='-f charts/dish_lmc_values.yml 
-      --set "global.dishes={$(DISH_INDEX)}" --version=2.5.0' 
+      --set "global.dishes={$(DISH_INDEX)}" --version=2.6.0' 
       HELM_RELEASE=$DISH_HELM_RELEASE K8S_CHART=$K8S_DISH_LMC_CHART
   environment:
     name: test/$CI_COMMIT_REF_SLUG
@@ -222,7 +222,7 @@ dish-lmc-dish036:
     DISH_INDEX: "036"
     KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX"
     DISH_LMC_SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX"
-    DISH_HELM_RELEASE: "2.5.0"
+    DISH_HELM_RELEASE: "2.6.0"
     K8S_DISH_LMC_CHART: "ska-dish-lmc"
     TARANTA_ENABLED: "true"
   environment:
@@ -237,7 +237,7 @@ dish-lmc-dish063:
     DISH_INDEX: "063"
     KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX"
     DISH_LMC_SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX"
-    DISH_HELM_RELEASE: "2.5.0"
+    DISH_HELM_RELEASE: "2.6.0"
     K8S_DISH_LMC_CHART: "ska-dish-lmc"
     TARANTA_ENABLED: "true"
   environment:
@@ -252,7 +252,7 @@ dish-lmc-dish099:
     DISH_INDEX: "099"
     KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX"
     DISH_LMC_SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-$DISH_INDEX"
-    DISH_HELM_RELEASE: "2.5.0"
+    DISH_HELM_RELEASE: "2.6.0"
     K8S_DISH_LMC_CHART: "ska-dish-lmc"
     TARANTA_ENABLED: "true"
   environment:
@@ -407,7 +407,7 @@ stop-k8s-dish-lmc-001:
     - stop-k8s-test
   variables:
     KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-001"
-    DISH_HELM_RELEASE: "2.5.0"
+    DISH_HELM_RELEASE: "2.6.0"
     K8S_DISH_LMC_CHART: "ska-dish-lmc"
   script:
     - make k8s-do-uninstall-chart KUBE_NAMESPACE=$KUBE_NAMESPACE HELM_RELEASE=$DISH_HELM_RELEASE K8S_CHART=$K8S_DISH_LMC_CHART
@@ -418,7 +418,7 @@ stop-k8s-dish-lmc-036:
     - stop-k8s-dish-lmc-001
   variables:
     KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-036"
-    DISH_HELM_RELEASE: "2.5.0"
+    DISH_HELM_RELEASE: "2.6.0"
     K8S_DISH_LMC_CHART: "ska-dish-lmc"
 
 stop-k8s-dish-lmc-063:
@@ -426,7 +426,7 @@ stop-k8s-dish-lmc-063:
     - stop-k8s-dish-lmc-001
   variables:
     KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-063"
-    DISH_HELM_RELEASE: "2.5.0"
+    DISH_HELM_RELEASE: "2.6.0"
     K8S_DISH_LMC_CHART: "ska-dish-lmc"
 
 stop-k8s-dish-lmc-099:
@@ -434,7 +434,7 @@ stop-k8s-dish-lmc-099:
     - stop-k8s-dish-lmc-001
   variables:
     KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-099"
-    DISH_HELM_RELEASE: "2.5.0"
+    DISH_HELM_RELEASE: "2.6.0"
     K8S_DISH_LMC_CHART: "ska-dish-lmc"
 
 deploy-integration:
