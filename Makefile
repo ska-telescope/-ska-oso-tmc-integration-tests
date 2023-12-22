@@ -78,7 +78,7 @@ K8S_TEST_RUNNER = test-runner-$(HELM_RELEASE)
 CI_PROJECT_PATH_SLUG ?= ska-tmc-integration
 CI_ENVIRONMENT_SLUG ?= ska-tmc-integration
 CSP_SIMULATION_ENABLED ?= true
-SDP_SIMULATION_ENABLED ?= false
+SDP_SIMULATION_ENABLED ?= true
 DISH_SIMULATION_ENABLED ?= true
 
 
@@ -109,7 +109,7 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set ska-tango-base.xauthority=$(XAUTHORITY) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
 	--set global.exposeAllDS=false \
-	--set global.operator=false \
+	--set global.operator=true \
 	--set ska-taranta.enabled=$(TARANTA_ENABLED)\
 	--set global.namespace_dish.dish_name[0]="$(DISH_NAME_1)"\
 	--set global.namespace_dish.dish_name[1]="$(DISH_NAME_2)"\
