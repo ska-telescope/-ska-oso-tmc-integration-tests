@@ -114,7 +114,7 @@ ska-ser-skuid:
 ska-tango-alarmhandler:
   labels: 
     app: ska-tmc-integration
-  enabled: true
+  enabled: false
 
 ska-tmc-simulators:
   labels: 
