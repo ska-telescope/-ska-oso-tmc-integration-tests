@@ -89,14 +89,14 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         """Reset sysParam and sourceSysParam attribute of csp master
         reset kValue of Dish master
         """
+        for mock_device in self.dish_master_list:
+            mock_device.SetKValue(0)
+
         if (
-            self.simulated_devices_dict["sdp_and_dish"]
-            or self.simulated_devices_dict["csp_and_dish"]
+            self.simulated_devices_dict["csp_and_dish"]
             or self.simulated_devices_dict["all_mocks"]
         ):
-            for mock_device in self.dish_master_list:
-                mock_device.SetKValue(0)
-            # self.csp_master.ResetSysParams()
+            self.csp_master.ResetSysParams()
 
     def _clear_command_call_and_transition_data(self, clear_transition=False):
         """Clears the command call data"""
@@ -120,31 +120,33 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
 
         """
         if self.simulated_devices_dict["all_mocks"]:
-            LOGGER.info("Invoking commands with all Mocks")
+            LOGGER.info("Invoking TelescopeOff() with all Mocks")
             self.central_node.TelescopeOff()
-            self.set_values_with_all_mocks(DevState.OFF, DishMode.STANDBY_LP)
+            self.set_subarraystate_and_dishmode_with_all_mocks(
+                DevState.OFF, DishMode.STANDBY_LP
+            )
 
         elif self.simulated_devices_dict["csp_and_sdp"]:
-            LOGGER.info("Invoking command with csp and sdp simulated")
+            LOGGER.info("Invoking TelescopeOff() on simulated csp and sdp")
             self.central_node.TelescopeOff()
             self.set_value_with_csp_sdp_mocks(DevState.OFF)
 
         elif self.simulated_devices_dict["csp_and_dish"]:
-            LOGGER.info("Invoking command with csp and Dish simulated")
+            LOGGER.info("Invoking TelescopeOff() on simulated csp and Dish")
             self.central_node.TelescopeOff()
             self.set_values_with_csp_dish_mocks(
                 DevState.OFF, DishMode.STANDBY_LP
             )
 
         elif self.simulated_devices_dict["sdp_and_dish"]:
-            LOGGER.info("Invoking command with sdp and dish simulated")
+            LOGGER.info("Invoking TelescopeOff() on simulated sdp and dish")
             self.central_node.TelescopeOff()
             self.set_values_with_sdp_dish_mocks(
                 DevState.OFF, DishMode.STANDBY_LP
             )
 
         else:
-            LOGGER.info("Invoke command with all real sub-systems")
+            LOGGER.info("Invoke TelescopeOff() with all real sub-systems")
             self.central_node.TelescopeOff()
 
     def tear_down(self):
