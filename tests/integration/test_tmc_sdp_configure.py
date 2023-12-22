@@ -61,7 +61,7 @@ def check_subarray_obs_state(
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "obsState",
-        obsstate,
+        ObsState(obsstate),
     )
 
 

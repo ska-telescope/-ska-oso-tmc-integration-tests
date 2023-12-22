@@ -5,5 +5,5 @@ Scenario: Configure a SDP subarray for a scan using TMC
     Then the SDP subarray <subarray_id> obsState is READY
     And the TMC subarray <subarray_id> obsState is transitioned to READY
     Examples:
-    | subarray_id    |    scan_type       | obsstate          |
-    | 1              |    "science_A"     | ObsState.IDLE     |
+    | subarray_id    |    scan_type       | obsstate |
+    | 1              |    "science_A"     | IDLE     |
