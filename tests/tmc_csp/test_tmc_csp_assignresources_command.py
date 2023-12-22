@@ -5,7 +5,8 @@ from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
 from tango import DevState
 
-from tests.resources.test_harness.helpers import (  # check_assigned_resources,
+from tests.resources.test_harness.helpers import (
+    check_assigned_resources,
     get_master_device_simulators,
 )
 
@@ -121,18 +122,18 @@ def tmc_subarray_idle(central_node_mid, event_recorder):
     )
 
 
-# @then(
-#     parsers.parse(
-#         "correct resources {receptors} are assigned to"
-#         + " TMC subarray {subarray_id}"
-#     )
-# )
-# def resources_assigned_to_subarray(central_node_mid, event_recorder):
-#     """Checks if correct ressources are assigned to Subarray"""
-#     event_recorder.subscribe_event(
-#         central_node_mid.subarray_node, "assignedResources"
-#     )
-#     assert check_assigned_resources(
-#         central_node_mid.subarray_node,
-#         ("SKA001", "SKA002", "SKA003", "SKA004"),
-#     )
+@then(
+    parsers.parse(
+        "correct resources {receptors} are assigned to"
+        + " TMC subarray {subarray_id}"
+    )
+)
+def resources_assigned_to_subarray(central_node_mid, event_recorder):
+    """Checks if correct ressources are assigned to Subarray"""
+    event_recorder.subscribe_event(
+        central_node_mid.subarray_node, "assignedResources"
+    )
+    assert check_assigned_resources(
+        central_node_mid.subarray_node,
+        ("SKA001", "SKA002", "SKA003", "SKA004"),
+    )
