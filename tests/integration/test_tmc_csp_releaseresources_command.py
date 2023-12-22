@@ -20,7 +20,7 @@ def test_assignresources_command():
     testing."""
 
 
-@given("Given the telescope is in ON state")
+@given("the telescope is in ON state")
 def given_a_telescope_in_on_state(
     central_node_mid, event_recorder, simulator_factory
 ):
@@ -87,7 +87,7 @@ def subarray_in_idle_obsstate(central_node_mid, event_recorder):
 
 @when(
     parsers.parse(
-        "When I release all resources assign to TMC subarray {subarray_id}"
+        "I release all resources assign to TMC subarray {subarray_id}"
     )
 )
 def invoke_releaseresources(central_node_mid, event_recorder):
