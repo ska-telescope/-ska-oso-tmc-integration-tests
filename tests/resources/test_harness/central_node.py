@@ -107,7 +107,9 @@ class CentralNodeWrapper(object):
         if self.simulated_devices_dict["all_mocks"]:
             LOGGER.info("Invoking TelescopeOn() with all Mocks")
             self.central_node.TelescopeOn()
-            self.set_values_with_all_mocks(DevState.ON, DishMode.STANDBY_FP)
+            self.set_subarraystate_and_dishmode_with_all_mocks(
+                DevState.ON, DishMode.STANDBY_FP
+            )
 
         elif self.simulated_devices_dict["csp_and_sdp"]:
             LOGGER.info("Invoking TelescopeOn() on simulated csp and sdp")
@@ -141,7 +143,9 @@ class CentralNodeWrapper(object):
         if self.simulated_devices_dict["all_mocks"]:
             LOGGER.info("Invoking TelescopeStandBy() with all Mocks")
             self.central_node.TelescopeStandBy()
-            self.set_values_with_all_mocks(DevState.STANDBY, DevState.STANDBY)
+            self.set_subarraystate_and_dishmode_with_all_mocks(
+                DevState.STANDBY, DevState.STANDBY
+            )
 
         elif self.simulated_devices_dict["csp_and_sdp"]:
             LOGGER.info("Invoking TelescopeStandBy() on simulated csp and sdp")
@@ -231,7 +235,9 @@ class CentralNodeWrapper(object):
         )
         return result, message
 
-    def set_values_with_all_mocks(self, subarray_state, dish_mode):
+    def set_subarraystate_and_dishmode_with_all_mocks(
+        self, subarray_state, dish_mode
+    ):
         """
         A method to set values on mock CSP, SDP and Dish devices.
         Args:

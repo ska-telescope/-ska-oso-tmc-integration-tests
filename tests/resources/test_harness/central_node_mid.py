@@ -119,7 +119,9 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         if self.simulated_devices_dict["all_mocks"]:
             LOGGER.info("Invoking TelescopeOff() with all Mocks")
             self.central_node.TelescopeOff()
-            self.set_values_with_all_mocks(DevState.OFF, DishMode.STANDBY_LP)
+            self.set_subarraystate_and_dishmode_with_all_mocks(
+                DevState.OFF, DishMode.STANDBY_LP
+            )
 
         elif self.simulated_devices_dict["csp_and_sdp"]:
             LOGGER.info("Invoking TelescopeOff() on simulated csp and sdp")
