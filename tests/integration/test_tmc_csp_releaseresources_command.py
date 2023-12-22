@@ -12,7 +12,7 @@ from tests.resources.test_harness.helpers import get_master_device_simulators
 @pytest.mark.real_csp_mid
 @scenario(
     "../features/test_harness/test_tmc_csp_releaseresources.feature",
-    "Release resources to CSP subarray using TMC",
+    "Release resources from CSP subarray using TMC",
 )
 def test_assignresources_command():
     """BDD test scenario for verifying successful execution of

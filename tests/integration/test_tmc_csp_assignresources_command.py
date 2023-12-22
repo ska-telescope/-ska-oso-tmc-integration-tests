@@ -1,25 +1,32 @@
 """Test module for TMC-CSP AssignResources functionality"""
-import pytest
 import time
-from pytest_bdd import given, scenario, then, when,parsers
-from tango import DevState, ObsState
+
+import pytest
+from pytest_bdd import given, parsers, scenario, then, when
+from ska_control_model import ObsState
+from tango import DevState
+
 from tests.resources.test_harness.helpers import (
-    check_assigned_resources,get_master_device_simulators)
+    check_assigned_resources,
+    get_master_device_simulators,
+)
+
 
 @pytest.mark.real_csp_mid
 @scenario(
     "../features/test_harness/test_tmc_csp_assignresources.feature",
     "Assign resources to CSP subarray using TMC",
 )
-
 def test_assignresources_command():
     """BDD test scenario for verifying successful execution of
-    the AssignResources command with TMC and CSP devices for pairwise 
+    the AssignResources command with TMC and CSP devices for pairwise
     testing."""
 
-@given("Given the telescope is in ON state")
 
-def given_a_telescope_in_on_state(central_node_mid,event_recorder,simulator_factory):
+@given("Given the telescope is in ON state")
+def given_a_telescope_in_on_state(
+    central_node_mid, event_recorder, simulator_factory
+):
     """Checks if CentralNode's telescopeState attribute value is on."""
     (
         _,
@@ -66,42 +73,59 @@ def given_a_telescope_in_on_state(central_node_mid,event_recorder,simulator_fact
         DevState.ON,
     )
 
+
 @given(parsers.parse("TMC subarray {subarray_id} is in EMPTY ObsState"))
-def subarray_in_empty_obsstate(central_node_mid,event_recorder):
+def subarray_in_empty_obsstate(central_node_mid, event_recorder):
     """Checks if SubarrayNode's obsState attribute value is EMPTY"""
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node, "obsState", ObsState.EMPTY
     )
 
-@when(parsers.parse("I assign resources with {receptors}to TMC subarray {subarray_id}"))
-def invoke_assignresources(central_node_mid,event_recorder):
+
+@when(
+    parsers.parse(
+        "I assign resources with {receptors}to TMC subarray {subarray_id}"
+    )
+)
+def invoke_assignresources(central_node_mid, event_recorder):
     """Invokes AssignResources command on TMC"""
-    central_node_mid.store_resources(
-            central_node_mid.assign_input
-        )
-    
-@then(parsers.parse("CSP subarray{subarray_id} transitioned to ObsState IDLE"))
-def csp_subarray_idle(central_node_mid,event_recorder):
+    central_node_mid.store_resources(central_node_mid.assign_input)
+
+
+@then(
+    parsers.parse("CSP subarray {subarray_id} transitioned to ObsState IDLE")
+)
+def csp_subarray_idle(central_node_mid, event_recorder):
     """Checks if Csp Subarray's obsState attribute value is IDLE"""
     event_recorder.subscribe_event(central_node_mid.csp_subarray, "obsState")
     assert event_recorder.has_change_event_occurred(
         central_node_mid.csp_subarray, "obsState", ObsState.IDLE
     )
 
-@then(parsers.parse("TMC subarray{subarray_id} transitioned to ObsState IDLE"))
-def tmc_subarray_idle(central_node_mid,event_recorder):
+
+@then(
+    parsers.parse("TMC subarray {subarray_id} transitioned to ObsState IDLE")
+)
+def tmc_subarray_idle(central_node_mid, event_recorder):
     """Checks if SubarrayNode's obsState attribute value is IDLE"""
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node, "obsState", ObsState.IDLE
     )
-    
-@then(parsers.parse("correct resources {receptors} are assigned to TMC subarray {subarray_id}"))
-def resources_assigned_to_subarray(central_node_mid,event_recorder):
+
+
+@then(
+    parsers.parse(
+        "correct resources {receptors} are assigned to"
+        + " TMC subarray {subarray_id}"
+    )
+)
+def resources_assigned_to_subarray(central_node_mid, event_recorder):
     """Checks if correct ressources are assigned to Subarray"""
     event_recorder.subscribe_event(
-            central_node_mid.subarray_node, "assignedResources"
-        )
+        central_node_mid.subarray_node, "assignedResources"
+    )
     assert check_assigned_resources(
-            central_node_mid.subarray_node, ("SKA001", "SKA002", "SKA003", "SKA004")
-        )
+        central_node_mid.subarray_node,
+        ("SKA001", "SKA002", "SKA003", "SKA004"),
+    )
