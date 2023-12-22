@@ -1,4 +1,5 @@
 """Test TMC-SDP AssignResources functionality"""
+import json
 import logging
 
 import pytest
@@ -61,10 +62,16 @@ def subarray_is_in_empty_obsstate(event_recorder, central_node_mid):
 )
 def assign_resources_to_subarray(central_node_mid, command_input_factory):
     """Method to assign resources to subarray."""
+    sdp_device = central_node_mid.subarray_devices.get("sdp_subarray")
+    LOGGER.info(f"ebID before assign invokation:{sdp_device.ebID}")
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
-    central_node_mid.store_resources(assign_input_json)
+    input_json = json.loads(assign_input_json)
+    if input_json["sdp"]["execution_block"]["eb_id"] == sdp_device.ebID:
+        update_eb_id = central_node_mid.reset_eb_id()
+        input_json["sdp"]["execution_block"]["eb_id"] = update_eb_id
+    central_node_mid.store_resources(json.dumps(input_json))
 
 
 @then(parsers.parse("the sdp subarray {subarray_id} obsState is IDLE"))
@@ -78,6 +85,9 @@ def check_sdp_is_in_idle_obsstate(central_node_mid, event_recorder):
         "obsState",
         ObsState.IDLE,
     )
+    sdp_device = central_node_mid.subarray_devices.get("sdp_subarray")
+    LOGGER.info(f"ebID before assign invokation:{sdp_device.ebID}")
+    LOGGER.info(f"type bID before assign invokation:{type(sdp_device.ebID)}")
 
 
 @then(

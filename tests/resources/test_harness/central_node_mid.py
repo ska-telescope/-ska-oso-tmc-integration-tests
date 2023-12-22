@@ -170,3 +170,15 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             self.subarray_restart()
         self.move_to_off()
         self._clear_command_call_and_transition_data(clear_transition=True)
+
+    def reset_eb_id(self) -> str:
+        "Method to upgrade eb_id"
+        sdp_device = self.subarray_devices("sdp_subarray")
+        eb_id = sdp_device.ebID
+        LOGGER.info("ebID:{eb_id}")
+        eb_id_prefix = eb_id[:-5]
+        if eb_id != "null":
+            eb_id_suffix = int(eb_id[-5:])
+            eb_id = eb_id_prefix + str(eb_id_suffix + 1)
+            LOGGER.info("ebID1:{eb_id}")
+        return eb_id
