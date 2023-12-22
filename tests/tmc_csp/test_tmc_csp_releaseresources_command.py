@@ -10,7 +10,7 @@ from tests.resources.test_harness.helpers import get_master_device_simulators
 
 @pytest.mark.real_csp_mid
 @scenario(
-    "../features/test_csp/test_tmc_csp_releaseresources.feature",
+    "../features/tmc_csp/test_tmc_csp_releaseresources.feature",
     "Release resources from CSP subarray using TMC",
 )
 def test_assignresources_command():
