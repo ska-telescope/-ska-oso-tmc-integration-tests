@@ -1,5 +1,7 @@
-"""Test case to validate negative scenario for
+"""
+Test case to validate negative scenario for
    Dish Vcc map configuration feature
+
 """
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
