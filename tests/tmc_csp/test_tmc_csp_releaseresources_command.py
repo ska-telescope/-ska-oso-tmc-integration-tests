@@ -1,5 +1,4 @@
 """Test module for TMC-CSP ReleaseResources functionality"""
-import time
 
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
@@ -44,11 +43,14 @@ def given_a_telescope_in_on_state(
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
         "telescopeState",
-        DevState.STANDBY,
+        DevState.OFF,
+        lookahead=10,
     )
+    central_node_mid.wait.set_wait_for_csp_master_to_become_off()
     central_node_mid.csp_master.adminMode = 0
-    central_node_mid.wait.set_wait_for_csp_master_to_become_online()
-    time.sleep(30)  # Yes, This sleep will be removed.
+    central_node_mid.wait.wait(500)
+    csp_master_state = central_node_mid.csp_master.state()
+    assert csp_master_state is DevState.OFF
     central_node_mid.move_to_on()
     event_recorder.subscribe_event(central_node_mid.csp_master, "State")
     event_recorder.subscribe_event(
