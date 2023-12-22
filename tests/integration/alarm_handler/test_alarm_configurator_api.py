@@ -51,12 +51,14 @@ def remove_alarm_api():
     response_data = response.json()
     assert response_data["alarm_summary"] is None
 
+
 @pytest.mark.skip
 @pytest.mark.post_deployment
 @pytest.mark.SKA_mid
 def test_configure_alarms():
     """test case to configure alarms for mid"""
     add_alarms_api("alarm_file1.txt")
+
 
 @pytest.mark.skip
 @pytest.mark.post_deployment

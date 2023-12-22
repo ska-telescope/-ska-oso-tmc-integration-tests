@@ -9,6 +9,7 @@ import pytest
 
 namespace = os.getenv("KUBE_NAMESPACE")
 
+
 @pytest.mark.skip
 @pytest.mark.post_deployment
 @pytest.mark.SKA_mid

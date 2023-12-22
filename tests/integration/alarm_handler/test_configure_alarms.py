@@ -10,6 +10,7 @@ from tests.resources.test_support.constant import alarm_handler1
 
 logger = logging.getLogger(__name__)
 
+
 @pytest.mark.skip
 @pytest.mark.post_deployment
 @pytest.mark.SKA_mid
