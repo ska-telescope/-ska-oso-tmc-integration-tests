@@ -21,7 +21,7 @@ def test_tmc_csp_startup_telescope():
     "a Telescope consisting of TMC, CSP, simulated DISH and simulated"
     + " SDP devices"
 )
-def given_a_tmc(central_node_mid, simulator_factory):
+def given_a_tmc_and_real_csp(central_node_mid, simulator_factory):
     """
     Given a TMC
 
@@ -62,7 +62,6 @@ def move_telescope_to_on(central_node_mid):
     """A method to turn on the telescope."""
     central_node_mid.csp_master.adminMode = 0
     central_node_mid.wait.set_wait_for_csp_master_to_become_online()
-    # time.sleep(30)  # Yes, This sleep will be removed.
     central_node_mid.move_to_on()
 
 
