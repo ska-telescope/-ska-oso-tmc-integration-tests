@@ -77,14 +77,15 @@ centralnode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-centralnode
-    tag: 0.11.9
+    tag: 0.11.10
     pullPolicy: IfNotPresent
 
+#image: 0.13.15-dev.c545bd284
 subarraynode:
   image:
-    registry: artefact.skao.int
+    registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-subarraynode
     image: ska-tmc-subarraynode
-    tag: 0.13.14
+    tag: 0.13.15-dev.c57ed782e
     pullPolicy: IfNotPresent
 
 sdpleafnodes:
@@ -117,11 +118,11 @@ dishleafnode:
 
 resources:
   limits:
-    cpu: 300m
+    cpu: 400m
     memory: 500Mi
   requests:
-    cpu: 100m
-    memory: 128Mi
+    cpu: 300m
+    memory: 400Mi
 
 
 deviceServers:
