@@ -2,7 +2,8 @@ import logging
 import os
 from typing import Tuple
 
-from ska_tango_base.control_model import HealthState, ResultCode
+from ska_control_model import ResultCode
+from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
 
 from tests.resources.test_harness.constant import device_dict

@@ -62,6 +62,8 @@ def move_telescope_to_on(central_node_mid):
     """A method to turn on the telescope."""
     central_node_mid.csp_master.adminMode = 0
     central_node_mid.wait.set_wait_for_csp_master_to_become_online()
+    csp_master_state = central_node_mid.csp_master.state()
+    assert csp_master_state is DevState.OFF
     central_node_mid.move_to_on()
 
 
