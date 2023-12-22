@@ -380,7 +380,7 @@ class Waiter:
     def set_wait_for_csp_master_to_become_off(self):
         self.waits.append(
             watch(Resource(self.csp_master)).to_become(
-                "state", changed_to="OFF"
+                "State", changed_to="OFF"
             )
         )
 
