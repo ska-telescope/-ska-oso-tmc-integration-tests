@@ -87,7 +87,6 @@ def check_sdp_is_in_idle_obsstate(central_node_mid, event_recorder):
 )
 def check_tmc_is_in_idle_obsstate(central_node_mid, event_recorder):
     """Method to check TMC is is in IDLE obsstate."""
-    event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "obsState",

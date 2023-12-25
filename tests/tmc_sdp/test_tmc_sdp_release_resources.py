@@ -81,9 +81,6 @@ def release_resources_to_subarray(central_node_mid, command_input_factory):
 )
 def check_sdp_is_in_empty_obsstate(central_node_mid, event_recorder):
     """Method to check SDP is in EMPTY obsstate"""
-    event_recorder.subscribe_event(
-        central_node_mid.subarray_devices.get("sdp_subarray"), "obsState"
-    )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_devices.get("sdp_subarray"),
         "obsState",
