@@ -1,5 +1,8 @@
+import json
 import logging
 import os
+import re
+from datetime import datetime
 from typing import Tuple
 
 from ska_control_model import ResultCode
@@ -10,6 +13,7 @@ from tests.resources.test_harness.constant import device_dict
 from tests.resources.test_harness.utils.enums import DishMode
 from tests.resources.test_harness.utils.sync_decorators import (
     sync_abort,
+    sync_assign_resources,
     sync_release_resources,
     sync_restart,
 )
@@ -172,6 +176,20 @@ class CentralNodeWrapper(object):
         else:
             LOGGER.info("Invoke TelescopeStandBy() with all real sub-systems")
             self.central_node.TelescopeStandBy()
+
+    @sync_assign_resources(device_dict=device_dict)
+    def store_resources(self, assign_json: str):
+        """Invoke Assign Resource command on central Node
+        Args:
+            assign_json (str): Assign resource input json
+        """
+        input_json = json.loads(assign_json)
+        self.generate_eb_pb_ids(input_json)
+        result, message = self.central_node.AssignResources(
+            json.dumps(input_json)
+        )
+        LOGGER.info("Invoked AssignResources on CentralNode")
+        return result, message
 
     @sync_release_resources(device_dict=device_dict)
     def invoke_release_resources(self, input_string):
@@ -338,3 +356,44 @@ class CentralNodeWrapper(object):
                 ]
             ),
         }
+
+    def generate_id(self, id_pattern: str) -> str:
+        """
+        Generate a time-based unique id
+
+        :param id_pattern: the string pattern as to how the unique id should
+            be rendered.
+
+        :return: the id rendered according to the requested pattern
+        """
+        prefix, suffix = re.split(r"(?=\*)[\*-]*(?<=\*)", id_pattern)
+        id_pattern = re.findall(r"(?=\*)[\*-]*(?<=\*)", id_pattern)[0]
+        length = id_pattern.count("*")
+        assert (
+            length < 16
+        ), f"Unable to generate an id with {length} digits, the limit is 16"
+        timestamp = str(datetime.now().timestamp()).replace(".", "")
+        sections = id_pattern.split("-")
+        unique_id = ""
+        sections.reverse()
+        for section in sections:
+            section_length = len(section)
+            section_id = timestamp[-section_length:]
+            timestamp = timestamp[:-section_length]
+            if unique_id:
+                unique_id = f"{section_id}-{unique_id}"
+            else:
+                unique_id = section_id
+        return f"{prefix}{unique_id}{suffix}"
+
+    def generate_eb_pb_ids(self, input_json: str):
+        """
+        Method to generate different eb_id and pb_id
+
+        :param input_json:
+        """
+        input_json["sdp"]["execution_block"]["eb_id"] = self.generate_id(
+            "eb-mvp01-********-*****"
+        )
+        for pb in input_json["sdp"]["processing_blocks"]:
+            pb["pb_id"] = self.generate_id("pb-mvp01-********-*****")

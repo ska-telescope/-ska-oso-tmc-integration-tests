@@ -1,5 +1,4 @@
 """Test TMC-SDP AssignResources functionality"""
-import json
 import logging
 
 import pytest
@@ -17,7 +16,6 @@ LOGGER = logging.getLogger(__name__)
 
 
 @pytest.mark.real_sdp
-@pytest.mark.test
 @scenario(
     "../features/sdp_tmc_assign_resources.feature",
     "Assign resources to SDP subarray using TMC",
@@ -35,8 +33,6 @@ def telescope_is_in_on_state(central_node_mid, event_recorder):
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
     )
-    LOGGER.info(f"State is: {central_node_mid.central_node.telescopeState}")
-    assert central_node_mid.central_node.telescopeState == DevState.ON
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
         "telescopeState",
@@ -62,16 +58,10 @@ def subarray_is_in_empty_obsstate(event_recorder, central_node_mid):
 )
 def assign_resources_to_subarray(central_node_mid, command_input_factory):
     """Method to assign resources to subarray."""
-    sdp_device = central_node_mid.subarray_devices.get("sdp_subarray")
-    LOGGER.info(f"ebID before assign invokation:{sdp_device.ebID}")
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
-    input_json = json.loads(assign_input_json)
-    if input_json["sdp"]["execution_block"]["eb_id"] == sdp_device.ebID:
-        update_eb_id = central_node_mid.reset_eb_id()
-        input_json["sdp"]["execution_block"]["eb_id"] = update_eb_id
-    central_node_mid.store_resources(json.dumps(input_json))
+    central_node_mid.store_resources(assign_input_json)
 
 
 @then(parsers.parse("the sdp subarray {subarray_id} obsState is IDLE"))

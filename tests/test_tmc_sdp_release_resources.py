@@ -16,7 +16,6 @@ LOGGER = logging.getLogger(__name__)
 
 
 @pytest.mark.real_sdp
-@pytest.mark.test1
 @scenario(
     "../features/sdp_tmc_release_resources.feature",
     "Release resources from SDP Subarray using TMC",
@@ -28,8 +27,8 @@ def test_tmc_sdp_release_resources():
 
 
 @given("a TMC and SDP")
-def telescope_is_in_on_state():
-    """ "A method to define TMC and SDP."""
+def given_a_tmc():
+    """A method to define TMC and SDP."""
 
 
 @given(parsers.parse("a subarray {subarray_id} in the IDLE obsState"))
@@ -50,7 +49,15 @@ def telescope_is_in_idle_state(
         "assign_resources_mid", command_input_factory
     )
     central_node_mid.store_resources(assign_input_json)
+    event_recorder.subscribe_event(
+        central_node_mid.subarray_devices.get("sdp_subarray"), "obsState"
+    )
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.subarray_devices.get("sdp_subarray"),
+        "obsState",
+        ObsState.IDLE,
+    )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "obsState",
