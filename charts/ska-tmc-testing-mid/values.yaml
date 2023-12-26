@@ -123,7 +123,7 @@ ska-tmc-simulators:
       enabled: false
     
     powersupplysimulator:
-      enabled: true
+      enabled: false
 
 ska-csp-lmc-mid:
   enabled: false
