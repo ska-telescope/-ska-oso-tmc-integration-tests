@@ -168,7 +168,6 @@ def test_abort_in_resourcing(json_factory):
         csp_subarray_proxy = DeviceProxy(csp_subarray1)
         csp_subarray_proxy.SetDefective(json.dumps(INTERMEDIATE_STATE_DEFECT))
 
-        # Invoke AssignResources() Command on TMC#
         Resource(tmc_subarraynode1).assert_attribute("State").equals("ON")
         Resource(tmc_subarraynode1).assert_attribute("obsState").equals(
             "EMPTY"
