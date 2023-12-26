@@ -25,7 +25,6 @@ def test_subarray_health_state_with_csp_and_sdp():
     """
 
 
-@pytest.mark.test3
 @pytest.mark.SKA_mid
 @scenario(
     "../features/test_harness/subarray_health_state.feature",
