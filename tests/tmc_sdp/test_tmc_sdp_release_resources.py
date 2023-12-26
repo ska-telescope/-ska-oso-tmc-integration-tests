@@ -11,7 +11,6 @@ from tests.resources.test_harness.helpers import (
 
 
 @pytest.mark.real_sdp
-@pytest.mark.test2
 @scenario(
     "../features/sdp_tmc_release_resources.feature",
     "Release resources from SDP Subarray using TMC",
