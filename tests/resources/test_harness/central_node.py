@@ -1,6 +1,8 @@
 import logging
 import os
+from typing import Tuple
 
+from ska_control_model import ResultCode
 from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
 
@@ -127,30 +129,32 @@ class CentralNodeWrapper(BaseNodeWrapper):
             f"Received simulated devices: {self.simulated_devices_dict}"
         )
         if self.simulated_devices_dict["all_mocks"]:
-            LOGGER.info("Invoking commands with all Mocks")
+            LOGGER.info("Invoking TelescopeOn() with all Mocks")
             self.central_node.TelescopeOn()
-            self.set_values_with_all_mocks(DevState.ON, DishMode.STANDBY_FP)
+            self.set_subarraystate_and_dishmode_with_all_mocks(
+                DevState.ON, DishMode.STANDBY_FP
+            )
 
         elif self.simulated_devices_dict["csp_and_sdp"]:
-            LOGGER.info("Invoking command with csp and sdp simulated")
+            LOGGER.info("Invoking TelescopeOn() on simulated csp and sdp")
             self.central_node.TelescopeOn()
             self.set_value_with_csp_sdp_mocks(DevState.ON)
 
         elif self.simulated_devices_dict["csp_and_dish"]:
-            LOGGER.info("Invoking command with csp and Dish simulated")
+            LOGGER.info("Invoking TelescopeOn() on simulated csp and Dish")
             self.central_node.TelescopeOn()
             self.set_values_with_csp_dish_mocks(
                 DevState.ON, DishMode.STANDBY_FP
             )
 
         elif self.simulated_devices_dict["sdp_and_dish"]:
-            LOGGER.info("Invoking command with sdp and dish simulated")
+            LOGGER.info("Invoking TelescopeOn() on simulated sdp and dish")
             self.central_node.TelescopeOn()
             self.set_values_with_sdp_dish_mocks(
                 DevState.ON, DishMode.STANDBY_FP
             )
         else:
-            LOGGER.info("Invoke command with all real sub-systems")
+            LOGGER.info("Invoke TelescopeOn() on all real sub-systems")
             self.central_node.TelescopeOn()
 
     def set_standby(self):
@@ -161,30 +165,36 @@ class CentralNodeWrapper(BaseNodeWrapper):
         """
         LOGGER.info("Putting Telescope in Standby state")
         if self.simulated_devices_dict["all_mocks"]:
-            LOGGER.info("Invoking commands with all Mocks")
+            LOGGER.info("Invoking TelescopeStandBy() with all Mocks")
             self.central_node.TelescopeStandBy()
-            self.set_values_with_all_mocks(DevState.STANDBY, DevState.STANDBY)
+            self.set_subarraystate_and_dishmode_with_all_mocks(
+                DevState.STANDBY, DevState.STANDBY
+            )
 
         elif self.simulated_devices_dict["csp_and_sdp"]:
-            LOGGER.info("Invoking command with csp and sdp simulated")
+            LOGGER.info("Invoking TelescopeStandBy() on simulated csp and sdp")
             self.central_node.TelescopeStandBy()
             self.set_value_with_csp_sdp_mocks(DevState.STANDBY)
 
         elif self.simulated_devices_dict["csp_and_dish"]:
-            LOGGER.info("Invoking command with csp and Dish simulated")
+            LOGGER.info(
+                "Invoking TelescopeStandBy() on simulated csp and Dish"
+            )
             self.central_node.TelescopeStandBy()
             self.set_values_with_csp_dish_mocks(
                 DevState.STANDBY, DevState.STANDBY
             )
 
         elif self.simulated_devices_dict["sdp_and_dish"]:
-            LOGGER.info("Invoking command with sdp and dish simulated")
+            LOGGER.info(
+                "Invoking TelescopeStandBy() on simulated sdp and dish"
+            )
             self.central_node.TelescopeStandBy()
             self.set_values_with_sdp_dish_mocks(
                 DevState.STANDBY, DevState.STANDBY
             )
         else:
-            LOGGER.info("Invoke command with all real sub-systems")
+            LOGGER.info("Invoke TelescopeStandBy() with all real sub-systems")
             self.central_node.TelescopeStandBy()
 
     @sync_release_resources(device_dict=device_dict)
@@ -235,7 +245,9 @@ class CentralNodeWrapper(BaseNodeWrapper):
         else:
             LOGGER.info("No devices to reset healthState")
 
-    def perform_action(self, command_name: str, input_json: str):
+    def perform_action(
+        self, command_name: str, input_json: str
+    ) -> Tuple[ResultCode, str]:
         """Execute provided command on centralnode
         Args:
             command_name (str): Name of command to execute
@@ -247,7 +259,9 @@ class CentralNodeWrapper(BaseNodeWrapper):
         )
         return result, message
 
-    def set_values_with_all_mocks(self, subarray_state, dish_mode):
+    def set_subarraystate_and_dishmode_with_all_mocks(
+        self, subarray_state, dish_mode
+    ):
         """
         A method to set values on mock CSP, SDP and Dish devices.
         Args:
