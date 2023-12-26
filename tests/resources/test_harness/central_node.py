@@ -126,7 +126,7 @@ class CentralNodeWrapper(object):
 
         elif self.simulated_devices_dict["sdp_and_dish"]:
             LOGGER.info("Invoking TelescopeOn() on simulated sdp and dish")
-            self.central_node.csp_master.adminMode = 0
+            self.csp_master.adminMode = 0
             wait_csp_master_off()
             self.central_node.TelescopeOn()
             self.set_values_with_sdp_dish_mocks(
