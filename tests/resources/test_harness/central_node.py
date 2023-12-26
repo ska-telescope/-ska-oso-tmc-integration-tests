@@ -23,9 +23,15 @@ CSP_SIMULATION_ENABLED = os.getenv("CSP_SIMULATION_ENABLED")
 DISH_SIMULATION_ENABLED = os.getenv("DISH_SIMULATION_ENABLED")
 
 
-class CentralNodeWrapper(object):
+# TODO ::
+# This class needs to be enhanced as a part of upcoming
+# Test harness work
+
+
+class BaseNodeWrapper(object):
+
     """A wrapper class to implement common tango specific details
-    and standard set of commands for TMC CentralNode,
+    and standard set of commands for TMC
     defined by the SKA Control Model.
     """
 
@@ -44,6 +50,24 @@ class CentralNodeWrapper(object):
         self.dish_master_list = None
         self._state = DevState.OFF
         self.simulated_devices_dict = self.get_simulated_devices_info()
+
+    def move_to_on(self) -> NotImplementedError:
+        """
+        Abstract method for move_to_on
+        """
+        raise NotImplementedError("To be defined in the lower level classes")
+
+
+class CentralNodeWrapper(BaseNodeWrapper):
+    """A wrapper class to implement common tango specific details
+    and standard set of commands for TMC CentralNode,
+    defined by the SKA Control Model.
+    """
+
+    def __init__(
+        self,
+    ) -> None:
+        super().__init__()
 
     @property
     def state(self) -> DevState:
