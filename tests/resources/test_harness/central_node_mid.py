@@ -97,13 +97,18 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         """Reset sysParam and sourceSysParam attribute of csp master
         reset kValue of Dish master
         """
-        for mock_device in self.dish_master_list:
-            mock_device.SetKValue(0)
+        if (
+            self.simulated_devices_dict["csp_and_dish"]
+            or self.simulated_devices_dict["all_mocks"]
+        ):
+            for mock_device in self.dish_master_list:
+                mock_device.SetKValue(0)
 
         if (
             self.simulated_devices_dict["csp_and_dish"]
             or self.simulated_devices_dict["all_mocks"]
         ):
+
             self.csp_master.ResetSysParams()
 
     def _clear_command_call_and_transition_data(self, clear_transition=False):
