@@ -9,6 +9,7 @@ from ska_tango_base.commands import ResultCode
 from ska_tango_base.control_model import HealthState
 from ska_tango_testing.mock.placeholders import Anything
 
+from tests.resources.test_harness.simulator_factory import SimulatorFactory
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_harness.utils.wait_helpers import Waiter, watch
@@ -175,8 +176,10 @@ def prepare_json_args_for_centralnode_commands(
     return input_json
 
 
-def get_command_call_info(device: Any, command_name: str):
+def get_boolean_command_call_info(device: SimulatorFactory, command_name: str):
     """
+    Returns recorded information from commandCallInfo attribute.
+    This function is used when expected information is of type boolean.
     device: Tango Device Proxy Object
 
     """
@@ -187,36 +190,90 @@ def get_command_call_info(device: Any, command_name: str):
         for command_info in command_call_info
         if command_info[0] == command_name
     ]
+
+    received_command_call_data = (
+        command_call_info[0][0],
+        command_info[0][1],
+    )
+
+    return received_command_call_data
+
+
+def get_command_call_info(device: Any, command_name: str):
+    """
+    Returns recorded information from commandCallInfo attribute.
+    This function is used when expected information is json
+    device: Tango Device Proxy Object
+
+    """
+    command_call_info = device.read_attribute("commandCallInfo").value
+    LOGGER.info("Command info %s", command_call_info)
+    command_info = [
+        command_info
+        for command_info in command_call_info
+        if command_info[0] == command_name
+    ]
+
     input_str = json.loads("".join(command_info[0][1].split()))
 
     received_command_call_data = (
         command_call_info[0][0],
         sorted(input_str),
     )
+
     return received_command_call_data
 
 
 def device_received_this_command(
-    device: Any, expected_command_name: str, expected_inp_str: str
-):
+    device: Any, expected_command_name: str, expected_input: str | bool
+) -> bool:
     """Method to verify received command and command argument
 
     Args:
         device (Any): Tango Device Proxy Object
         expected_command_name (str): Command name received on simulator device
-        expected_inp_str (str): Command argument received on simulator device
+        expected_input (str): Command argument received on simulator device
 
     Returns:
         Boolean: True if received data is equal to expected data.
     """
-    received_command_call_data = get_command_call_info(
-        device, expected_command_name
-    )
-    expected_input_str = json.loads("".join(expected_inp_str.split()))
-    return received_command_call_data == (
-        expected_command_name,
-        sorted(expected_input_str),
-    )
+
+    LOGGER.debug("expected_input - %s", expected_input)
+
+    if (
+        expected_input == "True"
+        or expected_input == "False"
+        or expected_input == ""
+    ):
+
+        received_command_call_data = get_boolean_command_call_info(
+            device, expected_command_name
+        )
+        LOGGER.debug(
+            "received_command_call_data - %s", received_command_call_data
+        )
+
+        LOGGER.debug("expected_input %s", expected_input)
+        return received_command_call_data == (
+            expected_command_name,
+            expected_input,
+        )
+
+    else:
+
+        received_command_call_data = get_command_call_info(
+            device, expected_command_name
+        )
+        LOGGER.debug(
+            "received_command_call_data - %s", received_command_call_data
+        )
+
+        expected_input_str = json.loads("".join(expected_input.split()))
+        LOGGER.debug("expected_input_str %s", expected_input_str)
+        return received_command_call_data == (
+            expected_command_name,
+            sorted(expected_input_str),
+        )
 
 
 def get_recorded_commands(device: Any):
