@@ -19,7 +19,6 @@ from tests.resources.test_harness.utils.sync_decorators import (
 from tests.resources.test_support.common_utils.common_helpers import Resource
 
 LOGGER = logging.getLogger(__name__)
-ID_LENGTH = 16
 
 SDP_SIMULATION_ENABLED = os.getenv("SDP_SIMULATION_ENABLED")
 CSP_SIMULATION_ENABLED = os.getenv("CSP_SIMULATION_ENABLED")
