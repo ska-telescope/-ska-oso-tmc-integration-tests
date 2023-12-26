@@ -40,18 +40,6 @@ from tests.resources.test_support.constant import (
 from tests.resources.test_support.constant import (
     DEVICE_STATE_STANDBY_INFO as MID_OBS_STATE_STANDBY_INFO,
 )
-from tests.resources.test_support.constant_low import (
-    DEVICE_OBS_STATE_ABORT_INFO as LOW_OBS_STATE_ABORT_INFO,
-)
-from tests.resources.test_support.constant_low import (
-    DEVICE_OBS_STATE_EMPTY_INFO as LOW_OBS_STATE_EMPTY_INFO,
-)
-from tests.resources.test_support.constant_low import (
-    DEVICE_OBS_STATE_IDLE_INFO as LOW_OBS_STATE_IDLE_INFO,
-)
-from tests.resources.test_support.constant_low import (
-    DEVICE_STATE_STANDBY_INFO as LOW_OBS_STATE_STANDBY_INFO,
-)
 
 result, message = "", ""
 configure_logging(logging.DEBUG)
@@ -325,17 +313,12 @@ def tear_down(
         kwargs.get("sdp_subarray"),
         kwargs.get("csp_subarray"),
     ]
-    if "mid" in kwargs.get("tmc_subarraynode"):
-        ABORT_INFO = MID_OBS_STATE_ABORT_INFO
-        EMPTY_INFO = MID_OBS_STATE_EMPTY_INFO
-        IDLE_INFO = MID_OBS_STATE_IDLE_INFO
-        STANDBY_INFO = MID_OBS_STATE_STANDBY_INFO
-        DEVICE_LIST.extend(kwargs.get("dish_master_list"))
-    else:
-        ABORT_INFO = LOW_OBS_STATE_ABORT_INFO
-        EMPTY_INFO = LOW_OBS_STATE_EMPTY_INFO
-        IDLE_INFO = LOW_OBS_STATE_IDLE_INFO
-        STANDBY_INFO = LOW_OBS_STATE_STANDBY_INFO
+    ABORT_INFO = MID_OBS_STATE_ABORT_INFO
+    EMPTY_INFO = MID_OBS_STATE_EMPTY_INFO
+    IDLE_INFO = MID_OBS_STATE_IDLE_INFO
+    STANDBY_INFO = MID_OBS_STATE_STANDBY_INFO
+    DEVICE_LIST.extend(kwargs.get("dish_master_list"))
+
     if subarray_node_obsstate in ["RESOURCING", "CONFIGURING", "SCANNING"]:
         LOGGER.info("Invoking Abort on TMC")
 

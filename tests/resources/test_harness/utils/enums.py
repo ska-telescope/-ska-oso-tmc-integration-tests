@@ -47,12 +47,6 @@ class SimulatorDeviceType(IntEnum):
     DISH_DEVICE = 2
     MID_CSP_MASTER_DEVICE = 3
     MID_SDP_MASTER_DEVICE = 4
-    LOW_CSP_DEVICE = 5
-    LOW_SDP_DEVICE = 6
-    LOW_CSP_MASTER_DEVICE = 7
-    LOW_SDP_MASTER_DEVICE = 8
-    MCCS_MASTER_DEVICE = 9
-    MCCS_SUBARRAY_DEVICE = 10
 
 
 class FaultType(enum.IntEnum):

@@ -52,8 +52,34 @@ def given_tmc(central_node_mid, simulator_factory, event_recorder):
 
 
 @when("I start up the telescope")
-def move_dish_to_on(central_node_mid):
+def move_dish_to_on(central_node_mid, event_recorder):
     """A method to put DISH to ON"""
+    event_recorder.subscribe_event(
+        central_node_mid.dish_master_list[0], "dishMode"
+    )
+    event_recorder.subscribe_event(
+        central_node_mid.dish_master_list[1], "dishMode"
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[0],
+        "dishMode",
+        DishMode.UNKNOWN,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[1],
+        "dishMode",
+        DishMode.UNKNOWN,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[0],
+        "dishMode",
+        DishMode.STANDBY_LP,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[1],
+        "dishMode",
+        DishMode.STANDBY_LP,
+    )
     central_node_mid.move_to_on()
 
 
@@ -61,13 +87,6 @@ def move_dish_to_on(central_node_mid):
 def check_dish_is_on(central_node_mid, event_recorder):
     """Method to check dishMode after invoking
     telescopeOn command on central node"""
-
-    event_recorder.subscribe_event(
-        central_node_mid.dish_master_list[0], "dishMode"
-    )
-    event_recorder.subscribe_event(
-        central_node_mid.dish_master_list[1], "dishMode"
-    )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.dish_master_list[0],
         "dishMode",
@@ -83,6 +102,7 @@ def check_dish_is_on(central_node_mid, event_recorder):
 @then("telescope state is ON")
 def check_telescope_state(central_node_mid, event_recorder):
     """Method to check if TMC central node is ON"""
+
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
     )
@@ -92,11 +112,13 @@ def check_telescope_state(central_node_mid, event_recorder):
         "State",
         DevState.ON,
     )
+
     assert event_recorder.has_change_event_occurred(
         central_node_mid.csp_master,
         "State",
         DevState.ON,
     )
+
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
         "telescopeState",

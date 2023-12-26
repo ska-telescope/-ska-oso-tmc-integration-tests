@@ -12,20 +12,10 @@ from ska_tango_testing.mock.tango.event_callback import (
     MockTangoEventCallbackGroup,
 )
 
-from tests.resources.test_harness.central_node_low import CentralNodeWrapperLow
 from tests.resources.test_harness.central_node_mid import CentralNodeWrapperMid
-from tests.resources.test_harness.central_node_with_csp_low import (
-    CentralNodeCspWrapperLow,
-)
 from tests.resources.test_harness.event_recorder import EventRecorder
 from tests.resources.test_harness.simulator_factory import SimulatorFactory
 from tests.resources.test_harness.subarray_node import SubarrayNodeWrapper
-from tests.resources.test_harness.subarray_node_low import (
-    SubarrayNodeWrapperLow,
-)
-from tests.resources.test_harness.subarray_node_with_csp_low import (
-    SubarrayNodeCspWrapperLow,
-)
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 
 configure_logging(logging.DEBUG)
@@ -133,15 +123,6 @@ def change_event_callbacks() -> MockTangoEventCallbackGroup:
 
 
 @pytest.fixture()
-def central_node_low() -> CentralNodeWrapperLow:
-    """Return CentralNode for Low Telescope and calls tear down"""
-    central_node_low = CentralNodeWrapperLow()
-    yield central_node_low
-    # this will call after test complete
-    central_node_low.tear_down()
-
-
-@pytest.fixture()
 def central_node_mid() -> CentralNodeWrapperMid:
     """Return CentralNode for Mid Telescope and calls tear down"""
     central_node = CentralNodeWrapperMid()
@@ -160,33 +141,6 @@ def subarray_node(event_recorder) -> SubarrayNodeWrapper:
 
 
 @pytest.fixture()
-def subarray_node_low() -> SubarrayNodeWrapperLow:
-    """Return SubarrayNode and calls tear down"""
-    subarray = SubarrayNodeWrapperLow()
-    yield subarray
-    # this will call after test complete
-    subarray.tear_down()
-
-
-@pytest.fixture()
-def subarray_node_real_csp_low() -> SubarrayNodeCspWrapperLow:
-    """Return SubarrayNode and calls tear down"""
-    subarray = SubarrayNodeCspWrapperLow()
-    yield subarray
-    # this will call after test complete
-    subarray.tear_down()
-
-
-@pytest.fixture()
-def central_node_real_csp_low() -> CentralNodeCspWrapperLow:
-    """Return CentralNode for Low Telescope and calls tear down"""
-    central_node_low = CentralNodeCspWrapperLow()
-    yield central_node_low
-    # this will call after test complete
-    central_node_low.tear_down()
-
-
-@pytest.fixture()
 def command_input_factory() -> JsonFactory:
     """Return Json Factory"""
     return JsonFactory()
@@ -194,7 +148,7 @@ def command_input_factory() -> JsonFactory:
 
 @pytest.fixture()
 def simulator_factory() -> SimulatorFactory:
-    """Return Simulator Factory for Mid/Low Telescope"""
+    """Return Simulator Factory for Mid Telescope"""
     return SimulatorFactory()
 
 
