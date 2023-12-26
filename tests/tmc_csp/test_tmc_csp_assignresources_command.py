@@ -5,6 +5,8 @@ from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
 from tango import DevState
 
+from tests.resources.test_harness.helpers import wait_csp_master_off
+
 
 @pytest.mark.real_csp_mid
 @scenario(
@@ -26,9 +28,8 @@ def given_a_telescope_in_on_state(
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
     )
-    central_node_mid.wait.set_wait_for_csp_master_to_become_off()
     central_node_mid.csp_master.adminMode = 0
-    central_node_mid.wait.wait(500)
+    wait_csp_master_off()
     central_node_mid.move_to_on()
     event_recorder.subscribe_event(central_node_mid.csp_master, "State")
     event_recorder.subscribe_event(
