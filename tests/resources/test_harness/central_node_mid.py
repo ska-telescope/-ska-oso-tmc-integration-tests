@@ -67,6 +67,19 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         device_dict["cbf_controller"] = "mid_csp_cbf/sub_elt/controller"
         self.wait = Waiter(**device_dict)
 
+    def set_subarray_id(self, id):
+        self.subarray_node = DeviceProxy(f"ska_mid/tm_subarray_node/{id}", id)
+        self.subarray_devices = {
+            "csp_subarray": DeviceProxy(f"mid-csp/subarray/0{id}", id),
+            "sdp_subarray": DeviceProxy(f"mid-sdp/subarray/0{id}", id),
+        }
+        self.csp_master_leaf_node = DeviceProxy(
+            f"ska_mid/tm_leaf_node/csp_subarray0{id}", id
+        )
+        self.sdp_master_leaf_node = DeviceProxy(
+            f"ska_mid/tm_leaf_node/sdp_subarray0{id}", id
+        )
+
     def _reset_health_state_for_mock_devices(self):
         """Reset Mock devices"""
         super()._reset_health_state_for_mock_devices()

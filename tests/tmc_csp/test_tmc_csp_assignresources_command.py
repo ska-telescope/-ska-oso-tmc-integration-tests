@@ -1,4 +1,5 @@
 """Test module for TMC-CSP AssignResources functionality"""
+import json
 
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
@@ -49,8 +50,9 @@ def given_a_telescope_in_on_state(
 
 
 @given(parsers.parse("TMC subarray {subarray_id} is in EMPTY ObsState"))
-def subarray_in_empty_obsstate(central_node_mid, event_recorder):
+def subarray_in_empty_obsstate(central_node_mid, event_recorder, subarray_id):
     """Checks if SubarrayNode's obsState attribute value is EMPTY"""
+    central_node_mid.set_subarray_id(subarray_id)
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node, "obsState", ObsState.EMPTY
@@ -62,18 +64,27 @@ def subarray_in_empty_obsstate(central_node_mid, event_recorder):
         "I assign resources with {receptors}to TMC subarray {subarray_id}"
     )
 )
-def invoke_assignresources(central_node_mid, event_recorder):
+def invoke_assignresources(
+    central_node_mid, event_recorder, subarray_id, receptors
+):
     """Invokes AssignResources command on TMC"""
+    assign_input = json.loads(central_node_mid.assign_input)
+    assign_input["subarray_id"] = subarray_id
     central_node_mid.perform_action(
-        "AssignResources", central_node_mid.assign_input
+        "AssignResources", json.dumps(assign_input)
     )
 
 
 @then(
     parsers.parse("CSP subarray {subarray_id} transitioned to ObsState IDLE")
 )
-def csp_subarray_idle(central_node_mid, event_recorder):
+def csp_subarray_idle(central_node_mid, event_recorder, subarray_id):
     """Checks if Csp Subarray's obsState attribute value is IDLE"""
+    csp_subarray = str(
+        central_node_mid.subarray_devices.get("csp_subarray")
+    ).split("/")
+    csp_subarray_instance = csp_subarray[-1][-2]
+    assert csp_subarray_instance == subarray_id
     event_recorder.subscribe_event(
         central_node_mid.subarray_devices["csp_subarray"], "obsState"
     )
@@ -87,8 +98,11 @@ def csp_subarray_idle(central_node_mid, event_recorder):
 @then(
     parsers.parse("TMC subarray {subarray_id} transitioned to ObsState IDLE")
 )
-def tmc_subarray_idle(central_node_mid, event_recorder):
+def tmc_subarray_idle(central_node_mid, event_recorder, subarray_id):
     """Checks if SubarrayNode's obsState attribute value is IDLE"""
+    subarray = str(central_node_mid.subarray_node).split("/")
+    subarray_instance = subarray[-1][-2]
+    assert subarray_instance == subarray_id
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node, "obsState", ObsState.IDLE
     )
