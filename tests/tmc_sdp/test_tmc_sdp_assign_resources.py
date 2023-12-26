@@ -1,18 +1,12 @@
 """Test TMC-SDP AssignResources functionality"""
-import logging
-
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
-from ska_ser_logging import configure_logging
 from tango import DevState
 
 from tests.resources.test_harness.helpers import (
     prepare_json_args_for_centralnode_commands,
 )
-
-configure_logging(logging.DEBUG)
-LOGGER = logging.getLogger(__name__)
 
 
 @pytest.mark.real_sdp
@@ -75,9 +69,6 @@ def check_sdp_is_in_idle_obsstate(central_node_mid, event_recorder):
         "obsState",
         ObsState.IDLE,
     )
-    sdp_device = central_node_mid.subarray_devices.get("sdp_subarray")
-    LOGGER.info(f"ebID before assign invokation:{sdp_device.ebID}")
-    LOGGER.info(f"type bID before assign invokation:{type(sdp_device.ebID)}")
 
 
 @then(

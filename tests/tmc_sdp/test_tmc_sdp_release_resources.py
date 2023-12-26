@@ -1,18 +1,12 @@
 """Test TMC-SDP ReleaseResources functionality"""
-import logging
-
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
-from ska_ser_logging import configure_logging
 from tango import DevState
 
 from tests.resources.test_harness.helpers import (
     prepare_json_args_for_centralnode_commands,
 )
-
-configure_logging(logging.DEBUG)
-LOGGER = logging.getLogger(__name__)
 
 
 @pytest.mark.real_sdp
