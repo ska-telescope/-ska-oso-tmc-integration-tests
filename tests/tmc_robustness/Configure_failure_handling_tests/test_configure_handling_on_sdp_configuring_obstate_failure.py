@@ -1,6 +1,9 @@
+import logging
+
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
+from ska_ser_logging import configure_logging
 from tango import DevState
 
 from tests.resources.test_harness.helpers import (
@@ -9,6 +12,9 @@ from tests.resources.test_harness.helpers import (
     prepare_json_args_for_commands,
 )
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
+
+configure_logging(logging.DEBUG)
+LOGGER = logging.getLogger(__name__)
 
 
 @pytest.mark.skip(
@@ -84,7 +90,7 @@ def given_tmc_subarray_assign_resources(
     )
 )
 def given_tmc_subarray_configure_is_in_progress(
-    subarray_node, event_recorder, _, command_input_factory
+    subarray_node, event_recorder, command_input_factory
 ):
     configure_input_json = prepare_json_args_for_commands(
         "configure_with_invalid_interface", command_input_factory
