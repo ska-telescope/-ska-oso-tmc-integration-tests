@@ -1,7 +1,7 @@
 name: "dishleafnode-test"
 function: telescope-monitoring
 domain: general-monitoring
-instances: ["001", "036", "063", "100"]
+instances: ["001", "036", "063"] # Add dish 100 once SKB-266 is resolved
 entrypoints:
   - name: "ska_tmc_dishleafnode.dish_leaf_node.DishLeafNode"
 server:

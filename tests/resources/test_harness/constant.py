@@ -26,7 +26,8 @@ csp_master = "mid-csp/control/0"
 dish_master1 = "ska001/elt/master"
 dish_master2 = "ska036/elt/master"
 dish_master3 = "ska063/elt/master"
-dish_master4 = "ska100/elt/master"
+# TODO: Add dish 100 once SKB-266 is resolved
+# dish_master4 = "ska100/elt/master"
 sdp_queue_connector = "mid-sdp/queueconnector/01"
 
 COMMAND_FAILED_WITH_EXCEPTION_OBSSTATE_IDLE = {
