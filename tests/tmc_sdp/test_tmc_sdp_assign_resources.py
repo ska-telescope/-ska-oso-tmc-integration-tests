@@ -77,7 +77,7 @@ def check_sdp_is_in_idle_obsstate(central_node_mid, event_recorder):
     )
 )
 def check_tmc_is_in_idle_obsstate(central_node_mid, event_recorder):
-    """Method to check TMC is is in IDLE obsstate."""
+    """Method to check TMC is in IDLE obsstate."""
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "obsState",
@@ -92,5 +92,5 @@ def check_tmc_is_in_idle_obsstate(central_node_mid, event_recorder):
     )
 )
 def check_assign_resources_to_tmc(central_node_mid, receptors):
-    """Methos checks whether proper resources are assign or not."""
+    """Methos checks whether proper resources are assigned or not."""
     assert str(central_node_mid.subarray_node.assignedResources) == receptors

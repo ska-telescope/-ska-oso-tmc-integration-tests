@@ -20,7 +20,7 @@ from tests.resources.test_harness.utils.sync_decorators import (
 from tests.resources.test_support.common_utils.common_helpers import Resource
 
 LOGGER = logging.getLogger(__name__)
-
+ID_LENGTH = 16
 
 SDP_SIMULATION_ENABLED = os.getenv("SDP_SIMULATION_ENABLED")
 CSP_SIMULATION_ENABLED = os.getenv("CSP_SIMULATION_ENABLED")
@@ -369,9 +369,8 @@ class CentralNodeWrapper(object):
         prefix, suffix = re.split(r"(?=\*)[\*-]*(?<=\*)", id_pattern)
         id_pattern = re.findall(r"(?=\*)[\*-]*(?<=\*)", id_pattern)[0]
         length = id_pattern.count("*")
-        assert (
-            length < 16
-        ), f"Unable to generate an id with {length} digits, the limit is 16"
+        assert length < ID_LENGTH
+        LOGGER.info(f"Invalid id pattern, exceeded the length to {length}")
         timestamp = str(datetime.now().timestamp()).replace(".", "")
         sections = id_pattern.split("-")
         unique_id = ""

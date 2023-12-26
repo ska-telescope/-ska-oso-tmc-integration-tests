@@ -86,7 +86,7 @@ def check_sdp_is_in_empty_obsstate(central_node_mid, event_recorder):
     parsers.parse("TMC subarray {subarray_id} obsState transitions to EMPTY")
 )
 def check_tmc_is_in_idle_obsstate(central_node_mid, event_recorder):
-    """Method to check TMC is is in EMPTY obsstate."""
+    """Method to check TMC is in EMPTY obsstate."""
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "obsState",
