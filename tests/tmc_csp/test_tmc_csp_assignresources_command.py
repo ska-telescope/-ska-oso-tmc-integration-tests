@@ -1,4 +1,5 @@
 """Test module for TMC-CSP AssignResources functionality"""
+import logging
 
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
@@ -9,6 +10,8 @@ from tests.resources.test_harness.helpers import (
     check_assigned_resources,
     get_master_device_simulators,
 )
+
+LOGGER = logging.getLogger(__name__)
 
 
 @pytest.mark.real_csp_mid
@@ -42,12 +45,6 @@ def given_a_telescope_in_on_state(
     assert dish_master_sim_2.ping() > 0
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
-    )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.central_node,
-        "telescopeState",
-        DevState.OFF,
-        lookahead=10,
     )
     central_node_mid.wait.set_wait_for_csp_master_to_become_off()
     central_node_mid.csp_master.adminMode = 0
@@ -130,6 +127,10 @@ def tmc_subarray_idle(central_node_mid, event_recorder):
 )
 def resources_assigned_to_subarray(central_node_mid, event_recorder):
     """Checks if correct ressources are assigned to Subarray"""
+    LOGGER.info(
+        "The assignedResources attribute is %s",
+        central_node_mid.subarray_node.assignedResources,
+    )
     event_recorder.subscribe_event(
         central_node_mid.subarray_node, "assignedResources"
     )

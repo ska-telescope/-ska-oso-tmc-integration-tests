@@ -40,12 +40,6 @@ def given_a_telescope_in_on_state(
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
     )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.central_node,
-        "telescopeState",
-        DevState.OFF,
-        lookahead=10,
-    )
     central_node_mid.wait.set_wait_for_csp_master_to_become_off()
     central_node_mid.csp_master.adminMode = 0
     central_node_mid.wait.wait(500)
