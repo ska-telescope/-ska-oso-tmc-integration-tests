@@ -1,8 +1,6 @@
 import json
 import logging
 import os
-import re
-from datetime import datetime
 from typing import Tuple
 
 from ska_control_model import ResultCode
@@ -10,6 +8,7 @@ from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
 
 from tests.resources.test_harness.constant import device_dict
+from tests.resources.test_harness.helpers import generate_eb_pb_ids
 from tests.resources.test_harness.utils.enums import DishMode
 from tests.resources.test_harness.utils.sync_decorators import (
     sync_abort,
@@ -184,7 +183,7 @@ class CentralNodeWrapper(object):
             assign_json (str): Assign resource input json
         """
         input_json = json.loads(assign_json)
-        self.generate_eb_pb_ids(input_json)
+        generate_eb_pb_ids(input_json)
         result, message = self.central_node.AssignResources(
             json.dumps(input_json)
         )
@@ -356,43 +355,3 @@ class CentralNodeWrapper(object):
                 ]
             ),
         }
-
-    def generate_id(self, id_pattern: str) -> str:
-        """
-        Generate a time-based unique id
-
-        :param id_pattern: the string pattern as to how the unique id should
-            be rendered.
-
-        :return: the id rendered according to the requested pattern
-        """
-        prefix, suffix = re.split(r"(?=\*)[\*-]*(?<=\*)", id_pattern)
-        id_pattern = re.findall(r"(?=\*)[\*-]*(?<=\*)", id_pattern)[0]
-        length = id_pattern.count("*")
-        assert length < ID_LENGTH
-        LOGGER.info(f"Invalid id pattern, exceeded the length to {length}")
-        timestamp = str(datetime.now().timestamp()).replace(".", "")
-        sections = id_pattern.split("-")
-        unique_id = ""
-        sections.reverse()
-        for section in sections:
-            section_length = len(section)
-            section_id = timestamp[-section_length:]
-            timestamp = timestamp[:-section_length]
-            if unique_id:
-                unique_id = f"{section_id}-{unique_id}"
-            else:
-                unique_id = section_id
-        return f"{prefix}{unique_id}{suffix}"
-
-    def generate_eb_pb_ids(self, input_json: str):
-        """
-        Method to generate different eb_id and pb_id
-
-        :param input_json:
-        """
-        input_json["sdp"]["execution_block"]["eb_id"] = self.generate_id(
-            "eb-mvp01-********-*****"
-        )
-        for pb in input_json["sdp"]["processing_blocks"]:
-            pb["pb_id"] = self.generate_id("pb-mvp01-********-*****")
