@@ -7,8 +7,19 @@ TANGO_HOST ?= tango-databaseds:10000 ## TANGO_HOST connection to the Tango DS
 TELESCOPE ?= SKA-mid
 DISH_NAMESPACE_1 ?= dish-lmc-1
 DISH_NAMESPACE_2 ?= dish-lmc-2
+DISH_NAMESPACE_3 ?= dish-lmc-3
+# TODO: Add dish 100 once SKB-266 is resolved
+# DISH_NAMESPACE_4 ?= dish-lmc-4
 KUBE_NAMESPACE ?= ska-tmc-integration
 KUBE_NAMESPACE_SDP ?= ska-tmc-integration-sdp
+PYTHON_VARS_BEFORE_PYTEST ?= PYTHONPATH=.:./src \
+							 TANGO_HOST=$(TANGO_HOST) \
+							 TELESCOPE=$(TELESCOPE) \
+							 DISH_NAMESPACE_1=$(DISH_NAMESPACE_1) \
+							 DISH_NAMESPACE_2=$(DISH_NAMESPACE_2) \
+							 DISH_NAMESPACE_3=$(DISH_NAMESPACE_3) \
+							 KUBE_NAMESPACE=$(KUBE_NAMESPACE) \
+							 KUBE_NAMESPACE_SDP=$(KUBE_NAMESPACE_SDP)
 
 PYTHON_LINT_TARGET ?= tests/
 
@@ -46,7 +57,10 @@ PORT ?= 10000
 SIMULATED_DISH ?= true
 SUBARRAY_COUNT ?= 2
 DISH_NAME_1 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_1).$(CLUSTER_DOMAIN):$(PORT)/ska001/elt/master
-DISH_NAME_2 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_2).$(CLUSTER_DOMAIN):$(PORT)/ska002/elt/master
+DISH_NAME_36 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_2).$(CLUSTER_DOMAIN):$(PORT)/ska036/elt/master
+DISH_NAME_63 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_3).$(CLUSTER_DOMAIN):$(PORT)/ska063/elt/master
+# TODO: Add dish 100 once SKB-266 is resolved
+# DISH_NAME_100 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_4).$(CLUSTER_DOMAIN):$(PORT)/ska100/elt/master
 CSP_MASTER ?= tango://$(TANGO_HOST).$(KUBE_NAMESPACE).$(CLUSTER_DOMAIN):$(PORT)/mid-csp/control/0
 CSP_SUBARRAY_PREFIX ?= tango://$(TANGO_HOST).$(KUBE_NAMESPACE).$(CLUSTER_DOMAIN):$(PORT)/mid-csp/subarray
 SDP_MASTER ?= tango://$(TANGO_HOST).$(KUBE_NAMESPACE).$(CLUSTER_DOMAIN):$(PORT)/mid-sdp/control/0
@@ -112,8 +126,9 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.operator=true \
 	--set ska-taranta.enabled=$(TARANTA_ENABLED)\
 	--set global.namespace_dish.dish_name[0]="$(DISH_NAME_1)"\
-	--set global.namespace_dish.dish_name[1]="$(DISH_NAME_2)"\
-	--set global.Dish.isSimulated.enabled=$(SIMULATED_DISH)\
+	--set global.namespace_dish.dish_name[1]="$(DISH_NAME_36)"\
+	--set global.namespace_dish.dish_name[2]="$(DISH_NAME_63)"\
+	--set tmc-mid.deviceServers.mocks.is_simulated.dish=$(SIMULATED_DISH)\
 	--set global.subarray_count=$(SUBARRAY_COUNT)\
 	--set ska-sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP)\
 	$(CUSTOM_VALUES)

@@ -65,6 +65,7 @@ tmc-mid:
     mocks:
       enabled: true
       is_simulated:
+        dish: true
         csp: true
         sdp: true
 
