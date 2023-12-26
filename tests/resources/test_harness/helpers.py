@@ -29,7 +29,7 @@ from tests.resources.test_support.constant import (
 configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
 TIMEOUT = 20
-EB_PB_ID_LENGTH = 16
+EB_PB_ID_LENGTH = 15
 
 
 def check_subarray_obs_state(obs_state=None, timeout=50):
@@ -411,8 +411,7 @@ def generate_id(id_pattern: str) -> str:
     prefix, suffix = re.split(r"(?=\*)[\*-]*(?<=\*)", id_pattern)
     id_pattern = re.findall(r"(?=\*)[\*-]*(?<=\*)", id_pattern)[0]
     length = id_pattern.count("*")
-    assert length < EB_PB_ID_LENGTH
-    LOGGER.info(f"Invalid id pattern, exceeded the length to {length}")
+    assert length <= EB_PB_ID_LENGTH
     timestamp = str(datetime.now().timestamp()).replace(".", "")
     sections = id_pattern.split("-")
     unique_id = ""
