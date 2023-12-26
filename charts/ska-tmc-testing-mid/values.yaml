@@ -37,7 +37,7 @@ ska-tango-base:
     replicas: 1
     enabled: false
   tangorest:
-    enabled: true
+    enabled: false
     replicas: 1
   tangodb:
     use_pv: false
@@ -93,8 +93,9 @@ ska-sdp:
   ska-tango-base:
     enabled: false
   kafka:
-    enabled: false
+    enabled: true
 
+ 
 # SKUID
 ska-ser-skuid:
   labels:
@@ -105,10 +106,10 @@ ska-ser-skuid:
     config:
       generator_id: mvp01
   
-# ska-tango-alarmhandler:
-#   labels: 
-#     app: ska-tmc-integration
-#   enabled: true
+ska-tango-alarmhandler:
+  labels: 
+    app: ska-tmc-integration
+  enabled: false
 
 # ska-tmc-simulators:
 #   labels: 

@@ -1,6 +1,11 @@
+import json
 import logging
 import os
+import re
+from datetime import datetime
+from typing import Tuple
 
+from ska_control_model import ResultCode
 from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
 
@@ -8,16 +13,17 @@ from tests.resources.test_harness.constant import device_dict
 from tests.resources.test_harness.utils.enums import DishMode
 from tests.resources.test_harness.utils.sync_decorators import (
     sync_abort,
+    sync_assign_resources,
     sync_release_resources,
     sync_restart,
 )
 from tests.resources.test_support.common_utils.common_helpers import Resource
 
 LOGGER = logging.getLogger(__name__)
-
+ID_LENGTH = 16
 
 SDP_SIMULATION_ENABLED = os.getenv("SDP_SIMULATION_ENABLED")
-CSP_SIMULATION_ENABLED = os.getenv("CSP_SIMULATION_MID_ENABLED")
+CSP_SIMULATION_ENABLED = os.getenv("CSP_SIMULATION_ENABLED")
 DISH_SIMULATION_ENABLED = os.getenv("DISH_SIMULATION_ENABLED")
 
 
@@ -103,30 +109,32 @@ class CentralNodeWrapper(object):
             f"Received simulated devices: {self.simulated_devices_dict}"
         )
         if self.simulated_devices_dict["all_mocks"]:
-            LOGGER.info("Invoking commands with all Mocks")
+            LOGGER.info("Invoking TelescopeOn() with all Mocks")
             self.central_node.TelescopeOn()
-            self.set_values_with_all_mocks(DevState.ON, DishMode.STANDBY_FP)
+            self.set_subarraystate_and_dishmode_with_all_mocks(
+                DevState.ON, DishMode.STANDBY_FP
+            )
 
         elif self.simulated_devices_dict["csp_and_sdp"]:
-            LOGGER.info("Invoking command with csp and sdp simulated")
+            LOGGER.info("Invoking TelescopeOn() on simulated csp and sdp")
             self.central_node.TelescopeOn()
             self.set_value_with_csp_sdp_mocks(DevState.ON)
 
         elif self.simulated_devices_dict["csp_and_dish"]:
-            LOGGER.info("Invoking command with csp and Dish simulated")
+            LOGGER.info("Invoking TelescopeOn() on simulated csp and Dish")
             self.central_node.TelescopeOn()
             self.set_values_with_csp_dish_mocks(
                 DevState.ON, DishMode.STANDBY_FP
             )
 
         elif self.simulated_devices_dict["sdp_and_dish"]:
-            LOGGER.info("Invoking command with sdp and dish simulated")
+            LOGGER.info("Invoking TelescopeOn() on simulated sdp and dish")
             self.central_node.TelescopeOn()
             self.set_values_with_sdp_dish_mocks(
                 DevState.ON, DishMode.STANDBY_FP
             )
         else:
-            LOGGER.info("Invoke command with all real sub-systems")
+            LOGGER.info("Invoke TelescopeOn() on all real sub-systems")
             self.central_node.TelescopeOn()
 
     def set_standby(self):
@@ -137,31 +145,51 @@ class CentralNodeWrapper(object):
         """
         LOGGER.info("Putting Telescope in Standby state")
         if self.simulated_devices_dict["all_mocks"]:
-            LOGGER.info("Invoking commands with all Mocks")
+            LOGGER.info("Invoking TelescopeStandBy() with all Mocks")
             self.central_node.TelescopeStandBy()
-            self.set_values_with_all_mocks(DevState.STANDBY, DevState.STANDBY)
+            self.set_subarraystate_and_dishmode_with_all_mocks(
+                DevState.STANDBY, DevState.STANDBY
+            )
 
         elif self.simulated_devices_dict["csp_and_sdp"]:
-            LOGGER.info("Invoking command with csp and sdp simulated")
+            LOGGER.info("Invoking TelescopeStandBy() on simulated csp and sdp")
             self.central_node.TelescopeStandBy()
             self.set_value_with_csp_sdp_mocks(DevState.STANDBY)
 
         elif self.simulated_devices_dict["csp_and_dish"]:
-            LOGGER.info("Invoking command with csp and Dish simulated")
+            LOGGER.info(
+                "Invoking TelescopeStandBy() on simulated csp and Dish"
+            )
             self.central_node.TelescopeStandBy()
             self.set_values_with_csp_dish_mocks(
                 DevState.STANDBY, DevState.STANDBY
             )
 
         elif self.simulated_devices_dict["sdp_and_dish"]:
-            LOGGER.info("Invoking command with sdp and dish simulated")
+            LOGGER.info(
+                "Invoking TelescopeStandBy() on simulated sdp and dish"
+            )
             self.central_node.TelescopeStandBy()
             self.set_values_with_sdp_dish_mocks(
                 DevState.STANDBY, DevState.STANDBY
             )
         else:
-            LOGGER.info("Invoke command with all real sub-systems")
+            LOGGER.info("Invoke TelescopeStandBy() with all real sub-systems")
             self.central_node.TelescopeStandBy()
+
+    @sync_assign_resources(device_dict=device_dict)
+    def store_resources(self, assign_json: str):
+        """Invoke Assign Resource command on central Node
+        Args:
+            assign_json (str): Assign resource input json
+        """
+        input_json = json.loads(assign_json)
+        self.generate_eb_pb_ids(input_json)
+        result, message = self.central_node.AssignResources(
+            json.dumps(input_json)
+        )
+        LOGGER.info("Invoked AssignResources on CentralNode")
+        return result, message
 
     @sync_release_resources(device_dict=device_dict)
     def invoke_release_resources(self, input_string):
@@ -211,7 +239,9 @@ class CentralNodeWrapper(object):
         else:
             LOGGER.info("No devices to reset healthState")
 
-    def perform_action(self, command_name: str, input_json: str):
+    def perform_action(
+        self, command_name: str, input_json: str
+    ) -> Tuple[ResultCode, str]:
         """Execute provided command on centralnode
         Args:
             command_name (str): Name of command to execute
@@ -223,7 +253,9 @@ class CentralNodeWrapper(object):
         )
         return result, message
 
-    def set_values_with_all_mocks(self, subarray_state, dish_mode):
+    def set_subarraystate_and_dishmode_with_all_mocks(
+        self, subarray_state, dish_mode
+    ):
         """
         A method to set values on mock CSP, SDP and Dish devices.
         Args:
@@ -324,3 +356,43 @@ class CentralNodeWrapper(object):
                 ]
             ),
         }
+
+    def generate_id(self, id_pattern: str) -> str:
+        """
+        Generate a time-based unique id
+
+        :param id_pattern: the string pattern as to how the unique id should
+            be rendered.
+
+        :return: the id rendered according to the requested pattern
+        """
+        prefix, suffix = re.split(r"(?=\*)[\*-]*(?<=\*)", id_pattern)
+        id_pattern = re.findall(r"(?=\*)[\*-]*(?<=\*)", id_pattern)[0]
+        length = id_pattern.count("*")
+        assert length < ID_LENGTH
+        LOGGER.info(f"Invalid id pattern, exceeded the length to {length}")
+        timestamp = str(datetime.now().timestamp()).replace(".", "")
+        sections = id_pattern.split("-")
+        unique_id = ""
+        sections.reverse()
+        for section in sections:
+            section_length = len(section)
+            section_id = timestamp[-section_length:]
+            timestamp = timestamp[:-section_length]
+            if unique_id:
+                unique_id = f"{section_id}-{unique_id}"
+            else:
+                unique_id = section_id
+        return f"{prefix}{unique_id}{suffix}"
+
+    def generate_eb_pb_ids(self, input_json: str):
+        """
+        Method to generate different eb_id and pb_id
+
+        :param input_json:
+        """
+        input_json["sdp"]["execution_block"]["eb_id"] = self.generate_id(
+            "eb-mvp01-********-*****"
+        )
+        for pb in input_json["sdp"]["processing_blocks"]:
+            pb["pb_id"] = self.generate_id("pb-mvp01-********-*****")
