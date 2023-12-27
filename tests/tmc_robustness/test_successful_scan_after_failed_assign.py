@@ -30,7 +30,6 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
-@pytest.mark.skip(reason="Timeout issue")
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_failed_assigned.feature",
@@ -238,7 +237,6 @@ def teardown_the_tmc(json_factory):
     )
 
 
-@pytest.mark.skip(reason="Timeout issue")
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_failed_assigned.feature",
@@ -298,7 +296,6 @@ def send_assignresource_with_invalid_json3(json_factory):
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-@pytest.mark.skip(reason="Timeout issue")
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_assigning_unavailable_resources.feature",  # noqa: E501
@@ -346,7 +343,6 @@ def invalid_command_rejection_with_unavailable_resources(resources_list):
     assert pytest.command_result[0][0] == ResultCode.REJECTED
 
 
-@pytest.mark.skip(reason="Timeout issue")
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_assigning_unavailable_resources.feature",  # noqa: E501
@@ -359,7 +355,6 @@ def test_assign_resource_successive_invokation_with_unavailable_resources():
     """
 
 
-@pytest.mark.skip(reason="Timeout issue")
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_combination_of_failed_assign_resources.feature",  # noqa: E501
@@ -375,7 +370,6 @@ def test_assign_resource_with_combination():
     """
 
 
-@pytest.mark.skip(reason="Timeout issue")
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_combination_of_failed_assign_resources.feature",  # noqa: E501
