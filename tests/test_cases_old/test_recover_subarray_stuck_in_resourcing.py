@@ -254,8 +254,6 @@ def test_recover_subarray_stuck_in_resourcing_with_sdp_empty_with_abort(
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-# Is this test needed now?
-@pytest.mark.skip(reason="Random failures")
 @pytest.mark.SKA_mid
 def test_recover_subarray_stuck_in_resourcing_with_csp_empty_with_abort(
     json_factory, change_event_callbacks
