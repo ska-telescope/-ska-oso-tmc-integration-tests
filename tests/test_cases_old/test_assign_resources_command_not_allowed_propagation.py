@@ -1,5 +1,6 @@
 """Test cases for AssignResources Command not allowed
-    for mid"""
+    for mid
+"""
 from copy import deepcopy
 
 import pytest
