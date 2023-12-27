@@ -51,14 +51,17 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         }
 
         self.csp_master = DeviceProxy(csp_master)
-
-        if self.simulated_devices_dict["csp_and_sdp"]:
+       
+                                
+        if (self.simulated_devices_dict["csp_and_sdp"] and not
+            self.simulated_devices_dict['all_mocks'] ):
             dish_fqdn1 = REAL_DISH1_FQDN
             dish_fqdn2 = REAL_DISH2_FQDN
         else:
             dish_fqdn1 = dish_master1
             dish_fqdn2 = dish_master2
 
+       
         self.dish_master_list = [
             DeviceProxy(dish_fqdn1),
             DeviceProxy(dish_fqdn2),
