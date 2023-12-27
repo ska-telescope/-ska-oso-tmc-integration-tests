@@ -46,7 +46,7 @@ The documentation for this project, including how to get started with it,can be 
     After running above command dish lmc with dish Id 001 deployed in provided Kubernetes Namespace(i.e KUBE_NAMESPACE)
 
     To deploy multiple dishes provide multiple values to global.dishes. 
-    Example: `global.dishes={036,002,...}`
+    Example: `global.dishes={036,001,...}`
 
  * Uninstall dish lmc chart
     ```bash

@@ -28,6 +28,8 @@ global:
       image: ska-tango-images-tango-itango
       tag: 9.3.10
       pullPolicy: IfNotPresent
+  sdp:
+    processingNamespace: ska-tmc-integration-sdp
 
 ska-tango-base:
   enabled: true
@@ -35,7 +37,7 @@ ska-tango-base:
     replicas: 1
     enabled: false
   tangorest:
-    enabled: true
+    enabled: false
     replicas: 1
   tangodb:
     use_pv: false
@@ -83,24 +85,18 @@ ska-sdp:
       size: 20Gi
       storageClassName: nfss1
   ska-sdp-qa:
+    enabled: true
     kafka:
-      resources:
-        limits:
-          cpu: 750m
-          memory: 1024Mi
-        requests:
-          cpu: 250m
-          memory: 500Mi
-      livenessProbe:
-        initialDelaySeconds: 30
-        failureThreshold: 5
-      zookeeper:
-        resources:
-          requests:
-            cpu: 100m
+      enabled: false
+    config:
+      kafka:
+        overrideUrl: "ska-sdp-kafka:9092"
   ska-tango-base:
     enabled: false
+  kafka:
+    enabled: true
 
+ 
 # SKUID
 ska-ser-skuid:
   labels:

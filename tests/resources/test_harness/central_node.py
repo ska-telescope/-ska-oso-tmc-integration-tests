@@ -1,3 +1,4 @@
+import json
 import logging
 import os
 from typing import Tuple
@@ -7,16 +8,17 @@ from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
 
 from tests.resources.test_harness.constant import device_dict
+from tests.resources.test_harness.helpers import generate_eb_pb_ids
 from tests.resources.test_harness.utils.enums import DishMode
 from tests.resources.test_harness.utils.sync_decorators import (
     sync_abort,
+    sync_assign_resources,
     sync_release_resources,
     sync_restart,
 )
 from tests.resources.test_support.common_utils.common_helpers import Resource
 
 LOGGER = logging.getLogger(__name__)
-
 
 SDP_SIMULATION_ENABLED = os.getenv("SDP_SIMULATION_ENABLED")
 CSP_SIMULATION_ENABLED = os.getenv("CSP_SIMULATION_ENABLED")
@@ -196,6 +198,20 @@ class CentralNodeWrapper(BaseNodeWrapper):
         else:
             LOGGER.info("Invoke TelescopeStandBy() with all real sub-systems")
             self.central_node.TelescopeStandBy()
+
+    @sync_assign_resources(device_dict=device_dict)
+    def store_resources(self, assign_json: str):
+        """Invoke Assign Resource command on central Node
+        Args:
+            assign_json (str): Assign resource input json
+        """
+        input_json = json.loads(assign_json)
+        generate_eb_pb_ids(input_json)
+        result, message = self.central_node.AssignResources(
+            json.dumps(input_json)
+        )
+        LOGGER.info("Invoked AssignResources on CentralNode")
+        return result, message
 
     @sync_release_resources(device_dict=device_dict)
     def invoke_release_resources(self, input_string):
