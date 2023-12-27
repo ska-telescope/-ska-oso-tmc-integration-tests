@@ -82,3 +82,7 @@ def test_telescope_on():
     assert dish_master_63.dishMode.value == DishMode.STANDBY_LP
     # TODO: Add dish 100 once SKB-266 is resolved
     # assert dish_master_100.dishMode.value == DishMode.STANDBY_LP
+
+    LOGGER.info("Dish 1 dishMode: %s", dish_master_1.dishMode)
+    LOGGER.info("Dish 36 dishMode: %s", dish_master_36.dishMode)
+    LOGGER.info("Dish 63 dishMode: %s", dish_master_63.dishMode)
