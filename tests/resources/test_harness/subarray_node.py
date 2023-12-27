@@ -84,6 +84,10 @@ class SubarrayNodeWrapper(object):
             DeviceProxy(dish_master1),
             DeviceProxy(dish_master2),
         ]
+        self.subarray_devices = {
+            "csp_subarray": DeviceProxy(csp_subarray1),
+            "sdp_subarray": DeviceProxy(sdp_subarray1),
+        }
         self._state = DevState.OFF
         self.obs_state = SubarrayObsState.EMPTY
         # setup subarray
