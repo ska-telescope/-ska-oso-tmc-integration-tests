@@ -72,18 +72,20 @@ def check_subarray_obs_state(
         ObsState.IDLE,
     )
 
+
 @when(
-    parsers.parse(
-        "I configure with {scan_type} to the subarray {subarray_id}"
-    )
+    parsers.parse("I configure with {scan_type} to the subarray {subarray_id}")
 )
-def invoke_configure(subarray_node, scan_type, subarray_id, command_input_factory):
+def invoke_configure(
+    subarray_node, scan_type, subarray_id, command_input_factory
+):
     """A method to invoke Configure command"""
     input_json = prepare_json_args_for_commands(
-            "configure_mid", command_input_factory
-        )
+        "configure_mid", command_input_factory
+    )
     # subarray_node.force_change_of_obs_state("READY")
     subarray_node.execute_transition("Configure", argin=input_json)
+
 
 @then(parsers.parse("the SDP subarray {subarray_id} obsState is READY"))
 def check_sdp_subarray_in_ready(central_node_mid, event_recorder):
@@ -96,6 +98,7 @@ def check_sdp_subarray_in_ready(central_node_mid, event_recorder):
         "obsState",
         ObsState.READY,
     )
+
 
 @then(
     parsers.parse(
