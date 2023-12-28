@@ -61,6 +61,10 @@ def check_tmc_and_sdp_is_on(
         dish_master_sim_3,
     ) = get_master_device_simulators(simulator_factory)
 
+    event_recorder.subscribe_event(dish_master_sim_1, "dishMode")
+    event_recorder.subscribe_event(dish_master_sim_2, "dishMode")
+    event_recorder.subscribe_event(dish_master_sim_3, "dishMode")
+
     # check if dish devices are in initial states
     assert event_recorder.has_change_event_occurred(
         dish_master_sim_1,
@@ -105,9 +109,9 @@ def check_simulated_devices_states(simulator_factory, event_recorder):
     ) = get_master_device_simulators(simulator_factory)
 
     event_recorder.subscribe_event(csp_master_sim, "State")
-    event_recorder.subscribe_event(dish_master_sim_1, "dishMode")
-    event_recorder.subscribe_event(dish_master_sim_2, "dishMode")
-    event_recorder.subscribe_event(dish_master_sim_3, "dishMode")
+    # event_recorder.subscribe_event(dish_master_sim_1, "dishMode")
+    # event_recorder.subscribe_event(dish_master_sim_2, "dishMode")
+    # event_recorder.subscribe_event(dish_master_sim_3, "dishMode")
 
     assert event_recorder.has_change_event_occurred(
         csp_master_sim,

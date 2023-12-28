@@ -4,6 +4,7 @@ from pytest_bdd import given, scenario, then, when
 from tango import DevState
 
 from tests.resources.test_harness.helpers import get_master_device_simulators
+from tests.resources.test_harness.utils.enums import DishMode
 
 
 @pytest.mark.real_sdp
@@ -24,7 +25,7 @@ def test_tmc_sdp_startup_telescope():
 
 
 @given("a Telescope consisting of TMC, SDP, simulated CSP and simulated Dish")
-def given_a_tmc(central_node_mid, simulator_factory):
+def given_a_tmc(central_node_mid, simulator_factory, event_recorder):
     """
     Given a TMC
     """
@@ -43,6 +44,22 @@ def given_a_tmc(central_node_mid, simulator_factory):
     assert dish_master_sim_1.ping() > 0
     assert dish_master_sim_2.ping() > 0
     assert dish_master_sim_3.ping() > 0
+    # check if dish devices are in initial states
+    assert event_recorder.has_change_event_occurred(
+        dish_master_sim_1,
+        "dishMode",
+        DishMode.STANDBY_LP,
+    )
+    assert event_recorder.has_change_event_occurred(
+        dish_master_sim_2,
+        "dishMode",
+        DishMode.STANDBY_LP,
+    )
+    assert event_recorder.has_change_event_occurred(
+        dish_master_sim_3,
+        "dishMode",
+        DishMode.STANDBY_LP,
+    )
 
 
 @given("telescope state is OFF")
