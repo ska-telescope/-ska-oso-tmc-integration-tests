@@ -1,4 +1,6 @@
-"""Test module for TMC-CSP AssignResources functionality"""
+"""
+Test module for TMC-CSP AssignResources functionality
+"""
 import json
 
 import pytest
