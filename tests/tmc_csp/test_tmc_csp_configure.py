@@ -39,7 +39,6 @@ def test_tmc_csp_configure(
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
-    LOGGER.info("AssignResources JSON is: %s", assign_input_json)
     central_node_mid.perform_action("AssignResources", assign_input_json)
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
     assert event_recorder.has_change_event_occurred(
@@ -55,13 +54,21 @@ def test_tmc_csp_configure(
     configure_input_json = prepare_json_args_for_commands(
         "configure_mid", command_input_factory
     )
-    LOGGER.info("COnfigure JSON is: %s", configure_input_json)
-
     central_node_mid.subarray_node.Configure(configure_input_json)
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "obsState",
         ObsState.READY,
+        lookahead=20,
+    )
+    san_obsstate = central_node_mid.subarray_node.obsState
+    LOGGER.info("central_node_mid.subarray_node: %s", san_obsstate)
+
+    central_node_mid.subarray_node.End()
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.subarray_node,
+        "obsState",
+        ObsState.IDLE,
         lookahead=20,
     )
     san_obsstate = central_node_mid.subarray_node.obsState
