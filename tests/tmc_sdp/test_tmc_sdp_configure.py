@@ -1,4 +1,6 @@
 """Test module for TMC-SDP Configure functionality"""
+import json
+
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_tango_base.control_model import ObsState
@@ -83,8 +85,9 @@ def invoke_configure(
     input_json = prepare_json_args_for_commands(
         "configure_mid", command_input_factory
     )
-    # subarray_node.force_change_of_obs_state("READY")
-    subarray_node.execute_transition("Configure", argin=input_json)
+    input_json = json.loads(input_json)
+    input_json["sdp"]["scan_type"] = scan_type
+    subarray_node.execute_transition("Configure", argin=json.dumps(input_json))
 
 
 @then(parsers.parse("the SDP subarray {subarray_id} obsState is READY"))
@@ -97,6 +100,21 @@ def check_sdp_subarray_in_ready(subarray_node, event_recorder):
         subarray_node.subarray_devices["sdp_subarray"],
         "obsState",
         ObsState.READY,
+    )
+
+
+@then(
+    parsers.parse(
+        "SDP subarray scanType reflects correctly configured {scan_type}"
+    )
+)
+def check_sdp_subarray_scan_type(subarray_node, event_recorder, scan_type):
+    """A method to check SDP subarray obsstates"""
+    event_recorder.subscribe_event(
+        subarray_node.subarray_devices["sdp_subarray"], "scanType"
+    )
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_devices["sdp_subarray"], "scanType", scan_type
     )
 
 
