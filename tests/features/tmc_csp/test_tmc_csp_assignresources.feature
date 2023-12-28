@@ -8,4 +8,4 @@ Scenario: Assign resources to CSP subarray using TMC
     And correct resources <receptors> are assigned to TMC subarray <subarray_id>
     Examples:
     | subarray_id | receptors            |
-    | 1           | ('SKA001', 'SKA002') |
+    | 1           | 'SKA001', 'SKA002'   |

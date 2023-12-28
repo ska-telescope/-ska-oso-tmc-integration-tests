@@ -1,5 +1,4 @@
 """Test module for TMC-CSP AssignResources functionality"""
-import ast
 import json
 
 import pytest
@@ -53,7 +52,7 @@ def given_a_telescope_in_on_state(
 @given(parsers.parse("TMC subarray {subarray_id} is in EMPTY ObsState"))
 def subarray_in_empty_obsstate(central_node_mid, event_recorder, subarray_id):
     """Checks if SubarrayNode's obsState attribute value is EMPTY"""
-    central_node_mid.set_subarray_id(subarray_id)
+    central_node_mid.set_subarray_id(int(subarray_id))
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node, "obsState", ObsState.EMPTY
@@ -70,7 +69,7 @@ def invoke_assignresources(
 ):
     """Invokes AssignResources command on TMC"""
     assign_input = json.loads(central_node_mid.assign_input)
-    assign_input["subarray_id"] = subarray_id
+    assign_input["subarray_id"] = int(subarray_id)
     central_node_mid.perform_action(
         "AssignResources", json.dumps(assign_input)
     )
@@ -116,14 +115,25 @@ def tmc_subarray_idle(central_node_mid, event_recorder, subarray_id):
     )
 )
 def resources_assigned_to_subarray(
-    central_node_mid, event_recorder, receptors
+    central_node_mid, event_recorder, receptors, subarray_id
 ):
     """Checks if correct ressources are assigned to Subarray"""
+    if int(subarray_id) <= 9:
+        id = "{:02d}".format(subarray_id)
+        cbf_subarray = f"mid_csp_cbf/sub_elt/subarray_{id}"
+    else:
+        cbf_subarray = f"mid_csp_cbf/sub_elt/subarray_{subarray_id}"
+    event_recorder.subscribe_event(cbf_subarray, "assignedResources")
     event_recorder.subscribe_event(
         central_node_mid.subarray_node, "assignedResources"
     )
     assert event_recorder.has_change_event_occurred(
+        cbf_subarray,
+        "assignedResources",
+        receptors,
+    )
+    assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "assignedResources",
-        ast.literal_eval(receptors),  # casts string coded tuple to tuple
+        receptors,
     )

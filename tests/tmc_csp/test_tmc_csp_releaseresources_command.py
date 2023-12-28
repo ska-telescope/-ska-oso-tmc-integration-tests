@@ -52,9 +52,10 @@ def given_a_telescope_in_on_state(
 @given(parsers.parse("TMC subarray {subarray_id} is in IDLE ObsState"))
 def subarray_in_idle_obsstate(central_node_mid, event_recorder, subarray_id):
     """Checks if SubarrayNode's obsState attribute value is IDLE"""
+    central_node_mid.set_subarray_id(int(subarray_id))
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
     assign_input = json.loads(central_node_mid.assign_input)
-    assign_input["subarray_id"] = subarray_id
+    assign_input["subarray_id"] = int(subarray_id)
     central_node_mid.perform_action(
         "AssignResources", json.dumps(assign_input)
     )

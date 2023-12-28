@@ -69,16 +69,29 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
 
     def set_subarray_id(self, id):
         self.subarray_node = DeviceProxy(f"ska_mid/tm_subarray_node/{id}")
-        self.subarray_devices = {
-            "csp_subarray": DeviceProxy(f"mid-csp/subarray/0{id}"),
-            "sdp_subarray": DeviceProxy(f"mid-sdp/subarray/0{id}"),
-        }
-        self.csp_master_leaf_node = DeviceProxy(
-            f"ska_mid/tm_leaf_node/csp_subarray0{id}"
-        )
-        self.sdp_master_leaf_node = DeviceProxy(
-            f"ska_mid/tm_leaf_node/sdp_subarray0{id}"
-        )
+        if int(id) <= 9:
+            id = "{:02d}".format(id)
+            self.subarray_devices = {
+                "csp_subarray": DeviceProxy(f"mid-csp/subarray/{id}"),
+                "sdp_subarray": DeviceProxy(f"mid-sdp/subarray/{id}"),
+            }
+            self.csp_master_leaf_node = DeviceProxy(
+                f"ska_mid/tm_leaf_node/csp_subarray{id}"
+            )
+            self.sdp_master_leaf_node = DeviceProxy(
+                f"ska_mid/tm_leaf_node/sdp_subarray{id}"
+            )
+        else:
+            self.subarray_devices = {
+                "csp_subarray": DeviceProxy(f"mid-csp/subarray/{id}"),
+                "sdp_subarray": DeviceProxy(f"mid-sdp/subarray/{id}"),
+            }
+            self.csp_master_leaf_node = DeviceProxy(
+                f"ska_mid/tm_leaf_node/csp_subarray{id}"
+            )
+            self.sdp_master_leaf_node = DeviceProxy(
+                f"ska_mid/tm_leaf_node/sdp_subarray{id}"
+            )
 
     def _reset_health_state_for_mock_devices(self):
         """Reset Mock devices"""
