@@ -6,6 +6,8 @@ from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
 from tango import DevState
 
+from tests.resources.test_harness.helpers import wait_csp_master_off
+
 
 @pytest.mark.real_csp_mid
 @scenario(
@@ -27,6 +29,8 @@ def given_a_telescope_in_on_state(
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
     )
+    central_node_mid.csp_master.adminMode = 0
+    wait_csp_master_off()
     central_node_mid.move_to_on()
     event_recorder.subscribe_event(central_node_mid.csp_master, "State")
     event_recorder.subscribe_event(
@@ -89,11 +93,7 @@ def invoke_releaseresources(central_node_mid, event_recorder, subarray_id):
 )
 def csp_subarray_empty(central_node_mid, event_recorder, subarray_id):
     """Checks if Csp Subarray's obsState attribute value is EMPTY"""
-    csp_subarray = str(
-        central_node_mid.subarray_devices.get("csp_subarray")
-    ).split("/")
-    csp_subarray_instance = csp_subarray[-1][-2]
-    assert csp_subarray_instance == subarray_id
+    central_node_mid.set_subarray_id(int(subarray_id))
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_devices["csp_subarray"],
         "obsState",
@@ -108,9 +108,7 @@ def csp_subarray_empty(central_node_mid, event_recorder, subarray_id):
 )
 def tmc_subarray_empty(central_node_mid, event_recorder, subarray_id):
     """Checks if SubarrayNode's obsState attribute value is EMPTY"""
-    subarray = str(central_node_mid.subarray_node).split("/")
-    subarray_instance = subarray[-1][-2]
-    assert subarray_instance == subarray_id
+    central_node_mid.set_subarray_id(int(subarray_id))
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node, "obsState", ObsState.EMPTY
     )

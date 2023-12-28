@@ -8,10 +8,7 @@ from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
 
 from tests.resources.test_harness.constant import device_dict
-from tests.resources.test_harness.helpers import (
-    generate_eb_pb_ids,
-    wait_csp_master_off,
-)
+from tests.resources.test_harness.helpers import generate_eb_pb_ids
 from tests.resources.test_harness.utils.enums import DishMode
 from tests.resources.test_harness.utils.sync_decorators import (
     sync_abort,
@@ -154,8 +151,6 @@ class CentralNodeWrapper(BaseNodeWrapper):
 
         elif self.simulated_devices_dict["sdp_and_dish"]:
             LOGGER.info("Invoking TelescopeOn() on simulated sdp and dish")
-            self.csp_master.adminMode = 0
-            wait_csp_master_off()
             self.central_node.TelescopeOn()
             self.set_values_with_sdp_dish_mocks(
                 DevState.ON, DishMode.STANDBY_FP
