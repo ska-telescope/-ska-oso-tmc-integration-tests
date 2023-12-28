@@ -64,6 +64,15 @@ def move_dish_to_on(central_node_mid, event_recorder):
     event_recorder.subscribe_event(
         central_node_mid.dish_master_list[2], "dishMode"
     )
+    event_recorder.subscribe_event(
+        central_node_mid.central_node, "telescopeState"
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.central_node,
+        "telescopeState",
+        DevState.OFF,
+    )
+
     assert event_recorder.has_change_event_occurred(
         central_node_mid.dish_master_list[0],
         "dishMode",
@@ -106,10 +115,6 @@ def check_dish_is_on(central_node_mid, event_recorder):
 @then("telescope state is ON")
 def check_telescope_state(central_node_mid, event_recorder):
     """Method to check if TMC central node is ON"""
-
-    event_recorder.subscribe_event(
-        central_node_mid.central_node, "telescopeState"
-    )
 
     assert event_recorder.has_change_event_occurred(
         central_node_mid.sdp_master,
