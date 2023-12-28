@@ -46,8 +46,11 @@ def test_tmc_csp_configure(
         central_node_mid.subarray_node,
         "obsState",
         ObsState.IDLE,
-        lookahead=10,
+        lookahead=20,
     )
+
+    san_obsstate = central_node_mid.subarray_node.obsState
+    LOGGER.info("central_node_mid.subarray_node: %s", san_obsstate)
 
     configure_input_json = prepare_json_args_for_commands(
         "configure_mid", command_input_factory
@@ -59,5 +62,7 @@ def test_tmc_csp_configure(
         central_node_mid.subarray_node,
         "obsState",
         ObsState.READY,
-        lookahead=10,
+        lookahead=20,
     )
+    san_obsstate = central_node_mid.subarray_node.obsState
+    LOGGER.info("central_node_mid.subarray_node: %s", san_obsstate)
