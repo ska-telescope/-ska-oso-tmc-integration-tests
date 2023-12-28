@@ -118,8 +118,9 @@ def resources_assigned_to_subarray(
     central_node_mid, event_recorder, receptors, subarray_id
 ):
     """Checks if correct ressources are assigned to Subarray"""
-    if int(subarray_id) <= 9:
-        id = f"{subarray_id:02d}"
+    id = int(subarray_id)
+    if id <= 9:
+        id = f"{id:02d}"
         cbf_subarray = f"mid_csp_cbf/sub_elt/subarray_{id}"
     else:
         cbf_subarray = f"mid_csp_cbf/sub_elt/subarray_{subarray_id}"
