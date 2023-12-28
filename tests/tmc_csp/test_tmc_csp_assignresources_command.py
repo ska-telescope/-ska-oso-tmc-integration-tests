@@ -8,10 +8,7 @@ from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
 from tango import DevState
 
-from tests.resources.test_harness.helpers import (
-    check_assigned_resources,
-    wait_csp_master_off,
-)
+from tests.resources.test_harness.helpers import wait_csp_master_off
 
 
 @pytest.mark.real_csp_mid
@@ -122,6 +119,4 @@ def resources_assigned_to_subarray(
 ):
     """Checks if correct ressources are assigned to Subarray"""
     central_node_mid.set_subarray_id(int(subarray_id))
-    assert check_assigned_resources(
-        central_node_mid.subarray_node, (receptors)
-    )
+    assert central_node_mid.subarray_node.assignedResources == receptors
