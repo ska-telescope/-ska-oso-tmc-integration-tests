@@ -44,6 +44,10 @@ def given_a_tmc(central_node_mid, simulator_factory, event_recorder):
     assert dish_master_sim_1.ping() > 0
     assert dish_master_sim_2.ping() > 0
     assert dish_master_sim_3.ping() > 0
+
+    event_recorder.subscribe_event(dish_master_sim_1, "dishMode")
+    event_recorder.subscribe_event(dish_master_sim_2, "dishMode")
+    event_recorder.subscribe_event(dish_master_sim_3, "dishMode")
     # check if dish devices are in initial states
     assert event_recorder.has_change_event_occurred(
         dish_master_sim_1,
