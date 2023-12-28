@@ -14,6 +14,7 @@ from tests.resources.test_harness.constant import (
     device_dict,
     dish_master1,
     dish_master2,
+    dish_master3,
     sdp_master,
     sdp_subarray1,
     tmc_csp_master_leaf_node,
@@ -52,6 +53,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         self.dish_master_list = [
             DeviceProxy(dish_master1),
             DeviceProxy(dish_master2),
+            DeviceProxy(dish_master3),
         ]
         self._state = DevState.OFF
         self.json_factory = JsonFactory()
@@ -103,6 +105,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
                 sdp_subarray1,
                 dish_master1,
                 dish_master2,
+                dish_master3,
             ]:
                 device = DeviceProxy(sim_device)
                 device.ClearCommandCallInfo()

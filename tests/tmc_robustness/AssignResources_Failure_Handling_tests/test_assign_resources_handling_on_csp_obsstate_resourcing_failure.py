@@ -68,7 +68,7 @@ def given_tmc(central_node_mid, event_recorder):
 def given_tmc_subarray_assign_resources_is_in_progress(
     central_node_mid, event_recorder, simulator_factory, command_input_factory
 ):
-    csp_sim, sdp_sim, _, _ = get_device_simulators(simulator_factory)
+    csp_sim, sdp_sim, _, _, _ = get_device_simulators(simulator_factory)
     event_recorder.subscribe_event(csp_sim, "obsState")
     event_recorder.subscribe_event(sdp_sim, "obsState")
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
@@ -99,7 +99,7 @@ def given_tmc_subarray_assign_resources_is_in_progress(
 
 @given(parsers.parse("Sdp Subarray {subarray_id} completes assignResources"))
 def sdp_subarray_assign_resources_complete(event_recorder, simulator_factory):
-    _, sdp_sim, _, _ = get_device_simulators(simulator_factory)
+    _, sdp_sim, _, _, _ = get_device_simulators(simulator_factory)
     event_recorder.subscribe_event(sdp_sim, "obsState")
     assert event_recorder.has_change_event_occurred(
         sdp_sim,
@@ -157,7 +157,7 @@ def send_command_abort(central_node_mid):
 def subarray_transitions_to_aborted(
     central_node_mid, simulator_factory, event_recorder
 ):
-    csp_sim, sdp_sim, _, _ = get_device_simulators(simulator_factory)
+    csp_sim, sdp_sim, _, _, _ = get_device_simulators(simulator_factory)
     event_recorder.subscribe_event(csp_sim, "obsState")
     assert event_recorder.has_change_event_occurred(
         csp_sim,
@@ -196,7 +196,7 @@ def send_command_restart(central_node_mid):
 def subarray_transitions_to_empty(
     central_node_mid, simulator_factory, event_recorder
 ):
-    csp_sim, sdp_sim, _, _ = get_device_simulators(simulator_factory)
+    csp_sim, sdp_sim, _, _, _ = get_device_simulators(simulator_factory)
     event_recorder.subscribe_event(csp_sim, "obsState")
     assert event_recorder.has_change_event_occurred(
         csp_sim,

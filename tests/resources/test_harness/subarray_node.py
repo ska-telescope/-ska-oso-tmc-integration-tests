@@ -15,6 +15,7 @@ from tests.resources.test_harness.constant import (
     csp_subarray1,
     dish_master1,
     dish_master2,
+    dish_master3,
     sdp_master,
     sdp_queue_connector,
     sdp_subarray1,
@@ -59,7 +60,7 @@ device_dict = {
     "tmc_subarraynode": tmc_subarraynode1,
     "sdp_master": sdp_master,
     "centralnode": centralnode,
-    "dish_master_list": [dish_master1, dish_master2],
+    "dish_master_list": [dish_master1, dish_master2, dish_master3],
     "csp_subarray_leaf_node": tmc_csp_subarray_leaf_node,
     "sdp_subarray_leaf_node": tmc_sdp_subarray_leaf_node,
 }
@@ -83,6 +84,7 @@ class SubarrayNodeWrapper(object):
         self.dish_master_list = [
             DeviceProxy(dish_master1),
             DeviceProxy(dish_master2),
+            DeviceProxy(dish_master3),
         ]
         self._state = DevState.OFF
         self.obs_state = SubarrayObsState.EMPTY
@@ -253,6 +255,7 @@ class SubarrayNodeWrapper(object):
             self.csp_subarray1,
             dish_master1,
             dish_master2,
+            dish_master3,
         ]:
             device = DeviceProxy(sim_device)
             device.ClearCommandCallInfo()

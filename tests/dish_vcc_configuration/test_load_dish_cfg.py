@@ -99,7 +99,9 @@ def tmc_pass_configuration_to_csp_controller(simulator_factory):
     :param simulator_factory: fixture for creating simulator devices for
     mid Telescope respectively.
     """
-    csp_master_sim, _, _, _ = get_master_device_simulators(simulator_factory)
+    csp_master_sim, _, _, _, _ = get_master_device_simulators(
+        simulator_factory
+    )
     expected_sys_param = {
         "interface": "https://schema.skao.int"
         "/ska-mid-cbf-initial-parameters/2.2",
@@ -160,8 +162,12 @@ def validate_k_number_set(simulator_factory):
     :param simulator_factory: fixture for creating simulator devices for
     mid Telescope respectively.
     """
-    _, _, dish_master_1_sim, dish_master_2_sim = get_master_device_simulators(
-        simulator_factory
-    )
+    (
+        _,
+        _,
+        dish_master_1_sim,
+        dish_master_2_sim,
+        _,
+    ) = get_master_device_simulators(simulator_factory)
     assert dish_master_1_sim.kValue == 11
     assert dish_master_2_sim.kValue == 101
