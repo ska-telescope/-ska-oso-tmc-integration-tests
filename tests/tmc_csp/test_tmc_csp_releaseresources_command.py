@@ -6,7 +6,10 @@ from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
 from tango import DevState
 
-from tests.resources.test_harness.helpers import wait_csp_master_off
+from tests.resources.test_harness.helpers import (
+    prepare_json_args_for_centralnode_commands,
+    wait_csp_master_off,
+)
 
 
 @pytest.mark.real_csp_mid
@@ -54,11 +57,16 @@ def given_a_telescope_in_on_state(
 
 
 @given(parsers.parse("TMC subarray {subarray_id} is in IDLE ObsState"))
-def subarray_in_idle_obsstate(central_node_mid, event_recorder, subarray_id):
+def subarray_in_idle_obsstate(
+    central_node_mid, event_recorder, subarray_id, command_input_factory
+):
     """Checks if SubarrayNode's obsState attribute value is IDLE"""
     central_node_mid.set_subarray_id(int(subarray_id))
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
-    assign_input = json.loads(central_node_mid.assign_input)
+    assign_input_json = prepare_json_args_for_centralnode_commands(
+        "assign_resources_mid", command_input_factory
+    )
+    assign_input = json.loads(assign_input_json)
     assign_input["subarray_id"] = int(subarray_id)
     central_node_mid.perform_action(
         "AssignResources", json.dumps(assign_input)
@@ -81,9 +89,14 @@ def subarray_in_idle_obsstate(central_node_mid, event_recorder, subarray_id):
         "I release all resources assign to TMC subarray {subarray_id}"
     )
 )
-def invoke_releaseresources(central_node_mid, event_recorder, subarray_id):
+def invoke_releaseresources(
+    central_node_mid, event_recorder, subarray_id, command_input_factory
+):
     """Invokes ReleaseResources command on TMC"""
-    release_input = json.loads(central_node_mid.release_input)
+    release_input_json = prepare_json_args_for_centralnode_commands(
+        "release_resources_mid", command_input_factory
+    )
+    release_input = json.loads(release_input_json)
     release_input["subarray_id"] = int(subarray_id)
     central_node_mid.invoke_release_resources(json.dumps(release_input))
 

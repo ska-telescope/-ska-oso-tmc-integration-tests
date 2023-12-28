@@ -9,7 +9,10 @@ from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
 from tango import DevState
 
-from tests.resources.test_harness.helpers import wait_csp_master_off
+from tests.resources.test_harness.helpers import (
+    prepare_json_args_for_centralnode_commands,
+    wait_csp_master_off,
+)
 
 
 @pytest.mark.real_csp_mid
@@ -68,14 +71,21 @@ def subarray_in_empty_obsstate(central_node_mid, event_recorder, subarray_id):
 
 @when(
     parsers.parse(
-        "I assign resources with {receptors}to TMC subarray {subarray_id}"
+        "I assign resources with {receptors} to TMC subarray {subarray_id}"
     )
 )
 def invoke_assignresources(
-    central_node_mid, event_recorder, subarray_id, receptors
+    central_node_mid,
+    event_recorder,
+    subarray_id,
+    receptors,
+    command_input_factory,
 ):
     """Invokes AssignResources command on TMC"""
-    assign_input = json.loads(central_node_mid.assign_input)
+    assign_input_json = prepare_json_args_for_centralnode_commands(
+        "assign_resources_mid", command_input_factory
+    )
+    assign_input = json.loads(assign_input_json)
     assign_input["subarray_id"] = int(subarray_id)
     central_node_mid.perform_action(
         "AssignResources", json.dumps(assign_input)
