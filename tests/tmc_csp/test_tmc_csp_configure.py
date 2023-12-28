@@ -1,5 +1,6 @@
 """Test module to test TMC-CSP Configure functionality."""
 import logging
+import time
 
 import pytest
 from pytest_bdd import given, scenario, then, when
@@ -100,11 +101,13 @@ def check_if_tmc_subarray_moved_to_ready_obsstate(
         lookahead=20,
     )
     LOGGER.info("SUbarrayNode obsstate is READY")
+    LOGGER.info("Configure command invoked successfully")
 
 
 @then("CSP subarray leaf node 1 starts generating delay values")
 def check_if_delay_values_are_generating(central_node_mid):
     """Check id delay model is generating."""
     delay_value = central_node_mid.csp_subarray_leaf_node.delayModel
+    time.sleep(20)
     LOGGER.info("Delay_Values: %s", delay_value)
     assert False
