@@ -67,7 +67,9 @@ ON_OFF_DEVICE_COMMAND_DICT = {
     "csp_master": csp_master,
     "tmc_subarraynode": tmc_subarraynode1,
     "sdp_master": sdp_master,
-    "dish_master": dish_master1,
+    "dish_master1": dish_master1,
+    "dish_master2": dish_master2,
+    "dish_master3": dish_master3,
     "dish_master_list": [dish_master1, dish_master2, dish_master3],
     "central_node": centralnode,
 }
@@ -78,6 +80,8 @@ DEVICE_STATE_STANDBY_INFO = {
     csp_master: ["DISABLE", "STANDBY", "OFF"],
     csp_subarray1: ["DISABLE", "OFF"],
     dish_master1: ["DISABLE", "STANDBY"],
+    dish_master2: ["DISABLE", "STANDBY"],
+    dish_master3: ["DISABLE", "STANDBY"],
 }
 
 DEVICE_STATE_ON_INFO = {
@@ -87,6 +91,8 @@ DEVICE_STATE_ON_INFO = {
     csp_subarray1: ["ON"],
     centralnode: ["ON"],
     dish_master1: ["STANDBY"],
+    dish_master2: ["STANDBY"],
+    dish_master3: ["STANDBY"],
 }
 
 DEVICE_OBS_STATE_EMPTY_INFO = {
@@ -113,6 +119,8 @@ DEVICE_STATE_OFF_INFO = {
     csp_master: ["OFF"],
     csp_subarray1: ["OFF"],
     dish_master1: ["STANDBY"],
+    dish_master2: ["STANDBY"],
+    dish_master3: ["STANDBY"],
 }
 
 DEVICE_OBS_STATE_ABORT_INFO = {
