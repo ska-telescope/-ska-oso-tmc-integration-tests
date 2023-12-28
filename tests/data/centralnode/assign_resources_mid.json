@@ -205,20 +205,6 @@
       },
       "processing_blocks": [
         {
-          "pb_id": "pb-mvp01-20210623-00001",
-          "sbi_ids": [
-            "sbi-mvp01-20210623-00001"
-          ],
-          "script": {
-            "kind": "realtime",
-            "name": "test-realtime",
-            "version": "0.6.0"
-          },
-          "parameters": {
-            
-          }
-        },
-        {
           "pb_id": "pb-mvp01-20210623-00002",
           "script": {
             "kind": "realtime",
