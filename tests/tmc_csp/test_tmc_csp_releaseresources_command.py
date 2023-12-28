@@ -79,9 +79,9 @@ def subarray_in_idle_obsstate(central_node_mid, event_recorder, subarray_id):
 )
 def invoke_releaseresources(central_node_mid, event_recorder, subarray_id):
     """Invokes ReleaseResources command on TMC"""
-    release_input = central_node_mid.release_input
+    release_input = json.loads(central_node_mid.release_input)
     release_input["subarray_id"] = int(subarray_id)
-    central_node_mid.invoke_release_resources(release_input)
+    central_node_mid.invoke_release_resources(json.dumps(release_input))
 
 
 @then(

@@ -4,7 +4,7 @@ import json
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
-from tango import DevState
+from tango import DeviceProxy, DevState
 
 
 @pytest.mark.real_csp_mid
@@ -121,9 +121,11 @@ def resources_assigned_to_subarray(
     id = int(subarray_id)
     if id <= 9:
         id = f"{id:02d}"
-        cbf_subarray = f"mid_csp_cbf/sub_elt/subarray_{id}"
+        cbf_subarray = DeviceProxy(f"mid_csp_cbf/sub_elt/subarray_{id}")
     else:
-        cbf_subarray = f"mid_csp_cbf/sub_elt/subarray_{subarray_id}"
+        cbf_subarray = DeviceProxy(
+            f"mid_csp_cbf/sub_elt/subarray_{subarray_id}"
+        )
     event_recorder.subscribe_event(cbf_subarray, "assignedResources")
     event_recorder.subscribe_event(
         central_node_mid.subarray_node, "assignedResources"
