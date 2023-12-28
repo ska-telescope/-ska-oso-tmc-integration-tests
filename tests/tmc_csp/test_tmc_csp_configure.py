@@ -42,6 +42,7 @@ def check_telescope_is_in_on_state(central_node_mid, event_recorder):
         DevState.ON,
         lookahead=15,
     )
+    LOGGER.info("On command invoked successfully")
 
 
 @given("TMC subarray in ObsState IDLE")
@@ -60,6 +61,7 @@ def move_subarray_node_to_idle_obsstate(
         ObsState.IDLE,
         lookahead=20,
     )
+    LOGGER.info("AssignResources command invoked successfully")
 
 
 @when("I issue the Configure command to the TMC subarray 1")
@@ -97,6 +99,7 @@ def check_if_tmc_subarray_moved_to_ready_obsstate(
         ObsState.READY,
         lookahead=20,
     )
+    LOGGER.info("SUbarrayNode obsstate is READY")
 
 
 @then("CSP subarray leaf node 1 starts generating delay values")
@@ -104,3 +107,4 @@ def check_if_delay_values_are_generating(central_node_mid):
     """Check id delay model is generating."""
     delay_value = central_node_mid.csp_subarray_leaf_node.delayModel
     LOGGER.info("Delay_Values: %s", delay_value)
+    assert False
