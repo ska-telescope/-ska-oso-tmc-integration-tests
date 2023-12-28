@@ -112,7 +112,7 @@ def sdp_subarray_assign_resources_complete(event_recorder, simulator_factory):
     parsers.parse("Csp Subarray {subarray_id} is stuck in obsState RESOURCING")
 )
 def csp_subarray_stuck_in_resourcing(event_recorder, simulator_factory):
-    csp_sim, _, _, _ = get_device_simulators(simulator_factory)
+    csp_sim, _, _, _, _ = get_device_simulators(simulator_factory)
     event_recorder.subscribe_event(csp_sim, "obsState")
     assert event_recorder.has_change_event_occurred(
         csp_sim,
@@ -135,7 +135,7 @@ def given_tmc_subarray_stuck_resourcing(
     )
     assert central_node_mid.subarray_node.obsState == ObsState.RESOURCING
 
-    csp_sim, _, _, _ = get_device_simulators(simulator_factory)
+    csp_sim, _, _, _, _ = get_device_simulators(simulator_factory)
     csp_sim.SetDefective(json.dumps({"enabled": False}))
 
 
