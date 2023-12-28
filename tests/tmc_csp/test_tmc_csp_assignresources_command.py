@@ -1,6 +1,7 @@
 """
 Test module for TMC-CSP AssignResources functionality
 """
+import ast
 import json
 
 import pytest
@@ -119,4 +120,11 @@ def resources_assigned_to_subarray(
 ):
     """Checks if correct ressources are assigned to Subarray"""
     central_node_mid.set_subarray_id(int(subarray_id))
-    assert central_node_mid.subarray_node.assignedResources == receptors
+    event_recorder.subscribe_event(
+        central_node_mid.subarray_node, "assignedResources"
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.subarray_node,
+        "assignedResources",
+        ast.literal_eval(receptors),  # casts string coded tuple to tuple
+    )
