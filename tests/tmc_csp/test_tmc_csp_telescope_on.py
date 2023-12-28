@@ -6,7 +6,6 @@ from tango import DevState
 from tests.resources.test_harness.helpers import get_master_device_simulators
 
 
-@pytest.mark.skip(reason="Disabled to test only configure fun")
 @pytest.mark.real_csp_mid
 @scenario(
     "../features/tmc_csp/tmc_csp_on.feature",
