@@ -205,14 +205,14 @@
       },
       "processing_blocks": [
         {
-          "pb_id": "pb-mvp01-20210623-00002",
+          "pb_id": "pb-mvp01-20210623-00000",
           "script": {
             "kind": "realtime",
             "name": "test-receive-addresses",
             "version": "0.7.1"
           },
           "sbi_ids": [
-            "sbi-mvp01-20220916-00002"
+            "sbi-mvp01-20210623-00000"
           ],
           "parameters": {
             

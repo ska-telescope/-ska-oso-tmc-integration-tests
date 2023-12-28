@@ -88,13 +88,13 @@ def invoke_configure(
 
 
 @then(parsers.parse("the SDP subarray {subarray_id} obsState is READY"))
-def check_sdp_subarray_in_ready(central_node_mid, event_recorder):
+def check_sdp_subarray_in_ready(subarray_node, event_recorder):
     """A method to check SDP subarray obsstates"""
     event_recorder.subscribe_event(
-        central_node_mid.subarray_devices["sdp_subarray"], "obsState"
+        subarray_node.subarray_devices["sdp_subarray"], "obsState"
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_devices["sdp_subarray"],
+        subarray_node.subarray_devices["sdp_subarray"],
         "obsState",
         ObsState.READY,
     )
@@ -105,7 +105,7 @@ def check_sdp_subarray_in_ready(central_node_mid, event_recorder):
         "the TMC subarray {subarray_id} obsState is transitioned to READY"
     )
 )
-def check_telescope_state(subarray_node, event_recorder):
+def check_tmc_subarray_obs_state(subarray_node, event_recorder):
     """A method to check TMC subarray obsstates"""
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
     assert event_recorder.has_change_event_occurred(

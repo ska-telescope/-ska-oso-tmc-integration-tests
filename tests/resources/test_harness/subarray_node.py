@@ -26,6 +26,7 @@ from tests.resources.test_harness.constant import (
 )
 from tests.resources.test_harness.helpers import (
     check_subarray_obs_state,
+    get_simulated_devices_info,
     prepare_json_args_for_commands,
 )
 from tests.resources.test_harness.utils.constant import (
@@ -99,6 +100,7 @@ class SubarrayNodeWrapper(object):
         self.ABORTED_OBS_STATE = ABORTED
         self.csp_subarray1 = csp_subarray1
         self.sdp_subarray1 = sdp_subarray1
+        self.simulated_devices_dict = get_simulated_devices_info()
 
     def _setup(self):
         """ """
@@ -236,7 +238,16 @@ class SubarrayNodeWrapper(object):
 
     def _reset_simulator_devices(self):
         """Reset Simulator devices to it's original state"""
-        for sim_device_fqdn in [self.sdp_subarray1, self.csp_subarray1]:
+        if (
+            self.simulated_devices_dict["csp_and_sdp"]
+            or self.simulated_devices_dict["all_mocks"]
+        ):
+            sim_device_fqdn_list = [self.sdp_subarray1, self.csp_subarray1]
+        elif self.simulated_devices_dict["csp_and_dish"]:
+            sim_device_fqdn_list = [self.csp_subarray1]
+        elif self.simulated_devices_dict["sdp_and_dish"]:
+            sim_device_fqdn_list = [self.sdp_subarray1]
+        for sim_device_fqdn in sim_device_fqdn_list:
             device = DeviceProxy(sim_device_fqdn)
             device.ResetDelay()
             device.SetDirectHealthState(HealthState.UNKNOWN)
@@ -244,24 +255,61 @@ class SubarrayNodeWrapper(object):
 
     def _reset_dishes(self):
         """Reset Dish Devices"""
-        for dish_master in self.dish_master_list:
-            dish_master.SetDirectDishMode(DishMode.STANDBY_LP)
-            dish_master.SetDirectState(DevState.STANDBY)
-            dish_master.ResetDelay()
-            dish_master.SetDirectHealthState(HealthState.UNKNOWN)
+        if (
+            self.simulated_devices_dict["csp_and_dish"]
+            or self.simulated_devices_dict["csp_and_dish"]
+            or self.simulated_devices_dict["all_mocks"]
+        ):
+            for dish_master in self.dish_master_list:
+                dish_master.SetDirectDishMode(DishMode.STANDBY_LP)
+                dish_master.SetDirectState(DevState.STANDBY)
+                dish_master.ResetDelay()
+                dish_master.SetDirectHealthState(HealthState.UNKNOWN)
 
     def _clear_command_call_and_transition_data(self, clear_transition=False):
         """Clears the command call data"""
-        for sim_device in [
-            self.sdp_subarray1,
-            self.csp_subarray1,
-            dish_master1,
-            dish_master2,
-        ]:
-            device = DeviceProxy(sim_device)
-            device.ClearCommandCallInfo()
-            if clear_transition:
-                device.ResetTransitions()
+        if self.simulated_devices_dict["csp_and_sdp"]:
+            for sim_device in [
+                self.sdp_subarray1,
+                self.csp_subarray1,
+            ]:
+                device = DeviceProxy(sim_device)
+                device.ClearCommandCallInfo()
+                if clear_transition:
+                    device.ResetTransitions()
+        elif self.simulated_devices_dict["csp_and_dish"]:
+            for sim_device in [
+                self.csp_subarray1,
+                dish_master1,
+                dish_master2,
+            ]:
+                device = DeviceProxy(sim_device)
+                device.ClearCommandCallInfo()
+                if clear_transition:
+                    device.ResetTransitions()
+        elif self.simulated_devices_dict["sdp_and_dish"]:
+            for sim_device in [
+                self.sdp_subarray1,
+                dish_master1,
+                dish_master2,
+            ]:
+                device = DeviceProxy(sim_device)
+                device.ClearCommandCallInfo()
+                if clear_transition:
+                    device.ResetTransitions()
+        elif self.simulated_devices_dict["all_mocks"]:
+            for sim_device in [
+                self.sdp_subarray1,
+                self.csp_subarray1,
+                dish_master1,
+                dish_master2,
+            ]:
+                device = DeviceProxy(sim_device)
+                device.ClearCommandCallInfo()
+                if clear_transition:
+                    device.ResetTransitions()
+        else:
+            LOGGER.info("Devices deployed are real")
 
     def tear_down(self, event_recorder):
         """Tear down after each test run"""
