@@ -119,7 +119,7 @@ def resources_assigned_to_subarray(
 ):
     """Checks if correct ressources are assigned to Subarray"""
     if int(subarray_id) <= 9:
-        id = "{:02d}".format(subarray_id)
+        id = f"{subarray_id:02d}"
         cbf_subarray = f"mid_csp_cbf/sub_elt/subarray_{id}"
     else:
         cbf_subarray = f"mid_csp_cbf/sub_elt/subarray_{subarray_id}"
