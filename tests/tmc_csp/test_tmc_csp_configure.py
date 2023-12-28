@@ -13,6 +13,7 @@ from tests.resources.test_harness.helpers import (
 LOGGER = logging.getLogger(__name__)
 
 
+@pytest.mark.repeat(10)
 @pytest.mark.real_csp_mid
 def test_tmc_csp_configure(
     central_node_mid,
