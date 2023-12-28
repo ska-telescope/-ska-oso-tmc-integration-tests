@@ -16,9 +16,10 @@ from tests.resources.test_harness.utils.common_utils import JsonFactory
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_harness.utils.wait_helpers import Waiter, watch
 from tests.resources.test_support.common_utils.common_helpers import Resource
-from tests.resources.test_support.constant import (
-    dish_master3,  # add dish 4 when SB-266 is resolved
-)
+
+# from tests.resources.test_support.constant import (
+#     dish_master3,  # add dish 4 when SB-266 is resolved
+# )
 from tests.resources.test_support.constant import (
     csp_subarray1,
     dish_master1,
@@ -60,7 +61,7 @@ def check_subarray_obs_state(obs_state=None, timeout=50):
         device_dict["dish_master_list"] = [
             dish_master1,
             dish_master2,
-            dish_master3,
+            # dish_master3,
         ]
     the_waiter = Waiter(**device_dict)
     the_waiter.set_wait_for_obs_state(obs_state=obs_state)
