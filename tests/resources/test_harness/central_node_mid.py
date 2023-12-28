@@ -29,6 +29,8 @@ configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
 
 SDP_SIMULATION_ENABLED = os.getenv("SDP_SIMULATION_ENABLED")
+REAL_DISH1_FQDN = os.getenv("DISH_NAME_1")
+REAL_DISH2_FQDN = os.getenv("DISH_NAME_2")
 
 
 class CentralNodeWrapperMid(CentralNodeWrapper):
@@ -49,10 +51,22 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         }
 
         self.csp_master = DeviceProxy(csp_master)
+
+        if (
+            self.simulated_devices_dict["csp_and_sdp"]
+            and not self.simulated_devices_dict["all_mocks"]
+        ):
+            dish_fqdn1 = REAL_DISH1_FQDN
+            dish_fqdn2 = REAL_DISH2_FQDN
+        else:
+            dish_fqdn1 = dish_master1
+            dish_fqdn2 = dish_master2
+
         self.dish_master_list = [
-            DeviceProxy(dish_master1),
-            DeviceProxy(dish_master2),
+            DeviceProxy(dish_fqdn1),
+            DeviceProxy(dish_fqdn2),
         ]
+
         self._state = DevState.OFF
         self.json_factory = JsonFactory()
         self.assign_input = self.json_factory.create_centralnode_configuration(
@@ -115,13 +129,18 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         """Reset sysParam and sourceSysParam attribute of csp master
         reset kValue of Dish master
         """
-        for mock_device in self.dish_master_list:
-            mock_device.SetKValue(0)
+        if (
+            self.simulated_devices_dict["csp_and_dish"]
+            or self.simulated_devices_dict["all_mocks"]
+        ):
+            for mock_device in self.dish_master_list:
+                mock_device.SetKValue(0)
 
         if (
             self.simulated_devices_dict["csp_and_dish"]
             or self.simulated_devices_dict["all_mocks"]
         ):
+
             self.csp_master.ResetSysParams()
 
     def _clear_command_call_and_transition_data(self, clear_transition=False):
