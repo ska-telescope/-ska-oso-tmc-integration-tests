@@ -1,6 +1,4 @@
 """Test module for TMC-SDP Configure functionality"""
-import json
-
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_tango_base.control_model import ObsState

@@ -1,6 +1,5 @@
 import json
 import logging
-import os
 from typing import Tuple
 
 from ska_control_model import ResultCode

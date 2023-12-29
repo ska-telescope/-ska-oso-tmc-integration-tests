@@ -22,9 +22,6 @@ from tests.resources.test_harness.constant import (
 )
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 from tests.resources.test_harness.utils.enums import DishMode
-from tests.resources.test_harness.utils.obs_state_resetter import (
-    ObsStateResetterFactory,
-)
 from tests.resources.test_harness.utils.sync_decorators import sync_set_to_off
 from tests.resources.test_harness.utils.wait_helpers import Waiter
 
