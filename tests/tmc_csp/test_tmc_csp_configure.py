@@ -47,14 +47,13 @@ def check_telescope_is_in_on_state(central_node_mid, event_recorder):
         DevState.ON,
         lookahead=15,
     )
-    LOGGER.info("On command invoked successfully")
 
 
 @given(parsers.parse("TMC subarray {subarray_id} in ObsState IDLE"))
 def move_subarray_node_to_idle_obsstate(
     central_node_mid, event_recorder, command_input_factory, subarray_id
 ):
-    """Ensure TMC Subarray in IDLE obsstate."""
+    """Move TMC Subarray to IDLE obsstate."""
     central_node_mid.set_subarray_id(subarray_id)
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
@@ -73,7 +72,6 @@ def move_subarray_node_to_idle_obsstate(
         ObsState.IDLE,
         lookahead=20,
     )
-    LOGGER.info("AssignResources command invoked successfully")
 
 
 @when(
@@ -106,7 +104,6 @@ def check_if_csp_subarray_moved_to_ready_obsstate(
         "obsState",
         ObsState.READY,
     )
-    LOGGER.info("CSP moved to READY")
 
 
 @then(
@@ -124,8 +121,6 @@ def check_if_tmc_subarray_moved_to_ready_obsstate(
         ObsState.READY,
         lookahead=20,
     )
-    LOGGER.info("SubarrayNode obsstate is READY")
-    LOGGER.info("Configure command invoked successfully")
 
 
 @then(
@@ -144,96 +139,12 @@ def check_if_delay_values_are_generating(
         time.sleep(1)
 
     delay_model_json = central_node_mid.csp_subarray_leaf_node.delayModel
-    LOGGER.info("Type of delay model json: %s", type(delay_model_json))
-    LOGGER.info("Delay_Model_Json: %s", delay_model_json)
     delay_model_schema = prepare_schema_for_attribute_or_command(
         "delay_model_schema", command_input_factory
     )
-    LOGGER.info("Delay Model schema: %s", delay_model_schema)
-    LOGGER.info("Type of schema: %s", type(delay_model_schema))
 
     try:
+        # Validate delay model json
         validate(json.loads(delay_model_json), json.loads(delay_model_schema))
     except Exception as e:
         LOGGER.exception(e)
-
-
-DELAY_MODEL_SCHEMA = {
-    "$schema": "https://json-schema.org/draft/2019-09/schema",
-    "$id": "https://schema.skao.int/csp-subarray-leaf-node-delaymodel/1.0",
-    "title": "CspSubarrayLeafNode delayModel schema",
-    "description": "Schema for CspSubarrayLeafNode's delayModel attribute",
-    "type": "object",
-    "required": ["delay_model"],
-    "properties": {
-        "delay_model": {
-            "title": "The delay_model Schema",
-            "description": "delayModel details",
-            "type": "array",
-            "items": {
-                "title": "A Schema",
-                "description": "An explanation",
-                "type": "object",
-                "required": ["epoch", "validity_period", "delay_details"],
-                "properties": {
-                    "epoch": {
-                        "title": "The epoch Schema",
-                        "description": "An explanation ",
-                        "type": "string",
-                    },
-                    "validity_period": {
-                        "title": "The validity_period Schema",
-                        "description": "An explanation",
-                        "type": "integer",
-                    },
-                    "delay_details": {
-                        "title": "The delay_details Schema",
-                        "description": "An explanation",
-                        "type": "array",
-                        "items": {
-                            "title": "A Schema",
-                            "description": "An explanation",
-                            "type": "object",
-                            "required": ["receptor", "poly_info"],
-                            "properties": {
-                                "receptor": {
-                                    "title": "The receptor Schema",
-                                    "description": "An explanation",
-                                    "type": "string",
-                                },
-                                "poly_info": {
-                                    "title": "The poly_info Schema",
-                                    "description": "An explanation",
-                                    "type": "array",
-                                    "items": {
-                                        "title": "A Schema",
-                                        "description": "An explanation",
-                                        "type": "object",
-                                        "required": ["polarization", "coeffs"],
-                                        "properties": {
-                                            "polarization": {
-                                                "title": "polarizationSchema",
-                                                "description": "The",
-                                                "type": "string",
-                                            },
-                                            "coeffs": {
-                                                "title": "The coeffs Schema",
-                                                "description": "The",
-                                                "type": "array",
-                                                "items": {
-                                                    "title": "A Schema",
-                                                    "description": "The",
-                                                    "type": "number",
-                                                },
-                                            },
-                                        },
-                                    },
-                                },
-                            },
-                        },
-                    },
-                },
-            },
-        }
-    },
-}
