@@ -144,17 +144,15 @@ def check_if_delay_values_are_generating(
         time.sleep(1)
 
     delay_model_json = central_node_mid.csp_subarray_leaf_node.delayModel
-    LOGGER.info("-----------------------------------------")
+    LOGGER.info("Type of delay model json: %s", type(delay_model_json))
     LOGGER.info("Delay_Model_Json: %s", delay_model_json)
-    LOGGER.info("-----------------------------------------")
     delay_model_schema = prepare_schema_for_attribute_or_command(
         "delay_model_schema", command_input_factory
     )
-    LOGGER.info("-----------------------------------------")
     LOGGER.info("Delay Model schema: %s", delay_model_schema)
-    LOGGER.info("-----------------------------------------")
+    LOGGER.info("Type of schema: %s", type(delay_model_schema))
 
     try:
-        validate(delay_model_json, delay_model_schema)
+        validate(json.loads(delay_model_json), delay_model_schema)
     except Exception as e:
         LOGGER.exception(e)

@@ -1,24 +1,21 @@
 {
     "$schema": "https://json-schema.org/draft/2019-09/schema",
-    "$id": "http://example.com/example.json",
-    "title": "Root Schema",
-    "description": "The root schema is the schema that comprises the entire JSON document.",
+    "$id": "https://schema.skao.int/csp-subarray-leaf-node-delaymodel/1.0",
+    "title": "CspSubarrayLeafNode delayModel schema",
+    "description": "Schema for CspSubarrayLeafNode's delayModel attribute",
     "type": "object",
-    "default": {},
     "required": [
         "delay_model"
     ],
     "properties": {
         "delay_model": {
             "title": "The delay_model Schema",
-            "description": "An explanation about the purpose of this instance.",
+            "description": "delayModel details",
             "type": "array",
-            "default": [],
             "items": {
                 "title": "A Schema",
                 "description": "An explanation about the purpose of this instance.",
                 "type": "object",
-                "default": {},
                 "required": [
                     "epoch",
                     "validity_period",
@@ -28,20 +25,17 @@
                     "epoch": {
                         "title": "The epoch Schema",
                         "description": "An explanation about the purpose of this instance.",
-                        "type": "string",
-                        "default": ""
+                        "type": "string"
                     },
                     "validity_period": {
                         "title": "The validity_period Schema",
                         "description": "An explanation about the purpose of this instance.",
-                        "type": "integer",
-                        "default": 0
+                        "type": "integer"
                     },
                     "delay_details": {
                         "title": "The delay_details Schema",
                         "description": "An explanation about the purpose of this instance.",
                         "type": "array",
-                        "default": [],
                         "items": {
                             "title": "A Schema",
                             "description": "An explanation about the purpose of this instance.",
