@@ -107,6 +107,12 @@ DEVICE_OBS_STATE_READY_INFO = {
     csp_subarray1: ["READY"],
 }
 
+DEVICE_OBS_STATE_CONFIGURING_INFO = {
+    sdp_subarray1: ["CONFIGURING"],
+    tmc_subarraynode1: ["CONFIGURING"],
+    csp_subarray1: ["CONFIGURING"],
+}
+
 DEVICE_OBS_STATE_IDLE_INFO = {
     sdp_subarray1: ["IDLE"],
     tmc_subarraynode1: ["IDLE"],

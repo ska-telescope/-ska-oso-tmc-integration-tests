@@ -179,8 +179,10 @@ def sync_configure():
             the_waiter = Waiter(**kwargs)
             if Resource(kwargs.get("tmc_subarraynode")) == "READY":
                 invoked_from_ready = True
+            LOGGER.info("invoked_from_ready flag: %s", invoked_from_ready)
             result = func(*args, **kwargs)
             set_wait_for_obsstate = kwargs.get("set_wait_for_obsstate", True)
+            LOGGER.info("set_wait_for_obsstate: %s", set_wait_for_obsstate)
             if set_wait_for_obsstate:
                 if invoked_from_ready:
                     the_waiter.set_wait_for_configuring()
