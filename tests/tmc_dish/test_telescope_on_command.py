@@ -10,7 +10,7 @@ from tests.resources.test_support.enum import DishMode
 
 @pytest.mark.real_dish
 @scenario(
-    "../features/check_on_command_on_real_dish.feature",
+    "../features/tmc_dish/check_on_command_on_real_dish.feature",
     "Start up Telescope with TMC and DISH devices",
 )
 def test_tmc_dish_startup_telescope():
