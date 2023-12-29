@@ -141,3 +141,4 @@ def check_if_delay_values_are_generating(central_node_mid):
 
     delay_model_json = central_node_mid.csp_subarray_leaf_node.delayModel
     LOGGER.info("DelayModel: %s", delay_model_json)
+    assert False
