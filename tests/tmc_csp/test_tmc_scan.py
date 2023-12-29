@@ -98,7 +98,7 @@ def subarray_in_ready_obsstate(
 
 
 @when(
-    parsers.parse("I issue the scan command to the TMC subarray <subarray_id>")
+    parsers.parse("I issue the scan command to the TMC subarray {subarray_id}")
 )
 def invoke_scan(
     central_node_mid, event_recorder, subarray_id, command_input_factory
