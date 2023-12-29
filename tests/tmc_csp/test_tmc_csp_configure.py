@@ -153,7 +153,7 @@ def check_if_delay_values_are_generating(
     LOGGER.info("Type of schema: %s", type(delay_model_schema))
 
     try:
-        validate(json.loads(delay_model_json), DELAY_MODEL_SCHEMA)
+        validate(json.loads(delay_model_json), json.loads(delay_model_schema))
     except Exception as e:
         LOGGER.exception(e)
 
