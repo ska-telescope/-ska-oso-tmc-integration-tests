@@ -11,13 +11,9 @@ from ska_tango_base.commands import ResultCode
 from ska_tango_base.control_model import HealthState
 from ska_tango_testing.mock.placeholders import Anything
 
-from tests.resources.test_harness.simulator_factory import SimulatorFactory
-from tests.resources.test_harness.utils.common_utils import JsonFactory
-from tests.resources.test_harness.utils.enums import SimulatorDeviceType
-from tests.resources.test_harness.utils.wait_helpers import Waiter, watch
-from tests.resources.test_support.common_utils.common_helpers import Resource
-from tests.resources.test_support.constant import (
+from tests.resources.test_harness.constant import (
     csp_subarray1,
+    device_dict,
     dish_master1,
     dish_master2,
     sdp_subarray1,
@@ -25,6 +21,11 @@ from tests.resources.test_support.constant import (
     tmc_sdp_subarray_leaf_node,
     tmc_subarraynode1,
 )
+from tests.resources.test_harness.simulator_factory import SimulatorFactory
+from tests.resources.test_harness.utils.common_utils import JsonFactory
+from tests.resources.test_harness.utils.enums import SimulatorDeviceType
+from tests.resources.test_harness.utils.wait_helpers import Waiter, watch
+from tests.resources.test_support.common_utils.common_helpers import Resource
 
 configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
@@ -448,3 +449,9 @@ def check_subarray_instance(device, subarray_id):
     subarray = str(device).split("/")
     subarray_instance = subarray[-1][-2]
     assert subarray_instance == subarray_id
+
+
+def wait_csp_master_off():
+    wait = Waiter(**device_dict)
+    wait.set_wait_for_csp_master_to_become_off()
+    wait.wait(500)
