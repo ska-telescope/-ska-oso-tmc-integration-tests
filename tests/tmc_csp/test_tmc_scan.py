@@ -14,7 +14,7 @@ from tests.resources.test_harness.helpers import (
 
 @pytest.mark.real_csp_mid
 @scenario(
-    "../features/tmc_csp/test_tmc_csp_scan.feature",
+    "../features/tmc_csp/tmc_csp_scan.feature",
     "StartUp Telescope with TMC and CSP devices",
 )
 def test_scan_command():
