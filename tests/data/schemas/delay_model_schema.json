@@ -1,0 +1,91 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "https://schema.skao.int/csp-subarray-leaf-node-delaymodel/1.0",
+    "title": "CspSubarrayLeafNode delayModel schema",
+    "description": "Schema for CspSubarrayLeafNode's delayModel attribute",
+    "type": "object",
+    "required": [
+        "delay_model"
+    ],
+    "properties": {
+        "delay_model": {
+            "title": "The delay_model Schema",
+            "description": "delayModel details",
+            "type": "array",
+            "items": {
+                "title": "A Schema",
+                "description": "An explanation about the purpose of this instance.",
+                "type": "object",
+                "required": [
+                    "epoch",
+                    "validity_period",
+                    "delay_details"
+                ],
+                "properties": {
+                    "epoch": {
+                        "title": "The epoch Schema",
+                        "description": "An explanation about the purpose of this instance.",
+                        "type": "string"
+                    },
+                    "validity_period": {
+                        "title": "The validity_period Schema",
+                        "description": "An explanation about the purpose of this instance.",
+                        "type": "integer"
+                    },
+                    "delay_details": {
+                        "title": "The delay_details Schema",
+                        "description": "An explanation about the purpose of this instance.",
+                        "type": "array",
+                        "items": {
+                            "title": "A Schema",
+                            "description": "An explanation about the purpose of this instance.",
+                            "type": "object",
+                            "required": [
+                                "receptor",
+                                "poly_info"
+                            ],
+                            "properties": {
+                                "receptor": {
+                                    "title": "The receptor Schema",
+                                    "description": "An explanation about the purpose of this instance.",
+                                    "type": "string"
+                                },
+                                "poly_info": {
+                                    "title": "The poly_info Schema",
+                                    "description": "An explanation about the purpose of this instance.",
+                                    "type": "array",
+                                    "items": {
+                                        "title": "A Schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "type": "object",
+                                        "required": [
+                                            "polarization",
+                                            "coeffs"
+                                        ],
+                                        "properties": {
+                                            "polarization": {
+                                                "title": "The polarization Schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "type": "string"
+                                            },
+                                            "coeffs": {
+                                                "title": "The coeffs Schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "type": "array",
+                                                "items": {
+                                                    "title": "A Schema",
+                                                    "description": "An explanation about the purpose of this instance.",
+                                                    "type": "number"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -179,6 +179,19 @@ def prepare_json_args_for_centralnode_commands(
     return input_json
 
 
+def prepare_schema_for_attribute_or_command(
+    args_for_command: str, command_input_factory: JsonFactory
+):
+    """This method return schema for requested command or attribute json."""
+    if args_for_command is not None:
+        input_json = command_input_factory.create_command_or_attribute_schema(
+            args_for_command
+        )
+    else:
+        input_json = None
+    return input_json
+
+
 def get_boolean_command_call_info(device: SimulatorFactory, command_name: str):
     """
     Returns recorded information from commandCallInfo attribute.

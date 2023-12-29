@@ -4,6 +4,7 @@ import logging
 import time
 
 import pytest
+from jsonschema import validate
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
 from tango import DevState
@@ -11,6 +12,7 @@ from tango import DevState
 from tests.resources.test_harness.helpers import (
     prepare_json_args_for_centralnode_commands,
     prepare_json_args_for_commands,
+    prepare_schema_for_attribute_or_command,
 )
 
 LOGGER = logging.getLogger(__name__)
@@ -131,7 +133,9 @@ def check_if_tmc_subarray_moved_to_ready_obsstate(
         "CSP subarray leaf node {subarray_id} starts generating delay values"
     )
 )
-def check_if_delay_values_are_generating(central_node_mid):
+def check_if_delay_values_are_generating(
+    central_node_mid, command_input_factory
+):
     """Check id delay model is generating."""
     start_time = time.time()
     while central_node_mid.csp_subarray_leaf_node.delayModel == "no_value" or (
@@ -140,5 +144,19 @@ def check_if_delay_values_are_generating(central_node_mid):
         time.sleep(1)
 
     delay_model_json = central_node_mid.csp_subarray_leaf_node.delayModel
-    LOGGER.info("DelayModel: %s", delay_model_json)
+    LOGGER.info("-----------------------------------------")
+    LOGGER.info("Delay_Model_Json: %s", delay_model_json)
+    LOGGER.info("-----------------------------------------")
+    delay_model_schema = prepare_schema_for_attribute_or_command(
+        "delay_model_schema", command_input_factory
+    )
+    LOGGER.info("-----------------------------------------")
+    LOGGER.info("Dealy Model schema: %s", delay_model_schema)
+    LOGGER.info("-----------------------------------------")
+
+    try:
+        validate(delay_model_json, delay_model_schema)
+    except Exception as e:
+        LOGGER.exception(e)
+
     assert False
