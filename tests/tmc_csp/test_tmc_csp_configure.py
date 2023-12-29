@@ -4,7 +4,8 @@ import logging
 import time
 
 import pytest
-from jsonschema import validate
+
+# from jsonschema import validate
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
 from tango import DevState
@@ -152,7 +153,8 @@ def check_if_delay_values_are_generating(
     LOGGER.info("Delay Model schema: %s", delay_model_schema)
     LOGGER.info("Type of schema: %s", type(delay_model_schema))
 
-    try:
-        validate(json.loads(delay_model_json), delay_model_schema)
-    except Exception as e:
-        LOGGER.exception(e)
+    assert False
+    # try:
+    #     validate(json.loads(delay_model_json), delay_model_schema)
+    # except Exception as e:
+    #     LOGGER.exception(e)
