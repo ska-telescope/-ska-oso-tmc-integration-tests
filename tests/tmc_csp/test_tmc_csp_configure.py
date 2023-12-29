@@ -4,8 +4,7 @@ import logging
 import time
 
 import pytest
-
-# from jsonschema import validate
+from jsonschema import validate
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
 from tango import DevState
@@ -153,8 +152,88 @@ def check_if_delay_values_are_generating(
     LOGGER.info("Delay Model schema: %s", delay_model_schema)
     LOGGER.info("Type of schema: %s", type(delay_model_schema))
 
-    assert False
-    # try:
-    #     validate(json.loads(delay_model_json), delay_model_schema)
-    # except Exception as e:
-    #     LOGGER.exception(e)
+    try:
+        validate(json.loads(delay_model_json), DELAY_MODEL_SCHEMA)
+    except Exception as e:
+        LOGGER.exception(e)
+
+
+DELAY_MODEL_SCHEMA = {
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "https://schema.skao.int/csp-subarray-leaf-node-delaymodel/1.0",
+    "title": "CspSubarrayLeafNode delayModel schema",
+    "description": "Schema for CspSubarrayLeafNode's delayModel attribute",
+    "type": "object",
+    "required": ["delay_model"],
+    "properties": {
+        "delay_model": {
+            "title": "The delay_model Schema",
+            "description": "delayModel details",
+            "type": "array",
+            "items": {
+                "title": "A Schema",
+                "description": "An explanation",
+                "type": "object",
+                "required": ["epoch", "validity_period", "delay_details"],
+                "properties": {
+                    "epoch": {
+                        "title": "The epoch Schema",
+                        "description": "An explanation ",
+                        "type": "string",
+                    },
+                    "validity_period": {
+                        "title": "The validity_period Schema",
+                        "description": "An explanation",
+                        "type": "integer",
+                    },
+                    "delay_details": {
+                        "title": "The delay_details Schema",
+                        "description": "An explanation",
+                        "type": "array",
+                        "items": {
+                            "title": "A Schema",
+                            "description": "An explanation",
+                            "type": "object",
+                            "required": ["receptor", "poly_info"],
+                            "properties": {
+                                "receptor": {
+                                    "title": "The receptor Schema",
+                                    "description": "An explanation",
+                                    "type": "string",
+                                },
+                                "poly_info": {
+                                    "title": "The poly_info Schema",
+                                    "description": "An explanation",
+                                    "type": "array",
+                                    "items": {
+                                        "title": "A Schema",
+                                        "description": "An explanation",
+                                        "type": "object",
+                                        "required": ["polarization", "coeffs"],
+                                        "properties": {
+                                            "polarization": {
+                                                "title": "polarizationSchema",
+                                                "description": "The",
+                                                "type": "string",
+                                            },
+                                            "coeffs": {
+                                                "title": "The coeffs Schema",
+                                                "description": "The",
+                                                "type": "array",
+                                                "items": {
+                                                    "title": "A Schema",
+                                                    "description": "The",
+                                                    "type": "number",
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        }
+    },
+}
