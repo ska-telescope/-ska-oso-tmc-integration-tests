@@ -110,7 +110,7 @@ def invoke_scan(
     central_node_mid.subarray_node.Scan(scan_input_json)
 
 
-@then(parsers.parse(" the CSP subarray transitions to ObsState SCANNING"))
+@then(parsers.parse("the CSP subarray transitions to ObsState SCANNING"))
 def csp_subarray_scanning(central_node_mid, event_recorder, subarray_id):
     """Checks if Csp Subarray's obsState attribute value is SCANNING"""
     central_node_mid.set_subarray_id(int(subarray_id))
@@ -123,7 +123,7 @@ def csp_subarray_scanning(central_node_mid, event_recorder, subarray_id):
 
 @then(
     parsers.parse(
-        "the TMC subarray <subarray_id> transitions to ObsState SCANNING"
+        "the TMC subarray {subarray_id} transitions to ObsState SCANNING"
     )
 )
 def tmc_subarray_scanning(central_node_mid, event_recorder, subarray_id):
