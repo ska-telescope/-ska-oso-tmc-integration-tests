@@ -195,7 +195,11 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
 
     def tear_down(self):
         """Handle Tear down of central Node"""
-        LOGGER.info("Calling Tear down for Central node.")
+        Subaaray_node_obsstate = self.subarray_node.obsState
+        LOGGER.info(
+            f"Calling Tear down for Central node in SubarrayNode's \
+                {Subaaray_node_obsstate} obsstate."
+        )
         # reset HealthState.UNKNOWN for mock devices
         self._reset_health_state_for_mock_devices()
         self._reset_sys_param_and_k_value()
