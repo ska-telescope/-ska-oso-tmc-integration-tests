@@ -1,6 +1,6 @@
-Scenario : TMC executes a Scan command on CSP subarray.
+Scenario: TMC executes a Scan command on CSP subarray.
     Given the telescope is in ON state
-    And TMC subarray <subarray_id> is in READY ObsState.
+    And TMC subarray <subarray_id> is in READY ObsState
     When I issue the scan command to the TMC subarray <subarray_id>
     Then the CSP subarray transitions to ObsState SCANNING
     And the TMC subarray <subarray_id> transitions to ObsState SCANNING
