@@ -1,7 +1,9 @@
 import json
 import logging
 import os
+import re
 import time
+from datetime import datetime
 from typing import Any
 
 import pytest
@@ -10,6 +12,7 @@ from ska_tango_base.commands import ResultCode
 from ska_tango_base.control_model import HealthState
 from ska_tango_testing.mock.placeholders import Anything
 
+from tests.resources.test_harness.simulator_factory import SimulatorFactory
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_harness.utils.wait_helpers import Waiter, watch
@@ -27,6 +30,7 @@ from tests.resources.test_support.constant import (
 configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
 TIMEOUT = 20
+EB_PB_ID_LENGTH = 15
 
 
 def check_subarray_obs_state(obs_state=None, timeout=50):
@@ -176,8 +180,10 @@ def prepare_json_args_for_centralnode_commands(
     return input_json
 
 
-def get_command_call_info(device: Any, command_name: str):
+def get_boolean_command_call_info(device: SimulatorFactory, command_name: str):
     """
+    Returns recorded information from commandCallInfo attribute.
+    This function is used when expected information is of type boolean.
     device: Tango Device Proxy Object
 
     """
@@ -188,36 +194,88 @@ def get_command_call_info(device: Any, command_name: str):
         for command_info in command_call_info
         if command_info[0] == command_name
     ]
+
+    received_command_call_data = (
+        command_call_info[0][0],
+        command_info[0][1],
+    )
+
+    return received_command_call_data
+
+
+def get_command_call_info(device: Any, command_name: str):
+    """
+    Returns recorded information from commandCallInfo attribute.
+    This function is used when expected information is json
+    device: Tango Device Proxy Object
+
+    """
+    command_call_info = device.read_attribute("commandCallInfo").value
+    LOGGER.info("Command info %s", command_call_info)
+    command_info = [
+        command_info
+        for command_info in command_call_info
+        if command_info[0] == command_name
+    ]
+
     input_str = json.loads("".join(command_info[0][1].split()))
 
     received_command_call_data = (
         command_call_info[0][0],
         sorted(input_str),
     )
+
     return received_command_call_data
 
 
 def device_received_this_command(
-    device: Any, expected_command_name: str, expected_inp_str: str
-):
+    device: Any, expected_command_name: str, expected_input: str | bool
+) -> bool:
     """Method to verify received command and command argument
 
     Args:
         device (Any): Tango Device Proxy Object
         expected_command_name (str): Command name received on simulator device
-        expected_inp_str (str): Command argument received on simulator device
+        expected_input (str): Command argument received on simulator device
 
     Returns:
         Boolean: True if received data is equal to expected data.
     """
-    received_command_call_data = get_command_call_info(
-        device, expected_command_name
-    )
-    expected_input_str = json.loads("".join(expected_inp_str.split()))
-    return received_command_call_data == (
-        expected_command_name,
-        sorted(expected_input_str),
-    )
+
+    LOGGER.debug("expected_input - %s", expected_input)
+
+    if (
+        expected_input == "True"
+        or expected_input == "False"
+        or expected_input == ""
+    ):
+        received_command_call_data = get_boolean_command_call_info(
+            device, expected_command_name
+        )
+        LOGGER.debug(
+            "received_command_call_data - %s", received_command_call_data
+        )
+
+        LOGGER.debug("expected_input %s", expected_input)
+        return received_command_call_data == (
+            expected_command_name,
+            expected_input,
+        )
+
+    else:
+        received_command_call_data = get_command_call_info(
+            device, expected_command_name
+        )
+        LOGGER.debug(
+            "received_command_call_data - %s", received_command_call_data
+        )
+
+        expected_input_str = json.loads("".join(expected_input.split()))
+        LOGGER.debug("expected_input_str %s", expected_input_str)
+        return received_command_call_data == (
+            expected_command_name,
+            sorted(expected_input_str),
+        )
 
 
 def get_recorded_commands(device: Any):
@@ -369,3 +427,57 @@ def get_simulated_devices_info() -> dict:
             ]
         ),
     }
+
+
+def generate_id(id_pattern: str) -> str:
+    """
+    Generate a time-based unique id.
+
+    :param id_pattern: the string pattern as to how the unique id should
+        be rendered.
+        e.g :
+            input: eb-mvp01-********-*****
+            output: eb-mvp01-35825416-12979
+
+    :return: the id rendered according to the requested pattern
+    """
+    prefix, suffix = re.split(r"(?=\*)[\*-]*(?<=\*)", id_pattern)
+    id_pattern = re.findall(r"(?=\*)[\*-]*(?<=\*)", id_pattern)[0]
+    length = id_pattern.count("*")
+    assert length <= EB_PB_ID_LENGTH
+    LOGGER.info(f"<SB or PB ID >Length: {length}")
+    timestamp = str(datetime.now().timestamp()).replace(".", "")
+    sections = id_pattern.split("-")
+    unique_id = ""
+    sections.reverse()
+    for section in sections:
+        section_length = len(section)
+        section_id = timestamp[-section_length:]
+        timestamp = timestamp[:-section_length]
+        if unique_id:
+            unique_id = f"{section_id}-{unique_id}"
+        else:
+            unique_id = section_id
+    return f"{prefix}{unique_id}{suffix}"
+
+
+def generate_eb_pb_ids(input_json: str):
+    """
+    Method to generate different eb_id and pb_id
+
+    :param input_json: json to utilised to update values.
+    """
+    input_json["sdp"]["execution_block"]["eb_id"] = generate_id(
+        "eb-mvp01-********-*****"
+    )
+    for pb in input_json["sdp"]["processing_blocks"]:
+        pb["pb_id"] = generate_id("pb-mvp01-********-*****")
+
+
+def check_subarray_instance(device, subarray_id):
+    """
+    Method to check subarray instance
+    """
+    subarray = str(device).split("/")
+    subarray_instance = subarray[-1][-2]
+    assert subarray_instance == subarray_id

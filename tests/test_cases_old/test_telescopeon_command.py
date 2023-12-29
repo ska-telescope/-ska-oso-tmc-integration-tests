@@ -19,7 +19,6 @@ from tests.resources.test_support.constant import (
 )
 
 
-@pytest.mark.skip(reason="Intermittent failures")
 @pytest.mark.SKA_mid
 def test_telescope_on():
     """TelescopeOn() is executed."""

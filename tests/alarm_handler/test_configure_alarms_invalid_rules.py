@@ -28,7 +28,7 @@ def alarm_rule_validation(filename, missing_attribute):
         )
 
 
-@pytest.mark.skip(reason="Test is disabled for Nodeport issue resolution")
+@pytest.mark.skip("Alarm Handler Disabled")
 @pytest.mark.parametrize(
     "alarm_rule_file, missing_attribute",
     [
