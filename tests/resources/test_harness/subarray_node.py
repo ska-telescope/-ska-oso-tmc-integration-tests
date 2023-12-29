@@ -26,6 +26,7 @@ from tests.resources.test_harness.constant import (
 )
 from tests.resources.test_harness.helpers import (
     check_subarray_obs_state,
+    generate_eb_pb_ids,
     get_simulated_devices_info,
     prepare_json_args_for_commands,
 )
@@ -214,7 +215,11 @@ class SubarrayNodeWrapper(object):
         Args:
             assign_json (str): Assign resource input json
         """
-        result, message = self.subarray_node.AssignResources(assign_json)
+        input_json = json.loads(assign_json)
+        generate_eb_pb_ids(input_json)
+        result, message = self.subarray_node.AssignResources(
+            json.dumps(input_json)
+        )
         LOGGER.info("Invoked AssignResources on SubarrayNode")
         return result, message
 
@@ -350,7 +355,13 @@ class SubarrayNodeWrapper(object):
         elif self.obs_state == "ABORTED":
             self.restart_subarray()
 
-    def force_change_of_obs_state(self, dest_state_name: str) -> None:
+    def force_change_of_obs_state(
+        self,
+        dest_state_name: str,
+        assign_input_json: str = "",
+        configure_input_json: str = "",
+        scan_input_json: str = "",
+    ) -> None:
         """Force SubarrayNode obsState to provided obsState
 
         Args:
@@ -360,6 +371,12 @@ class SubarrayNodeWrapper(object):
         obs_state_resetter = factory_obj.create_obs_state_resetter(
             dest_state_name, self
         )
+        if assign_input_json:
+            obs_state_resetter.assign_input = assign_input_json
+        if configure_input_json:
+            obs_state_resetter.configure_input = configure_input_json
+        if scan_input_json:
+            obs_state_resetter.scan_input = scan_input_json
         obs_state_resetter.reset()
         self._clear_command_call_and_transition_data()
 

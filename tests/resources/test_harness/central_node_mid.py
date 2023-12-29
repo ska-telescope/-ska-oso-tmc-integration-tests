@@ -22,13 +22,15 @@ from tests.resources.test_harness.constant import (
 )
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 from tests.resources.test_harness.utils.enums import DishMode
+from tests.resources.test_harness.utils.obs_state_resetter import (
+    ObsStateResetterFactory,
+)
 from tests.resources.test_harness.utils.sync_decorators import sync_set_to_off
 from tests.resources.test_harness.utils.wait_helpers import Waiter
 
 configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
 
-SDP_SIMULATION_ENABLED = os.getenv("SDP_SIMULATION_ENABLED")
 REAL_DISH1_FQDN = os.getenv("DISH_NAME_1")
 REAL_DISH2_FQDN = os.getenv("DISH_NAME_2")
 
