@@ -522,6 +522,13 @@ class Waiter:
                 )
             )
 
+        if self.dish_master2:
+            self.waits.append(
+                watch(Resource(self.dish_master2)).to_become(
+                    "pointingState", changed_to="TRACK"
+                )
+            )
+
         self.waits.append(
             watch(Resource(self.tmc_subarraynode1)).to_become(
                 "obsState", changed_to=obs_state
