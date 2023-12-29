@@ -6,7 +6,7 @@ from tango import DevState
 from tests.resources.test_harness.helpers import get_master_device_simulators
 
 
-@pytest.mark.real_csp_mid
+@pytest.mark.real_csp
 @scenario(
     "../features/tmc_csp/tmc_csp_off.feature",
     "Turn Off Telescope with real TMC and CSP devices",
@@ -17,7 +17,7 @@ def test_tmc_csp_telescope_off():
     """
 
 
-@pytest.mark.real_csp_mid
+@pytest.mark.real_csp
 @scenario(
     "../features/tmc_csp/tmc_csp_standby.feature",
     "Standby the Telescope with real TMC and CSP devices",

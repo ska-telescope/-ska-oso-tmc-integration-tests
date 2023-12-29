@@ -1,9 +1,10 @@
 """Test module to test TMC-CSP Configure functionality."""
+import json
 import logging
 import time
 
 import pytest
-from pytest_bdd import given, scenario, then, when
+from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
 from tango import DevState
 
@@ -13,9 +14,10 @@ from tests.resources.test_harness.helpers import (
 )
 
 LOGGER = logging.getLogger(__name__)
+TIME_OUT = 15
 
 
-@pytest.mark.real_csp_mid
+@pytest.mark.real_csp
 @scenario(
     "../features/tmc_csp/tmc_csp_configure.feature",
     "Configure a CSP subarray for a scan using TMC",
@@ -46,15 +48,22 @@ def check_telescope_is_in_on_state(central_node_mid, event_recorder):
     LOGGER.info("On command invoked successfully")
 
 
-@given("TMC subarray in ObsState IDLE")
+@given(parsers.parse("TMC subarray {subarray_id} in ObsState IDLE"))
 def move_subarray_node_to_idle_obsstate(
-    central_node_mid, event_recorder, command_input_factory
+    central_node_mid, event_recorder, command_input_factory, subarray_id
 ):
     """Ensure TMC Subarray in IDLE obsstate."""
+    central_node_mid.set_subarray_id(subarray_id)
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
-    central_node_mid.perform_action("AssignResources", assign_input_json)
+    # Create json for AssignResources commands with requested subarray_id
+    assign_input = json.loads(assign_input_json)
+    assign_input["subarray_id"] = int(subarray_id)
+    central_node_mid.perform_action(
+        "AssignResources", json.dumps(assign_input)
+    )
+
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
@@ -65,7 +74,11 @@ def move_subarray_node_to_idle_obsstate(
     LOGGER.info("AssignResources command invoked successfully")
 
 
-@when("I issue the Configure command to the TMC subarray 1")
+@when(
+    parsers.parse(
+        "I issue the Configure command to the TMC subarray {subarray_id}"
+    )
+)
 def invoke_configure_command(central_node_mid, command_input_factory):
     """Invoke Configure command."""
     configure_input_json = prepare_json_args_for_commands(
@@ -74,7 +87,11 @@ def invoke_configure_command(central_node_mid, command_input_factory):
     central_node_mid.subarray_node.Configure(configure_input_json)
 
 
-@then("the CSP subarray 1 transitions to ObsState READY")
+@then(
+    parsers.parse(
+        "the CSP subarray {subarray_id} transitions to ObsState READY"
+    )
+)
 def check_if_csp_subarray_moved_to_ready_obsstate(
     central_node_mid, event_recorder
 ):
@@ -87,9 +104,14 @@ def check_if_csp_subarray_moved_to_ready_obsstate(
         "obsState",
         ObsState.READY,
     )
+    LOGGER.info("CSP moved to READY")
 
 
-@then("the TMC subarray 1 transitions to ObsState READY")
+@then(
+    parsers.parse(
+        "the TMC subarray {subarray_id} transitions to ObsState READY"
+    )
+)
 def check_if_tmc_subarray_moved_to_ready_obsstate(
     central_node_mid, event_recorder
 ):
@@ -100,14 +122,22 @@ def check_if_tmc_subarray_moved_to_ready_obsstate(
         ObsState.READY,
         lookahead=20,
     )
-    LOGGER.info("SUbarrayNode obsstate is READY")
+    LOGGER.info("SubarrayNode obsstate is READY")
     LOGGER.info("Configure command invoked successfully")
 
 
-@then("CSP subarray leaf node 1 starts generating delay values")
+@then(
+    parsers.parse(
+        "CSP subarray leaf node {subarray_id} starts generating delay values"
+    )
+)
 def check_if_delay_values_are_generating(central_node_mid):
     """Check id delay model is generating."""
-    delay_value = central_node_mid.csp_subarray_leaf_node.delayModel
-    time.sleep(20)
-    LOGGER.info("Delay_Values: %s", delay_value)
-    assert False
+    start_time = time.time()
+    while central_node_mid.csp_subarray_leaf_node.delayModel == "no_value" or (
+        time.time() - start_time < TIME_OUT
+    ):
+        time.sleep(1)
+
+    delay_model_json = central_node_mid.csp_subarray_leaf_node.delayModel
+    LOGGER.info("DelayModel: %s", delay_model_json)
