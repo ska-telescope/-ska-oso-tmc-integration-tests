@@ -15,7 +15,7 @@ from tests.resources.test_harness.helpers import (
 @pytest.mark.real_csp_mid
 @scenario(
     "../features/tmc_csp/tmc_csp_scan.feature",
-    "StartUp Telescope with TMC and CSP devices",
+    "TMC executes a Scan command on CSP subarray.",
 )
 def test_scan_command():
     """BDD test scenario for verifying successful execution of
