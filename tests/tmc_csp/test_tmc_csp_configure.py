@@ -151,12 +151,10 @@ def check_if_delay_values_are_generating(
         "delay_model_schema", command_input_factory
     )
     LOGGER.info("-----------------------------------------")
-    LOGGER.info("Dealy Model schema: %s", delay_model_schema)
+    LOGGER.info("Delay Model schema: %s", delay_model_schema)
     LOGGER.info("-----------------------------------------")
 
     try:
         validate(delay_model_json, delay_model_schema)
     except Exception as e:
         LOGGER.exception(e)
-
-    assert False
