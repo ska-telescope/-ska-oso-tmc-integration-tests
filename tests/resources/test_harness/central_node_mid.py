@@ -111,7 +111,6 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             self.simulated_devices_dict["csp_and_dish"]
             or self.simulated_devices_dict["all_mocks"]
         ):
-
             self.csp_master.ResetSysParams()
 
     def _clear_command_call_and_transition_data(self, clear_transition=False):

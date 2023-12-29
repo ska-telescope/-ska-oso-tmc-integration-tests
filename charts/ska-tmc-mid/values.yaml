@@ -80,6 +80,7 @@ centralnode:
     tag: 0.11.11
     pullPolicy: IfNotPresent
 
+
 subarraynode:
   image:
     registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-subarraynode
