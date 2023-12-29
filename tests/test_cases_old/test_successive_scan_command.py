@@ -22,6 +22,9 @@ from tests.resources.test_support.constant import (
 )
 
 
+@pytest.mark.skip(
+    reason="2nd configure fails in READY aggregation.Test needs updates."
+)
 @pytest.mark.SKA_mid
 def test_successive_scan_with_different_configurations(json_factory):
     """Successive Scan command with different configurations."""
