@@ -150,8 +150,7 @@ def tmc_subarray_ObsState(central_node_mid, event_recorder, subarray_id):
 
 @then(
     parsers.parse(
-        "the CSP subarray ObsState transitions to READY after"
-        + " the scan duration elapsed"
+        "the TMC subarray {subarray_id} ObsState transitions back to READY"
     )
 )
 def tmc_subarray_ready(central_node_mid, event_recorder, subarray_id):
