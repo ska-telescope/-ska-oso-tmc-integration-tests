@@ -45,6 +45,8 @@ def test_configure(json_factory):
     # dish_master_3 = DeviceProxy(dish_fqdn_63)
     # dish_master_4 = DeviceProxy(dish_fqdn_4)
 
+    wait_for_telescope_state_change(DevState.ON, central_node_device, 30)
+
     # Waiting for DISH LMC to respond
     wait_for_dish_mode_change(DishMode.STANDBY_FP, dish_master_1, 30)
     wait_for_dish_mode_change(DishMode.STANDBY_FP, dish_master_2, 30)
