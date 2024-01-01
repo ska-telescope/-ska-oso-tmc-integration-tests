@@ -103,7 +103,7 @@ def subarray_in_ready_obsstate(
 def invoke_scan(
     central_node_mid, event_recorder, subarray_id, command_input_factory
 ):
-    """Invokes ReleaseResources command on TMC"""
+    """Invokes Scan command on TMC"""
     scan_input_json = prepare_json_args_for_commands(
         "scan_mid", command_input_factory
     )
@@ -140,7 +140,7 @@ def tmc_subarray_scanning(central_node_mid, event_recorder, subarray_id):
         + " scan duration elapsed"
     )
 )
-def tmc_subarray_ObsState(central_node_mid, event_recorder, subarray_id):
+def csp_subarray_ObsState(central_node_mid, event_recorder, subarray_id):
     """Checks if SubarrayNode's obsState attribute value is READY"""
     central_node_mid.set_subarray_id(int(subarray_id))
     assert event_recorder.has_change_event_occurred(
