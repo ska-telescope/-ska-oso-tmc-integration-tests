@@ -24,16 +24,19 @@ class TestSubarrayHealthState(object):
             sdp_sa_sim,
             dish_master_sim_1,
             dish_master_sim_2,
+            dish_master_sim_3,
         ) = get_device_simulators(simulator_factory)
 
         csp_sa_sim.SetDirectHealthState(HealthState.OK)
         sdp_sa_sim.SetDirectHealthState(HealthState.OK)
         dish_master_sim_1.SetDirectHealthState(HealthState.OK)
         dish_master_sim_2.SetDirectHealthState(HealthState.OK)
+        dish_master_sim_3.SetDirectHealthState(HealthState.OK)
         event_recorder.subscribe_event(csp_sa_sim, "healthState")
         event_recorder.subscribe_event(sdp_sa_sim, "healthState")
         event_recorder.subscribe_event(dish_master_sim_1, "healthState")
         event_recorder.subscribe_event(dish_master_sim_2, "healthState")
+        event_recorder.subscribe_event(dish_master_sim_3, "healthState")
 
         event_recorder.subscribe_event(
             subarray_node.subarray_node, "healthState"
@@ -53,6 +56,9 @@ class TestSubarrayHealthState(object):
         assert event_recorder.has_change_event_occurred(
             dish_master_sim_2, "healthState", HealthState.OK
         )
+        assert event_recorder.has_change_event_occurred(
+            dish_master_sim_3, "healthState", HealthState.OK
+        )
 
         # Subarray node react automatically
         assert event_recorder.has_change_event_occurred(
@@ -63,23 +69,27 @@ class TestSubarrayHealthState(object):
 
     @pytest.mark.parametrize(
         "csp_subarray_health_state, sdp_subarray_health_state, \
-        dish_master1_health_state, dish_master2_health_state",
+        dish_master1_health_state, dish_master2_health_state, \
+        dish_master3_health_state",
         [
             (
                 HealthState.FAILED,
                 HealthState.FAILED,
                 HealthState.OK,
                 HealthState.OK,
+                HealthState.OK,
             ),
             (
                 HealthState.FAILED,
                 HealthState.OK,
                 HealthState.OK,
                 HealthState.OK,
+                HealthState.OK,
             ),
             (
                 HealthState.OK,
                 HealthState.FAILED,
+                HealthState.OK,
                 HealthState.OK,
                 HealthState.OK,
             ),
@@ -95,6 +105,7 @@ class TestSubarrayHealthState(object):
         sdp_subarray_health_state,
         dish_master1_health_state,
         dish_master2_health_state,
+        dish_master3_health_state,
     ):
         # Row 2 to 4
         (
@@ -102,16 +113,19 @@ class TestSubarrayHealthState(object):
             sdp_sa_sim,
             dish_master_sim_1,
             dish_master_sim_2,
+            dish_master_sim_3,
         ) = get_device_simulators(simulator_factory)
 
         csp_sa_sim.SetDirectHealthState(csp_subarray_health_state)
         sdp_sa_sim.SetDirectHealthState(sdp_subarray_health_state)
         dish_master_sim_1.SetDirectHealthState(dish_master1_health_state)
         dish_master_sim_2.SetDirectHealthState(dish_master2_health_state)
+        dish_master_sim_3.SetDirectHealthState(dish_master3_health_state)
         event_recorder.subscribe_event(csp_sa_sim, "healthState")
         event_recorder.subscribe_event(sdp_sa_sim, "healthState")
         event_recorder.subscribe_event(dish_master_sim_1, "healthState")
         event_recorder.subscribe_event(dish_master_sim_2, "healthState")
+        event_recorder.subscribe_event(dish_master_sim_3, "healthState")
         event_recorder.subscribe_event(
             subarray_node.subarray_node, "healthState"
         )
@@ -140,6 +154,12 @@ class TestSubarrayHealthState(object):
         )
 
         assert event_recorder.has_change_event_occurred(
+            dish_master_sim_3,
+            "healthState",
+            dish_master3_health_state,
+        )
+
+        assert event_recorder.has_change_event_occurred(
             subarray_node.subarray_node,
             "healthState",
             HealthState.FAILED,
@@ -147,23 +167,27 @@ class TestSubarrayHealthState(object):
 
     @pytest.mark.parametrize(
         "csp_subarray_health_state, sdp_subarray_health_state, \
-        dish_master1_health_state, dish_master2_health_state",
+        dish_master1_health_state, dish_master2_health_state, \
+        dish_master3_health_state",
         [
             (
                 HealthState.UNKNOWN,
                 HealthState.UNKNOWN,
                 HealthState.OK,
                 HealthState.OK,
+                HealthState.OK,
             ),
             (
                 HealthState.UNKNOWN,
                 HealthState.OK,
                 HealthState.OK,
                 HealthState.OK,
+                HealthState.OK,
             ),
             (
                 HealthState.OK,
                 HealthState.UNKNOWN,
+                HealthState.OK,
                 HealthState.OK,
                 HealthState.OK,
             ),
@@ -179,6 +203,7 @@ class TestSubarrayHealthState(object):
         sdp_subarray_health_state,
         dish_master1_health_state,
         dish_master2_health_state,
+        dish_master3_health_state,
     ):
         # Row 7 to 9
         (
@@ -186,16 +211,19 @@ class TestSubarrayHealthState(object):
             sdp_sa_sim,
             dish_master_sim_1,
             dish_master_sim_2,
+            dish_master_sim_3,
         ) = get_device_simulators(simulator_factory)
 
         csp_sa_sim.SetDirectHealthState(csp_subarray_health_state)
         sdp_sa_sim.SetDirectHealthState(sdp_subarray_health_state)
         dish_master_sim_1.SetDirectHealthState(dish_master1_health_state)
         dish_master_sim_2.SetDirectHealthState(dish_master2_health_state)
+        dish_master_sim_3.SetDirectHealthState(dish_master3_health_state)
         event_recorder.subscribe_event(csp_sa_sim, "healthState")
         event_recorder.subscribe_event(sdp_sa_sim, "healthState")
         event_recorder.subscribe_event(dish_master_sim_1, "healthState")
         event_recorder.subscribe_event(dish_master_sim_2, "healthState")
+        event_recorder.subscribe_event(dish_master_sim_3, "healthState")
         event_recorder.subscribe_event(
             subarray_node.subarray_node, "healthState"
         )
@@ -222,6 +250,11 @@ class TestSubarrayHealthState(object):
             "healthState",
             dish_master2_health_state,
         )
+        assert event_recorder.has_change_event_occurred(
+            dish_master_sim_3,
+            "healthState",
+            dish_master3_health_state,
+        )
 
         assert event_recorder.has_change_event_occurred(
             subarray_node.subarray_node,
@@ -231,23 +264,27 @@ class TestSubarrayHealthState(object):
 
     @pytest.mark.parametrize(
         "csp_subarray_health_state, sdp_subarray_health_state, \
-        dish_master1_health_state, dish_master2_health_state",
+        dish_master1_health_state, dish_master2_health_state, \
+        dish_master3_health_state",
         [
             (
                 HealthState.DEGRADED,
                 HealthState.DEGRADED,
                 HealthState.OK,
                 HealthState.OK,
+                HealthState.OK,
             ),
             (
                 HealthState.DEGRADED,
                 HealthState.OK,
                 HealthState.OK,
                 HealthState.OK,
+                HealthState.OK,
             ),
             (
                 HealthState.OK,
                 HealthState.DEGRADED,
+                HealthState.OK,
                 HealthState.OK,
                 HealthState.OK,
             ),
@@ -263,6 +300,7 @@ class TestSubarrayHealthState(object):
         sdp_subarray_health_state,
         dish_master1_health_state,
         dish_master2_health_state,
+        dish_master3_health_state,
     ):
         # Row 12 to 14
         (
@@ -270,16 +308,19 @@ class TestSubarrayHealthState(object):
             sdp_sa_sim,
             dish_master_sim_1,
             dish_master_sim_2,
+            dish_master_sim_3,
         ) = get_device_simulators(simulator_factory)
 
         csp_sa_sim.SetDirectHealthState(csp_subarray_health_state)
         sdp_sa_sim.SetDirectHealthState(sdp_subarray_health_state)
         dish_master_sim_1.SetDirectHealthState(dish_master1_health_state)
         dish_master_sim_2.SetDirectHealthState(dish_master2_health_state)
+        dish_master_sim_3.SetDirectHealthState(dish_master3_health_state)
         event_recorder.subscribe_event(csp_sa_sim, "healthState")
         event_recorder.subscribe_event(sdp_sa_sim, "healthState")
         event_recorder.subscribe_event(dish_master_sim_1, "healthState")
         event_recorder.subscribe_event(dish_master_sim_2, "healthState")
+        event_recorder.subscribe_event(dish_master_sim_3, "healthState")
         event_recorder.subscribe_event(
             subarray_node.subarray_node, "healthState"
         )
@@ -307,6 +348,11 @@ class TestSubarrayHealthState(object):
             dish_master2_health_state,
         )
         assert event_recorder.has_change_event_occurred(
+            dish_master_sim_3,
+            "healthState",
+            dish_master3_health_state,
+        )
+        assert event_recorder.has_change_event_occurred(
             subarray_node.subarray_node,
             "healthState",
             HealthState.DEGRADED,
@@ -314,15 +360,18 @@ class TestSubarrayHealthState(object):
 
     @pytest.mark.parametrize(
         "csp_subarray_health_state, sdp_subarray_health_state, \
-        dish_master1_health_state, dish_master2_health_state",
+        dish_master1_health_state, dish_master2_health_state, \
+        dish_master3_health_state",
         [
             (
                 HealthState.OK,
                 HealthState.OK,
                 HealthState.FAILED,
                 HealthState.FAILED,
+                HealthState.OK,
             ),
             (
+                HealthState.FAILED,
                 HealthState.FAILED,
                 HealthState.FAILED,
                 HealthState.FAILED,
@@ -341,6 +390,7 @@ class TestSubarrayHealthState(object):
         sdp_subarray_health_state,
         dish_master1_health_state,
         dish_master2_health_state,
+        dish_master3_health_state,
     ):
         # Row 5 and 6
         (
@@ -348,6 +398,7 @@ class TestSubarrayHealthState(object):
             sdp_sa_sim,
             dish_master_sim_1,
             dish_master_sim_2,
+            dish_master_sim_3,
         ) = get_device_simulators(simulator_factory)
 
         self._assign_dishes_to_subarray(
@@ -358,10 +409,12 @@ class TestSubarrayHealthState(object):
         sdp_sa_sim.SetDirectHealthState(sdp_subarray_health_state)
         dish_master_sim_1.SetDirectHealthState(dish_master1_health_state)
         dish_master_sim_2.SetDirectHealthState(dish_master2_health_state)
+        dish_master_sim_3.SetDirectHealthState(dish_master3_health_state)
         event_recorder.subscribe_event(csp_sa_sim, "healthState")
         event_recorder.subscribe_event(sdp_sa_sim, "healthState")
         event_recorder.subscribe_event(dish_master_sim_1, "healthState")
         event_recorder.subscribe_event(dish_master_sim_2, "healthState")
+        event_recorder.subscribe_event(dish_master_sim_3, "healthState")
         event_recorder.subscribe_event(
             subarray_node.subarray_node, "healthState"
         )
@@ -388,6 +441,12 @@ class TestSubarrayHealthState(object):
             "healthState",
             dish_master2_health_state,
         )
+
+        assert event_recorder.has_change_event_occurred(
+            dish_master_sim_3,
+            "healthState",
+            dish_master3_health_state,
+        )
         assert event_recorder.has_change_event_occurred(
             subarray_node.subarray_node,
             "healthState",
@@ -396,27 +455,32 @@ class TestSubarrayHealthState(object):
 
     @pytest.mark.parametrize(
         "csp_subarray_health_state, sdp_subarray_health_state, \
-        dish_master1_health_state, dish_master2_health_state",
+        dish_master1_health_state, dish_master2_health_state, \
+        dish_master3_health_state",
         [
             (
                 HealthState.OK,
                 HealthState.OK,
                 HealthState.UNKNOWN,
                 HealthState.OK,
+                HealthState.OK,
             ),
             (
                 HealthState.OK,
                 HealthState.OK,
                 HealthState.OK,
                 HealthState.UNKNOWN,
+                HealthState.OK,
             ),
             (
                 HealthState.OK,
                 HealthState.OK,
                 HealthState.UNKNOWN,
                 HealthState.UNKNOWN,
+                HealthState.OK,
             ),
             (
+                HealthState.UNKNOWN,
                 HealthState.UNKNOWN,
                 HealthState.UNKNOWN,
                 HealthState.UNKNOWN,
@@ -435,6 +499,7 @@ class TestSubarrayHealthState(object):
         sdp_subarray_health_state,
         dish_master1_health_state,
         dish_master2_health_state,
+        dish_master3_health_state,
     ):
         # Row 10 and 11
         (
@@ -442,6 +507,7 @@ class TestSubarrayHealthState(object):
             sdp_sa_sim,
             dish_master_sim_1,
             dish_master_sim_2,
+            dish_master_sim_3,
         ) = get_device_simulators(simulator_factory)
 
         self._assign_dishes_to_subarray(
@@ -452,10 +518,12 @@ class TestSubarrayHealthState(object):
         sdp_sa_sim.SetDirectHealthState(sdp_subarray_health_state)
         dish_master_sim_1.SetDirectHealthState(dish_master1_health_state)
         dish_master_sim_2.SetDirectHealthState(dish_master2_health_state)
+        dish_master_sim_3.SetDirectHealthState(dish_master3_health_state)
         event_recorder.subscribe_event(csp_sa_sim, "healthState")
         event_recorder.subscribe_event(sdp_sa_sim, "healthState")
         event_recorder.subscribe_event(dish_master_sim_1, "healthState")
         event_recorder.subscribe_event(dish_master_sim_2, "healthState")
+        event_recorder.subscribe_event(dish_master_sim_3, "healthState")
         event_recorder.subscribe_event(
             subarray_node.subarray_node, "healthState"
         )
@@ -483,6 +551,11 @@ class TestSubarrayHealthState(object):
             dish_master2_health_state,
         )
         assert event_recorder.has_change_event_occurred(
+            dish_master_sim_3,
+            "healthState",
+            dish_master3_health_state,
+        )
+        assert event_recorder.has_change_event_occurred(
             subarray_node.subarray_node,
             "healthState",
             HealthState.UNKNOWN,
@@ -490,21 +563,32 @@ class TestSubarrayHealthState(object):
 
     @pytest.mark.parametrize(
         "csp_subarray_health_state, sdp_subarray_health_state, \
-        dish_master1_health_state, dish_master2_health_state",
+        dish_master1_health_state, dish_master2_health_state, \
+        dish_master3_health_state",
         [
             (
                 HealthState.OK,
                 HealthState.OK,
                 HealthState.FAILED,
                 HealthState.OK,
+                HealthState.OK,
             ),
             (
                 HealthState.OK,
                 HealthState.OK,
                 HealthState.OK,
                 HealthState.FAILED,
+                HealthState.OK,
             ),
             (
+                HealthState.OK,
+                HealthState.OK,
+                HealthState.DEGRADED,
+                HealthState.OK,
+                HealthState.OK,
+            ),
+            (
+                HealthState.OK,
                 HealthState.OK,
                 HealthState.OK,
                 HealthState.DEGRADED,
@@ -513,16 +597,12 @@ class TestSubarrayHealthState(object):
             (
                 HealthState.OK,
                 HealthState.OK,
-                HealthState.OK,
                 HealthState.DEGRADED,
+                HealthState.DEGRADED,
+                HealthState.OK,
             ),
             (
-                HealthState.OK,
-                HealthState.OK,
                 HealthState.DEGRADED,
-                HealthState.DEGRADED,
-            ),
-            (
                 HealthState.DEGRADED,
                 HealthState.DEGRADED,
                 HealthState.DEGRADED,
@@ -541,6 +621,7 @@ class TestSubarrayHealthState(object):
         sdp_subarray_health_state,
         dish_master1_health_state,
         dish_master2_health_state,
+        dish_master3_health_state,
     ):
         # Row 15 to 17
         (
@@ -548,6 +629,7 @@ class TestSubarrayHealthState(object):
             sdp_sa_sim,
             dish_master_sim_1,
             dish_master_sim_2,
+            dish_master_sim_3,
         ) = get_device_simulators(simulator_factory)
 
         self._assign_dishes_to_subarray(
@@ -558,10 +640,12 @@ class TestSubarrayHealthState(object):
         sdp_sa_sim.SetDirectHealthState(sdp_subarray_health_state)
         dish_master_sim_1.SetDirectHealthState(dish_master1_health_state)
         dish_master_sim_2.SetDirectHealthState(dish_master2_health_state)
+        dish_master_sim_3.SetDirectHealthState(dish_master3_health_state)
         event_recorder.subscribe_event(csp_sa_sim, "healthState")
         event_recorder.subscribe_event(sdp_sa_sim, "healthState")
         event_recorder.subscribe_event(dish_master_sim_1, "healthState")
         event_recorder.subscribe_event(dish_master_sim_2, "healthState")
+        event_recorder.subscribe_event(dish_master_sim_3, "healthState")
         event_recorder.subscribe_event(
             subarray_node.subarray_node, "healthState"
         )
@@ -587,6 +671,11 @@ class TestSubarrayHealthState(object):
             dish_master_sim_2,
             "healthState",
             dish_master2_health_state,
+        )
+        assert event_recorder.has_change_event_occurred(
+            dish_master_sim_3,
+            "healthState",
+            dish_master3_health_state,
         )
         assert event_recorder.has_change_event_occurred(
             subarray_node.subarray_node,
