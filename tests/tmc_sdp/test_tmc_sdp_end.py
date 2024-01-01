@@ -1,4 +1,4 @@
-"""Test module for TMC-SDP Configure functionality"""
+"""Test module for TMC-SDP End functionality"""
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_tango_base.control_model import ObsState
@@ -24,6 +24,7 @@ def test_tmc_sdp_end():
         - "simulator_factory": fixture for SimulatorFactory class,
         which provides simulated subarray and master devices
         - "event_recorder": fixture for EventRecorder class
+        - "subarray_node": fixture for a TMC SubarrayNode under test
     """
 
 
@@ -47,7 +48,9 @@ def given_a_tmc(central_node_mid, event_recorder):
 
 
 @given(parsers.parse("a subarray {subarray_id} in the READY obsState"))
-def check_subarray_obs_state(subarray_node, command_input_factory):
+def check_subarray_obs_state(
+    subarray_node, command_input_factory, subarray_id
+):
     """Method to check subarray is in READY obstate"""
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
@@ -55,6 +58,8 @@ def check_subarray_obs_state(subarray_node, command_input_factory):
     configure_input_json = prepare_json_args_for_commands(
         "configure_mid", command_input_factory
     )
+
+    subarray_node.set_subarray_id(subarray_id)
     subarray_node.force_change_of_obs_state(
         "READY",
         assign_input_json=assign_input_json,
@@ -65,6 +70,7 @@ def check_subarray_obs_state(subarray_node, command_input_factory):
 @when(parsers.parse("I issue End command to the subarray {subarray_id}"))
 def invoke_configure(subarray_node, subarray_id):
     """A method to invoke End command"""
+    subarray_node.set_subarray_id(subarray_id)
     subarray_node.execute_transition("End")
 
 
@@ -73,11 +79,13 @@ def invoke_configure(subarray_node, subarray_id):
         "the SDP subarray {subarray_id} transitions to IDLE obsState"
     )
 )
-def check_sdp_subarray_obs_state(subarray_node, event_recorder):
+def check_sdp_subarray_obs_state(subarray_node, event_recorder, subarray_id):
     """A method to check SDP subarray obsstates"""
     event_recorder.subscribe_event(
         subarray_node.subarray_devices["sdp_subarray"], "obsState"
     )
+
+    subarray_node.set_subarray_id(subarray_id)
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_devices["sdp_subarray"],
         "obsState",
@@ -89,6 +97,8 @@ def check_sdp_subarray_obs_state(subarray_node, event_recorder):
 def check_tmc_subarray_obs_state(subarray_node, event_recorder, subarray_id):
     """A method to check SDP subarray obsstates"""
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
+
+    subarray_node.set_subarray_id(subarray_id)
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",

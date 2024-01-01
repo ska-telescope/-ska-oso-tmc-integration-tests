@@ -157,6 +157,24 @@ class SubarrayNodeWrapper(object):
         """
         self._health_state = value
 
+    def set_subarray_id(self, requested_subarray_id: str) -> None:
+        """This method creates subarray devices for the requested subarray
+        id"""
+        self.subarray_node = DeviceProxy(
+            f"ska_mid/tm_subarray_node/{requested_subarray_id}"
+        )
+        subarray_id = str(requested_subarray_id).zfill(2)
+        self.subarray_devices = {
+            "csp_subarray": DeviceProxy(f"mid-csp/subarray/{subarray_id}"),
+            "sdp_subarray": DeviceProxy(f"mid-sdp/subarray/{subarray_id}"),
+        }
+        self.csp_subarray_leaf_node = DeviceProxy(
+            f"ska_mid/tm_leaf_node/csp_subarray{subarray_id}"
+        )
+        self.sdp_subarray_leaf_node = DeviceProxy(
+            f"ska_mid/tm_leaf_node/sdp_subarray{subarray_id}"
+        )
+
     def move_to_on(self):
         # Move subarray to ON state
         if self.state != self.ON_STATE:

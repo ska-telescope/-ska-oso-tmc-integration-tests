@@ -78,6 +78,7 @@ def check_subarray_is_configured(
         "configure_mid", command_input_factory
     )
 
+    subarray_node.set_subarray_id(subarray_id)
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
     )
@@ -112,6 +113,7 @@ def check_subarray_is_configured(
 )
 def invoke_scan(subarray_node, subarray_id):
     """A method to invoke EndScan command"""
+    subarray_node.set_subarray_id(subarray_id)
     subarray_node.execute_transition("EndScan")
 
 
@@ -132,6 +134,7 @@ def check_sdp_subarray_obs_State(subarray_node, event_recorder):
 )
 def check_sdp_subarray_in_ready(subarray_node, event_recorder, subarray_id):
     """A method to check SDP subarray obsstate"""
+    subarray_node.set_subarray_id(subarray_id)
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_devices["sdp_subarray"],
         "obsState",
