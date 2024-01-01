@@ -24,21 +24,21 @@
                 "properties": {
                     "epoch": {
                         "title": "The epoch Schema",
-                        "description": "An explanation about the purpose of this instance.",
+                        "description": "epoch",
                         "type": "string"
                     },
                     "validity_period": {
                         "title": "The validity_period Schema",
-                        "description": "An explanation about the purpose of this instance.",
+                        "description": "The period for which delayModel is valid.",
                         "type": "integer"
                     },
                     "delay_details": {
                         "title": "The delay_details Schema",
-                        "description": "An explanation about the purpose of this instance.",
+                        "description": "Details of the delayModel.",
                         "type": "array",
                         "items": {
                             "title": "A Schema",
-                            "description": "An explanation about the purpose of this instance.",
+                            "description": "Details of the delayModel",
                             "type": "object",
                             "required": [
                                 "receptor",
@@ -47,16 +47,16 @@
                             "properties": {
                                 "receptor": {
                                     "title": "The receptor Schema",
-                                    "description": "An explanation about the purpose of this instance.",
+                                    "description": "Receptor ID.",
                                     "type": "string"
                                 },
                                 "poly_info": {
                                     "title": "The poly_info Schema",
-                                    "description": "An explanation about the purpose of this instance.",
+                                    "description": "Delay polynomial information.",
                                     "type": "array",
                                     "items": {
                                         "title": "A Schema",
-                                        "description": "An explanation about the purpose of this instance.",
+                                        "description": "Delay polynomial information.",
                                         "type": "object",
                                         "required": [
                                             "polarization",
@@ -65,16 +65,16 @@
                                         "properties": {
                                             "polarization": {
                                                 "title": "The polarization Schema",
-                                                "description": "An explanation about the purpose of this instance.",
+                                                "description": "The polarization type (X or Y).",
                                                 "type": "string"
                                             },
                                             "coeffs": {
                                                 "title": "The coeffs Schema",
-                                                "description": "An explanation about the purpose of this instance.",
+                                                "description": "delay coefficients.",
                                                 "type": "array",
                                                 "items": {
                                                     "title": "A Schema",
-                                                    "description": "An explanation about the purpose of this instance.",
+                                                    "description": "delay coefficients.",
                                                     "type": "number"
                                                 }
                                             }
