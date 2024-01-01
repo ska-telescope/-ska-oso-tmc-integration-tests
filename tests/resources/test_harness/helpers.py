@@ -54,7 +54,10 @@ def check_subarray_obs_state(obs_state=None, timeout=50):
         + str(Resource(csp_subarray1).get("obsState"))
     )
     if obs_state == "READY":
-        device_dict["dish_master_list"] = [dish_master1, dish_master2]
+        device_dict["dish_master_list"] = [
+            dish_master1,
+            dish_master2,
+        ]
     the_waiter = Waiter(**device_dict)
     the_waiter.set_wait_for_obs_state(obs_state=obs_state)
     the_waiter.wait(timeout / 0.1)
@@ -90,7 +93,10 @@ def get_device_simulators(simulator_factory):
     dish_sim_2 = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.DISH_DEVICE, sim_number=2
     )
-    return csp_sim, sdp_sim, dish_sim_1, dish_sim_2
+    dish_sim_3 = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.DISH_DEVICE, sim_number=3
+    )
+    return csp_sim, sdp_sim, dish_sim_1, dish_sim_2, dish_sim_3
 
 
 def get_master_device_simulators(simulator_factory):
@@ -115,11 +121,15 @@ def get_master_device_simulators(simulator_factory):
     dish_master_sim_2 = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.DISH_DEVICE, sim_number=2
     )
+    dish_master_sim_3 = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.DISH_DEVICE, sim_number=3
+    )  # Add dish 4 when SKB-266 is resolved
     return (
         csp_master_sim,
         sdp_master_sim,
         dish_master_sim_1,
         dish_master_sim_2,
+        dish_master_sim_3,
     )
 
 

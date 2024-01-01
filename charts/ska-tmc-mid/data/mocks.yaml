@@ -12,7 +12,7 @@ entrypoints:
 server:
   name: "mocks"
   instances:
-  {{- $isSimulatedDish := .Values.global.Dish.isSimulated.enabled }}
+  {{- $isSimulatedDish := .Values.deviceServers.mocks.is_simulated.dish }}
   {{- $isSimulatedCsp := .Values.deviceServers.mocks.is_simulated.csp }}
   {{- $isSimulatedSdp := .Values.deviceServers.mocks.is_simulated.sdp }}
     - name: "01"
@@ -42,7 +42,7 @@ server:
         - name: "HelperDishDevice"
           devices:
           {{- range .Values.deviceServers.dishleafnode.instances }}
-          - name: "ska{{ printf "%03s" . }}/elt/master"
+          - name: "ska{{ printf . }}/elt/master"
           {{- end }}
         {{- end }}
 depends_on:

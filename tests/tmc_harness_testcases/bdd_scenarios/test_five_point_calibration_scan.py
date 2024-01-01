@@ -38,7 +38,7 @@ def a_configured_subarray(
     subarray_node, event_recorder, simulator_factory, command_input_factory
 ):
     """Given a subarray configured for a calibration scan."""
-    csp_sim, sdp_sim, _, _ = get_device_simulators(simulator_factory)
+    csp_sim, sdp_sim, _, _, _ = get_device_simulators(simulator_factory)
 
     event_recorder.subscribe_event(csp_sim, "obsState")
     event_recorder.subscribe_event(sdp_sim, "obsState")

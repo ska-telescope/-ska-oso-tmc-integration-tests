@@ -48,6 +48,7 @@ def given_simulator_device_health_state_is_ok(simulator_factory):
         sdp_sa_sim,
         dish_master_sim_1,
         dish_master_sim_2,
+        dish_master_sim_3,
     ) = get_device_simulators(simulator_factory)
 
     set_desired_health_state(
@@ -56,6 +57,7 @@ def given_simulator_device_health_state_is_ok(simulator_factory):
             sdp_sa_sim,
             dish_master_sim_1,
             dish_master_sim_2,
+            dish_master_sim_3,
         ],
         health_state_value=HealthState.OK,
     )
@@ -70,6 +72,7 @@ def given_csp_sdp_device_health_state_is_ok(simulator_factory):
     (
         csp_sa_sim,
         sdp_sa_sim,
+        _,
         _,
         _,
     ) = get_device_simulators(simulator_factory)
@@ -104,11 +107,19 @@ def assign_dishes_to_subarray(
         subarray_node.subarray_node, "obsState", ObsState.IDLE
     ), "Waiting for subarray node to complete"
 
-    _, _, dish_master_sim_1, dish_master_sim_2 = get_device_simulators(
-        simulator_factory
-    )
+    (
+        _,
+        _,
+        dish_master_sim_1,
+        dish_master_sim_2,
+        dish_master_sim_3,
+    ) = get_device_simulators(simulator_factory)
     set_desired_health_state(
-        sim_devices_list=[dish_master_sim_1, dish_master_sim_2],
+        sim_devices_list=[
+            dish_master_sim_1,
+            dish_master_sim_2,
+            dish_master_sim_3,
+        ],
         health_state_value=HealthState.OK,
     )
 
