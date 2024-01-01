@@ -8,7 +8,6 @@ from tango import DeviceProxy, DevState
 
 from tests.resources.test_harness.central_node import CentralNodeWrapper
 from tests.resources.test_harness.constant import (
-    RESET_DEFECT,
     centralnode,
     csp_master,
     csp_subarray1,
@@ -83,7 +82,6 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         device_dict["cbf_subarray1"] = "mid_csp_cbf/sub_elt/subarray_01"
         device_dict["cbf_controller"] = "mid_csp_cbf/sub_elt/controller"
         self.wait = Waiter(**device_dict)
-        self.csp_master.SetDefective(RESET_DEFECT)
 
     def _reset_health_state_for_mock_devices(self):
         """Reset Mock devices"""
