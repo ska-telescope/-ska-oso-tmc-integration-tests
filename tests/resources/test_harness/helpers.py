@@ -419,10 +419,21 @@ def wait_csp_master_off():
 
 def wait_till_delay_values_are_no_value(csp_subarray_leaf_node) -> None:
     start_time = time.time()
-    while csp_subarray_leaf_node.delayModel == "no_value" or (
-        time.time() - start_time < TIMEOUT
+    time_elapsed = 0
+    while (
+        csp_subarray_leaf_node.delayModel == "no_value"
+        and time_elapsed <= TIMEOUT
     ):
         time.sleep(1)
+        time_elapsed = time.time() - start_time
+    if (
+        csp_subarray_leaf_node.delayModel == "no_value"
+        and time_elapsed > TIMEOUT
+    ):
+        raise Exception(
+            "Timeout while waiting for CspSubarrayLeafNode to generate \
+                delay values."
+        )
 
 
 def validate_json(input_json, input_json_schema) -> None:
