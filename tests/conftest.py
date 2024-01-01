@@ -174,6 +174,23 @@ def wait_for_dish_mode_change(
     return False
 
 
+def wait_for_telescope_state_change(
+    target_state: int, centralnode_fqdn: str, timeout_seconds: int
+):
+    """Returns True if the telescopeState is changed to a expected value"""
+    start_time = time.time()
+    LOGGER.info("target_state: %s", target_state)
+    while time.time() - start_time < timeout_seconds:
+        LOGGER.info(
+            "CN.telescopeState: %s", centralnode_fqdn.telescopeState.value
+        )
+        if centralnode_fqdn.telescopeState.value == target_state:
+            return True
+        time.sleep(1)
+
+    return False
+
+
 def wait_for_pointing_state_change(
     target_mode: int, dishfqdn: str, timeout_seconds: int
 ):

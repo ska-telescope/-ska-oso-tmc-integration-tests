@@ -2,9 +2,12 @@
 import time
 
 import pytest
-from tango import DeviceProxy
+from tango import DeviceProxy, DevState
 
-from tests.conftest import wait_for_dish_mode_change
+from tests.conftest import (
+    wait_for_dish_mode_change,
+    wait_for_telescope_state_change,
+)
 from tests.resources.test_support.common_utils.common_helpers import Waiter
 from tests.resources.test_support.constant import (
     centralnode,
@@ -32,6 +35,7 @@ def test_configure(json_factory):
     central_node_device = DeviceProxy(centralnode)
     subarray = DeviceProxy(tmc_subarraynode1)
 
+    wait_for_telescope_state_change(DevState.OFF, central_node_device, 30)
     # Invoke TelescopeOn command
     central_node_device.TelescopeOn()
 
