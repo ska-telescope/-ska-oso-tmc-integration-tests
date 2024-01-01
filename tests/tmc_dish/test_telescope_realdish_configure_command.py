@@ -5,6 +5,7 @@ import pytest
 from tango import DeviceProxy, DevState
 
 from tests.conftest import (
+    LOGGER,
     wait_for_dish_mode_change,
     wait_for_telescope_state_change,
 )
@@ -35,7 +36,10 @@ def test_configure(json_factory):
     central_node_device = DeviceProxy(centralnode)
     subarray = DeviceProxy(tmc_subarraynode1)
 
-    wait_for_telescope_state_change(DevState.OFF, central_node_device, 30)
+    result = wait_for_telescope_state_change(
+        DevState.OFF, central_node_device, 30
+    )
+    LOGGER.info("Result is: %s", result)
     # Invoke TelescopeOn command
     central_node_device.TelescopeOn()
 
@@ -45,11 +49,16 @@ def test_configure(json_factory):
     # dish_master_3 = DeviceProxy(dish_fqdn_63)
     # dish_master_4 = DeviceProxy(dish_fqdn_4)
 
-    wait_for_telescope_state_change(DevState.ON, central_node_device, 30)
+    result = wait_for_telescope_state_change(
+        DevState.ON, central_node_device, 30
+    )
+    LOGGER.info("Result is: %s", result)
 
     # Waiting for DISH LMC to respond
-    wait_for_dish_mode_change(DishMode.STANDBY_FP, dish_master_1, 30)
-    wait_for_dish_mode_change(DishMode.STANDBY_FP, dish_master_2, 30)
+    result = wait_for_dish_mode_change(DishMode.STANDBY_FP, dish_master_1, 30)
+    LOGGER.info("Result is: %s", result)
+    result = wait_for_dish_mode_change(DishMode.STANDBY_FP, dish_master_2, 30)
+    LOGGER.info("Result is: %s", result)
     # wait_for_dish_mode_change(DishMode.STANDBY_FP, dish_master_3, 30)
     # wait_for_dish_mode_change(DishMode.STANDBY_FP, dish_master_4, 30)
 
