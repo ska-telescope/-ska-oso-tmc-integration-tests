@@ -93,10 +93,10 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
                 "csp_subarray": DeviceProxy(f"mid-csp/subarray/{subarray_id}"),
                 "sdp_subarray": DeviceProxy(f"mid-sdp/subarray/{subarray_id}"),
             }
-            self.csp_master_leaf_node = DeviceProxy(
+            self.csp_subarray_leaf_node = DeviceProxy(
                 f"ska_mid/tm_leaf_node/csp_subarray{subarray_id}"
             )
-            self.sdp_master_leaf_node = DeviceProxy(
+            self.sdp_subarray_leaf_node = DeviceProxy(
                 f"ska_mid/tm_leaf_node/sdp_subarray{subarray_id}"
             )
         else:
@@ -104,10 +104,10 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
                 "csp_subarray": DeviceProxy(f"mid-csp/subarray/{subarray_id}"),
                 "sdp_subarray": DeviceProxy(f"mid-sdp/subarray/{subarray_id}"),
             }
-            self.csp_master_leaf_node = DeviceProxy(
+            self.csp_subarray_leaf_node = DeviceProxy(
                 f"ska_mid/tm_leaf_node/csp_subarray{subarray_id}"
             )
-            self.sdp_master_leaf_node = DeviceProxy(
+            self.sdp_subarray_leaf_node = DeviceProxy(
                 f"ska_mid/tm_leaf_node/sdp_subarray{subarray_id}"
             )
 

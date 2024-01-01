@@ -3,7 +3,10 @@ import pytest
 from pytest_bdd import given, scenario, then, when
 from tango import DevState
 
-from tests.resources.test_harness.helpers import get_master_device_simulators
+from tests.resources.test_harness.helpers import (
+    get_master_device_simulators,
+    wait_csp_master_off,
+)
 
 
 @pytest.mark.tmc_csp
@@ -52,6 +55,8 @@ def check_state_devices(central_node_mid, event_recorder):
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
     )
+    central_node_mid.csp_master.adminMode = 0
+    wait_csp_master_off()
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
         "telescopeState",
@@ -63,9 +68,6 @@ def check_state_devices(central_node_mid, event_recorder):
 @when("I start up the telescope")
 def move_telescope_to_on(central_node_mid):
     """A method to turn on the telescope."""
-    central_node_mid.wait.set_wait_for_csp_master_to_become_off()
-    central_node_mid.csp_master.adminMode = 0
-    central_node_mid.wait.wait(500)
     csp_master_state = central_node_mid.csp_master.state()
     assert csp_master_state is DevState.OFF
     central_node_mid.move_to_on()
