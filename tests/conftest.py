@@ -168,8 +168,8 @@ def wait_for_dish_mode_change(
     start_time = time.time()
 
     while time.time() - start_time < timeout_seconds:
-        LOGGER.info("dishfqdn.dishMode.value: %s", dishfqdn.dishMode.value)
-        if dishfqdn.dishMode.value == target_mode:
+        LOGGER.info("dishfqdn.dishMode.value: %s", dishfqdn.dishMode)
+        if dishfqdn.dishMode == target_mode:
             return True
         time.sleep(1)
 

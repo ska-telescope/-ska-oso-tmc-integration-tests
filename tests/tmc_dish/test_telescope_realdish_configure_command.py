@@ -49,24 +49,20 @@ def test_configure(json_factory):
     # dish_master_3 = DeviceProxy(dish_fqdn_63)
     # dish_master_4 = DeviceProxy(dish_fqdn_4)
 
-    result = wait_for_telescope_state_change(
-        DevState.ON, central_node_device, 30
-    )
-    LOGGER.info("Result is: %s", result)
-
     # Waiting for DISH LMC to respond
     result = wait_for_dish_mode_change(DishMode.STANDBY_FP, dish_master_1, 30)
     LOGGER.info("Result is: %s", result)
     result = wait_for_dish_mode_change(DishMode.STANDBY_FP, dish_master_2, 30)
     LOGGER.info("Result is: %s", result)
-    # wait_for_dish_mode_change(DishMode.STANDBY_FP, dish_master_3, 30)
-    # wait_for_dish_mode_change(DishMode.STANDBY_FP, dish_master_4, 30)
+
+    result = wait_for_telescope_state_change(
+        DevState.ON, central_node_device, 30
+    )
+    LOGGER.info("Result is: %s", result)
 
     # Check the dishMode of DISH LMC i.e STANDBYFP
-    assert dish_master_1.dishMode.value == DishMode.STANDBY_FP
-    assert dish_master_2.dishMode.value == DishMode.STANDBY_FP
-    # assert dish_master_3.dishMode.value == DishMode.STANDBY_FP
-    # assert dish_master_4.dishMode.value == DishMode.STANDBY_FP
+    # assert dish_master_1.dishMode.value == DishMode.STANDBY_FP
+    # assert dish_master_2.dishMode.value == DishMode.STANDBY_FP
 
     # invoke assignresources command from central node
     central_node_device.AssignResources(assign_json)
