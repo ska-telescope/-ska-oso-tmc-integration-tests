@@ -34,6 +34,7 @@ def given_the_sut(central_node_mid, simulator_factory):
         sdp_master_sim,
         dish_master_sim_1,
         dish_master_sim_2,
+        dish_master_sim_3,
     ) = get_master_device_simulators(simulator_factory)
 
     assert central_node_mid.central_node.ping() > 0
@@ -42,6 +43,7 @@ def given_the_sut(central_node_mid, simulator_factory):
     assert sdp_master_sim.ping() > 0
     assert dish_master_sim_1.ping() > 0
     assert dish_master_sim_2.ping() > 0
+    assert dish_master_sim_3.ping() > 0
 
 
 @given("telescope state is OFF")
