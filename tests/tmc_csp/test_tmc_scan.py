@@ -92,22 +92,22 @@ def subarray_in_ready_obsstate(
     )
     central_node_mid.subarray_node.Configure(configure_input_json)
 
+    event_recorder.subscribe_event(
+        central_node_mid.subarray_devices["csp_subarray"], "obsState"
+    )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_devices.get("csp_subarray"),
+        central_node_mid.subarray_devices["csp_subarray"],
         "obsState",
         ObsState.READY,
     )
-
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_node, "obsState", ObsState.READY
-    )
-    # subarray_node.force_change_of_obs_state("READY")
 
 
 @when(
     parsers.parse("I issue the scan command to the TMC subarray {subarray_id}")
 )
-def invoke_scan(central_node_mid, command_input_factory):
+def invoke_scan(
+    central_node_mid,command_input_factory
+):
     """Invokes Scan command on TMC"""
     scan_input_json = prepare_json_args_for_commands(
         "scan_mid", command_input_factory
