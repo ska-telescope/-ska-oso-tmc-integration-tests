@@ -107,7 +107,7 @@ def invoke_scan(central_node_mid, command_input_factory):
 
 
 @then(parsers.parse("the CSP subarray transitions to ObsState SCANNING"))
-def csp_subarray_scanning(central_node_mid, event_recorder, subarray_id):
+def csp_subarray_scanning(central_node_mid, event_recorder):
     """Checks if Csp Subarray's obsState attribute value is SCANNING"""
     event_recorder.subscribe_event(
         central_node_mid.subarray_devices["csp_subarray"], "obsState"
@@ -116,7 +116,6 @@ def csp_subarray_scanning(central_node_mid, event_recorder, subarray_id):
         central_node_mid.subarray_devices["csp_subarray"],
         "obsState",
         ObsState.SCANNING,
-        lookahead=20,
     )
 
 
