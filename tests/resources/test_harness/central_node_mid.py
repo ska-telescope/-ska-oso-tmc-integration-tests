@@ -90,6 +90,32 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         self.wait = Waiter(**device_dict)
         self.simulated_devices_dict = self.get_simulated_devices_info()
 
+    def set_subarray_id(self, id):
+        self.subarray_node = DeviceProxy(f"ska_mid/tm_subarray_node/{id}")
+        if int(id) <= 9:
+            id = "{:02d}".format(id)
+            self.subarray_devices = {
+                "csp_subarray": DeviceProxy(f"mid-csp/subarray/{id}"),
+                "sdp_subarray": DeviceProxy(f"mid-sdp/subarray/{id}"),
+            }
+            self.csp_master_leaf_node = DeviceProxy(
+                f"ska_mid/tm_leaf_node/csp_subarray{id}"
+            )
+            self.sdp_master_leaf_node = DeviceProxy(
+                f"ska_mid/tm_leaf_node/sdp_subarray{id}"
+            )
+        else:
+            self.subarray_devices = {
+                "csp_subarray": DeviceProxy(f"mid-csp/subarray/{id}"),
+                "sdp_subarray": DeviceProxy(f"mid-sdp/subarray/{id}"),
+            }
+            self.csp_master_leaf_node = DeviceProxy(
+                f"ska_mid/tm_leaf_node/csp_subarray{id}"
+            )
+            self.sdp_master_leaf_node = DeviceProxy(
+                f"ska_mid/tm_leaf_node/sdp_subarray{id}"
+            )
+
     def load_dish_vcc_configuration(self, dish_vcc_config: str):
         """Invoke LoadDishCfg command on central Node
         :param dish_vcc_config: Dish vcc configuration json string
