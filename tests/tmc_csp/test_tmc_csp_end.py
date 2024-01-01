@@ -18,9 +18,9 @@ from tests.resources.test_harness.utils.common_utils import JsonFactory
 LOGGER = logging.getLogger(__name__)
 
 
-@pytest.mark.real_csp
+@pytest.mark.tmc_csp
 @scenario(
-    "../features/tmc_csp/tmc_csp_end.feature",
+    "../features/tmc_csp/xtp_29374_end.feature",
     "End configure from CSP Subarray using TMC",
 )
 def test_tmc_csp_end_functionality() -> None:

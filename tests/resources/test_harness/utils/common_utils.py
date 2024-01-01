@@ -45,7 +45,7 @@ def get_centralnode_input_json(slug):
     return assign_json
 
 
-def get_schema(slug: str) -> str:
+def get_json_schema(slug: str) -> str:
     """
     Args:
         slug (str): base name of file
@@ -100,12 +100,12 @@ class JsonFactory(object):
         return get_centralnode_input_json(json_type)
 
     def create_command_or_attribute_schema(self, json_type: str) -> dict:
-        """Read and return json schema for requested attribute or commands
-            from tests/data/schema folder.
+        """Read and return json schema for requested attribute json or command
+            json from tests/data/schema folder.
         Args:
             json_type (str): Base name of file which is stored in data folder
         Return:
             schema (dict): Returns requested schema for attribute or command
             json
         """
-        return get_schema(json_type)
+        return get_json_schema(json_type)

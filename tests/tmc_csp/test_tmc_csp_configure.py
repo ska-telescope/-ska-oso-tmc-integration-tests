@@ -23,9 +23,9 @@ LOGGER = logging.getLogger(__name__)
 TIME_OUT = 15
 
 
-@pytest.mark.real_csp
+@pytest.mark.tmc_csp
 @scenario(
-    "../features/tmc_csp/tmc_csp_configure.feature",
+    "../features/tmc_csp/xtp_29345_configure.feature",
     "Configure a CSP subarray for a scan using TMC",
 )
 def test_tmc_csp_configure_functionality() -> None:
