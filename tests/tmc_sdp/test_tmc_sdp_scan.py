@@ -6,14 +6,13 @@ from pytest_bdd import given, parsers, scenario, then, when
 from ska_tango_base.control_model import ObsState
 from tango import DevState
 
-from tests.conftest import LOGGER
 from tests.resources.test_harness.helpers import (
     prepare_json_args_for_centralnode_commands,
     prepare_json_args_for_commands,
 )
 
 
-@pytest.mark.real_sdp
+@pytest.mark.tmc_sdp
 @scenario(
     "../features/tmc_sdp/tmc_sdp_scan.feature",
     "TMC executes a scan on SDP subarray",
@@ -111,7 +110,6 @@ def invoke_scan(subarray_node, command_input_factory, scan_id, subarray_id):
     )
     scan_json = json.loads(input_json)
     scan_json["scan_id"] = scan_id
-    LOGGER.info(f"scan json is:{scan_json}")
     subarray_node.execute_transition("Scan", argin=json.dumps(scan_json))
 
 

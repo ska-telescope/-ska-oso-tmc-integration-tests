@@ -10,7 +10,7 @@ from tests.resources.test_harness.helpers import (
 )
 
 
-@pytest.mark.real_sdp
+@pytest.mark.tmc_sdp
 @scenario(
     "../features/tmc_sdp/tmc_sdp_end.feature",
     "End configure from SDP Subarray using TMC",
@@ -47,9 +47,7 @@ def given_a_tmc(central_node_mid, event_recorder):
 
 
 @given(parsers.parse("a subarray {subarray_id} in the READY obsState"))
-def check_subarray_obs_state(
-    central_node_mid, subarray_node, command_input_factory
-):
+def check_subarray_obs_state(subarray_node, command_input_factory):
     """Method to check subarray is in READY obstate"""
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
