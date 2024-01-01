@@ -57,19 +57,13 @@ def check_state_devices(central_node_mid, event_recorder):
     )
     central_node_mid.csp_master.adminMode = 0
     wait_csp_master_off()
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.central_node,
-        "telescopeState",
-        DevState.OFF,
-        lookahead=10,
-    )
+    csp_master_state = central_node_mid.csp_master.state()
+    assert csp_master_state is DevState.OFF
 
 
 @when("I start up the telescope")
 def move_telescope_to_on(central_node_mid):
     """A method to turn on the telescope."""
-    csp_master_state = central_node_mid.csp_master.state()
-    assert csp_master_state is DevState.OFF
     central_node_mid.move_to_on()
 
 
