@@ -8,7 +8,7 @@ from ska_ser_logging import configure_logging
 from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
 
-from tests.resources.test_harness.constant import (  # dish_master3,
+from tests.resources.test_harness.constant import (
     POINTING_OFFSETS,
     centralnode,
     csp_master,
@@ -83,7 +83,6 @@ class SubarrayNodeWrapper(object):
         self.dish_master_list = [
             DeviceProxy(dish_master1),
             DeviceProxy(dish_master2),
-            # DeviceProxy(dish_master3),
         ]
         self._state = DevState.OFF
         self.obs_state = SubarrayObsState.EMPTY
@@ -254,7 +253,6 @@ class SubarrayNodeWrapper(object):
             self.csp_subarray1,
             dish_master1,
             dish_master2,
-            # dish_master3,
         ]:
             device = DeviceProxy(sim_device)
             device.ClearCommandCallInfo()
