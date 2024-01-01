@@ -83,31 +83,23 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         device_dict["cbf_controller"] = "mid_csp_cbf/sub_elt/controller"
         self.wait = Waiter(**device_dict)
 
-    def set_subarray_id(self, id):
-        self.subarray_node = DeviceProxy(f"ska_mid/tm_subarray_node/{id}")
-        if int(id) <= 9:
-            id = "{:02d}".format(id)
-            self.subarray_devices = {
-                "csp_subarray": DeviceProxy(f"mid-csp/subarray/{id}"),
-                "sdp_subarray": DeviceProxy(f"mid-sdp/subarray/{id}"),
-            }
-            self.csp_master_leaf_node = DeviceProxy(
-                f"ska_mid/tm_leaf_node/csp_subarray{id}"
-            )
-            self.sdp_master_leaf_node = DeviceProxy(
-                f"ska_mid/tm_leaf_node/sdp_subarray{id}"
-            )
-        else:
-            self.subarray_devices = {
-                "csp_subarray": DeviceProxy(f"mid-csp/subarray/{id}"),
-                "sdp_subarray": DeviceProxy(f"mid-sdp/subarray/{id}"),
-            }
-            self.csp_master_leaf_node = DeviceProxy(
-                f"ska_mid/tm_leaf_node/csp_subarray{id}"
-            )
-            self.sdp_master_leaf_node = DeviceProxy(
-                f"ska_mid/tm_leaf_node/sdp_subarray{id}"
-            )
+    def set_subarray_id(self, requested_subarray_id: str) -> None:
+        """This method creates subarray devices for the requested subarray
+        id"""
+        self.subarray_node = DeviceProxy(
+            f"ska_mid/tm_subarray_node/{requested_subarray_id}"
+        )
+        subarray_id = str(requested_subarray_id).zfill(2)
+        self.subarray_devices = {
+            "csp_subarray": DeviceProxy(f"mid-csp/subarray/{subarray_id}"),
+            "sdp_subarray": DeviceProxy(f"mid-sdp/subarray/{subarray_id}"),
+        }
+        self.csp_subarray_leaf_node = DeviceProxy(
+            f"ska_mid/tm_leaf_node/csp_subarray{subarray_id}"
+        )
+        self.sdp_subarray_leaf_node = DeviceProxy(
+            f"ska_mid/tm_leaf_node/sdp_subarray{subarray_id}"
+        )
 
     def _reset_health_state_for_mock_devices(self):
         """Reset Mock devices"""
