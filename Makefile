@@ -43,7 +43,7 @@ K8S_CHARTS ?= ska-tmc-$(DEPLOYMENT_TYPE) ska-tmc-testing-$(DEPLOYMENT_TYPE)## li
 K8S_CHART ?= $(HELM_CHART)
 
 DISH_TANGO_HOST ?= databaseds-tango-base
-
+COUNT ?= 1
 CLUSTER_DOMAIN ?= svc.cluster.local
 PORT ?= 10000
 DISH_SIMULATION_ENABLED ?= true
@@ -89,7 +89,7 @@ DISH_SIMULATION_ENABLED ?= true
 
 
 ifeq ($(MAKECMDGOALS),k8s-test)
-ADD_ARGS +=  --true-context
+ADD_ARGS +=  --true-context --count=$(COUNT)
 MARK ?= $(shell echo $(TELESCOPE) | sed "s/-/_/g")
 endif
 

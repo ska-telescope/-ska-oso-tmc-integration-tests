@@ -18,7 +18,7 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
 
 class TestSubarrayNodeNegative(object):
-    @pytest.mark.SKA_midtn1
+    @pytest.mark.SKA_midtn
     @pytest.mark.SKA_mid
     def test_subarray_assign_csp_unresponsive(
         self,

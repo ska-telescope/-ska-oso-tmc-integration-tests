@@ -17,7 +17,7 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.common_utils.result_code import ResultCode
 
 
-@pytest.mark.SKA_mid1
+@pytest.mark.SKA_midtn
 @pytest.mark.SKA_mid
 @scenario(
     "../features/load_dish_cfg_command_negative_scenario.feature",
@@ -63,7 +63,7 @@ def test_central_node_return_error_for_duplicate_vcc_id():
 # @pytest.mark.skip(
 #     "Test case needs to be updated with change of attributes names"
 # )
-@pytest.mark.SKA_midtn3
+@pytest.mark.SKA_midtn
 @pytest.mark.SKA_mid
 @scenario(
     "../features/load_dish_cfg_command_negative_scenario.feature",
