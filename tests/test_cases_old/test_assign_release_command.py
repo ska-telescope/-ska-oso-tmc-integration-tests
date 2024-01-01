@@ -213,11 +213,17 @@ def test_assign_release_timeout_csp(json_factory, change_event_callbacks):
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-@pytest.mark.skip()
+@pytest.mark.SKA_midtn4
+# @pytest.mark.skip()
 @pytest.mark.SKA_mid
-def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
+def test_assign_release_timeout_sdp(
+    command_input_factory, json_factory, change_event_callbacks
+):
     """Verify timeout exception raised when sdp set to defective."""
     assign_json = json_factory("command_AssignResources")
+    # assign_json = prepare_json_args_for_centralnode_commands(
+    #     "assign_resources_mid_invalid_sdp_resources", command_input_factory
+    # )
     release_json = json_factory("command_ReleaseResources")
     try:
         # Verify Telescope is Off/Standby
@@ -246,6 +252,7 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
 
         device_params = deepcopy(ON_OFF_DEVICE_COMMAND_DICT)
         device_params["set_wait_for_obsstate"] = False
+
         result, unique_id = tmc_helper.compose_sub(
             assign_json, **device_params
         )
