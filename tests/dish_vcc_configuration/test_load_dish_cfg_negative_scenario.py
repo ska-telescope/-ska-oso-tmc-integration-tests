@@ -17,6 +17,8 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.common_utils.result_code import ResultCode
 
 
+# TODO This test case fails frequently with corba exception
+# @pytest.mark.skip("Need design change to avoid timeout corba exception")
 @pytest.mark.SKA_midtn
 @pytest.mark.SKA_mid
 @scenario(
