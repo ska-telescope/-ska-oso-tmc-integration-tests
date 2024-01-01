@@ -30,6 +30,7 @@ class TestMidCentralNodeStateTransition(object):
             sdp_master_sim,
             dish_master_sim1,
             dish_master_sim2,
+            _,
         ) = get_master_device_simulators(simulator_factory)
 
         event_recorder.subscribe_event(csp_master_sim, "State")
