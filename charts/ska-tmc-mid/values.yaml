@@ -70,6 +70,7 @@ itango:
     pullPolicy: IfNotPresent
 
 centralnode:
+  image:
     registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-centralnode
     image: ska-tmc-centralnode
     tag: 0.11.12-dev.c4f263d07
