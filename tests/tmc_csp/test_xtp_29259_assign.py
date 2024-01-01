@@ -1,6 +1,7 @@
 """
 Test module for TMC-CSP AssignResources functionality
 """
+import ast
 import json
 
 import pytest
@@ -9,7 +10,6 @@ from ska_control_model import ObsState
 from tango import DevState
 
 from tests.resources.test_harness.helpers import (
-    check_assigned_resources,
     prepare_json_args_for_centralnode_commands,
     wait_csp_master_off,
 )
@@ -130,7 +130,13 @@ def resources_assigned_to_subarray(
 ):
     """Checks if correct ressources are assigned to Subarray"""
     central_node_mid.set_subarray_id(int(subarray_id))
-    receptors = receptors.replace('"', "")
-    assert check_assigned_resources(
-        central_node_mid.subarray_node, (receptors)
+    event_recorder.subscribe_event(
+        central_node_mid.subarray_node, "assignedResources"
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.subarray_node,
+        "assignedResources",
+        ast.literal_eval(
+            f"({receptors})"
+        ),  # casts string coded tuple to tuple
     )
