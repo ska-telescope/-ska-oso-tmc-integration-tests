@@ -1,10 +1,7 @@
 """Test module to test TMC-CSP Configure functionality."""
 import json
-import logging
-import time
 
 import pytest
-from jsonschema import validate
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
 from tango import DevState
@@ -15,12 +12,11 @@ from tests.resources.test_harness.helpers import (
     prepare_json_args_for_centralnode_commands,
     prepare_json_args_for_commands,
     prepare_schema_for_attribute_or_command,
+    validate_json,
     wait_csp_master_off,
+    wait_till_delay_values_are_no_value,
 )
 from tests.resources.test_harness.utils.common_utils import JsonFactory
-
-LOGGER = logging.getLogger(__name__)
-TIME_OUT = 15
 
 
 @pytest.mark.tmc_csp
@@ -139,22 +135,18 @@ def check_if_tmc_subarray_moved_to_ready_obsstate(
     )
 )
 def check_if_delay_values_are_generating(
-    central_node_mid: CentralNodeWrapperMid, command_input_factory: JsonFactory
+    central_node_mid: CentralNodeWrapperMid,
+    command_input_factory: JsonFactory,
+    subarray_id: str,
 ) -> None:
-    """Check id delay model is generating."""
-    start_time = time.time()
-    while central_node_mid.csp_subarray_leaf_node.delayModel == "no_value" or (
-        time.time() - start_time < TIME_OUT
-    ):
-        time.sleep(1)
+    """Check if delay values are generating."""
+    wait_till_delay_values_are_no_value(
+        central_node_mid.csp_subarray_leaf_node
+    )
 
     delay_model_json = central_node_mid.csp_subarray_leaf_node.delayModel
     delay_model_schema = prepare_schema_for_attribute_or_command(
         "delay_model_schema", command_input_factory
     )
-
-    try:
-        # Validate delay model json
-        validate(json.loads(delay_model_json), json.loads(delay_model_schema))
-    except Exception as e:
-        LOGGER.exception(e)
+    # Validate delay model json
+    validate_json(json.loads(delay_model_json), json.loads(delay_model_schema))

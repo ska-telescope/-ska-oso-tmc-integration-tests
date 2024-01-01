@@ -6,6 +6,7 @@ from datetime import datetime
 from typing import Any
 
 import pytest
+from jsonschema import validate
 from ska_ser_logging import configure_logging
 from ska_tango_base.commands import ResultCode
 from ska_tango_base.control_model import HealthState
@@ -414,6 +415,22 @@ def wait_csp_master_off():
     wait = Waiter(**device_dict)
     wait.set_wait_for_csp_master_to_become_off()
     wait.wait(500)
+
+
+def wait_till_delay_values_are_no_value(csp_subarray_leaf_node) -> None:
+    start_time = time.time()
+    while csp_subarray_leaf_node.delayModel == "no_value" or (
+        time.time() - start_time < TIMEOUT
+    ):
+        time.sleep(1)
+
+
+def validate_json(input_json, input_json_schema) -> None:
+    try:
+        # Validate json against its schema
+        validate(input_json, input_json_schema)
+    except Exception as e:
+        LOGGER.exception(e)
 
 
 def generate_id(id_pattern: str) -> str:
