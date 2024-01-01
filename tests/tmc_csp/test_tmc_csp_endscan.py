@@ -14,6 +14,7 @@ from tests.resources.test_harness.helpers import (
 
 LOGGER = logging.getLogger(__name__)
 
+
 @pytest.mark.skip
 @pytest.mark.real_csp
 @scenario(
@@ -91,7 +92,11 @@ def move_subarray_node_to_scanning_obsstate(
     )
 
 
-@when(parsers.parse("I issue the Endscan command to the TMC subarray {subarray_id}"))
+@when(
+    parsers.parse(
+        "I issue the Endscan command to the TMC subarray {subarray_id}"
+    )
+)
 def invoke_endscan_command(central_node_mid):
     """Invoke Endscan command."""
     central_node_mid.end_observation()
