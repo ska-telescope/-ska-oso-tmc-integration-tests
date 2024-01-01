@@ -2,25 +2,19 @@ name: "centralnode-test"
 function: telescope-monitoring
 domain: general-monitoring
 instances: ["01"]
-{{- $DishMasterPrefix := .Values.deviceServers.centralnode.DishMasterPrefix }}
-{{- $DishMasterPostfix := .Values.deviceServers.centralnode.DishMasterPostfix }}
 entrypoints:
-  - name: "ska_tmc_centralnode.central_node_mid.CentralNodeMid"
+  - name: "ska_tmc_centralnode.central_node_low.CentralNodeLow"
 server:
-  name: "central_node_mid"
+  name: "central_node_low"
   instances:
-  {{- $tmc_sa_fqdn_prefix:= .Values.global.tmc_subarray_prefix}}
-  {{- $csp_sa_ln_fqdn_prefix:= .Values.global.csp_subarray_ln_prefix}}
-  {{- $sdp_sa_ln_fqdn_prefix:= .Values.global.sdp_subarray_ln_prefix}}
-  {{- $isSimulatedDish := .Values.deviceServers.mocks.is_simulated.dish }}
-  {{- $real_dish_name := .Values.global.namespace_dish.dish_name }}
-  {{- $DishMasterPrefix := .Values.deviceServers.centralnode.DishMasterPrefix }}
-  {{- $DishMasterPostfix := .Values.deviceServers.centralnode.DishMasterPostfix }}
+  {{ $tmc_sa_fqdn_prefix:= .Values.global.tmc_subarray_prefix}}
+  {{ $csp_sa_ln_fqdn_prefix:= .Values.global.csp_subarray_ln_prefix}}
+  {{ $sdp_sa_ln_fqdn_prefix:= .Values.global.sdp_subarray_ln_prefix}}
   - name: "01"
     classes:
-    - name: "CentralNodeMid"
+    - name: "CentralNodeLow"
       devices:
-      - name: "ska_mid/tm_central/central_node"
+      - name: "ska_low/tm_central/central_node"
         properties:
         - name: "CspMasterLeafNodeFQDN"
           values:
@@ -34,25 +28,12 @@ server:
         - name: "SdpMasterFQDN"
           values:
           - "{{.Values.global.sdp_master}}"
-        - name: "DishLeafNodePrefix"
+        - name: "MccsMasterLeafNodeFQDN"
           values:
-          - "ska_mid/tm_leaf_node/d0"
-        - name: "DishIDs"
+            - "{{.Values.global.mccs_master_ln_prefix}}"
+        - name: "MccsMasterFQDN"
           values:
-          {{- range  (.Values.deviceServers.centralnode.DishIDs)  }}
-          - "{{ . }}"
-          {{- end }}
-        - name: "DishMasterFQDN"
-          values:
-          {{- if eq $isSimulatedDish false }}
-          {{- range  (.Values.global.namespace_dish.dish_name)  }}
-          - "{{ . }}" # Real dish
-          {{- end }}
-          {{- else }}
-          {{- range  (.Values.deviceServers.centralnode.DishIDs)  }}
-          - "{{ . | lower }}/{{ $DishMasterPrefix }}/{{ $DishMasterPostfix }}"
-          {{- end }}
-          {{- end }}
+            - "{{.Values.global.mccs_master}}"
         - name: "TMCSubarrayNodes"
           values:
           {{- range  ( regexSplit " " ((.Values.deviceServers.centralnode.subarray_count | int) | seq ) -1 )  }}
@@ -77,6 +58,10 @@ server:
         - name: "LoggingLevelDefault"
           values:
             - "5"
+        - name: "CommandTimeout"
+          values:
+            - "50"
+
 depends_on:
   - device: sys/database/2
 image:
@@ -84,4 +69,5 @@ image:
   image: "{{.Values.centralnode.image.image}}"
   tag: "{{.Values.centralnode.image.tag}}"
   pullPolicy: "{{.Values.centralnode.image.pullPolicy}}"
+
 

@@ -29,11 +29,18 @@ dish_fqdn_63 = (
     ".local:10000/ska063/elt/master"
 )
 
+<<<<<<< HEAD
 # TODO: Add dish 100 once SKB-266 is resolved
 # dish_fqdn_100 = (
 #     f"tango://databaseds-tango-base.{dish_name_100}.svc.cluster"
 #     ".local:10000/ska100/elt/master"
 # )
+=======
+dish_fqdn_4 = (
+    f"tango://databaseds-tango-base.{dish_name_4}.svc.cluster"
+    ".local:10000/ska099/elt/master"
+)
+>>>>>>> 18bb9ce03e11b82e6ba71485bf77058c0e478c2b
 
 centralnode = "ska_mid/tm_central/central_node"
 tmc_subarraynode1 = "ska_mid/tm_subarray_node/1"

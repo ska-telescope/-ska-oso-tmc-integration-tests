@@ -30,7 +30,15 @@ global:
   # List the dishes, if set, then this list will be applied to instances of:
   # deviceServers.dishmaster, deviceServers.dishleafnode
   dish_devices: ["dishmaster", "dishleafnode"]
+<<<<<<< HEAD
   dishes: ["001", "036", "063"] # Add dish 100 once SKB-266 is resolved
+=======
+  dishes: ["001", "036", "063", "099"]
+
+  # Dish:
+  #   isSimulated:
+  #     enabled: true
+>>>>>>> 18bb9ce03e11b82e6ba71485bf77058c0e478c2b
 
   namespace_dish:
     dish_name: ["dish1", "dish2", "dish3"] # Add dish4 once SKB-266 is resolved
@@ -71,9 +79,13 @@ itango:
 
 centralnode:
   image:
-    registry: artefact.skao.int
+    registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-centralnode
     image: ska-tmc-centralnode
+<<<<<<< HEAD
     tag: 0.11.11
+=======
+    tag: 0.11.10-dev.cf1ff0e06
+>>>>>>> 18bb9ce03e11b82e6ba71485bf77058c0e478c2b
     pullPolicy: IfNotPresent
 
 
@@ -128,7 +140,11 @@ deviceServers:
     subarray_count: 1
     file: "data/centralnode_mid.yaml"
     DishLeafNodePrefix: "ska_mid/tm_leaf_node/d0"
+<<<<<<< HEAD
     DishIDs: ["SKA001", "SKA036", "SKA063"] # Add dish 100 once SKB-266 is resolved
+=======
+    DishIDs: ["SKA001", "SKA036", "SKA063", "SKA099"]
+>>>>>>> 18bb9ce03e11b82e6ba71485bf77058c0e478c2b
     DishMasterPrefix: "elt"
     DishMasterPostfix: "master"
 
@@ -137,7 +153,11 @@ deviceServers:
     instances: ["01"]
     file: "data/subarraynode_mid.yaml"
     DishLeafNodePrefix: "ska_mid/tm_leaf_node/d0"
+<<<<<<< HEAD
     DishIDs: ["SKA001", "SKA036", "SKA063"] # Add dish 100 once SKB-266 is resolved
+=======
+    DishIDs: ["SKA001", "SKA036", "SKA063", "SKA099"]
+>>>>>>> 18bb9ce03e11b82e6ba71485bf77058c0e478c2b
     DishMasterPrefix: "elt"
     DishMasterPostfix: "master"
 
@@ -163,7 +183,11 @@ deviceServers:
 
   dishleafnode:
     enabled: true
+<<<<<<< HEAD
     instances: ["001","036","063"] # Add dish 100 once SKB-266 is resolved
+=======
+    instances: ["001","036","063","099"]
+>>>>>>> 18bb9ce03e11b82e6ba71485bf77058c0e478c2b
     file: "data/dishleafnode.yaml"
 
   mocks:
