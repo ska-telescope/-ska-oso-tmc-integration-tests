@@ -1,4 +1,4 @@
-@XTP-29259 @real_csp_mid
+@XTP-29259 @tmc_csp
 Scenario: Assign resources to CSP subarray using TMC
     Given the telescope is in ON state
     And TMC subarray <subarray_id> is in EMPTY ObsState
