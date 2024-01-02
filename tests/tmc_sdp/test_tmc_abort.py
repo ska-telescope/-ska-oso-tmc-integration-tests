@@ -24,7 +24,7 @@ def test_tmc_sdp_abort_in_resourcing(central_node_mid):
 def telescope_is_in_resourcing_obsstate(
     central_node_mid, event_recorder, command_input_factory
 ):
-    """ "A method to check if telescope in is resourcing obsSstate."""
+    """A method to check if telescope in is resourcing obsSstate."""
     central_node_mid.move_to_on()
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
@@ -61,7 +61,7 @@ def telescope_is_in_resourcing_obsstate(
 @when(parsers.parse("I command it to Abort"))
 def abort_is_invoked(central_node_mid, subarray_id="1"):
     """
-    This method is to invoke abort command on tmc subarray
+    This method invokes abort command on tmc subarray
     """
     central_node_mid.set_subarray_id((int(subarray_id)))
     central_node_mid.subarray_abort()
@@ -90,7 +90,7 @@ def sdp_subarray_is_in_aborted_obsstate(central_node_mid, event_recorder):
 @then(parsers.parse("the TMC subarray obsState transitions to ABORTED"))
 def tmc_subarray_is_in_aborted_obsstate(central_node_mid, event_recorder):
     """
-    Method to check TMC subarray is in ABORTED obsstate
+    Method to check if TMC subarray is in ABORTED obsstate
     """
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
     assert event_recorder.has_change_event_occurred(
@@ -112,11 +112,11 @@ def test_tmc_sdp_abort_in_idle(central_node_mid):
     """
 
 
-@given(parsers.parse("TMC and SDP subarray is in {obsstate} ObsState"))
-def telescope_is_in_idle_obsstate(
-    central_node_mid, event_recorder, command_input_factory, obsstate
-):
-    """ "A method to check if telescope in is IDLE obsSstate."""
+@given("the telescope is in ON state")
+def telescope_is_in_on_state(central_node_mid, event_recorder):
+    """
+    This method checks if the telescope is in ON state
+    """
     central_node_mid.move_to_on()
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
@@ -126,6 +126,13 @@ def telescope_is_in_idle_obsstate(
         "telescopeState",
         DevState.ON,
     )
+
+
+@given(parsers.parse("TMC and SDP subarray is in {obsstate} ObsState"))
+def telescope_is_in_idle_obsstate(
+    central_node_mid, event_recorder, command_input_factory, obsstate
+):
+    """ "A method to check if telescope in is IDLE obsSstate."""
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )

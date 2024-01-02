@@ -34,11 +34,13 @@ def telescope_is_in_on_state(central_node_mid, event_recorder):
     )
 
 
-@given("TMC and SDP subarray {subarray_id} is in ABORTED ObsState")
+@given(
+    parsers.parse("TMC and SDP subarray {subarray_id} is in ABORTED ObsState")
+)
 def telescope_is_in_aborted_obsstate(
     central_node_mid, event_recorder, command_input_factory, subarray_id
 ):
-    "Method to move subarray in Abort Obsstate."
+    "Method to move subarray in ABORTED Obsstate."
     central_node_mid.set_subarray_id((int(subarray_id)))
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
@@ -74,7 +76,7 @@ def telescope_is_in_aborted_obsstate(
     )
 
 
-@when(parsers.parse("I command it to Restart"))
+@when("I command it to Restart")
 def restart_is_invoked(central_node_mid, subarray_id):
     """
     This method is to invoke Restart command on tmc subarray
@@ -92,7 +94,7 @@ def sdp_subarray_is_in_empty_obsstate(
     central_node_mid, event_recorder, subarray_id
 ):
     """
-    This method check if the SDP subarray is in EMPTY obstate
+    This method checks if the SDP subarray is in EMPTY obstate
     """
     central_node_mid.set_subarray_id((int(subarray_id)))
     assert event_recorder.has_change_event_occurred(
@@ -111,7 +113,7 @@ def tmc_subarray_is_in_empty_obsstate(
     central_node_mid, event_recorder, subarray_id
 ):
     """
-    Method to check TMC subarray is in EMPTY obsstate
+    This method checks if TMC subarray is in EMPTY obsstate
     """
     central_node_mid.set_subarray_id((int(subarray_id)))
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
