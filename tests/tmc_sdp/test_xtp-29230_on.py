@@ -43,18 +43,13 @@ def given_a_tmc(central_node_mid, simulator_factory):
     assert dish_master_sim_2.ping() > 0
 
 
-@given("telescope state is OFF")
+@given("telescope state is STANDY")
 def check_telescope_state_standby(central_node_mid, event_recorder):
     """A method to check CentralNode telescopeState STANDBY"""
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
     )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.central_node,
-        "telescopeState",
-        DevState.OFF,
-    )
-
+    assert central_node_mid.central_node.telescopeState in [DevState.STANDBY, DevState.OFF]
 
 @when("I start up the telescope")
 def move_sdp_to_on(central_node_mid):

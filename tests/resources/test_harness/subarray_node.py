@@ -27,8 +27,8 @@ from tests.resources.test_harness.constant import (
 from tests.resources.test_harness.helpers import (
     check_subarray_obs_state,
     generate_eb_pb_ids,
-    get_simulated_devices_info,
     prepare_json_args_for_commands,
+    SIMULATED_DEVICES_DICT
 )
 from tests.resources.test_harness.utils.constant import (
     ABORTED,
@@ -101,7 +101,6 @@ class SubarrayNodeWrapper(object):
         self.ABORTED_OBS_STATE = ABORTED
         self.csp_subarray1 = csp_subarray1
         self.sdp_subarray1 = sdp_subarray1
-        self.simulated_devices_dict = get_simulated_devices_info()
 
     def _setup(self):
         """ """
@@ -160,9 +159,6 @@ class SubarrayNodeWrapper(object):
     def set_subarray_id(self, requested_subarray_id: str) -> None:
         """This method creates subarray devices for the requested subarray
         id"""
-        self.subarray_node = DeviceProxy(
-            f"ska_mid/tm_subarray_node/{requested_subarray_id}"
-        )
         subarray_id = str(requested_subarray_id).zfill(2)
         self.subarray_devices = {
             "csp_subarray": DeviceProxy(f"mid-csp/subarray/{subarray_id}"),
@@ -262,13 +258,13 @@ class SubarrayNodeWrapper(object):
     def _reset_simulator_devices(self):
         """Reset Simulator devices to it's original state"""
         if (
-            self.simulated_devices_dict["csp_and_sdp"]
-            or self.simulated_devices_dict["all_mocks"]
+            SIMULATED_DEVICES_DICT["csp_and_sdp"]
+            or SIMULATED_DEVICES_DICT["all_mocks"]
         ):
             sim_device_fqdn_list = [self.sdp_subarray1, self.csp_subarray1]
-        elif self.simulated_devices_dict["csp_and_dish"]:
+        elif SIMULATED_DEVICES_DICT["csp_and_dish"]:
             sim_device_fqdn_list = [self.csp_subarray1]
-        elif self.simulated_devices_dict["sdp_and_dish"]:
+        elif SIMULATED_DEVICES_DICT["sdp_and_dish"]:
             sim_device_fqdn_list = [self.sdp_subarray1]
         for sim_device_fqdn in sim_device_fqdn_list:
             device = DeviceProxy(sim_device_fqdn)
@@ -279,9 +275,9 @@ class SubarrayNodeWrapper(object):
     def _reset_dishes(self):
         """Reset Dish Devices"""
         if (
-            self.simulated_devices_dict["csp_and_dish"]
-            or self.simulated_devices_dict["csp_and_dish"]
-            or self.simulated_devices_dict["all_mocks"]
+            SIMULATED_DEVICES_DICT["csp_and_dish"]
+            or SIMULATED_DEVICES_DICT["csp_and_dish"]
+            or SIMULATED_DEVICES_DICT["all_mocks"]
         ):
             for dish_master in self.dish_master_list:
                 dish_master.SetDirectDishMode(DishMode.STANDBY_LP)
@@ -291,7 +287,7 @@ class SubarrayNodeWrapper(object):
 
     def _clear_command_call_and_transition_data(self, clear_transition=False):
         """Clears the command call data"""
-        if self.simulated_devices_dict["csp_and_sdp"]:
+        if SIMULATED_DEVICES_DICT["csp_and_sdp"]:
             for sim_device in [
                 self.sdp_subarray1,
                 self.csp_subarray1,
@@ -300,7 +296,7 @@ class SubarrayNodeWrapper(object):
                 device.ClearCommandCallInfo()
                 if clear_transition:
                     device.ResetTransitions()
-        elif self.simulated_devices_dict["csp_and_dish"]:
+        elif SIMULATED_DEVICES_DICT["csp_and_dish"]:
             for sim_device in [
                 self.csp_subarray1,
                 dish_master1,
@@ -310,7 +306,7 @@ class SubarrayNodeWrapper(object):
                 device.ClearCommandCallInfo()
                 if clear_transition:
                     device.ResetTransitions()
-        elif self.simulated_devices_dict["sdp_and_dish"]:
+        elif SIMULATED_DEVICES_DICT["sdp_and_dish"]:
             for sim_device in [
                 self.sdp_subarray1,
                 dish_master1,
@@ -320,7 +316,7 @@ class SubarrayNodeWrapper(object):
                 device.ClearCommandCallInfo()
                 if clear_transition:
                     device.ResetTransitions()
-        elif self.simulated_devices_dict["all_mocks"]:
+        elif SIMULATED_DEVICES_DICT["all_mocks"]:
             for sim_device in [
                 self.sdp_subarray1,
                 self.csp_subarray1,
