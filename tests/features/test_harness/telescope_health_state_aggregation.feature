@@ -9,7 +9,7 @@ Scenario Outline: Verify CentralNode TelescopeHealthState
         | sdp master                    | FAILED                     |   FAILED               |
         | csp master,sdp master         | FAILED,FAILED              |   FAILED               |
         | dish master 1                 | FAILED                     |   FAILED               | 
-        | dish master 2                 | FAILED                     |   FAILED               |   
+        | dish master 2                 | FAILED                     |   FAILED               |  
         | dish master 1,dish master 2   | FAILED,FAILED              |   FAILED               |  
         | csp master,dish master 1      | FAILED,FAILED              |   FAILED               |
         | csp master,dish master 2      | FAILED,FAILED              |   FAILED               |

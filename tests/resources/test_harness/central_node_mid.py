@@ -16,6 +16,7 @@ from tests.resources.test_harness.constant import (
     device_dict,
     dish_master1,
     dish_master2,
+    dish_master3,
     sdp_master,
     sdp_subarray1,
     tmc_csp_master_leaf_node,
@@ -41,7 +42,8 @@ SDP_SIMULATION_ENABLED = os.getenv("SDP_SIMULATION_ENABLED")
 CSP_SIMULATION_ENABLED = os.getenv("CSP_SIMULATION_ENABLED")
 DISH_SIMULATION_ENABLED = os.getenv("DISH_SIMULATION_ENABLED")
 REAL_DISH1_FQDN = os.getenv("DISH_NAME_1")
-REAL_DISH2_FQDN = os.getenv("DISH_NAME_2")
+REAL_DISH36_FQDN = os.getenv("DISH_NAME_36")
+REAL_DISH63_FQDN = os.getenv("DISH_NAME_63")
 
 
 class CentralNodeWrapperMid(CentralNodeWrapper):
@@ -68,14 +70,17 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             and not self.simulated_devices_dict["all_mocks"]
         ):
             dish_fqdn1 = REAL_DISH1_FQDN
-            dish_fqdn2 = REAL_DISH2_FQDN
+            dish_fqdn36 = REAL_DISH36_FQDN
+            dish_fqdn63 = REAL_DISH63_FQDN
         else:
             dish_fqdn1 = dish_master1
-            dish_fqdn2 = dish_master2
+            dish_fqdn36 = dish_master2
+            dish_fqdn63 = dish_master3
 
         self.dish_master_list = [
             DeviceProxy(dish_fqdn1),
-            DeviceProxy(dish_fqdn2),
+            DeviceProxy(dish_fqdn36),
+            DeviceProxy(dish_fqdn63),
         ]
 
         self._state = DevState.OFF
@@ -149,6 +154,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
                 sdp_subarray1,
                 dish_master1,
                 dish_master2,
+                dish_master3,
             ]:
                 device = DeviceProxy(sim_device)
                 device.ClearCommandCallInfo()
