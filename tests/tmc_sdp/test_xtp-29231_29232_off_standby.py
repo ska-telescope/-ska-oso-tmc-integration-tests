@@ -1,4 +1,4 @@
-"""Test module for TMC-SDP Off and Standby functionality"""
+"""Test module for TMC-SDP Off-Standby functionality"""
 import pytest
 from pytest_bdd import given, scenario, then, when
 from tango import DevState
