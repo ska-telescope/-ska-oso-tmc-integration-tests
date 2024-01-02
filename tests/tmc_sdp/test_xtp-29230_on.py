@@ -8,12 +8,12 @@ from tests.resources.test_harness.helpers import get_master_device_simulators
 
 @pytest.mark.tmc_sdp
 @scenario(
-    "../features/tmc_sdp/tmc_sdp_on.feature",
+    "../features/tmc_sdp/xtp-29230_on.feature",
     "Start up the telescope having TMC and SDP subsystems",
 )
-def test_tmc_sdp_startup_telescope():
+def test_tmc_sdp_on():
     """
-    Test case to verify TMC-SDP StartUp functionality
+    Test case to verify TMC-SDP On functionality
 
     Glossary:
         - "central_node_mid": fixture for a TMC CentralNode under test

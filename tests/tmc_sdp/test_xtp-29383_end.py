@@ -12,7 +12,7 @@ from tests.resources.test_harness.helpers import (
 
 @pytest.mark.tmc_sdp
 @scenario(
-    "../features/tmc_sdp/tmc_sdp_end.feature",
+    "../features/tmc_sdp/xtp-29383_end.feature",
     "End configure from SDP Subarray using TMC",
 )
 def test_tmc_sdp_end():
