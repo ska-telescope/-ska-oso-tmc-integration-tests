@@ -417,7 +417,7 @@ def wait_csp_master_off():
     wait.wait(500)
 
 
-def wait_till_delay_values_are_no_value(csp_subarray_leaf_node) -> None:
+def wait_till_delay_values_are_populated(csp_subarray_leaf_node) -> None:
     start_time = time.time()
     time_elapsed = 0
     while (

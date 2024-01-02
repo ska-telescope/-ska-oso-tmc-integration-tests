@@ -14,7 +14,7 @@ from tests.resources.test_harness.helpers import (
     prepare_schema_for_attribute_or_command,
     validate_json,
     wait_csp_master_off,
-    wait_till_delay_values_are_no_value,
+    wait_till_delay_values_are_populated,
 )
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 
@@ -140,7 +140,7 @@ def check_if_delay_values_are_generating(
     subarray_id: str,
 ) -> None:
     """Check if delay values are generating."""
-    wait_till_delay_values_are_no_value(
+    wait_till_delay_values_are_populated(
         central_node_mid.csp_subarray_leaf_node
     )
 
