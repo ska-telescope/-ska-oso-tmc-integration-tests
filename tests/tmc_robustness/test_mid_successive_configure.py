@@ -26,8 +26,7 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
-# @pytest.mark.skip(reason="2nd configure fails in READY.")
-@pytest.mark.SKA_mid21
+@pytest.mark.SKA_mid
 @scenario(
     "../features/successive_configure.feature",
     "TMC validates reconfigure functionality",
