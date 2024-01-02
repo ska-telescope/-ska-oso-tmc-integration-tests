@@ -1,6 +1,5 @@
 import json
 import logging
-import os
 from typing import Tuple
 
 from ska_control_model import ResultCode
@@ -8,7 +7,10 @@ from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
 
 from tests.resources.test_harness.constant import device_dict
-from tests.resources.test_harness.helpers import generate_eb_pb_ids
+from tests.resources.test_harness.helpers import (
+    generate_eb_pb_ids,
+    get_simulated_devices_info,
+)
 from tests.resources.test_harness.utils.enums import DishMode
 from tests.resources.test_harness.utils.sync_decorators import (
     sync_abort,
@@ -19,10 +21,6 @@ from tests.resources.test_harness.utils.sync_decorators import (
 from tests.resources.test_support.common_utils.common_helpers import Resource
 
 LOGGER = logging.getLogger(__name__)
-
-SDP_SIMULATION_ENABLED = os.getenv("SDP_SIMULATION_ENABLED")
-CSP_SIMULATION_ENABLED = os.getenv("CSP_SIMULATION_ENABLED")
-DISH_SIMULATION_ENABLED = os.getenv("DISH_SIMULATION_ENABLED")
 
 
 # TODO ::
@@ -51,7 +49,7 @@ class BaseNodeWrapper(object):
         self.mccs_master = None
         self.dish_master_list = None
         self._state = DevState.OFF
-        self.simulated_devices_dict = self.get_simulated_devices_info()
+        self.simulated_devices_dict = get_simulated_devices_info()
 
     def move_to_on(self) -> NotImplementedError:
         """
@@ -350,31 +348,3 @@ class CentralNodeWrapper(BaseNodeWrapper):
         if self.dish_master_list:
             for device in self.dish_master_list:
                 device.SetDirectDishMode(dish_mode)
-
-    def get_simulated_devices_info(self) -> dict:
-        """
-        A method to get simulated devices present in the deployement.
-
-        return: dict
-        """
-        self.is_csp_simulated = CSP_SIMULATION_ENABLED.lower() == "true"
-        self.is_sdp_simulated = SDP_SIMULATION_ENABLED.lower() == "true"
-        self.is_dish_simulated = DISH_SIMULATION_ENABLED.lower() == "true"
-        return {
-            "csp_and_sdp": all(
-                [self.is_csp_simulated, self.is_sdp_simulated]
-            ),  # real DISH.LMC enabled
-            "csp_and_dish": all(
-                [self.is_csp_simulated, self.is_dish_simulated]
-            ),  # real SDP enabled
-            "sdp_and_dish": all(
-                [self.is_sdp_simulated, self.is_dish_simulated]
-            ),  # real CSP.LMC enabled
-            "all_mocks": all(
-                [
-                    self.is_csp_simulated,
-                    self.is_sdp_simulated,
-                    self.is_dish_simulated,
-                ]
-            ),
-        }

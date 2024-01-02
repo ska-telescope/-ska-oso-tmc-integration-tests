@@ -29,7 +29,7 @@ from tests.resources.test_harness.utils.wait_helpers import Waiter
 configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
 
-SDP_SIMULATION_ENABLED = os.getenv("SDP_SIMULATION_ENABLED")
+
 REAL_DISH1_FQDN = os.getenv("DISH_NAME_1")
 REAL_DISH36_FQDN = os.getenv("DISH_NAME_36")
 REAL_DISH63_FQDN = os.getenv("DISH_NAME_63")
