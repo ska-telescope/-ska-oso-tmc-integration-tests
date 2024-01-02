@@ -112,19 +112,19 @@ ska-tango-alarmhandler:
     app: ska-tmc-integration
   enabled: false
 
-# ska-tmc-simulators:
-#   labels: 
-#     app: ska-tmc-integration
-#   enabled: true
-#   deviceServers:
-#     cspmastersimulator:
-#       enabled: false
+ska-tmc-simulators:
+  labels: 
+    app: ska-tmc-integration
+  enabled: true
+  deviceServers:
+    cspmastersimulator:
+      enabled: false
     
-#     weatherstation:
-#       enabled: false
+    weatherstation:
+      enabled: false
     
-#     powersupplysimulator:
-#       enabled: true
+    powersupplysimulator:
+      enabled: false
 
 ska-csp-lmc-mid:
   enabled: false
