@@ -11,7 +11,7 @@ server:
   {{- $sdp_sa_ln_fqdn_prefix:= .Values.global.sdp_subarray_ln_prefix}}
   {{- $csp_sa_fqdn_prefix:= .Values.global.csp_subarray_prefix}}
   {{- $sdp_sa_fqdn_prefix:= .Values.global.sdp_subarray_prefix}}
-  {{- $isSimulatedDish := .Values.global.Dish.isSimulated.enabled }}
+  {{- $isSimulatedDish := .Values.deviceServers.mocks.is_simulated.dish }}
   {{- $real_dish_name := .Values.global.namespace_dish.dish_name }}
   {{- $DishMasterPrefix := .Values.deviceServers.subarraynode.DishMasterPrefix }}
   {{- $DishMasterPostfix := .Values.deviceServers.subarraynode.DishMasterPostfix }}

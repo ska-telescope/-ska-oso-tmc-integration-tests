@@ -4,6 +4,7 @@ from pytest_bdd import given, scenario, then, when
 from tango import DevState
 
 from tests.resources.test_harness.helpers import get_master_device_simulators
+from tests.resources.test_harness.utils.enums import DishMode
 
 
 @pytest.mark.tmc_sdp
@@ -24,7 +25,7 @@ def test_tmc_sdp_on():
 
 
 @given("a Telescope consisting of TMC, SDP, simulated CSP and simulated Dish")
-def given_a_tmc(central_node_mid, simulator_factory):
+def given_a_tmc(central_node_mid, simulator_factory, event_recorder):
     """
     Given a TMC
     """
@@ -33,6 +34,7 @@ def given_a_tmc(central_node_mid, simulator_factory):
         _,
         dish_master_sim_1,
         dish_master_sim_2,
+        dish_master_sim_3,
     ) = get_master_device_simulators(simulator_factory)
 
     assert central_node_mid.central_node.ping() > 0
@@ -41,6 +43,27 @@ def given_a_tmc(central_node_mid, simulator_factory):
     assert csp_master_sim.ping() > 0
     assert dish_master_sim_1.ping() > 0
     assert dish_master_sim_2.ping() > 0
+    assert dish_master_sim_3.ping() > 0
+
+    event_recorder.subscribe_event(dish_master_sim_1, "dishMode")
+    event_recorder.subscribe_event(dish_master_sim_2, "dishMode")
+    event_recorder.subscribe_event(dish_master_sim_3, "dishMode")
+    # check if dish devices are in initial states
+    assert event_recorder.has_change_event_occurred(
+        dish_master_sim_1,
+        "dishMode",
+        DishMode.STANDBY_LP,
+    )
+    assert event_recorder.has_change_event_occurred(
+        dish_master_sim_2,
+        "dishMode",
+        DishMode.STANDBY_LP,
+    )
+    assert event_recorder.has_change_event_occurred(
+        dish_master_sim_3,
+        "dishMode",
+        DishMode.STANDBY_LP,
+    )
 
 
 @given("telescope state is STANDY")

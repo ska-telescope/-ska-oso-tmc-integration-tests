@@ -1,11 +1,14 @@
 {
-  "interface": "https://schema.skao.int/ska-tmc-assignresources/2.1",
-  "transaction_id": "txn-....-00001",
-  "subarray_id": 1,
-  "dish": {
-      "receptor_ids": ["SKA001", "SKA002"]
-  },
-  "sdp": {
+    "interface": "https://schema.skao.int/ska-tmc-assignresources/2.1",
+    "transaction_id": "txn-....-00001",
+    "subarray_id": 1,
+    "dish": {
+      "receptor_ids": [
+        "SKA001",
+        "SKA036"
+      ]
+    },
+    "sdp": {
       "interface": "https://schema.skao.int/ska-sdp-assignres/0.4",
       "execution_block": {
           "eb_id": "eb-mvp01-20210623-00000",

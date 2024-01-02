@@ -249,15 +249,15 @@ class Waiter:
                 "obsState", changed_to="READY"
             )
         )
+        if self.dish_master_list:
+            self.set_wait_for_dish("dishMode", "OPERATE")
+            self.set_wait_for_dish("pointingState", "TRACK")
 
         self.waits.append(
             watch(Resource(self.tmc_subarraynode1)).to_become(
                 "obsState", changed_to="READY"
             )
         )
-        if self.dish_master_list:
-            self.set_wait_for_dish("dishMode", "OPERATE")
-            self.set_wait_for_dish("pointingState", "TRACK")
 
     def set_wait_for_idle(self):
         self.waits.append(
