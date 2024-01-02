@@ -59,7 +59,7 @@ def check_subarray_is_configured(
     )
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
 
-    # check telescopeState is ON, and fire TelescopeOn() command
+    # check telescopeState is ON, and invoke TelescopeOn() command
     if central_node_mid.telescope_state != "ON":
         central_node_mid.move_to_on()
 
