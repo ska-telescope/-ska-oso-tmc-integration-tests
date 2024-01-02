@@ -1,6 +1,4 @@
-"""
-Test module for TMC-CSP AssignResources functionality
-"""
+"""Test module for TMC-CSP AssignResources functionality"""
 import ast
 import json
 
