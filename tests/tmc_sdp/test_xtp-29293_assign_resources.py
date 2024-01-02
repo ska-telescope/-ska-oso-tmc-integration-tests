@@ -85,54 +85,54 @@ def assign_resources_to_subarray(
     central_node_mid.store_resources(assign_input_json)
 
 
-# @then(parsers.parse("the sdp subarray {subarray_id} obsState is IDLE"))
-# def check_sdp_is_in_idle_obsstate(
-#     central_node_mid, event_recorder, subarray_id
-# ):
-#     """Method to check SDP is in IDLE obsstate"""
-#     event_recorder.subscribe_event(
-#         central_node_mid.subarray_devices.get("sdp_subarray"), "obsState"
-#     )
-#     check_subarray_instance(
-#         central_node_mid.subarray_devices.get("sdp_subarray"), subarray_id
-#     )
-#     assert event_recorder.has_change_event_occurred(
-#         central_node_mid.subarray_devices.get("sdp_subarray"),
-#         "obsState",
-#         ObsState.IDLE,
-#     )
+@then(parsers.parse("the sdp subarray {subarray_id} obsState is IDLE"))
+def check_sdp_is_in_idle_obsstate(
+    central_node_mid, event_recorder, subarray_id
+):
+    """Method to check SDP is in IDLE obsstate"""
+    event_recorder.subscribe_event(
+        central_node_mid.subarray_devices.get("sdp_subarray"), "obsState"
+    )
+    check_subarray_instance(
+        central_node_mid.subarray_devices.get("sdp_subarray"), subarray_id
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.subarray_devices.get("sdp_subarray"),
+        "obsState",
+        ObsState.IDLE,
+    )
 
 
-# @then(
-#     parsers.parse(
-#         "the TMC subarray {subarray_id} obsState is transitioned to IDLE"
-#     )
-# )
-# def check_tmc_is_in_idle_obsstate(
-#     central_node_mid, event_recorder, subarray_id
-# ):
-#     """Method to check TMC is in IDLE obsstate."""
-#     check_subarray_instance(central_node_mid.subarray_node, subarray_id)
-#     assert event_recorder.has_change_event_occurred(
-#         central_node_mid.subarray_node,
-#         "obsState",
-#         ObsState.IDLE,
-#     )
+@then(
+    parsers.parse(
+        "the TMC subarray {subarray_id} obsState is transitioned to IDLE"
+    )
+)
+def check_tmc_is_in_idle_obsstate(
+    central_node_mid, event_recorder, subarray_id
+):
+    """Method to check TMC is in IDLE obsstate."""
+    check_subarray_instance(central_node_mid.subarray_node, subarray_id)
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.subarray_node,
+        "obsState",
+        ObsState.IDLE,
+    )
 
 
-# @then(
-#     parsers.parse(
-#         "the correct resources {receptors} are assigned to sdp subarray "
-#         + "and TMC subarray"
-#     )
-# )
-# def check_assign_resources_to_tmc(central_node_mid, event_recorder, receptors):
-#     """Methos checks whether proper resources are assigned or not."""
-#     event_recorder.subscribe_event(
-#         central_node_mid.subarray_node, "assignedResources"
-#     )
-#     assert event_recorder.has_change_event_occurred(
-#         central_node_mid.subarray_node,
-#         "assignedResources",
-#         ast.literal_eval(receptors),  # casts string coded tuple to tuple
-#     )
+@then(
+    parsers.parse(
+        "the correct resources {receptors} are assigned to sdp subarray "
+        + "and TMC subarray"
+    )
+)
+def check_assign_resources_to_tmc(central_node_mid, event_recorder, receptors):
+    """Methos checks whether proper resources are assigned or not."""
+    event_recorder.subscribe_event(
+        central_node_mid.subarray_node, "assignedResources"
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.subarray_node,
+        "assignedResources",
+        ast.literal_eval(receptors),  # casts string coded tuple to tuple
+    )
