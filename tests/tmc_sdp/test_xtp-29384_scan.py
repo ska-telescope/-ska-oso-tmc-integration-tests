@@ -46,7 +46,7 @@ def check_subarray_is_configured(
     configure_input_json = prepare_json_args_for_commands(
         "configure_mid", command_input_factory
     )
-    subarray_node.set_subarray_id(subarray_id)
+    central_node_mid.set_subarray_id(subarray_id)
     event_recorder.subscribe_event(central_node_mid.sdp_master, "State")
     event_recorder.subscribe_event(
         central_node_mid.subarray_devices["sdp_subarray"], "State"
@@ -103,7 +103,13 @@ def check_subarray_is_configured(
         "I issue scan command with scan Id {scan_id} on subarray {subarray_id}"
     )
 )
-def invoke_scan(subarray_node, command_input_factory, scan_id, subarray_id):
+def invoke_scan(
+    central_node_mid,
+    subarray_node,
+    command_input_factory,
+    scan_id,
+    subarray_id,
+):
     """A method to invoke Scan command"""
     input_json = prepare_json_args_for_commands(
         "scan_mid", command_input_factory
@@ -111,7 +117,7 @@ def invoke_scan(subarray_node, command_input_factory, scan_id, subarray_id):
     scan_json = json.loads(input_json)
     scan_json["scan_id"] = scan_id
 
-    subarray_node.set_subarray_id(subarray_id)
+    central_node_mid.set_subarray_id(subarray_id)
     subarray_node.execute_transition("Scan", argin=json.dumps(scan_json))
 
 
@@ -120,10 +126,12 @@ def invoke_scan(subarray_node, command_input_factory, scan_id, subarray_id):
         "the subarray {subarray_id} obsState transitions to SCANNING"
     )
 )
-def check_subarray_obs_State(subarray_node, subarray_id, event_recorder):
+def check_subarray_obs_State(
+    central_node_mid, subarray_node, subarray_id, event_recorder
+):
     """Check TMC and SDP subarray obsState Scanning"""
 
-    subarray_node.set_subarray_id(subarray_id)
+    central_node_mid.set_subarray_id(subarray_id)
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",
@@ -142,9 +150,11 @@ def check_subarray_obs_State(subarray_node, subarray_id, event_recorder):
         + "transitions to READY after the scan duration elapsed"
     )
 )
-def check_sdp_subarray_in_ready(subarray_node, event_recorder, subarray_id):
+def check_sdp_subarray_in_ready(
+    central_node_mid, subarray_node, event_recorder, subarray_id
+):
     """A method to check SDP subarray obsstate"""
-    subarray_node.set_subarray_id(subarray_id)
+    central_node_mid.set_subarray_id(subarray_id)
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_devices["sdp_subarray"],
         "obsState",
@@ -157,9 +167,11 @@ def check_sdp_subarray_in_ready(subarray_node, event_recorder, subarray_id):
         "the TMC subarray {subarray_id} obsState transitions back to READY"
     )
 )
-def check_tmc_subarray_obs_state(subarray_node, event_recorder, subarray_id):
+def check_tmc_subarray_obs_state(
+    central_node_mid, subarray_node, event_recorder, subarray_id
+):
     """A method to check TMC subarray obsstate"""
-    subarray_node.set_subarray_id(subarray_id)
+    central_node_mid.set_subarray_id(subarray_id)
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",

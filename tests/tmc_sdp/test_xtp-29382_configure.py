@@ -78,7 +78,11 @@ def check_subarray_obs_state(
     parsers.parse("I configure with {scan_type} to the subarray {subarray_id}")
 )
 def invoke_configure(
-    subarray_node, scan_type, subarray_id, command_input_factory
+    central_node_mid,
+    subarray_node,
+    scan_type,
+    subarray_id,
+    command_input_factory,
 ):
     """A method to invoke Configure command"""
     input_json = prepare_json_args_for_commands(
@@ -86,18 +90,20 @@ def invoke_configure(
     )
     input_json = json.loads(input_json)
     input_json["sdp"]["scan_type"] = scan_type
-    subarray_node.set_subarray_id(subarray_id)
+    central_node_mid.set_subarray_id(subarray_id)
     subarray_node.execute_transition("Configure", argin=json.dumps(input_json))
 
 
 @then(parsers.parse("the SDP subarray {subarray_id} obsState is READY"))
-def check_sdp_subarray_in_ready(subarray_node, event_recorder, subarray_id):
+def check_sdp_subarray_in_ready(
+    central_node_mid, subarray_node, event_recorder, subarray_id
+):
     """A method to check SDP subarray obsstate"""
     event_recorder.subscribe_event(
         subarray_node.subarray_devices["sdp_subarray"], "obsState"
     )
 
-    subarray_node.set_subarray_id(subarray_id)
+    central_node_mid.set_subarray_id(subarray_id)
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_devices["sdp_subarray"],
         "obsState",
@@ -125,11 +131,13 @@ def check_sdp_subarray_scan_type(subarray_node, event_recorder, scan_type):
         "the TMC subarray {subarray_id} obsState is transitioned to READY"
     )
 )
-def check_tmc_subarray_obs_state(subarray_node, event_recorder, subarray_id):
+def check_tmc_subarray_obs_state(
+    central_node_mid, subarray_node, event_recorder, subarray_id
+):
     """A method to check TMC subarray obsstate"""
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
 
-    subarray_node.set_subarray_id(subarray_id)
+    central_node_mid.set_subarray_id(subarray_id)
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",

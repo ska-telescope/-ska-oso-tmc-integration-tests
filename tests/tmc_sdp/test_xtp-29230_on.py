@@ -1,4 +1,4 @@
-"""Test module for TMC-SDP StartUp functionality"""
+"""Test module for TMC-SDP On functionality"""
 import pytest
 from pytest_bdd import given, scenario, then, when
 from tango import DevState
@@ -66,7 +66,7 @@ def given_a_tmc(central_node_mid, simulator_factory, event_recorder):
     )
 
 
-@given("telescope state is STANDY")
+@given("telescope state is STANDBY")
 def check_telescope_state_standby(central_node_mid, event_recorder):
     """A method to check CentralNode telescopeState STANDBY"""
     event_recorder.subscribe_event(
