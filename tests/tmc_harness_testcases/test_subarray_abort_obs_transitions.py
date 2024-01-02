@@ -10,7 +10,7 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
     # Currently it fails.
     @pytest.mark.parametrize(
         "source_obs_state",
-        ["READY", "RESOURCING", "IDLE", "CONFIGURING"],
+        ["READY", "RESOURCING", "IDLE", "CONFIGURING", "SCANNING"],
     )
     @pytest.mark.SKA_midtn21
     @pytest.mark.SKA_mid
