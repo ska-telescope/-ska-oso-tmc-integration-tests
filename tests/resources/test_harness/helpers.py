@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 import re
 import time
 from datetime import datetime
@@ -442,6 +443,43 @@ def validate_json(input_json, input_json_schema) -> None:
         validate(input_json, input_json_schema)
     except Exception as e:
         LOGGER.exception(e)
+
+
+def get_simulated_devices_info() -> dict:
+    """
+    A method to get simulated devices present in the deployment.
+
+    return: dict
+    """
+
+    SDP_SIMULATION_ENABLED = os.getenv("SDP_SIMULATION_ENABLED")
+    CSP_SIMULATION_ENABLED = os.getenv("CSP_SIMULATION_ENABLED")
+    DISH_SIMULATION_ENABLED = os.getenv("DISH_SIMULATION_ENABLED")
+
+    is_csp_simulated = CSP_SIMULATION_ENABLED.lower() == "true"
+    is_sdp_simulated = SDP_SIMULATION_ENABLED.lower() == "true"
+    is_dish_simulated = DISH_SIMULATION_ENABLED.lower() == "true"
+    return {
+        "csp_and_sdp": all(
+            [is_csp_simulated, is_sdp_simulated]
+        ),  # real DISH.LMC enabled
+        "csp_and_dish": all(
+            [is_csp_simulated, is_dish_simulated]
+        ),  # real SDP enabled
+        "sdp_and_dish": all(
+            [is_sdp_simulated, is_dish_simulated]
+        ),  # real CSP.LMC enabled
+        "all_mocks": all(
+            [
+                is_csp_simulated,
+                is_sdp_simulated,
+                is_dish_simulated,
+            ]
+        ),
+    }
+
+
+SIMULATED_DEVICES_DICT = get_simulated_devices_info()
 
 
 def generate_id(id_pattern: str) -> str:

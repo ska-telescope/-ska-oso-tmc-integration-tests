@@ -1,6 +1,7 @@
 import functools
 from contextlib import contextmanager
 
+from tests.resources.test_harness.helpers import SIMULATED_DEVICES_DICT
 from tests.resources.test_harness.utils.wait_helpers import Waiter
 from tests.resources.test_support.common_utils.base_utils import DeviceUtils
 from tests.resources.test_support.common_utils.common_helpers import Resource
@@ -16,6 +17,19 @@ def sync_telescope_on(func):
         result = func(*args, **kwargs)
         the_waiter.wait(TIMEOUT)
         return result
+
+    return wrapper
+
+
+def sync_csp_subarray_off(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        if SIMULATED_DEVICES_DICT["sdp_and_dish"]:
+            the_waiter = Waiter(**kwargs)
+            the_waiter.set_wait_for_csp_master_to_become_off()
+            result = func(*args, **kwargs)
+            the_waiter.wait(TIMEOUT, 3)
+            return result
 
     return wrapper
 
