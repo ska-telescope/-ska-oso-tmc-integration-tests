@@ -1,3 +1,4 @@
+@XTP-29400 @tmc_sdp
 Scenario: TMC executes a Restart on SDP subarray when subarray completes abort
     Given the telescope is in ON state
     And TMC and SDP subarray <subarray_id> is in ABORTED ObsState

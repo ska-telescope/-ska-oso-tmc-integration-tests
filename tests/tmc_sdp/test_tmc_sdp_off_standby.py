@@ -7,7 +7,7 @@ from tests.resources.test_harness.helpers import get_master_device_simulators
 from tests.resources.test_harness.utils.enums import DishMode
 
 
-@pytest.mark.real_sdp
+@pytest.mark.tmc_sdp
 @scenario(
     "../features/tmc_sdp/tmc_sdp_off.feature",
     "Switch off the telescope having TMC and SDP subsystems",
@@ -23,7 +23,7 @@ def test_tmc_sdp_shutdown_telescope():
     """
 
 
-@pytest.mark.real_sdp
+@pytest.mark.tmc_sdp
 @scenario(
     "../features/tmc_sdp/tmc_sdp_standby.feature",
     "Standby the telescope having TMC and SDP subsystems",

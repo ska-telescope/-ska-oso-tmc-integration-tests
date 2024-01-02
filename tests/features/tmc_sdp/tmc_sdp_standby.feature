@@ -1,4 +1,4 @@
-@XTP-29232 @real_sdp
+@XTP-29232 @tmc_sdp
 Scenario: Standby the telescope having TMC and SDP subsystems
     Given a Telescope consisting of TMC and SDP that is in ON State
     And  simulated CSP and Dish in ON States

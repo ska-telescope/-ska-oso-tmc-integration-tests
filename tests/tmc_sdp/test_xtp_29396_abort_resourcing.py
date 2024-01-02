@@ -1,4 +1,4 @@
-"""Test TMC-SDP Abort functionality"""
+"""Test TMC-SDP Abort functionality in RESOURCING obsState"""
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
@@ -9,9 +9,9 @@ from tests.resources.test_harness.helpers import (
 )
 
 
-@pytest.mark.real_sdp
+@pytest.mark.tmc_sdp
 @scenario(
-    "../features/tmc_sdp/tmc_sdp_abort.feature",
+    "../features/tmc_sdp/xtp_29396_abort_resourcing.feature",
     "Abort assigning using TMC",
 )
 def test_tmc_sdp_abort_in_resourcing(central_node_mid):
@@ -37,18 +37,18 @@ def telescope_is_in_resourcing_obsstate(
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
-    central_node_mid.store_resources(assign_input_json)
+    central_node_mid.perform_action("AssignResources", assign_input_json)
     event_recorder.subscribe_event(
         central_node_mid.subarray_devices.get("sdp_subarray"), "obsState"
     )
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_devices.get("sdp_subarray"),
+        central_node_mid.subarray_node,
         "obsState",
         ObsState.RESOURCING,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_node,
+        central_node_mid.subarray_devices.get("sdp_subarray"),
         "obsState",
         ObsState.RESOURCING,
     )
@@ -60,11 +60,10 @@ def telescope_is_in_resourcing_obsstate(
     )
 )
 @when(parsers.parse("I command it to Abort"))
-def abort_is_invoked(central_node_mid, subarray_id="1"):
+def abort_is_invoked(central_node_mid):
     """
     This method invokes abort command on tmc subarray
     """
-    central_node_mid.set_subarray_id((int(subarray_id)))
     central_node_mid.subarray_abort()
 
 
@@ -82,7 +81,7 @@ def sdp_subarray_is_in_aborted_obsstate(central_node_mid, event_recorder):
 
 @then(
     parsers.parse(
-        "the TMC subarray <subarray_id> transitions to ABORTED ObsState"
+        "the TMC subarray {subarray_id} transitions to ABORTED ObsState"
     )
 )
 @then(parsers.parse("the TMC subarray obsState transitions to ABORTED"))
@@ -97,9 +96,9 @@ def tmc_subarray_is_in_aborted_obsstate(central_node_mid, event_recorder):
     )
 
 
-@pytest.mark.real_sdp
+@pytest.mark.tmc_sdp
 @scenario(
-    "../features/tmc_sdp/tmc_sdp_abort.feature",
+    "../features/tmc_sdp/xtp_29397_abort_idle.feature",
     "TMC executes an Abort on SDP subarray while subarray completes"
     + " configuration",
 )

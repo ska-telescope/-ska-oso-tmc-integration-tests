@@ -1,4 +1,4 @@
-@XTP-29230 @real_sdp
+@XTP-29230 @tmc_sdp
 Scenario: Start up the telescope having TMC and SDP subsystems
     Given a Telescope consisting of TMC, SDP, simulated CSP and simulated Dish
     And telescope state is OFF

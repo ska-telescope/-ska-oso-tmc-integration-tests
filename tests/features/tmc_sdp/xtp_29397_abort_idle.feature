@@ -1,9 +1,4 @@
-Scenario: Abort assigning using TMC
-    Given TMC and SDP subarray busy assigning resources
-    When I command it to Abort
-    Then the SDP subarray should go into an ABORTED obsstate
-    And the TMC subarray obsState transitions to ABORTED
-
+@XTP-29397 @tmc_sdp
 Scenario: TMC executes an Abort on SDP subarray while subarray completes configuration
     Given the telescope is in ON state
     And TMC and SDP subarray is in <obsstate> ObsState
@@ -13,5 +8,3 @@ Scenario: TMC executes an Abort on SDP subarray while subarray completes configu
     Examples:
     | subarray_id | obsstate |
     | 1           | IDLE     |
-
-
