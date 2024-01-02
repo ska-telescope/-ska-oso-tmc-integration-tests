@@ -17,7 +17,7 @@ LOGGER = logging.getLogger(__name__)
 @pytest.mark.real_csp
 @scenario(
     "../features/tmc_csp/tmc_csp_endscan.feature",
-    "End configure from CSP Subarray using TMC",
+    "TMC executes a EndScan command on CSP subarray.",
 )
 def test_tmc_csp_endscan_functionality():
     """
