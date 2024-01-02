@@ -8,7 +8,8 @@ from tango import DeviceProxy, DevState
 
 from tests.resources.test_harness.constant import device_dict
 from tests.resources.test_harness.helpers import (
-    generate_eb_pb_ids, SIMULATED_DEVICES_DICT
+    SIMULATED_DEVICES_DICT,
+    generate_eb_pb_ids,
 )
 from tests.resources.test_harness.utils.enums import DishMode
 from tests.resources.test_harness.utils.sync_decorators import (
@@ -122,9 +123,7 @@ class CentralNodeWrapper(BaseNodeWrapper):
         put telescope in ON state
         """
         LOGGER.info("Starting up the Telescope")
-        LOGGER.info(
-            f"Received simulated devices: {SIMULATED_DEVICES_DICT}"
-        )
+        LOGGER.info(f"Received simulated devices: {SIMULATED_DEVICES_DICT}")
         if SIMULATED_DEVICES_DICT["all_mocks"]:
             LOGGER.info("Invoking TelescopeOn() with all Mocks")
             self.central_node.TelescopeOn()

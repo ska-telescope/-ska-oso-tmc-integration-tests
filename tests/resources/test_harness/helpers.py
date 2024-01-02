@@ -428,6 +428,7 @@ def get_simulated_devices_info() -> dict:
         ),
     }
 
+
 SIMULATED_DEVICES_DICT = get_simulated_devices_info()
 
 

@@ -25,10 +25,10 @@ from tests.resources.test_harness.constant import (
     tmc_subarraynode1,
 )
 from tests.resources.test_harness.helpers import (
+    SIMULATED_DEVICES_DICT,
     check_subarray_obs_state,
     generate_eb_pb_ids,
     prepare_json_args_for_commands,
-    SIMULATED_DEVICES_DICT
 )
 from tests.resources.test_harness.utils.constant import (
     ABORTED,

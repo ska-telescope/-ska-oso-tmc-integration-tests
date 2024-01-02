@@ -49,7 +49,11 @@ def check_telescope_state_standby(central_node_mid, event_recorder):
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
     )
-    assert central_node_mid.central_node.telescopeState in [DevState.STANDBY, DevState.OFF]
+    assert central_node_mid.central_node.telescopeState in [
+        DevState.STANDBY,
+        DevState.OFF,
+    ]
+
 
 @when("I start up the telescope")
 def move_sdp_to_on(central_node_mid):
