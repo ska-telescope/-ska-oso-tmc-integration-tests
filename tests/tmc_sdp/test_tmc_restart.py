@@ -49,6 +49,7 @@ def telescope_is_in_aborted_obsstate(
     event_recorder.subscribe_event(
         central_node_mid.subarray_devices.get("sdp_subarray"), "obsState"
     )
+    event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_devices.get("sdp_subarray"),
         "obsState",
@@ -60,9 +61,6 @@ def telescope_is_in_aborted_obsstate(
         ObsState.IDLE,
     )
     central_node_mid.subarray_abort()
-    event_recorder.subscribe_event(
-        central_node_mid.subarray_devices.get("sdp_subarray"), "obsState"
-    )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_devices.get("sdp_subarray"),
         "obsState",
@@ -116,7 +114,6 @@ def tmc_subarray_is_in_empty_obsstate(
     This method checks if TMC subarray is in EMPTY obsstate
     """
     central_node_mid.set_subarray_id((int(subarray_id)))
-    event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "obsState",

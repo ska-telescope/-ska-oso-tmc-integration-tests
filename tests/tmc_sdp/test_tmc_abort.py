@@ -41,6 +41,7 @@ def telescope_is_in_resourcing_obsstate(
     event_recorder.subscribe_event(
         central_node_mid.subarray_devices.get("sdp_subarray"), "obsState"
     )
+    event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_devices.get("sdp_subarray"),
         "obsState",
@@ -72,9 +73,6 @@ def sdp_subarray_is_in_aborted_obsstate(central_node_mid, event_recorder):
     """
     Method to check SDP subarray is in ABORTED obsstate
     """
-    event_recorder.subscribe_event(
-        central_node_mid.subarray_devices.get("sdp_subarray"), "obsState"
-    )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_devices.get("sdp_subarray"),
         "obsState",
@@ -92,7 +90,6 @@ def tmc_subarray_is_in_aborted_obsstate(central_node_mid, event_recorder):
     """
     Method to check if TMC subarray is in ABORTED obsstate
     """
-    event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "obsState",
@@ -140,6 +137,7 @@ def telescope_is_in_idle_obsstate(
     event_recorder.subscribe_event(
         central_node_mid.subarray_devices.get("sdp_subarray"), "obsState"
     )
+    event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_devices.get("sdp_subarray"),
         "obsState",
