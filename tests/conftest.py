@@ -164,10 +164,12 @@ def wait_for_dish_mode_change(
     target_mode: int, dishfqdn: str, timeout_seconds: int
 ):
     """Returns True if the dishMode is changed to a expected value"""
+    LOGGER.info("target_mode: %s", target_mode)
     start_time = time.time()
 
     while time.time() - start_time < timeout_seconds:
-        if dishfqdn.dishMode.value == target_mode:
+        LOGGER.info("dishfqdn.dishMode.value: %s", dishfqdn.dishMode)
+        if dishfqdn.dishMode == target_mode:
             return True
         time.sleep(1)
 
