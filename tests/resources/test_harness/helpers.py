@@ -407,7 +407,7 @@ def check_lrcr_events(
 
 def get_simulated_devices_info() -> dict:
     """
-    A method to get simulated devices present in the deployement.
+    A method to get simulated devices present in the deployment.
 
     return: dict
     """
