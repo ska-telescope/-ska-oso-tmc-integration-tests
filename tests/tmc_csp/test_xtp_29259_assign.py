@@ -133,8 +133,6 @@ def resources_assigned_to_subarray(
     event_recorder.subscribe_event(
         central_node_mid.subarray_node, "assignedResources"
     )
-    items = receptors.replace("'", "").split(", ")
-    receptors = tuple(items)
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "assignedResources",
