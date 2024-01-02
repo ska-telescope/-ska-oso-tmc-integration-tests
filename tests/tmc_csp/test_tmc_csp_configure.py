@@ -11,12 +11,14 @@ from tests.resources.test_harness.event_recorder import EventRecorder
 from tests.resources.test_harness.helpers import (
     prepare_json_args_for_centralnode_commands,
     prepare_json_args_for_commands,
-    prepare_schema_for_attribute_or_command,
     validate_json,
     wait_csp_master_off,
     wait_till_delay_values_are_populated,
 )
-from tests.resources.test_harness.utils.common_utils import JsonFactory
+from tests.resources.test_harness.utils.common_utils import (
+    JsonFactory,
+    get_json_schema,
+)
 
 
 @pytest.mark.tmc_csp
@@ -136,17 +138,18 @@ def check_if_tmc_subarray_moved_to_ready_obsstate(
 )
 def check_if_delay_values_are_generating(
     central_node_mid: CentralNodeWrapperMid,
-    command_input_factory: JsonFactory,
-    subarray_id: str,
 ) -> None:
     """Check if delay values are generating."""
     wait_till_delay_values_are_populated(
         central_node_mid.csp_subarray_leaf_node
     )
 
+
+@then("delay model json is validated against it's json schema")
+def validate_delay_json(
+    central_node_mid: CentralNodeWrapperMid,
+) -> None:
+    """Validate delay json against its schema."""
     delay_model_json = central_node_mid.csp_subarray_leaf_node.delayModel
-    delay_model_schema = prepare_schema_for_attribute_or_command(
-        "delay_model_schema", command_input_factory
-    )
-    # Validate delay model json
+    delay_model_schema = get_json_schema("delay_model_schema")
     validate_json(json.loads(delay_model_json), json.loads(delay_model_schema))

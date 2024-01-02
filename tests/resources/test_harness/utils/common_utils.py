@@ -98,14 +98,3 @@ class JsonFactory(object):
             config_json (str): Return configure json based json type provided
         """
         return get_centralnode_input_json(json_type)
-
-    def create_command_or_attribute_schema(self, json_type: str) -> dict:
-        """Read and return json schema for requested attribute json or command
-            json from tests/data/schema folder.
-        Args:
-            json_type (str): Base name of file which is stored in data folder
-        Return:
-            schema (dict): Returns requested schema for attribute or command
-            json
-        """
-        return get_json_schema(json_type)

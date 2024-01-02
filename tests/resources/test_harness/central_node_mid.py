@@ -198,7 +198,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         """Handle Tear down of central Node"""
         Subaaray_node_obsstate = self.subarray_node.obsState
         LOGGER.info(
-            f"Calling Tear down for Central node in SubarrayNode's \
+            f"Calling tear down for CentralNode for SubarrayNode's \
                 {Subaaray_node_obsstate} obsstate."
         )
         # reset HealthState.UNKNOWN for mock devices
