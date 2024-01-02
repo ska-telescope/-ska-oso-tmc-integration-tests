@@ -12,7 +12,6 @@ from tests.resources.test_harness.helpers import (
     prepare_json_args_for_centralnode_commands,
     prepare_json_args_for_commands,
     validate_json,
-    wait_csp_master_off,
     wait_till_delay_values_are_populated,
 )
 from tests.resources.test_harness.utils.common_utils import (
@@ -37,9 +36,6 @@ def check_telescope_is_in_on_state(
     central_node_mid: CentralNodeWrapperMid, event_recorder: EventRecorder
 ) -> None:
     """Ensure telescope is in ON state."""
-    if central_node_mid.csp_master.adminMode != 0:
-        central_node_mid.csp_master.adminMode = 0
-        wait_csp_master_off()
     central_node_mid.move_to_on()
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
