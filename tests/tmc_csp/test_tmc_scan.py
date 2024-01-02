@@ -15,7 +15,7 @@ from tests.resources.test_harness.helpers import (
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 
 
-@pytest.mark.real_csp_mid
+@pytest.mark.real_csp_mid_MA
 @scenario(
     "../features/tmc_csp/tmc_csp_scan.feature",
     "TMC executes a Scan command on CSP subarray.",
