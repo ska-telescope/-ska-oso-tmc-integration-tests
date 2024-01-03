@@ -148,7 +148,7 @@ def csp_subarray_ObsState(central_node_mid, event_recorder, subarray_id):
     """Checks if SubarrayNode's obsState attribute value is READY"""
     central_node_mid.set_subarray_id(int(subarray_id))
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_devices("csp_subarray"),
+        central_node_mid.subarray_devices["csp_subarray"],
         "obsState",
         ObsState.SCANNING,
     )
