@@ -8,8 +8,8 @@ from tango import DeviceProxy, DevState
 
 from tests.resources.test_harness.constant import device_dict
 from tests.resources.test_harness.helpers import (
+    SIMULATED_DEVICES_DICT,
     generate_eb_pb_ids,
-    get_simulated_devices_info,
 )
 from tests.resources.test_harness.utils.enums import DishMode
 from tests.resources.test_harness.utils.sync_decorators import (
@@ -49,7 +49,6 @@ class BaseNodeWrapper(object):
         self.mccs_master = None
         self.dish_master_list = None
         self._state = DevState.OFF
-        self.simulated_devices_dict = get_simulated_devices_info()
 
     def move_to_on(self) -> NotImplementedError:
         """
@@ -125,29 +124,27 @@ class CentralNodeWrapper(BaseNodeWrapper):
         put telescope in ON state
         """
         LOGGER.info("Starting up the Telescope")
-        LOGGER.info(
-            f"Received simulated devices: {self.simulated_devices_dict}"
-        )
-        if self.simulated_devices_dict["all_mocks"]:
+        LOGGER.info(f"Received simulated devices: {SIMULATED_DEVICES_DICT}")
+        if SIMULATED_DEVICES_DICT["all_mocks"]:
             LOGGER.info("Invoking TelescopeOn() with all Mocks")
             self.central_node.TelescopeOn()
             self.set_subarraystate_and_dishmode_with_all_mocks(
                 DevState.ON, DishMode.STANDBY_FP
             )
 
-        elif self.simulated_devices_dict["csp_and_sdp"]:
+        elif SIMULATED_DEVICES_DICT["csp_and_sdp"]:
             LOGGER.info("Invoking TelescopeOn() on simulated csp and sdp")
             self.central_node.TelescopeOn()
             self.set_value_with_csp_sdp_mocks(DevState.ON)
 
-        elif self.simulated_devices_dict["csp_and_dish"]:
+        elif SIMULATED_DEVICES_DICT["csp_and_dish"]:
             LOGGER.info("Invoking TelescopeOn() on simulated csp and Dish")
             self.central_node.TelescopeOn()
             self.set_values_with_csp_dish_mocks(
                 DevState.ON, DishMode.STANDBY_FP
             )
 
-        elif self.simulated_devices_dict["sdp_and_dish"]:
+        elif SIMULATED_DEVICES_DICT["sdp_and_dish"]:
             LOGGER.info("Invoking TelescopeOn() on simulated sdp and dish")
             self.central_node.TelescopeOn()
             self.set_values_with_sdp_dish_mocks(
@@ -164,19 +161,19 @@ class CentralNodeWrapper(BaseNodeWrapper):
 
         """
         LOGGER.info("Putting Telescope in Standby state")
-        if self.simulated_devices_dict["all_mocks"]:
+        if SIMULATED_DEVICES_DICT["all_mocks"]:
             LOGGER.info("Invoking TelescopeStandBy() with all Mocks")
             self.central_node.TelescopeStandBy()
             self.set_subarraystate_and_dishmode_with_all_mocks(
                 DevState.STANDBY, DevState.STANDBY
             )
 
-        elif self.simulated_devices_dict["csp_and_sdp"]:
+        elif SIMULATED_DEVICES_DICT["csp_and_sdp"]:
             LOGGER.info("Invoking TelescopeStandBy() on simulated csp and sdp")
             self.central_node.TelescopeStandBy()
             self.set_value_with_csp_sdp_mocks(DevState.STANDBY)
 
-        elif self.simulated_devices_dict["csp_and_dish"]:
+        elif SIMULATED_DEVICES_DICT["csp_and_dish"]:
             LOGGER.info(
                 "Invoking TelescopeStandBy() on simulated csp and Dish"
             )
@@ -185,7 +182,7 @@ class CentralNodeWrapper(BaseNodeWrapper):
                 DevState.STANDBY, DevState.STANDBY
             )
 
-        elif self.simulated_devices_dict["sdp_and_dish"]:
+        elif SIMULATED_DEVICES_DICT["sdp_and_dish"]:
             LOGGER.info(
                 "Invoking TelescopeStandBy() on simulated sdp and dish"
             )
@@ -235,8 +232,8 @@ class CentralNodeWrapper(BaseNodeWrapper):
     def _reset_health_state_for_mock_devices(self):
         """Reset Mock devices"""
         if (
-            self.simulated_devices_dict["csp_and_sdp"]
-            or self.simulated_devices_dict["all_mocks"]
+            SIMULATED_DEVICES_DICT["csp_and_sdp"]
+            or SIMULATED_DEVICES_DICT["all_mocks"]
         ):
             for mock_device in [
                 self.sdp_master,
@@ -244,13 +241,13 @@ class CentralNodeWrapper(BaseNodeWrapper):
             ]:
                 device = DeviceProxy(mock_device)
                 device.SetDirectHealthState(HealthState.UNKNOWN)
-        elif self.simulated_devices_dict["csp_and_dish"]:
+        elif SIMULATED_DEVICES_DICT["csp_and_dish"]:
             for mock_device in [
                 self.csp_master,
             ]:
                 device = DeviceProxy(mock_device)
                 device.SetDirectHealthState(HealthState.UNKNOWN)
-        elif self.simulated_devices_dict["sdp_and_dish"]:
+        elif SIMULATED_DEVICES_DICT["sdp_and_dish"]:
             for mock_device in [
                 self.sdp_master,
             ]:

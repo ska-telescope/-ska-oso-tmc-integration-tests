@@ -409,7 +409,7 @@ def check_lrcr_events(
 
 def get_simulated_devices_info() -> dict:
     """
-    A method to get simulated devices present in the deployement.
+    A method to get simulated devices present in the deployment.
 
     return: dict
     """
@@ -439,6 +439,9 @@ def get_simulated_devices_info() -> dict:
             ]
         ),
     }
+
+
+SIMULATED_DEVICES_DICT = get_simulated_devices_info()
 
 
 def generate_id(id_pattern: str) -> str:

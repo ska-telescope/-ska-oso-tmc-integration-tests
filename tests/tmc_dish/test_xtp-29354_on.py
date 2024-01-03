@@ -1,4 +1,4 @@
-"""Test module for TMC-DISH StartUp functionality"""
+"""Test module for TMC-DISH On functionality"""
 
 import pytest
 from pytest_bdd import given, scenario, then, when
@@ -8,9 +8,9 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.enum import DishMode
 
 
-@pytest.mark.real_dish
+@pytest.mark.tmc_dish
 @scenario(
-    "../features/tmc_dish/check_on_command_on_real_dish.feature",
+    "../features/tmc_dish/xtp-29354_on.feature",
     "Start up Telescope with TMC and DISH devices",
 )
 def test_tmc_dish_startup_telescope():

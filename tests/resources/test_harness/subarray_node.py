@@ -27,8 +27,8 @@ from tests.resources.test_harness.constant import (
     tmc_subarraynode1,
 )
 from tests.resources.test_harness.helpers import (
+    SIMULATED_DEVICES_DICT,
     check_subarray_obs_state,
-    get_simulated_devices_info,
     prepare_json_args_for_commands,
 )
 from tests.resources.test_harness.utils.constant import (
@@ -83,15 +83,14 @@ class SubarrayNodeWrapper(object):
         self.subarray_node = DeviceProxy(self.tmc_subarraynode1)
         self.csp_subarray_leaf_node = DeviceProxy(tmc_csp_subarray_leaf_node)
         self.sdp_subarray_leaf_node = DeviceProxy(tmc_sdp_subarray_leaf_node)
-        self.simulated_devices_dict = get_simulated_devices_info()
         self.dish_leaf_node_list = [
             DeviceProxy(tmc_dish_leaf_node1),
             DeviceProxy(tmc_dish_leaf_node2),
         ]
 
         if (
-            self.simulated_devices_dict["csp_and_sdp"]
-            and not self.simulated_devices_dict["all_mocks"]
+            SIMULATED_DEVICES_DICT["csp_and_sdp"]
+            and not SIMULATED_DEVICES_DICT["all_mocks"]
         ):
             dish_fqdn1 = REAL_DISH1_FQDN
             dish_fqdn36 = REAL_DISH36_FQDN
@@ -121,8 +120,8 @@ class SubarrayNodeWrapper(object):
     def _setup(self):
         """ """
         if (
-            self.simulated_devices_dict["csp_and_dish"]
-            or self.simulated_devices_dict["all_mocks"]
+            SIMULATED_DEVICES_DICT["csp_and_dish"]
+            or SIMULATED_DEVICES_DICT["all_mocks"]
         ):
             for dish_master_proxy in self.dish_master_list:
                 dish_master_proxy.SetDirectState(DevState.STANDBY)
@@ -267,8 +266,8 @@ class SubarrayNodeWrapper(object):
     def _reset_dishes(self):
         """Reset Dish Devices"""
         if (
-            self.simulated_devices_dict["csp_and_dish"]
-            or self.simulated_devices_dict["all_mocks"]
+            SIMULATED_DEVICES_DICT["csp_and_dish"]
+            or SIMULATED_DEVICES_DICT["all_mocks"]
         ):
             for dish_master in self.dish_master_list:
                 dish_master.SetDirectDishMode(DishMode.STANDBY_LP)
@@ -279,8 +278,8 @@ class SubarrayNodeWrapper(object):
     def _clear_command_call_and_transition_data(self, clear_transition=False):
         """Clears the command call data"""
         if (
-            self.simulated_devices_dict["csp_and_dish"]
-            or self.simulated_devices_dict["all_mocks"]
+            SIMULATED_DEVICES_DICT["csp_and_dish"]
+            or SIMULATED_DEVICES_DICT["all_mocks"]
         ):
             for sim_device in [
                 self.sdp_subarray1,

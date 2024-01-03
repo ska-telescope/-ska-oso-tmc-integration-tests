@@ -1,4 +1,5 @@
 """Test module for TMC-DISH End functionality"""
+import time
 
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
@@ -14,9 +15,9 @@ from tests.resources.test_support.enum import DishMode, PointingState
 
 
 @pytest.mark.t1
-@pytest.mark.real_dish
+@pytest.mark.tmc_dish
 @scenario(
-    "../features/tmc_dish/check_end_command_on_real_dish.feature",
+    "../features/tmc_dish/xtp-29417_end.feature",
     "TMC executes End command on DISH.LMC",
 )
 def test_tmc_dish_end_telescope():
@@ -35,10 +36,6 @@ def test_tmc_dish_end_telescope():
 def given_tmc(central_node_mid, simulator_factory, event_recorder):
     """
     Given a TMC
-
-    Args:
-        simulator_factory: fixture for SimulatorFactory class,
-        which provides simulated master devices
     """
     csp_master_sim = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.MID_CSP_MASTER_DEVICE
@@ -63,7 +60,6 @@ def move_dish_to_on(central_node_mid, event_recorder):
         central_node_mid.central_node, "telescopeState"
     )
     central_node_mid.move_to_on()
-
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
         "telescopeState",
@@ -77,6 +73,7 @@ def check_subarray_obstate(
 ):
     """Method to check subarray is in READY obstate"""
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
+
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
@@ -92,6 +89,8 @@ def check_subarray_obstate(
     )
 
     subarray_node.execute_transition("Configure", configure_input_json)
+
+    time.sleep(5)
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "obsState",
@@ -102,22 +101,23 @@ def check_subarray_obstate(
 @when(
     parsers.parse("I issued the End command to the TMC subarray {subarray_id}")
 )
-def invoke_configure(subarray_node):
-
+def invoke_end(subarray_node):
+    """A method to invoke End command"""
     subarray_node.execute_transition("End")
 
 
 @then("Dish Mode is transitioned to STANDBY-FP")
 def check_dish_mode(central_node_mid, event_recorder):
+    """Method to check Dish is in STANDBY-FP Dish Mode"""
     event_recorder.subscribe_event(
         central_node_mid.dish_master_list[0], "dishMode"
     )
     event_recorder.subscribe_event(
         central_node_mid.dish_master_list[1], "dishMode"
     )
-    # event_recorder.subscribe_event(
-    #     central_node_mid.dish_master_list[2], "dishMode"
-    # )
+    event_recorder.subscribe_event(
+        central_node_mid.dish_master_list[2], "dishMode"
+    )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.dish_master_list[0],
         "dishMode",
@@ -128,24 +128,25 @@ def check_dish_mode(central_node_mid, event_recorder):
         "dishMode",
         DishMode.STANDBY_FP,
     )
-    # assert event_recorder.has_change_event_occurred(
-    #     central_node_mid.dish_master_list[2],
-    #     "dishMode",
-    #     DishMode.STANDBY_FP,
-    # )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[2],
+        "dishMode",
+        DishMode.STANDBY_FP,
+    )
 
 
 @then("Pointing State is transitioned to READY")
 def check_dish_pointing_state(central_node_mid, event_recorder):
+    """Method to check Dish is in READY Pointing State"""
     event_recorder.subscribe_event(
         central_node_mid.dish_master_list[0], "pointingState"
     )
     event_recorder.subscribe_event(
         central_node_mid.dish_master_list[1], "pointingState"
     )
-    # event_recorder.subscribe_event(
-    #     central_node_mid.dish_master_list[2], "pointingState"
-    # )
+    event_recorder.subscribe_event(
+        central_node_mid.dish_master_list[2], "pointingState"
+    )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.dish_master_list[0],
         "pointingState",
@@ -156,15 +157,16 @@ def check_dish_pointing_state(central_node_mid, event_recorder):
         "pointingState",
         PointingState.READY,
     )
-    # assert event_recorder.has_change_event_occurred(
-    #     central_node_mid.dish_master_list[2],
-    #     "pointingState",
-    #     PointingState.READY,
-    # )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[2],
+        "pointingState",
+        PointingState.READY,
+    )
 
 
 @then(parsers.parse("TMC subarray {subarray_id} obsState transitions to IDLE"))
 def check_subarray_obsState_ready(central_node_mid, event_recorder):
+    """Method to check subarray is in IDLE obstate"""
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "obsState",
