@@ -16,7 +16,6 @@ from tests.resources.test_harness.helpers import (
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 
 
-@pytest.mark.skip
 @pytest.mark.tmc_csp
 @scenario(
     "../features/tmc_csp/xtp_29387_scan.feature",
