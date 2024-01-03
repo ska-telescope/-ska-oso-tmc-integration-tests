@@ -49,7 +49,7 @@ def check_subarray_is_configured(
     central_node_mid.set_subarray_id(subarray_id)
     event_recorder.subscribe_event(central_node_mid.sdp_master, "State")
     event_recorder.subscribe_event(
-        central_node_mid.subarray_devices["sdp_subarray"], "State"
+        subarray_node.subarray_devices["sdp_subarray"], "State"
     )
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"

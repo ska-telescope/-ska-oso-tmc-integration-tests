@@ -49,7 +49,11 @@ def given_a_tmc(central_node_mid, event_recorder):
 
 @given(parsers.parse("a subarray {subarray_id} in the READY obsState"))
 def check_subarray_obs_state(
-    central_node_mid, subarray_node, command_input_factory, subarray_id
+    central_node_mid,
+    subarray_node,
+    command_input_factory,
+    subarray_id,
+    event_recorder,
 ):
     """Method to check subarray is in READY obstate"""
     assign_input_json = prepare_json_args_for_centralnode_commands(
@@ -59,11 +63,27 @@ def check_subarray_obs_state(
         "configure_mid", command_input_factory
     )
 
+    event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
+    event_recorder.subscribe_event(
+        subarray_node.subarray_devices.get("sdp_subarray"), "obsState"
+    )
+
     central_node_mid.set_subarray_id(subarray_id)
     subarray_node.force_change_of_obs_state(
         "READY",
         assign_input_json=assign_input_json,
         configure_input_json=configure_input_json,
+    )
+
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_devices.get("sdp_subarray"),
+        "obsState",
+        ObsState.READY,
+    )
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_node,
+        "obsState",
+        ObsState.READY,
     )
 
 
@@ -83,9 +103,9 @@ def check_sdp_subarray_obs_state(
     central_node_mid, subarray_node, event_recorder, subarray_id
 ):
     """A method to check SDP subarray obsstates"""
-    event_recorder.subscribe_event(
-        subarray_node.subarray_devices["sdp_subarray"], "obsState"
-    )
+    # event_recorder.subscribe_event(
+    #     subarray_node.subarray_devices["sdp_subarray"], "obsState"
+    # )
 
     central_node_mid.set_subarray_id(subarray_id)
     assert event_recorder.has_change_event_occurred(
@@ -100,7 +120,7 @@ def check_tmc_subarray_obs_state(
     central_node_mid, subarray_node, event_recorder, subarray_id
 ):
     """A method to check SDP subarray obsstates"""
-    event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
+    # event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
 
     central_node_mid.set_subarray_id(subarray_id)
     assert event_recorder.has_change_event_occurred(

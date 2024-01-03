@@ -8,7 +8,6 @@ TELESCOPE ?= SKA-mid
 DISH_NAMESPACE_1 ?= dish-lmc-1
 DISH_NAMESPACE_2 ?= dish-lmc-2
 DISH_NAMESPACE_3 ?= dish-lmc-3
-COUNT ?= 1
 # TODO: Add dish 100 once SKB-266 is resolved
 # DISH_NAMESPACE_4 ?= dish-lmc-4
 KUBE_NAMESPACE ?= ska-tmc-integration
@@ -90,7 +89,7 @@ DISH_SIMULATION_ENABLED ?= true
 
 
 ifeq ($(MAKECMDGOALS),k8s-test)
-ADD_ARGS +=  --true-context --count=$(COUNT)
+ADD_ARGS +=  --true-context
 MARK ?= $(shell echo $(TELESCOPE) | sed "s/-/_/g")
 endif
 

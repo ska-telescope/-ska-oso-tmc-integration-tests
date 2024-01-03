@@ -29,7 +29,7 @@ def test_tmc_sdp_endscan():
 
 
 @given("the telescope is in ON state")
-def given_a_tmc(central_node_mid, event_recorder):
+def given_a_tmc(subarray_node, central_node_mid, event_recorder):
     """
     Given a TMC
     """
@@ -38,7 +38,7 @@ def given_a_tmc(central_node_mid, event_recorder):
     )
     event_recorder.subscribe_event(central_node_mid.sdp_master, "State")
     event_recorder.subscribe_event(
-        central_node_mid.subarray_devices["sdp_subarray"], "State"
+        subarray_node.subarray_devices["sdp_subarray"], "State"
     )
 
     if central_node_mid.telescope_state != "ON":
@@ -50,7 +50,7 @@ def given_a_tmc(central_node_mid, event_recorder):
         DevState.ON,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_devices["sdp_subarray"],
+        subarray_node.subarray_devices["sdp_subarray"],
         "State",
         DevState.ON,
     )
