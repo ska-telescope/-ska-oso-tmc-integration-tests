@@ -306,7 +306,13 @@ class SubarrayNodeWrapper(object):
         elif self.obs_state == "ABORTED":
             self.restart_subarray()
 
-    def force_change_of_obs_state(self, dest_state_name: str) -> None:
+    def force_change_of_obs_state(
+        self,
+        dest_state_name: str,
+        assign_input_json: str = "",
+        configure_input_json: str = "",
+        scan_input_json: str = "",
+    ) -> None:
         """Force SubarrayNode obsState to provided obsState
 
         Args:
@@ -316,6 +322,12 @@ class SubarrayNodeWrapper(object):
         obs_state_resetter = factory_obj.create_obs_state_resetter(
             dest_state_name, self
         )
+        if assign_input_json:
+            obs_state_resetter.assign_input = assign_input_json
+        if configure_input_json:
+            obs_state_resetter.configure_input = configure_input_json
+        if scan_input_json:
+            obs_state_resetter.scan_input = scan_input_json
         obs_state_resetter.reset()
         self._clear_command_call_and_transition_data()
 
