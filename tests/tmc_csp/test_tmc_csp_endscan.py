@@ -9,6 +9,7 @@ from tango import DevState
 from tests.resources.test_harness.helpers import (
     prepare_json_args_for_centralnode_commands,
     prepare_json_args_for_commands,
+    wait_csp_master_off,
 )
 
 LOGGER = logging.getLogger(__name__)
@@ -33,13 +34,13 @@ def given_a_telescope_on_state(central_node_mid, event_recorder):
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
     )
+    central_node_mid.csp_master.adminMode = 0
+    wait_csp_master_off()
+    central_node_mid.move_to_on()
     event_recorder.subscribe_event(central_node_mid.csp_master, "State")
     event_recorder.subscribe_event(
         central_node_mid.subarray_devices["csp_subarray"], "State"
     )
-
-    if central_node_mid.telescope_state != "ON":
-        central_node_mid.move_to_on()
 
     assert event_recorder.has_change_event_occurred(
         central_node_mid.csp_master,
