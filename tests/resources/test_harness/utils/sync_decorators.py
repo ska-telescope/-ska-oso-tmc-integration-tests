@@ -29,7 +29,7 @@ def sync_csp_subarray_off(device_dict: dict):
                 the_waiter = Waiter(**device_dict)
                 the_waiter.set_wait_for_csp_master_to_become_off()
                 result = func(*args, **kwargs)
-                the_waiter.wait(TIMEOUT, 3)
+                the_waiter.wait(500)
                 return result
 
         return wrapper
