@@ -1,6 +1,8 @@
 import functools
 from contextlib import contextmanager
 
+import tango
+
 from tests.resources.test_harness.helpers import SIMULATED_DEVICES_DICT
 from tests.resources.test_harness.utils.wait_helpers import Waiter
 from tests.resources.test_support.common_utils.base_utils import DeviceUtils
@@ -27,6 +29,10 @@ def sync_csp_subarray_off(device_dict: dict):
         def wrapper(*args, **kwargs):
             if SIMULATED_DEVICES_DICT["sdp_and_dish"]:
                 the_waiter = Waiter(**device_dict)
+                csp_master_fqdn = device_dict["csp_master"]
+                csp_master = tango.deviceProxy(csp_master_fqdn)
+                if csp_master.adminMode != 0:
+                    csp_master.adminMode = 0
                 the_waiter.set_wait_for_csp_master_to_become_off()
                 result = func(*args, **kwargs)
                 the_waiter.wait(500)

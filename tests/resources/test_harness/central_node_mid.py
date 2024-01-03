@@ -21,7 +21,6 @@ from tests.resources.test_harness.constant import (
     tmc_sdp_master_leaf_node,
     tmc_subarraynode1,
 )
-from tests.resources.test_harness.helpers import wait_csp_master_off
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 from tests.resources.test_harness.utils.enums import DishMode
 from tests.resources.test_harness.utils.sync_decorators import (
@@ -184,9 +183,6 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
 
         elif self.simulated_devices_dict["sdp_and_dish"]:
             LOGGER.info("Invoking TelescopeOn() on simulated sdp and dish")
-            if self.csp_master.adminMode != 0:
-                self.csp_master.adminMode = 0
-                wait_csp_master_off()
             self.central_node.TelescopeOn()
             self.set_values_with_sdp_dish_mocks(
                 DevState.ON, DishMode.STANDBY_FP
