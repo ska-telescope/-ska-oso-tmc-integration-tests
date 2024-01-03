@@ -4,17 +4,19 @@ import time
 import pytest
 from tango import DeviceProxy, DevState
 
-from tests.conftest import (  # wait_for_dish_mode_change,
+from tests.conftest import (
     LOGGER,
+    wait_for_dish_mode_change,
     wait_for_telescope_state_change,
 )
 from tests.resources.test_support.common_utils.common_helpers import Waiter
 from tests.resources.test_support.constant import (
     centralnode,
+    dish_fqdn_1,
+    dish_fqdn_36,
     tmc_subarraynode1,
 )
-
-# from tests.resources.test_support.enum import DishMode
+from tests.resources.test_support.enum import DishMode
 
 
 @pytest.mark.real_dish
@@ -35,18 +37,14 @@ def test_configure(json_factory):
     central_node_device.TelescopeOn()
 
     # Check the dishMode and dishleafnode state
-    # dish_master_1 = DeviceProxy(dish_fqdn_1)
-    # dish_master_2 = DeviceProxy(dish_fqdn_36)
-    # dish_master_3 = DeviceProxy(dish_fqdn_63)
-    # dish_master_4 = DeviceProxy(dish_fqdn_4)
+    dish_master_1 = DeviceProxy(dish_fqdn_1)
+    dish_master_2 = DeviceProxy(dish_fqdn_36)
 
     # Waiting for DISH LMC to respond
-    # result = wait_for_dish_mode_change(
-    # DishMode.STANDBY_FP, dish_master_1, 30)
-    # LOGGER.info("Result is: %s", result)
-    # result = wait_for_dish_mode_change(
-    # DishMode.STANDBY_FP, dish_master_2, 30)
-    # LOGGER.info("Result is: %s", result)
+    result = wait_for_dish_mode_change(DishMode.STANDBY_FP, dish_master_1, 30)
+    LOGGER.info("Result is: %s", result)
+    result = wait_for_dish_mode_change(DishMode.STANDBY_FP, dish_master_2, 30)
+    LOGGER.info("Result is: %s", result)
 
     result = wait_for_telescope_state_change(
         DevState.ON, central_node_device, 30
@@ -54,8 +52,8 @@ def test_configure(json_factory):
     LOGGER.info("Result is: %s", result)
 
     # Check the dishMode of DISH LMC i.e STANDBYFP
-    # assert dish_master_1.dishMode.value == DishMode.STANDBY_FP
-    # assert dish_master_2.dishMode.value == DishMode.STANDBY_FP
+    assert dish_master_1.dishMode.value == DishMode.STANDBY_FP
+    assert dish_master_2.dishMode.value == DishMode.STANDBY_FP
 
     # invoke assignresources command from central node
     central_node_device.AssignResources(assign_json)
@@ -66,10 +64,8 @@ def test_configure(json_factory):
     # invoke configure command from subarray node
     subarray.Configure(config_json)
 
-    # wait_for_dish_mode_change(DishMode.OPERATE, dish_master_1, 30)
-    # wait_for_dish_mode_change(DishMode.OPERATE, dish_master_2, 30)
-    # wait_for_dish_mode_change(DishMode.OPERATE, dish_master_3, 30)
-    # wait_for_dish_mode_change(DishMode.OPERATE, dish_master_4, 30)
+    wait_for_dish_mode_change(DishMode.OPERATE, dish_master_1, 30)
+    wait_for_dish_mode_change(DishMode.OPERATE, dish_master_2, 30)
 
     the_waiter.set_wait_for_specific_obsstate("READY", [subarray])
     the_waiter.wait(600)
