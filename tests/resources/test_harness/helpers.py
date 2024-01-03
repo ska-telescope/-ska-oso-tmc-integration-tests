@@ -1,11 +1,13 @@
 import json
 import logging
+import os
 import re
 import time
 from datetime import datetime
 from typing import Any
 
 import pytest
+from jsonschema import validate
 from ska_ser_logging import configure_logging
 from ska_tango_base.commands import ResultCode
 from ska_tango_base.control_model import HealthState
@@ -183,6 +185,19 @@ def prepare_json_args_for_centralnode_commands(
     """This method return input json based on command args"""
     if args_for_command is not None:
         input_json = command_input_factory.create_centralnode_configuration(
+            args_for_command
+        )
+    else:
+        input_json = None
+    return input_json
+
+
+def prepare_schema_for_attribute_or_command(
+    args_for_command: str, command_input_factory: JsonFactory
+):
+    """This method return schema for requested command or attribute json."""
+    if args_for_command is not None:
+        input_json = command_input_factory.create_command_or_attribute_schema(
             args_for_command
         )
     else:
@@ -405,6 +420,70 @@ def check_lrcr_events(
         COUNT = COUNT + 1
         if COUNT >= retries:
             pytest.fail("Assertion Failed")
+
+
+def wait_till_delay_values_are_populated(csp_subarray_leaf_node) -> None:
+    start_time = time.time()
+    time_elapsed = 0
+    while (
+        csp_subarray_leaf_node.delayModel == "no_value"
+        and time_elapsed <= TIMEOUT
+    ):
+        time.sleep(1)
+        time_elapsed = time.time() - start_time
+    if (
+        csp_subarray_leaf_node.delayModel == "no_value"
+        and time_elapsed > TIMEOUT
+    ):
+        raise Exception(
+            "Timeout while waiting for CspSubarrayLeafNode to generate \
+                delay values."
+        )
+
+
+def validate_json(input_json, input_json_schema) -> None:
+    try:
+        # Validate json against its schema
+        validate(input_json, input_json_schema)
+    except Exception as e:
+        LOGGER.exception(e)
+
+
+def get_simulated_devices_info() -> dict:
+    """
+    A method to get simulated devices present in the deployment.
+
+    return: dict
+    """
+
+    SDP_SIMULATION_ENABLED = os.getenv("SDP_SIMULATION_ENABLED")
+    CSP_SIMULATION_ENABLED = os.getenv("CSP_SIMULATION_ENABLED")
+    DISH_SIMULATION_ENABLED = os.getenv("DISH_SIMULATION_ENABLED")
+
+    is_csp_simulated = CSP_SIMULATION_ENABLED.lower() == "true"
+    is_sdp_simulated = SDP_SIMULATION_ENABLED.lower() == "true"
+    is_dish_simulated = DISH_SIMULATION_ENABLED.lower() == "true"
+    return {
+        "csp_and_sdp": all(
+            [is_csp_simulated, is_sdp_simulated]
+        ),  # real DISH.LMC enabled
+        "csp_and_dish": all(
+            [is_csp_simulated, is_dish_simulated]
+        ),  # real SDP enabled
+        "sdp_and_dish": all(
+            [is_sdp_simulated, is_dish_simulated]
+        ),  # real CSP.LMC enabled
+        "all_mocks": all(
+            [
+                is_csp_simulated,
+                is_sdp_simulated,
+                is_dish_simulated,
+            ]
+        ),
+    }
+
+
+SIMULATED_DEVICES_DICT = get_simulated_devices_info()
 
 
 def wait_csp_master_off():

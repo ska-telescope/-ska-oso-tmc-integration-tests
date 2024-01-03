@@ -9,7 +9,6 @@ from tango import DeviceProxy, DevState
 
 from tests.resources.test_harness.constant import device_dict
 from tests.resources.test_harness.helpers import generate_eb_pb_ids
-from tests.resources.test_harness.utils.enums import DishMode
 from tests.resources.test_harness.utils.sync_decorators import (
     sync_abort,
     sync_assign_resources,
@@ -120,44 +119,6 @@ class CentralNodeWrapper(BaseNodeWrapper):
             value (DevState): telescope state value
         """
         self._telescope_state = value
-
-    def move_to_on(self):
-        """
-        A method to invoke TelescopeOn command to
-        put telescope in ON state
-        """
-        LOGGER.info("Starting up the Telescope")
-        LOGGER.info(
-            f"Received simulated devices: {self.simulated_devices_dict}"
-        )
-        if self.simulated_devices_dict["all_mocks"]:
-            LOGGER.info("Invoking TelescopeOn() with all Mocks")
-            self.central_node.TelescopeOn()
-            self.set_subarraystate_and_dishmode_with_all_mocks(
-                DevState.ON, DishMode.STANDBY_FP
-            )
-
-        elif self.simulated_devices_dict["csp_and_sdp"]:
-            LOGGER.info("Invoking TelescopeOn() on simulated csp and sdp")
-            self.central_node.TelescopeOn()
-            self.set_value_with_csp_sdp_mocks(DevState.ON)
-
-        elif self.simulated_devices_dict["csp_and_dish"]:
-            LOGGER.info("Invoking TelescopeOn() on simulated csp and Dish")
-            self.central_node.TelescopeOn()
-            self.set_values_with_csp_dish_mocks(
-                DevState.ON, DishMode.STANDBY_FP
-            )
-
-        elif self.simulated_devices_dict["sdp_and_dish"]:
-            LOGGER.info("Invoking TelescopeOn() on simulated sdp and dish")
-            self.central_node.TelescopeOn()
-            self.set_values_with_sdp_dish_mocks(
-                DevState.ON, DishMode.STANDBY_FP
-            )
-        else:
-            LOGGER.info("Invoke TelescopeOn() on all real sub-systems")
-            self.central_node.TelescopeOn()
 
     def set_standby(self):
         """

@@ -123,21 +123,21 @@ def change_event_callbacks() -> MockTangoEventCallbackGroup:
 
 
 @pytest.fixture()
-def central_node_mid(event_recorder) -> CentralNodeWrapperMid:
+def central_node_mid() -> CentralNodeWrapperMid:
     """Return CentralNode for Mid Telescope and calls tear down"""
     central_node = CentralNodeWrapperMid()
     yield central_node
     # this will call after test complete
-    central_node.tear_down(event_recorder)
+    central_node.tear_down()
 
 
 @pytest.fixture()
-def subarray_node(event_recorder) -> SubarrayNodeWrapper:
+def subarray_node() -> SubarrayNodeWrapper:
     """Return SubarrayNode and calls tear down"""
     subarray = SubarrayNodeWrapper()
     yield subarray
     # this will call after test complete
-    subarray.tear_down(event_recorder)
+    subarray.tear_down()
 
 
 @pytest.fixture()
