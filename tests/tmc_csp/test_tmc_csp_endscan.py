@@ -27,7 +27,9 @@ def test_tmc_csp_endscan_functionality():
 
 
 @given("the telescope is in ON state")
-def given_a_telescope_on_state(central_node_mid, event_recorder):
+def given_a_telescope_on_state(
+    central_node_mid, subarray_node, event_recorder
+):
     """
     Given a TMC
     """
@@ -48,7 +50,7 @@ def given_a_telescope_on_state(central_node_mid, event_recorder):
         DevState.ON,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_devices["csp_subarray"],
+        subarray_node.subarray_devices["csp_subarray"],
         "State",
         DevState.ON,
     )
