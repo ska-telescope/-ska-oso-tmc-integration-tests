@@ -30,7 +30,7 @@ def sync_csp_subarray_off(device_dict: dict):
             if SIMULATED_DEVICES_DICT["sdp_and_dish"]:
                 the_waiter = Waiter(**device_dict)
                 csp_master_fqdn = device_dict["csp_master"]
-                csp_master = tango.deviceProxy(csp_master_fqdn)
+                csp_master = tango.DeviceProxy(csp_master_fqdn)
                 if csp_master.adminMode != 0:
                     csp_master.adminMode = 0
                 the_waiter.set_wait_for_csp_master_to_become_off()
