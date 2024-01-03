@@ -21,17 +21,20 @@ def sync_telescope_on(func):
     return wrapper
 
 
-def sync_csp_subarray_off(func):
-    @functools.wraps(func)
-    def wrapper(*args, **kwargs):
-        if SIMULATED_DEVICES_DICT["sdp_and_dish"]:
-            the_waiter = Waiter(**kwargs)
-            the_waiter.set_wait_for_csp_master_to_become_off()
-            result = func(*args, **kwargs)
-            the_waiter.wait(TIMEOUT, 3)
-            return result
+def sync_csp_subarray_off(device_dict: dict):
+    def decorator_sync_csp_master_set_to_off(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            if SIMULATED_DEVICES_DICT["sdp_and_dish"]:
+                the_waiter = Waiter(**device_dict)
+                the_waiter.set_wait_for_csp_master_to_become_off()
+                result = func(*args, **kwargs)
+                the_waiter.wait(TIMEOUT, 3)
+                return result
 
-    return wrapper
+        return wrapper
+
+    return decorator_sync_csp_master_set_to_off
 
 
 def sync_set_to_off(device_dict: dict):
