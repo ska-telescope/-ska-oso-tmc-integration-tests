@@ -24,10 +24,7 @@ from tests.resources.test_harness.constant import (
 from tests.resources.test_harness.helpers import wait_csp_master_off
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 from tests.resources.test_harness.utils.enums import DishMode
-from tests.resources.test_harness.utils.sync_decorators import (
-    sync_end,
-    sync_set_to_off,
-)
+from tests.resources.test_harness.utils.sync_decorators import sync_set_to_off
 from tests.resources.test_harness.utils.wait_helpers import Waiter
 
 configure_logging(logging.DEBUG)
@@ -230,12 +227,6 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             LOGGER.info("Invoke TelescopeOff() with all real sub-systems")
             self.central_node.TelescopeOff()
 
-    @sync_end(device_dict=device_dict)
-    def end_observation(self):
-        result, message = self.subarray_node.End()
-        LOGGER.info("Invoked End on SubarrayNode")
-        return result, message
-
     def tear_down(self):
         """Handle Tear down of central Node"""
         Subaaray_node_obsstate = self.subarray_node.obsState
@@ -246,10 +237,6 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         # reset HealthState.UNKNOWN for mock devices
         self._reset_health_state_for_mock_devices()
         self._reset_sys_param_and_k_value()
-        if self.subarray_node.obsState == ObsState.READY:
-            LOGGER.info("Calling End and ReleaseResources commands")
-            self.end_observation()
-            self.invoke_release_resources(self.release_input)
         if self.subarray_node.obsState == ObsState.IDLE:
             LOGGER.info("Calling Release Resource on centralnode")
             self.invoke_release_resources(self.release_input)
