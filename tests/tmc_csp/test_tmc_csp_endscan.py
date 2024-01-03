@@ -15,7 +15,7 @@ from tests.resources.test_harness.helpers import (
 LOGGER = logging.getLogger(__name__)
 
 
-@pytest.mark.tmc_csp_MA
+@pytest.mark.tmc_csp
 @scenario(
     "../features/tmc_csp/xtp_29394_endscan.feature",
     "TMC executes a EndScan command on CSP subarray.",
