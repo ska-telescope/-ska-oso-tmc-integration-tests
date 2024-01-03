@@ -1,4 +1,1 @@
-{
-    "interface": "https://schema.skao.intg/ska-tmc-scan/2.0",
-    "scan_id": 1
-  }
+{"scan_id":1}
