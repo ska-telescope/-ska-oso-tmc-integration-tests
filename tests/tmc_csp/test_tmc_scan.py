@@ -11,6 +11,7 @@ from tests.resources.test_harness.event_recorder import EventRecorder
 from tests.resources.test_harness.helpers import (
     prepare_json_args_for_centralnode_commands,
     prepare_json_args_for_commands,
+    wait_csp_master_off
 )
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 
@@ -33,9 +34,10 @@ def given_a_telescope_in_on_state(central_node_mid, event_recorder):
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
     )
-    if central_node_mid.telescope_state != "ON":
-        central_node_mid.move_to_on()
-
+    central_node_mid.csp_master.adminMode = 0
+    wait_csp_master_off()
+    central_node_mid.move_to_on()
+    
     event_recorder.subscribe_event(central_node_mid.csp_master, "State")
     event_recorder.subscribe_event(
         central_node_mid.subarray_devices["csp_subarray"], "State"
@@ -45,7 +47,6 @@ def given_a_telescope_in_on_state(central_node_mid, event_recorder):
         central_node_mid.csp_master,
         "State",
         DevState.ON,
-        lookahead=20,
     )
 
     assert event_recorder.has_change_event_occurred(
@@ -84,7 +85,6 @@ def subarray_in_ready_obsstate(
         central_node_mid.subarray_node,
         "obsState",
         ObsState.IDLE,
-        lookahead=20,
     )
     configure_input_json = prepare_json_args_for_commands(
         "configure_mid", command_input_factory
