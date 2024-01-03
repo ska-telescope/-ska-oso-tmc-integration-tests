@@ -25,6 +25,7 @@ from tests.resources.test_harness.constant import (
     tmc_subarraynode1,
 )
 from tests.resources.test_harness.helpers import (
+    SIMULATED_DEVICES_DICT,
     check_subarray_obs_state,
     prepare_json_args_for_commands,
 )
@@ -248,18 +249,18 @@ class SubarrayNodeWrapper(object):
 
     def _clear_command_call_and_transition_data(self, clear_transition=False):
         """Clears the command call data"""
-        for sim_device in [
-            self.sdp_subarray1,
-            self.csp_subarray1,
-            dish_master1,
-            dish_master2,
-        ]:
-            device = DeviceProxy(sim_device)
-            device.ClearCommandCallInfo()
-            if clear_transition:
-                device.ResetTransitions()
+        if not SIMULATED_DEVICES_DICT["sdp_and_dish"]:
+            for sim_device in [
+                self.sdp_subarray1,
+                dish_master1,
+                dish_master2,
+            ]:
+                device = DeviceProxy(sim_device)
+                device.ClearCommandCallInfo()
+                if clear_transition:
+                    device.ResetTransitions()
 
-    def tear_down(self, event_recorder):
+    def tear_down(self):
         """Tear down after each test run"""
 
         LOGGER.info("Calling Tear down for subarray")
