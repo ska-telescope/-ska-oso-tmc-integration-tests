@@ -13,6 +13,7 @@ from ska_tango_base.commands import ResultCode
 from ska_tango_base.control_model import HealthState
 from ska_tango_testing.mock.placeholders import Anything
 
+from tests.resources.test_harness.constant import device_dict
 from tests.resources.test_harness.simulator_factory import SimulatorFactory
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
@@ -473,6 +474,12 @@ def get_simulated_devices_info() -> dict:
 
 
 SIMULATED_DEVICES_DICT = get_simulated_devices_info()
+
+
+def wait_csp_master_off():
+    wait = Waiter(**device_dict)
+    wait.set_wait_for_csp_master_to_become_off()
+    wait.wait(500)
 
 
 def generate_id(id_pattern: str) -> str:
