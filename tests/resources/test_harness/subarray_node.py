@@ -233,7 +233,9 @@ class SubarrayNodeWrapper(object):
 
     def _reset_simulator_devices(self):
         """Reset Simulator devices to it's original state"""
-        for sim_device_fqdn in [self.sdp_subarray1, self.csp_subarray1]:
+        for sim_device_fqdn in [
+            self.sdp_subarray1,
+        ]:
             device = DeviceProxy(sim_device_fqdn)
             device.ResetDelay()
             device.SetDirectHealthState(HealthState.UNKNOWN)
