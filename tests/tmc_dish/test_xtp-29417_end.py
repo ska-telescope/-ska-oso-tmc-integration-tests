@@ -1,5 +1,5 @@
 """Test module for TMC-DISH End functionality"""
-import time
+
 
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
@@ -14,7 +14,6 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.enum import DishMode, PointingState
 
 
-@pytest.mark.t1
 @pytest.mark.tmc_dish
 @scenario(
     "../features/tmc_dish/xtp-29417_end.feature",
@@ -90,7 +89,6 @@ def check_subarray_obstate(
 
     subarray_node.execute_transition("Configure", configure_input_json)
 
-    time.sleep(5)
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "obsState",
