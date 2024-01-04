@@ -13,7 +13,8 @@ from tests.resources.test_support.common_utils.result_code import ResultCode
 
 
 @pytest.mark.skip(
-    reason="Test fails randomly, Issue will be fixed as a part of SAH-1456"
+    reason="Test fails because of TRANSIENT CORBA EXCEPTION with command"
+    + " exceeding the timeout of 3 seconds"
 )
 @pytest.mark.SKA_mid
 @scenario(
