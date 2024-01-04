@@ -28,7 +28,9 @@ def test_scan_command():
 
 
 @given("the telescope is in ON state")
-def given_a_telescope_in_on_state(central_node_mid, event_recorder):
+def given_a_telescope_in_on_state(
+    central_node_mid, subarray_node, event_recorder
+):
     """Checks if CentralNode's telescopeState attribute value is on."""
 
     event_recorder.subscribe_event(
@@ -50,7 +52,7 @@ def given_a_telescope_in_on_state(central_node_mid, event_recorder):
     )
 
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_devices["csp_subarray"],
+        subarray_node.subarray_devices["csp_subarray"],
         "State",
         DevState.ON,
     )
