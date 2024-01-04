@@ -407,6 +407,12 @@ def check_lrcr_events(
             pytest.fail("Assertion Failed")
 
 
+def wait_csp_master_off():
+    wait = Waiter(**device_dict)
+    wait.set_wait_for_csp_master_to_become_off()
+    wait.wait(500)
+
+
 def generate_id(id_pattern: str) -> str:
     """
     Generate a time-based unique id.
@@ -459,9 +465,3 @@ def check_subarray_instance(device, subarray_id):
     subarray = str(device).split("/")
     subarray_instance = subarray[-1][-2]
     assert subarray_instance == subarray_id
-
-
-def wait_csp_master_off():
-    wait = Waiter(**device_dict)
-    wait.set_wait_for_csp_master_to_become_off()
-    wait.wait(500)
