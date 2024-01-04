@@ -67,10 +67,11 @@ def telescope_is_in_idle_obsstate(
         "I issued the Abort command to the TMC subarray {subarray_id}"
     )
 )
-def abort_is_invoked(central_node_mid):
+def abort_is_invoked(central_node_mid, subarray_id):
     """
     This method invokes abort command on tmc subarray
     """
+    central_node_mid.set_subarray_id(subarray_id)
     central_node_mid.subarray_abort()
 
 
@@ -91,10 +92,13 @@ def sdp_subarray_is_in_aborted_obsstate(central_node_mid, event_recorder):
         "the TMC subarray {subarray_id} transitions to ABORTED ObsState"
     )
 )
-def tmc_subarray_is_in_aborted_obsstate(central_node_mid, event_recorder):
+def tmc_subarray_is_in_aborted_obsstate(
+    central_node_mid, event_recorder, subarray_id
+):
     """
     Method to check if TMC subarray is in ABORTED obsstate
     """
+    central_node_mid.set_subarray_id(subarray_id)
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "obsState",

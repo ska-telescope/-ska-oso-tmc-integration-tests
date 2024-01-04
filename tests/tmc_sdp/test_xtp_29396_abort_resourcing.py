@@ -1,10 +1,13 @@
 """Test TMC-SDP Abort functionality in RESOURCING obsState"""
+import json
+
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
 from tango import DevState
 
 from tests.resources.test_harness.helpers import (
+    generate_eb_pb_ids,
     prepare_json_args_for_centralnode_commands,
 )
 
@@ -37,7 +40,10 @@ def telescope_is_in_resourcing_obsstate(
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
-    central_node_mid.perform_action("AssignResources", assign_input_json)
+    input_json = json.loads(assign_input_json)
+    generate_eb_pb_ids(input_json)
+    central_node_mid.perform_action("AssignResources", json.dumps(input_json))
+
     event_recorder.subscribe_event(
         central_node_mid.subarray_devices.get("sdp_subarray"), "obsState"
     )

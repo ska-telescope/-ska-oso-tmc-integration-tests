@@ -34,6 +34,7 @@ from tests.resources.test_harness.utils.sync_decorators import (
     sync_set_to_off,
 )
 from tests.resources.test_harness.utils.wait_helpers import Waiter
+from tests.resources.test_support.common_utils.common_helpers import Resource
 
 configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
@@ -95,31 +96,73 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         self.wait = Waiter(**device_dict)
         self.simulated_devices_dict = self.get_simulated_devices_info()
 
-    def set_subarray_id(self, id):
-        self.subarray_node = DeviceProxy(f"ska_mid/tm_subarray_node/{id}")
-        if int(id) <= 9:
-            id = "{:02d}".format(id)
-            self.subarray_devices = {
-                "csp_subarray": DeviceProxy(f"mid-csp/subarray/{id}"),
-                "sdp_subarray": DeviceProxy(f"mid-sdp/subarray/{id}"),
-            }
-            self.subarray_leaf_node = DeviceProxy(
-                f"ska_mid/tm_leaf_node/csp_subarray{id}"
-            )
-            self.sdp_subarray_leaf_node = DeviceProxy(
-                f"ska_mid/tm_leaf_node/sdp_subarray{id}"
-            )
-        else:
-            self.subarray_devices = {
-                "csp_subarray": DeviceProxy(f"mid-csp/subarray/{id}"),
-                "sdp_subarray": DeviceProxy(f"mid-sdp/subarray/{id}"),
-            }
-            self.csp_subarray_leaf_node = DeviceProxy(
-                f"ska_mid/tm_leaf_node/csp_subarray{id}"
-            )
-            self.sdp_subarray_leaf_node = DeviceProxy(
-                f"ska_mid/tm_leaf_node/sdp_subarray{id}"
-            )
+    @property
+    def state(self) -> DevState:
+        """TMC CentralNode operational state"""
+        self._state = Resource(self.central_node).get("State")
+        return self._state
+
+    @state.setter
+    def state(self, value):
+        """Sets value for TMC CentralNode operational state
+
+        Args:
+            value (DevState): operational state value
+        """
+        self._state = value
+
+    @property
+    def telescope_health_state(self) -> HealthState:
+        """Telescope health state representing overall health of telescope"""
+        self._telescope_health_state = Resource(self.central_node).get(
+            "telescopeHealthState"
+        )
+        return self._telescope_health_state
+
+    @telescope_health_state.setter
+    def telescope_health_state(self, value):
+        """Telescope health state representing overall health of telescope
+
+        Args:
+            value (HealthState): telescope health state value
+        """
+        self._telescope_health_state = value
+
+    @property
+    def telescope_state(self) -> DevState:
+        """Telescope state representing overall state of telescope"""
+
+        self._telescope_state = Resource(self.central_node).get(
+            "telescopeState"
+        )
+        return self._telescope_state
+
+    @telescope_state.setter
+    def telescope_state(self, value):
+        """Telescope state representing overall state of telescope
+
+        Args:
+            value (DevState): telescope state value
+        """
+        self._telescope_state = value
+
+    def set_subarray_id(self, requested_subarray_id: str) -> None:
+        """This method creates subarray devices for the requested subarray
+        id"""
+        self.subarray_node = DeviceProxy(
+            f"ska_mid/tm_subarray_node/{requested_subarray_id}"
+        )
+        subarray_id = str(requested_subarray_id).zfill(2)
+        self.subarray_devices = {
+            "csp_subarray": DeviceProxy(f"mid-csp/subarray/{subarray_id}"),
+            "sdp_subarray": DeviceProxy(f"mid-sdp/subarray/{subarray_id}"),
+        }
+        self.csp_subarray_leaf_node = DeviceProxy(
+            f"ska_mid/tm_leaf_node/csp_subarray{subarray_id}"
+        )
+        self.sdp_subarray_leaf_node = DeviceProxy(
+            f"ska_mid/tm_leaf_node/sdp_subarray{subarray_id}"
+        )
 
     def load_dish_vcc_configuration(self, dish_vcc_config: str):
         """Invoke LoadDishCfg command on central Node
