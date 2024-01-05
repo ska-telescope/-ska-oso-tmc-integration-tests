@@ -1,5 +1,5 @@
 {
-  "interface": "https://schema.skao.int/ska-tmc-configure/2.0",
+  "interface": "https://schema.skao.int/ska-tmc-configure/2.1",
   "transaction_id": "txn-....-00001",
   "pointing": {
     "target": {
@@ -10,7 +10,7 @@
     }
   },
   "dish": {
-    "receiver_band": "2"
+    "receiver_band": "1"
   },
   "csp": {
     "interface": "https://schema.skao.int/ska-csp-configure/2.0",
@@ -83,21 +83,21 @@
         }
       ],
       "vlbi": {
-
+        
       }
     },
     "pss": {
-
+      
     },
     "pst": {
-
+      
     }
   },
   "sdp": {
-    "interface": "https://schema.skao.int/ska-sdp-configure/0.3",
+    "interface": "https://schema.skao.int/ska-sdp-configure/0.4",
     "scan_type": "science_A"
   },
   "tmc": {
-    "scan_duration": 5.0
+    "scan_duration": 10.0
   }
 }
