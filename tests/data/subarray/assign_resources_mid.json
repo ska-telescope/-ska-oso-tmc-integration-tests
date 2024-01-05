@@ -5,7 +5,9 @@
   "dish": {
     "receptor_ids": [
       "SKA001",
-      "SKA002"
+      "SKA036",
+      "SAK063",
+      "SKA100"
     ]
   },
   "sdp": {
