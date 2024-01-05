@@ -1,18 +1,16 @@
 {
-  "interface": "https://schema.skao.int/ska-tmc-configure/2.2",
+  "interface": "https://schema.skao.int/ska-tmc-configure/2.0",
   "transaction_id": "txn-....-00001",
   "pointing": {
     "target": {
       "reference_frame": "ICRS",
       "target_name": "Polaris Australis",
       "ra": "21:08:47.92",
-      "dec": "-88:57:22.9",
-      "ca_offset_arcsec": 0.0,
-      "ie_offset_arcsec": 0.0
+      "dec": "-88:57:22.9"
     }
   },
   "dish": {
-    "receiver_band": "1"
+    "receiver_band": "2"
   },
   "csp": {
     "interface": "https://schema.skao.int/ska-csp-configure/2.0",
@@ -85,22 +83,21 @@
         }
       ],
       "vlbi": {
-        
+
       }
     },
     "pss": {
-      
+
     },
     "pst": {
-      
+
     }
   },
   "sdp": {
-    "interface": "https://schema.skao.int/ska-sdp-configure/0.4",
+    "interface": "https://schema.skao.int/ska-sdp-configure/0.3",
     "scan_type": "science_A"
   },
   "tmc": {
-    "scan_duration": 10.0,
-    "partial_configuration": False
+    "scan_duration": 5.0
   }
 }
