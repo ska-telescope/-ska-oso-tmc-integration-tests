@@ -13,6 +13,7 @@ from tests.resources.test_harness.helpers import (
     prepare_json_args_for_commands,
     wait_csp_master_off,
 )
+from tests.resources.test_harness.subarray_node import SubarrayNodeWrapper
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 
 
@@ -68,6 +69,7 @@ def subarray_in_ready_obsstate(
     central_node_mid: CentralNodeWrapperMid,
     event_recorder: EventRecorder,
     command_input_factory: JsonFactory,
+    subarray_node: SubarrayNodeWrapper,
     subarray_id: str,
 ) -> None:
     """Move TMC Subarray to READY obsstate."""
@@ -75,23 +77,20 @@ def subarray_in_ready_obsstate(
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
-    # Create json for AssignResources commands with requested subarray_id
-    assign_input = json.loads(assign_input_json)
-    assign_input["subarray_id"] = int(subarray_id)
-    central_node_mid.perform_action(
-        "AssignResources", json.dumps(assign_input)
-    )
-
-    event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_node,
-        "obsState",
-        ObsState.IDLE,
-    )
-    configure_input_json = prepare_json_args_for_commands(
+    configure_input_json = prepare_json_args_for_centralnode_commands(
         "configure_mid", command_input_factory
     )
-    central_node_mid.subarray_node.Configure(configure_input_json)
+    # Create json for AssignResources commands with requested subarray_id
+
+    assign_input = json.loads(assign_input_json)
+    assign_input["subarray_id"] = int(subarray_id)
+    event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
+
+    subarray_node.force_change_of_obs_state(
+        "READY",
+        assign_input_json=assign_input_json,
+        configure_input_json=configure_input_json,
+    )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "obsState",
