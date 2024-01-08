@@ -1,5 +1,6 @@
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
+from ska_control_model import ObsState
 
 from tests.conftest import LOGGER
 from tests.resources.test_support.common_utils.telescope_controls import (
@@ -26,7 +27,7 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
-@pytest.mark.SKA_mid
+@pytest.mark.SKA_midtn1
 @scenario(
     "../features/successive_configure.feature",
     "TMC validates reconfigure functionality",
@@ -122,12 +123,18 @@ def send_next_configure(json_factory, input_json2):
 
 
 @then("the subarray reconfigures changing its obsState to READY")
-def check_for_reconfigure_ready():
+def check_for_reconfigure_ready(subarray_node, event_recorder):
 
     # Verify ObsState is READY
+    event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
     LOGGER.info("Verifying obsState READY after Configure2")
-    assert telescope_control.is_in_valid_state(
-        DEVICE_OBS_STATE_READY_INFO, "obsState"
+    # assert telescope_control.is_in_valid_state(
+    #     DEVICE_OBS_STATE_READY_INFO, "obsState"
+    # )
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_node,
+        "obsState",
+        ObsState.READY,
     )
 
 
