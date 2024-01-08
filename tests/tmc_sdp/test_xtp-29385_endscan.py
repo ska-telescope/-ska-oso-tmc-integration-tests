@@ -69,7 +69,7 @@ def check_subarray_is_configured(
     event_recorder,
     subarray_id,
 ):
-    """Method to check tmc and sdp subarray is in READY obstate"""
+    """Method to check TMC and SDP subarrays in SCANNING obsstate"""
 
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
@@ -118,8 +118,8 @@ def invoke_scan(central_node_mid, subarray_node, subarray_id):
 
 
 @then(parsers.parse("the SDP subarray transitions to ObsState READY"))
-def check_sdp_subarray_obs_State(subarray_node, event_recorder):
-    """Check sdp subarray obsState READY"""
+def check_sdp_subarray_in_ready(subarray_node, event_recorder):
+    """A method to check SDP subarray obsstate"""
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_devices["sdp_subarray"],
         "obsState",
@@ -132,13 +132,13 @@ def check_sdp_subarray_obs_State(subarray_node, event_recorder):
         "the TMC subarray {subarray_id} transitions to ObsState READY"
     )
 )
-def check_sdp_subarray_in_ready(
+def check_tmc_subarray_obs_state(
     central_node_mid, subarray_node, event_recorder, subarray_id
 ):
-    """A method to check SDP subarray obsstate"""
+    """A method to check TMC subarray obsstate"""
     central_node_mid.set_subarray_id(subarray_id)
     assert event_recorder.has_change_event_occurred(
-        subarray_node.subarray_devices["sdp_subarray"],
+        subarray_node.subarray_node,
         "obsState",
         ObsState.READY,
     )

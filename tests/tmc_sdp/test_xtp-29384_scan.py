@@ -38,7 +38,7 @@ def check_subarray_is_configured(
     event_recorder,
     subarray_id,
 ):
-    """Method to check tmc and sdp subarray is in READY obstate"""
+    """Method to check tmc and sdp subarrays are in READY obsstate"""
 
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
@@ -129,8 +129,7 @@ def invoke_scan(
 def check_subarray_obs_State(
     central_node_mid, subarray_node, subarray_id, event_recorder
 ):
-    """Check TMC and SDP subarray obsState Scanning"""
-
+    """Check TMC and SDP subarray obsStates"""
     central_node_mid.set_subarray_id(subarray_id)
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,

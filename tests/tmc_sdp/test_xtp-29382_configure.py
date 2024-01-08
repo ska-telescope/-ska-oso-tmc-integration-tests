@@ -52,7 +52,7 @@ def given_a_tmc(central_node_mid, event_recorder):
 def check_subarray_obs_state(
     subarray_node, central_node_mid, event_recorder, command_input_factory
 ):
-    """Method to check subarray is in IDLE obstate"""
+    """Method to check subarrays is in IDLE obsstate"""
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
     event_recorder.subscribe_event(
         subarray_node.subarray_devices.get("sdp_subarray"), "obsState"
@@ -131,7 +131,6 @@ def check_tmc_subarray_obs_state(
     central_node_mid, subarray_node, event_recorder, subarray_id
 ):
     """A method to check TMC subarray obsstate"""
-    # event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
     central_node_mid.set_subarray_id(subarray_id)
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
