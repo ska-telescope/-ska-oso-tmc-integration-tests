@@ -455,14 +455,9 @@ def get_simulated_devices_info() -> dict:
 
     return: dict
     """
-
-    SDP_SIMULATION_ENABLED = os.getenv("SDP_SIMULATION_ENABLED")
-    CSP_SIMULATION_ENABLED = os.getenv("CSP_SIMULATION_ENABLED")
-    DISH_SIMULATION_ENABLED = os.getenv("DISH_SIMULATION_ENABLED")
-
-    is_csp_simulated = CSP_SIMULATION_ENABLED.lower() == "true"
-    is_sdp_simulated = SDP_SIMULATION_ENABLED.lower() == "true"
-    is_dish_simulated = DISH_SIMULATION_ENABLED.lower() == "true"
+    is_sdp_simulated = os.getenv("SDP_SIMULATION_ENABLED").lower() == "true"
+    is_csp_simulated = os.getenv("CSP_SIMULATION_ENABLED").lower() == "true"
+    is_dish_simulated = os.getenv("DISH_SIMULATION_ENABLED").lower() == "true"
     return {
         "csp_and_sdp": all(
             [is_csp_simulated, is_sdp_simulated]
