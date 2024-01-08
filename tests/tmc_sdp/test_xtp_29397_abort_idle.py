@@ -75,7 +75,7 @@ def abort_is_invoked(central_node_mid, subarray_id):
     central_node_mid.subarray_abort()
 
 
-@then(parsers.parse("the SDP subarray should go into an ABORTED obsstate"))
+@then("the SDP subarray should go into an ABORTED obsstate")
 def sdp_subarray_is_in_aborted_obsstate(central_node_mid, event_recorder):
     """
     Method to check SDP subarray is in ABORTED obsstate

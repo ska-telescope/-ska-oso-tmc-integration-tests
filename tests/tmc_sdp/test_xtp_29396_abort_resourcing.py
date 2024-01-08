@@ -2,7 +2,7 @@
 import json
 
 import pytest
-from pytest_bdd import given, parsers, scenario, then, when
+from pytest_bdd import given, scenario, then, when
 from ska_control_model import ObsState
 from tango import DevState
 
@@ -68,7 +68,7 @@ def abort_is_invoked(central_node_mid):
     central_node_mid.subarray_abort()
 
 
-@then(parsers.parse("the SDP subarray should go into an ABORTED obsstate"))
+@then("the SDP subarray should go into an ABORTED obsstate")
 def sdp_subarray_is_in_aborted_obsstate(central_node_mid, event_recorder):
     """
     Method to check SDP subarray is in ABORTED obsstate
@@ -80,7 +80,7 @@ def sdp_subarray_is_in_aborted_obsstate(central_node_mid, event_recorder):
     )
 
 
-@then(parsers.parse("the TMC subarray obsState transitions to ABORTED"))
+@then("the TMC subarray obsState transitions to ABORTED")
 def tmc_subarray_is_in_aborted_obsstate(central_node_mid, event_recorder):
     """
     Method to check if TMC subarray is in ABORTED obsstate
