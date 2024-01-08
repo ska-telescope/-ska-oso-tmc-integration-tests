@@ -42,6 +42,9 @@ telescope_control = BaseTelescopeControl()
 tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 
 
+@pytest.mark.skip(
+    reason="The test is duplicate, scenario is covered under test-harness tests"
+)
 @pytest.mark.SKA_mid
 def test_assign_release(json_factory):
     """AssignResources and ReleaseResources is executed."""
