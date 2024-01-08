@@ -1,4 +1,4 @@
-"""Test module for TMC-CSP ReleaseResources functionality"""
+"""Test module for TMC-CSP Scan functionality"""
 import json
 
 import pytest
