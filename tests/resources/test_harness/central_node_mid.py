@@ -187,5 +187,6 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             self.subarray_restart()
         elif self.subarray_node.obsState == ObsState.ABORTED:
             self.subarray_restart()
-        self.move_to_off()
+        if self.telescope_state != "OFF":
+            self.move_to_off()
         self._clear_command_call_and_transition_data(clear_transition=True)

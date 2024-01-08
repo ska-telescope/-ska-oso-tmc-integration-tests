@@ -168,7 +168,6 @@ def wait_for_dish_mode_change(
     start_time = time.time()
 
     while time.time() - start_time < timeout_seconds:
-        LOGGER.info("dishfqdn.dishMode.value: %s", dishfqdn.dishMode)
         if dishfqdn.dishMode == target_mode:
             return True
         time.sleep(1)
@@ -183,7 +182,6 @@ def wait_for_telescope_state_change(
     start_time = time.time()
     LOGGER.info("target_state: %s", target_state)
     while time.time() - start_time < timeout_seconds:
-        LOGGER.info("CN.telescopeState: %s", centralnode_fqdn.telescopeState)
         if centralnode_fqdn.telescopeState == target_state:
             return True
         time.sleep(1)

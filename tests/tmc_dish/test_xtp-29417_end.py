@@ -19,7 +19,7 @@ from tests.resources.test_support.enum import DishMode, PointingState
     "../features/tmc_dish/xtp-29417_end.feature",
     "TMC executes End command on DISH.LMC",
 )
-def test_tmc_dish_end_telescope():
+def test_tmc_dish_end():
     """
     Test case to verify TMC-DISH End functionality
 
@@ -104,7 +104,7 @@ def invoke_end(subarray_node):
     subarray_node.execute_transition("End")
 
 
-@then("Dish Mode is transitioned to STANDBY-FP")
+@then("dishMode is transitioned to STANDBY-FP")
 def check_dish_mode(central_node_mid, event_recorder):
     """Method to check Dish is in STANDBY-FP Dish Mode"""
     event_recorder.subscribe_event(
@@ -133,7 +133,7 @@ def check_dish_mode(central_node_mid, event_recorder):
     )
 
 
-@then("Pointing State is transitioned to READY")
+@then("pointingState is transitioned to READY")
 def check_dish_pointing_state(central_node_mid, event_recorder):
     """Method to check Dish is in READY Pointing State"""
     event_recorder.subscribe_event(

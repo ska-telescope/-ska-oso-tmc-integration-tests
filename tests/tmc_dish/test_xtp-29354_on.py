@@ -64,14 +64,6 @@ def move_dish_to_on(central_node_mid, event_recorder):
     event_recorder.subscribe_event(
         central_node_mid.dish_master_list[2], "dishMode"
     )
-    event_recorder.subscribe_event(
-        central_node_mid.central_node, "telescopeState"
-    )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.central_node,
-        "telescopeState",
-        DevState.OFF,
-    )
 
     assert event_recorder.has_change_event_occurred(
         central_node_mid.dish_master_list[0],
@@ -88,6 +80,16 @@ def move_dish_to_on(central_node_mid, event_recorder):
         "dishMode",
         DishMode.STANDBY_LP,
     )
+    event_recorder.subscribe_event(
+        central_node_mid.central_node, "telescopeState"
+    )
+
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.central_node,
+        "telescopeState",
+        DevState.OFF,
+    )
+
     central_node_mid.move_to_on()
 
 

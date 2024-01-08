@@ -31,7 +31,7 @@ def test_tmc_dish_configure():
 
 
 @given("a Telescope consisting of TMC, DISH , simulated CSP and simulated SDP")
-def given_tmc(central_node_mid, simulator_factory, event_recorder):
+def given_a_telescope(central_node_mid, simulator_factory, event_recorder):
     """
     Given a TMC
     """
@@ -52,12 +52,24 @@ def given_tmc(central_node_mid, simulator_factory, event_recorder):
 
 
 @given("the Telescope is in ON state")
-def move_dish_to_on(central_node_mid, event_recorder):
+def turn_on_telescope(central_node_mid, event_recorder):
     """A method to put DISH to ON"""
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
     )
     central_node_mid.move_to_on()
+
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.sdp_master,
+        "State",
+        DevState.ON,
+    )
+
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.csp_master,
+        "State",
+        DevState.ON,
+    )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
         "telescopeState",
@@ -98,9 +110,9 @@ def invoke_configure(subarray_node, command_input_factory):
     subarray_node.execute_transition("Configure", configure_input_json)
 
 
-@then("Dish Mode is transitioned to OPERATE")
+@then("dishMode is transitioned to OPERATE")
 def check_dish_mode(central_node_mid, event_recorder):
-    """A method to Dish is in OPERATE Dish Mode"""
+    """A method verify Dish is in OPERATE Dish Mode"""
     event_recorder.subscribe_event(
         central_node_mid.dish_master_list[0], "dishMode"
     )
@@ -127,9 +139,9 @@ def check_dish_mode(central_node_mid, event_recorder):
     )
 
 
-@then("Pointing State is transitioned to TRACK")
+@then("pointingState is transitioned to TRACK")
 def check_dish_pointing_state(central_node_mid, event_recorder):
-    """A method to Dish is in TRACK Pointing State"""
+    """A method to verify Dish is in TRACK Pointing State"""
     event_recorder.subscribe_event(
         central_node_mid.dish_master_list[0], "pointingState"
     )
