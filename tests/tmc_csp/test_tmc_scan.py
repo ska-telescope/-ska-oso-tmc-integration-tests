@@ -1,6 +1,4 @@
 """Test module for TMC-CSP Scan functionality"""
-import json
-
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
@@ -77,19 +75,26 @@ def subarray_in_ready_obsstate(
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
-    configure_input_json = prepare_json_args_for_centralnode_commands(
+    configure_input_json = prepare_json_args_for_commands(
         "configure_mid", command_input_factory
     )
-    # Create json for AssignResources commands with requested subarray_id
-
-    assign_input = json.loads(assign_input_json)
-    assign_input["subarray_id"] = int(subarray_id)
-    event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
+    event_recorder.subscribe_event(
+        central_node_mid.central_node, "telescopeState"
+    )
+    event_recorder.subscribe_event(
+        subarray_node.subarray_devices["csp_subarray"], "obsState"
+    )
+    event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
 
     subarray_node.force_change_of_obs_state(
         "READY",
         assign_input_json=assign_input_json,
         configure_input_json=configure_input_json,
+    )
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_devices["csp_subarray"],
+        "obsState",
+        ObsState.SCANNING,
     )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
