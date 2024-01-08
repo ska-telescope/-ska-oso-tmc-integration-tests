@@ -180,7 +180,6 @@ def wait_for_telescope_state_change(
 ):
     """Returns True if the telescopeState is changed to a expected value"""
     start_time = time.time()
-    LOGGER.info("target_state: %s", target_state)
     while time.time() - start_time < timeout_seconds:
         if centralnode_fqdn.telescopeState == target_state:
             return True
