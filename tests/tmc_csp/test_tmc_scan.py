@@ -94,7 +94,7 @@ def subarray_in_ready_obsstate(
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_devices["csp_subarray"],
         "obsState",
-        ObsState.SCANNING,
+        ObsState.READY,
     )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
