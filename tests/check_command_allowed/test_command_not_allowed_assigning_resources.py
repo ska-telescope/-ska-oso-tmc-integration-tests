@@ -3,7 +3,7 @@ from pytest_bdd import given, parsers, scenario, then, when
 from tango import DeviceProxy
 
 from tests.conftest import LOGGER
-from tests.resources.test_support.common_utils.result_code import ResultCode
+from tests.resources.test_support.common_utils.common_helpers import Resource
 from tests.resources.test_support.common_utils.telescope_controls import (
     BaseTelescopeControl,
 )
@@ -26,6 +26,7 @@ result, message = "", ""
 
 @pytest.mark.skip(reason="This functionality is not implemented yet in TMC")
 @pytest.mark.SKA_mid
+@pytest.mark.ms1
 @scenario(
     "../features/check_command_not_allowed.feature",
     "Unexpected commands not allowed when TMC subarray is in Assigning",
@@ -34,7 +35,7 @@ def test_command_not_allowed():
     """Assigning the resources in RESOURCING obsState"""
 
 
-@given("TMC is in ON state ")
+@given("TMC is in ON state")
 def given_tmc():
     tmc_helper.check_devices(DEVICE_LIST_FOR_CHECK_DEVICES)
     assert telescope_control.is_in_valid_state(
@@ -55,7 +56,9 @@ def given_tmc_obsState(json_factory):
     tmc_helper.check_devices(DEVICE_LIST_FOR_CHECK_DEVICES)
     central_node.AssignResources(assign_json)
     LOGGER.info("Checking for Subarray node obsState")
-    # resource(tmc_subarraynode1).assert_attribute("obsState").equals("RESOURCING")
+    Resource(tmc_subarraynode1).assert_attribute("obsState").equals(
+        "RESOURCING"
+    )
     LOGGER.info("Checking for Subarray node obsState")
 
 
@@ -66,24 +69,29 @@ def given_tmc_obsState(json_factory):
 )
 def send_command(json_factory, unexpected_command):
     if unexpected_command == "AssignResources2":
-        assign_json2 = json_factory("command_AssignResources_2")
-        central_node = DeviceProxy(centralnode)
-        LOGGER.info("Invoked AssignResources2 from CentralNode")
-        result, message = central_node.AssignResources(assign_json2)
+        with pytest.raises(Exception) as e:
+            assign_json2 = json_factory("command_AssignResources_2")
+            central_node = DeviceProxy(centralnode)
+            LOGGER.info("Invoked AssignResources2 from CentralNode")
+            central_node.AssignResources(assign_json2)
+        assert (
+            "AssignResources command not permitted in observation state"
+            in str(e.value)
+        )
 
 
-@then(
-    parsers.parse(
-        "TMC should reject the {unexpected_command} with ResultCode.Rejected"
-    )
-)
-def invalid_command_rejection(unexpected_command):
-    assert (
-        f"command {unexpected_command} is not allowed \
-        in current subarray obsState"
-        in message[0]
-    )
-    assert result[0] == ResultCode.REJECTED
+# @then(
+#     parsers.parse(
+#         "TMC should reject the {unexpected_command} with ResultCode.Rejected"
+#     )
+# )
+# def invalid_command_rejection(unexpected_command):
+#     assert (
+#         f"command {unexpected_command} is not allowed \
+#         in current subarray obsState"
+#         in message[0]
+#     )
+#     assert result[0] == ResultCode.REJECTED
 
 
 @then(parsers.parse("TMC executes the Configure command successfully"))

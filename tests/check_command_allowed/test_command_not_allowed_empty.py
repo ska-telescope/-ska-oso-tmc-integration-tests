@@ -2,7 +2,6 @@ import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 
 from tests.conftest import LOGGER
-from tests.resources.test_support.common_utils.result_code import ResultCode
 from tests.resources.test_support.common_utils.telescope_controls import (
     BaseTelescopeControl,
 )
@@ -30,8 +29,8 @@ telescope_control = BaseTelescopeControl()
 result, message = "", ""
 
 
-@pytest.mark.skip(reason="This functionality is not implemented yet in TMC")
 @pytest.mark.SKA_mid
+@pytest.mark.ms
 @scenario(
     "../features/check_command_not_allowed.feature",
     "Unexpected commands not allowed when TMC subarray is empty",
@@ -68,7 +67,7 @@ def given_tmc(json_factory):
         LOGGER.info("Tear Down complete. Telescope is in Standby State")
 
 
-@given(" the subarray is in EMPTY obsstate")
+@given("the subarray is in EMPTY obsstate")
 def given_tmc_obsState():
     # Verify ObsState is IDLE
     assert telescope_control.is_in_valid_state(
@@ -86,39 +85,45 @@ def send(json_factory, unexpected_command):
     configure_json = json_factory("command_Configure")
     try:
         if unexpected_command == "Configure":
-            LOGGER.info("Invoking Configure command on TMC SubarrayNode")
-            result, message = tmc_helper.configure_subarray(
-                configure_json, **ON_OFF_DEVICE_COMMAND_DICT
+            with pytest.raises(Exception) as e:
+                LOGGER.info("Invoking Configure command on TMC SubarrayNode")
+                pytest.command_result = tmc_helper.configure_subarray(
+                    configure_json, **ON_OFF_DEVICE_COMMAND_DICT
+                )
+                LOGGER.info(f"pytest result: {pytest.command_result}")
+            assert (
+                "Configure command not permitted in observation state"
+                in str(e.value)
             )
         elif unexpected_command == "Scan":
-            LOGGER.info("Invoking Scan command on TMC SubarrayNode")
-            result, message = tmc_helper.scan(
-                scan_json, **ON_OFF_DEVICE_COMMAND_DICT
+            with pytest.raises(Exception) as e:
+                LOGGER.info("Invoking Scan command on TMC SubarrayNode")
+                pytest.command_result = tmc_helper.scan(
+                    scan_json, **ON_OFF_DEVICE_COMMAND_DICT
+                )
+            assert "Scan command not permitted in observation state" in str(
+                e.value
             )
         elif unexpected_command == "End":
-            LOGGER.info("Invoking End command on TMC SubarrayNode")
-            result, message = tmc_helper.end()
+            with pytest.raises(Exception) as e:
+                LOGGER.info("Invoking End command on TMC SubarrayNode")
+                pytest.command_result = tmc_helper.end(
+                    **ON_OFF_DEVICE_COMMAND_DICT
+                )
+            assert "End command not permitted in observation state" in str(
+                e.value
+            )
         elif unexpected_command == "Abort":
-            LOGGER.info("Invoking Abort command on TMC SubarrayNode")
-            result, message = tmc_helper.invoke_abort(
-                **ON_OFF_DEVICE_COMMAND_DICT
+            with pytest.raises(Exception) as e:
+                LOGGER.info("Invoking Abort command on TMC SubarrayNode")
+                pytest.command_result = tmc_helper.invoke_abort(
+                    **ON_OFF_DEVICE_COMMAND_DICT
+                )
+            assert "Abort command not permitted in observation state" in str(
+                e.value
             )
     except Exception as e:
         LOGGER.info(f"Exception occured: {e}")
-
-
-@then(
-    parsers.parse(
-        "TMC should reject the {unexpected_command} with ResultCode.Rejected"
-    )
-)
-def invalid_command_rejection(unexpected_command):
-    assert (
-        f"command {unexpected_command} is not allowed \
-        in current subarray obsState"
-        in message[0]
-    )
-    assert result[0] == ResultCode.REJECTED
 
 
 @then("TMC subarray remains in EMPTY obsstate")

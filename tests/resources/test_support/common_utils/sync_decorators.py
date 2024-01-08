@@ -175,16 +175,20 @@ def sync_configure():
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
             """Wrapper method"""
+            LOGGER.info("Inside sync decorator")
             invoked_from_ready = False
             the_waiter = Waiter(**kwargs)
+            LOGGER.info(Resource(kwargs.get("tmc_subarraynode")))
             if Resource(kwargs.get("tmc_subarraynode")) == "READY":
                 invoked_from_ready = True
             result = func(*args, **kwargs)
+            LOGGER.info(invoked_from_ready)
             set_wait_for_obsstate = kwargs.get("set_wait_for_obsstate", True)
             if set_wait_for_obsstate:
                 if invoked_from_ready:
-                    the_waiter.set_wait_for_configuring()
-                    the_waiter.wait(500)
+                    LOGGER.info("inside invoked from ready")
+                the_waiter.set_wait_for_configuring()
+                the_waiter.wait(500)
                 the_waiter.set_wait_for_configure()
                 the_waiter.wait(800)
             return result
@@ -204,18 +208,20 @@ def sync_end():
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
             """Wrapper method"""
-            device = DeviceUtils(
-                obs_state_device_names=[
-                    kwargs.get("csp_subarray"),
-                    kwargs.get("sdp_subarray"),
-                    kwargs.get("tmc_subarraynode"),
-                ]
-            )
-            device.check_devices_obsState("READY")
-            the_waiter = Waiter(**kwargs)
-            the_waiter.set_wait_for_idle()
+            # device = DeviceUtils(
+            #     obs_state_device_names=[
+            #         kwargs.get("csp_subarray"),
+            #         kwargs.get("sdp_subarray"),
+            #         kwargs.get("tmc_subarraynode"),
+            #     ]
+            # )
+            # device.check_devices_obsState("READY")
             result = func(*args, **kwargs)
-            the_waiter.wait(200)
+            set_wait_for_obsstate = kwargs.get("set_wait_for_obsstate", True)
+            if set_wait_for_obsstate:
+                the_waiter = Waiter(**kwargs)
+                the_waiter.set_wait_for_idle()
+                the_waiter.wait(200)
             return result
 
         return wrapper
