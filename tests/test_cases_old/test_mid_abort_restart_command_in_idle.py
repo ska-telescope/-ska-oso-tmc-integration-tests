@@ -25,7 +25,8 @@ from tests.resources.test_support.constant import (
 
 
 @pytest.mark.skip(
-    reason="The test is duplicate, scenario is covered under test-harness tests"
+    reason="The test is duplicate, scenario is covered"
+    + "under test-harness tests"
 )
 @pytest.mark.SKA_mid
 def test_mid_abort_restart_in_idle(json_factory):

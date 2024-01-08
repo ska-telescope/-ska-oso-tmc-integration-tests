@@ -40,7 +40,8 @@ telescope_control = BaseTelescopeControl()
 
 
 @pytest.mark.skip(
-    reason="The test is duplicate, scenario is covered under test-harness tests"
+    reason="The test is duplicate, scenario is covered"
+    + "under test-harness tests"
 )
 @pytest.mark.SKA_mid
 def test_configure_end(json_factory):

@@ -42,7 +42,8 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 
 
 @pytest.mark.skip(
-    reason="The test is duplicate, scenario is covered under test-harness tests"
+    reason="The test is duplicate, scenario is covered under"
+    + "test-harness tests"
 )
 @pytest.mark.SKA_mid
 def test_abort_restart(json_factory):
@@ -146,7 +147,8 @@ def test_abort_in_empty(json_factory):
 
 
 @pytest.mark.skip(
-    reason="The test is duplicate, scenario is covered under test-harness tests"
+    reason="The test is duplicate, scenario is covered"
+    + "under test-harness tests"
 )
 @pytest.mark.SKA_mid
 def test_abort_in_resourcing(json_factory):
@@ -474,7 +476,8 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
 
 
 @pytest.mark.skip(
-    reason="The test is duplicate, scenario is covered under test-harness tests"
+    reason="The test is duplicate, scenario is covered"
+    + "under test-harness tests"
 )
 @pytest.mark.SKA_mid
 def test_abort_in_configuring(json_factory):
@@ -602,7 +605,8 @@ def test_abort_in_configuring(json_factory):
 
 
 @pytest.mark.skip(
-    reason="The test is duplicate, scenario is covered under test-harness tests"
+    reason="The test is duplicate, scenario is covered"
+    + "under test-harness tests"
 )
 @pytest.mark.SKA_mid
 def test_abort_in_scanning(json_factory):
