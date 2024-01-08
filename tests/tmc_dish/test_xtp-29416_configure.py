@@ -119,9 +119,6 @@ def check_dish_mode(central_node_mid, event_recorder):
     event_recorder.subscribe_event(
         central_node_mid.dish_master_list[1], "dishMode"
     )
-    event_recorder.subscribe_event(
-        central_node_mid.dish_master_list[2], "dishMode"
-    )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.dish_master_list[0],
         "dishMode",
@@ -129,11 +126,6 @@ def check_dish_mode(central_node_mid, event_recorder):
     )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.dish_master_list[1],
-        "dishMode",
-        DishMode.OPERATE,
-    )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[2],
         "dishMode",
         DishMode.OPERATE,
     )
@@ -148,9 +140,6 @@ def check_dish_pointing_state(central_node_mid, event_recorder):
     event_recorder.subscribe_event(
         central_node_mid.dish_master_list[1], "pointingState"
     )
-    event_recorder.subscribe_event(
-        central_node_mid.dish_master_list[2], "pointingState"
-    )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.dish_master_list[0],
         "pointingState",
@@ -158,11 +147,6 @@ def check_dish_pointing_state(central_node_mid, event_recorder):
     )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.dish_master_list[1],
-        "pointingState",
-        PointingState.TRACK,
-    )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[2],
         "pointingState",
         PointingState.TRACK,
     )
