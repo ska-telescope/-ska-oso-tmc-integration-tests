@@ -191,6 +191,11 @@ class SubarrayNodeWrapper(object):
         LOGGER.info("Invoked End on SubarrayNode")
         return result, message
 
+    def remove_scan_data(self):
+        result, message = self.subarray_node.EndScan()
+        LOGGER.info("Invoked EndScan on SubarrayNode")
+        return result, message
+
     def store_scan_data(self, input_string):
         result, message = self.subarray_node.Scan(input_string)
         LOGGER.info("Invoked Scan on SubarrayNode")

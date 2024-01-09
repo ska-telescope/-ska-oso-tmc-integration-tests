@@ -108,7 +108,7 @@ def move_subarray_node_to_scanning_obsstate(
 )
 def invoke_endscan_command(subarray_node):
     """Invoke Endscan command."""
-    subarray_node.execute_transition("EndScan")
+    subarray_node.remove_scan_data()
 
 
 @then(parsers.parse("the CSP subarray transitions to ObsState READY"))
