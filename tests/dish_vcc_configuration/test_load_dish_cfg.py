@@ -13,7 +13,8 @@ from tests.resources.test_support.common_utils.result_code import ResultCode
 
 
 @pytest.mark.skip(
-    reason="Test fails randomly, Issue will be fixed as a part of SAH-1456"
+    reason="Test fails because of TRANSIENT CORBA EXCEPTION with command"
+    + " exceeding the timeout of 3 seconds"
 )
 @pytest.mark.SKA_mid
 @scenario(
@@ -99,13 +100,15 @@ def tmc_pass_configuration_to_csp_controller(simulator_factory):
     :param simulator_factory: fixture for creating simulator devices for
     mid Telescope respectively.
     """
-    csp_master_sim, _, _, _ = get_master_device_simulators(simulator_factory)
+    csp_master_sim, _, _, _, _ = get_master_device_simulators(
+        simulator_factory
+    )
     expected_sys_param = {
         "interface": "https://schema.skao.int"
         "/ska-mid-cbf-initial-parameters/2.2",
         "dish_parameters": {
             "SKA001": {"vcc": 1, "k": 11},
-            "SKA002": {"vcc": 2, "k": 101},
+            "SKA036": {"vcc": 2, "k": 101},
         },
     }
     assert json.loads(csp_master_sim.sysParam) == expected_sys_param
@@ -126,7 +129,7 @@ def validate_sys_param_attribute_set(central_node_mid):
             "interface": interface_schema,
             "dish_parameters": {
                 "SKA001": {"vcc": 1, "k": 11},
-                "SKA002": {"vcc": 2, "k": 101},
+                "SKA036": {"vcc": 2, "k": 101},
             },
         }
     )
@@ -134,7 +137,8 @@ def validate_sys_param_attribute_set(central_node_mid):
         {
             "interface": interface_schema,
             "tm_data_sources": [
-                "car://gitlab.com/ska-telescope/ska-telmodel-data?main#tmdata"
+                "gitlab://gitlab.com/ska-telescope/ska-telmodel-data?main#"
+                + "tmdata"
             ],
             "tm_data_filepath": (
                 "instrument/dishid_vcc_configuration/mid_cbf_parameters.json"
@@ -159,8 +163,12 @@ def validate_k_number_set(simulator_factory):
     :param simulator_factory: fixture for creating simulator devices for
     mid Telescope respectively.
     """
-    _, _, dish_master_1_sim, dish_master_2_sim = get_master_device_simulators(
-        simulator_factory
-    )
+    (
+        _,
+        _,
+        dish_master_1_sim,
+        dish_master_2_sim,
+        _,
+    ) = get_master_device_simulators(simulator_factory)
     assert dish_master_1_sim.kValue == 11
     assert dish_master_2_sim.kValue == 101
