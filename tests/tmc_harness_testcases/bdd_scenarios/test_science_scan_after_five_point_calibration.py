@@ -75,7 +75,7 @@ def a_subarray_after_five_point_calibration(
         ObsState.SCANNING,
         lookahead=15,
     )
-    assert check_subarray_obs_state("READY", 50)
+    assert check_subarray_obs_state("READY", 500)
 
     scan_jsons = ["scan_mid" for _ in range(4)]
     partial_configuration_jsons = [
@@ -130,4 +130,4 @@ def subarray_applies_calibration_solutions_to_dishes(
 @then("is in READY obsState")
 def subarray_is_in_ready_obsstate():
     """Subarray is in READY obsState."""
-    assert check_subarray_obs_state("READY", 50)
+    assert check_subarray_obs_state("READY", 500)

@@ -76,7 +76,6 @@ centralnode:
     tag: 0.12.2
     pullPolicy: IfNotPresent
 
-
 subarraynode:
   image:
     registry: artefact.skao.int
