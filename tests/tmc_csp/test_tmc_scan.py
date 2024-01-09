@@ -112,7 +112,7 @@ def invoke_scan(subarray_node, command_input_factory):
     scan_input_json = prepare_json_args_for_commands(
         "scan_mid", command_input_factory
     )
-    subarray_node.subarray_node.store_scan_data(scan_input_json)
+    subarray_node.store_scan_data(scan_input_json)
 
 
 @then(parsers.parse("the CSP subarray transitions to ObsState SCANNING"))
