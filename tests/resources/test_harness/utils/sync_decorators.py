@@ -176,7 +176,7 @@ def sync_endscan(device_dict):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
             """Wrapper"""
-            the_waiter = Waiter(device_dict)
+            the_waiter = Waiter(**device_dict)
             the_waiter.set_wait_for_ready()
             result = func(*args, **kwargs)
             the_waiter.wait(200)
