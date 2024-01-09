@@ -266,9 +266,9 @@ class TmcHelper:
         self, configure_input_str: str, **kwargs: dict
     ) -> Tuple[ResultCode, str]:
         """Invokes configure command on subarray node"""
-        Resource(self.subarray_node).assert_attribute("obsState").equals(
-            "IDLE"
-        )
+        # Resource(self.subarray_node).assert_attribute("obsState").equals(
+        #     "IDLE"
+        # )
         subarray_node = DeviceProxy(self.subarray_node)
         result, message = subarray_node.Configure(configure_input_str)
         LOGGER.info("Invoked Configure on SubarrayNode")

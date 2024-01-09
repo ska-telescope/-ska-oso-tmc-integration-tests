@@ -30,7 +30,6 @@ result, message = "", ""
 
 
 @pytest.mark.SKA_mid
-@pytest.mark.ms
 @scenario(
     "../features/check_command_not_allowed.feature",
     "Unexpected commands not allowed when TMC subarray is empty",
@@ -77,7 +76,7 @@ def given_tmc_obsState():
 
 @when(
     parsers.parse(
-        "the command {unexpected_command} is invoked on that subarray"
+        "exception raised while {unexpected_command} command is invoked"
     )
 )
 def send(json_factory, unexpected_command):
