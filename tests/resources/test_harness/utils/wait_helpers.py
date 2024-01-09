@@ -391,11 +391,8 @@ class Waiter:
             if isinstance(wait, AttributeWatcher):
                 timeout = timeout * resolution
             try:
-                # result = wait.wait_until_conditions_met(
-                #     timeout=timeout, resolution=resolution
-                # )
                 result = wait.wait_until_conditions_met(
-                    timeout=100, resolution=resolution
+                    timeout=timeout, resolution=resolution
                 )
             except Exception as ex:
                 self.timed_out = True
