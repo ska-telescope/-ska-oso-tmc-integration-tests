@@ -103,14 +103,14 @@ def invoke_configure_command(
     )
 )
 def check_if_csp_subarray_moved_to_ready_obsstate(
-    central_node_mid: CentralNodeWrapperMid, event_recorder: EventRecorder
+    subarray_node: SubarrayNodeWrapper, event_recorder: EventRecorder
 ) -> None:
     """Ensure CSP subarray is moved to READY obsstate"""
     event_recorder.subscribe_event(
-        central_node_mid.subarray_devices["csp_subarray"], "obsState"
+        subarray_node.subarray_devices["csp_subarray"], "obsState"
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_devices["csp_subarray"],
+        subarray_node.subarray_devices["csp_subarray"],
         "obsState",
         ObsState.READY,
     )

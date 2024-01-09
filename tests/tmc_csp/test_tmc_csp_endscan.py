@@ -113,7 +113,7 @@ def invoke_endscan_command(subarray_node):
 
 @then(parsers.parse("the CSP subarray transitions to ObsState READY"))
 def check_if_csp_subarray_moved_to_idle_obsstate(
-    central_node_mid, event_recorder, subarray_node
+    event_recorder, subarray_node
 ):
     """check CSP subarray obsstate"""
     assert event_recorder.has_change_event_occurred(
@@ -129,7 +129,7 @@ def check_if_csp_subarray_moved_to_idle_obsstate(
     )
 )
 def check_if_tmc_subarray_moved_to_ready_obsstate(
-    central_node_mid, event_recorder, subarray_node
+    event_recorder, subarray_node
 ):
     """Ensure TMC Subarray is moved to READY obsstate"""
     assert event_recorder.has_change_event_occurred(
