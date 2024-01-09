@@ -116,13 +116,13 @@ def invoke_scan(central_node_mid, command_input_factory):
 
 
 @then(parsers.parse("the CSP subarray transitions to ObsState SCANNING"))
-def csp_subarray_scanning(central_node_mid, event_recorder):
+def csp_subarray_scanning(subarray_node, event_recorder):
     """Checks if Csp Subarray's obsState attribute value is SCANNING"""
     event_recorder.subscribe_event(
-        central_node_mid.subarray_devices["csp_subarray"], "obsState"
+        subarray_node.subarray_devices["csp_subarray"], "obsState"
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_devices["csp_subarray"],
+        subarray_node.subarray_devices["csp_subarray"],
         "obsState",
         ObsState.SCANNING,
     )
@@ -133,11 +133,13 @@ def csp_subarray_scanning(central_node_mid, event_recorder):
         "the TMC subarray {subarray_id} transitions to ObsState SCANNING"
     )
 )
-def tmc_subarray_scanning(central_node_mid, event_recorder, subarray_id):
+def tmc_subarray_scanning(
+    central_node_mid, subarray_node, event_recorder, subarray_id
+):
     """Checks if SubarrayNode's obsState attribute value is SCANNING"""
     central_node_mid.set_subarray_id(int(subarray_id))
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_node,
+        subarray_node.subarray_node,
         "obsState",
         ObsState.SCANNING,
         lookahead=15,
@@ -150,11 +152,13 @@ def tmc_subarray_scanning(central_node_mid, event_recorder, subarray_id):
         + " scan duration elapsed"
     )
 )
-def csp_subarray_ObsState(central_node_mid, event_recorder, subarray_id):
+def csp_subarray_ObsState(
+    central_node_mid, subarray_node, event_recorder, subarray_id
+):
     """Checks if SubarrayNode's obsState attribute value is READY"""
     central_node_mid.set_subarray_id(int(subarray_id))
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_devices["csp_subarray"],
+        subarray_node.subarray_devices["csp_subarray"],
         "obsState",
         ObsState.READY,
     )
@@ -165,9 +169,11 @@ def csp_subarray_ObsState(central_node_mid, event_recorder, subarray_id):
         "the TMC subarray {subarray_id} ObsState transitions back to READY"
     )
 )
-def tmc_subarray_ready(central_node_mid, event_recorder, subarray_id):
+def tmc_subarray_ready(
+    central_node_mid, subarray_node, event_recorder, subarray_id
+):
     """Checks if SubarrayNode's obsState attribute value is EMPTY"""
     central_node_mid.set_subarray_id(int(subarray_id))
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_node, "obsState", ObsState.READY
+        subarray_node.subarray_node, "obsState", ObsState.READY
     )
