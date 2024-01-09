@@ -7,7 +7,7 @@ Pair wise testing / Real-CSP
 ****************************
 
 Pair wise testing is way of testing the TMC code with real CSP subsystem in place. 
-using latest `test harness` implementation.. 
+using latest `test harness` implementation. 
 
 Commands implemented
 ^^^^^^^^^^^^^^^^^^^^
