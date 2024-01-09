@@ -68,8 +68,6 @@ def invoke_load_dish_cfg(
     which provides simulated master devices
     :param event_recorder: fixture for a MockTangoEventCallbackGroup
     for validating the subscribing and receiving events.
-    :param simulator_factory: fixture for creating simulator devices for
-    mid Telescope respectively.
     :param command_input_factory: fixture for creating input required
     for command
     """

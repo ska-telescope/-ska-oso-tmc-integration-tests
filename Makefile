@@ -46,7 +46,6 @@ DISH_TANGO_HOST ?= databaseds-tango-base
 COUNT ?= 1
 CLUSTER_DOMAIN ?= svc.cluster.local
 PORT ?= 10000
-DISH_SIMULATION_ENABLED ?= true
 SUBARRAY_COUNT ?= 2
 DISH_NAME_1 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_1).$(CLUSTER_DOMAIN):$(PORT)/ska001/elt/master
 DISH_NAME_36 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_2).$(CLUSTER_DOMAIN):$(PORT)/ska036/elt/master
@@ -120,7 +119,7 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.namespace_dish.dish_name[0]="$(DISH_NAME_1)"\
 	--set global.namespace_dish.dish_name[1]="$(DISH_NAME_36)"\
 	--set global.namespace_dish.dish_name[2]="$(DISH_NAME_63)"\
-	--set global.Dish.isSimulated.enabled=$(DISH_SIMULATION_ENABLED)\
+	--set tmc-mid.deviceServers.mocks.is_simulated.dish=$(DISH_SIMULATION_ENABLED)\
 	--set global.subarray_count=$(SUBARRAY_COUNT)\
 	--set ska-sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP)\
 	$(CUSTOM_VALUES)
