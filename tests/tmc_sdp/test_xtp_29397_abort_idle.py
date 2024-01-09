@@ -37,11 +37,20 @@ def telescope_is_in_on_state(central_node_mid, event_recorder):
     )
 
 
-@given(parsers.parse("TMC and SDP subarray is in {obsstate} ObsState"))
+@given(
+    parsers.parse(
+        "TMC and SDP subarray {subarray_id} is in {obsstate} ObsState"
+    )
+)
 def telescope_is_in_idle_obsstate(
-    central_node_mid, event_recorder, command_input_factory, obsstate
+    central_node_mid,
+    event_recorder,
+    command_input_factory,
+    obsstate,
+    subarray_id,
 ):
     """ "A method to check if telescope in is IDLE obsSstate."""
+    central_node_mid.set_subarray_id(subarray_id)
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
@@ -75,11 +84,18 @@ def abort_is_invoked(central_node_mid, subarray_id):
     central_node_mid.subarray_abort()
 
 
-@then("the SDP subarray should go into an ABORTED obsstate")
-def sdp_subarray_is_in_aborted_obsstate(central_node_mid, event_recorder):
+@then(
+    parsers.parse(
+        "the SDP subarray {subarray_id} transitions to ObsState ABORTED"
+    )
+)
+def sdp_subarray_is_in_aborted_obsstate(
+    central_node_mid, event_recorder, subarray_id
+):
     """
     Method to check SDP subarray is in ABORTED obsstate
     """
+    central_node_mid.set_subarray_id(subarray_id)
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_devices.get("sdp_subarray"),
         "obsState",
@@ -89,7 +105,7 @@ def sdp_subarray_is_in_aborted_obsstate(central_node_mid, event_recorder):
 
 @then(
     parsers.parse(
-        "the TMC subarray {subarray_id} transitions to ABORTED ObsState"
+        "the TMC subarray {subarray_id} transitions to ObsState ABORTED"
     )
 )
 def tmc_subarray_is_in_aborted_obsstate(

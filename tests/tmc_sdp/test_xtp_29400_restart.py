@@ -85,7 +85,7 @@ def restart_is_invoked(central_node_mid, subarray_id):
 
 @then(
     parsers.parse(
-        "the SDP subarray {subarray_id} should go into an EMPTY obsstate"
+        "the SDP subarray {subarray_id} transitions to ObsState EMPTY"
     )
 )
 def sdp_subarray_is_in_empty_obsstate(
@@ -104,7 +104,7 @@ def sdp_subarray_is_in_empty_obsstate(
 
 @then(
     parsers.parse(
-        "the TMC subarray {subarray_id} obsState transitions to EMPTY"
+        "the TMC subarray {subarray_id} transitions to ObsState EMPTY"
     )
 )
 def tmc_subarray_is_in_empty_obsstate(
