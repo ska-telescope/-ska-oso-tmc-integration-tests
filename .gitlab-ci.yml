@@ -278,7 +278,8 @@ k8s-test-tmc-with-sdp:
     TARANTA_ENABLED: 'true'
   script:
     - make cred SERVICE_ACCOUNT=$SERVICE_ACCOUNT
-    - rm Chart.lock
+    - rm charts/ska-tmc-mid/Chart.lock
+    - rm charts/ska-tmc-testing-mid/Chart.lock
     - make k8s-install-chart TELESCOPE=SKA-mid
     - make k8s-wait
     - make k8s-test
@@ -350,7 +351,8 @@ k8s-test-mid-with-csp:
     CSP_SIMULATION_ENABLED: 'false'
   script:
     - make cred SERVICE_ACCOUNT=$SERVICE_ACCOUNT
-    - rm Chart.lock
+    - rm charts/ska-tmc-mid/Chart.lock
+    - rm charts/ska-tmc-testing-mid/Chart.lock
     - make k8s-install-chart TELESCOPE=SKA-mid
     - make k8s-wait
     - make k8s-test
