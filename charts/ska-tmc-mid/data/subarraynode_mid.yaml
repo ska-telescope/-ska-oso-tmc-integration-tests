@@ -74,6 +74,9 @@ server:
               {{- if eq $isSimulatedDish false }}
               - "60"
               {{- end }}
+          - name: "AbortCommandTimeout"
+            values:
+              - "40"
   {{- end}}
 depends_on:
   - device: sys/database/2
