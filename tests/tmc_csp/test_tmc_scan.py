@@ -107,12 +107,12 @@ def subarray_in_ready_obsstate(
 @when(
     parsers.parse("I issue the scan command to the TMC subarray {subarray_id}")
 )
-def invoke_scan(central_node_mid, command_input_factory):
+def invoke_scan(subarray_node, command_input_factory):
     """Invokes Scan command on TMC"""
     scan_input_json = prepare_json_args_for_commands(
         "scan_mid", command_input_factory
     )
-    central_node_mid.subarray_node.Scan(scan_input_json)
+    subarray_node.subarray_node.store_scan_data(scan_input_json)
 
 
 @then(parsers.parse("the CSP subarray transitions to ObsState SCANNING"))
