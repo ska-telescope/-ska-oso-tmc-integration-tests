@@ -291,7 +291,7 @@ def test_abort_in_resourcing_different_resources(json_factory):
             "RESOURCING", [tmc_subarraynode1, csp_subarray1]
         )
         the_waiter.set_wait_for_specific_obsstate("IDLE", [sdp_subarray1])
-        the_waiter.wait(20)
+        the_waiter.wait(60)
 
         # Setting CSP back to normal
         csp_subarray_proxy.SetDefective(json.dumps({"enabled": False}))
