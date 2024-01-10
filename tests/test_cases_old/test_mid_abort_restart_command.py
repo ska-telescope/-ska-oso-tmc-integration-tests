@@ -252,9 +252,7 @@ def test_abort_in_resourcing(json_factory):
 
 
 @pytest.mark.skip(
-    reason="Test fails when Abort is invoked for subsystem"
-    + "Subarray in EMPTY"
-    + "reference SAH-1456"
+    reason="Test fails when Abort is invoked for subsystem Subarray in EMPTY."
 )
 @pytest.mark.SKA_mid
 def test_abort_in_resourcing_different_resources(json_factory):
@@ -369,9 +367,7 @@ def test_abort_in_resourcing_different_resources(json_factory):
 
 
 @pytest.mark.skip(
-    reason="Test fails when Abort is invoked for subsystem"
-    + "Subarray in EMPTY"
-    + "reference SAH-1456"
+    reason="Test fails when Abort is invoked for subsystem Subarray in EMPTY."
 )
 @pytest.mark.SKA_mid
 def test_abort_in_resourcing_with_second_abort(json_factory):
