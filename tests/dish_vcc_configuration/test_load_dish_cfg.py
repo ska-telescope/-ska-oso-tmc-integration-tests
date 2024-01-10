@@ -13,7 +13,8 @@ from tests.resources.test_support.common_utils.result_code import ResultCode
 
 
 @pytest.mark.skip(
-    reason="Test fails randomly, Issue will be fixed as a part of SAH-1456"
+    reason="Test fails because of TRANSIENT CORBA EXCEPTION with command"
+    + " exceeding the timeout of 3 seconds"
 )
 @pytest.mark.SKA_mid
 @scenario(
@@ -67,8 +68,6 @@ def invoke_load_dish_cfg(
     which provides simulated master devices
     :param event_recorder: fixture for a MockTangoEventCallbackGroup
     for validating the subscribing and receiving events.
-    :param simulator_factory: fixture for creating simulator devices for
-    mid Telescope respectively.
     :param command_input_factory: fixture for creating input required
     for command
     """

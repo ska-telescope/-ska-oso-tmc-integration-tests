@@ -4,6 +4,7 @@ import pytest
 from pytest_bdd import given, scenario, then, when
 from tango import DevState
 
+from tests.conftest import LOGGER
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.enum import DishMode
 
@@ -88,6 +89,17 @@ def move_dish_to_on(central_node_mid, event_recorder):
         "dishMode",
         DishMode.STANDBY_LP,
     )
+
+    LOGGER.info(
+        "DishMode dish1: %s", central_node_mid.dish_master_list[0].dishMode
+    )
+    LOGGER.info(
+        "DishMode dish36: %s", central_node_mid.dish_master_list[1].dishMode
+    )
+    LOGGER.info(
+        "DishMode dish63: %s", central_node_mid.dish_master_list[2].dishMode
+    )
+
     central_node_mid.move_to_on()
 
 
