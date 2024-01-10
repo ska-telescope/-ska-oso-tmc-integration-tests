@@ -77,12 +77,12 @@ def turn_on_telescope(central_node_mid, event_recorder):
     )
 
 
-@given(parsers.parse("TMC subarray {subarray_id} is in IDLE ObsState"))
+@given("TMC subarray is in IDLE ObsState")
 def check_subarray_obstate(
-    central_node_mid, event_recorder, command_input_factory
+    subarray_node, central_node_mid, event_recorder, command_input_factory
 ):
     """Method to check subarray is in IDLE obstate"""
-    event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
+    event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
 
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
@@ -91,7 +91,7 @@ def check_subarray_obstate(
     central_node_mid.store_resources(assign_input_json)
 
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_node,
+        subarray_node.subarray_node,
         "obsState",
         ObsState.IDLE,
     )
@@ -102,15 +102,18 @@ def check_subarray_obstate(
         "I issue the Configure command to the TMC subarray {subarray_id}"
     )
 )
-def invoke_configure(subarray_node, command_input_factory):
+def invoke_configure(
+    central_node_mid, subarray_node, command_input_factory, subarray_id
+):
     """A method to invoke Configure command"""
     configure_input_json = prepare_json_args_for_commands(
         "configure_mid", command_input_factory
     )
+    central_node_mid.set_subarray_id(subarray_id)
     subarray_node.execute_transition("Configure", configure_input_json)
 
 
-@then("dishMode is transitioned to OPERATE")
+@then("dishMode transitions to OPERATE obsState")
 def check_dish_mode(central_node_mid, event_recorder):
     """A method verify Dish is in OPERATE Dish Mode"""
     event_recorder.subscribe_event(
@@ -131,7 +134,7 @@ def check_dish_mode(central_node_mid, event_recorder):
     )
 
 
-@then("pointingState is transitioned to TRACK")
+@then("pointingState transitions to TRACK")
 def check_dish_pointing_state(central_node_mid, event_recorder):
     """A method to verify Dish is in TRACK Pointing State"""
     event_recorder.subscribe_event(
@@ -153,12 +156,17 @@ def check_dish_pointing_state(central_node_mid, event_recorder):
 
 
 @then(
-    parsers.parse("TMC subarray {subarray_id} obsState transitions to READY")
+    parsers.parse(
+        "TMC subarray {subarray_id} obsState transitions to READY obsState"
+    )
 )
-def check_subarray_obsState_ready(central_node_mid, event_recorder):
+def check_subarray_obsState_ready(
+    central_node_mid, subarray_node, event_recorder, subarray_id
+):
     """Method to check subarray is in READY obstate"""
+    central_node_mid.set_subarray_id(subarray_id)
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_node,
+        subarray_node.subarray_node,
         "obsState",
         ObsState.READY,
     )
