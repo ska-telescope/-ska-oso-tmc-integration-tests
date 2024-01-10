@@ -120,7 +120,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         return self._telescope_health_state
 
     @telescope_health_state.setter
-    def telescope_health_state(self, value):
+    def telescope_health_state(self, value) -> None:
         """Telescope health state representing overall health of telescope
 
         Args:
@@ -138,7 +138,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         return self._telescope_state
 
     @telescope_state.setter
-    def telescope_state(self, value):
+    def telescope_state(self, value) -> None:
         """Telescope state representing overall state of telescope
 
         Args:
@@ -204,7 +204,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
                 if clear_transition:
                     device.ResetTransitions()
 
-    def move_to_on(self):
+    def move_to_on(self) -> None:
         """
         A method to invoke TelescopeOn command to
         put telescope in ON state
@@ -243,7 +243,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             self.central_node.TelescopeOn()
 
     @sync_set_to_off(device_dict=device_dict)
-    def move_to_off(self):
+    def move_to_off(self) -> None:
         """
         A method to invoke TelescopeOff command to
         put telescope in OFF state
@@ -279,7 +279,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             LOGGER.info("Invoke TelescopeOff() with all real sub-systems")
             self.central_node.TelescopeOff()
 
-    def set_standby(self):
+    def set_standby(self) -> None:
         """
         A method to invoke TelescopeStandby command to
         put telescope in STANDBY state
@@ -320,7 +320,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             self.central_node.TelescopeStandBy()
 
     @sync_assign_resources(device_dict=device_dict)
-    def store_resources(self, assign_json: str):
+    def store_resources(self, assign_json: str) -> Tuple[ResultCode, str]:
         """Invoke Assign Resource command on central Node
         Args:
             assign_json (str): Assign resource input json
@@ -334,7 +334,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         return result, message
 
     @sync_release_resources(device_dict=device_dict)
-    def invoke_release_resources(self, input_string):
+    def invoke_release_resources(self, input_string) -> Tuple[ResultCode, str]:
         """Invoke Release Resource command on central Node
         Args:
             input_string (str): Release resource input json
@@ -343,18 +343,18 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         return result, message
 
     @sync_abort(device_dict=device_dict)
-    def subarray_abort(self):
+    def subarray_abort(self) -> Tuple[ResultCode, str]:
         """Invoke Abort command on subarray Node"""
         result, message = self.subarray_node.Abort()
         return result, message
 
     @sync_restart(device_dict=device_dict)
-    def subarray_restart(self):
+    def subarray_restart(self) -> Tuple[ResultCode, str]:
         """Invoke Restart command on subarray Node"""
         result, message = self.subarray_node.Restart()
         return result, message
 
-    def _reset_health_state_for_mock_devices(self):
+    def _reset_health_state_for_mock_devices(self) -> None:
         """Reset Mock devices"""
         if self.simulated_devices_dict["csp_and_sdp"]:
             for mock_device in [
@@ -399,7 +399,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
 
     def set_subarraystate_and_dishmode_with_all_mocks(
         self, subarray_state, dish_mode
-    ):
+    ) -> None:
         """
         A method to set values on mock CSP, SDP and Dish devices.
         Args:
@@ -435,7 +435,9 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             device_proxy = DeviceProxy(device)
             device_proxy.SetDirectState(subarray_state)
 
-    def set_values_with_csp_dish_mocks(self, subarray_state, dish_mode):
+    def set_values_with_csp_dish_mocks(
+        self, subarray_state, dish_mode
+    ) -> None:
         """
         A method to set values on mock CSP and Dish devices.
         Args:
@@ -501,7 +503,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             ),
         }
 
-    def tear_down(self):
+    def tear_down(self) -> None:
         """Handle Tear down of central Node"""
         LOGGER.info("Calling Tear down for Central node.")
         # reset HealthState.UNKNOWN for mock devices
