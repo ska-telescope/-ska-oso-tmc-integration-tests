@@ -10,7 +10,7 @@
     }
   },
   "dish": {
-    "receiver_band": "1"
+    "receiver_band": "2"
   },
   "csp": {
     "interface": "https://schema.skao.int/ska-csp-configure/2.0",
@@ -98,6 +98,6 @@
     "scan_type": "target:a"
   },
   "tmc": {
-    "scan_duration": 10.0
+    "scan_duration": 5.0
   }
 }
