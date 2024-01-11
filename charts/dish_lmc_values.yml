@@ -1,6 +1,7 @@
 global:
   minikube: false
   operator: true
+  exposeALLDS: false
 
 # DISH LMC
 ska-mid-dish-manager:
