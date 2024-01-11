@@ -1,4 +1,4 @@
-"""Test module for TMC-SDP Off and Standby functionality"""
+"""Test module for TMC-SDP Off-Standby functionality"""
 import pytest
 from pytest_bdd import given, scenario, then, when
 from tango import DevState
@@ -9,12 +9,12 @@ from tests.resources.test_harness.utils.enums import DishMode
 
 @pytest.mark.tmc_sdp
 @scenario(
-    "../features/tmc_sdp/tmc_sdp_off.feature",
+    "../features/tmc_sdp/xtp-29231_off.feature",
     "Switch off the telescope having TMC and SDP subsystems",
 )
-def test_tmc_sdp_shutdown_telescope():
+def test_tmc_sdp_off():
     """
-    Test case to verify TMC-SDP ShutDown functionality
+    Test case to verify TMC-SDP Off functionality
     Glossary:
         - "central_node_mid": fixture for a TMC CentralNode under test
         - "simulator_factory": fixture for SimulatorFactory class,
@@ -25,10 +25,10 @@ def test_tmc_sdp_shutdown_telescope():
 
 @pytest.mark.tmc_sdp
 @scenario(
-    "../features/tmc_sdp/tmc_sdp_standby.feature",
+    "../features/tmc_sdp/xtp-29232_standby.feature",
     "Standby the telescope having TMC and SDP subsystems",
 )
-def test_tmc_sdp_standby_telescope():
+def test_tmc_sdp_standby():
     """
     Test case to verify TMC-SDP Standby functionality
     Glossary:

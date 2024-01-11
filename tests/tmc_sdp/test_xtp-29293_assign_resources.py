@@ -14,7 +14,7 @@ from tests.resources.test_harness.helpers import (
 
 @pytest.mark.tmc_sdp
 @scenario(
-    "../features/tmc_sdp/tmc_sdp_assign_resources.feature",
+    "../features/tmc_sdp/xtp-29293_assign_resources.feature",
     "Assign resources to SDP subarray using TMC",
 )
 def test_tmc_sdp_assign_resources(central_node_mid):
@@ -28,9 +28,25 @@ def test_tmc_sdp_assign_resources(central_node_mid):
 @given("the Telescope is in ON state")
 def telescope_is_in_on_state(central_node_mid, event_recorder):
     """ "A method to move telescope into the ON state."""
-    central_node_mid.move_to_on()
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
+    )
+    event_recorder.subscribe_event(central_node_mid.sdp_master, "State")
+    event_recorder.subscribe_event(
+        central_node_mid.subarray_devices["sdp_subarray"], "State"
+    )
+
+    central_node_mid.move_to_on()
+
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.sdp_master,
+        "State",
+        DevState.ON,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.subarray_devices["sdp_subarray"],
+        "State",
+        DevState.ON,
     )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,

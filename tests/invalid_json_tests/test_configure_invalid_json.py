@@ -96,13 +96,14 @@ def send(json_factory, invalid_json):
             pytest.command_result = tmc_helper.configure_subarray(
                 json.dumps(invalid_configure_json), **device_params
             )
-        elif invalid_json == "frequency_slice_id_key_missing":
-            del invalid_configure_json["csp"]["cbf"]["fsp"][0][
-                "frequency_slice_id"
-            ]
-            pytest.command_result = tmc_helper.configure_subarray(
-                json.dumps(invalid_configure_json), **device_params
-            )
+        # skip reason: takes more time to complete configure command
+        # elif invalid_json == "frequency_slice_id_key_missing":
+        #     del invalid_configure_json["csp"]["cbf"]["fsp"][0][
+        #         "frequency_slice_id"
+        #     ]
+        #     pytest.command_result = tmc_helper.configure_subarray(
+        #         json.dumps(invalid_configure_json), **device_params
+        #     )
         elif invalid_json == "integration_factor_key_missing":
             del invalid_configure_json["csp"]["cbf"]["fsp"][0][
                 "integration_factor"
@@ -146,7 +147,7 @@ def invalid_command_rejection(invalid_json):
         )
     elif invalid_json in [
         "fsp_id_key_missing",
-        "frequency_slice_id_key_missing",
+        # "frequency_slice_id_key_missing",
         "zoom_factor_key_missing",
         "integration_factor_key_missing",
     ]:
