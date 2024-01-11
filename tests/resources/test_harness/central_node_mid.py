@@ -162,14 +162,16 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             f"ska_mid/tm_leaf_node/sdp_subarray{subarray_id}"
         )
 
-    def load_dish_vcc_configuration(self, dish_vcc_config: str):
+    def load_dish_vcc_configuration(
+        self, dish_vcc_config: str
+    ) -> Tuple[ResultCode, str]:
         """Invoke LoadDishCfg command on central Node
         :param dish_vcc_config: Dish vcc configuration json string
         """
         result, message = self.central_node.LoadDishCfg(dish_vcc_config)
         return result, message
 
-    def _reset_sys_param_and_k_value(self):
+    def _reset_sys_param_and_k_value(self) -> None:
         """Reset sysParam and sourceSysParam attribute of csp master
         reset kValue of Dish master
         """
@@ -186,7 +188,9 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         ):
             self.csp_master.ResetSysParams()
 
-    def _clear_command_call_and_transition_data(self, clear_transition=False):
+    def _clear_command_call_and_transition_data(
+        self, clear_transition=False
+    ) -> None:
         """Clears the command call data"""
         if SIMULATED_DEVICES_DICT["all_mocks"]:
             for sim_device in [
@@ -414,7 +418,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             for device in self.dish_master_list:
                 device.SetDirectDishMode(dish_mode)
 
-    def set_value_with_csp_sdp_mocks(self, subarray_state):
+    def set_value_with_csp_sdp_mocks(self, subarray_state) -> None:
         """
         A method to set values on mock CSP and SDP devices.
         Args:
@@ -429,7 +433,9 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             device_proxy = DeviceProxy(device)
             device_proxy.SetDirectState(subarray_state)
 
-    def set_values_with_csp_dish_mocks(self, subarray_state, dish_mode):
+    def set_values_with_csp_dish_mocks(
+        self, subarray_state, dish_mode
+    ) -> None:
         """
         A method to set values on mock CSP and Dish devices.
         Args:
@@ -449,7 +455,9 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             for device in self.dish_master_list:
                 device.SetDirectDishMode(dish_mode)
 
-    def set_values_with_sdp_dish_mocks(self, subarray_state, dish_mode):
+    def set_values_with_sdp_dish_mocks(
+        self, subarray_state, dish_mode
+    ) -> None:
         """
         A method to set values on mock SDP and Dish devices.
         Args:
@@ -467,7 +475,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             for device in self.dish_master_list:
                 device.SetDirectDishMode(dish_mode)
 
-    def tear_down(self):
+    def tear_down(self) -> None:
         """Handle Tear down of central Node"""
         LOGGER.info("Calling Tear down for Central node.")
         # reset HealthState.UNKNOWN for mock devices
