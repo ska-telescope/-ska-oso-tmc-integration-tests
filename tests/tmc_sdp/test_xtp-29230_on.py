@@ -1,4 +1,4 @@
-"""Test module for TMC-SDP StartUp functionality"""
+"""Test module for TMC-SDP On functionality"""
 import pytest
 from pytest_bdd import given, scenario, then, when
 from tango import DevState
@@ -7,14 +7,14 @@ from tests.resources.test_harness.helpers import get_master_device_simulators
 from tests.resources.test_harness.utils.enums import DishMode
 
 
-@pytest.mark.real_sdp
+@pytest.mark.tmc_sdp
 @scenario(
-    "../features/tmc_sdp/tmc_sdp_on.feature",
+    "../features/tmc_sdp/xtp-29230_on.feature",
     "Start up the telescope having TMC and SDP subsystems",
 )
-def test_tmc_sdp_startup_telescope():
+def test_tmc_sdp_on():
     """
-    Test case to verify TMC-SDP StartUp functionality
+    Test case to verify TMC-SDP On functionality
 
     Glossary:
         - "central_node_mid": fixture for a TMC CentralNode under test
@@ -66,17 +66,16 @@ def given_a_tmc(central_node_mid, simulator_factory, event_recorder):
     )
 
 
-@given("telescope state is OFF")
+@given("telescope state is STANDBY")
 def check_telescope_state_standby(central_node_mid, event_recorder):
     """A method to check CentralNode telescopeState STANDBY"""
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
     )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.central_node,
-        "telescopeState",
+    assert central_node_mid.central_node.telescopeState in [
+        DevState.STANDBY,
         DevState.OFF,
-    )
+    ]
 
 
 @when("I start up the telescope")

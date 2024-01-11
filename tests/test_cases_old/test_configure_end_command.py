@@ -39,6 +39,10 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
+@pytest.mark.skip(
+    reason="The test is duplicate, scenario is covered"
+    + "under test-harness tests"
+)
 @pytest.mark.SKA_mid
 def test_configure_end(json_factory):
     """Configure and End is executed."""
