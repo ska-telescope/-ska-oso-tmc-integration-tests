@@ -1,20 +1,23 @@
-release=0.10.1
-tag=0.10.1
+release=0.15.3
+tag=0.15.3
 tag_description=
 **Charts:**
-**1. ska-tmc-integration 0.10.0 - 0.10.1:**
+**1. ska-tmc-integration 0.9.3 - 0.15.3*
 
-    **1.1 ska-tmc-mid - 0.15.3 - 0.15.4:
-        a. Fix skipped test cases and updated required code base.
+    **1.1 ska-tmc-mid - 0.15.2 - 0.15.3:
+        a. Fix skipped test cases and updated structure of repository
+        b. Update dish leaf node with fix related to availability
 
 
 
 release_notes=
 **Charts:**
-**1. ska-tmc-integration 0.10.0 - 0.10.1:**
+**1. ska-tmc-integration 0.9.3 - 0.15.3:**
 
-    **1.1 ska-tmc-mid - 0.15.3 - 0.15.4:
-         a. Fix skipped test cases and updated required code base.
+    **1.1 ska-tmc-mid - 0.15.2 - 0.15.3:
+         a. Fix skipped test cases and updated structure of repository
+         b. Update dish leaf node with fix related to availability
+
 
 
     
