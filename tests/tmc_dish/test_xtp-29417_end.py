@@ -12,6 +12,7 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.enum import DishMode, PointingState
 
 
+@pytest.mark.t3
 @pytest.mark.tmc_dish
 @scenario(
     "../features/tmc_dish/xtp-29417_end.feature",
@@ -132,7 +133,7 @@ def check_subarray_obstate(
 
 
 @when(
-    parsers.parse("I issued the End command to the TMC subarray {subarray_id}")
+    parsers.parse("I issue the End command to the TMC subarray {subarray_id}")
 )
 def invoke_end(central_node_mid, subarray_node, subarray_id):
     """A method to invoke End command"""
