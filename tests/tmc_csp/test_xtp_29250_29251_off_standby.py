@@ -47,6 +47,7 @@ def given_the_sut(central_node_mid, simulator_factory):
         dish_master_sim_1,
         dish_master_sim_2,
         dish_master_sim_3,
+        dish_master_sim_4,
     ) = get_master_device_simulators(simulator_factory)
 
     assert central_node_mid.central_node.ping() > 0
@@ -56,6 +57,7 @@ def given_the_sut(central_node_mid, simulator_factory):
     assert dish_master_sim_1.ping() > 0
     assert dish_master_sim_2.ping() > 0
     assert dish_master_sim_3.ping() > 0
+    assert dish_master_sim_4.ping() > 0
     if central_node_mid.telescope_state != "ON":
         central_node_mid.wait.set_wait_for_csp_master_to_become_off()
         central_node_mid.csp_master.adminMode = 0

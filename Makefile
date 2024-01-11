@@ -8,8 +8,7 @@ TELESCOPE ?= SKA-mid
 DISH_NAMESPACE_1 ?= dish-lmc-1
 DISH_NAMESPACE_2 ?= dish-lmc-2
 DISH_NAMESPACE_3 ?= dish-lmc-3
-# TODO: Add dish 100 once SKB-266 is resolved
-# DISH_NAMESPACE_4 ?= dish-lmc-4
+DISH_NAMESPACE_4 ?= dish-lmc-4
 KUBE_NAMESPACE ?= ska-tmc-integration
 KUBE_NAMESPACE_SDP ?= ska-tmc-integration-sdp
 
@@ -133,6 +132,7 @@ PYTHON_VARS_BEFORE_PYTEST ?= PYTHONPATH=.:./src \
 							 DISH_NAMESPACE_1=$(DISH_NAMESPACE_1) \
 							 DISH_NAMESPACE_2=$(DISH_NAMESPACE_2) \
 							 DISH_NAMESPACE_3=$(DISH_NAMESPACE_3) \
+							 DISH_NAMESPACE_4=$(DISH_NAMESPACE_4) \
 							 DISH_NAME_1=$(DISH_NAME_1) \
 							 DISH_NAME_36=$(DISH_NAME_36) \
 							 DISH_NAME_63=$(DISH_NAME_63) \

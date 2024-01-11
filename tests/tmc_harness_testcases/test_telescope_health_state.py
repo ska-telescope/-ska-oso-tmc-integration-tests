@@ -18,12 +18,13 @@ class TestTelescopeHealthState(object):
     @pytest.mark.parametrize(
         "csp_master_health_state, sdp_master_health_state, \
         dish_master1_health_state, dish_master2_health_state, \
-        dish_master3_health_state",
+        dish_master3_health_state, dish_master4_health_state",
         [
             # decision table row 5 to row 9
             (
                 HealthState.OK,
                 HealthState.FAILED,
+                HealthState.OK,
                 HealthState.OK,
                 HealthState.OK,
                 HealthState.OK,
@@ -83,6 +84,7 @@ class TestTelescopeHealthState(object):
         dish_master1_health_state,
         dish_master2_health_state,
         dish_master3_health_state,
+        dish_master4_health_state,
     ):
         (
             csp_master_sim,
@@ -90,12 +92,14 @@ class TestTelescopeHealthState(object):
             dish_master_sim_1,
             dish_master_sim_2,
             dish_master_sim_3,
+            dish_master_sim_4,
         ) = get_master_device_simulators(simulator_factory)
         csp_master_sim.SetDirectHealthState(csp_master_health_state)
         sdp_master_sim.SetDirectHealthState(sdp_master_health_state)
         dish_master_sim_1.SetDirectHealthState(dish_master1_health_state)
         dish_master_sim_2.SetDirectHealthState(dish_master2_health_state)
         dish_master_sim_3.SetDirectHealthState(dish_master3_health_state)
+        dish_master_sim_4.SetDirectHealthState(dish_master4_health_state)
 
         event_recorder.subscribe_event(
             central_node_mid.central_node, "telescopeHealthState"
@@ -122,6 +126,7 @@ class TestTelescopeHealthState(object):
             dish_master_sim_1,
             dish_master_sim_2,
             dish_master_sim_3,
+            dish_master_sim_4,
         ) = get_master_device_simulators(simulator_factory)
 
         csp_master_sim.SetDirectHealthState(HealthState.OK)
@@ -129,6 +134,7 @@ class TestTelescopeHealthState(object):
         dish_master_sim_1.SetDirectHealthState(HealthState.OK)
         dish_master_sim_2.SetDirectHealthState(HealthState.OK)
         dish_master_sim_3.SetDirectHealthState(HealthState.OK)
+        dish_master_sim_4.SetDirectHealthState(HealthState.OK)
 
         event_recorder.subscribe_event(
             central_node_mid.central_node, "telescopeHealthState"
@@ -139,6 +145,7 @@ class TestTelescopeHealthState(object):
         event_recorder.subscribe_event(dish_master_sim_1, "healthState")
         event_recorder.subscribe_event(dish_master_sim_2, "healthState")
         event_recorder.subscribe_event(dish_master_sim_3, "healthState")
+        event_recorder.subscribe_event(dish_master_sim_4, "healthState")
 
         assert event_recorder.has_change_event_occurred(
             csp_master_sim, "healthState", HealthState.OK
@@ -154,6 +161,9 @@ class TestTelescopeHealthState(object):
         ), "Expected HealthState to be OK"
         assert event_recorder.has_change_event_occurred(
             dish_master_sim_3, "healthState", HealthState.OK
+        ), "Expected HealthState to be OK"
+        assert event_recorder.has_change_event_occurred(
+            dish_master_sim_4, "healthState", HealthState.OK
         ), "Expected HealthState to be OK"
 
         devices = "csp subarray,sdp subarray"
@@ -178,12 +188,13 @@ class TestTelescopeHealthState(object):
     @pytest.mark.parametrize(
         "csp_master_health_state, sdp_master_health_state, \
         dish_master1_health_state, dish_master2_health_state, \
-        dish_master3_health_state",
+        dish_master3_health_state, dish_master4_health_state",
         [
             # decision table row 11 to row 15
             (
                 HealthState.OK,
                 HealthState.DEGRADED,
+                HealthState.OK,
                 HealthState.OK,
                 HealthState.OK,
                 HealthState.OK,
@@ -236,6 +247,7 @@ class TestTelescopeHealthState(object):
         dish_master1_health_state,
         dish_master2_health_state,
         dish_master3_health_state,
+        dish_master4_health_state,
     ):
         (
             csp_master_sim,
@@ -243,12 +255,14 @@ class TestTelescopeHealthState(object):
             dish_master_sim_1,
             dish_master_sim_2,
             dish_master_sim_3,
+            dish_master_sim_4,
         ) = get_master_device_simulators(simulator_factory)
         csp_master_sim.SetDirectHealthState(csp_master_health_state)
         sdp_master_sim.SetDirectHealthState(sdp_master_health_state)
         dish_master_sim_1.SetDirectHealthState(dish_master1_health_state)
         dish_master_sim_2.SetDirectHealthState(dish_master2_health_state)
         dish_master_sim_3.SetDirectHealthState(dish_master3_health_state)
+        dish_master_sim_4.SetDirectHealthState(dish_master4_health_state)
 
         event_recorder.subscribe_event(
             central_node_mid.central_node, "telescopeHealthState"
@@ -263,7 +277,7 @@ class TestTelescopeHealthState(object):
     @pytest.mark.parametrize(
         "csp_master_health_state, sdp_master_health_state, \
         dish_master1_health_state, dish_master2_health_state, \
-        dish_master3_health_state",
+        dish_master3_health_state, dish_master4_health_state",
         [
             # decision table row 17 to row 21
             (
@@ -321,6 +335,7 @@ class TestTelescopeHealthState(object):
         dish_master1_health_state,
         dish_master2_health_state,
         dish_master3_health_state,
+        dish_master4_health_state,
     ):
         (
             csp_master_sim,
@@ -328,12 +343,14 @@ class TestTelescopeHealthState(object):
             dish_master_sim_1,
             dish_master_sim_2,
             dish_master_sim_3,
+            dish_master_sim_4,
         ) = get_master_device_simulators(simulator_factory)
         csp_master_sim.SetDirectHealthState(csp_master_health_state)
         sdp_master_sim.SetDirectHealthState(sdp_master_health_state)
         dish_master_sim_1.SetDirectHealthState(dish_master1_health_state)
         dish_master_sim_2.SetDirectHealthState(dish_master2_health_state)
         dish_master_sim_3.SetDirectHealthState(dish_master3_health_state)
+        dish_master_sim_4.SetDirectHealthState(dish_master4_health_state)
 
         event_recorder.subscribe_event(
             central_node_mid.central_node, "telescopeHealthState"

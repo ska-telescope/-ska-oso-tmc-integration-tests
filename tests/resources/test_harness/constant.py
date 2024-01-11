@@ -20,6 +20,7 @@ tmc_sdp_subarray_leaf_node = "ska_mid/tm_leaf_node/sdp_subarray01"
 tmc_dish_leaf_node1 = "ska_mid/tm_leaf_node/d0001"
 tmc_dish_leaf_node2 = "ska_mid/tm_leaf_node/d0036"
 tmc_dish_leaf_node3 = "ska_mid/tm_leaf_node/d0063"
+tmc_dish_leaf_node3 = "ska_mid/tm_leaf_node/d0100"
 sdp_subarray1 = "mid-sdp/subarray/01"
 csp_subarray1 = "mid-csp/subarray/01"
 sdp_master = "mid-sdp/control/0"
@@ -231,7 +232,7 @@ device_dict = {
     "dish_master1": dish_master1,
     "dish_master2": dish_master2,
     "dish_master3": dish_master3,
-    "dish_master3": dish_master4,
+    "dish_master4": dish_master4,
     "sdp_subarray": sdp_subarray1,
     "csp_subarray": csp_subarray1,
     "sdp_subarray_leaf_node": tmc_sdp_subarray_leaf_node,
