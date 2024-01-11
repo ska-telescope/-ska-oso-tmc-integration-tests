@@ -160,9 +160,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         put telescope in ON state
         """
         LOGGER.info("Starting up the Telescope")
-        LOGGER.info(
-            f"Received simulated devices: {self.SIMULATED_DEVICES_DICT}"
-        )
+        LOGGER.info(f"Received simulated devices: {SIMULATED_DEVICES_DICT}")
         if self.SIMULATED_DEVICES_DICT["all_mocks"]:
             LOGGER.info("Invoking TelescopeOn() with all Mocks")
             self.central_node.TelescopeOn()
