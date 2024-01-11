@@ -18,7 +18,6 @@ from tests.resources.test_harness.constant import (
     sdp_master,
     sdp_subarray1,
     tmc_csp_master_leaf_node,
-    tmc_csp_subarray_leaf_node,
     tmc_sdp_master_leaf_node,
     tmc_subarraynode1,
 )
