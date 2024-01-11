@@ -161,26 +161,26 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         """
         LOGGER.info("Starting up the Telescope")
         LOGGER.info(f"Received simulated devices: {SIMULATED_DEVICES_DICT}")
-        if self.SIMULATED_DEVICES_DICT["all_mocks"]:
+        if SIMULATED_DEVICES_DICT["all_mocks"]:
             LOGGER.info("Invoking TelescopeOn() with all Mocks")
             self.central_node.TelescopeOn()
             self.set_subarraystate_and_dishmode_with_all_mocks(
                 DevState.ON, DishMode.STANDBY_FP
             )
 
-        elif self.SIMULATED_DEVICES_DICT["csp_and_sdp"]:
+        elif SIMULATED_DEVICES_DICT["csp_and_sdp"]:
             LOGGER.info("Invoking TelescopeOn() on simulated csp and sdp")
             self.central_node.TelescopeOn()
             self.set_value_with_csp_sdp_mocks(DevState.ON)
 
-        elif self.SIMULATED_DEVICES_DICT["csp_and_dish"]:
+        elif SIMULATED_DEVICES_DICT["csp_and_dish"]:
             LOGGER.info("Invoking TelescopeOn() on simulated csp and Dish")
             self.central_node.TelescopeOn()
             self.set_values_with_csp_dish_mocks(
                 DevState.ON, DishMode.STANDBY_FP
             )
 
-        elif self.SIMULATED_DEVICES_DICT["sdp_and_dish"]:
+        elif SIMULATED_DEVICES_DICT["sdp_and_dish"]:
             LOGGER.info("Invoking TelescopeOn() on simulated sdp and dish")
             if self.csp_master.adminMode != 0:
                 self.csp_master.adminMode = 0
