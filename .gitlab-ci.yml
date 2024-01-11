@@ -166,6 +166,7 @@ dish-lmc-dish001:
       --set global.operator=true 
       --set global.minikube=false' 
       HELM_RELEASE=$DISH_HELM_RELEASE K8S_CHART=$K8S_DISH_LMC_CHART
+    - make k8s-wait KUBE_APP="ska-mid-dish-manager"
   environment:
     name: test/$CI_COMMIT_REF_SLUG
     on_stop: stop-k8s-dish-lmc-001
