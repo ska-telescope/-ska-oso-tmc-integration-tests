@@ -274,7 +274,6 @@ def device_received_this_command(
         or expected_input == "False"
         or expected_input == ""
     ):
-
         received_command_call_data = get_boolean_command_call_info(
             device, expected_command_name
         )
@@ -289,7 +288,6 @@ def device_received_this_command(
         )
 
     else:
-
         received_command_call_data = get_command_call_info(
             device, expected_command_name
         )
