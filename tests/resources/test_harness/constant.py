@@ -231,7 +231,7 @@ device_dict = {
     "dish_master1": dish_master1,
     "dish_master2": dish_master2,
     "dish_master3": dish_master3,
-    "dish_master3": dish_master4,
+    "dish_master4": dish_master4,
     "sdp_subarray": sdp_subarray1,
     "csp_subarray": csp_subarray1,
     "sdp_subarray_leaf_node": tmc_sdp_subarray_leaf_node,
