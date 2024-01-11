@@ -4,5 +4,6 @@ Scenario: Abort scanning SDP using TMC
     When I command it to Abort
     Then the SDP subarray <subarray_id> transitions to ObsState ABORTED
     And the TMC subarray <subarray_id> transitions to ObsState ABORTED
-    | subarray_id |
-    | 1           |
+    Examples:
+        | subarray_id |
+        | 1           |
