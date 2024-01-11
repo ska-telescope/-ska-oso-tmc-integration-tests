@@ -23,6 +23,7 @@ from tests.resources.test_harness.constant import (
     tmc_subarraynode1,
 )
 from tests.resources.test_harness.helpers import wait_csp_master_off
+from tests.resources.test_harness.helpers import SIMULATED_DEVICES_DICT
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 from tests.resources.test_harness.utils.enums import DishMode
 from tests.resources.test_harness.utils.sync_decorators import sync_set_to_off
@@ -31,7 +32,6 @@ from tests.resources.test_harness.utils.wait_helpers import Waiter
 configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
 
-SDP_SIMULATION_ENABLED = os.getenv("SDP_SIMULATION_ENABLED")
 REAL_DISH1_FQDN = os.getenv("DISH_NAME_1")
 REAL_DISH36_FQDN = os.getenv("DISH_NAME_36")
 REAL_DISH63_FQDN = os.getenv("DISH_NAME_63")
@@ -58,8 +58,8 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         self.csp_master = DeviceProxy(csp_master)
 
         if (
-            self.simulated_devices_dict["csp_and_sdp"]
-            and not self.simulated_devices_dict["all_mocks"]
+            SIMULATED_DEVICES_DICT["csp_and_sdp"]
+            and not SIMULATED_DEVICES_DICT["all_mocks"]
         ):
             dish_fqdn1 = REAL_DISH1_FQDN
             dish_fqdn36 = REAL_DISH36_FQDN
@@ -108,9 +108,9 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         """Reset Mock devices"""
         super()._reset_health_state_for_mock_devices()
         if (
-            self.simulated_devices_dict["sdp_and_dish"]
-            or self.simulated_devices_dict["csp_and_dish"]
-            or self.simulated_devices_dict["all_mocks"]
+            SIMULATED_DEVICES_DICT["sdp_and_dish"]
+            or SIMULATED_DEVICES_DICT["csp_and_dish"]
+            or SIMULATED_DEVICES_DICT["all_mocks"]
         ):
             for mock_device in self.dish_master_list:
                 mock_device.SetDirectHealthState(HealthState.UNKNOWN)
@@ -127,22 +127,21 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         reset kValue of Dish master
         """
         if (
-            self.simulated_devices_dict["csp_and_dish"]
-            or self.simulated_devices_dict["all_mocks"]
+            SIMULATED_DEVICES_DICT["csp_and_dish"]
+            or SIMULATED_DEVICES_DICT["all_mocks"]
         ):
             for mock_device in self.dish_master_list:
                 mock_device.SetKValue(0)
 
         if (
-            self.simulated_devices_dict["csp_and_dish"]
-            or self.simulated_devices_dict["all_mocks"]
+            SIMULATED_DEVICES_DICT["csp_and_dish"]
+            or SIMULATED_DEVICES_DICT["all_mocks"]
         ):
-
             self.csp_master.ResetSysParams()
 
     def _clear_command_call_and_transition_data(self, clear_transition=False):
         """Clears the command call data"""
-        if self.simulated_devices_dict["all_mocks"]:
+        if SIMULATED_DEVICES_DICT["all_mocks"]:
             for sim_device in [
                 csp_subarray1,
                 sdp_subarray1,
@@ -162,28 +161,28 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         """
         LOGGER.info("Starting up the Telescope")
         LOGGER.info(
-            f"Received simulated devices: {self.simulated_devices_dict}"
+            f"Received simulated devices: {SIMULATED_DEVICES_DICT}"
         )
-        if self.simulated_devices_dict["all_mocks"]:
+        if SIMULATED_DEVICES_DICT["all_mocks"]:
             LOGGER.info("Invoking TelescopeOn() with all Mocks")
             self.central_node.TelescopeOn()
             self.set_subarraystate_and_dishmode_with_all_mocks(
                 DevState.ON, DishMode.STANDBY_FP
             )
 
-        elif self.simulated_devices_dict["csp_and_sdp"]:
+        elif SIMULATED_DEVICES_DICT["csp_and_sdp"]:
             LOGGER.info("Invoking TelescopeOn() on simulated csp and sdp")
             self.central_node.TelescopeOn()
             self.set_value_with_csp_sdp_mocks(DevState.ON)
 
-        elif self.simulated_devices_dict["csp_and_dish"]:
+        elif SIMULATED_DEVICES_DICT["csp_and_dish"]:
             LOGGER.info("Invoking TelescopeOn() on simulated csp and Dish")
             self.central_node.TelescopeOn()
             self.set_values_with_csp_dish_mocks(
                 DevState.ON, DishMode.STANDBY_FP
             )
 
-        elif self.simulated_devices_dict["sdp_and_dish"]:
+        elif SIMULATED_DEVICES_DICT["sdp_and_dish"]:
             LOGGER.info("Invoking TelescopeOn() on simulated sdp and dish")
             if self.csp_master.adminMode != 0:
                 self.csp_master.adminMode = 0
@@ -203,32 +202,31 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         put telescope in OFF state
 
         """
-        if self.simulated_devices_dict["all_mocks"]:
+        if SIMULATED_DEVICES_DICT["all_mocks"]:
             LOGGER.info("Invoking TelescopeOff() with all Mocks")
             self.central_node.TelescopeOff()
             self.set_subarraystate_and_dishmode_with_all_mocks(
                 DevState.OFF, DishMode.STANDBY_LP
             )
 
-        elif self.simulated_devices_dict["csp_and_sdp"]:
+        elif SIMULATED_DEVICES_DICT["csp_and_sdp"]:
             LOGGER.info("Invoking TelescopeOff() on simulated csp and sdp")
             self.central_node.TelescopeOff()
             self.set_value_with_csp_sdp_mocks(DevState.OFF)
 
-        elif self.simulated_devices_dict["csp_and_dish"]:
+        elif SIMULATED_DEVICES_DICT["csp_and_dish"]:
             LOGGER.info("Invoking TelescopeOff() on simulated csp and Dish")
             self.central_node.TelescopeOff()
             self.set_values_with_csp_dish_mocks(
                 DevState.OFF, DishMode.STANDBY_LP
             )
 
-        elif self.simulated_devices_dict["sdp_and_dish"]:
+        elif SIMULATED_DEVICES_DICT["sdp_and_dish"]:
             LOGGER.info("Invoking TelescopeOff() on simulated sdp and dish")
             self.central_node.TelescopeOff()
             self.set_values_with_sdp_dish_mocks(
                 DevState.OFF, DishMode.STANDBY_LP
             )
-
         else:
             LOGGER.info("Invoke TelescopeOff() with all real sub-systems")
             self.central_node.TelescopeOff()
@@ -246,7 +244,13 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         if self.subarray_node.obsState == ObsState.IDLE:
             LOGGER.info("Calling Release Resource on centralnode")
             self.invoke_release_resources(self.release_input)
-        elif self.subarray_node.obsState == ObsState.RESOURCING:
+        elif self.subarray_node.obsState in [
+            ObsState.RESOURCING,
+            ObsState.SCANNING,
+            ObsState.CONFIGURING,
+            ObsState.READY,
+            ObsState.IDLE,
+        ]:
             LOGGER.info("Calling Abort and Restart on SubarrayNode")
             self.subarray_abort()
             self.subarray_restart()
