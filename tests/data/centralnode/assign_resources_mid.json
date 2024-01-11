@@ -215,7 +215,7 @@
           "sbi-mvp01-20210623-00000"
         ],
         "parameters": {
-          
+          "time-to-ready": 2
         }
       }
     ],
