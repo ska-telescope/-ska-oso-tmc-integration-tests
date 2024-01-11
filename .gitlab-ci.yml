@@ -84,6 +84,9 @@ xray-publish:
         - tests/xray-config.json # needs to be configurable as per XRAY_EXECUTION_CONFIG in make
   dependencies:
     - k8s-test
+    - k8s-test-dish-lmc
+    - k8s-test-tmc-with-sdp
+    - k8s-test-mid-with-csp
   allow_failure: true
 
 
@@ -161,11 +164,9 @@ dish-lmc-dish001:
     - make cred SERVICE_ACCOUNT=$DISH_LMC_SERVICE_ACCOUNT
   script:
     - make k8s-install-chart-car KUBE_NAMESPACE=$KUBE_NAMESPACE K8S_CHART_PARAMS='-f charts/dish_lmc_values.yml 
-      --set "global.dishes={$(DISH_INDEX)}" --version=2.6.0 
-      --set global.exposeAllDS=false 
-      --set global.operator=true 
-      --set global.minikube=false' 
+      --set "global.dishes={$(DISH_INDEX)}" --version=2.6.0' 
       HELM_RELEASE=$DISH_HELM_RELEASE K8S_CHART=$K8S_DISH_LMC_CHART
+    - make k8s-wait KUBE_APP="ska-mid-dish-manager"
   environment:
     name: test/$CI_COMMIT_REF_SLUG
     on_stop: stop-k8s-dish-lmc-001
