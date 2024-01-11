@@ -1,6 +1,5 @@
 import json
 import logging
-import os
 from typing import Tuple
 
 from ska_control_model import ResultCode
@@ -8,7 +7,10 @@ from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
 
 from tests.resources.test_harness.constant import device_dict
-from tests.resources.test_harness.helpers import generate_eb_pb_ids
+from tests.resources.test_harness.helpers import (
+    SIMULATED_DEVICES_DICT,
+    generate_eb_pb_ids,
+)
 from tests.resources.test_harness.utils.enums import DishMode
 from tests.resources.test_harness.utils.sync_decorators import (
     sync_abort,
@@ -19,11 +21,6 @@ from tests.resources.test_harness.utils.sync_decorators import (
 from tests.resources.test_support.common_utils.common_helpers import Resource
 
 LOGGER = logging.getLogger(__name__)
-
-SDP_SIMULATION_ENABLED = os.getenv("SDP_SIMULATION_ENABLED")
-CSP_SIMULATION_ENABLED = os.getenv("CSP_SIMULATION_ENABLED")
-DISH_SIMULATION_ENABLED = os.getenv("DISH_SIMULATION_ENABLED")
-
 
 # TODO ::
 # This class needs to be enhanced as a part of upcoming
@@ -51,7 +48,6 @@ class BaseNodeWrapper(object):
         self.mccs_master = None
         self.dish_master_list = None
         self._state = DevState.OFF
-        self.simulated_devices_dict = self.get_simulated_devices_info()
 
     def move_to_on(self) -> NotImplementedError:
         """
@@ -127,29 +123,27 @@ class CentralNodeWrapper(BaseNodeWrapper):
         put telescope in ON state
         """
         LOGGER.info("Starting up the Telescope")
-        LOGGER.info(
-            f"Received simulated devices: {self.simulated_devices_dict}"
-        )
-        if self.simulated_devices_dict["all_mocks"]:
+        LOGGER.info(f"Received simulated devices: {SIMULATED_DEVICES_DICT}")
+        if SIMULATED_DEVICES_DICT["all_mocks"]:
             LOGGER.info("Invoking TelescopeOn() with all Mocks")
             self.central_node.TelescopeOn()
             self.set_subarraystate_and_dishmode_with_all_mocks(
                 DevState.ON, DishMode.STANDBY_FP
             )
 
-        elif self.simulated_devices_dict["csp_and_sdp"]:
+        elif SIMULATED_DEVICES_DICT["csp_and_sdp"]:
             LOGGER.info("Invoking TelescopeOn() on simulated csp and sdp")
             self.central_node.TelescopeOn()
             self.set_value_with_csp_sdp_mocks(DevState.ON)
 
-        elif self.simulated_devices_dict["csp_and_dish"]:
+        elif SIMULATED_DEVICES_DICT["csp_and_dish"]:
             LOGGER.info("Invoking TelescopeOn() on simulated csp and Dish")
             self.central_node.TelescopeOn()
             self.set_values_with_csp_dish_mocks(
                 DevState.ON, DishMode.STANDBY_FP
             )
 
-        elif self.simulated_devices_dict["sdp_and_dish"]:
+        elif SIMULATED_DEVICES_DICT["sdp_and_dish"]:
             LOGGER.info("Invoking TelescopeOn() on simulated sdp and dish")
             self.central_node.TelescopeOn()
             self.set_values_with_sdp_dish_mocks(
@@ -166,19 +160,19 @@ class CentralNodeWrapper(BaseNodeWrapper):
 
         """
         LOGGER.info("Putting Telescope in Standby state")
-        if self.simulated_devices_dict["all_mocks"]:
+        if SIMULATED_DEVICES_DICT["all_mocks"]:
             LOGGER.info("Invoking TelescopeStandBy() with all Mocks")
             self.central_node.TelescopeStandBy()
             self.set_subarraystate_and_dishmode_with_all_mocks(
                 DevState.STANDBY, DevState.STANDBY
             )
 
-        elif self.simulated_devices_dict["csp_and_sdp"]:
+        elif SIMULATED_DEVICES_DICT["csp_and_sdp"]:
             LOGGER.info("Invoking TelescopeStandBy() on simulated csp and sdp")
             self.central_node.TelescopeStandBy()
             self.set_value_with_csp_sdp_mocks(DevState.STANDBY)
 
-        elif self.simulated_devices_dict["csp_and_dish"]:
+        elif SIMULATED_DEVICES_DICT["csp_and_dish"]:
             LOGGER.info(
                 "Invoking TelescopeStandBy() on simulated csp and Dish"
             )
@@ -187,7 +181,7 @@ class CentralNodeWrapper(BaseNodeWrapper):
                 DevState.STANDBY, DevState.STANDBY
             )
 
-        elif self.simulated_devices_dict["sdp_and_dish"]:
+        elif SIMULATED_DEVICES_DICT["sdp_and_dish"]:
             LOGGER.info(
                 "Invoking TelescopeStandBy() on simulated sdp and dish"
             )
@@ -237,8 +231,8 @@ class CentralNodeWrapper(BaseNodeWrapper):
     def _reset_health_state_for_mock_devices(self):
         """Reset Mock devices"""
         if (
-            self.simulated_devices_dict["csp_and_sdp"]
-            or self.simulated_devices_dict["all_mocks"]
+            SIMULATED_DEVICES_DICT["csp_and_sdp"]
+            or SIMULATED_DEVICES_DICT["all_mocks"]
         ):
             for mock_device in [
                 self.sdp_master,
@@ -246,13 +240,13 @@ class CentralNodeWrapper(BaseNodeWrapper):
             ]:
                 device = DeviceProxy(mock_device)
                 device.SetDirectHealthState(HealthState.UNKNOWN)
-        elif self.simulated_devices_dict["csp_and_dish"]:
+        elif SIMULATED_DEVICES_DICT["csp_and_dish"]:
             for mock_device in [
                 self.csp_master,
             ]:
                 device = DeviceProxy(mock_device)
                 device.SetDirectHealthState(HealthState.UNKNOWN)
-        elif self.simulated_devices_dict["sdp_and_dish"]:
+        elif SIMULATED_DEVICES_DICT["sdp_and_dish"]:
             for mock_device in [
                 self.sdp_master,
             ]:
@@ -350,31 +344,3 @@ class CentralNodeWrapper(BaseNodeWrapper):
         if self.dish_master_list:
             for device in self.dish_master_list:
                 device.SetDirectDishMode(dish_mode)
-
-    def get_simulated_devices_info(self) -> dict:
-        """
-        A method to get simulated devices present in the deployement.
-
-        return: dict
-        """
-        self.is_csp_simulated = CSP_SIMULATION_ENABLED.lower() == "true"
-        self.is_sdp_simulated = SDP_SIMULATION_ENABLED.lower() == "true"
-        self.is_dish_simulated = DISH_SIMULATION_ENABLED.lower() == "true"
-        return {
-            "csp_and_sdp": all(
-                [self.is_csp_simulated, self.is_sdp_simulated]
-            ),  # real DISH.LMC enabled
-            "csp_and_dish": all(
-                [self.is_csp_simulated, self.is_dish_simulated]
-            ),  # real SDP enabled
-            "sdp_and_dish": all(
-                [self.is_sdp_simulated, self.is_dish_simulated]
-            ),  # real CSP.LMC enabled
-            "all_mocks": all(
-                [
-                    self.is_csp_simulated,
-                    self.is_sdp_simulated,
-                    self.is_dish_simulated,
-                ]
-            ),
-        }
