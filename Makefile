@@ -88,7 +88,7 @@ DISH_SIMULATION_ENABLED ?= true
 
 
 ifeq ($(MAKECMDGOALS),k8s-test)
-ADD_ARGS +=  --true-context --count=$(COUNT)
+ADD_ARGS +=  --true-context -x
 MARK ?= $(shell echo $(TELESCOPE) | sed "s/-/_/g")
 endif
 
@@ -105,6 +105,7 @@ ifeq ($(SDP_SIMULATION_ENABLED),false)
 CUSTOM_VALUES =	--set tmc-mid.deviceServers.mocks.is_simulated.sdp=$(SDP_SIMULATION_ENABLED)\
 	--set global.sdp_master="$(SDP_MASTER)"\
 	--set global.sdp_subarray_prefix="$(SDP_SUBARRAY_PREFIX)"\
+	--set global.sdp.processingNamespace=$(KUBE_NAMESPACE_SDP)\
 	--set ska-sdp.enabled=true 
 endif
 
@@ -121,7 +122,6 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.namespace_dish.dish_name[2]="$(DISH_NAME_63)"\
 	--set tmc-mid.deviceServers.mocks.is_simulated.dish=$(DISH_SIMULATION_ENABLED)\
 	--set global.subarray_count=$(SUBARRAY_COUNT)\
-	--set ska-sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP)\
 	$(CUSTOM_VALUES)
 
 PYTHON_VARS_BEFORE_PYTEST ?= PYTHONPATH=.:./src \

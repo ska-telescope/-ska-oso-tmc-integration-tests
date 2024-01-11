@@ -1,4 +1,4 @@
-@XTP-29294
+@XTP-29294 @tmc_sdp
 Scenario: Release resources from SDP Subarray using TMC
     Given a TMC and SDP
     And a subarray <subarray_id> in the IDLE obsState
