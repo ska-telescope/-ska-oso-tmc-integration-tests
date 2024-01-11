@@ -50,8 +50,7 @@ SUBARRAY_COUNT ?= 2
 DISH_NAME_1 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_1).$(CLUSTER_DOMAIN):$(PORT)/ska001/elt/master
 DISH_NAME_36 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_2).$(CLUSTER_DOMAIN):$(PORT)/ska036/elt/master
 DISH_NAME_63 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_3).$(CLUSTER_DOMAIN):$(PORT)/ska063/elt/master
-# TODO: Add dish 100 once SKB-266 is resolved
-# DISH_NAME_100 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_4).$(CLUSTER_DOMAIN):$(PORT)/ska100/elt/master
+DISH_NAME_100 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_4).$(CLUSTER_DOMAIN):$(PORT)/ska100/elt/master
 CSP_MASTER ?= tango://$(TANGO_HOST).$(KUBE_NAMESPACE).$(CLUSTER_DOMAIN):$(PORT)/mid-csp/control/0
 CSP_SUBARRAY_PREFIX ?= tango://$(TANGO_HOST).$(KUBE_NAMESPACE).$(CLUSTER_DOMAIN):$(PORT)/mid-csp/subarray
 SDP_MASTER ?= tango://$(TANGO_HOST).$(KUBE_NAMESPACE).$(CLUSTER_DOMAIN):$(PORT)/mid-sdp/control/0
@@ -120,6 +119,7 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.namespace_dish.dish_name[0]="$(DISH_NAME_1)"\
 	--set global.namespace_dish.dish_name[1]="$(DISH_NAME_36)"\
 	--set global.namespace_dish.dish_name[2]="$(DISH_NAME_63)"\
+	--set global.namespace_dish.dish_name[3]="$(DISH_NAME_100)"\
 	--set tmc-mid.deviceServers.mocks.is_simulated.dish=$(DISH_SIMULATION_ENABLED)\
 	--set global.subarray_count=$(SUBARRAY_COUNT)\
 	$(CUSTOM_VALUES)
@@ -136,6 +136,7 @@ PYTHON_VARS_BEFORE_PYTEST ?= PYTHONPATH=.:./src \
 							 DISH_NAME_1=$(DISH_NAME_1) \
 							 DISH_NAME_36=$(DISH_NAME_36) \
 							 DISH_NAME_63=$(DISH_NAME_63) \
+							 DISH_NAME_100=$(DISH_NAME_100) \
 							 KUBE_NAMESPACE=$(KUBE_NAMESPACE) \
 							 KUBE_NAMESPACE_SDP=$(KUBE_NAMESPACE_SDP)
 
