@@ -1,6 +1,6 @@
 """Test TMC-SDP Abort functionality in Scanning obstate"""
 import pytest
-from pytest_bdd import given, scenario, then, when
+from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
 from tango import DevState
 
@@ -21,7 +21,9 @@ def test_tmc_sdp_abort_in_scanning():
     """
 
 
-@given("TMC and SDP subarray busy scanning")
+@given(
+    parsers.parse("TMC subarray {subarray_id} and SDP subarray busy scanning")
+)
 def telescope_is_in_scanning_obsstate(
     central_node_mid, event_recorder, command_input_factory, subarray_node
 ):
@@ -92,11 +94,18 @@ def abort_is_invoked(central_node_mid):
     central_node_mid.subarray_abort()
 
 
-@then("the SDP subarray should go into an aborted state")
-def sdp_subarray_is_in_aborted_obsstate(central_node_mid, event_recorder):
+@then(
+    parsers.parse(
+        "the SDP subarray {subarray_id} transitions to ObsState ABORTED"
+    )
+)
+def sdp_subarray_is_in_aborted_obsstate(
+    central_node_mid, event_recorder, subarray_id
+):
     """
     Method to check SDP subarray is in ABORTED obsstate
     """
+    central_node_mid.set_subarray_id(subarray_id)
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_devices.get("sdp_subarray"),
         "obsState",
@@ -104,11 +113,18 @@ def sdp_subarray_is_in_aborted_obsstate(central_node_mid, event_recorder):
     )
 
 
-@then("the TMC subarray obsState transitions to ABORTED")
-def tmc_subarray_is_in_aborted_obsstate(central_node_mid, event_recorder):
+@then(
+    parsers.parse(
+        "the TMC subarray {subarray_id} transitions to ObsState ABORTED"
+    )
+)
+def tmc_subarray_is_in_aborted_obsstate(
+    central_node_mid, event_recorder, subarray_id
+):
     """
     Method to check if TMC subarray is in ABORTED obsstate
     """
+    central_node_mid.set_subarray_id(subarray_id)
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "obsState",

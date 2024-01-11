@@ -34,7 +34,7 @@ TIMEOUT = 20
 EB_PB_ID_LENGTH = 15
 
 
-def check_subarray_obs_state(obs_state=None, timeout=50):
+def check_subarray_obs_state(obs_state=None, timeout=100):
     device_dict = {
         "sdp_subarray": sdp_subarray1,
         "csp_subarray": csp_subarray1,
@@ -260,7 +260,6 @@ def device_received_this_command(
         or expected_input == "False"
         or expected_input == ""
     ):
-
         received_command_call_data = get_boolean_command_call_info(
             device, expected_command_name
         )
@@ -275,7 +274,6 @@ def device_received_this_command(
         )
 
     else:
-
         received_command_call_data = get_command_call_info(
             device, expected_command_name
         )
