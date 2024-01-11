@@ -330,7 +330,7 @@ class SubarrayNodeWrapper(object):
         else:
             LOGGER.info("Devices deployed are real")
 
-    def tear_down(self, event_recorder):
+    def tear_down(self):
         """Tear down after each test run"""
 
         LOGGER.info("Calling Tear down for subarray")

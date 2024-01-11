@@ -7,7 +7,6 @@ from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
 
 from tests.resources.test_harness.constant import device_dict
-from tests.resources.test_harness.helpers import generate_eb_pb_ids
 from tests.resources.test_harness.helpers import (
     SIMULATED_DEVICES_DICT,
     generate_eb_pb_ids,

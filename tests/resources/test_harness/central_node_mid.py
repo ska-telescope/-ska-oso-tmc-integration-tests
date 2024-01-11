@@ -22,8 +22,10 @@ from tests.resources.test_harness.constant import (
     tmc_sdp_master_leaf_node,
     tmc_subarraynode1,
 )
-from tests.resources.test_harness.helpers import wait_csp_master_off
-from tests.resources.test_harness.helpers import SIMULATED_DEVICES_DICT
+from tests.resources.test_harness.helpers import (
+    SIMULATED_DEVICES_DICT,
+    wait_csp_master_off,
+)
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 from tests.resources.test_harness.utils.enums import DishMode
 from tests.resources.test_harness.utils.sync_decorators import sync_set_to_off
@@ -160,9 +162,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         put telescope in ON state
         """
         LOGGER.info("Starting up the Telescope")
-        LOGGER.info(
-            f"Received simulated devices: {SIMULATED_DEVICES_DICT}"
-        )
+        LOGGER.info(f"Received simulated devices: {SIMULATED_DEVICES_DICT}")
         if SIMULATED_DEVICES_DICT["all_mocks"]:
             LOGGER.info("Invoking TelescopeOn() with all Mocks")
             self.central_node.TelescopeOn()
