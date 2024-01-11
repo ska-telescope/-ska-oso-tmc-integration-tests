@@ -16,6 +16,9 @@ from tests.resources.test_harness.helpers import (
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.common_utils.result_code import ResultCode
 
+# TODO This test case fails frequently with corba exception
+# @pytest.mark.skip("Need design change to avoid timeout corba exception")
+
 
 @pytest.mark.skip(
     reason="Test fails because of TRANSIENT CORBA EXCEPTION with command"
@@ -71,9 +74,6 @@ def test_central_node_return_error_for_duplicate_vcc_id():
     """
 
 
-@pytest.mark.skip(
-    "Test case needs to be updated with change of attributes names"
-)
 @pytest.mark.SKA_mid
 @scenario(
     "../features/load_dish_cfg_command_negative_scenario.feature",

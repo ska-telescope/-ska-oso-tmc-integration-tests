@@ -43,7 +43,7 @@ K8S_CHARTS ?= ska-tmc-$(DEPLOYMENT_TYPE) ska-tmc-testing-$(DEPLOYMENT_TYPE)## li
 K8S_CHART ?= $(HELM_CHART)
 
 DISH_TANGO_HOST ?= databaseds-tango-base
-
+COUNT ?= 1
 CLUSTER_DOMAIN ?= svc.cluster.local
 PORT ?= 10000
 SUBARRAY_COUNT ?= 2
@@ -94,7 +94,7 @@ endif
 
 # EXIT_AT_FAIL option isn't functioning correctly, so the option -x is added
 # at the end. Will be debugged and fixed as a part of improvement.
-PYTHON_VARS_AFTER_PYTEST ?= -m '$(MARK)' $(ADD_ARGS) $(FILE)
+PYTHON_VARS_AFTER_PYTEST ?= -m '$(MARK)' $(ADD_ARGS) $(FILE) -x
 
 ifeq ($(CSP_SIMULATION_ENABLED),false)
 CUSTOM_VALUES =	--set tmc-mid.deviceServers.mocks.is_simulated.csp=$(CSP_SIMULATION_ENABLED)\

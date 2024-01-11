@@ -5,7 +5,10 @@ import json
 import pytest
 from ska_tango_base.control_model import ObsState
 
-from tests.resources.test_harness.constant import INTERMEDIATE_STATE_DEFECT
+from tests.resources.test_harness.constant import (
+    INTERMEDIATE_STATE_DEFECT,
+    RESET_DEFECT,
+)
 from tests.resources.test_harness.helpers import (
     device_received_this_command,
     get_recorded_commands,
@@ -15,7 +18,6 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
 
 class TestSubarrayNodeNegative(object):
-    @pytest.mark.skip
     @pytest.mark.SKA_mid
     def test_subarray_assign_csp_unresponsive(
         self,
@@ -30,7 +32,7 @@ class TestSubarrayNodeNegative(object):
         csp_sim = simulator_factory.get_or_create_simulator_device(
             SimulatorDeviceType.MID_CSP_DEVICE
         )
-        # Subscribe for long running command result attribute
+        # Subscribe for long-running command result attribute
         # so that error message from subarray can be validated
         event_recorder.subscribe_event(
             subarray_node.subarray_node, "longRunningCommandResult"
@@ -48,9 +50,9 @@ class TestSubarrayNodeNegative(object):
         )
 
         exception_message = (
-            "Exception occured on device"
-            ": ska_mid/tm_leaf_node/csp_subarray01: Timeout has "
-            "occured, command failed"
+            "Exception occurred on the following devices:"
+            "\nska_mid/tm_leaf_node/csp_subarray01: "
+            "Timeout has occurred, command failed\n"
         )
 
         expected_long_running_command_result = (
@@ -63,6 +65,8 @@ class TestSubarrayNodeNegative(object):
             "longRunningCommandResult",
             expected_long_running_command_result,
         )
+
+        csp_sim.SetDefective(RESET_DEFECT)
 
     @pytest.mark.SKA_mid
     def test_subarray_configure_when_csp_stuck_in_configuring(
