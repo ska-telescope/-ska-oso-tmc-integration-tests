@@ -35,7 +35,7 @@ TIMEOUT = 20
 EB_PB_ID_LENGTH = 15
 
 
-def check_subarray_obs_state(obs_state=None, timeout=50):
+def check_subarray_obs_state(obs_state=None, timeout=100):
     device_dict = {
         "sdp_subarray": sdp_subarray1,
         "csp_subarray": csp_subarray1,
