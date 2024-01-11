@@ -1,22 +1,20 @@
-release=0.15.3
-tag=0.15.3
+release=0.15.4
+tag=0.15.4
 tag_description=
 **Charts:**
-**1. ska-tmc-integration 0.9.3 - 0.15.3*
+**1. ska-tmc-integration 0.15.3 - 0.15.4*
 
-    **1.1 ska-tmc-mid - 0.15.2 - 0.15.3:
-        a. Fix skipped test cases and updated structure of repository
-        b. Update dish leaf node with fix related to availability
+    **1.1 ska-tmc-mid - 0.15.3 - 0.15.4:
+        a. Minor updates on SubarrayNode and CspSubarraLeafNode to fix TMC-CSP interface
 
 
 
 release_notes=
 **Charts:**
-**1. ska-tmc-integration 0.9.3 - 0.15.3:**
+**1. ska-tmc-integration 0.15.3 - 0.15.4:**
 
-    **1.1 ska-tmc-mid - 0.15.2 - 0.15.3:
-         a. Fix skipped test cases and updated structure of repository
-         b. Update dish leaf node with fix related to availability
+    **1.1 ska-tmc-mid - 0.15.3 - 0.15.4:
+         a. Minor updates on SubarrayNode and CspSubarraLeafNode to fix TMC-CSP interface
 
 
     
