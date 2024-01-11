@@ -92,10 +92,12 @@ class TestSubarrayHealthState(object):
                 HealthState.OK,
                 HealthState.OK,
                 HealthState.OK,
+                HealthState.OK,
             ),
             (
                 HealthState.OK,
                 HealthState.FAILED,
+                HealthState.OK,
                 HealthState.OK,
                 HealthState.OK,
                 HealthState.OK,
@@ -200,10 +202,12 @@ class TestSubarrayHealthState(object):
                 HealthState.OK,
                 HealthState.OK,
                 HealthState.OK,
+                HealthState.OK,
             ),
             (
                 HealthState.OK,
                 HealthState.UNKNOWN,
+                HealthState.OK,
                 HealthState.OK,
                 HealthState.OK,
                 HealthState.OK,
@@ -291,7 +295,7 @@ class TestSubarrayHealthState(object):
     @pytest.mark.parametrize(
         "csp_subarray_health_state, sdp_subarray_health_state, \
         dish_master1_health_state, dish_master2_health_state, \
-        dish_master3_health_state, dish_master3_health_state",
+        dish_master3_health_state, dish_master4_health_state",
         [
             (
                 HealthState.DEGRADED,
@@ -307,10 +311,12 @@ class TestSubarrayHealthState(object):
                 HealthState.OK,
                 HealthState.OK,
                 HealthState.OK,
+                HealthState.OK,
             ),
             (
                 HealthState.OK,
                 HealthState.DEGRADED,
+                HealthState.OK,
                 HealthState.OK,
                 HealthState.OK,
                 HealthState.OK,
@@ -408,6 +414,7 @@ class TestSubarrayHealthState(object):
                 HealthState.OK,
             ),
             (
+                HealthState.FAILED,
                 HealthState.FAILED,
                 HealthState.FAILED,
                 HealthState.FAILED,
@@ -518,6 +525,7 @@ class TestSubarrayHealthState(object):
                 HealthState.OK,
                 HealthState.UNKNOWN,
                 HealthState.OK,
+                HealthState.OK,
             ),
             (
                 HealthState.OK,
@@ -525,8 +533,10 @@ class TestSubarrayHealthState(object):
                 HealthState.UNKNOWN,
                 HealthState.UNKNOWN,
                 HealthState.OK,
+                HealthState.OK,
             ),
             (
+                HealthState.UNKNOWN,
                 HealthState.UNKNOWN,
                 HealthState.UNKNOWN,
                 HealthState.UNKNOWN,
@@ -636,8 +646,18 @@ class TestSubarrayHealthState(object):
                 HealthState.OK,
                 HealthState.FAILED,
                 HealthState.OK,
+                HealthState.OK,
             ),
             (
+                HealthState.OK,
+                HealthState.OK,
+                HealthState.DEGRADED,
+                HealthState.OK,
+                HealthState.OK,
+                HealthState.OK,
+            ),
+            (
+                HealthState.OK,
                 HealthState.OK,
                 HealthState.OK,
                 HealthState.DEGRADED,
@@ -647,18 +667,13 @@ class TestSubarrayHealthState(object):
             (
                 HealthState.OK,
                 HealthState.OK,
-                HealthState.OK,
                 HealthState.DEGRADED,
+                HealthState.DEGRADED,
+                HealthState.OK,
                 HealthState.OK,
             ),
             (
-                HealthState.OK,
-                HealthState.OK,
                 HealthState.DEGRADED,
-                HealthState.DEGRADED,
-                HealthState.OK,
-            ),
-            (
                 HealthState.DEGRADED,
                 HealthState.DEGRADED,
                 HealthState.DEGRADED,
