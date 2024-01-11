@@ -84,6 +84,9 @@ xray-publish:
         - tests/xray-config.json # needs to be configurable as per XRAY_EXECUTION_CONFIG in make
   dependencies:
     - k8s-test
+    - k8s-test-dish-lmc
+    - k8s-test-tmc-with-sdp
+    - k8s-test-mid-with-csp
   allow_failure: true
 
 
