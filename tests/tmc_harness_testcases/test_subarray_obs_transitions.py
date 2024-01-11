@@ -151,7 +151,7 @@ class TestSubarrayNodeObsStateTransitions(object):
             args_for_sdp, command_input_factory
         )
 
-        csp_sim, sdp_sim, _, _, _ = get_device_simulators(simulator_factory)
+        csp_sim, sdp_sim, _, _, _, _ = get_device_simulators(simulator_factory)
 
         event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
         event_recorder.subscribe_event(csp_sim, "commandCallInfo")

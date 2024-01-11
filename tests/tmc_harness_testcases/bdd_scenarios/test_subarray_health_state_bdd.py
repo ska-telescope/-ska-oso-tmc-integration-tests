@@ -77,6 +77,7 @@ def given_csp_sdp_device_health_state_is_ok(simulator_factory):
         _,
         _,
         _,
+        _,
     ) = get_device_simulators(simulator_factory)
 
     set_desired_health_state(

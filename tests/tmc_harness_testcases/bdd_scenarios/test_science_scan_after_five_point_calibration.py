@@ -43,7 +43,7 @@ def a_subarray_after_five_point_calibration(
     subarray_node, event_recorder, simulator_factory, command_input_factory
 ):
     """Given a Subarray after the five point Calibration scan."""
-    csp_sim, sdp_sim, _, _, _ = get_device_simulators(simulator_factory)
+    csp_sim, sdp_sim, _, _, _, _ = get_device_simulators(simulator_factory)
 
     event_recorder.subscribe_event(csp_sim, "obsState")
     event_recorder.subscribe_event(sdp_sim, "obsState")
