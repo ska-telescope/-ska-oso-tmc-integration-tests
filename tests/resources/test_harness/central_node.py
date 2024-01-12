@@ -11,7 +11,6 @@ from tests.resources.test_harness.helpers import (
     SIMULATED_DEVICES_DICT,
     generate_eb_pb_ids,
 )
-from tests.resources.test_harness.utils.enums import DishMode
 from tests.resources.test_harness.utils.sync_decorators import (
     sync_abort,
     sync_assign_resources,
@@ -21,7 +20,6 @@ from tests.resources.test_harness.utils.sync_decorators import (
 from tests.resources.test_support.common_utils.common_helpers import Resource
 
 LOGGER = logging.getLogger(__name__)
-
 
 # TODO ::
 # This class needs to be enhanced as a part of upcoming
@@ -117,41 +115,6 @@ class CentralNodeWrapper(BaseNodeWrapper):
             value (DevState): telescope state value
         """
         self._telescope_state = value
-
-    def move_to_on(self):
-        """
-        A method to invoke TelescopeOn command to
-        put telescope in ON state
-        """
-        LOGGER.info("Starting up the Telescope")
-        if SIMULATED_DEVICES_DICT["all_mocks"]:
-            LOGGER.info("Invoking TelescopeOn() with all Mocks")
-            self.central_node.TelescopeOn()
-            self.set_subarraystate_and_dishmode_with_all_mocks(
-                DevState.ON, DishMode.STANDBY_FP
-            )
-
-        elif SIMULATED_DEVICES_DICT["csp_and_sdp"]:
-            LOGGER.info("Invoking TelescopeOn() on simulated csp and sdp")
-            self.central_node.TelescopeOn()
-            self.set_value_with_csp_sdp_mocks(DevState.ON)
-
-        elif SIMULATED_DEVICES_DICT["csp_and_dish"]:
-            LOGGER.info("Invoking TelescopeOn() on simulated csp and Dish")
-            self.central_node.TelescopeOn()
-            self.set_values_with_csp_dish_mocks(
-                DevState.ON, DishMode.STANDBY_FP
-            )
-
-        elif SIMULATED_DEVICES_DICT["sdp_and_dish"]:
-            LOGGER.info("Invoking TelescopeOn() on simulated sdp and dish")
-            self.central_node.TelescopeOn()
-            self.set_values_with_sdp_dish_mocks(
-                DevState.ON, DishMode.STANDBY_FP
-            )
-        else:
-            LOGGER.info("Invoke TelescopeOn() on all real sub-systems")
-            self.central_node.TelescopeOn()
 
     def set_standby(self):
         """

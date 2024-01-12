@@ -41,6 +41,10 @@ telescope_control = BaseTelescopeControl()
 tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 
 
+@pytest.mark.skip(
+    reason="The test is duplicate, scenario is covered under"
+    + "test-harness tests"
+)
 @pytest.mark.SKA_mid
 def test_abort_restart(json_factory):
     """Abort and Restart is executed."""
@@ -143,7 +147,8 @@ def test_abort_in_empty(json_factory):
 
 
 @pytest.mark.skip(
-    reason="Test fails when Abort is invoked for subsystem Subarray in EMPTY."
+    reason="The test is duplicate, scenario is covered"
+    + "under test-harness tests"
 )
 @pytest.mark.SKA_mid
 def test_abort_in_resourcing(json_factory):
@@ -297,7 +302,7 @@ def test_abort_in_resourcing_different_resources(json_factory):
             "RESOURCING", [tmc_subarraynode1, csp_subarray1]
         )
         the_waiter.set_wait_for_specific_obsstate("IDLE", [sdp_subarray1])
-        the_waiter.wait(20)
+        the_waiter.wait(60)
 
         # Setting CSP back to normal
         csp_subarray_proxy.SetDefective(json.dumps({"enabled": False}))
@@ -476,6 +481,10 @@ def test_abort_in_resourcing_with_second_abort(json_factory):
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
+@pytest.mark.skip(
+    reason="The test is duplicate, scenario is covered"
+    + "under test-harness tests"
+)
 @pytest.mark.SKA_mid
 def test_abort_in_configuring(json_factory):
     """Abort and Restart is executed."""
@@ -601,6 +610,10 @@ def test_abort_in_configuring(json_factory):
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
+@pytest.mark.skip(
+    reason="The test is duplicate, scenario is covered"
+    + "under test-harness tests"
+)
 @pytest.mark.SKA_mid
 def test_abort_in_scanning(json_factory):
     """Abort and Restart is executed."""

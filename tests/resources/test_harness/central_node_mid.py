@@ -21,7 +21,10 @@ from tests.resources.test_harness.constant import (
     tmc_sdp_master_leaf_node,
     tmc_subarraynode1,
 )
-from tests.resources.test_harness.helpers import SIMULATED_DEVICES_DICT
+from tests.resources.test_harness.helpers import (
+    SIMULATED_DEVICES_DICT,
+    wait_csp_master_off,
+)
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 from tests.resources.test_harness.utils.enums import DishMode
 from tests.resources.test_harness.utils.sync_decorators import sync_set_to_off
@@ -29,7 +32,6 @@ from tests.resources.test_harness.utils.wait_helpers import Waiter
 
 configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
-
 
 REAL_DISH1_FQDN = os.getenv("DISH_NAME_1")
 REAL_DISH36_FQDN = os.getenv("DISH_NAME_36")
@@ -135,7 +137,6 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             SIMULATED_DEVICES_DICT["csp_and_dish"]
             or SIMULATED_DEVICES_DICT["all_mocks"]
         ):
-
             self.csp_master.ResetSysParams()
 
     def _clear_command_call_and_transition_data(self, clear_transition=False):
@@ -152,6 +153,45 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
                 device.ClearCommandCallInfo()
                 if clear_transition:
                     device.ResetTransitions()
+
+    def move_to_on(self):
+        """
+        A method to invoke TelescopeOn command to
+        put telescope in ON state
+        """
+        LOGGER.info("Starting up the Telescope")
+        LOGGER.info(f"Received simulated devices: {SIMULATED_DEVICES_DICT}")
+        if SIMULATED_DEVICES_DICT["all_mocks"]:
+            LOGGER.info("Invoking TelescopeOn() with all Mocks")
+            self.central_node.TelescopeOn()
+            self.set_subarraystate_and_dishmode_with_all_mocks(
+                DevState.ON, DishMode.STANDBY_FP
+            )
+
+        elif SIMULATED_DEVICES_DICT["csp_and_sdp"]:
+            LOGGER.info("Invoking TelescopeOn() on simulated csp and sdp")
+            self.central_node.TelescopeOn()
+            self.set_value_with_csp_sdp_mocks(DevState.ON)
+
+        elif SIMULATED_DEVICES_DICT["csp_and_dish"]:
+            LOGGER.info("Invoking TelescopeOn() on simulated csp and Dish")
+            self.central_node.TelescopeOn()
+            self.set_values_with_csp_dish_mocks(
+                DevState.ON, DishMode.STANDBY_FP
+            )
+
+        elif SIMULATED_DEVICES_DICT["sdp_and_dish"]:
+            LOGGER.info("Invoking TelescopeOn() on simulated sdp and dish")
+            if self.csp_master.adminMode != 0:
+                self.csp_master.adminMode = 0
+            wait_csp_master_off()
+            self.central_node.TelescopeOn()
+            self.set_values_with_sdp_dish_mocks(
+                DevState.ON, DishMode.STANDBY_FP
+            )
+        else:
+            LOGGER.info("Invoke TelescopeOn() on all real sub-systems")
+            self.central_node.TelescopeOn()
 
     @sync_set_to_off(device_dict=device_dict)
     def move_to_off(self):
@@ -185,21 +225,30 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             self.set_values_with_sdp_dish_mocks(
                 DevState.OFF, DishMode.STANDBY_LP
             )
-
         else:
             LOGGER.info("Invoke TelescopeOff() with all real sub-systems")
             self.central_node.TelescopeOff()
 
     def tear_down(self):
         """Handle Tear down of central Node"""
-        LOGGER.info("Calling Tear down for Central node.")
+        Subaaray_node_obsstate = self.subarray_node.obsState
+        LOGGER.info(
+            f"Calling tear down for CentralNode for SubarrayNode's \
+                {Subaaray_node_obsstate} obsstate."
+        )
         # reset HealthState.UNKNOWN for mock devices
         self._reset_health_state_for_mock_devices()
         self._reset_sys_param_and_k_value()
         if self.subarray_node.obsState == ObsState.IDLE:
             LOGGER.info("Calling Release Resource on centralnode")
             self.invoke_release_resources(self.release_input)
-        elif self.subarray_node.obsState == ObsState.RESOURCING:
+        elif self.subarray_node.obsState in [
+            ObsState.RESOURCING,
+            ObsState.SCANNING,
+            ObsState.CONFIGURING,
+            ObsState.READY,
+            ObsState.IDLE,
+        ]:
             LOGGER.info("Calling Abort and Restart on SubarrayNode")
             self.subarray_abort()
             self.subarray_restart()

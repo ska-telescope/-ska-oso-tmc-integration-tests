@@ -43,7 +43,7 @@ K8S_CHARTS ?= ska-tmc-$(DEPLOYMENT_TYPE) ska-tmc-testing-$(DEPLOYMENT_TYPE)## li
 K8S_CHART ?= $(HELM_CHART)
 
 DISH_TANGO_HOST ?= databaseds-tango-base
-
+COUNT ?= 1
 CLUSTER_DOMAIN ?= svc.cluster.local
 PORT ?= 10000
 SUBARRAY_COUNT ?= 2
@@ -88,13 +88,13 @@ DISH_SIMULATION_ENABLED ?= true
 
 
 ifeq ($(MAKECMDGOALS),k8s-test)
-ADD_ARGS +=  --true-context
+ADD_ARGS +=  --true-context -x
 MARK ?= $(shell echo $(TELESCOPE) | sed "s/-/_/g")
 endif
 
 # EXIT_AT_FAIL option isn't functioning correctly, so the option -x is added
 # at the end. Will be debugged and fixed as a part of improvement.
-PYTHON_VARS_AFTER_PYTEST ?= -m '$(MARK)' $(ADD_ARGS) $(FILE)
+PYTHON_VARS_AFTER_PYTEST ?= -m '$(MARK)' $(ADD_ARGS) $(FILE) -x
 
 ifeq ($(CSP_SIMULATION_ENABLED),false)
 CUSTOM_VALUES =	--set tmc-mid.deviceServers.mocks.is_simulated.csp=$(CSP_SIMULATION_ENABLED)\
@@ -105,6 +105,7 @@ ifeq ($(SDP_SIMULATION_ENABLED),false)
 CUSTOM_VALUES =	--set tmc-mid.deviceServers.mocks.is_simulated.sdp=$(SDP_SIMULATION_ENABLED)\
 	--set global.sdp_master="$(SDP_MASTER)"\
 	--set global.sdp_subarray_prefix="$(SDP_SUBARRAY_PREFIX)"\
+	--set global.sdp.processingNamespace=$(KUBE_NAMESPACE_SDP)\
 	--set ska-sdp.enabled=true 
 endif
 
@@ -121,7 +122,6 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.namespace_dish.dish_name[2]="$(DISH_NAME_63)"\
 	--set tmc-mid.deviceServers.mocks.is_simulated.dish=$(DISH_SIMULATION_ENABLED)\
 	--set global.subarray_count=$(SUBARRAY_COUNT)\
-	--set ska-sdp.helmdeploy.namespace=$(KUBE_NAMESPACE_SDP)\
 	$(CUSTOM_VALUES)
 
 PYTHON_VARS_BEFORE_PYTEST ?= PYTHONPATH=.:./src \
