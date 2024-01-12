@@ -75,6 +75,9 @@ def test_central_node_return_error_for_duplicate_vcc_id():
 
 
 @pytest.mark.SKA_mid
+@pytest.mark.skip(
+    reason="This will be enable once Dish Vcc feature is integrate."
+)
 @scenario(
     "../features/load_dish_cfg_command_negative_scenario.feature",
     "TMC handling exception from CSP Subarray",
@@ -222,9 +225,11 @@ def invoke_command_load_cfg_on_defective_csp(
     csp_sim = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.MID_CSP_MASTER_DEVICE
     )
-    pytest.initial_sysParam = central_node_mid.csp_master_leaf_node.sysParam
+    pytest.initial_sysParam = (
+        central_node_mid.csp_master_leaf_node.dishVccConfig
+    )
     pytest.initial_sourceSysParam = (
-        central_node_mid.csp_master_leaf_node.sourceSysParam
+        central_node_mid.csp_master_leaf_node.sourceDishVccConfig
     )
 
     csp_sim.SetDefective(ERROR_PROPAGATION_DEFECT)
@@ -257,11 +262,11 @@ def check_sys_param_source_sys_param_attributes(central_node_mid):
     """
     assert (
         pytest.initial_sysParam
-        == central_node_mid.csp_master_leaf_node.sysParam
+        == central_node_mid.csp_master_leaf_node.dishVccConfig
     )
     assert (
         pytest.initial_sourceSysParam
-        == central_node_mid.csp_master_leaf_node.sourceSysParam
+        == central_node_mid.csp_master_leaf_node.sourceDishVccConfig
     )
 
 

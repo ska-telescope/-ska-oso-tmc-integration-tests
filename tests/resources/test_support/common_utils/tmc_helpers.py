@@ -281,7 +281,7 @@ class TmcHelper:
 
 def tear_down(
     input_json: Optional[str] = None,
-    raise_exception: Optional[bool] = False,
+    raise_exception: Optional[bool] = True,
     **kwargs,
 ):
     """Tears down the system after test run to get telescope back in \
