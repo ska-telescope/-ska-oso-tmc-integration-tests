@@ -1,4 +1,4 @@
-@XTP-29397 @tmc_sdp
+@XTP-29397 @XTP-29381 @Team_SAHYADRI @tmc_sdp
 Scenario: TMC executes an Abort on SDP subarray while subarray completes configuration
     Given the telescope is in ON state
     And TMC and SDP subarray <subarray_id> is in <obsstate> ObsState
