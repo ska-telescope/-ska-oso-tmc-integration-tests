@@ -97,7 +97,7 @@ def invoke_releaseresources(
         "release_resources_mid", command_input_factory
     )
     release_input = json.loads(release_input_json)
-    release_input["subarray_id"] = subarray_id
+    release_input["subarray_id"] = int(subarray_id)
     central_node_mid.invoke_release_resources(json.dumps(release_input))
 
 
