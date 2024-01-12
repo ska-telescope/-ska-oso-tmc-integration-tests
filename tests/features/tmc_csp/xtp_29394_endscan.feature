@@ -1,4 +1,4 @@
-@XTP-29394 @tmc_csp
+@XTP-29583 @XTP-29394 @tmc_csp
 Scenario: TMC executes a EndScan command on CSP subarray.
     Given the telescope is in ON state
     And TMC subarray <subarray_id> is in Scanning ObsState
