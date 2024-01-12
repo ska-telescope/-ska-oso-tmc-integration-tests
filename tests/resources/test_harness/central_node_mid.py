@@ -396,7 +396,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         return result, message
 
     def set_subarraystate_and_dishmode_with_all_mocks(
-        self, subarray_state, dish_mode
+        self, subarray_state: DevState, dish_mode: DishMode
     ) -> None:
         """
         A method to set values on mock CSP, SDP and Dish devices.
@@ -418,7 +418,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             for device in self.dish_master_list:
                 device.SetDirectDishMode(dish_mode)
 
-    def set_value_with_csp_sdp_mocks(self, subarray_state) -> None:
+    def set_value_with_csp_sdp_mocks(self, subarray_state: DevState) -> None:
         """
         A method to set values on mock CSP and SDP devices.
         Args:
@@ -434,7 +434,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             device_proxy.SetDirectState(subarray_state)
 
     def set_values_with_csp_dish_mocks(
-        self, subarray_state, dish_mode
+        self, subarray_state: DevState, dish_mode: DishMode
     ) -> None:
         """
         A method to set values on mock CSP and Dish devices.
@@ -456,7 +456,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
                 device.SetDirectDishMode(dish_mode)
 
     def set_values_with_sdp_dish_mocks(
-        self, subarray_state, dish_mode
+        self, subarray_state: DevState, dish_mode: DishMode
     ) -> None:
         """
         A method to set values on mock SDP and Dish devices.
