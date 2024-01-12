@@ -14,22 +14,22 @@ dish_name_63 = os.getenv("DISH_NAMESPACE_3")
 dish_name_100 = os.getenv("DISH_NAMESPACE_4")
 
 dish_fqdn_1 = (
-    f"tango://databaseds-tango-base.{dish_name_1}.svc.cluster"
+    f"tango://tango-databaseds.{dish_name_1}.svc.cluster"
     ".local:10000/ska001/elt/master"
 )
 
 dish_fqdn_36 = (
-    f"tango://databaseds-tango-base.{dish_name_36}.svc.cluster"
+    f"tango://tango-databaseds.{dish_name_36}.svc.cluster"
     ".local:10000/ska036/elt/master"
 )
 
 dish_fqdn_63 = (
-    f"tango://databaseds-tango-base.{dish_name_63}.svc.cluster"
+    f"tango://tango-databaseds.{dish_name_63}.svc.cluster"
     ".local:10000/ska063/elt/master"
 )
 
 dish_fqdn_100 = (
-    f"tango://databaseds-tango-base.{dish_name_100}.svc.cluster"
+    f"tango://tango-databaseds.{dish_name_100}.svc.cluster"
     ".local:10000/ska100/elt/master"
 )
 
