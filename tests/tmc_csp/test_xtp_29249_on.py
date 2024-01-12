@@ -3,12 +3,15 @@ import pytest
 from pytest_bdd import given, scenario, then, when
 from tango import DevState
 
-from tests.resources.test_harness.helpers import get_master_device_simulators
+from tests.resources.test_harness.helpers import (
+    get_master_device_simulators,
+    wait_csp_master_off,
+)
 
 
-@pytest.mark.real_csp_mid
+@pytest.mark.tmc_csp
 @scenario(
-    "../features/tmc_csp/tmc_csp_on.feature",
+    "../features/tmc_csp/xtp_29249_on.feature",
     "StartUp Telescope with TMC and CSP devices",
 )
 def test_tmc_csp_startup_telescope():
@@ -34,6 +37,7 @@ def given_the_sut(central_node_mid, simulator_factory):
         sdp_master_sim,
         dish_master_sim_1,
         dish_master_sim_2,
+        dish_master_sim_3,
     ) = get_master_device_simulators(simulator_factory)
 
     assert central_node_mid.central_node.ping() > 0
@@ -42,6 +46,7 @@ def given_the_sut(central_node_mid, simulator_factory):
     assert sdp_master_sim.ping() > 0
     assert dish_master_sim_1.ping() > 0
     assert dish_master_sim_2.ping() > 0
+    assert dish_master_sim_3.ping() > 0
 
 
 @given("telescope state is OFF")
@@ -50,22 +55,15 @@ def check_state_devices(central_node_mid, event_recorder):
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
     )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.central_node,
-        "telescopeState",
-        DevState.OFF,
-        lookahead=10,
-    )
+    central_node_mid.csp_master.adminMode = 0
+    wait_csp_master_off()
+    csp_master_state = central_node_mid.csp_master.state()
+    assert csp_master_state is DevState.OFF
 
 
 @when("I start up the telescope")
 def move_telescope_to_on(central_node_mid):
     """A method to turn on the telescope."""
-    central_node_mid.wait.set_wait_for_csp_master_to_become_off()
-    central_node_mid.csp_master.adminMode = 0
-    central_node_mid.wait.wait(500)
-    csp_master_state = central_node_mid.csp_master.state()
-    assert csp_master_state is DevState.OFF
     central_node_mid.move_to_on()
 
 

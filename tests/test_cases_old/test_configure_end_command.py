@@ -39,6 +39,10 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
+@pytest.mark.skip(
+    reason="The test is duplicate, scenario is covered"
+    + "under test-harness tests"
+)
 @pytest.mark.SKA_mid
 def test_configure_end(json_factory):
     """Configure and End is executed."""
@@ -180,9 +184,6 @@ def test_configure_timeout_and_error_propagation_csp(
         )
 
 
-@pytest.mark.skip(
-    reason="Induce fault not working for sdp subarray configure command"
-)
 @pytest.mark.SKA_mid
 def test_configure_timeout_sdp(json_factory, change_event_callbacks):
     """Verify timeout exception raised when csp set to defective."""

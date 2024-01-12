@@ -10,7 +10,7 @@ from tests.resources.test_support.enum import DishMode
 
 @pytest.mark.real_dish
 @scenario(
-    "../features/check_off_command_on_real_dish.feature",
+    "../features/tmc_dish/check_off_command_on_real_dish.feature",
     "Shut down with TMC and DISH devices",
 )
 def test_tmc_dish_shutdown_telescope():
@@ -53,11 +53,24 @@ def check_tmc_and_dish_is_on(
     event_recorder.subscribe_event(
         central_node_mid.dish_master_list[1], "dishMode"
     )
+    event_recorder.subscribe_event(
+        central_node_mid.dish_master_list[2], "dishMode"
+    )
 
     assert csp_master_sim.ping() > 0
     assert sdp_master_sim.ping() > 0
     assert central_node_mid.dish_master_list[0].ping() > 0
     assert central_node_mid.dish_master_list[1].ping() > 0
+    assert central_node_mid.dish_master_list[2].ping() > 0
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[0], "dishMode", DishMode.STANDBY_LP
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[1], "dishMode", DishMode.STANDBY_LP
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[2], "dishMode", DishMode.STANDBY_LP
+    )
 
     central_node_mid.move_to_on()
 
@@ -66,6 +79,9 @@ def check_tmc_and_dish_is_on(
     )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.dish_master_list[1], "dishMode", DishMode.STANDBY_FP
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[2], "dishMode", DishMode.STANDBY_FP
     )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.sdp_master,
@@ -100,6 +116,11 @@ def check_dish_state(central_node_mid, event_recorder):
     )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.dish_master_list[1],
+        "dishMode",
+        DishMode.STANDBY_LP,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[2],
         "dishMode",
         DishMode.STANDBY_LP,
     )

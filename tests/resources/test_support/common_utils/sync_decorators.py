@@ -84,7 +84,7 @@ def sync_release_resources():
             if set_wait_for_obsstate:
                 the_waiter = Waiter(**kwargs)
                 the_waiter.set_wait_for_going_to_empty()
-                the_waiter.wait(TIMEOUT)
+                the_waiter.wait(500)
             return result
 
         return wrapper
@@ -184,9 +184,11 @@ def sync_configure():
                 "CONFIGURING",
             ]:
                 invoked_from_ready = True
+            LOGGER.debug("invoked_from_ready flag: %s", invoked_from_ready)
             result = func(*args, **kwargs)
             LOGGER.info(invoked_from_ready)
             set_wait_for_obsstate = kwargs.get("set_wait_for_obsstate", True)
+            LOGGER.debug("set_wait_for_obsstate: %s", set_wait_for_obsstate)
             if set_wait_for_obsstate:
                 if invoked_from_ready:
                     LOGGER.info("inside invoked from ready")

@@ -63,7 +63,7 @@ def given_tmc_subarray_assign_resources(
     simulator_factory,
     command_input_factory,
 ):
-    csp_sim, sdp_sim, _, _ = get_device_simulators(simulator_factory)
+    csp_sim, sdp_sim, _, _, _ = get_device_simulators(simulator_factory)
     event_recorder.subscribe_event(csp_sim, "obsState")
     event_recorder.subscribe_event(sdp_sim, "obsState")
     assign_input_json = prepare_json_args_for_centralnode_commands(
@@ -87,7 +87,7 @@ def given_tmc_subarray_assign_resources(
 def given_tmc_subarray_configure_is_in_progress(
     subarray_node, event_recorder, simulator_factory, command_input_factory
 ):
-    csp_sim, _, _, _ = get_device_simulators(simulator_factory)
+    csp_sim, _, _, _, _ = get_device_simulators(simulator_factory)
     csp_sim.SetDefective(
         json.dumps(COMMAND_FAILED_WITH_EXCEPTION_OBSSTATE_IDLE)
     )

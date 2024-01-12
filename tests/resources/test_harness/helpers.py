@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 import re
 import time
 from datetime import datetime
@@ -11,13 +12,9 @@ from ska_tango_base.commands import ResultCode
 from ska_tango_base.control_model import HealthState
 from ska_tango_testing.mock.placeholders import Anything
 
-from tests.resources.test_harness.simulator_factory import SimulatorFactory
-from tests.resources.test_harness.utils.common_utils import JsonFactory
-from tests.resources.test_harness.utils.enums import SimulatorDeviceType
-from tests.resources.test_harness.utils.wait_helpers import Waiter, watch
-from tests.resources.test_support.common_utils.common_helpers import Resource
-from tests.resources.test_support.constant import (
+from tests.resources.test_harness.constant import (
     csp_subarray1,
+    device_dict,
     dish_master1,
     dish_master2,
     sdp_subarray1,
@@ -25,6 +22,11 @@ from tests.resources.test_support.constant import (
     tmc_sdp_subarray_leaf_node,
     tmc_subarraynode1,
 )
+from tests.resources.test_harness.simulator_factory import SimulatorFactory
+from tests.resources.test_harness.utils.common_utils import JsonFactory
+from tests.resources.test_harness.utils.enums import SimulatorDeviceType
+from tests.resources.test_harness.utils.wait_helpers import Waiter, watch
+from tests.resources.test_support.common_utils.common_helpers import Resource
 
 configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
@@ -32,7 +34,7 @@ TIMEOUT = 20
 EB_PB_ID_LENGTH = 15
 
 
-def check_subarray_obs_state(obs_state=None, timeout=50):
+def check_subarray_obs_state(obs_state=None, timeout=100):
     device_dict = {
         "sdp_subarray": sdp_subarray1,
         "csp_subarray": csp_subarray1,
@@ -54,7 +56,10 @@ def check_subarray_obs_state(obs_state=None, timeout=50):
         + str(Resource(csp_subarray1).get("obsState"))
     )
     if obs_state == "READY":
-        device_dict["dish_master_list"] = [dish_master1, dish_master2]
+        device_dict["dish_master_list"] = [
+            dish_master1,
+            dish_master2,
+        ]
     the_waiter = Waiter(**device_dict)
     the_waiter.set_wait_for_obs_state(obs_state=obs_state)
     the_waiter.wait(timeout / 0.1)
@@ -90,7 +95,10 @@ def get_device_simulators(simulator_factory):
     dish_sim_2 = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.DISH_DEVICE, sim_number=2
     )
-    return csp_sim, sdp_sim, dish_sim_1, dish_sim_2
+    dish_sim_3 = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.DISH_DEVICE, sim_number=3
+    )
+    return csp_sim, sdp_sim, dish_sim_1, dish_sim_2, dish_sim_3
 
 
 def get_master_device_simulators(simulator_factory):
@@ -115,11 +123,15 @@ def get_master_device_simulators(simulator_factory):
     dish_master_sim_2 = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.DISH_DEVICE, sim_number=2
     )
+    dish_master_sim_3 = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.DISH_DEVICE, sim_number=3
+    )  # Add dish 4 when SKB-266 is resolved
     return (
         csp_master_sim,
         sdp_master_sim,
         dish_master_sim_1,
         dish_master_sim_2,
+        dish_master_sim_3,
     )
 
 
@@ -248,7 +260,6 @@ def device_received_this_command(
         or expected_input == "False"
         or expected_input == ""
     ):
-
         received_command_call_data = get_boolean_command_call_info(
             device, expected_command_name
         )
@@ -263,7 +274,6 @@ def device_received_this_command(
         )
 
     else:
-
         received_command_call_data = get_command_call_info(
             device, expected_command_name
         )
@@ -394,6 +404,49 @@ def check_lrcr_events(
         COUNT = COUNT + 1
         if COUNT >= retries:
             pytest.fail("Assertion Failed")
+
+
+def get_simulated_devices_info() -> dict:
+    """
+    A method to get simulated devices present in the deployment.
+
+    return: dict
+    """
+
+    SDP_SIMULATION_ENABLED = os.getenv("SDP_SIMULATION_ENABLED")
+    CSP_SIMULATION_ENABLED = os.getenv("CSP_SIMULATION_ENABLED")
+    DISH_SIMULATION_ENABLED = os.getenv("DISH_SIMULATION_ENABLED")
+
+    is_csp_simulated = CSP_SIMULATION_ENABLED.lower() == "true"
+    is_sdp_simulated = SDP_SIMULATION_ENABLED.lower() == "true"
+    is_dish_simulated = DISH_SIMULATION_ENABLED.lower() == "true"
+    return {
+        "csp_and_sdp": all(
+            [is_csp_simulated, is_sdp_simulated]
+        ),  # real DISH.LMC enabled
+        "csp_and_dish": all(
+            [is_csp_simulated, is_dish_simulated]
+        ),  # real SDP enabled
+        "sdp_and_dish": all(
+            [is_sdp_simulated, is_dish_simulated]
+        ),  # real CSP.LMC enabled
+        "all_mocks": all(
+            [
+                is_csp_simulated,
+                is_sdp_simulated,
+                is_dish_simulated,
+            ]
+        ),
+    }
+
+
+SIMULATED_DEVICES_DICT = get_simulated_devices_info()
+
+
+def wait_csp_master_off():
+    wait = Waiter(**device_dict)
+    wait.set_wait_for_csp_master_to_become_off()
+    wait.wait(500)
 
 
 def generate_id(id_pattern: str) -> str:

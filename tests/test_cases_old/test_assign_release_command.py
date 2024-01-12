@@ -42,6 +42,10 @@ telescope_control = BaseTelescopeControl()
 tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 
 
+@pytest.mark.skip(
+    reason="The test is duplicate, scenario is covered"
+    + "under test-harness tests"
+)
 @pytest.mark.SKA_mid
 def test_assign_release(json_factory):
     """AssignResources and ReleaseResources is executed."""
@@ -213,9 +217,10 @@ def test_assign_release_timeout_csp(json_factory, change_event_callbacks):
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-@pytest.mark.skip()
 @pytest.mark.SKA_mid
-def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
+def test_assign_release_timeout_sdp(
+    command_input_factory, json_factory, change_event_callbacks
+):
     """Verify timeout exception raised when sdp set to defective."""
     assign_json = json_factory("command_AssignResources")
     release_json = json_factory("command_ReleaseResources")
@@ -246,6 +251,7 @@ def test_assign_release_timeout_sdp(json_factory, change_event_callbacks):
 
         device_params = deepcopy(ON_OFF_DEVICE_COMMAND_DICT)
         device_params["set_wait_for_obsstate"] = False
+
         result, unique_id = tmc_helper.compose_sub(
             assign_json, **device_params
         )

@@ -38,7 +38,7 @@ def a_configured_subarray(
     subarray_node, event_recorder, simulator_factory, command_input_factory
 ):
     """Given a subarray configured for a calibration scan."""
-    csp_sim, sdp_sim, _, _ = get_device_simulators(simulator_factory)
+    csp_sim, sdp_sim, _, _, _ = get_device_simulators(simulator_factory)
 
     event_recorder.subscribe_event(csp_sim, "obsState")
     event_recorder.subscribe_event(sdp_sim, "obsState")
@@ -76,7 +76,7 @@ def a_configured_subarray(
 @given("the subarray is in READY obsState")
 def a_subarray_in_ready_obsstate():
     """A subarray in READY obsState."""
-    assert check_subarray_obs_state("READY")
+    assert check_subarray_obs_state("READY", 500)
 
 
 @when(
@@ -110,4 +110,4 @@ def when_i_perform_partial_configurations_and_scans(
 )
 def subarray_executes_commands_successfully():
     """Subarray executes the commands successfully and is in READY obsState."""
-    assert check_subarray_obs_state("READY")
+    assert check_subarray_obs_state("READY", 500)

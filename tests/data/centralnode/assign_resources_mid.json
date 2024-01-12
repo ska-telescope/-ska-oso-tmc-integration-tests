@@ -5,7 +5,7 @@
   "dish": {
     "receptor_ids": [
       "SKA001",
-      "SKA002"
+      "SKA036"
     ]
   },
   "sdp": {
@@ -205,15 +205,15 @@
     },
     "processing_blocks": [
       {
-        "pb_id": "pb-mvp01-20210623-00001",
-        "sbi_ids": [
-          "sbi-mvp01-20210623-00001"
-        ],
+        "pb_id": "pb-mvp01-20210623-00000",
         "script": {
           "kind": "realtime",
-          "name": "test-realtime",
-          "version": "0.6.0"
+          "name": "test-receive-addresses",
+          "version": "0.7.1"
         },
+        "sbi_ids": [
+          "sbi-mvp01-20210623-00000"
+        ],
         "parameters": {
           
         }

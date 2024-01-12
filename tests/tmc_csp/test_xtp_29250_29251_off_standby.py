@@ -6,9 +6,9 @@ from tango import DevState
 from tests.resources.test_harness.helpers import get_master_device_simulators
 
 
-@pytest.mark.real_csp_mid
+@pytest.mark.tmc_csp
 @scenario(
-    "../features/tmc_csp/tmc_csp_off.feature",
+    "../features/tmc_csp/xtp_29250_off.feature",
     "Turn Off Telescope with real TMC and CSP devices",
 )
 def test_tmc_csp_telescope_off():
@@ -17,9 +17,9 @@ def test_tmc_csp_telescope_off():
     """
 
 
-@pytest.mark.real_csp_mid
+@pytest.mark.tmc_csp
 @scenario(
-    "../features/tmc_csp/tmc_csp_standby.feature",
+    "../features/tmc_csp/xtp_29251_standby.feature",
     "Standby the Telescope with real TMC and CSP devices",
 )
 def test_tmc_csp_telescope_standby():
@@ -40,11 +40,13 @@ def given_the_sut(central_node_mid, simulator_factory):
         simulator_factory: fixture for SimulatorFactory class,
         which provides simulated subarray and master devices
     """
+    # Add dish 4 when SKB-266 is resolved
     (
         _,
         sdp_master_sim,
         dish_master_sim_1,
         dish_master_sim_2,
+        dish_master_sim_3,
     ) = get_master_device_simulators(simulator_factory)
 
     assert central_node_mid.central_node.ping() > 0
@@ -53,6 +55,7 @@ def given_the_sut(central_node_mid, simulator_factory):
     assert sdp_master_sim.ping() > 0
     assert dish_master_sim_1.ping() > 0
     assert dish_master_sim_2.ping() > 0
+    assert dish_master_sim_3.ping() > 0
     if central_node_mid.telescope_state != "ON":
         central_node_mid.wait.set_wait_for_csp_master_to_become_off()
         central_node_mid.csp_master.adminMode = 0

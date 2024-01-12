@@ -4,13 +4,14 @@ import pytest
 from pytest_bdd import given, scenario, then, when
 from tango import DevState
 
+from tests.conftest import LOGGER
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.enum import DishMode
 
 
 @pytest.mark.real_dish
 @scenario(
-    "../features/check_on_command_on_real_dish.feature",
+    "../features/tmc_dish/check_on_command_on_real_dish.feature",
     "Start up Telescope with TMC and DISH devices",
 )
 def test_tmc_dish_startup_telescope():
@@ -49,6 +50,7 @@ def given_tmc(central_node_mid, simulator_factory, event_recorder):
     assert sdp_master_sim.ping() > 0
     assert central_node_mid.dish_master_list[0].ping() > 0
     assert central_node_mid.dish_master_list[1].ping() > 0
+    assert central_node_mid.dish_master_list[2].ping() > 0
 
 
 @when("I start up the telescope")
@@ -60,16 +62,18 @@ def move_dish_to_on(central_node_mid, event_recorder):
     event_recorder.subscribe_event(
         central_node_mid.dish_master_list[1], "dishMode"
     )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[0],
-        "dishMode",
-        DishMode.UNKNOWN,
+    event_recorder.subscribe_event(
+        central_node_mid.dish_master_list[2], "dishMode"
+    )
+    event_recorder.subscribe_event(
+        central_node_mid.central_node, "telescopeState"
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[1],
-        "dishMode",
-        DishMode.UNKNOWN,
+        central_node_mid.central_node,
+        "telescopeState",
+        DevState.OFF,
     )
+
     assert event_recorder.has_change_event_occurred(
         central_node_mid.dish_master_list[0],
         "dishMode",
@@ -80,6 +84,22 @@ def move_dish_to_on(central_node_mid, event_recorder):
         "dishMode",
         DishMode.STANDBY_LP,
     )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[2],
+        "dishMode",
+        DishMode.STANDBY_LP,
+    )
+
+    LOGGER.info(
+        "DishMode dish1: %s", central_node_mid.dish_master_list[0].dishMode
+    )
+    LOGGER.info(
+        "DishMode dish36: %s", central_node_mid.dish_master_list[1].dishMode
+    )
+    LOGGER.info(
+        "DishMode dish63: %s", central_node_mid.dish_master_list[2].dishMode
+    )
+
     central_node_mid.move_to_on()
 
 
@@ -97,15 +117,16 @@ def check_dish_is_on(central_node_mid, event_recorder):
         "dishMode",
         DishMode.STANDBY_FP,
     )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[2],
+        "dishMode",
+        DishMode.STANDBY_FP,
+    )
 
 
 @then("telescope state is ON")
 def check_telescope_state(central_node_mid, event_recorder):
     """Method to check if TMC central node is ON"""
-
-    event_recorder.subscribe_event(
-        central_node_mid.central_node, "telescopeState"
-    )
 
     assert event_recorder.has_change_event_occurred(
         central_node_mid.sdp_master,
