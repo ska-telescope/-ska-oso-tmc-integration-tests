@@ -4,6 +4,7 @@
       "select_from_tag": {
         "SP-3715": "SP-3715",
         "XTP-29381": "XTP-29381",
+        "XTP-29583":"XTP-29583",
         "default": "XTP-28347"
       }
     }

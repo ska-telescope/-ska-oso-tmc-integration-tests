@@ -98,14 +98,14 @@ def invoke_end_command(subarray_node: SubarrayNodeWrapper) -> None:
 
 @then(parsers.parse("the CSP subarray transitions to ObsState IDLE"))
 def check_if_csp_subarray_moved_to_idle_obsstate(
-    central_node_mid, event_recorder
+    subarray_node: SubarrayNodeWrapper, event_recorder
 ):
     """Ensure CSP subarray is moved to IDLE obsstate"""
     event_recorder.subscribe_event(
-        central_node_mid.subarray_devices["csp_subarray"], "obsState"
+        subarray_node.subarray_devices["csp_subarray"], "obsState"
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_devices["csp_subarray"],
+        subarray_node.subarray_devices["csp_subarray"],
         "obsState",
         ObsState.IDLE,
     )

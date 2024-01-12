@@ -1,6 +1,5 @@
 """Test module to test TMC-CSP Configure functionality."""
 import json
-import logging
 
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
@@ -21,8 +20,6 @@ from tests.resources.test_harness.utils.common_utils import (
     get_json_schema,
 )
 
-LOGGER = logging.getLogger(__name__)
-
 
 @pytest.mark.tmc_csp
 @scenario(
@@ -40,8 +37,6 @@ def check_telescope_is_in_on_state(
     central_node_mid: CentralNodeWrapperMid, event_recorder: EventRecorder
 ) -> None:
     """Ensure telescope is in ON state."""
-    csp_master_state = central_node_mid.csp_master.state()
-    LOGGER.info("csp_master_state: %s", csp_master_state)
     central_node_mid.move_to_on()
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
@@ -139,19 +134,17 @@ def check_if_tmc_subarray_moved_to_ready_obsstate(
     )
 )
 def check_if_delay_values_are_generating(
-    central_node_mid: CentralNodeWrapperMid,
+    subarray_node: SubarrayNodeWrapper,
 ) -> None:
     """Check if delay values are generating."""
-    wait_till_delay_values_are_populated(
-        central_node_mid.csp_subarray_leaf_node
-    )
+    wait_till_delay_values_are_populated(subarray_node.csp_subarray_leaf_node)
 
 
 @then("delay model json is validated against it's json schema")
 def validate_delay_json(
-    central_node_mid: CentralNodeWrapperMid,
+    subarray_node: SubarrayNodeWrapper,
 ) -> None:
     """Validate delay json against its schema."""
-    delay_model_json = central_node_mid.csp_subarray_leaf_node.delayModel
+    delay_model_json = subarray_node.csp_subarray_leaf_node.delayModel
     delay_model_schema = get_json_schema("delay_model_schema")
     validate_json(json.loads(delay_model_json), json.loads(delay_model_schema))
