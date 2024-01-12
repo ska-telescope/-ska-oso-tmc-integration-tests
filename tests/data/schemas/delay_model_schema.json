@@ -1,0 +1,91 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "https://schema.skao.int/csp-subarray-leaf-node-delaymodel/1.0",
+    "title": "CspSubarrayLeafNode delayModel schema",
+    "description": "Schema for CspSubarrayLeafNode's delayModel attribute",
+    "type": "object",
+    "required": [
+        "delay_model"
+    ],
+    "properties": {
+        "delay_model": {
+            "title": "The delay_model Schema",
+            "description": "delayModel details",
+            "type": "array",
+            "items": {
+                "title": "A Schema",
+                "description": "An explanation about the purpose of this instance.",
+                "type": "object",
+                "required": [
+                    "epoch",
+                    "validity_period",
+                    "delay_details"
+                ],
+                "properties": {
+                    "epoch": {
+                        "title": "The epoch Schema",
+                        "description": "epoch",
+                        "type": "string"
+                    },
+                    "validity_period": {
+                        "title": "The validity_period Schema",
+                        "description": "The period for which delayModel is valid.",
+                        "type": "integer"
+                    },
+                    "delay_details": {
+                        "title": "The delay_details Schema",
+                        "description": "Details of the delayModel.",
+                        "type": "array",
+                        "items": {
+                            "title": "A Schema",
+                            "description": "Details of the delayModel",
+                            "type": "object",
+                            "required": [
+                                "receptor",
+                                "poly_info"
+                            ],
+                            "properties": {
+                                "receptor": {
+                                    "title": "The receptor Schema",
+                                    "description": "Receptor ID.",
+                                    "type": "string"
+                                },
+                                "poly_info": {
+                                    "title": "The poly_info Schema",
+                                    "description": "Delay polynomial information.",
+                                    "type": "array",
+                                    "items": {
+                                        "title": "A Schema",
+                                        "description": "Delay polynomial information.",
+                                        "type": "object",
+                                        "required": [
+                                            "polarization",
+                                            "coeffs"
+                                        ],
+                                        "properties": {
+                                            "polarization": {
+                                                "title": "The polarization Schema",
+                                                "description": "The polarization type (X or Y).",
+                                                "type": "string"
+                                            },
+                                            "coeffs": {
+                                                "title": "The coeffs Schema",
+                                                "description": "delay coefficients.",
+                                                "type": "array",
+                                                "items": {
+                                                    "title": "A Schema",
+                                                    "description": "delay coefficients.",
+                                                    "type": "number"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

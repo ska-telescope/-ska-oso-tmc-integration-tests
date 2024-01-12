@@ -26,6 +26,7 @@ from tests.resources.test_harness.constant import (
 from tests.resources.test_harness.helpers import (
     SIMULATED_DEVICES_DICT,
     generate_eb_pb_ids,
+    wait_csp_master_off,
 )
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 from tests.resources.test_harness.utils.enums import DishMode
@@ -101,7 +102,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         return self._state
 
     @state.setter
-    def state(self, value):
+    def state(self, value: DevState):
         """Sets value for TMC CentralNode operational state
 
         Args:
@@ -118,7 +119,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         return self._telescope_health_state
 
     @telescope_health_state.setter
-    def telescope_health_state(self, value) -> None:
+    def telescope_health_state(self, value: HealthState) -> None:
         """Telescope health state representing overall health of telescope
 
         Args:
@@ -136,7 +137,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         return self._telescope_state
 
     @telescope_state.setter
-    def telescope_state(self, value) -> None:
+    def telescope_state(self, value: DevState) -> None:
         """Telescope state representing overall state of telescope
 
         Args:
@@ -189,7 +190,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             self.csp_master.ResetSysParams()
 
     def _clear_command_call_and_transition_data(
-        self, clear_transition=False
+        self, clear_transition: bool = False
     ) -> None:
         """Clears the command call data"""
         if SIMULATED_DEVICES_DICT["all_mocks"]:
@@ -233,6 +234,9 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
 
         elif SIMULATED_DEVICES_DICT["sdp_and_dish"]:
             LOGGER.info("Invoking TelescopeOn() on simulated sdp and dish")
+            if self.csp_master.adminMode != 0:
+                self.csp_master.adminMode = 0
+            wait_csp_master_off()
             self.central_node.TelescopeOn()
             self.set_values_with_sdp_dish_mocks(
                 DevState.ON, DishMode.STANDBY_FP
@@ -332,7 +336,9 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         return result, message
 
     @sync_release_resources(device_dict=device_dict)
-    def invoke_release_resources(self, input_string) -> Tuple[ResultCode, str]:
+    def invoke_release_resources(
+        self, input_string: str
+    ) -> Tuple[ResultCode, str]:
         """Invoke Release Resource command on central Node
         Args:
             input_string (str): Release resource input json
@@ -477,7 +483,11 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
 
     def tear_down(self) -> None:
         """Handle Tear down of central Node"""
-        LOGGER.info("Calling Tear down for Central node.")
+        Subaaray_node_obsstate = self.subarray_node.obsState
+        LOGGER.info(
+            f"Calling tear down for CentralNode for SubarrayNode's \
+                {Subaaray_node_obsstate} obsstate."
+        )
         # reset HealthState.UNKNOWN for mock devices
         self._reset_health_state_for_mock_devices()
         self._reset_sys_param_and_k_value()

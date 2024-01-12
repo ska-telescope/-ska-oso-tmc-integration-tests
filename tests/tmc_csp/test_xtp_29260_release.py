@@ -8,7 +8,6 @@ from tango import DevState
 
 from tests.resources.test_harness.helpers import (
     prepare_json_args_for_centralnode_commands,
-    wait_csp_master_off,
 )
 
 
@@ -24,16 +23,12 @@ def test_releaseresources_command():
 
 
 @given("the telescope is in ON state")
-def given_a_telescope_in_on_state(
-    central_node_mid, event_recorder, simulator_factory
-):
+def given_a_telescope_in_on_state(central_node_mid, event_recorder):
     """Checks if CentralNode's telescopeState attribute value is on."""
 
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
     )
-    central_node_mid.csp_master.adminMode = 0
-    wait_csp_master_off()
     central_node_mid.move_to_on()
     event_recorder.subscribe_event(central_node_mid.csp_master, "State")
     event_recorder.subscribe_event(
@@ -90,7 +85,7 @@ def subarray_in_idle_obsstate(
     )
 )
 def invoke_releaseresources(
-    central_node_mid, event_recorder, subarray_id, command_input_factory
+    central_node_mid, subarray_id, command_input_factory
 ):
     """Invokes ReleaseResources command on TMC"""
     release_input_json = prepare_json_args_for_centralnode_commands(
