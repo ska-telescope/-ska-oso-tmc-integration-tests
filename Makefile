@@ -41,7 +41,7 @@ UMBRELLA_CHART_PATH ?= charts/$(HELM_CHART)/
 K8S_CHARTS ?= ska-tmc-$(DEPLOYMENT_TYPE) ska-tmc-testing-$(DEPLOYMENT_TYPE)## list of charts
 K8S_CHART ?= $(HELM_CHART)
 
-DISH_TANGO_HOST ?= databaseds-tango-base
+DISH_TANGO_HOST ?= tango-databaseds
 
 CLUSTER_DOMAIN ?= svc.cluster.local
 PORT ?= 10000
