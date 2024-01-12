@@ -1,4 +1,6 @@
-"""Test module for TMC-CSP Scan functionality"""
+"""
+Test module for TMC-CSP Scan functionality
+"""
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
