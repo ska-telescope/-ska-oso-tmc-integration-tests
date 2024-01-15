@@ -61,28 +61,18 @@ def subarray_is_in_given_obsstate(
         subarray_node.subarray_devices.get("sdp_subarray"), "obsState"
     )
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
-    if obsstate == "IDLE":
-        assert event_recorder.has_change_event_occurred(
-            subarray_node.subarray_devices.get("sdp_subarray"),
-            "obsState",
-            ObsState[obsstate],
-        )
-        assert event_recorder.has_change_event_occurred(
-            subarray_node.subarray_node,
-            "obsState",
-            ObsState[obsstate],
-        )
-    elif obsstate == "READY":
-        assert event_recorder.has_change_event_occurred(
-            subarray_node.subarray_devices.get("sdp_subarray"),
-            "obsState",
-            ObsState.IDLE,
-        )
-        assert event_recorder.has_change_event_occurred(
-            subarray_node.subarray_node,
-            "obsState",
-            ObsState.IDLE,
-        )
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_devices.get("sdp_subarray"),
+        "obsState",
+        ObsState.IDLE,
+    )
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_node,
+        "obsState",
+        ObsState.IDLE,
+    )
+    if obsstate == "READY":
+
         input_json = prepare_json_args_for_commands(
             "configure_mid", command_input_factory
         )
