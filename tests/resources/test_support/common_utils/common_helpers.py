@@ -256,6 +256,9 @@ class Subscriber:
         """To monitor the attribute value against changed_to_value"""
         if self.implementation == "polling":
             value_now = self.resource.get(attr)
+            LOGGER.info(
+                "resource - %s , attribute - %s", self.resource, value_now
+            )
             return Monitor(
                 self.resource,
                 value_now,

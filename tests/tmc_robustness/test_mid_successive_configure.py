@@ -1,6 +1,9 @@
+from datetime import datetime
+
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
+from tango import DeviceProxy
 
 from tests.conftest import LOGGER
 from tests.resources.test_support.common_utils.telescope_controls import (
@@ -27,7 +30,7 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
-@pytest.mark.SKA_mid
+@pytest.mark.SKA_mid11
 @scenario(
     "../features/successive_configure.feature",
     "TMC validates reconfigure functionality",
@@ -48,8 +51,16 @@ def given_tmc(json_factory):
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_STANDBY_INFO, "State"
         )
+
+        dish_node = DeviceProxy("ska063/elt/master")
+        LOGGER.info(dish_node.read_attribute("DishMode").value)
+
         tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("TelescopeOn command is invoked successfully")
+
+        now = datetime.now()
+        current_time = now.strftime("%d/%m/%Y %H:%M:%S:%f")
+        LOGGER.info(current_time)
 
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_ON_INFO, "State"
