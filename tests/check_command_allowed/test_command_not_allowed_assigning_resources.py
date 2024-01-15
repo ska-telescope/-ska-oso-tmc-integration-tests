@@ -33,7 +33,7 @@ the_waiter = Waiter()
 @pytest.mark.SKA_mid
 @scenario(
     "../features/check_command_not_allowed.feature",
-    "Unexpected commands not allowed when TMC subarray is in Assigning",
+    "Unexpected commands not allowed when TMC subarray is in Resourcing",
 )
 def test_command_not_allowed():
     """Assigning the resources in RESOURCING obsState"""
@@ -65,29 +65,23 @@ def given_tmc_obsState(json_factory):
     )
 
 
-@when(
-    parsers.parse(
-        "exception raised while {unexpected_command} command is invoked"
-    )
-)
-def send_command(json_factory, unexpected_command):
-    if unexpected_command == "AssignResources":
+@when("AssignResources command is invoked, TMC raises exception")
+def send_command(json_factory):
+    LOGGER.info("Invoked AssignResources2 from CentralNode")
+    with pytest.raises(Exception) as e:
+        assign_json2 = json_factory("command_AssignResources_2")
+        central_node = DeviceProxy(centralnode)
         LOGGER.info("Invoked AssignResources2 from CentralNode")
-        with pytest.raises(Exception) as e:
-            assign_json2 = json_factory("command_AssignResources_2")
-            central_node = DeviceProxy(centralnode)
-            LOGGER.info("Invoked AssignResources2 from CentralNode")
-            central_node.AssignResources(assign_json2)
-        assert (
-            "AssignResources command not permitted in observation state"
-            in str(e.value)
-        )
-        subarrray = DeviceProxy(tmc_subarraynode1)
-        LOGGER.info(f"SubarrayNode Obsstae: {subarrray.obsState}")
+        central_node.AssignResources(assign_json2)
+    assert "AssignResources command not permitted in observation state" in str(
+        e.value
+    )
+    subarrray = DeviceProxy(tmc_subarraynode1)
+    LOGGER.info(f"SubarrayNode Obsstae: {subarrray.obsState}")
 
 
-@then(parsers.parse("TMC executes the Configure command successfully"))
-def tmc_accepts_permitted_commands(json_factory, change_event_callbacks):
+@when("previous AssignResources executed succesfully")
+def check_asignresources_completed(change_event_callbacks):
     central_node = DeviceProxy(centralnode)
     central_node.subscribe_event(
         "longRunningCommandResult",
@@ -101,6 +95,10 @@ def tmc_accepts_permitted_commands(json_factory, change_event_callbacks):
     assert telescope_control.is_in_valid_state(
         DEVICE_OBS_STATE_IDLE_INFO, "obsState"
     )
+
+
+@then(parsers.parse("TMC executes the Configure command successfully"))
+def tmc_accepts_permitted_commands(json_factory):
     configure_json = json_factory("command_Configure")
     release_json = json_factory("command_ReleaseResources")
     LOGGER.info("Invoking Configure command on TMC SubarrayNode")

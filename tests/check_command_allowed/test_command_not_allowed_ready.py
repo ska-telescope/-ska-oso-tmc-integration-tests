@@ -97,7 +97,7 @@ def given_tmc_obsState(json_factory):
 
 @when(
     parsers.parse(
-        "exception raised while {unexpected_command} command is invoked"
+        "{unexpected_command} command is invoked, TMC raises exception"
     )
 )
 def send(json_factory, unexpected_command):

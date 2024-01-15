@@ -2,7 +2,7 @@ Feature:  Invalid unexpected commands
     Scenario: Unexpected commands not allowed when TMC subarray is empty
         Given the TMC is in ON state 
         And the subarray is in EMPTY obsstate
-        When exception raised while <unexpected_command> command is invoked
+        When <unexpected_command> command is invoked, TMC raises exception
         Then TMC subarray remains in EMPTY obsstate
         And TMC executes the AssignResources command successfully
         Examples:
@@ -16,7 +16,7 @@ Feature:  Invalid unexpected commands
     Scenario: Unexpected commands not allowed when TMC subarray is idle
         Given the TMC is in ON state 
         And the subarray is in IDLE
-        When exception raised while <unexpected_command> command is invoked
+        When <unexpected_command> command is invoked, TMC raises exception
         Then TMC subarray remains in IDLE obsState
         And TMC executes the <permitted_command> command successfully
         Examples:
@@ -24,20 +24,18 @@ Feature:  Invalid unexpected commands
             | Scan                |   Configure        |   
             | Scan                |   ReleaseResources |
 
-    Scenario: Unexpected commands not allowed when TMC subarray is in Assigning
+    Scenario: Unexpected commands not allowed when TMC subarray is in Resourcing
         Given TMC is in ON state
         And the subarray is busy in assigning the resources
-        When exception raised while <unexpected_command> command is invoked
-        Then TMC executes the Configure command successfully
-        Examples:
-            | unexpected_command  | 
-            | AssignResources     |    
+        When AssignResources command is invoked, TMC raises exception
+        And previous AssignResources executed succesfully
+        Then TMC executes the Configure command successfully   
 
 
     Scenario: Unexpected commands not allowed when TMC subarray is READY
         Given the TMC is in ON state 
         And the subarray is in READY obsState
-        When exception raised while <unexpected_command> command is invoked
+        When <unexpected_command> command is invoked, TMC raises exception
         Then TMC subarray remains in READY obsState
         And TMC executes the <permitted_command> command successfully
         Examples:
