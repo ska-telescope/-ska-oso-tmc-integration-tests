@@ -69,7 +69,7 @@ def telescope_is_in_resourcing_obsstate(
 @when("I command it to Abort")
 def abort_is_invoked(central_node_mid):
     """
-    This method invokes abort command on tmc subarray
+    This method invokes abort command on tmc subarray.
     """
     central_node_mid.subarray_abort()
 
