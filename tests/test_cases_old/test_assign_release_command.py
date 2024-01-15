@@ -91,7 +91,6 @@ def test_assign_release(json_factory):
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-@pytest.mark.skip(reason="To pass this test case, testing setup needs updates")
 @pytest.mark.SKA_mid
 def test_assign_release_with_meerkat_ids(json_factory):
     """AssignResources and ReleaseResources is executed."""
