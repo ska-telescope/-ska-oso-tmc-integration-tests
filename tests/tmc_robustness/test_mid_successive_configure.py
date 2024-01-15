@@ -177,5 +177,7 @@ def check_for_tear_down(json_factory):
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_OFF_INFO, "State"
         )
+
+        assert False
     except Exception:
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
