@@ -1,4 +1,6 @@
 """Test TMC-SDP Abort functionality in Configuring obstate"""
+import json
+
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
@@ -27,7 +29,7 @@ def test_tmc_sdp_abort_in_configuring():
         + " configuring"
     )
 )
-def telescope_is_in_configuring_obsstate(
+def subarray_is_in_configuring_obsstate(
     central_node_mid,
     event_recorder,
     command_input_factory,
@@ -48,18 +50,25 @@ def telescope_is_in_configuring_obsstate(
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
-    central_node_mid.store_resources(assign_input_json)
+    assign_str = json.loads(assign_input_json)
+    # Here we are adding this to get an event of ObsState CONFIGURING from SDP
+    # Subarray
+    assign_str["sdp"]["processing_blocks"][0]["parameters"][
+        "time-to-ready"
+    ] = 2
+
+    central_node_mid.store_resources(json.dumps(assign_str))
     event_recorder.subscribe_event(
-        central_node_mid.subarray_devices.get("sdp_subarray"), "obsState"
+        subarray_node.subarray_devices.get("sdp_subarray"), "obsState"
     )
-    event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
+    event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_devices.get("sdp_subarray"),
+        subarray_node.subarray_devices.get("sdp_subarray"),
         "obsState",
         ObsState.IDLE,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_node,
+        subarray_node.subarray_node,
         "obsState",
         ObsState.IDLE,
     )
@@ -80,11 +89,11 @@ def telescope_is_in_configuring_obsstate(
 
 
 @when("I command it to Abort")
-def abort_is_invoked(central_node_mid):
+def invoke_abort(subarray_node):
     """
     This method invokes abort command on tmc subarray
     """
-    central_node_mid.subarray_abort()
+    subarray_node.abort_subarray()
 
 
 @then(
@@ -93,14 +102,14 @@ def abort_is_invoked(central_node_mid):
     )
 )
 def sdp_subarray_is_in_aborted_obsstate(
-    central_node_mid, event_recorder, subarray_id
+    subarray_node, event_recorder, subarray_id
 ):
     """
     Method to check SDP subarray is in ABORTED obsstate
     """
-    central_node_mid.set_subarray_id(subarray_id)
+    subarray_node.set_subarray_id(subarray_id)
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_devices.get("sdp_subarray"),
+        subarray_node.subarray_devices.get("sdp_subarray"),
         "obsState",
         ObsState.ABORTED,
     )
@@ -112,14 +121,14 @@ def sdp_subarray_is_in_aborted_obsstate(
     )
 )
 def tmc_subarray_is_in_aborted_obsstate(
-    central_node_mid, event_recorder, subarray_id
+    subarray_node, event_recorder, subarray_id
 ):
     """
     Method to check if TMC subarray is in ABORTED obsstate
     """
-    central_node_mid.set_subarray_id(subarray_id)
+    subarray_node.set_subarray_id(subarray_id)
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_node,
+        subarray_node.subarray_node,
         "obsState",
         ObsState.ABORTED,
     )
