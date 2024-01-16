@@ -45,6 +45,7 @@ def check_tmc_and_dish_is_on(
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
     )
+
     event_recorder.subscribe_event(csp_master_sim, "State")
     event_recorder.subscribe_event(sdp_master_sim, "State")
     event_recorder.subscribe_event(
@@ -62,6 +63,7 @@ def check_tmc_and_dish_is_on(
     assert central_node_mid.dish_master_list[0].ping() > 0
     assert central_node_mid.dish_master_list[1].ping() > 0
     assert central_node_mid.dish_master_list[2].ping() > 0
+
     assert event_recorder.has_change_event_occurred(
         central_node_mid.dish_master_list[0], "dishMode", DishMode.STANDBY_LP
     )

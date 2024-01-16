@@ -55,9 +55,56 @@ def given_a_telescope(central_node_mid, simulator_factory, event_recorder):
 def turn_on_telescope(central_node_mid, event_recorder):
     """A method to put DISH to ON"""
     event_recorder.subscribe_event(
+        central_node_mid.dish_master_list[0], "dishMode"
+    )
+    event_recorder.subscribe_event(
+        central_node_mid.dish_master_list[1], "dishMode"
+    )
+    event_recorder.subscribe_event(
+        central_node_mid.dish_master_list[2], "dishMode"
+    )
+
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[0],
+        "dishMode",
+        DishMode.STANDBY_LP,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[1],
+        "dishMode",
+        DishMode.STANDBY_LP,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[2],
+        "dishMode",
+        DishMode.STANDBY_LP,
+    )
+    event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
     )
+
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.central_node,
+        "telescopeState",
+        DevState.OFF,
+    )
     central_node_mid.move_to_on()
+
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[0],
+        "dishMode",
+        DishMode.STANDBY_FP,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[1],
+        "dishMode",
+        DishMode.STANDBY_FP,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[2],
+        "dishMode",
+        DishMode.STANDBY_FP,
+    )
 
     assert event_recorder.has_change_event_occurred(
         central_node_mid.sdp_master,
@@ -116,12 +163,7 @@ def invoke_configure(
 @then("dishMode transitions to OPERATE obsState")
 def check_dish_mode(central_node_mid, event_recorder):
     """A method verify Dish is in OPERATE Dish Mode"""
-    event_recorder.subscribe_event(
-        central_node_mid.dish_master_list[0], "dishMode"
-    )
-    event_recorder.subscribe_event(
-        central_node_mid.dish_master_list[1], "dishMode"
-    )
+
     assert event_recorder.has_change_event_occurred(
         central_node_mid.dish_master_list[0],
         "dishMode",

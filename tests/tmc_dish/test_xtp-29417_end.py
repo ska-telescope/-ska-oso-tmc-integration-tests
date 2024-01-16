@@ -12,7 +12,6 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.enum import DishMode, PointingState
 
 
-@pytest.mark.t3
 @pytest.mark.tmc_dish
 @scenario(
     "../features/tmc_dish/xtp-29417_end.feature",
@@ -54,6 +53,7 @@ def given_tmc(central_node_mid, simulator_factory, event_recorder):
 @given("the Telescope is in ON state")
 def move_dish_to_on(central_node_mid, event_recorder):
     """A method to put DISH to ON"""
+
     event_recorder.subscribe_event(
         central_node_mid.dish_master_list[0], "dishMode"
     )
@@ -88,7 +88,36 @@ def move_dish_to_on(central_node_mid, event_recorder):
         "telescopeState",
         DevState.OFF,
     )
+
     central_node_mid.move_to_on()
+
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[0],
+        "dishMode",
+        DishMode.STANDBY_FP,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[1],
+        "dishMode",
+        DishMode.STANDBY_FP,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[2],
+        "dishMode",
+        DishMode.STANDBY_FP,
+    )
+
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.sdp_master,
+        "State",
+        DevState.ON,
+    )
+
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.csp_master,
+        "State",
+        DevState.ON,
+    )
 
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
@@ -126,6 +155,32 @@ def check_subarray_obstate(
     subarray_node.execute_transition("Configure", configure_input_json)
 
     assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[0],
+        "dishMode",
+        DishMode.OPERATE,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[1],
+        "dishMode",
+        DishMode.OPERATE,
+    )
+    event_recorder.subscribe_event(
+        central_node_mid.dish_master_list[0], "pointingState"
+    )
+    event_recorder.subscribe_event(
+        central_node_mid.dish_master_list[1], "pointingState"
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[0],
+        "pointingState",
+        PointingState.TRACK,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[1],
+        "pointingState",
+        PointingState.TRACK,
+    )
+    assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",
         ObsState.READY,
@@ -144,12 +199,7 @@ def invoke_end(central_node_mid, subarray_node, subarray_id):
 @then("dishMode transitions to STANDBY-FP obsState")
 def check_dish_mode(central_node_mid, event_recorder):
     """Method to check Dish is in STANDBY-FP Dish Mode"""
-    event_recorder.subscribe_event(
-        central_node_mid.dish_master_list[0], "dishMode"
-    )
-    event_recorder.subscribe_event(
-        central_node_mid.dish_master_list[1], "dishMode"
-    )
+
     assert event_recorder.has_change_event_occurred(
         central_node_mid.dish_master_list[0],
         "dishMode",
