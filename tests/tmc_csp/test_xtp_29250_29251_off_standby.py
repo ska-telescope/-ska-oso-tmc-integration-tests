@@ -59,9 +59,6 @@ def given_the_sut(central_node_mid, simulator_factory):
     assert dish_master_sim_3.ping() > 0
     assert dish_master_sim_4.ping() > 0
     if central_node_mid.telescope_state != "ON":
-        central_node_mid.wait.set_wait_for_csp_master_to_become_off()
-        central_node_mid.csp_master.adminMode = 0
-        central_node_mid.wait.wait(500)
         central_node_mid.move_to_on()
 
 
