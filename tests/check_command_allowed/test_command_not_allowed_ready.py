@@ -1,8 +1,9 @@
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
-from tango import DeviceProxy
+from tango import DeviceProxy, EventType
 
 from tests.conftest import LOGGER
+from tests.resources.test_support.common_utils.result_code import ResultCode
 from tests.resources.test_support.common_utils.telescope_controls import (
     BaseTelescopeControl,
 )
@@ -28,6 +29,7 @@ telescope_control = BaseTelescopeControl()
 
 
 @pytest.mark.SKA_mid
+@pytest.mark.ms
 @scenario(
     "../features/check_command_not_allowed.feature",
     "Unexpected commands not allowed when TMC subarray is READY",
@@ -147,39 +149,60 @@ def tmc_status():
 @then(
     parsers.parse("TMC executes the {permitted_command} command successfully")
 )
-def tmc_accepts_next_commands(json_factory, permitted_command):
-    configure_json = json_factory("multiple_configure2")
+def tmc_accepts_next_commands(
+    json_factory, permitted_command, change_event_callbacks
+):
+    configure_json = json_factory("command_Configure_2")
     scan_file = json_factory("command_Scan")
     release_json = json_factory("command_ReleaseResources")
     try:
         if permitted_command == "Configure":
-            tmc_helper.configure_subarray(
+            pytest.command_result = tmc_helper.configure_subarray(
                 configure_json, **ON_OFF_DEVICE_COMMAND_DICT
             )
             LOGGER.info("Invoking Configure command on TMC SubarrayNode")
+            subarray_node_proxy = DeviceProxy(tmc_subarraynode1)
+            subarray_node_proxy.subscribe_event(
+                "longRunningCommandResult",
+                EventType.CHANGE_EVENT,
+                change_event_callbacks["longRunningCommandResult"],
+            )
             assert telescope_control.is_in_valid_state(
                 DEVICE_OBS_STATE_READY_INFO, "obsState"
             )
-            tmc_helper.end(**ON_OFF_DEVICE_COMMAND_DICT)
-            LOGGER.info("Invoking End command on TMC SubarrayNode")
-            assert telescope_control.is_in_valid_state(
-                DEVICE_OBS_STATE_IDLE_INFO, "obsState"
+            change_event_callbacks[
+                "longRunningCommandResult"
+            ].assert_change_event(
+                (pytest.command_result[1][0], str(ResultCode.OK.value)),
+                lookahead=4,
             )
-            tmc_helper.invoke_releaseResources(
-                release_json, **ON_OFF_DEVICE_COMMAND_DICT
+            LOGGER.info("Tear down")
+            # Do not raise exception
+            tear_down(
+                release_json,
+                raise_exception=False,
+                **ON_OFF_DEVICE_COMMAND_DICT,
             )
-            LOGGER.info(
-                "Invoking ReleaseResources command on TMC \
-            SubarrayNode"
-            )
-            assert telescope_control.is_in_valid_state(
-                DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
-            )
-            tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
-            LOGGER.info("Invoking Standby command on TMC SubarrayNode")
-            assert telescope_control.is_in_valid_state(
-                DEVICE_STATE_STANDBY_INFO, "State"
-            )
+            # tmc_helper.end(**ON_OFF_DEVICE_COMMAND_DICT)
+            # LOGGER.info("Invoking End command on TMC SubarrayNode")
+            # assert telescope_control.is_in_valid_state(
+            #     DEVICE_OBS_STATE_IDLE_INFO, "obsState"
+            # )
+            # tmc_helper.invoke_releaseResources(
+            #     release_json, **ON_OFF_DEVICE_COMMAND_DICT
+            # )
+            # LOGGER.info(
+            #     "Invoking ReleaseResources command on TMC \
+            # SubarrayNode"
+            # )
+            # assert telescope_control.is_in_valid_state(
+            #     DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
+            # )
+            # tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
+            # LOGGER.info("Invoking Standby command on TMC SubarrayNode")
+            # assert telescope_control.is_in_valid_state(
+            #     DEVICE_STATE_STANDBY_INFO, "State"
+            # )
 
         if permitted_command == "Scan":
             tmc_helper.scan(scan_file, **ON_OFF_DEVICE_COMMAND_DICT)

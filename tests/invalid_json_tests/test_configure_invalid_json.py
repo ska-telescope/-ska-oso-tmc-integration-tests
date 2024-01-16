@@ -3,6 +3,7 @@ from copy import deepcopy
 
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
+from tango import DeviceProxy, EventType
 
 from tests.conftest import LOGGER
 from tests.resources.test_support.common_utils.result_code import ResultCode
@@ -28,6 +29,7 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
+@pytest.mark.ms1
 @pytest.mark.SKA_mid
 @scenario(
     "../features/check_invalid_json_not_allowed.feature",
@@ -166,18 +168,27 @@ def tmc_status():
     "TMC successfully executes the Configure \
 command for the subarray with a valid json"
 )
-def tmc_accepts_next_commands(json_factory):
+def tmc_accepts_next_commands(json_factory, change_event_callbacks):
     release_json = json_factory("command_ReleaseResources")
     try:
         configure_json = json_factory("command_Configure")
         LOGGER.info("Invoking Configure command on TMC SubarrayNode")
-        tmc_helper.configure_subarray(
+        pytest.command_result = tmc_helper.configure_subarray(
             configure_json, **ON_OFF_DEVICE_COMMAND_DICT
+        )
+        subarray_node_proxy = DeviceProxy(tmc_subarraynode1)
+        subarray_node_proxy.subscribe_event(
+            "longRunningCommandResult",
+            EventType.CHANGE_EVENT,
+            change_event_callbacks["longRunningCommandResult"],
         )
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_READY_INFO, "obsState"
         )
-
+        change_event_callbacks["longRunningCommandResult"].assert_change_event(
+            (pytest.command_result[1][0], str(ResultCode.OK.value)),
+            lookahead=4,
+        )
         # teardown
         LOGGER.info("Invoking END on TMC")
         tmc_helper.end(**ON_OFF_DEVICE_COMMAND_DICT)
