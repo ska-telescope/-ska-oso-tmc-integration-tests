@@ -72,6 +72,8 @@ ON_OFF_DEVICE_COMMAND_DICT = {
     "dish_master3": dish_master3,
     "dish_master_list": [dish_master1, dish_master2, dish_master3],
     "central_node": centralnode,
+    "tmc_csp_subarray_leaf_node": tmc_csp_subarray_leaf_node,
+    "tmc_sdp_subarray_leaf_node": tmc_sdp_subarray_leaf_node
 }
 
 DEVICE_STATE_STANDBY_INFO = {
