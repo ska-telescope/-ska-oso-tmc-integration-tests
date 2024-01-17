@@ -55,7 +55,7 @@ def given_a_telescope_in_on_state(central_node_mid, event_recorder):
 @given(parsers.parse("TMC subarray {subarray_id} is in EMPTY ObsState"))
 def subarray_in_empty_obsstate(central_node_mid, event_recorder, subarray_id):
     """Checks if SubarrayNode's obsState attribute value is EMPTY"""
-    central_node_mid.set_subarray_id(int(subarray_id))
+    central_node_mid.set_subarray_id(subarray_id)
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node, "obsState", ObsState.EMPTY
@@ -89,7 +89,7 @@ def invoke_assignresources(
 )
 def csp_subarray_idle(central_node_mid, event_recorder, subarray_id):
     """Checks if Csp Subarray's obsState attribute value is IDLE"""
-    central_node_mid.set_subarray_id(int(subarray_id))
+    central_node_mid.set_subarray_id(subarray_id)
     event_recorder.subscribe_event(
         central_node_mid.subarray_devices["csp_subarray"], "obsState"
     )
@@ -105,7 +105,7 @@ def csp_subarray_idle(central_node_mid, event_recorder, subarray_id):
 )
 def tmc_subarray_idle(central_node_mid, event_recorder, subarray_id):
     """Checks if SubarrayNode's obsState attribute value is IDLE"""
-    central_node_mid.set_subarray_id(int(subarray_id))
+    central_node_mid.set_subarray_id(subarray_id)
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node, "obsState", ObsState.IDLE
     )
@@ -121,7 +121,7 @@ def resources_assigned_to_subarray(
     central_node_mid, event_recorder, receptors, subarray_id
 ):
     """Checks if correct ressources are assigned to Subarray"""
-    central_node_mid.set_subarray_id(int(subarray_id))
+    central_node_mid.set_subarray_id(subarray_id)
     event_recorder.subscribe_event(
         central_node_mid.subarray_node, "assignedResources"
     )
