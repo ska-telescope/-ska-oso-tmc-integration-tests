@@ -76,7 +76,7 @@ def telescope_is_in_idle_obsstate(
         "I issued the Abort command to the TMC subarray {subarray_id}"
     )
 )
-def abort_is_invoked(central_node_mid, subarray_id):
+def invoke_abort(central_node_mid, subarray_id):
     """
     This method invokes abort command on tmc subarray
     """

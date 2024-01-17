@@ -75,7 +75,7 @@ def telescope_is_in_aborted_obsstate(
 
 
 @when("I command it to Restart")
-def restart_is_invoked(central_node_mid, subarray_id):
+def invoke_restart(central_node_mid, subarray_id):
     """
     This method is to invoke Restart command on tmc subarray
     """
