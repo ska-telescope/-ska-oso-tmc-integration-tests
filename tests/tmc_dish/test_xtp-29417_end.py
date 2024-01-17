@@ -238,7 +238,7 @@ def check_dish_pointing_state(central_node_mid, event_recorder):
         "TMC subarray {subarray_id} obsState transitions to IDLE obsState"
     )
 )
-def check_subarray_obsState_ready(
+def check_subarray_obsState_idle(
     central_node_mid, subarray_node, event_recorder, subarray_id
 ):
     """Method to check subarray is in IDLE obstate"""
