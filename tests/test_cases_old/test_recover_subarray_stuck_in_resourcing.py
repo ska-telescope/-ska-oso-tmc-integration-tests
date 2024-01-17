@@ -36,7 +36,6 @@ from tests.resources.test_support.constant import (
 )
 
 
-# @pytest.mark.skip(reason="This scenario is getting tested in the bdd test.")
 @pytest.mark.SKA_mid
 def test_recover_subarray_stuck_in_resourcing(
     json_factory, change_event_callbacks
@@ -136,7 +135,6 @@ def test_recover_subarray_stuck_in_resourcing(
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-# @pytest.mark.skip(reason="This scenario is getting tested in the bdd test.")
 @pytest.mark.SKA_mid
 def test_recover_subarray_stuck_in_resourcing_with_sdp_empty_with_abort(
     json_factory, change_event_callbacks
@@ -371,7 +369,6 @@ def test_recover_subarray_stuck_in_resourcing_with_csp_empty_with_abort(
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-# @pytest.mark.skip(reason="This scenario is getting tested in the bdd test.")
 @pytest.mark.SKA_mid
 def test_recover_subarray_stuck_in_resourcing_with_abort(
     json_factory, change_event_callbacks
