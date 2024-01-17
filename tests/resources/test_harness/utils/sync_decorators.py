@@ -165,3 +165,23 @@ def sync_end(device_dict):
         return wrapper
 
     return decorator_sync_end
+
+
+def sync_endscan(device_dict):
+    """Sync method for endscan command"""
+
+    def decorator_sync_end_scan(func):
+        """Decorator"""
+
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            """Wrapper"""
+            the_waiter = Waiter(**device_dict)
+            the_waiter.set_wait_for_ready()
+            result = func(*args, **kwargs)
+            the_waiter.wait(200)
+            return result
+
+        return wrapper
+
+    return decorator_sync_end_scan
