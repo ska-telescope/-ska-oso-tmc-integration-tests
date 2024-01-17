@@ -91,6 +91,7 @@ def test_assign_release(json_factory):
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
+@pytest.mark.test1
 @pytest.mark.SKA_mid
 def test_assign_release_with_meerkat_ids(json_factory):
     """AssignResources and ReleaseResources is executed."""
