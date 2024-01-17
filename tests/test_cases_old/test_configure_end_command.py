@@ -38,6 +38,7 @@ from tests.resources.test_support.constant import (
 tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
+
 @pytest.mark.SKA_mid
 def test_configure_timeout_and_error_propagation_csp(
     json_factory, change_event_callbacks

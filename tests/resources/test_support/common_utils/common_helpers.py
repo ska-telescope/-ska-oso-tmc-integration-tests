@@ -321,7 +321,9 @@ class Waiter:
         self.tmc_csp_subarray_leaf_node = kwargs.get(
             "tmc_csp_subarray_leaf_node"
         )
-        self.tmc_sdp_subarray_leaf_node = kwargs.get("tmc_sdp_subarray_leaf_node")
+        self.tmc_sdp_subarray_leaf_node = kwargs.get(
+            "tmc_sdp_subarray_leaf_node"
+        )
         self.dish_master1 = kwargs.get("dish_master1")
         self.dish_master2 = kwargs.get("dish_master2")
         self.dish_master3 = kwargs.get("dish_master3")

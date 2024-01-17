@@ -253,8 +253,11 @@ def test_recover_subarray_stuck_in_resourcing_with_sdp_empty_with_abort(
     except Exception:
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
-@pytest.mark.skip(reason="Abort command is not supported when CSP Subarray is EMPTY"
-                  + "test scenarios need rethinking")
+
+@pytest.mark.skip(
+    reason="Abort command is not supported when CSP Subarray is EMPTY"
+    + "test scenarios need rethinking"
+)
 @pytest.mark.SKA_mid
 def test_recover_subarray_stuck_in_resourcing_with_csp_empty_with_abort(
     json_factory, change_event_callbacks
