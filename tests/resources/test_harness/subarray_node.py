@@ -45,6 +45,7 @@ from tests.resources.test_harness.utils.sync_decorators import (
     sync_assign_resources,
     sync_configure,
     sync_end,
+    sync_endscan,
     sync_release_resources,
     sync_restart,
 )
@@ -206,6 +207,12 @@ class SubarrayNodeWrapper(object):
         LOGGER.info("Invoked End on SubarrayNode")
         return result, message
 
+    @sync_endscan(device_dict=device_dict)
+    def remove_scan_data(self):
+        result, message = self.subarray_node.EndScan()
+        LOGGER.info("Invoked EndScan on SubarrayNode")
+        return result, message
+
     def store_scan_data(self, input_string):
         result, message = self.subarray_node.Scan(input_string)
         LOGGER.info("Invoked Scan on SubarrayNode")
@@ -330,7 +337,7 @@ class SubarrayNodeWrapper(object):
         else:
             LOGGER.info("Devices deployed are real")
 
-    def tear_down(self, event_recorder):
+    def tear_down(self):
         """Tear down after each test run"""
 
         LOGGER.info("Calling Tear down for subarray")
