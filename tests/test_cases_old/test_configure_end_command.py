@@ -9,10 +9,7 @@ from tango import DeviceProxy, EventType
 
 from tests.conftest import LOGGER
 from tests.resources.test_support.common_utils.result_code import ResultCode
-from tests.resources.test_support.common_utils.telescope_controls import (
-    BaseTelescopeControl,
-    check_subarray1_availability,
-)
+from tests.resources.test_support.common_utils.telescope_controls import BaseTelescopeControl
 from tests.resources.test_support.common_utils.tmc_helpers import (
     TmcHelper,
     tear_down,
