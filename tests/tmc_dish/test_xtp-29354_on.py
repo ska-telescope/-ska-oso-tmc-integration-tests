@@ -1,5 +1,7 @@
 """Test module for TMC-DISH On functionality"""
 
+import time
+
 import pytest
 from pytest_bdd import given, scenario, then, when
 from tango import DevState
@@ -81,6 +83,7 @@ def move_dish_to_on(central_node_mid, event_recorder):
         "dishMode",
         DishMode.STANDBY_LP,
     )
+    time.sleep(1)
     LOGGER.info(
         "Dish1 dishMode: %s", central_node_mid.dish_master_list[0].dishMode
     )

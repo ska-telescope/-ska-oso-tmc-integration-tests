@@ -1,4 +1,4 @@
-@XTP-29417 @Team_SAHYADRI @tmc_dish
+@XTP-29417 @XTP-29778 @Team_SAHYADRI @tmc_dish
 Scenario: TMC executes End command on DISH.LMC
     Given a Telescope consisting of TMC, DISH , simulated CSP and simulated SDP
     And the Telescope is in ON state

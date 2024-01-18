@@ -1,4 +1,6 @@
 """Test module for TMC-DISH End functionality"""
+import time
+
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_tango_base.control_model import ObsState
@@ -81,6 +83,7 @@ def move_dish_to_on(central_node_mid, event_recorder):
         DishMode.STANDBY_LP,
     )
 
+    time.sleep(1)
     LOGGER.info(
         "Dish1 dishMode: %s", central_node_mid.dish_master_list[0].dishMode
     )

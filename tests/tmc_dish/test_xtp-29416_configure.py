@@ -1,5 +1,7 @@
 """Test module for TMC-DISH Configure functionality"""
 
+import time
+
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_tango_base.control_model import ObsState
@@ -80,6 +82,7 @@ def turn_on_telescope(central_node_mid, event_recorder):
         "dishMode",
         DishMode.STANDBY_LP,
     )
+    time.sleep(1)
     LOGGER.info(
         "Dish1 dishMode: %s", central_node_mid.dish_master_list[0].dishMode
     )
