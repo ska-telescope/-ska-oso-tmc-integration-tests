@@ -76,7 +76,7 @@ server:
               {{- end }}
           - name: "AbortCommandTimeout"
             values:
-              - "60"
+              - "100"
   {{- end}}
 depends_on:
   - device: sys/database/2
