@@ -84,7 +84,7 @@ def sync_release_resources():
             if set_wait_for_obsstate:
                 the_waiter = Waiter(**kwargs)
                 the_waiter.set_wait_for_going_to_empty()
-                the_waiter.wait(600)
+                the_waiter.wait(800)
             return result
 
         return wrapper
