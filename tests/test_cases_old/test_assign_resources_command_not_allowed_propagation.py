@@ -30,6 +30,10 @@ from tests.resources.test_support.constant import (
 )
 
 
+@pytest.mark.skip(
+    reason="Abort command is not supported when any"
+    + "sub-system subarray is EMPTY"
+)
 @pytest.mark.SKA_mid
 def test_assign_release_command_not_allowed_propagation_csp_ln(
     json_factory, change_event_callbacks
@@ -109,6 +113,10 @@ def test_assign_release_command_not_allowed_propagation_csp_ln(
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
+@pytest.mark.skip(
+    reason="Abort command is not supported when any"
+    + "sub-system subarray is EMPTY"
+)
 @pytest.mark.SKA_mid
 def test_assign_release_command_not_allowed_propagation_sdp_ln(
     json_factory, change_event_callbacks
