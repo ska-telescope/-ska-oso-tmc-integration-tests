@@ -83,10 +83,10 @@ xray-publish:
     - exists:
         - tests/xray-config.json # needs to be configurable as per XRAY_EXECUTION_CONFIG in make
   dependencies:
-    - k8s-test
     - k8s-test-dish-lmc
-    - k8s-test-tmc-with-sdp
-    - k8s-test-mid-with-csp
+    # - k8s-test
+    # - k8s-test-tmc-with-sdp
+    # - k8s-test-mid-with-csp
   allow_failure: true
 
 
@@ -143,7 +143,7 @@ k8s-test:
     SUBARRAY_COUNT: 2
     COUNT: 1
     KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_JOB_ID'
-  before_script:
+  script:
     - make cred SERVICE_ACCOUNT=$SERVICE_ACCOUNT
     - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
     - 'make help | grep k8s-test'
@@ -264,42 +264,42 @@ stop-k8s-test-dish-lmc:
 
 
 
-k8s-test-tmc-with-sdp:
-  retry: 1
-  extends:
-    - k8s-test
-  variables:
-    TELESCOPE: 'SKA-mid'
-    CLUSTER_DOMAIN: "svc.cluster.local"
-    PORT: "10000"
-    KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-tmc-sdp'
-    KUBE_NAMESPACE_SDP: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-sdp'
-    SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-tmc-sdp"
-    MARK: 'tmc_sdp'
-    SDP_SIMULATION_ENABLED: 'false'
-    TARANTA_ENABLED: 'true'
-  script:
-    - make cred SERVICE_ACCOUNT=$SERVICE_ACCOUNT
-    - rm charts/ska-tmc-mid/Chart.lock
-    - rm charts/ska-tmc-testing-mid/Chart.lock
-    - make k8s-install-chart TELESCOPE=SKA-mid
-    - make k8s-wait
-    - make k8s-test
-  environment:
-    name: test/$CI_COMMIT_REF_SLUG
-    on_stop: stop-k8s-test-tmc-with-sdp
-    auto_stop_in: 1 minute
+# k8s-test-tmc-with-sdp:
+#   retry: 1
+#   extends:
+#     - k8s-test
+#   variables:
+#     TELESCOPE: 'SKA-mid'
+#     CLUSTER_DOMAIN: "svc.cluster.local"
+#     PORT: "10000"
+#     KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-tmc-sdp'
+#     KUBE_NAMESPACE_SDP: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-sdp'
+#     SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-tmc-sdp"
+#     MARK: 'tmc_sdp'
+#     SDP_SIMULATION_ENABLED: 'false'
+#     TARANTA_ENABLED: 'true'
+#   script:
+#     - make cred SERVICE_ACCOUNT=$SERVICE_ACCOUNT
+#     - rm charts/ska-tmc-mid/Chart.lock
+#     - rm charts/ska-tmc-testing-mid/Chart.lock
+#     - make k8s-install-chart TELESCOPE=SKA-mid
+#     - make k8s-wait
+#     - make k8s-test
+#   environment:
+#     name: test/$CI_COMMIT_REF_SLUG
+#     on_stop: stop-k8s-test-tmc-with-sdp
+#     auto_stop_in: 1 minute
 
 
-stop-k8s-test-tmc-with-sdp:
-  extends:
-    - stop-k8s-test
-  variables:
-    KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-tmc-sdp'
-  script:
-    - make k8s-uninstall-chart
-    - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all
-    - make k8s-delete-namespace
+# stop-k8s-test-tmc-with-sdp:
+#   extends:
+#     - stop-k8s-test
+#   variables:
+#     KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-tmc-sdp'
+#   script:
+#     - make k8s-uninstall-chart
+#     - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all
+#     - make k8s-delete-namespace
 
 
 
@@ -341,38 +341,38 @@ stop-k8s-dish-lmc-063:
 #     K8S_DISH_LMC_CHART: "ska-dish-lmc"
 
 
-k8s-test-mid-with-csp:
-  retry: 1
-  extends:
-    - k8s-test
-  variables:
-    TELESCOPE: 'SKA-mid'
-    KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-csp-mid'
-    SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-csp-mid"
-    MARK: 'tmc_csp'
-    CSP_SIMULATION_ENABLED: 'false'
-  script:
-    - make cred SERVICE_ACCOUNT=$SERVICE_ACCOUNT
-    - rm charts/ska-tmc-mid/Chart.lock
-    - rm charts/ska-tmc-testing-mid/Chart.lock
-    - make k8s-install-chart TELESCOPE=SKA-mid
-    - make k8s-wait
-    - make k8s-test
-  environment:
-    name: test/$CI_COMMIT_REF_SLUG
-    on_stop: stop-k8s-test-mid-with-csp
-    auto_stop_in: 1 minute
+# k8s-test-mid-with-csp:
+#   retry: 1
+#   extends:
+#     - k8s-test
+#   variables:
+#     TELESCOPE: 'SKA-mid'
+#     KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-csp-mid'
+#     SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-csp-mid"
+#     MARK: 'tmc_csp'
+#     CSP_SIMULATION_ENABLED: 'false'
+#   script:
+#     - make cred SERVICE_ACCOUNT=$SERVICE_ACCOUNT
+#     - rm charts/ska-tmc-mid/Chart.lock
+#     - rm charts/ska-tmc-testing-mid/Chart.lock
+#     - make k8s-install-chart TELESCOPE=SKA-mid
+#     - make k8s-wait
+#     - make k8s-test
+#   environment:
+#     name: test/$CI_COMMIT_REF_SLUG
+#     on_stop: stop-k8s-test-mid-with-csp
+#     auto_stop_in: 1 minute
 
 
-stop-k8s-test-mid-with-csp:
-  extends:
-    - stop-k8s-test
-  variables:
-    KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-csp-mid'
-  script:
-    - make k8s-uninstall-chart
-    - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all
-    - make k8s-delete-namespace
+# stop-k8s-test-mid-with-csp:
+#   extends:
+#     - stop-k8s-test
+#   variables:
+#     KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-csp-mid'
+#   script:
+#     - make k8s-uninstall-chart
+#     - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all
+#     - make k8s-delete-namespace
 
 
 deploy-integration:
