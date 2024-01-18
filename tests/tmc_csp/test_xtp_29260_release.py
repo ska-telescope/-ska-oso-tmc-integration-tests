@@ -56,7 +56,7 @@ def subarray_in_idle_obsstate(
     central_node_mid, event_recorder, subarray_id, command_input_factory
 ):
     """Checks if SubarrayNode's obsState attribute value is IDLE"""
-    central_node_mid.set_subarray_id(int(subarray_id))
+    central_node_mid.set_subarray_id(subarray_id)
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
@@ -101,7 +101,7 @@ def invoke_releaseresources(
 )
 def csp_subarray_empty(central_node_mid, event_recorder, subarray_id):
     """Checks if Csp Subarray's obsState attribute value is EMPTY"""
-    central_node_mid.set_subarray_id(int(subarray_id))
+    central_node_mid.set_subarray_id(subarray_id)
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_devices["csp_subarray"],
         "obsState",
@@ -116,7 +116,7 @@ def csp_subarray_empty(central_node_mid, event_recorder, subarray_id):
 )
 def tmc_subarray_empty(central_node_mid, event_recorder, subarray_id):
     """Checks if SubarrayNode's obsState attribute value is EMPTY"""
-    central_node_mid.set_subarray_id(int(subarray_id))
+    central_node_mid.set_subarray_id(subarray_id)
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node, "obsState", ObsState.EMPTY
     )
