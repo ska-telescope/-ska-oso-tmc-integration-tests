@@ -22,7 +22,7 @@ def test_tmc_csp_restart(central_node_mid):
 
 @given("the telescope is in ON state")
 def telescope_is_in_on_state(central_node_mid, event_recorder):
-    """ "A method to check if telescope in is on state."""
+    """A method to check if telescope in is on state."""
     central_node_mid.move_to_on()
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
@@ -44,7 +44,7 @@ def subarray_is_in_aborted_obsstate(
     command_input_factory,
     subarray_id,
 ):
-    "Method to move subarray in ABORTED Obsstate."
+    """Method to move subarray in ABORTED Obsstate."""
     central_node_mid.set_subarray_id(subarray_id)
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
@@ -80,7 +80,7 @@ def subarray_is_in_aborted_obsstate(
 @when("I command it to Restart")
 def invoke_restart(subarray_node, subarray_id):
     """
-    This method is to invoke Restart command on tmc subarray
+    This method is to invoke Restart command on TMC subarray
     """
     subarray_node.set_subarray_id(subarray_id)
     subarray_node.restart_subarray()
