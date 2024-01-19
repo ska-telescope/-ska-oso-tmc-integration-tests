@@ -29,7 +29,6 @@ telescope_control = BaseTelescopeControl()
 
 
 @pytest.mark.SKA_mid
-@pytest.mark.ms
 @scenario(
     "../features/check_command_not_allowed.feature",
     "Unexpected commands not allowed when TMC subarray is READY",
