@@ -1,12 +1,11 @@
 """Test module for TMC-DISH On functionality"""
 
+import time
+
 import pytest
 from pytest_bdd import given, scenario, then, when
 from tango import DevState
 
-from tests.resources.test_harness.helpers import (
-    wait_for_dish_leaf_node_standbylp_event,
-)
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.enum import DishMode
 
@@ -86,7 +85,7 @@ def move_dish_to_on(central_node_mid, event_recorder):
 
     # Wait for the DishLeafNode to get StandbyLP event form DishMaster before
     # invoking TelescopeOn command
-    wait_for_dish_leaf_node_standbylp_event()
+    time.sleep(2)
 
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
@@ -123,7 +122,7 @@ def check_dish_is_on(central_node_mid, event_recorder):
 
     # Wait for the DishLeafNode to get StandbyFP event form DishMaster before
     # invoking TelescopeOn command
-    wait_for_dish_leaf_node_standbylp_event()
+    time.sleep(2)
 
 
 @then("telescope state is ON")

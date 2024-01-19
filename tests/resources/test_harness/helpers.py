@@ -491,11 +491,6 @@ def wait_csp_master_off():
     wait.wait(500)
 
 
-def wait_for_dish_leaf_node_standbylp_event():
-    wait = Waiter(**device_dict)
-    wait.wait(800)
-
-
 def generate_id(id_pattern: str) -> str:
     """
     Generate a time-based unique id.

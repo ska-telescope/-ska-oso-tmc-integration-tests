@@ -1,5 +1,7 @@
 """Test module for TMC-DISH End functionality"""
 
+import time
+
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_tango_base.control_model import ObsState
@@ -8,7 +10,6 @@ from tango import DevState
 from tests.resources.test_harness.helpers import (
     prepare_json_args_for_centralnode_commands,
     prepare_json_args_for_commands,
-    wait_for_dish_leaf_node_standbylp_event,
 )
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.enum import DishMode, PointingState
@@ -84,7 +85,7 @@ def move_dish_to_on(central_node_mid, event_recorder):
 
     # Wait for the DishLeafNode to get StandbyLP event form DishMaster before
     # invoking TelescopeOn command
-    wait_for_dish_leaf_node_standbylp_event()
+    time.sleep(2)
 
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
@@ -116,7 +117,7 @@ def move_dish_to_on(central_node_mid, event_recorder):
 
     # Wait for the DishLeafNode to get StandbyFP event form DishMaster before
     # invoking TelescopeOn command
-    wait_for_dish_leaf_node_standbylp_event()
+    time.sleep(2)
 
     assert event_recorder.has_change_event_occurred(
         central_node_mid.sdp_master,
