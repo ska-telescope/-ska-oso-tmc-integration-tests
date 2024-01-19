@@ -73,8 +73,6 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             dish_fqdn63 = dish_master3
             dish_fqdn100 = dish_master4
 
-        LOGGER.info("dish_fqdn1 is: %s", dish_fqdn1)
-
         self.dish_master_list = [
             DeviceProxy(dish_fqdn1),
             DeviceProxy(dish_fqdn36),
