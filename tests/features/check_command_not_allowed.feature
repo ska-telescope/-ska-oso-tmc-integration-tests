@@ -1,4 +1,6 @@
 Feature:  Invalid unexpected commands
+
+    @XTP-29833
     Scenario: Unexpected commands not allowed when TMC subarray is empty
         Given the TMC is in ON state 
         And the subarray is in EMPTY obsstate
@@ -12,7 +14,7 @@ Feature:  Invalid unexpected commands
             | End                  |
             | Abort                |
             
-
+    @XTP-29834
     Scenario: Unexpected commands not allowed when TMC subarray is idle
         Given the TMC is in ON state 
         And the subarray is in IDLE
@@ -24,6 +26,7 @@ Feature:  Invalid unexpected commands
             | Scan                |   Configure        |   
             | Scan                |   ReleaseResources |
 
+    @XTP-29835
     Scenario: Unexpected commands not allowed when TMC subarray is in Resourcing
         Given TMC is in ON state
         And the subarray is busy in assigning the resources
@@ -32,6 +35,7 @@ Feature:  Invalid unexpected commands
         Then TMC executes the Configure command successfully   
 
 
+    @XTP-29836
     Scenario: Unexpected commands not allowed when TMC subarray is READY
         Given the TMC is in ON state 
         And the subarray is in READY obsState
