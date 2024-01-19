@@ -1,4 +1,4 @@
-"""Test module for TMC-DISH ShutDown functionality"""
+"""Test module for TMC-DISH Off functionality"""
 
 import time
 
@@ -10,9 +10,9 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.enum import DishMode
 
 
-@pytest.mark.real_dish
+@pytest.mark.tmc_dish
 @scenario(
-    "../features/tmc_dish/check_off_command_on_real_dish.feature",
+    "../features/tmc_dish/xtp-29351_off.feature",
     "Shut down with TMC and DISH devices",
 )
 def test_tmc_dish_shutdown_telescope():
@@ -47,6 +47,7 @@ def check_tmc_and_dish_is_on(
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
     )
+
     event_recorder.subscribe_event(csp_master_sim, "State")
     event_recorder.subscribe_event(sdp_master_sim, "State")
     event_recorder.subscribe_event(

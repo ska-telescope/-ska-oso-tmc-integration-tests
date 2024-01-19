@@ -1,4 +1,4 @@
-"""Test module for TMC-DISH StartUp functionality"""
+"""Test module for TMC-DISH On functionality"""
 
 import time
 
@@ -10,9 +10,9 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.enum import DishMode
 
 
-@pytest.mark.real_dish
+@pytest.mark.tmc_dish
 @scenario(
-    "../features/tmc_dish/check_on_command_on_real_dish.feature",
+    "../features/tmc_dish/xtp-29354_on.feature",
     "Start up Telescope with TMC and DISH devices",
 )
 def test_tmc_dish_startup_telescope():
@@ -73,11 +73,6 @@ def move_dish_to_on(central_node_mid, event_recorder):
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
     )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.central_node,
-        "telescopeState",
-        DevState.OFF,
-    )
 
     assert event_recorder.has_change_event_occurred(
         central_node_mid.dish_master_list[0],
@@ -103,6 +98,11 @@ def move_dish_to_on(central_node_mid, event_recorder):
     # Wait for the DishLeafNode to get StandbyLP event form DishMaster before
     # invoking TelescopeOn command
     time.sleep(1)
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.central_node,
+        "telescopeState",
+        DevState.OFF,
+    )
 
     central_node_mid.move_to_on()
 

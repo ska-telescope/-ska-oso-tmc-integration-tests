@@ -35,6 +35,11 @@ TIMEOUT = 20
 EB_PB_ID_LENGTH = 15
 
 
+SDP_SIMULATION_ENABLED = os.getenv("SDP_SIMULATION_ENABLED")
+CSP_SIMULATION_ENABLED = os.getenv("CSP_SIMULATION_ENABLED")
+DISH_SIMULATION_ENABLED = os.getenv("DISH_SIMULATION_ENABLED")
+
+
 def check_subarray_obs_state(obs_state=None, timeout=100):
     device_dict = {
         "sdp_subarray": sdp_subarray1,
@@ -460,9 +465,10 @@ def get_simulated_devices_info() -> dict:
 
     return: dict
     """
-    is_sdp_simulated = os.getenv("SDP_SIMULATION_ENABLED").lower() == "true"
-    is_csp_simulated = os.getenv("CSP_SIMULATION_ENABLED").lower() == "true"
-    is_dish_simulated = os.getenv("DISH_SIMULATION_ENABLED").lower() == "true"
+
+    is_csp_simulated = CSP_SIMULATION_ENABLED.lower() == "true"
+    is_sdp_simulated = SDP_SIMULATION_ENABLED.lower() == "true"
+    is_dish_simulated = DISH_SIMULATION_ENABLED.lower() == "true"
     return {
         "csp_and_sdp": all(
             [is_csp_simulated, is_sdp_simulated]

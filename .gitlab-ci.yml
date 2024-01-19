@@ -83,8 +83,8 @@ xray-publish:
     - exists:
         - tests/xray-config.json # needs to be configurable as per XRAY_EXECUTION_CONFIG in make
   dependencies:
-    - k8s-test
     - k8s-test-dish-lmc
+    - k8s-test
     - k8s-test-tmc-with-sdp
     - k8s-test-mid-with-csp
   allow_failure: true
@@ -241,7 +241,7 @@ k8s-test-dish-lmc:
     - make cred SERVICE_ACCOUNT=$DISH_LMC_SERVICE_ACCOUNT
     - make k8s-install-chart
     - make k8s-wait
-    - make k8s-test MARK=real_dish
+    - make k8s-test MARK=tmc_dish
   needs:
     - dish-lmc-dish001
     - dish-lmc-dish036
