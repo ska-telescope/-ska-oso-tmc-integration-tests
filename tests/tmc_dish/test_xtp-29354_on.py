@@ -1,5 +1,5 @@
 """Test module for TMC-DISH On functionality"""
-tests/tmc_dish/test_xtp-29351_off.py
+
 import pytest
 from pytest_bdd import given, scenario, then, when
 from tango import DevState
