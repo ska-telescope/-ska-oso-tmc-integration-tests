@@ -1,17 +1,17 @@
-release=0.15.5
-tag=0.15.5
+release=0.15.6
+tag=0.15.6
 tag_description=
 **Charts:**
-**1. ska-tmc-integration 0.15.4 - 0.15.5*
+**1. ska-tmc-integration 0.15.5 - 0.15.6*
 
-    **1.1 ska-tmc-mid - 0.15.4 - 0.15.5:
-        a. Bug fix for SKB-270. Updates on Dish Leaf Node for TrackLoadStaticOff's input data type change.
+    **1.1 ska-tmc-mid - 0.15.5 - 0.15.6:
+        a. Updates in delayModel json to comply with tel-model
 
 
 release_notes=
 **Charts:**
-**1. ska-tmc-integration 0.15.4 - 0.15.5:**
+**1. ska-tmc-integration 0.15.5 - 0.15.6:**
 
-    **1.1 ska-tmc-mid - 0.15.4 - 0.15.5:
-        a. Bug fix for SKB-270. Updates on Dish Leaf Node for TrackLoadStaticOff's input data type change.
+    **1.1 ska-tmc-mid - 0.15.5 - 0.15.6:
+        a. Updates in delayModel json to comply with tel-model
 
