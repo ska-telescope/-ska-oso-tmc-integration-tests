@@ -6,7 +6,6 @@ import pytest
 from pytest_bdd import given, scenario, then, when
 from tango import DevState
 
-from tests.conftest import LOGGER
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.enum import DishMode
 
@@ -83,16 +82,10 @@ def move_dish_to_on(central_node_mid, event_recorder):
         "dishMode",
         DishMode.STANDBY_LP,
     )
+
+    # Wait for the DishLeafNode to get StandbyLP event form DishMaster before
+    # invoking TelescopeOn command
     time.sleep(1)
-    LOGGER.info(
-        "Dish1 dishMode: %s", central_node_mid.dish_master_list[0].dishMode
-    )
-    LOGGER.info(
-        "Dish36 dishMode: %s", central_node_mid.dish_master_list[1].dishMode
-    )
-    LOGGER.info(
-        "Dish63 dishMode: %s", central_node_mid.dish_master_list[2].dishMode
-    )
 
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
@@ -126,15 +119,10 @@ def check_dish_is_on(central_node_mid, event_recorder):
         "dishMode",
         DishMode.STANDBY_FP,
     )
-    LOGGER.info(
-        "Dish1 dishMode: %s", central_node_mid.dish_master_list[0].dishMode
-    )
-    LOGGER.info(
-        "Dish36 dishMode: %s", central_node_mid.dish_master_list[1].dishMode
-    )
-    LOGGER.info(
-        "Dish63 dishMode: %s", central_node_mid.dish_master_list[2].dishMode
-    )
+
+    # Wait for the DishLeafNode to get StandbyFP event form DishMaster before
+    # invoking TelescopeOn command
+    time.sleep(1)
 
 
 @then("telescope state is ON")

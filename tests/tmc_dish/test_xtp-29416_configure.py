@@ -7,7 +7,6 @@ from pytest_bdd import given, parsers, scenario, then, when
 from ska_tango_base.control_model import ObsState
 from tango import DevState
 
-from tests.conftest import LOGGER
 from tests.resources.test_harness.helpers import (
     prepare_json_args_for_centralnode_commands,
     prepare_json_args_for_commands,
@@ -82,16 +81,10 @@ def turn_on_telescope(central_node_mid, event_recorder):
         "dishMode",
         DishMode.STANDBY_LP,
     )
+
+    # Wait for the DishLeafNode to get StandbyLP event form DishMaster before
+    # invoking TelescopeOn command
     time.sleep(1)
-    LOGGER.info(
-        "Dish1 dishMode: %s", central_node_mid.dish_master_list[0].dishMode
-    )
-    LOGGER.info(
-        "Dish36 dishMode: %s", central_node_mid.dish_master_list[1].dishMode
-    )
-    LOGGER.info(
-        "Dish63 dishMode: %s", central_node_mid.dish_master_list[2].dishMode
-    )
 
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
@@ -120,15 +113,9 @@ def turn_on_telescope(central_node_mid, event_recorder):
         DishMode.STANDBY_FP,
     )
 
-    LOGGER.info(
-        "Dish1 dishMode: %s", central_node_mid.dish_master_list[0].dishMode
-    )
-    LOGGER.info(
-        "Dish36 dishMode: %s", central_node_mid.dish_master_list[1].dishMode
-    )
-    LOGGER.info(
-        "Dish63 dishMode: %s", central_node_mid.dish_master_list[2].dishMode
-    )
+    # Wait for the DishLeafNode to get StandbyFP event form DishMaster before
+    # invoking TelescopeOn command
+    time.sleep(1)
 
     assert event_recorder.has_change_event_occurred(
         central_node_mid.sdp_master,
