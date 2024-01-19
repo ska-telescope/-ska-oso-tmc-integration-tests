@@ -133,7 +133,7 @@ deviceServers:
     DishVccConfig:
       DishVccUri: "car://gitlab.com/ska-telescope/ska-tmc/ska-tmc-simulators?main#tmdata"
       DishVccFilePath: "instrument/dishid_vcc_map_configuration/mid_cbf_initial_parameters.json"
-    EnableDishVccInit: "true"
+    EnableDishVccInit: "false"
 
   subarraynode:
     enabled: true
