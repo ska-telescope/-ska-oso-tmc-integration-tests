@@ -7,7 +7,6 @@ from datetime import datetime
 from typing import Any
 
 import pytest
-from jsonschema import validate
 from ska_ser_logging import configure_logging
 from ska_tango_base.commands import ResultCode
 from ska_tango_base.control_model import HealthState
@@ -449,14 +448,6 @@ def wait_till_delay_values_are_populated(csp_subarray_leaf_node) -> None:
             "Timeout while waiting for CspSubarrayLeafNode to generate \
                 delay values."
         )
-
-
-def validate_json(input_json, input_json_schema) -> None:
-    try:
-        # Validate json against its schema
-        validate(input_json, input_json_schema)
-    except Exception as e:
-        LOGGER.exception(e)
 
 
 def get_simulated_devices_info() -> dict:
