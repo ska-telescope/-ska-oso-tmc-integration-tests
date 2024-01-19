@@ -211,8 +211,6 @@ def sync_end():
             """Wrapper method"""
             device = DeviceUtils(
                 obs_state_device_names=[
-                    kwargs.get("csp_subarray"),
-                    kwargs.get("sdp_subarray"),
                     kwargs.get("tmc_subarraynode"),
                 ]
             )
