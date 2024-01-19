@@ -45,7 +45,7 @@ server:
           - "{{.Values.deviceServers.centralnode.DishVccConfig.DishVccFilePath}}"
         - name: "EnableDishVccInit"
           values:
-          - "{{.Values.deviceServers.centralnode.mid.EnableDishVccInit}}"
+          - "{{.Values.deviceServers.centralnode.EnableDishVccInit}}"
         - name: "DishIDs"
           values:
           {{- range  (.Values.deviceServers.centralnode.DishIDs)  }}
