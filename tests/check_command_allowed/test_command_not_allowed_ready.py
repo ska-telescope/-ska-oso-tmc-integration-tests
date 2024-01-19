@@ -176,32 +176,26 @@ def tmc_accepts_next_commands(
                 lookahead=4,
             )
             LOGGER.info("Tear down")
-            # Do not raise exception
-            tear_down(
-                release_json,
-                raise_exception=False,
-                **ON_OFF_DEVICE_COMMAND_DICT,
+            tmc_helper.end(**ON_OFF_DEVICE_COMMAND_DICT)
+            LOGGER.info("Invoking End command on TMC SubarrayNode")
+            assert telescope_control.is_in_valid_state(
+                DEVICE_OBS_STATE_IDLE_INFO, "obsState"
             )
-            # tmc_helper.end(**ON_OFF_DEVICE_COMMAND_DICT)
-            # LOGGER.info("Invoking End command on TMC SubarrayNode")
-            # assert telescope_control.is_in_valid_state(
-            #     DEVICE_OBS_STATE_IDLE_INFO, "obsState"
-            # )
-            # tmc_helper.invoke_releaseResources(
-            #     release_json, **ON_OFF_DEVICE_COMMAND_DICT
-            # )
-            # LOGGER.info(
-            #     "Invoking ReleaseResources command on TMC \
-            # SubarrayNode"
-            # )
-            # assert telescope_control.is_in_valid_state(
-            #     DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
-            # )
-            # tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
-            # LOGGER.info("Invoking Standby command on TMC SubarrayNode")
-            # assert telescope_control.is_in_valid_state(
-            #     DEVICE_STATE_STANDBY_INFO, "State"
-            # )
+            tmc_helper.invoke_releaseResources(
+                release_json, **ON_OFF_DEVICE_COMMAND_DICT
+            )
+            LOGGER.info(
+                "Invoking ReleaseResources command on TMC \
+            SubarrayNode"
+            )
+            assert telescope_control.is_in_valid_state(
+                DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
+            )
+            tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
+            LOGGER.info("Invoking Standby command on TMC SubarrayNode")
+            assert telescope_control.is_in_valid_state(
+                DEVICE_STATE_STANDBY_INFO, "State"
+            )
 
         if permitted_command == "Scan":
             tmc_helper.scan(scan_file, **ON_OFF_DEVICE_COMMAND_DICT)

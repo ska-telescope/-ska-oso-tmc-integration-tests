@@ -175,7 +175,6 @@ def sync_configure():
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
             """Wrapper method"""
-            LOGGER.info("Inside sync decorator")
             invoked_from_ready = False
             the_waiter = Waiter(**kwargs)
             LOGGER.info(Resource(kwargs.get("tmc_subarraynode")))
@@ -184,11 +183,8 @@ def sync_configure():
                 "CONFIGURING",
             ]:
                 invoked_from_ready = True
-            LOGGER.debug("invoked_from_ready flag: %s", invoked_from_ready)
             result = func(*args, **kwargs)
-            LOGGER.info(invoked_from_ready)
             set_wait_for_obsstate = kwargs.get("set_wait_for_obsstate", True)
-            LOGGER.debug("set_wait_for_obsstate: %s", set_wait_for_obsstate)
             if set_wait_for_obsstate:
                 if invoked_from_ready:
                     LOGGER.info("inside invoked from ready")

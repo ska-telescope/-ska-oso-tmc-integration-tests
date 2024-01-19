@@ -89,7 +89,6 @@ def send(json_factory, unexpected_command):
                 pytest.command_result = tmc_helper.configure_subarray(
                     configure_json, **ON_OFF_DEVICE_COMMAND_DICT
                 )
-                LOGGER.info(f"pytest result: {pytest.command_result}")
             assert (
                 "Configure command not permitted in observation state"
                 in str(e.value)
