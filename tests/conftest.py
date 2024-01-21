@@ -168,7 +168,6 @@ def wait_for_dish_mode_change(
     start_time = time.time()
 
     while time.time() - start_time < timeout_seconds:
-        LOGGER.info("dishfqdn.dishMode.value: %s", dishfqdn.dishMode)
         if dishfqdn.dishMode == target_mode:
             return True
         time.sleep(1)
@@ -179,7 +178,23 @@ def wait_for_dish_mode_change(
 def wait_for_telescope_state_change(
     target_state: int, centralnode_fqdn: str, timeout_seconds: int
 ):
-    """Returns True if the telescopeState is changed to a expected value"""
+    """
+    Waits for the telescopeState of a central node
+    to change to the specified target_state.
+
+    Parameters:
+    - target_state (int): The expected telescopeState
+                          to wait for.
+    - centralnode_fqdn (str): Fully Qualified Domain
+                              Name (FQDN) of the central node.
+    - timeout_seconds (int): Maximum time (in seconds) to
+                            wait for the state change.
+
+    Returns:
+    - bool: True if the telescopeState changes
+      to the target_state within the specified timeout, False otherwise.
+    """
+
     start_time = time.time()
     while time.time() - start_time < timeout_seconds:
         if centralnode_fqdn.telescopeState == target_state:

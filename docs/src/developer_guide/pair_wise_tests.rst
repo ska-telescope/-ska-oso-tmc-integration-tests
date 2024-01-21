@@ -30,3 +30,7 @@ To test with tmc_sdp pair execute the command `make k8s-test MARK=tmc_sdp SDP_SI
 * ``Scan``             -  Testing Scan command on TMC with real SDP controller and SDP Subarrays and mocked/simulated CSP and Dish subsystems.
 
 * ``EndScan``          -  Testing EndScan command on TMC with real SDP controller and SDP Subarrays and mocked/simulated CSP and Dish subsystems.
+
+* ``Abort``            -  Testing Abort command on TMC with real SDP controller and SDP Subarrays and mocked/simulated CSP and Dish subsystems.
+
+* ``Restart``          -  Testing Restart command on TMC with real SDP controller and SDP Subarrays and mocked/simulated CSP and Dish subsystems.
