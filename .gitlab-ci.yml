@@ -174,22 +174,22 @@ mid-on-demand-deploy-mini-skampi:
   when: manual
   allow_failure: true # need to keep this to unlock the pipeline
 
-  on-demand-dish-lmc-dish001:
-    extends:
-      - dish-lmc-dish001
-    stage: on-demand
-    variables:
-      DISH_INDEX: "001"
-      KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-on-demand-dish-lmc-$DISH_INDEX"
-      DISH_LMC_SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-on-demand-dish-lmc-$DISH_INDEX"
-      DISH_HELM_RELEASE: "2.6.0"
-      K8S_DISH_LMC_CHART: "ska-dish-lmc"
-    environment:
-      name: test/$CI_COMMIT_REF_SLUG
-      on_stop: stop-on-demand-dish-lmc-001
-      action: stop
+on-demand-dish-lmc-dish001:
+  extends:
+    - dish-lmc-dish001
+  stage: on-demand
+  variables:
+    DISH_INDEX: "001"
+    KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-on-demand-dish-lmc-$DISH_INDEX"
+    DISH_LMC_SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-on-demand-dish-lmc-$DISH_INDEX"
+    DISH_HELM_RELEASE: "2.6.0"
+    K8S_DISH_LMC_CHART: "ska-dish-lmc"
+  environment:
+    name: test/$CI_COMMIT_REF_SLUG
+    on_stop: stop-on-demand-dish-lmc-001
+    action: stop
   
-  stop-on-demand-dish-lmc-001:
+stop-on-demand-dish-lmc-001:
     extends:
       - stop-k8s-dish-lmc-001
     stage: on-demand
@@ -198,51 +198,51 @@ mid-on-demand-deploy-mini-skampi:
       DISH_HELM_RELEASE: "2.6.0"
       K8S_DISH_LMC_CHART: "ska-dish-lmc"
   
-  on-demand-dish-lmc-dish036:
-    extends:
-      - on-demand-dish-lmc-dish001
-    variables:
-      DISH_INDEX: "036"
-      KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-on-demand-dish-lmc-$DISH_INDEX"
-      DISH_LMC_SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-on-demand-dish-lmc-$DISH_INDEX"
-      DISH_HELM_RELEASE: "2.6.0"
-      K8S_DISH_LMC_CHART: "ska-dish-lmc"
-    environment:
-      name: test/$CI_COMMIT_REF_SLUG
-      on_stop: stop-on-demand-dish-lmc-036
-      action: stop
+on-demand-dish-lmc-dish036:
+  extends:
+    - on-demand-dish-lmc-dish001
+  variables:
+    DISH_INDEX: "036"
+    KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-on-demand-dish-lmc-$DISH_INDEX"
+    DISH_LMC_SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-on-demand-dish-lmc-$DISH_INDEX"
+    DISH_HELM_RELEASE: "2.6.0"
+    K8S_DISH_LMC_CHART: "ska-dish-lmc"
+  environment:
+    name: test/$CI_COMMIT_REF_SLUG
+    on_stop: stop-on-demand-dish-lmc-036
+    action: stop
   
-  stop-on-demand-dish-lmc-036:
-    extends:
-      - stop-k8s-dish-lmc-001
-    stage: on-demand
-    variables:
-      KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-on-demand-dish-lmc-036"
-      DISH_HELM_RELEASE: "2.6.0"
-      K8S_DISH_LMC_CHART: "ska-dish-lmc"
+stop-on-demand-dish-lmc-036:
+  extends:
+    - stop-k8s-dish-lmc-001
+  stage: on-demand
+  variables:
+    KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-on-demand-dish-lmc-036"
+    DISH_HELM_RELEASE: "2.6.0"
+    K8S_DISH_LMC_CHART: "ska-dish-lmc"
 
-  on-demand-dish-lmc-dish063:
-    extends:
-      - on-demand-dish-lmc-dish001
-    variables:
-      DISH_INDEX: "063"
-      KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-on-demand-dish-lmc-$DISH_INDEX"
-      DISH_LMC_SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-on-demand-dish-lmc-$DISH_INDEX"
-      DISH_HELM_RELEASE: "2.6.0"
-      K8S_DISH_LMC_CHART: "ska-dish-lmc"
-    environment:
-      name: test/$CI_COMMIT_REF_SLUG
-      on_stop: stop-on-demand-dish-lmc-063
-      action: stop
-  
-  stop-on-demand-dish-lmc-063:
-    extends:
-      - stop-k8s-dish-lmc-001
-    stage: on-demand
-    variables:
-      KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-on-demand-dish-lmc-063"
-      DISH_HELM_RELEASE: "2.6.0"
-      K8S_DISH_LMC_CHART: "ska-dish-lmc"
+on-demand-dish-lmc-dish063:
+  extends:
+    - on-demand-dish-lmc-dish001
+  variables:
+    DISH_INDEX: "063"
+    KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-on-demand-dish-lmc-$DISH_INDEX"
+    DISH_LMC_SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-on-demand-dish-lmc-$DISH_INDEX"
+    DISH_HELM_RELEASE: "2.6.0"
+    K8S_DISH_LMC_CHART: "ska-dish-lmc"
+  environment:
+    name: test/$CI_COMMIT_REF_SLUG
+    on_stop: stop-on-demand-dish-lmc-063
+    action: stop
+
+stop-on-demand-dish-lmc-063:
+  extends:
+    - stop-k8s-dish-lmc-001
+  stage: on-demand
+  variables:
+    KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-on-demand-dish-lmc-063"
+    DISH_HELM_RELEASE: "2.6.0"
+    K8S_DISH_LMC_CHART: "ska-dish-lmc"
 
 mid-on-demand-destroy-mini-skampi:
   stage: on-demand
