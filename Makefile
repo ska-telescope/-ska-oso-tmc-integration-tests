@@ -95,14 +95,15 @@ endif
 # EXIT_AT_FAIL option isn't functioning correctly, so the option -x is added
 # at the end. Will be debugged and fixed as a part of improvement.
 PYTHON_VARS_AFTER_PYTEST ?= -m '$(MARK)' $(ADD_ARGS) $(FILE) -x
-
+CUSTOM_VALUES1 ?=
+CUSTOM_VALUES2 ?=
 ifeq ($(CSP_SIMULATION_ENABLED),false)
-CUSTOM_VALUES =	--set tmc-mid.deviceServers.mocks.is_simulated.csp=$(CSP_SIMULATION_ENABLED)\
+CUSTOM_VALUES1 =	--set tmc-mid.deviceServers.mocks.is_simulated.csp=$(CSP_SIMULATION_ENABLED)\
 	--set ska-csp-lmc-mid.enabled=true
 endif
 
 ifeq ($(SDP_SIMULATION_ENABLED),false)
-CUSTOM_VALUES =	--set tmc-mid.deviceServers.mocks.is_simulated.sdp=$(SDP_SIMULATION_ENABLED)\
+CUSTOM_VALUES2=	--set tmc-mid.deviceServers.mocks.is_simulated.sdp=$(SDP_SIMULATION_ENABLED)\
 	--set global.sdp_master="$(SDP_MASTER)"\
 	--set global.sdp_subarray_prefix="$(SDP_SUBARRAY_PREFIX)"\
 	--set global.sdp.processingNamespace=$(KUBE_NAMESPACE_SDP)\
@@ -122,7 +123,8 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.namespace_dish.dish_name[2]="$(DISH_NAME_63)"\
 	--set tmc-mid.deviceServers.mocks.is_simulated.dish=$(DISH_SIMULATION_ENABLED)\
 	--set global.subarray_count=$(SUBARRAY_COUNT)\
-	$(CUSTOM_VALUES)
+	$(CUSTOM_VALUES1)\
+	$(CUSTOM_VALUES2)
 
 PYTHON_VARS_BEFORE_PYTEST ?= PYTHONPATH=.:./src \
 							 TANGO_HOST=$(TANGO_HOST) \
