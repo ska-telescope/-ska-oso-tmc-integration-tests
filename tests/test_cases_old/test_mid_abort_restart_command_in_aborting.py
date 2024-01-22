@@ -3,7 +3,7 @@ ObsState"""
 import pytest
 from tango import DeviceProxy
 
-from tests.conftest import LOGGER
+from tests.conftest import LOGGER, TIMEOUT
 from tests.resources.test_support.common_utils.common_helpers import (
     Resource,
     Waiter,
@@ -80,7 +80,7 @@ def test_mid_abort_restart_in_aborting(json_factory):
         the_waiter.set_wait_for_specific_obsstate(
             "ABORTED", [tmc_subarraynode1]
         )
-        the_waiter.wait(500)
+        the_waiter.wait(TIMEOUT)
 
         # Verify State transitions after Abort#
         assert telescope_control.is_in_valid_state(
