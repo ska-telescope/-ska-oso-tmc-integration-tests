@@ -60,7 +60,7 @@ def given_tmc_subarray_assign_resources(
     simulator_factory,
     command_input_factory,
 ):
-    _, sdp_sim, _, _, _ = get_device_simulators(simulator_factory)
+    _, sdp_sim, _, _, _, _ = get_device_simulators(simulator_factory)
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
