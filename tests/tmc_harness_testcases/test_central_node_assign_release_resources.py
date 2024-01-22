@@ -35,7 +35,7 @@ class TestMidCentralNodeAssignResources(object):
         assign_input_json = prepare_json_args_for_centralnode_commands(
             "assign_resources_mid", command_input_factory
         )
-        csp_sim, sdp_sim, _, _, _ = get_device_simulators(simulator_factory)
+        csp_sim, sdp_sim, _, _, _, _ = get_device_simulators(simulator_factory)
         event_recorder.subscribe_event(csp_sim, "obsState")
         event_recorder.subscribe_event(sdp_sim, "obsState")
         event_recorder.subscribe_event(

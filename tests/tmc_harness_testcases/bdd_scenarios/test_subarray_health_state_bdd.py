@@ -49,6 +49,7 @@ def given_simulator_device_health_state_is_ok(simulator_factory):
         dish_master_sim_1,
         dish_master_sim_2,
         dish_master_sim_3,
+        dish_master_sim_4,
     ) = get_device_simulators(simulator_factory)
 
     set_desired_health_state(
@@ -58,6 +59,7 @@ def given_simulator_device_health_state_is_ok(simulator_factory):
             dish_master_sim_1,
             dish_master_sim_2,
             dish_master_sim_3,
+            dish_master_sim_4,
         ],
         health_state_value=HealthState.OK,
     )
@@ -72,6 +74,7 @@ def given_csp_sdp_device_health_state_is_ok(simulator_factory):
     (
         csp_sa_sim,
         sdp_sa_sim,
+        _,
         _,
         _,
         _,
@@ -113,12 +116,14 @@ def assign_dishes_to_subarray(
         dish_master_sim_1,
         dish_master_sim_2,
         dish_master_sim_3,
+        dish_master_sim_4,
     ) = get_device_simulators(simulator_factory)
     set_desired_health_state(
         sim_devices_list=[
             dish_master_sim_1,
             dish_master_sim_2,
             dish_master_sim_3,
+            dish_master_sim_4,
         ],
         health_state_value=HealthState.OK,
     )

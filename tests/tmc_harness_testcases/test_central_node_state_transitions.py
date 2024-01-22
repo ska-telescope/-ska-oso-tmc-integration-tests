@@ -30,13 +30,16 @@ class TestMidCentralNodeStateTransition(object):
             sdp_master_sim,
             dish_master_sim1,
             dish_master_sim2,
-            _,
+            dish_master_sim3,
+            dish_master_sim4,
         ) = get_master_device_simulators(simulator_factory)
 
         event_recorder.subscribe_event(csp_master_sim, "State")
         event_recorder.subscribe_event(sdp_master_sim, "State")
         event_recorder.subscribe_event(dish_master_sim1, "DishMode")
         event_recorder.subscribe_event(dish_master_sim2, "DishMode")
+        event_recorder.subscribe_event(dish_master_sim3, "DishMode")
+        event_recorder.subscribe_event(dish_master_sim4, "DishMode")
         central_node_mid.move_to_on()
 
         assert event_recorder.has_change_event_occurred(
@@ -62,6 +65,16 @@ class TestMidCentralNodeStateTransition(object):
         )
         assert event_recorder.has_change_event_occurred(
             dish_master_sim2,
+            "DishMode",
+            DishMode.STANDBY_FP,
+        )
+        assert event_recorder.has_change_event_occurred(
+            dish_master_sim3,
+            "DishMode",
+            DishMode.STANDBY_FP,
+        )
+        assert event_recorder.has_change_event_occurred(
+            dish_master_sim4,
             "DishMode",
             DishMode.STANDBY_FP,
         )

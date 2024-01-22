@@ -66,7 +66,7 @@ def given_tmc(central_node_mid, event_recorder):
 def given_tmc_subarray_assign_resources_is_in_progress(
     central_node_mid, event_recorder, simulator_factory, command_input_factory
 ):
-    csp_sim, sdp_sim, _, _, _ = get_device_simulators(simulator_factory)
+    csp_sim, sdp_sim, _, _, _, _ = get_device_simulators(simulator_factory)
     event_recorder.subscribe_event(csp_sim, "obsState")
     event_recorder.subscribe_event(sdp_sim, "obsState")
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
@@ -102,7 +102,7 @@ def given_tmc_subarray_assign_resources_is_in_progress(
 
 @when(parsers.parse("Csp Subarray {subarray_id} returns to obsState EMPTY"))
 def csp_subarray_returns_to_obsstate_empty(event_recorder, simulator_factory):
-    csp_sim, _, _, _, _ = get_device_simulators(simulator_factory)
+    csp_sim, _, _, _, _, _ = get_device_simulators(simulator_factory)
     event_recorder.subscribe_event(csp_sim, "obsState")
     assert event_recorder.has_change_event_occurred(
         csp_sim,
@@ -113,7 +113,7 @@ def csp_subarray_returns_to_obsstate_empty(event_recorder, simulator_factory):
 
 @when(parsers.parse("Sdp Subarray {subarray_id} returns to obsState EMPTY"))
 def sdp_subarray_returns_to_obsstate_empty(event_recorder, simulator_factory):
-    _, sdp_sim, _, _, _ = get_device_simulators(simulator_factory)
+    _, sdp_sim, _, _, _, _ = get_device_simulators(simulator_factory)
     event_recorder.subscribe_event(sdp_sim, "obsState")
     assert event_recorder.has_change_event_occurred(
         sdp_sim,
@@ -130,7 +130,7 @@ def sdp_subarray_returns_to_obsstate_empty(event_recorder, simulator_factory):
 def tmc_subarray_transitions_to_empty(
     central_node_mid, simulator_factory, event_recorder
 ):
-    csp_sim, _, _, _, _ = get_device_simulators(simulator_factory)
+    csp_sim, _, _, _, _, _ = get_device_simulators(simulator_factory)
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
