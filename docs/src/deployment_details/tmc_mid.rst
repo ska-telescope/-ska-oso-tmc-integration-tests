@@ -36,7 +36,7 @@ Configurable options
 
     #. **Sdp Subarray Leaf Node** : ["01"]
 
-    #. **Dish Leaf Node** : ["001", "036", "063"] - Add dish 100 once SKB-266 is resolved
+    #. **Dish Leaf Node** : ["001", "036", "063", "100"]
 
 * b. **file** : User can provide custom device server configuration file to  nodes.Default is  `configuration files <https://gitlab.com/ska-telescope/ska-tmc/ska-tmc-integration/-/blob/main/charts/ska-tmc-mid/data/>`_
 
@@ -69,4 +69,4 @@ a. **subarray_count** : User can set this subarray count according to number of 
 
 b. **DishLeafNodePrefix** : User can set this value according to the FQDN prefix required by the deployed dish leaf node devices. Default is  "ska_mid/tm_leaf_node/d0" .
 
-c. **DishIDs** : User can set this value to provide the ID's of dishes present in the deployment. Default is ["SKA001", "SKA036", "SKA063"] - Add dish 100 once SKB-266 is resolved
+c. **DishIDs** : User can set this value to provide the ID's of dishes present in the deployment. Default is ["SKA001", "SKA036", "SKA063", "SKA100"]
