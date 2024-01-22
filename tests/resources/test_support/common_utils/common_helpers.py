@@ -327,6 +327,7 @@ class Waiter:
         self.dish_master1 = kwargs.get("dish_master1")
         self.dish_master2 = kwargs.get("dish_master2")
         self.dish_master3 = kwargs.get("dish_master3")
+        self.dish_master4 = kwargs.get("dish_master4")
 
     def clear_watches(self):
         """Resets the waits list"""
@@ -372,6 +373,12 @@ class Waiter:
                     "dishMode", changed_to="STANDBY_LP"
                 )
             )
+        if self.dish_master4:
+            self.waits.append(
+                watch(Resource(self.dish_master4)).to_become(
+                    "dishMode", changed_to="STANDBY_LP"
+                )
+            )
 
     def set_wait_for_going_to_standby(self):
         """Sets waits for turning the devices to standby mode"""
@@ -413,6 +420,12 @@ class Waiter:
                     "State", changed_to="STANDBY"
                 )
             )
+        if self.dish_master4:
+            self.waits.append(
+                watch(Resource(self.dish_master4)).to_become(
+                    "State", changed_to="STANDBY"
+                )
+            )
 
     def set_wait_for_telescope_on(self):
         """Sets waits for turning the devices in ON state"""
@@ -451,6 +464,12 @@ class Waiter:
         if self.dish_master3:
             self.waits.append(
                 watch(Resource(self.dish_master3)).to_become(
+                    "dishMode", changed_to="STANDBY_FP"
+                )
+            )
+        if self.dish_master4:
+            self.waits.append(
+                watch(Resource(self.dish_master4)).to_become(
                     "dishMode", changed_to="STANDBY_FP"
                 )
             )

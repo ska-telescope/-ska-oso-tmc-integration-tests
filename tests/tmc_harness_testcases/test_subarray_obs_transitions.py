@@ -50,6 +50,7 @@ class TestSubarrayNodeObsStateTransitions(object):
             dish_sim_1,
             dish_sim_2,
             dish_sim_3,
+            dish_sim_4,
         ) = get_device_simulators(simulator_factory)
 
         obs_state_transition_duration_sec = 30
@@ -64,6 +65,7 @@ class TestSubarrayNodeObsStateTransitions(object):
         dish_sim_1.setDelay(delay_command_params_str)
         dish_sim_2.setDelay(delay_command_params_str)
         dish_sim_3.setDelay(delay_command_params_str)
+        dish_sim_4.setDelay(delay_command_params_str)
 
         subarray_node.move_to_on()
 
@@ -144,7 +146,7 @@ class TestSubarrayNodeObsStateTransitions(object):
             args_for_sdp, command_input_factory
         )
 
-        csp_sim, sdp_sim, _, _, _ = get_device_simulators(simulator_factory)
+        csp_sim, sdp_sim, _, _, _, _ = get_device_simulators(simulator_factory)
 
         event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
         event_recorder.subscribe_event(csp_sim, "commandCallInfo")
