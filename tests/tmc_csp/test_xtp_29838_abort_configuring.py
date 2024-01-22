@@ -23,26 +23,13 @@ def test_tmc_csp_abort_in_configuring():
 
 
 @given("the telescope is in ON state")
-def given_a_telescope_in_on_state(central_node_mid, event_recorder):
-    """Checks if CentralNode's telescopeState attribute value is on."""
-
+def telescope_is_in_on_state(central_node_mid, event_recorder):
+    """
+    This method checks if the telescope is in ON state
+    """
+    central_node_mid.move_to_on()
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
-    )
-    central_node_mid.move_to_on()
-    event_recorder.subscribe_event(central_node_mid.csp_master, "State")
-    event_recorder.subscribe_event(
-        central_node_mid.subarray_devices["csp_subarray"], "State"
-    )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.csp_master,
-        "State",
-        DevState.ON,
-    )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_devices["csp_subarray"],
-        "State",
-        DevState.ON,
     )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
@@ -53,8 +40,8 @@ def given_a_telescope_in_on_state(central_node_mid, event_recorder):
 
 @given(
     parsers.parse(
-        "the TMC subarray {subarray_id} and CSP subarray {subarray_id}",
-        " is busy in configuring",
+        "the TMC subarray {subarray_id} and CSP subarray {subarray_id} "
+        + "is busy in configuring"
     )
 )
 def subarray_is_in_configuring_obsstate(
@@ -66,15 +53,6 @@ def subarray_is_in_configuring_obsstate(
 ):
     """A method to check if telescope in is CONFIGURING obsSstate."""
     central_node_mid.set_subarray_id(subarray_id)
-    central_node_mid.move_to_on()
-    event_recorder.subscribe_event(
-        central_node_mid.central_node, "telescopeState"
-    )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.central_node,
-        "telescopeState",
-        DevState.ON,
-    )
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )

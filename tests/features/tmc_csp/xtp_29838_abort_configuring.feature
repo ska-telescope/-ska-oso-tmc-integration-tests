@@ -1,4 +1,4 @@
-@tmc_csp
+@XTP-29583 @XTP-29838 @Team_SAHYADRI @tmc_csp
 Scenario: Abort configuring CSP using TMC
     Given the telescope is in ON state
     And the TMC subarray <subarray_id> and CSP subarray <subarray_id> is busy in configuring
