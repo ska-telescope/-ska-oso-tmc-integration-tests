@@ -94,7 +94,7 @@ cspmasterleafnode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-cspleafnodes
-    tag: 0.10.3
+    tag: 0.12.1
     pullPolicy: IfNotPresent
 
 cspsubarrayleafnode:
@@ -130,6 +130,9 @@ deviceServers:
     DishIDs: ["SKA001", "SKA036", "SKA063"] # Add dish 100 once SKB-266 is resolved
     DishMasterPrefix: "elt"
     DishMasterPostfix: "master"
+    DishVccConfig:
+      DishVccUri: "car://gitlab.com/ska-telescope/ska-tmc/ska-tmc-simulators?main#tmdata"
+      DishVccFilePath: "instrument/dishid_vcc_map_configuration/mid_cbf_initial_parameters.json"
 
   subarraynode:
     enabled: true
