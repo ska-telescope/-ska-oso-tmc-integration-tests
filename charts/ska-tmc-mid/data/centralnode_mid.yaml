@@ -37,12 +37,6 @@ server:
         - name: "DishLeafNodePrefix"
           values:
           - "ska_mid/tm_leaf_node/d0"
-        - name: "DishVccUri"
-          values:
-          - "{{.Values.deviceServers.centralnode.DishVccConfig.DishVccUri}}"
-        - name: "DishVccFilePath"
-          values:
-          - "{{.Values.deviceServers.centralnode.DishVccConfig.DishVccFilePath}}"
         - name: "DishIDs"
           values:
           {{- range  (.Values.deviceServers.centralnode.DishIDs)  }}

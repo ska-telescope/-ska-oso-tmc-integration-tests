@@ -30,10 +30,10 @@ global:
   # List the dishes, if set, then this list will be applied to instances of:
   # deviceServers.dishmaster, deviceServers.dishleafnode
   dish_devices: ["dishmaster", "dishleafnode"]
-  dishes: ["001", "036", "063", "100"]
+  dishes: ["001", "036", "063"] # Add dish 100 once SKB-266 is resolved
 
   namespace_dish:
-    dish_name: ["dish1", "dish2", "dish3", "dish4"]
+    dish_name: ["dish1", "dish2", "dish3"] # Add dish4 once SKB-266 is resolved
   # subarray_count, this will be expanded (1 to N inclusive) and applied to instances of:
   # deviceServers.cspsubarrayleafnode, deviceServers.sdpsubarrayleafnode, deviceServers.subarraynode
   subarray_devices:
@@ -73,7 +73,7 @@ centralnode:
   image:
     registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-centralnode
     image: ska-tmc-centralnode
-    tag: 0.14.0-dev.c79c92f65
+    tag: 0.14.1-dev.ccff35248
     pullPolicy: IfNotPresent
 
 subarraynode:
@@ -127,19 +127,16 @@ deviceServers:
     subarray_count: 1
     file: "data/centralnode_mid.yaml"
     DishLeafNodePrefix: "ska_mid/tm_leaf_node/d0"
-    DishIDs: ["SKA001", "SKA036", "SKA063", "SKA100"]
+    DishIDs: ["SKA001", "SKA036", "SKA063"] # Add dish 100 once SKB-266 is resolved
     DishMasterPrefix: "elt"
     DishMasterPostfix: "master"
-    DishVccConfig:
-      DishVccUri: "car://gitlab.com/ska-telescope/ska-tmc/ska-tmc-simulators?main#tmdata"
-      DishVccFilePath: "instrument/dishid_vcc_map_configuration/mid_cbf_initial_parameters.json"
-
+    
   subarraynode:
     enabled: true
     instances: ["01"]
     file: "data/subarraynode_mid.yaml"
     DishLeafNodePrefix: "ska_mid/tm_leaf_node/d0"
-    DishIDs: ["SKA001", "SKA036", "SKA063", "SKA100"]
+    DishIDs: ["SKA001", "SKA036", "SKA063"] # Add dish 100 once SKB-266 is resolved
     DishMasterPrefix: "elt"
     DishMasterPostfix: "master"
 
@@ -165,7 +162,7 @@ deviceServers:
 
   dishleafnode:
     enabled: true
-    instances: ["001","036","063", "100"]
+    instances: ["001","036","063"] # Add dish 100 once SKB-266 is resolved
     file: "data/dishleafnode.yaml"
 
   mocks:

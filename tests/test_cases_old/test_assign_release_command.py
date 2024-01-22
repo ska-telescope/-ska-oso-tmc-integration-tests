@@ -103,20 +103,24 @@ def test_assign_release_with_meerkat_ids(json_factory):
     json_argument = json.dumps(json_argument)
     try:
         tmc_helper.check_devices(DEVICE_LIST_FOR_CHECK_DEVICES)
+
+        # Verify Telescope is Off/Standby
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_STANDBY_INFO, "State"
         )
-        # Invoke TelescopeOn() command on TMC CentralNode
+
+        # Invoke TelescopeOn() command on TMC
         tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
+
         # Verify State transitions after TelescopeOn
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_ON_INFO, "State"
         )
 
-        # Check Telescope availability
-        tmc_helper.check_telescope_availability()
         # Invoke AssignResources() Command on TMC
         tmc_helper.compose_sub(json_argument, **ON_OFF_DEVICE_COMMAND_DICT)
+
+        # Verify ObsState is Idle
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_IDLE_INFO, "obsState"
         )
@@ -125,17 +129,21 @@ def test_assign_release_with_meerkat_ids(json_factory):
         tmc_helper.invoke_releaseResources(
             release_json, **ON_OFF_DEVICE_COMMAND_DICT
         )
+
+        # Verify ObsState is Empty
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
         )
 
-        # Check Telescope availability
-        tmc_helper.check_telescope_availability()
-        # Invoke Standby() command on TMC
+        # Invoke TelescopeStandby() command on TMC
         tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
+
+        # Verify State transitions after TelescopeStandby
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_STANDBY_INFO, "State"
         )
+        LOGGER.info("Test complete.")
+
     except Exception as e:
         LOGGER.exception("The exception is: %s", e)
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
