@@ -171,7 +171,7 @@ mid-on-demand-deploy-mini-skampi:
     kubernetes:
       # This repetition is needed for gitlab to parse the namespace correctly
       namespace: $KUBE_NAMESPACE
-    on_stop: mid-on-demand-destroy
+    on_stop: mid-on-demand-destroy-mini-skampi
   when: manual
   allow_failure: true # need to keep this to unlock the pipeline
 
@@ -256,6 +256,8 @@ mid-on-demand-destroy-mini-skampi:
     - make cred SERVICE_ACCOUNT=$SERVICE_ACCOUNT
     - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
     - make k8s-uninstall-chart
+    - kubectl -n $KUBE_NAMESPACE delete pods,svc,daemonsets,deployments,replicasets,statefulsets,cronjobs,jobs,ingresses,configmaps --all
+    - make k8s-delete-namespace
   environment:
     name: $CI_PROJECT_NAME/$CI_COMMIT_REF_SLUG
     kubernetes:
