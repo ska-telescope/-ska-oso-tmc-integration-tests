@@ -12,8 +12,7 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
         "source_obs_state",
         [
             "READY",
-            # SubarrayNode Abort command timeout issue.
-            # "RESOURCING",
+            "RESOURCING",
             "IDLE",
             "CONFIGURING",
             "SCANNING",

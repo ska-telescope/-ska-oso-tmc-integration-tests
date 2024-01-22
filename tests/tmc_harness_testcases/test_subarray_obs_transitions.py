@@ -17,11 +17,7 @@ class TestSubarrayNodeObsStateTransitions(object):
         "source_obs_state, trigger, destination_obs_state",
         [
             ("ABORTED", "Restart", "EMPTY"),
-            # Disable reason: SubarrayNode stucks in Configuring where as all
-            # devices shows succesful transions for aggregation
-            # SubarrayNode Devfailed: AttributeError: 'HelperDishDevice'
-            # object has no attribute '_follow_state_duration
-            # ("READY", "End", "IDLE"),
+            ("READY", "End", "IDLE"),
         ],
     )
     @pytest.mark.SKA_mid
@@ -90,16 +86,15 @@ class TestSubarrayNodeObsStateTransitions(object):
             intermediate_obs_state, destination_obs_state,\
             args_for_csp, args_for_sdp",
         [
-            # skip reason: Test fails in READY assertion
-            # (
-            #     "IDLE",
-            #     "Configure",
-            #     "configure_mid",
-            #     ObsState.CONFIGURING,
-            #     ObsState.READY,
-            #     "csp_configure_mid",
-            #     "sdp_configure_mid",
-            # ),
+            (
+                "IDLE",
+                "Configure",
+                "configure_mid",
+                ObsState.CONFIGURING,
+                ObsState.READY,
+                "csp_configure_mid",
+                "sdp_configure_mid",
+            ),
             (
                 "EMPTY",
                 "AssignResources",
