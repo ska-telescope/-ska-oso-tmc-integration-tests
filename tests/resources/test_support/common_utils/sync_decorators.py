@@ -84,7 +84,7 @@ def sync_release_resources():
             if set_wait_for_obsstate:
                 the_waiter = Waiter(**kwargs)
                 the_waiter.set_wait_for_going_to_empty()
-                the_waiter.wait(500)
+                the_waiter.wait(TIMEOUT)
             return result
 
         return wrapper
@@ -107,7 +107,7 @@ def sync_assign_resources():
             if set_wait_for_obsstate:
                 the_waiter = Waiter(**kwargs)
                 the_waiter.set_wait_for_assign_resources()
-                the_waiter.wait(800)
+                the_waiter.wait(TIMEOUT)
             return result
 
         return wrapper
@@ -157,7 +157,7 @@ def sync_restart(timeout: int = 300):
             the_waiter = Waiter(**kwargs)
             the_waiter.set_wait_for_going_to_empty()
             result = func(*args, **kwargs)
-            the_waiter.wait(timeout)
+            the_waiter.wait(timeout=TIMEOUT)
             return result
 
         return wrapper
@@ -190,7 +190,7 @@ def sync_configure():
                 the_waiter.set_wait_for_configuring()
                 the_waiter.wait(500)
                 the_waiter.set_wait_for_configure()
-                the_waiter.wait(800)
+                the_waiter.wait(TIMEOUT)
             return result
 
         return wrapper
@@ -210,8 +210,6 @@ def sync_end():
             """Wrapper method"""
             device = DeviceUtils(
                 obs_state_device_names=[
-                    kwargs.get("csp_subarray"),
-                    kwargs.get("sdp_subarray"),
                     kwargs.get("tmc_subarraynode"),
                 ]
             )
@@ -219,7 +217,7 @@ def sync_end():
             the_waiter = Waiter(**kwargs)
             the_waiter.set_wait_for_idle()
             result = func(*args, **kwargs)
-            the_waiter.wait(200)
+            the_waiter.wait(TIMEOUT)
             return result
 
         return wrapper
@@ -239,7 +237,7 @@ def wait_assign():
             the_waiter = Waiter(**kwargs)
             the_waiter.set_wait_for_idle()
             result = func(*args, **kwargs)
-            the_waiter.wait(200)
+            the_waiter.wait(TIMEOUT)
             return result
 
         return wrapper
@@ -291,9 +289,9 @@ def sync_configure_sub():
             result = func(*args, **kwargs)
             if flag:
                 the_waiter.set_wait_for_configuring()
-                the_waiter.wait(500)
+                the_waiter.wait(TIMEOUT)
             the_waiter.set_wait_for_configure()
-            the_waiter.wait(500)
+            the_waiter.wait(TIMEOUT)
             return result
 
         return wrapper
@@ -328,7 +326,7 @@ def sync_scan(timeout=800):
                 the_waiter = Waiter(**kwargs)
                 result = func(*args, **kwargs)
                 the_waiter.set_wait_for_scanning()
-                the_waiter.wait(200)
+                the_waiter.wait(timeout=TIMEOUT)
             return result
 
         return wrapper
@@ -348,7 +346,7 @@ def sync_endscan():
             the_waiter = Waiter(**kwargs)
             the_waiter.set_wait_for_ready()
             result = func(*args, **kwargs)
-            the_waiter.wait(200)
+            the_waiter.wait(TIMEOUT)
             return result
 
         return wrapper

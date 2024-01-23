@@ -12,9 +12,14 @@ from ska_tango_base.commands import ResultCode
 from ska_tango_base.control_model import HealthState
 from ska_tango_testing.mock.placeholders import Anything
 
-from tests.resources.test_harness.constant import (
+from tests.resources.test_harness.constant import device_dict
+from tests.resources.test_harness.simulator_factory import SimulatorFactory
+from tests.resources.test_harness.utils.common_utils import JsonFactory
+from tests.resources.test_harness.utils.enums import SimulatorDeviceType
+from tests.resources.test_harness.utils.wait_helpers import Waiter, watch
+from tests.resources.test_support.common_utils.common_helpers import Resource
+from tests.resources.test_support.constant import (
     csp_subarray1,
-    device_dict,
     dish_master1,
     dish_master2,
     sdp_subarray1,
@@ -22,16 +27,16 @@ from tests.resources.test_harness.constant import (
     tmc_sdp_subarray_leaf_node,
     tmc_subarraynode1,
 )
-from tests.resources.test_harness.simulator_factory import SimulatorFactory
-from tests.resources.test_harness.utils.common_utils import JsonFactory
-from tests.resources.test_harness.utils.enums import SimulatorDeviceType
-from tests.resources.test_harness.utils.wait_helpers import Waiter, watch
-from tests.resources.test_support.common_utils.common_helpers import Resource
 
 configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
 TIMEOUT = 20
 EB_PB_ID_LENGTH = 15
+
+
+SDP_SIMULATION_ENABLED = os.getenv("SDP_SIMULATION_ENABLED")
+CSP_SIMULATION_ENABLED = os.getenv("CSP_SIMULATION_ENABLED")
+DISH_SIMULATION_ENABLED = os.getenv("DISH_SIMULATION_ENABLED")
 
 
 def check_subarray_obs_state(obs_state=None, timeout=100):
@@ -98,7 +103,10 @@ def get_device_simulators(simulator_factory):
     dish_sim_3 = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.DISH_DEVICE, sim_number=3
     )
-    return csp_sim, sdp_sim, dish_sim_1, dish_sim_2, dish_sim_3
+    dish_sim_4 = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.DISH_DEVICE, sim_number=4
+    )
+    return csp_sim, sdp_sim, dish_sim_1, dish_sim_2, dish_sim_3, dish_sim_4
 
 
 def get_master_device_simulators(simulator_factory):
@@ -125,13 +133,17 @@ def get_master_device_simulators(simulator_factory):
     )
     dish_master_sim_3 = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.DISH_DEVICE, sim_number=3
-    )  # Add dish 4 when SKB-266 is resolved
+    )
+    dish_master_sim_4 = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.DISH_DEVICE, sim_number=4
+    )
     return (
         csp_master_sim,
         sdp_master_sim,
         dish_master_sim_1,
         dish_master_sim_2,
         dish_master_sim_3,
+        dish_master_sim_4,
     )
 
 
@@ -184,6 +196,19 @@ def prepare_json_args_for_centralnode_commands(
     """This method return input json based on command args"""
     if args_for_command is not None:
         input_json = command_input_factory.create_centralnode_configuration(
+            args_for_command
+        )
+    else:
+        input_json = None
+    return input_json
+
+
+def prepare_schema_for_attribute_or_command(
+    args_for_command: str, command_input_factory: JsonFactory
+):
+    """This method return schema for requested command or attribute json."""
+    if args_for_command is not None:
+        input_json = command_input_factory.create_command_or_attribute_schema(
             args_for_command
         )
     else:
@@ -406,16 +431,31 @@ def check_lrcr_events(
             pytest.fail("Assertion Failed")
 
 
+def wait_till_delay_values_are_populated(csp_subarray_leaf_node) -> None:
+    start_time = time.time()
+    time_elapsed = 0
+    while (
+        csp_subarray_leaf_node.delayModel == "no_value"
+        and time_elapsed <= TIMEOUT
+    ):
+        time.sleep(1)
+        time_elapsed = time.time() - start_time
+    if (
+        csp_subarray_leaf_node.delayModel == "no_value"
+        and time_elapsed > TIMEOUT
+    ):
+        raise Exception(
+            "Timeout while waiting for CspSubarrayLeafNode to generate \
+                delay values."
+        )
+
+
 def get_simulated_devices_info() -> dict:
     """
     A method to get simulated devices present in the deployment.
 
     return: dict
     """
-
-    SDP_SIMULATION_ENABLED = os.getenv("SDP_SIMULATION_ENABLED")
-    CSP_SIMULATION_ENABLED = os.getenv("CSP_SIMULATION_ENABLED")
-    DISH_SIMULATION_ENABLED = os.getenv("DISH_SIMULATION_ENABLED")
 
     is_csp_simulated = CSP_SIMULATION_ENABLED.lower() == "true"
     is_sdp_simulated = SDP_SIMULATION_ENABLED.lower() == "true"

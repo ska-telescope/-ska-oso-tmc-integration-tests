@@ -1,23 +1,17 @@
-release=0.15.3
-tag=0.15.3
+release=0.15.6
+tag=0.15.6
 tag_description=
 **Charts:**
-**1. ska-tmc-integration 0.9.3 - 0.15.3*
+**1. ska-tmc-integration 0.15.5 - 0.15.6*
 
-    **1.1 ska-tmc-mid - 0.15.2 - 0.15.3:
-        a. Fix skipped test cases and updated structure of repository
-        b. Update dish leaf node with fix related to availability
-
+    **1.1 ska-tmc-mid - 0.15.5 - 0.15.6:
+        a. Updates in delayModel json to comply with tel-model
 
 
 release_notes=
 **Charts:**
-**1. ska-tmc-integration 0.9.3 - 0.15.3:**
+**1. ska-tmc-integration 0.15.5 - 0.15.6:**
 
-    **1.1 ska-tmc-mid - 0.15.2 - 0.15.3:
-         a. Fix skipped test cases and updated structure of repository
-         b. Update dish leaf node with fix related to availability
+    **1.1 ska-tmc-mid - 0.15.5 - 0.15.6:
+        a. Updates in delayModel json to comply with tel-model
 
-
-
-    

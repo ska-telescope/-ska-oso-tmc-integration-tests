@@ -9,7 +9,6 @@ from tango import DevState
 
 from tests.resources.test_harness.helpers import (
     prepare_json_args_for_centralnode_commands,
-    wait_csp_master_off,
 )
 
 
@@ -25,16 +24,12 @@ def test_assignresources_command():
 
 
 @given("the telescope is in ON state")
-def given_a_telescope_in_on_state(
-    central_node_mid, event_recorder, simulator_factory
-):
+def given_a_telescope_in_on_state(central_node_mid, event_recorder):
     """Checks if CentralNode's telescopeState attribute value is on."""
 
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
     )
-    central_node_mid.csp_master.adminMode = 0
-    wait_csp_master_off()
     central_node_mid.move_to_on()
     event_recorder.subscribe_event(central_node_mid.csp_master, "State")
     event_recorder.subscribe_event(
@@ -60,7 +55,7 @@ def given_a_telescope_in_on_state(
 @given(parsers.parse("TMC subarray {subarray_id} is in EMPTY ObsState"))
 def subarray_in_empty_obsstate(central_node_mid, event_recorder, subarray_id):
     """Checks if SubarrayNode's obsState attribute value is EMPTY"""
-    central_node_mid.set_subarray_id(int(subarray_id))
+    central_node_mid.set_subarray_id(subarray_id)
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node, "obsState", ObsState.EMPTY
@@ -74,7 +69,6 @@ def subarray_in_empty_obsstate(central_node_mid, event_recorder, subarray_id):
 )
 def invoke_assignresources(
     central_node_mid,
-    event_recorder,
     subarray_id,
     receptors,
     command_input_factory,
@@ -95,7 +89,7 @@ def invoke_assignresources(
 )
 def csp_subarray_idle(central_node_mid, event_recorder, subarray_id):
     """Checks if Csp Subarray's obsState attribute value is IDLE"""
-    central_node_mid.set_subarray_id(int(subarray_id))
+    central_node_mid.set_subarray_id(subarray_id)
     event_recorder.subscribe_event(
         central_node_mid.subarray_devices["csp_subarray"], "obsState"
     )
@@ -111,7 +105,7 @@ def csp_subarray_idle(central_node_mid, event_recorder, subarray_id):
 )
 def tmc_subarray_idle(central_node_mid, event_recorder, subarray_id):
     """Checks if SubarrayNode's obsState attribute value is IDLE"""
-    central_node_mid.set_subarray_id(int(subarray_id))
+    central_node_mid.set_subarray_id(subarray_id)
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node, "obsState", ObsState.IDLE
     )
@@ -127,7 +121,7 @@ def resources_assigned_to_subarray(
     central_node_mid, event_recorder, receptors, subarray_id
 ):
     """Checks if correct ressources are assigned to Subarray"""
-    central_node_mid.set_subarray_id(int(subarray_id))
+    central_node_mid.set_subarray_id(subarray_id)
     event_recorder.subscribe_event(
         central_node_mid.subarray_node, "assignedResources"
     )

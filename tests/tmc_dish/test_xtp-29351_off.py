@@ -1,4 +1,6 @@
-"""Test module for TMC-DISH ShutDown functionality"""
+"""Test module for TMC-DISH Off functionality"""
+
+import time
 
 import pytest
 from pytest_bdd import given, scenario, then, when
@@ -8,9 +10,9 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.enum import DishMode
 
 
-@pytest.mark.real_dish
+@pytest.mark.tmc_dish
 @scenario(
-    "../features/tmc_dish/check_off_command_on_real_dish.feature",
+    "../features/tmc_dish/xtp-29351_off.feature",
     "Shut down with TMC and DISH devices",
 )
 def test_tmc_dish_shutdown_telescope():
@@ -45,6 +47,7 @@ def check_tmc_and_dish_is_on(
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
     )
+
     event_recorder.subscribe_event(csp_master_sim, "State")
     event_recorder.subscribe_event(sdp_master_sim, "State")
     event_recorder.subscribe_event(
@@ -56,12 +59,16 @@ def check_tmc_and_dish_is_on(
     event_recorder.subscribe_event(
         central_node_mid.dish_master_list[2], "dishMode"
     )
+    event_recorder.subscribe_event(
+        central_node_mid.dish_master_list[3], "dishMode"
+    )
 
     assert csp_master_sim.ping() > 0
     assert sdp_master_sim.ping() > 0
     assert central_node_mid.dish_master_list[0].ping() > 0
     assert central_node_mid.dish_master_list[1].ping() > 0
     assert central_node_mid.dish_master_list[2].ping() > 0
+    assert central_node_mid.dish_master_list[3].ping() > 0
     assert event_recorder.has_change_event_occurred(
         central_node_mid.dish_master_list[0], "dishMode", DishMode.STANDBY_LP
     )
@@ -71,6 +78,13 @@ def check_tmc_and_dish_is_on(
     assert event_recorder.has_change_event_occurred(
         central_node_mid.dish_master_list[2], "dishMode", DishMode.STANDBY_LP
     )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[3], "dishMode", DishMode.STANDBY_LP
+    )
+
+    # Wait for the DishLeafNode to get StandbyLP event form DishMaster before
+    # invoking TelescopeOn command
+    time.sleep(1)
 
     central_node_mid.move_to_on()
 
@@ -83,6 +97,14 @@ def check_tmc_and_dish_is_on(
     assert event_recorder.has_change_event_occurred(
         central_node_mid.dish_master_list[2], "dishMode", DishMode.STANDBY_FP
     )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[3], "dishMode", DishMode.STANDBY_FP
+    )
+
+    # Wait for the DishLeafNode to get StandbyFP event form DishMaster before
+    # invoking TelescopeOn command
+    time.sleep(1)
+
     assert event_recorder.has_change_event_occurred(
         central_node_mid.sdp_master,
         "State",
@@ -121,6 +143,11 @@ def check_dish_state(central_node_mid, event_recorder):
     )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.dish_master_list[2],
+        "dishMode",
+        DishMode.STANDBY_LP,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[3],
         "dishMode",
         DishMode.STANDBY_LP,
     )

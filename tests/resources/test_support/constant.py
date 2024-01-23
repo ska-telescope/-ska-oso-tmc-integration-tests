@@ -11,29 +11,27 @@ from tests.resources.test_support.common_utils.result_code import (
 dish_name_1 = os.getenv("DISH_NAMESPACE_1")
 dish_name_36 = os.getenv("DISH_NAMESPACE_2")
 dish_name_63 = os.getenv("DISH_NAMESPACE_3")
-# TODO: Add dish 100 once SKB-266 is resolved
-# dish_name_100 = os.getenv("DISH_NAMESPACE_4")
+dish_name_100 = os.getenv("DISH_NAMESPACE_4")
 
 dish_fqdn_1 = (
-    f"tango://databaseds-tango-base.{dish_name_1}.svc.cluster"
+    f"tango://tango-databaseds.{dish_name_1}.svc.cluster"
     ".local:10000/ska001/elt/master"
 )
 
 dish_fqdn_36 = (
-    f"tango://databaseds-tango-base.{dish_name_36}.svc.cluster"
+    f"tango://tango-databaseds.{dish_name_36}.svc.cluster"
     ".local:10000/ska036/elt/master"
 )
 
 dish_fqdn_63 = (
-    f"tango://databaseds-tango-base.{dish_name_63}.svc.cluster"
+    f"tango://tango-databaseds.{dish_name_63}.svc.cluster"
     ".local:10000/ska063/elt/master"
 )
 
-# TODO: Add dish 100 once SKB-266 is resolved
-# dish_fqdn_100 = (
-#     f"tango://databaseds-tango-base.{dish_name_100}.svc.cluster"
-#     ".local:10000/ska100/elt/master"
-# )
+dish_fqdn_100 = (
+    f"tango://tango-databaseds.{dish_name_100}.svc.cluster"
+    ".local:10000/ska100/elt/master"
+)
 
 centralnode = "ska_mid/tm_central/central_node"
 tmc_subarraynode1 = "ska_mid/tm_subarray_node/1"
@@ -48,8 +46,7 @@ csp_master = "mid-csp/control/0"
 dish_master1 = "ska001/elt/master"
 dish_master2 = "ska036/elt/master"
 dish_master3 = "ska063/elt/master"
-# TODO: Add dish 100 once SKB-266 is resolved
-# dish_master4 = "ska100/elt/master"
+dish_master4 = "ska100/elt/master"
 alarm_handler1 = "alarm/handler/01"
 
 DEVICE_HEALTH_STATE_OK_INFO = {
@@ -70,8 +67,16 @@ ON_OFF_DEVICE_COMMAND_DICT = {
     "dish_master1": dish_master1,
     "dish_master2": dish_master2,
     "dish_master3": dish_master3,
-    "dish_master_list": [dish_master1, dish_master2, dish_master3],
+    "dish_master4": dish_master4,
+    "dish_master_list": [
+        dish_master1,
+        dish_master2,
+        dish_master3,
+        dish_master4,
+    ],
     "central_node": centralnode,
+    "tmc_csp_subarray_leaf_node": tmc_csp_subarray_leaf_node,
+    "tmc_sdp_subarray_leaf_node": tmc_sdp_subarray_leaf_node,
 }
 
 DEVICE_STATE_STANDBY_INFO = {
@@ -82,6 +87,7 @@ DEVICE_STATE_STANDBY_INFO = {
     dish_master1: ["DISABLE", "STANDBY"],
     dish_master2: ["DISABLE", "STANDBY"],
     dish_master3: ["DISABLE", "STANDBY"],
+    dish_master4: ["DISABLE", "STANDBY"],
 }
 
 DEVICE_STATE_ON_INFO = {
@@ -93,6 +99,7 @@ DEVICE_STATE_ON_INFO = {
     dish_master1: ["STANDBY"],
     dish_master2: ["STANDBY"],
     dish_master3: ["STANDBY"],
+    dish_master4: ["STANDBY"],
 }
 
 DEVICE_OBS_STATE_EMPTY_INFO = {
@@ -127,6 +134,7 @@ DEVICE_STATE_OFF_INFO = {
     dish_master1: ["STANDBY"],
     dish_master2: ["STANDBY"],
     dish_master3: ["STANDBY"],
+    dish_master4: ["STANDBY"],
 }
 
 DEVICE_OBS_STATE_ABORT_INFO = {
