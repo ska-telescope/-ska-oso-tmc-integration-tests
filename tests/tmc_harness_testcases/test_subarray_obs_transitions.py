@@ -17,10 +17,7 @@ class TestSubarrayNodeObsStateTransitions(object):
         "source_obs_state, trigger, destination_obs_state",
         [
             ("ABORTED", "Restart", "EMPTY"),
-            # Disable reason: SubarrayNode stucks in Configuring where as all
-            # devices shows succesful transions for aggregation
-            # SubarrayNode Devfailed: AttributeError: 'HelperDishDevice'
-            # object has no attribute '_follow_state_duration
+            # Disable reason: SubarrayNode stucks in Configuring
             # ("READY", "End", "IDLE"),
         ],
     )
