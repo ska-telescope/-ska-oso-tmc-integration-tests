@@ -1,4 +1,4 @@
-@XTP-29583 @XTP-29841 @Team_SAHYADRI @tmc_csp
+@XTP-29583 @XTP-29842 @Team_SAHYADRI @tmc_csp
 Scenario: Abort scanning CSP using TMC
     Given the telescope is in ON state
     And the TMC subarray <subarray_id> and CSP subarray <subarray_id> are busy in scanning
