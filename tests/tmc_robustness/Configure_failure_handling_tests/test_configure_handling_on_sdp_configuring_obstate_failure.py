@@ -1,5 +1,4 @@
 import logging
-import time
 
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
@@ -13,6 +12,9 @@ from tests.resources.test_harness.helpers import (
     prepare_json_args_for_commands,
 )
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
+
+# import time
+
 
 configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
@@ -149,7 +151,7 @@ def given_tmc_subarray_stuck_configuring(
     )
 )
 def send_command_abort(subarray_node, event_recorder):
-    time.sleep(2)
+    # time.sleep(2)
     subarray_node.execute_transition("Abort", argin=None)
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
