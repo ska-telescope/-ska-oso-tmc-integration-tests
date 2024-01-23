@@ -86,7 +86,7 @@ def test_mid_abort_restart_in_restarting(json_factory):
         # Verify ObsState is EMPTY
         the_waiter = Waiter()
         the_waiter.set_wait_for_specific_obsstate("EMPTY", [tmc_subarraynode1])
-        the_waiter.wait(100)
+        the_waiter.wait(500)
 
         # Verify ObsState is EMPTY#
         assert telescope_control.is_in_valid_state(

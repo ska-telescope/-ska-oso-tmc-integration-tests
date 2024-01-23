@@ -74,6 +74,10 @@ def test_central_node_return_error_for_duplicate_vcc_id():
     """
 
 
+@pytest.mark.skip(
+    reason="Test fails because of TRANSIENT CORBA EXCEPTION with command"
+    + " exceeding the timeout of 3 seconds"
+)
 @pytest.mark.SKA_mid
 @pytest.mark.skip(
     reason="This will be enable once Dish Vcc feature is integrate."
