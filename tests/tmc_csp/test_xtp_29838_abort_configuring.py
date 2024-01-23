@@ -76,6 +76,9 @@ def subarray_is_in_configuring_obsstate(
         subarray_node.subarray_devices.get("csp_subarray"), "obsState"
     )
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
+    event_recorder.subscribe_event(
+        subarray_node.csp_subarray_leaf_node, "cspSubarrayObsState"
+    )
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_devices.get("csp_subarray"),
         "obsState",
