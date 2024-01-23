@@ -175,16 +175,11 @@ def sync_configure():
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
             """Wrapper method"""
-            invoked_from_ready = False
             the_waiter = Waiter(**kwargs)
             LOGGER.info(Resource(kwargs.get("tmc_subarraynode")))
-            if Resource(kwargs.get("tmc_subarraynode")) == "READY":
-                invoked_from_ready = True
             result = func(*args, **kwargs)
             set_wait_for_obsstate = kwargs.get("set_wait_for_obsstate", True)
             if set_wait_for_obsstate:
-                if invoked_from_ready:
-                    LOGGER.info("inside invoked from ready")
                 the_waiter.set_wait_for_configuring()
                 the_waiter.wait(500)
                 the_waiter.set_wait_for_configure()
@@ -282,14 +277,6 @@ def sync_configure_sub():
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
             """Wrapper method"""
-            device = DeviceUtils(
-                obs_state_device_names=[
-                    kwargs.get("csp_subarray"),
-                    kwargs.get("sdp_subarray"),
-                    kwargs.get("tmc_subarraynode"),
-                ]
-            )
-            device.check_devices_obsState("IDLE")
             flag = False
             the_waiter = Waiter(**kwargs)
             if Resource(kwargs.get("tmc_subarraynode")) == "READY":
