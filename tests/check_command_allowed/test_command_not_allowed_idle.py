@@ -95,7 +95,7 @@ def send(json_factory, unexpected_command):
             in str(e.value)
         )
     except Exception as e:
-        LOGGER.info(f"Exception occured: {e}")
+        LOGGER.info(f"Exception occured : {e}")
 
 
 @then("TMC subarray remains in IDLE obsState")
