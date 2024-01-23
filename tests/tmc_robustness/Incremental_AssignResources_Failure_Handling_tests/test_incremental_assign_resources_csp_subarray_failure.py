@@ -16,7 +16,6 @@ from tests.resources.test_harness.helpers import (
 )
 
 
-@pytest.mark.SKA_midtn1
 @pytest.mark.SKA_mid
 @scenario(
     "../features/xtp-29012.feature",

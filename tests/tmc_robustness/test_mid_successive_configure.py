@@ -30,7 +30,7 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
-@pytest.mark.SKA_mid11
+@pytest.mark.SKA_mid
 @scenario(
     "../features/successive_configure.feature",
     "TMC validates reconfigure functionality",
@@ -60,7 +60,7 @@ def given_tmc(json_factory):
 
         now = datetime.now()
         current_time = now.strftime("%d/%m/%Y %H:%M:%S:%f")
-        LOGGER.info(current_time)
+        LOGGER.info("current_time - %s ", current_time)
 
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_ON_INFO, "State"
@@ -178,6 +178,5 @@ def check_for_tear_down(json_factory):
             DEVICE_STATE_OFF_INFO, "State"
         )
 
-        assert False
     except Exception:
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)

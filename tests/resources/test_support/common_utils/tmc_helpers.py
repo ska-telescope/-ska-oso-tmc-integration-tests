@@ -371,18 +371,13 @@ def tear_down(
         device_proxy = DeviceProxy(device)
         device_proxy.ClearCommandCallInfo()
 
-    dish_node = DeviceProxy("ska063/elt/master")
-    LOGGER.info(dish_node.read_attribute("DishMode").value)
-
-    LOGGER.info("TelescopeOn command is invoked successfully")
-
     now = datetime.now()
-    LOGGER.info(now.strftime("%d/%m/%Y %H:%M:%S:%f"))
-    LOGGER.info("Tear Down Successful, raising an exception for failure")
+    current_time = now.strftime("%d/%m/%Y %H:%M:%S:%f")
+    LOGGER.info("Tear Down Successful, raising an exception for failure ")
     if raise_exception:
         raise Exception(
             f"Test case failed and Subarray obsState was: "
-            f"{subarray_node_obsstate}"
+            f"{subarray_node_obsstate} at {current_time}"
         )
 
 
