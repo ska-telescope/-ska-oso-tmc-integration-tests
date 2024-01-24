@@ -29,7 +29,7 @@ server:
                 - "5"
               - name: "TimeOut"
                 values:
-                - 8.0
+                - "8"
   {{- end}}
 depends_on:
   - device: sys/database/2
