@@ -11,7 +11,7 @@ from tests.resources.test_support.constant import alarm_handler1
 logger = logging.getLogger(__name__)
 
 
-@pytest.mark.skip("Alarm Handler Disabled due to node port issue")
+@pytest.mark.test1
 @pytest.mark.post_deployment
 @pytest.mark.SKA_mid
 def test_load_alarm():
