@@ -64,6 +64,11 @@ def telescope_is_in_resourcing_obsstate(
         "obsState",
         ObsState.RESOURCING,
     )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.subarray_devices.get("csp_subarray"),
+        "obsState",
+        ObsState.RESOURCING,
+    )
 
 
 @when("I command it to Abort")
