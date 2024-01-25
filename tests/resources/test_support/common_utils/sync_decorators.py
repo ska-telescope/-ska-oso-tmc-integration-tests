@@ -175,18 +175,11 @@ def sync_configure():
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
             """Wrapper method"""
-            invoked_from_ready = False
             the_waiter = Waiter(**kwargs)
-            if Resource(kwargs.get("tmc_subarraynode")) == "READY":
-                invoked_from_ready = True
-            LOGGER.debug("invoked_from_ready flag: %s", invoked_from_ready)
+            LOGGER.info(Resource(kwargs.get("tmc_subarraynode")))
             result = func(*args, **kwargs)
             set_wait_for_obsstate = kwargs.get("set_wait_for_obsstate", True)
-            LOGGER.debug("set_wait_for_obsstate: %s", set_wait_for_obsstate)
             if set_wait_for_obsstate:
-                if invoked_from_ready:
-                    LOGGER.debug("invoked_from_ready is set to True")
-
                 the_waiter.set_wait_for_configuring()
                 the_waiter.wait(500)
                 the_waiter.set_wait_for_configure()
