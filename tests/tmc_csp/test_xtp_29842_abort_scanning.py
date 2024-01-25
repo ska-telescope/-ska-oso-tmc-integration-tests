@@ -125,7 +125,7 @@ def subarray_is_in_scanning_obsstate(
     )
 
 
-@when(parsers.parse("I issued the Abort command to the TMC subarray"))
+@when("I issued the Abort command to the TMC subarray")
 def abort_is_invoked(subarray_node):
     """
     This method invokes abort command on tmc subarray.
@@ -133,7 +133,7 @@ def abort_is_invoked(subarray_node):
     subarray_node.abort_subarray()
 
 
-@then(parsers.parse("the CSP subarray transitions to ObsState ABORTED"))
+@then("the CSP subarray transitions to ObsState ABORTED")
 def csp_subarray_is_in_aborted_obsstate(subarray_node, event_recorder):
     """
     Method to check CSP subarray is in ABORTED obsstate
@@ -145,7 +145,7 @@ def csp_subarray_is_in_aborted_obsstate(subarray_node, event_recorder):
     )
 
 
-@then(parsers.parse("the TMC subarray transitions to ObsState ABORTED"))
+@then("the TMC subarray transitions to ObsState ABORTED")
 def tmc_subarray_is_in_aborted_obsstate(subarray_node, event_recorder):
     """
     Method to check if TMC subarray is in ABORTED obsstate
