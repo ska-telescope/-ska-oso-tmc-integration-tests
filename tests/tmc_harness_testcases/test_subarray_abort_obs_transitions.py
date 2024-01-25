@@ -12,7 +12,12 @@ class TestSubarrayNodeAbortCommandObsStateTransitions(object):
         "source_obs_state",
         [
             "READY",
-            # SubarrayNode Abort command timeout issue.
+            # SubarrayNode Abort command issue:
+            # ('Execution of Abort command is failed.Reason:
+            # Failed to execute Abortcommand on Dish Leaf Node:
+            # KeyError('ska_mid/tm_leaf_node/d0001'))
+            # dish_availability = devices_availability_dict[
+            # KeyError: 'ska_mid/tm_leaf_node/d0001'
             # "RESOURCING",
             "IDLE",
             "CONFIGURING",

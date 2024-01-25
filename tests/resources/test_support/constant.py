@@ -75,6 +75,8 @@ ON_OFF_DEVICE_COMMAND_DICT = {
         dish_master4,
     ],
     "central_node": centralnode,
+    "tmc_csp_subarray_leaf_node": tmc_csp_subarray_leaf_node,
+    "tmc_sdp_subarray_leaf_node": tmc_sdp_subarray_leaf_node,
 }
 
 DEVICE_STATE_STANDBY_INFO = {
@@ -107,9 +109,9 @@ DEVICE_OBS_STATE_EMPTY_INFO = {
 }
 
 DEVICE_OBS_STATE_READY_INFO = {
+    csp_subarray1: ["READY"],
     sdp_subarray1: ["READY"],
     tmc_subarraynode1: ["READY"],
-    csp_subarray1: ["READY"],
 }
 
 DEVICE_OBS_STATE_CONFIGURING_INFO = {
