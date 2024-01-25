@@ -2,7 +2,6 @@ import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 
 from tests.conftest import LOGGER
-from tests.resources.test_support.common_utils.result_code import ResultCode
 from tests.resources.test_support.common_utils.telescope_controls import (
     BaseTelescopeControl,
 )
@@ -27,7 +26,6 @@ telescope_control = BaseTelescopeControl()
 result, message = "", ""
 
 
-@pytest.mark.skip(reason="This functionality is not implemented yet in TMC")
 @pytest.mark.SKA_mid
 @scenario(
     "../features/check_command_not_allowed.feature",
@@ -73,7 +71,7 @@ def given_tmc(json_factory):
         LOGGER.info("Tear Down complete. Telescope is in Standby State")
 
 
-@given(" the subarray is in IDLE obsstate")
+@given("the subarray is in IDLE")
 def given_tmc_obsState():
     # Verify ObsState is IDLE
     assert telescope_control.is_in_valid_state(
@@ -83,34 +81,21 @@ def given_tmc_obsState():
 
 @when(
     parsers.parse(
-        "the command {unexpected_command} is invoked on that subarray"
+        "{unexpected_command} command is invoked, TMC raises exception"
     )
 )
 def send(json_factory, unexpected_command):
     scan_json = json_factory("command_Scan")
     try:
-        LOGGER.info("Invoking Scan command on TMC SubarrayNode")
-        result, message = tmc_helper.scan(
-            scan_json, **ON_OFF_DEVICE_COMMAND_DICT
+        with pytest.raises(Exception) as e:
+            LOGGER.info("Invoking Scan command on TMC SubarrayNode")
+            tmc_helper.scan(scan_json, **ON_OFF_DEVICE_COMMAND_DICT)
+        assert (
+            f"{unexpected_command} command not permitted in observation state"
+            in str(e.value)
         )
-        assert f"command {unexpected_command} is not allowed \
-            in current subarray obsState"
     except Exception as e:
-        LOGGER.info(f"Exception occured: {e}")
-
-
-@then(
-    parsers.parse(
-        "TMC should reject the {unexpected_command} with ResultCode.Rejected"
-    )
-)
-def invalid_command_rejection(unexpected_command):
-    assert (
-        f"command {unexpected_command} is not allowed \
-        in current subarray obsState"
-        in message[0]
-    )
-    assert result[0] == ResultCode.REJECTED
+        LOGGER.info(f"Exception occured : {e}")
 
 
 @then("TMC subarray remains in IDLE obsState")
