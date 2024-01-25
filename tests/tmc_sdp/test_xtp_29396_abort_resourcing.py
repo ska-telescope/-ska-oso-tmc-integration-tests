@@ -53,6 +53,11 @@ def telescope_is_in_resourcing_obsstate(
     event_recorder.subscribe_event(
         central_node_mid.subarray_devices.get("sdp_subarray"), "obsState"
     )
+
+    event_recorder.subscribe_event(
+        central_node_mid.subarray_devices.get("csp_subarray"), "obsState"
+    )
+
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
