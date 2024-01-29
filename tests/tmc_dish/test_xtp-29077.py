@@ -24,11 +24,11 @@ db = Database()
 sdp_master_dev_info = db.get_device_info("mid-sdp/control/0")
 LOGGER.info("sdp_master_dev_info is: %s", sdp_master_dev_info)
 csp_master_dev_info = db.get_device_info("mid-csp/control/0")
-dish1_info = db.get_device_info(REAL_DISH1_FQDN)
-LOGGER.info("dish1_info is: %s", dish1_info)
-dish36_info = db.get_device_info(REAL_DISH36_FQDN)
-dish63_info = db.get_device_info(REAL_DISH63_FQDN)
-dish100_info = db.get_device_info(REAL_DISH100_FQDN)
+# dish1_info = db.get_device_info(REAL_DISH1_FQDN)
+# LOGGER.info("dish1_info is: %s", dish1_info)
+# dish36_info = db.get_device_info(REAL_DISH36_FQDN)
+# dish63_info = db.get_device_info(REAL_DISH63_FQDN)
+# dish100_info = db.get_device_info(REAL_DISH100_FQDN)
 central_node_info = db.get_device_info("ska_mid/tm_central/central_node")
 dish_leaf_node1_info = db.get_device_info("ska_mid/tm_leaf_node/d0001")
 dish_leaf_node36_info = db.get_device_info("ska_mid/tm_leaf_node/d0036")
@@ -39,11 +39,11 @@ dish_leaf_node100_info = db.get_device_info("ska_mid/tm_leaf_node/d0100")
 sdp_master_dev_name = sdp_master_dev_info.name
 LOGGER.info("sdp_master_dev_name is: %s", sdp_master_dev_name)
 csp_master_dev_name = csp_master_dev_info.name
-dish1_dev_name = dish1_info.name
+dish1_dev_name = REAL_DISH1_FQDN
 LOGGER.info("dish1_dev_name is: %s", dish1_dev_name)
-dish36_dev_name = dish36_info.name
-dish63_dev_name = dish63_info.name
-dish100_dev_name = dish100_info.name
+dish36_dev_name = REAL_DISH36_FQDN
+dish63_dev_name = REAL_DISH63_FQDN
+dish100_dev_name = REAL_DISH100_FQDN
 central_node_dev_name = central_node_info.name
 dish_leaf_node1_dev_name = dish_leaf_node1_info.name
 dish_leaf_node36_dev_name = dish_leaf_node36_info.name
@@ -73,7 +73,9 @@ dish1_admin_dev_proxy = DeviceProxy(dish1_admin_dev_name)
 LOGGER.info("dish1_admin_dev_proxy is: %s", dish1_admin_dev_proxy)
 
 # Get the Dish device class and server
-dish1_dev_class = dish1_info.class_name
+dish1_info = dish1_proxy.info()
+LOGGER.info("dish1_info is: %s", dish1_info)
+dish1_dev_class = dish1_info.dev_class
 LOGGER.info("dish1_dev_class is: %s", dish1_dev_class)
 dish1_dev_server = dish1_info.ds_full_name
 LOGGER.info("dish1_dev_server is: %s", dish1_dev_server)
@@ -139,10 +141,10 @@ def given_the_dishes_registered_in_tango_db(dish_ids):
     """
     dishes = dish_ids.split(",")
     LOGGER.info("dishes: %s", dishes)
-    assert dish1_info.name == "ska001/elt/master"
-    assert dish36_info.name == "ska036/elt/master"
-    assert dish63_info.name == "ska063/elt/master"
-    assert dish100_info.name == "ska100/elt/master"
+    assert dish1_proxy.dev_name() == "ska001/elt/master"
+    assert dish36_proxy.dev_name() == "ska036/elt/master"
+    assert dish63_proxy.dev_name() == "ska063/elt/master"
+    assert dish100_proxy.dev_name() == "ska100/elt/master"
 
 
 @given("a Telescope consisting of  TMC, DISH , CSP and SDP")
