@@ -1,6 +1,7 @@
 """Test module for TMC-DISH """
 
 import logging
+import os
 import time
 
 import pytest
@@ -12,17 +13,22 @@ from tests.resources.test_support.enum import DishMode
 
 LOGGER = logging.getLogger(__name__)
 
+REAL_DISH1_FQDN = os.getenv("DISH_NAME_1")
+REAL_DISH36_FQDN = os.getenv("DISH_NAME_36")
+REAL_DISH63_FQDN = os.getenv("DISH_NAME_63")
+REAL_DISH100_FQDN = os.getenv("DISH_NAME_100")
+
 db = Database()
 
 # Fetch information of the devices from the TANGO db
 sdp_master_dev_info = db.get_device_info("mid-sdp/control/0")
 LOGGER.info("sdp_master_dev_info is: %s", sdp_master_dev_info)
 csp_master_dev_info = db.get_device_info("mid-csp/control/0")
-dish1_info = db.get_device_info("ska001/elt/master")
+dish1_info = db.get_device_info(REAL_DISH1_FQDN)
 LOGGER.info("dish1_info is: %s", dish1_info)
-dish36_info = db.get_device_info("ska036/elt/master")
-dish63_info = db.get_device_info("ska063/elt/master")
-dish100_info = db.get_device_info("ska100/elt/master")
+dish36_info = db.get_device_info(REAL_DISH36_FQDN)
+dish63_info = db.get_device_info(REAL_DISH63_FQDN)
+dish100_info = db.get_device_info(REAL_DISH100_FQDN)
 central_node_info = db.get_device_info("ska_mid/tm_central/central_node")
 dish_leaf_node1_info = db.get_device_info("ska_mid/tm_leaf_node/d0001")
 dish_leaf_node36_info = db.get_device_info("ska_mid/tm_leaf_node/d0036")
