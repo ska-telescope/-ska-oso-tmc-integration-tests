@@ -1,5 +1,7 @@
-"""Test cases for recovery of subarray stuck in RESOURCING
-ObsState for mid"""
+"""
+Test cases for recovery of subarray stuck in RESOURCING
+ObsState for mid
+"""
 import json
 
 import pytest
