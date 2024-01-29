@@ -30,19 +30,19 @@ dish_leaf_node63_info = db.get_device_info("ska_mid/tm_leaf_node/d0063")
 dish_leaf_node100_info = db.get_device_info("ska_mid/tm_leaf_node/d0100")
 
 # Get the full names of the devices from device info received from TANGO db
-sdp_master_dev_name = sdp_master_dev_info.ds_full_name
+sdp_master_dev_name = sdp_master_dev_info.name
 LOGGER.info("sdp_master_dev_name is: %s", sdp_master_dev_name)
-csp_master_dev_name = csp_master_dev_info.ds_full_name
-dish1_dev_name = dish1_info.ds_full_name
+csp_master_dev_name = csp_master_dev_info.name
+dish1_dev_name = dish1_info.name
 LOGGER.info("dish1_dev_name is: %s", dish1_dev_name)
-dish36_dev_name = dish36_info.ds_full_name
-dish63_dev_name = dish63_info.ds_full_name
-dish100_dev_name = dish100_info.ds_full_name
-central_node_dev_name = central_node_info.ds_full_name
-dish_leaf_node1_dev_name = dish_leaf_node1_info.ds_full_name
-dish_leaf_node36_dev_name = dish_leaf_node36_info.ds_full_name
-dish_leaf_node63_dev_name = dish_leaf_node63_info.ds_full_name
-dish_leaf_node100_dev_name = dish_leaf_node100_info.ds_full_name
+dish36_dev_name = dish36_info.name
+dish63_dev_name = dish63_info.name
+dish100_dev_name = dish100_info.name
+central_node_dev_name = central_node_info.name
+dish_leaf_node1_dev_name = dish_leaf_node1_info.name
+dish_leaf_node36_dev_name = dish_leaf_node36_info.name
+dish_leaf_node63_dev_name = dish_leaf_node63_info.name
+dish_leaf_node100_dev_name = dish_leaf_node100_info.name
 
 # Create proxies of the devices
 csp_master_proxy = DeviceProxy(csp_master_dev_name)
@@ -67,9 +67,9 @@ dish1_admin_dev_proxy = DeviceProxy(dish1_admin_dev_name)
 LOGGER.info("dish1_admin_dev_proxy is: %s", dish1_admin_dev_proxy)
 
 # Get the Dish device class and server
-dish1_dev_class = dish1_info.dedev_class
+dish1_dev_class = dish1_info.class_name
 LOGGER.info("dish1_dev_class is: %s", dish1_dev_class)
-dish1_dev_server = dish1_info.server
+dish1_dev_server = dish1_info.ds_full_name
 LOGGER.info("dish1_dev_server is: %s", dish1_dev_server)
 
 
