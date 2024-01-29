@@ -70,19 +70,12 @@ def subarray_is_in_given_obsstate(
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
-    configure_input_json = prepare_json_args_for_commands(
-        "configure_mid", command_input_factory
-    )
+    subarray_node.set_subarray_id(subarray_id)
+    central_node_mid.store_resources(assign_input_json)
     event_recorder.subscribe_event(
         subarray_node.subarray_devices.get("csp_subarray"), "obsState"
     )
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
-
-    subarray_node.force_change_of_obs_state(
-        "IDLE",
-        assign_input_json=assign_input_json,
-    )
-
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_devices.get("csp_subarray"),
         "obsState",
@@ -94,11 +87,11 @@ def subarray_is_in_given_obsstate(
         ObsState.IDLE,
     )
     if obsstate == "READY":
-        subarray_node.force_change_of_obs_state(
-            "READY",
-            assign_input_json=assign_input_json,
-            configure_input_json=configure_input_json,
+
+        configure_json = prepare_json_args_for_commands(
+            "configure_mid", command_input_factory
         )
+        subarray_node.store_configuration_data(configure_json)
         assert event_recorder.has_change_event_occurred(
             subarray_node.subarray_devices["csp_subarray"],
             "obsState",
