@@ -77,7 +77,7 @@ dish1_info = dish1_proxy.info()
 LOGGER.info("dish1_info is: %s", dish1_info)
 dish1_dev_class = dish1_info.dev_class
 LOGGER.info("dish1_dev_class is: %s", dish1_dev_class)
-dish1_dev_server = dish1_info.ds_full_name
+dish1_dev_server = dish1_info.server_id
 LOGGER.info("dish1_dev_server is: %s", dish1_dev_server)
 
 
