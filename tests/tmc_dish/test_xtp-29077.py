@@ -168,7 +168,7 @@ def given_telescope():
 def move_telescope_to_on_state(event_recorder):
     """A method to put Telescope to ON state"""
 
-    verify_the_telescope_is_in_off_state()
+    verify_the_telescope_is_in_off_state(event_recorder)
 
     LOGGER.info("Invoke TelescopeOn() on all sub-systems")
     centralnode_proxy.TelescopeOn()
