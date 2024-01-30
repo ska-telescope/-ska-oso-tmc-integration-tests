@@ -226,6 +226,8 @@ def fail_to_connect_dish(test_dish_id):
     """A method to create dish connection failure"""
 
     LOGGER.info("test_dish_id: %s", test_dish_id)
+    LOGGER.info("dish1_admin_dev_name is: %s", dish1_admin_dev_name)
+    LOGGER.info("dish1_dev_name: %s", dish1_dev_name)
 
     db.delete_device(dish1_dev_name)
     dish1_admin_dev_proxy.RestartServer()
