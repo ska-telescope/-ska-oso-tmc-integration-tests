@@ -257,7 +257,7 @@ def connect_to_dish(test_dish_id):
 @then("command TelescopeStandBy can be sent and received by the dish")
 def move_telescope_to_stanby_state():
     LOGGER.info("Invoke TelescopeStandBy() with all real sub-systems")
-    # centralnode_proxy.TelescopeStandBy()
+    centralnode_proxy.TelescopeStandBy()
 
 
 @then("the Central Node is still running")
