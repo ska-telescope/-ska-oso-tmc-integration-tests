@@ -215,11 +215,10 @@ def fail_to_connect_dish(test_dish_id):
     LOGGER.info("dish1_admin_dev_name is: %s", dish1_admin_dev_name)
     LOGGER.info("dish1_dev_name: %s", dish1_dev_name)
 
-    dish1_db.delete_device(dish1_dev_name)
-    dish1_admin_dev_proxy.RestartServer()
-
     check_dish1_info = dish1_db.get_device_info("ska001/elt/master")
     LOGGER.info("check_dish1_info is: %s", check_dish1_info)
+    dish1_db.delete_device(dish1_dev_name)
+    dish1_admin_dev_proxy.RestartServer()
 
 
 @when("command TelescopeStandBy is sent")
