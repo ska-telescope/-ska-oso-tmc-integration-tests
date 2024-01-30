@@ -13,74 +13,62 @@ from tests.resources.test_support.enum import DishMode
 
 LOGGER = logging.getLogger(__name__)
 
-REAL_DISH1_FQDN = os.getenv("DISH_NAME_1")
-REAL_DISH36_FQDN = os.getenv("DISH_NAME_36")
-REAL_DISH63_FQDN = os.getenv("DISH_NAME_63")
-REAL_DISH100_FQDN = os.getenv("DISH_NAME_100")
+dish1_dev_name = os.getenv("DISH_NAME_1")
+dish36_dev_name = os.getenv("DISH_NAME_36")
+dish63_dev_name = os.getenv("DISH_NAME_63")
+dish100_dev_name = os.getenv("DISH_NAME_100")
 
-# dish_tango_host = os.getenv("DISH_TANGO_HOST")
-# dish_namespace1 = os.getenv("DISH_NAMESPACE_1")
-# cluster_domain = os.getenv("CLUSTER_DOMAIN")
-
+# Create database object for TMC TANGO DB
 db = Database()
 
-# Fetch information of the devices from the TANGO db
+# Create database object for Dish1 TANGO DB
+dish1_tango_host = dish1_dev_name.split("/")[2]
+dish1_host = dish1_tango_host.split(":")[0]
+dish1_port = dish1_tango_host.split(":")[1]
+dish1_db = Database(dish1_host, dish1_port)
+
+# Fetch information of the TMC devices from the TANGO db
 sdp_master_dev_info = db.get_device_info("mid-sdp/control/0")
-LOGGER.info("sdp_master_dev_info is: %s", sdp_master_dev_info)
 csp_master_dev_info = db.get_device_info("mid-csp/control/0")
-# dish36_info = db.get_device_info(REAL_DISH36_FQDN)
-# dish63_info = db.get_device_info(REAL_DISH63_FQDN)
-# dish100_info = db.get_device_info(REAL_DISH100_FQDN)
 central_node_info = db.get_device_info("ska_mid/tm_central/central_node")
 dish_leaf_node1_info = db.get_device_info("ska_mid/tm_leaf_node/d0001")
 dish_leaf_node36_info = db.get_device_info("ska_mid/tm_leaf_node/d0036")
 dish_leaf_node63_info = db.get_device_info("ska_mid/tm_leaf_node/d0063")
 dish_leaf_node100_info = db.get_device_info("ska_mid/tm_leaf_node/d0100")
 
-# Get the full names of the devices from device info received from TANGO db
+# Get the full names of the  TMC devices from device info received from
+# TANGO db
 sdp_master_dev_name = sdp_master_dev_info.name
-LOGGER.info("sdp_master_dev_name is: %s", sdp_master_dev_name)
 csp_master_dev_name = csp_master_dev_info.name
-dish1_dev_name = REAL_DISH1_FQDN
-LOGGER.info("dish1_dev_name is: %s", dish1_dev_name)
-dish36_dev_name = REAL_DISH36_FQDN
-dish63_dev_name = REAL_DISH63_FQDN
-dish100_dev_name = REAL_DISH100_FQDN
 central_node_dev_name = central_node_info.name
 dish_leaf_node1_dev_name = dish_leaf_node1_info.name
 dish_leaf_node36_dev_name = dish_leaf_node36_info.name
 dish_leaf_node63_dev_name = dish_leaf_node63_info.name
 dish_leaf_node100_dev_name = dish_leaf_node100_info.name
 
-# Create proxies of the devices
+# Create proxies of the TMC devices
 csp_master_proxy = DeviceProxy(csp_master_dev_name)
-LOGGER.info("csp_master_proxy is: %s", csp_master_proxy)
 sdp_master_proxy = DeviceProxy(sdp_master_dev_name)
+centralnode_proxy = DeviceProxy(central_node_dev_name)
+dish_leaf_node1_proxy = DeviceProxy(dish_leaf_node1_dev_name)
+dish_leaf_node36_proxy = DeviceProxy(dish_leaf_node36_dev_name)
+dish_leaf_node63_proxy = DeviceProxy(dish_leaf_node63_dev_name)
+dish_leaf_node100_proxy = DeviceProxy(dish_leaf_node100_dev_name)
+
+# Create proxies of the Dish devices
 dish1_proxy = DeviceProxy(dish1_dev_name)
-LOGGER.info("dish1_proxy is: %s", dish1_proxy)
 dish36_proxy = DeviceProxy(dish36_dev_name)
 dish63_proxy = DeviceProxy(dish63_dev_name)
 dish100_proxy = DeviceProxy(dish100_dev_name)
-centralnode_proxy = DeviceProxy(central_node_dev_name)
 
-# def create_device_proxy(device_info):
-#     full_dev_name = device_info.ds_full_name
-#     dev_proxy = DeviceProxy(full_dev_name)
-#     return dev_proxy
-
-# Create dish1 admin device proxy
+# Create Dish1 admin device proxy
 dish1_admin_dev_name = dish1_proxy.adm_name()
-LOGGER.info("dish1_admin_dev_name is: %s", dish1_admin_dev_name)
 dish1_admin_dev_proxy = DeviceProxy(dish1_admin_dev_name)
-LOGGER.info("dish1_admin_dev_proxy is: %s", dish1_admin_dev_proxy)
 
-# Get the Dish device class and server
-dish1_info = dish1_proxy.info()
-LOGGER.info("dish1_info is: %s", dish1_info)
-dish1_dev_class = dish1_info.dev_class
-LOGGER.info("dish1_dev_class is: %s", dish1_dev_class)
-dish1_dev_server = dish1_info.server_id
-LOGGER.info("dish1_dev_server is: %s", dish1_dev_server)
+# Get the Dish1 device class and server
+dish1_info = dish1_db.get_device_info("ska001/elt/master")
+dish1_dev_class = dish1_info.class_name
+dish1_dev_server = dish1_info.ds_full_name
 
 
 def verify_the_telescope_is_in_off_state(event_recorder):
@@ -213,10 +201,6 @@ def check_if_dish_leaf_nodes_alive(dish_ids):
     dishes = dish_ids.split(",")
     LOGGER.info("dishes: %s", dishes)
 
-    dish_leaf_node1_proxy = DeviceProxy(dish_leaf_node1_dev_name)
-    dish_leaf_node36_proxy = DeviceProxy(dish_leaf_node36_dev_name)
-    dish_leaf_node63_proxy = DeviceProxy(dish_leaf_node63_dev_name)
-    dish_leaf_node100_proxy = DeviceProxy(dish_leaf_node100_dev_name)
     assert dish_leaf_node1_proxy.ping() > 0
     assert dish_leaf_node36_proxy.ping() > 0
     assert dish_leaf_node63_proxy.ping() > 0
@@ -231,20 +215,10 @@ def fail_to_connect_dish(test_dish_id):
     LOGGER.info("dish1_admin_dev_name is: %s", dish1_admin_dev_name)
     LOGGER.info("dish1_dev_name: %s", dish1_dev_name)
 
-    dish1_tango_host = dish1_dev_name.split("/")[2]
-    LOGGER.info("dish1_tango_host is: %s", dish1_tango_host)
-    dish1_host = dish1_tango_host.split(":")[0]
-    LOGGER.info("dish1_host is: %s", dish1_host)
-    dish1_port = dish1_tango_host.split(":")[1]
-    LOGGER.info("dish1_port is: %s", dish1_port)
-    dish_db = Database(dish1_host, dish1_port)
-    dish1_db_info = dish_db.get_device_info("ska001/elt/master")
-    LOGGER.info("dish1_db_info is: %s", dish1_db_info)
-
-    db.delete_device(dish1_dev_name)
+    dish1_db.delete_device(dish1_dev_name)
     dish1_admin_dev_proxy.RestartServer()
 
-    check_dish1_info = db.get_device_info("ska001/elt/master")
+    check_dish1_info = dish1_db.get_device_info("ska001/elt/master")
     LOGGER.info("check_dish1_info is: %s", check_dish1_info)
 
 
@@ -270,11 +244,11 @@ def connect_to_dish(test_dish_id):
     dev_info.name = dish1_dev_name
     dev_info._class = dish1_dev_class
     dev_info.server = dish1_dev_server
-    db.add_device(dev_info)
+    dish1_db.add_device(dev_info)
 
     dish1_admin_dev_proxy.RestartServer()
 
-    check_dish1_info = db.get_device_info("ska001/elt/master")
+    check_dish1_info = dish1_db.get_device_info("ska001/elt/master")
     LOGGER.info("check_dish1_info is: %s", check_dish1_info)
 
 
@@ -291,14 +265,6 @@ def recheck_if_central_node_running(central_node_mid, event_recorder):
 
 @then("the telescope is in Standby state")
 def check_if_telescope_is_in_stanby_state(event_recorder):
-    dish1_info = db.get_device_info("ska001/elt/master")
-    LOGGER.info("dish1_info is: %s", dish1_info)
-
-    dish1_dev_name = dish1_info.ds_full_name
-    LOGGER.info("dish1_dev_name is: %s", dish1_dev_name)
-
-    dish1_proxy = DeviceProxy(dish1_dev_name)
-    LOGGER.info("dish1_proxy is: %s", dish1_proxy)
 
     assert event_recorder.has_change_event_occurred(
         dish1_proxy,
