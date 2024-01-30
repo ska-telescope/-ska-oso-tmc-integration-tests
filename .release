@@ -1,17 +1,17 @@
-release=0.15.7
-tag=0.15.7
+release=0.15.8
+tag=0.15.8
 tag_description=
 **Charts:**
-**1. ska-tmc-integration 0.15.6 - 0.15.7*
+**1. ska-tmc-integration 0.15.7 - 0.15.8*
 
-    **1.1 ska-tmc-mid - 0.15.6 - 0.15.7:
-        a. Updates in delayModel json to comply with tel-model
+    **1.1 ska-tmc-mid - 0.15.7 - 0.15.8:
+        a. Updated dish leaf node tag v0.9.1 to support longRunningCommandStatus for TrackLoadStaticOff command.
 
 
 release_notes=
 **Charts:**
-**1. ska-tmc-integration 0.15.6 - 0.15.7:**
+**1. ska-tmc-integration 0.15.7 - 0.15.8:**
 
-    **1.1 ska-tmc-mid - 0.15.6 - 0.15.7:
-        a. Updates in delayModel json to comply with tel-model
+    **1.1 ska-tmc-mid - 0.15.7 - 0.15.8:
+        a. Updated dish leaf node tag v0.9.1 to support longRunningCommandStatus for TrackLoadStaticOff command.
 
