@@ -13,6 +13,6 @@ Scenario Outline: Mid TMC Central Node robustness test with disappearing DishLMC
     And the telescope is in Standby state
 
     Examples:
-        | dish_ids          | test_dish_id |
-        | 001,036,063,100   | 001       |
+        | dish_ids            | test_dish_id |
+        | "001,036,063,100"   | "001"        |
 
