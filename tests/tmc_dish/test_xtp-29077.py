@@ -19,8 +19,10 @@ REAL_DISH63_FQDN = os.getenv("DISH_NAME_63")
 REAL_DISH100_FQDN = os.getenv("DISH_NAME_100")
 
 dish_tango_host = os.getenv("DISH_TANGO_HOST")
+dish_namespace1 = os.getenv("DISH_NAMESPACE_1")
+cluster_domain = os.getenv("CLUSTER_DOMAIN")
+
 db = Database()
-dish_db = Database(host="tango-databaseds", port="10000")
 
 # Fetch information of the devices from the TANGO db
 sdp_master_dev_info = db.get_device_info("mid-sdp/control/0")
@@ -229,6 +231,9 @@ def fail_to_connect_dish(test_dish_id):
     LOGGER.info("dish1_admin_dev_name is: %s", dish1_admin_dev_name)
     LOGGER.info("dish1_dev_name: %s", dish1_dev_name)
 
+    dish_host = dish_tango_host + "." + dish_namespace1 + "." + cluster_domain
+    LOGGER.info("dish_host is: %s", dish_host)
+    dish_db = Database(dish_host, "10000")
     dish1_db_info = dish_db.get_device_info("ska001/elt/master")
     LOGGER.info("dish1_db_info is: %s", dish1_db_info)
 
