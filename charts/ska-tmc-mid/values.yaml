@@ -106,9 +106,9 @@ cspsubarrayleafnode:
 
 dishleafnode:
   image: 
-    registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-dishleafnode
+    registry: artefact.skao.int
     image: ska-tmc-dishleafnode
-    tag: 0.9.1-dev.c7bea0570
+    tag: 0.9.1
     pullPolicy: IfNotPresent
 
 resources:
