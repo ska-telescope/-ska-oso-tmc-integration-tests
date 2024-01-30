@@ -18,9 +18,9 @@ REAL_DISH36_FQDN = os.getenv("DISH_NAME_36")
 REAL_DISH63_FQDN = os.getenv("DISH_NAME_63")
 REAL_DISH100_FQDN = os.getenv("DISH_NAME_100")
 
-dish_tango_host = os.getenv("DISH_TANGO_HOST")
-dish_namespace1 = os.getenv("DISH_NAMESPACE_1")
-cluster_domain = os.getenv("CLUSTER_DOMAIN")
+# dish_tango_host = os.getenv("DISH_TANGO_HOST")
+# dish_namespace1 = os.getenv("DISH_NAMESPACE_1")
+# cluster_domain = os.getenv("CLUSTER_DOMAIN")
 
 db = Database()
 
@@ -230,13 +230,14 @@ def fail_to_connect_dish(test_dish_id):
     LOGGER.info("test_dish_id: %s", test_dish_id)
     LOGGER.info("dish1_admin_dev_name is: %s", dish1_admin_dev_name)
     LOGGER.info("dish1_dev_name: %s", dish1_dev_name)
-    LOGGER.info("dish_tango_host: %s", dish_tango_host)
-    LOGGER.info("dish_namespace1: %s", dish_namespace1)
-    LOGGER.info("cluster_domain: %s", cluster_domain)
 
-    dish_host = dish_tango_host + "." + dish_namespace1 + "." + cluster_domain
-    LOGGER.info("dish_host is: %s", dish_host)
-    dish_db = Database(dish_host, "10000")
+    dish1_tango_host = dish1_dev_name.split("/")[2]
+    LOGGER.info("dish1_tango_host is: %s", dish1_tango_host)
+    dish1_host = dish1_tango_host.split(":")[0]
+    LOGGER.info("dish1_host is: %s", dish1_host)
+    dish1_port = dish1_tango_host.split(":")[1]
+    LOGGER.info("dish1_port is: %s", dish1_port)
+    dish_db = Database(dish1_host, dish1_port)
     dish1_db_info = dish_db.get_device_info("ska001/elt/master")
     LOGGER.info("dish1_db_info is: %s", dish1_db_info)
 
