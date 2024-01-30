@@ -18,14 +18,14 @@ REAL_DISH36_FQDN = os.getenv("DISH_NAME_36")
 REAL_DISH63_FQDN = os.getenv("DISH_NAME_63")
 REAL_DISH100_FQDN = os.getenv("DISH_NAME_100")
 
+dish_tango_host = os.getenv("DISH_TANGO_HOST")
 db = Database()
+dish_db = Database(host="tango-databaseds", port="10000")
 
 # Fetch information of the devices from the TANGO db
 sdp_master_dev_info = db.get_device_info("mid-sdp/control/0")
 LOGGER.info("sdp_master_dev_info is: %s", sdp_master_dev_info)
 csp_master_dev_info = db.get_device_info("mid-csp/control/0")
-# dish1_info = db.get_device_info(REAL_DISH1_FQDN)
-# LOGGER.info("dish1_info is: %s", dish1_info)
 # dish36_info = db.get_device_info(REAL_DISH36_FQDN)
 # dish63_info = db.get_device_info(REAL_DISH63_FQDN)
 # dish100_info = db.get_device_info(REAL_DISH100_FQDN)
@@ -228,6 +228,9 @@ def fail_to_connect_dish(test_dish_id):
     LOGGER.info("test_dish_id: %s", test_dish_id)
     LOGGER.info("dish1_admin_dev_name is: %s", dish1_admin_dev_name)
     LOGGER.info("dish1_dev_name: %s", dish1_dev_name)
+
+    dish1_db_info = dish_db.get_device_info("ska001/elt/master")
+    LOGGER.info("dish1_db_info is: %s", dish1_db_info)
 
     db.delete_device(dish1_dev_name)
     dish1_admin_dev_proxy.RestartServer()
