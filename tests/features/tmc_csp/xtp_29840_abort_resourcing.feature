@@ -9,5 +9,5 @@ Feature: Default
         Then the CSP subarray transitions to ObsState ABORTED
         And the TMC subarray transitions to ObsState ABORTED
         Examples:
-        | subarray_id |
-        | 1           |
+            | subarray_id |
+            | 1           |
