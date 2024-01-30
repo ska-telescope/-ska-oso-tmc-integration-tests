@@ -258,7 +258,7 @@ def move_telescope_to_stanby_state():
 
 
 @then("the Central Node is still running")
-def recheck_if_central_node_running(central_node_mid, event_recorder):
+def recheck_if_central_node_running(event_recorder):
     assert centralnode_proxy.ping() > 0
 
 

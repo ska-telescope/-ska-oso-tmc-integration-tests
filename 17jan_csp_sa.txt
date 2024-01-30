@@ -1,0 +1,348 @@
+1|2024-01-17T09:15:25.618Z|INFO|MainThread|set_logging_level|base_device.py#725|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Logging level set to LoggingLevel.DEBUG on Python and Tango loggers
+1|2024-01-17T09:15:25.618Z|INFO|MainThread|update_logging_handlers|logging.py#379|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Logging targets set to ['tango::logger']
+1|2024-01-17T09:15:25.619Z|DEBUG|MainThread|_init_logging|base_device.py#369|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Logger initialised
+1|2024-01-17T09:15:25.619Z|DEBUG|MainThread|init_device|base_device.py#655|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Groups definitions: None
+1|2024-01-17T09:15:25.619Z|DEBUG|MainThread|init_device|base_device.py#659|tango-device:ska_mid/tm_leaf_node/csp_subarray01|No Groups loaded for device: ska_mid/tm_leaf_node/csp_subarray01
+1|2024-01-17T09:15:25.626Z|INFO|MainThread|__init__|component_manager.py#136|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Starting the delay model thread
+1|2024-01-17T09:15:25.626Z|INFO|MainThread|start|delay_model.py#83|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Starting thread to calculate delay model.
+1|2024-01-17T09:15:25.626Z|INFO|MainThread|exit|core.py#136||Finished processing state _UNINITIALISED exit callbacks.
+1|2024-01-17T09:15:25.626Z|INFO|MainThread|enter|core.py#130||Finished processing state INIT_DISABLE enter callbacks.
+1|2024-01-17T09:15:25.626Z|INFO|MainThread|callbacks|core.py#1147||Executed callback '<bound method _OpStateMachine._state_changed of <ska_control_model.op_state._OpStateMachine object at 0x7f1094d521a0>>'
+1|2024-01-17T09:15:25.626Z|INFO|MainThread|exit|core.py#136||Finished processing state INIT_DISABLE exit callbacks.
+1|2024-01-17T09:15:25.626Z|INFO|MainThread|enter|core.py#130||Finished processing state DISABLE enter callbacks.
+1|2024-01-17T09:15:25.626Z|INFO|MainThread|callbacks|core.py#1147||Executed callback '<bound method _OpStateMachine._state_changed of <ska_control_model.op_state._OpStateMachine object at 0x7f1094d521a0>>'
+1|2024-01-17T09:15:25.626Z|INFO|MainThread|do|base_device.py#303|tango-device:ska_mid/tm_leaf_node/csp_subarray01|SKABaseDevice Init command completed OK
+1|2024-01-17T09:15:25.626Z|INFO|MainThread|exit|core.py#136||Finished processing state DISABLE exit callbacks.
+1|2024-01-17T09:15:25.626Z|INFO|MainThread|enter|core.py#130||Finished processing state ON enter callbacks.
+1|2024-01-17T09:15:25.626Z|INFO|MainThread|callbacks|core.py#1147||Executed callback '<bound method _OpStateMachine._state_changed of <ska_control_model.op_state._OpStateMachine object at 0x7f1094d521a0>>'
+1|2024-01-17T09:15:25.628Z|ERROR|ThreadPoolExecutor-1_0|device_task|liveliness_probe.py#73|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Error on mid-csp/subarray/01: DevFailed[
+DevError[
+    desc = Failed to connect to device mid-csp/subarray/01
+           The connection request was delayed.
+           The last connection request was done less than 1000 ms ago
+  origin = Connection::reconnect
+  reason = API_CantConnectToDevice
+severity = ERR]
+] 
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/ska_tmc_common/liveliness_probe.py", line 70, in device_task
+    proxy.ping(), dev_info.dev_name
+  File "/usr/local/lib/python3.10/dist-packages/tango/green.py", line 195, in greener
+    return executor.run(fn, args, kwargs, wait=wait, timeout=timeout)
+  File "/usr/local/lib/python3.10/dist-packages/tango/green.py", line 109, in run
+    return fn(*args, **kwargs)
+  File "/usr/local/lib/python3.10/dist-packages/tango/device_proxy.py", line 1546, in __DeviceProxy__ping
+    return self._ping(*args, **kwargs)
+PyTango.DevFailed: DevFailed[
+DevError[
+    desc = Failed to connect to device mid-csp/subarray/01
+           The connection request was delayed.
+           The last connection request was done less than 1000 ms ago
+  origin = Connection::reconnect
+  reason = API_CantConnectToDevice
+severity = ERR]
+]
+Ready to accept request
+1|2024-01-17T09:15:25.645Z|ERROR|ThreadPoolExecutor-2_0|handle_obs_state_event|event_receiver.py#84|tango-device:ska_mid/tm_leaf_node/csp_subarray01|API_CantConnectToDevice,Can't subscribe to event for device tango://tango-databaseds.ska-tmc-integration.svc.cluster.local:10000/mid-csp/subarray/01
+Check that device server is running...
+1|2024-01-17T09:15:25.646Z|ERROR|ThreadPoolExecutor-2_0|handle_command_result_event|event_receiver.py#98|tango-device:ska_mid/tm_leaf_node/csp_subarray01|API_CantConnectToDevice,Can't subscribe to event for device tango://tango-databaseds.ska-tmc-integration.svc.cluster.local:10000/mid-csp/subarray/01
+Check that device server is running...
+1|2024-01-17T09:15:26.627Z|ERROR|ThreadPoolExecutor-1_0|device_task|liveliness_probe.py#73|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Error on mid-csp/subarray/01: DevFailed[
+DevError[
+    desc = Failed to connect to device mid-csp/subarray/01
+           The connection request was delayed.
+           The last connection request was done less than 1000 ms ago
+  origin = Connection::reconnect
+  reason = API_CantConnectToDevice
+severity = ERR]
+] 
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/dist-packages/ska_tmc_common/liveliness_probe.py", line 70, in device_task
+    proxy.ping(), dev_info.dev_name
+  File "/usr/local/lib/python3.10/dist-packages/tango/green.py", line 195, in greener
+    return executor.run(fn, args, kwargs, wait=wait, timeout=timeout)
+  File "/usr/local/lib/python3.10/dist-packages/tango/green.py", line 109, in run
+    return fn(*args, **kwargs)
+  File "/usr/local/lib/python3.10/dist-packages/tango/device_proxy.py", line 1546, in __DeviceProxy__ping
+    return self._ping(*args, **kwargs)
+PyTango.DevFailed: DevFailed[
+DevError[
+    desc = Failed to connect to device mid-csp/subarray/01
+           The connection request was delayed.
+           The last connection request was done less than 1000 ms ago
+  origin = Connection::reconnect
+  reason = API_CantConnectToDevice
+severity = ERR]
+]
+1|2024-01-17T09:15:37.634Z|INFO|Dummy-4|update_device_obs_state|component_manager.py#177|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value 0
+1|2024-01-17T09:15:37.634Z|INFO|Dummy-4|update_device_obs_state|component_manager.py#183|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value updated to 0
+1|2024-01-17T09:15:37.635Z|INFO|Dummy-4|handle_obs_state_event|event_receiver.py#89|tango-device:ska_mid/tm_leaf_node/csp_subarray01|ObsState value is updated 0
+1|2024-01-17T09:15:37.639Z|INFO|Dummy-4|handle_command_result_event|event_receiver.py#101|tango-device:ska_mid/tm_leaf_node/csp_subarray01|LRCR callback called
+1|2024-01-17T09:15:37.640Z|INFO|Dummy-4|update_command_result|component_manager.py#195|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Received longRunningCommandResult event for device: mid-csp/subarray/01, with value: ('', '')
+1|2024-01-17T09:15:37.641Z|INFO|Dummy-4|update_command_result|component_manager.py#202|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Empty longRunningCommandResult event
+1|2024-01-17T09:21:36.459Z|DEBUG|Dummy-5|is_command_allowed|component_manager.py#468|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Checking is command allowed for AssignResources
+1|2024-01-17T09:21:36.460Z|DEBUG|Dummy-5|log_stream|log4tango.py#138|tango-device:ska_mid/tm_leaf_node/csp_subarray01|-> CspSubarrayLeafNodeMid.AssignResources()
+1|2024-01-17T09:21:36.463Z|DEBUG|Dummy-5|log_stream|log4tango.py#151|tango-device:ska_mid/tm_leaf_node/csp_subarray01|<- CspSubarrayLeafNodeMid.AssignResources()
+1|2024-01-17T09:21:36.463Z|INFO|ThreadPoolExecutor-0_0|start_timer|tmc_component_manager.py#211|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Starting timer for id : 1705483296.463422_AssignResources
+1|2024-01-17T09:21:36.464Z|INFO|ThreadPoolExecutor-0_0|do_mid|assign_resources_command.py#148|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Invoking AssignResources command on mid-csp/subarray/01
+1|2024-01-17T09:21:36.464Z|INFO|ThreadPoolExecutor-0_0|do_mid|assign_resources_command.py#153|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Input JSON for AssignResources command for CSP subarray mid-csp/subarray/01 is {"interface": "https://schema.skao.int/ska-csp-assignresources/2.0", "subarray_id": 1, "dish": {"receptor_ids": ["SKA001", "SKA036"]}} 
+1|2024-01-17T09:21:36.467Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#177|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value 1
+1|2024-01-17T09:21:36.467Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#183|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value updated to 1
+1|2024-01-17T09:21:36.467Z|INFO|Dummy-7|handle_obs_state_event|event_receiver.py#89|tango-device:ska_mid/tm_leaf_node/csp_subarray01|ObsState value is updated 1
+1|2024-01-17T09:21:36.467Z|INFO|ThreadPoolExecutor-0_0|do_mid|assign_resources_command.py#174|tango-device:ska_mid/tm_leaf_node/csp_subarray01|AssignResources command successfully invoked on mid-csp/subarray/01
+1|2024-01-17T09:21:36.467Z|INFO|ThreadPoolExecutor-0_0|assign_resources|assign_resources_command.py#58|tango-device:ska_mid/tm_leaf_node/csp_subarray01|
+1|2024-01-17T09:21:36.467Z|INFO|ThreadPoolExecutor-0_0|start_tracker_thread|tmc_command.py#176|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Starting tracker thread
+1|2024-01-17T09:21:36.467Z|INFO|Thread-8 (track_and_update_command_status)|check_final_obsstate|tmc_command.py#309|tango-device:ska_mid/tm_leaf_node/csp_subarray01|State change has occurred, current state is ObsState.RESOURCING
+1|2024-01-17T09:21:38.569Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#177|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value 2
+1|2024-01-17T09:21:38.570Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#183|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value updated to 2
+1|2024-01-17T09:21:38.570Z|INFO|Dummy-7|handle_obs_state_event|event_receiver.py#89|tango-device:ska_mid/tm_leaf_node/csp_subarray01|ObsState value is updated 2
+1|2024-01-17T09:21:38.571Z|INFO|Thread-8 (track_and_update_command_status)|check_final_obsstate|tmc_command.py#309|tango-device:ska_mid/tm_leaf_node/csp_subarray01|State change has occurred, current state is ObsState.IDLE
+1|2024-01-17T09:21:38.572Z|INFO|Thread-8 (track_and_update_command_status)|check_final_obsstate|tmc_command.py#317|tango-device:ska_mid/tm_leaf_node/csp_subarray01|State change has occurred, command successful
+1|2024-01-17T09:21:38.573Z|INFO|Thread-8 (track_and_update_command_status)|stop_tracker_thread|tmc_command.py#345|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Stopping tracker thread
+1|2024-01-17T09:21:38.573Z|INFO|Thread-8 (track_and_update_command_status)|stop_timer|tmc_component_manager.py#237|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Stopping timer <Timer(Thread-6, started daemon 139708281636416)>
+1|2024-01-17T09:21:38.673Z|INFO|Thread-8 (track_and_update_command_status)|remove_data|lrcr_callback.py#88|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Removed command data None
+1|2024-01-17T09:21:38.835Z|DEBUG|Dummy-5|is_command_allowed|component_manager.py#468|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Checking is command allowed for ReleaseAllResources
+1|2024-01-17T09:21:38.835Z|DEBUG|Dummy-5|log_stream|log4tango.py#138|tango-device:ska_mid/tm_leaf_node/csp_subarray01|-> CspSubarrayLeafNodeMid.ReleaseAllResources()
+1|2024-01-17T09:21:38.840Z|DEBUG|Dummy-5|log_stream|log4tango.py#151|tango-device:ska_mid/tm_leaf_node/csp_subarray01|<- CspSubarrayLeafNodeMid.ReleaseAllResources()
+1|2024-01-17T09:21:38.840Z|INFO|ThreadPoolExecutor-0_0|start_timer|tmc_component_manager.py#211|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Starting timer for id : 1705483298.8403742_ReleaseAllResources
+1|2024-01-17T09:21:38.841Z|DEBUG|ThreadPoolExecutor-0_0|do_mid|release_all_resources_command.py#97|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Invoking ReleaseAllResources command on CSP Subarray: mid-csp/subarray/01
+1|2024-01-17T09:21:38.843Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#177|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value 1
+1|2024-01-17T09:21:38.843Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#183|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value updated to 1
+1|2024-01-17T09:21:38.843Z|INFO|Dummy-7|handle_obs_state_event|event_receiver.py#89|tango-device:ska_mid/tm_leaf_node/csp_subarray01|ObsState value is updated 1
+1|2024-01-17T09:21:38.843Z|INFO|ThreadPoolExecutor-0_0|do_mid|release_all_resources_command.py#114|tango-device:ska_mid/tm_leaf_node/csp_subarray01|ReleaseAllResources command successfully invoked on: mid-csp/subarray/01
+1|2024-01-17T09:21:38.843Z|INFO|ThreadPoolExecutor-0_0|release_all_resources|release_all_resources_command.py#55|tango-device:ska_mid/tm_leaf_node/csp_subarray01|
+1|2024-01-17T09:21:38.843Z|INFO|ThreadPoolExecutor-0_0|start_tracker_thread|tmc_command.py#176|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Starting tracker thread
+1|2024-01-17T09:21:40.946Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#177|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value 0
+1|2024-01-17T09:21:40.946Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#183|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value updated to 0
+1|2024-01-17T09:21:40.946Z|INFO|Dummy-7|handle_obs_state_event|event_receiver.py#89|tango-device:ska_mid/tm_leaf_node/csp_subarray01|ObsState value is updated 0
+1|2024-01-17T09:21:40.947Z|INFO|Thread-11 (track_and_update_command_status)|check_final_obsstate|tmc_command.py#309|tango-device:ska_mid/tm_leaf_node/csp_subarray01|State change has occurred, current state is ObsState.EMPTY
+1|2024-01-17T09:21:40.947Z|INFO|Thread-11 (track_and_update_command_status)|check_final_obsstate|tmc_command.py#317|tango-device:ska_mid/tm_leaf_node/csp_subarray01|State change has occurred, command successful
+1|2024-01-17T09:21:40.948Z|INFO|Thread-11 (track_and_update_command_status)|stop_tracker_thread|tmc_command.py#345|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Stopping tracker thread
+1|2024-01-17T09:21:40.948Z|INFO|Thread-11 (track_and_update_command_status)|stop_timer|tmc_component_manager.py#237|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Stopping timer <Timer(Thread-10, started daemon 139708273243712)>
+1|2024-01-17T09:21:41.048Z|INFO|Thread-11 (track_and_update_command_status)|remove_data|lrcr_callback.py#88|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Removed command data None
+1|2024-01-17T09:21:41.469Z|INFO|Dummy-7|handle_command_result_event|event_receiver.py#101|tango-device:ska_mid/tm_leaf_node/csp_subarray01|LRCR callback called
+1|2024-01-17T09:21:41.469Z|INFO|Dummy-7|update_command_result|component_manager.py#195|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Received longRunningCommandResult event for device: mid-csp/subarray/01, with value: ('1000_AssignResources', "[<ResultCode.OK: 0>, 'command AssignResources completed']")
+1|2024-01-17T09:21:41.469Z|INFO|Dummy-7|update_command_result|component_manager.py#212|tango-device:ska_mid/tm_leaf_node/csp_subarray01|command_result: ['<ResultCode.OK: 0>', "'command AssignResources completed'"]
+1|2024-01-17T09:21:41.469Z|INFO|Dummy-7|update_command_result|component_manager.py#216|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Command result code is <ResultCode.OK: 0> type: <class 'str'>
+1|2024-01-17T09:21:42.775Z|DEBUG|Dummy-5|is_command_allowed|component_manager.py#468|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Checking is command allowed for AssignResources
+1|2024-01-17T09:21:42.775Z|DEBUG|Dummy-5|log_stream|log4tango.py#138|tango-device:ska_mid/tm_leaf_node/csp_subarray01|-> CspSubarrayLeafNodeMid.AssignResources()
+1|2024-01-17T09:21:42.780Z|DEBUG|Dummy-5|log_stream|log4tango.py#151|tango-device:ska_mid/tm_leaf_node/csp_subarray01|<- CspSubarrayLeafNodeMid.AssignResources()
+1|2024-01-17T09:21:42.781Z|INFO|ThreadPoolExecutor-0_0|start_timer|tmc_component_manager.py#211|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Starting timer for id : 1705483302.7809126_AssignResources
+1|2024-01-17T09:21:42.782Z|INFO|ThreadPoolExecutor-0_0|do_mid|assign_resources_command.py#148|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Invoking AssignResources command on mid-csp/subarray/01
+1|2024-01-17T09:21:42.782Z|INFO|ThreadPoolExecutor-0_0|do_mid|assign_resources_command.py#153|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Input JSON for AssignResources command for CSP subarray mid-csp/subarray/01 is {"interface": "https://schema.skao.int/ska-csp-assignresources/2.0", "subarray_id": 1, "dish": {"receptor_ids": ["SKA001", "SKA036"]}} 
+1|2024-01-17T09:21:42.785Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#177|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value 1
+1|2024-01-17T09:21:42.785Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#183|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value updated to 1
+1|2024-01-17T09:21:42.785Z|INFO|Dummy-7|handle_obs_state_event|event_receiver.py#89|tango-device:ska_mid/tm_leaf_node/csp_subarray01|ObsState value is updated 1
+1|2024-01-17T09:21:42.785Z|INFO|ThreadPoolExecutor-0_0|do_mid|assign_resources_command.py#174|tango-device:ska_mid/tm_leaf_node/csp_subarray01|AssignResources command successfully invoked on mid-csp/subarray/01
+1|2024-01-17T09:21:42.785Z|INFO|ThreadPoolExecutor-0_0|assign_resources|assign_resources_command.py#58|tango-device:ska_mid/tm_leaf_node/csp_subarray01|
+1|2024-01-17T09:21:42.785Z|INFO|ThreadPoolExecutor-0_0|start_tracker_thread|tmc_command.py#176|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Starting tracker thread
+1|2024-01-17T09:21:42.785Z|INFO|Thread-14 (track_and_update_command_status)|check_final_obsstate|tmc_command.py#309|tango-device:ska_mid/tm_leaf_node/csp_subarray01|State change has occurred, current state is ObsState.RESOURCING
+1|2024-01-17T09:21:43.845Z|INFO|Dummy-7|handle_command_result_event|event_receiver.py#101|tango-device:ska_mid/tm_leaf_node/csp_subarray01|LRCR callback called
+1|2024-01-17T09:21:43.845Z|INFO|Dummy-7|update_command_result|component_manager.py#195|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Received longRunningCommandResult event for device: mid-csp/subarray/01, with value: ('1000_ReleaseAllResources', "[<ResultCode.OK: 0>, 'command ReleaseAllResources completed']")
+1|2024-01-17T09:21:43.846Z|INFO|Dummy-7|update_command_result|component_manager.py#212|tango-device:ska_mid/tm_leaf_node/csp_subarray01|command_result: ['<ResultCode.OK: 0>', "'command ReleaseAllResources completed'"]
+1|2024-01-17T09:21:43.846Z|INFO|Dummy-7|update_command_result|component_manager.py#216|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Command result code is <ResultCode.OK: 0> type: <class 'str'>
+1|2024-01-17T09:21:44.889Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#177|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value 2
+1|2024-01-17T09:21:44.889Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#183|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value updated to 2
+1|2024-01-17T09:21:44.889Z|INFO|Dummy-7|handle_obs_state_event|event_receiver.py#89|tango-device:ska_mid/tm_leaf_node/csp_subarray01|ObsState value is updated 2
+1|2024-01-17T09:21:44.889Z|INFO|Thread-14 (track_and_update_command_status)|check_final_obsstate|tmc_command.py#309|tango-device:ska_mid/tm_leaf_node/csp_subarray01|State change has occurred, current state is ObsState.IDLE
+1|2024-01-17T09:21:44.890Z|INFO|Thread-14 (track_and_update_command_status)|check_final_obsstate|tmc_command.py#317|tango-device:ska_mid/tm_leaf_node/csp_subarray01|State change has occurred, command successful
+1|2024-01-17T09:21:44.891Z|INFO|Thread-14 (track_and_update_command_status)|stop_tracker_thread|tmc_command.py#345|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Stopping tracker thread
+1|2024-01-17T09:21:44.891Z|INFO|Thread-14 (track_and_update_command_status)|stop_timer|tmc_component_manager.py#237|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Stopping timer <Timer(Thread-13, started daemon 139708281636416)>
+1|2024-01-17T09:21:44.991Z|INFO|Thread-14 (track_and_update_command_status)|remove_data|lrcr_callback.py#88|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Removed command data None
+1|2024-01-17T09:21:45.210Z|DEBUG|Dummy-5|is_command_allowed|component_manager.py#468|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Checking is command allowed for ReleaseAllResources
+1|2024-01-17T09:21:45.210Z|DEBUG|Dummy-5|log_stream|log4tango.py#138|tango-device:ska_mid/tm_leaf_node/csp_subarray01|-> CspSubarrayLeafNodeMid.ReleaseAllResources()
+1|2024-01-17T09:21:45.214Z|DEBUG|Dummy-5|log_stream|log4tango.py#151|tango-device:ska_mid/tm_leaf_node/csp_subarray01|<- CspSubarrayLeafNodeMid.ReleaseAllResources()
+1|2024-01-17T09:21:45.214Z|INFO|ThreadPoolExecutor-0_0|start_timer|tmc_component_manager.py#211|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Starting timer for id : 1705483305.2139091_ReleaseAllResources
+1|2024-01-17T09:21:45.215Z|DEBUG|ThreadPoolExecutor-0_0|do_mid|release_all_resources_command.py#97|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Invoking ReleaseAllResources command on CSP Subarray: mid-csp/subarray/01
+1|2024-01-17T09:21:45.216Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#177|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value 1
+1|2024-01-17T09:21:45.217Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#183|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value updated to 1
+1|2024-01-17T09:21:45.217Z|INFO|Dummy-7|handle_obs_state_event|event_receiver.py#89|tango-device:ska_mid/tm_leaf_node/csp_subarray01|ObsState value is updated 1
+1|2024-01-17T09:21:45.217Z|INFO|ThreadPoolExecutor-0_0|do_mid|release_all_resources_command.py#114|tango-device:ska_mid/tm_leaf_node/csp_subarray01|ReleaseAllResources command successfully invoked on: mid-csp/subarray/01
+1|2024-01-17T09:21:45.217Z|INFO|ThreadPoolExecutor-0_0|release_all_resources|release_all_resources_command.py#55|tango-device:ska_mid/tm_leaf_node/csp_subarray01|
+1|2024-01-17T09:21:45.217Z|INFO|ThreadPoolExecutor-0_0|start_tracker_thread|tmc_command.py#176|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Starting tracker thread
+1|2024-01-17T09:21:47.319Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#177|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value 0
+1|2024-01-17T09:21:47.320Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#183|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value updated to 0
+1|2024-01-17T09:21:47.320Z|INFO|Dummy-7|handle_obs_state_event|event_receiver.py#89|tango-device:ska_mid/tm_leaf_node/csp_subarray01|ObsState value is updated 0
+1|2024-01-17T09:21:47.321Z|INFO|Thread-17 (track_and_update_command_status)|check_final_obsstate|tmc_command.py#309|tango-device:ska_mid/tm_leaf_node/csp_subarray01|State change has occurred, current state is ObsState.EMPTY
+1|2024-01-17T09:21:47.321Z|INFO|Thread-17 (track_and_update_command_status)|check_final_obsstate|tmc_command.py#317|tango-device:ska_mid/tm_leaf_node/csp_subarray01|State change has occurred, command successful
+1|2024-01-17T09:21:47.322Z|INFO|Thread-17 (track_and_update_command_status)|stop_tracker_thread|tmc_command.py#345|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Stopping tracker thread
+1|2024-01-17T09:21:47.322Z|INFO|Thread-17 (track_and_update_command_status)|stop_timer|tmc_component_manager.py#237|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Stopping timer <Timer(Thread-16, started daemon 139708273243712)>
+1|2024-01-17T09:21:47.422Z|INFO|Thread-17 (track_and_update_command_status)|remove_data|lrcr_callback.py#88|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Removed command data None
+1|2024-01-17T09:21:47.789Z|INFO|Dummy-7|handle_command_result_event|event_receiver.py#101|tango-device:ska_mid/tm_leaf_node/csp_subarray01|LRCR callback called
+1|2024-01-17T09:21:47.789Z|INFO|Dummy-7|update_command_result|component_manager.py#195|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Received longRunningCommandResult event for device: mid-csp/subarray/01, with value: ('1000_AssignResources', "[<ResultCode.OK: 0>, 'command AssignResources completed']")
+1|2024-01-17T09:21:47.789Z|INFO|Dummy-7|update_command_result|component_manager.py#212|tango-device:ska_mid/tm_leaf_node/csp_subarray01|command_result: ['<ResultCode.OK: 0>', "'command AssignResources completed'"]
+1|2024-01-17T09:21:47.789Z|INFO|Dummy-7|update_command_result|component_manager.py#216|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Command result code is <ResultCode.OK: 0> type: <class 'str'>
+1|2024-01-17T09:21:49.094Z|DEBUG|Dummy-5|is_command_allowed|component_manager.py#468|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Checking is command allowed for AssignResources
+1|2024-01-17T09:21:49.094Z|DEBUG|Dummy-5|log_stream|log4tango.py#138|tango-device:ska_mid/tm_leaf_node/csp_subarray01|-> CspSubarrayLeafNodeMid.AssignResources()
+1|2024-01-17T09:21:49.097Z|DEBUG|Dummy-5|log_stream|log4tango.py#151|tango-device:ska_mid/tm_leaf_node/csp_subarray01|<- CspSubarrayLeafNodeMid.AssignResources()
+1|2024-01-17T09:21:49.097Z|INFO|ThreadPoolExecutor-0_0|start_timer|tmc_component_manager.py#211|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Starting timer for id : 1705483309.0975962_AssignResources
+1|2024-01-17T09:21:49.098Z|INFO|ThreadPoolExecutor-0_0|do_mid|assign_resources_command.py#148|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Invoking AssignResources command on mid-csp/subarray/01
+1|2024-01-17T09:21:49.098Z|INFO|ThreadPoolExecutor-0_0|do_mid|assign_resources_command.py#153|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Input JSON for AssignResources command for CSP subarray mid-csp/subarray/01 is {"interface": "https://schema.skao.int/ska-csp-assignresources/2.0", "subarray_id": 1, "dish": {"receptor_ids": ["SKA001", "SKA036"]}} 
+1|2024-01-17T09:21:49.100Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#177|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value 1
+1|2024-01-17T09:21:49.101Z|INFO|ThreadPoolExecutor-0_0|do_mid|assign_resources_command.py#174|tango-device:ska_mid/tm_leaf_node/csp_subarray01|AssignResources command successfully invoked on mid-csp/subarray/01
+1|2024-01-17T09:21:49.101Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#183|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value updated to 1
+1|2024-01-17T09:21:49.101Z|INFO|ThreadPoolExecutor-0_0|assign_resources|assign_resources_command.py#58|tango-device:ska_mid/tm_leaf_node/csp_subarray01|
+1|2024-01-17T09:21:49.101Z|INFO|Dummy-7|handle_obs_state_event|event_receiver.py#89|tango-device:ska_mid/tm_leaf_node/csp_subarray01|ObsState value is updated 1
+1|2024-01-17T09:21:49.101Z|INFO|ThreadPoolExecutor-0_0|start_tracker_thread|tmc_command.py#176|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Starting tracker thread
+1|2024-01-17T09:21:49.101Z|INFO|Thread-20 (track_and_update_command_status)|check_final_obsstate|tmc_command.py#309|tango-device:ska_mid/tm_leaf_node/csp_subarray01|State change has occurred, current state is ObsState.RESOURCING
+1|2024-01-17T09:21:50.221Z|INFO|Dummy-7|handle_command_result_event|event_receiver.py#101|tango-device:ska_mid/tm_leaf_node/csp_subarray01|LRCR callback called
+1|2024-01-17T09:21:50.222Z|INFO|Dummy-7|update_command_result|component_manager.py#195|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Received longRunningCommandResult event for device: mid-csp/subarray/01, with value: ('1000_ReleaseAllResources', "[<ResultCode.OK: 0>, 'command ReleaseAllResources completed']")
+1|2024-01-17T09:21:50.222Z|INFO|Dummy-7|update_command_result|component_manager.py#212|tango-device:ska_mid/tm_leaf_node/csp_subarray01|command_result: ['<ResultCode.OK: 0>', "'command ReleaseAllResources completed'"]
+1|2024-01-17T09:21:50.222Z|INFO|Dummy-7|update_command_result|component_manager.py#216|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Command result code is <ResultCode.OK: 0> type: <class 'str'>
+1|2024-01-17T09:21:51.203Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#177|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value 2
+1|2024-01-17T09:21:51.203Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#183|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value updated to 2
+1|2024-01-17T09:21:51.203Z|INFO|Dummy-7|handle_obs_state_event|event_receiver.py#89|tango-device:ska_mid/tm_leaf_node/csp_subarray01|ObsState value is updated 2
+1|2024-01-17T09:21:51.205Z|INFO|Thread-20 (track_and_update_command_status)|check_final_obsstate|tmc_command.py#309|tango-device:ska_mid/tm_leaf_node/csp_subarray01|State change has occurred, current state is ObsState.IDLE
+1|2024-01-17T09:21:51.206Z|INFO|Thread-20 (track_and_update_command_status)|check_final_obsstate|tmc_command.py#317|tango-device:ska_mid/tm_leaf_node/csp_subarray01|State change has occurred, command successful
+1|2024-01-17T09:21:51.207Z|INFO|Thread-20 (track_and_update_command_status)|stop_tracker_thread|tmc_command.py#345|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Stopping tracker thread
+1|2024-01-17T09:21:51.207Z|INFO|Thread-20 (track_and_update_command_status)|stop_timer|tmc_component_manager.py#237|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Stopping timer <Timer(Thread-19, started daemon 139708264851008)>
+1|2024-01-17T09:21:51.307Z|INFO|Thread-20 (track_and_update_command_status)|remove_data|lrcr_callback.py#88|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Removed command data None
+1|2024-01-17T09:21:51.467Z|DEBUG|Dummy-5|is_command_allowed|component_manager.py#468|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Checking is command allowed for ReleaseAllResources
+1|2024-01-17T09:21:51.467Z|DEBUG|Dummy-5|log_stream|log4tango.py#138|tango-device:ska_mid/tm_leaf_node/csp_subarray01|-> CspSubarrayLeafNodeMid.ReleaseAllResources()
+1|2024-01-17T09:21:51.472Z|DEBUG|Dummy-5|log_stream|log4tango.py#151|tango-device:ska_mid/tm_leaf_node/csp_subarray01|<- CspSubarrayLeafNodeMid.ReleaseAllResources()
+1|2024-01-17T09:21:51.472Z|INFO|ThreadPoolExecutor-0_0|start_timer|tmc_component_manager.py#211|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Starting timer for id : 1705483311.4723442_ReleaseAllResources
+1|2024-01-17T09:21:51.474Z|DEBUG|ThreadPoolExecutor-0_0|do_mid|release_all_resources_command.py#97|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Invoking ReleaseAllResources command on CSP Subarray: mid-csp/subarray/01
+1|2024-01-17T09:21:51.481Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#177|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value 1
+1|2024-01-17T09:21:51.481Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#183|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value updated to 1
+1|2024-01-17T09:21:51.481Z|INFO|Dummy-7|handle_obs_state_event|event_receiver.py#89|tango-device:ska_mid/tm_leaf_node/csp_subarray01|ObsState value is updated 1
+1|2024-01-17T09:21:51.481Z|INFO|ThreadPoolExecutor-0_0|do_mid|release_all_resources_command.py#114|tango-device:ska_mid/tm_leaf_node/csp_subarray01|ReleaseAllResources command successfully invoked on: mid-csp/subarray/01
+1|2024-01-17T09:21:51.482Z|INFO|ThreadPoolExecutor-0_0|release_all_resources|release_all_resources_command.py#55|tango-device:ska_mid/tm_leaf_node/csp_subarray01|
+1|2024-01-17T09:21:51.482Z|INFO|ThreadPoolExecutor-0_0|start_tracker_thread|tmc_command.py#176|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Starting tracker thread
+1|2024-01-17T09:21:53.585Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#177|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value 0
+1|2024-01-17T09:21:53.585Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#183|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value updated to 0
+1|2024-01-17T09:21:53.585Z|INFO|Dummy-7|handle_obs_state_event|event_receiver.py#89|tango-device:ska_mid/tm_leaf_node/csp_subarray01|ObsState value is updated 0
+1|2024-01-17T09:21:53.586Z|INFO|Thread-23 (track_and_update_command_status)|check_final_obsstate|tmc_command.py#309|tango-device:ska_mid/tm_leaf_node/csp_subarray01|State change has occurred, current state is ObsState.EMPTY
+1|2024-01-17T09:21:53.586Z|INFO|Thread-23 (track_and_update_command_status)|check_final_obsstate|tmc_command.py#317|tango-device:ska_mid/tm_leaf_node/csp_subarray01|State change has occurred, command successful
+1|2024-01-17T09:21:53.587Z|INFO|Thread-23 (track_and_update_command_status)|stop_tracker_thread|tmc_command.py#345|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Stopping tracker thread
+1|2024-01-17T09:21:53.587Z|INFO|Thread-23 (track_and_update_command_status)|stop_timer|tmc_component_manager.py#237|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Stopping timer <Timer(Thread-22, started daemon 139708281636416)>
+1|2024-01-17T09:21:53.687Z|INFO|Thread-23 (track_and_update_command_status)|remove_data|lrcr_callback.py#88|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Removed command data None
+1|2024-01-17T09:21:54.106Z|INFO|Dummy-7|handle_command_result_event|event_receiver.py#101|tango-device:ska_mid/tm_leaf_node/csp_subarray01|LRCR callback called
+1|2024-01-17T09:21:54.106Z|INFO|Dummy-7|update_command_result|component_manager.py#195|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Received longRunningCommandResult event for device: mid-csp/subarray/01, with value: ('1000_AssignResources', "[<ResultCode.OK: 0>, 'command AssignResources completed']")
+1|2024-01-17T09:21:54.106Z|INFO|Dummy-7|update_command_result|component_manager.py#212|tango-device:ska_mid/tm_leaf_node/csp_subarray01|command_result: ['<ResultCode.OK: 0>', "'command AssignResources completed'"]
+1|2024-01-17T09:21:54.106Z|INFO|Dummy-7|update_command_result|component_manager.py#216|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Command result code is <ResultCode.OK: 0> type: <class 'str'>
+1|2024-01-17T09:21:55.379Z|DEBUG|Dummy-5|is_command_allowed|component_manager.py#468|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Checking is command allowed for AssignResources
+1|2024-01-17T09:21:55.379Z|DEBUG|Dummy-5|log_stream|log4tango.py#138|tango-device:ska_mid/tm_leaf_node/csp_subarray01|-> CspSubarrayLeafNodeMid.AssignResources()
+1|2024-01-17T09:21:55.384Z|DEBUG|Dummy-5|log_stream|log4tango.py#151|tango-device:ska_mid/tm_leaf_node/csp_subarray01|<- CspSubarrayLeafNodeMid.AssignResources()
+1|2024-01-17T09:21:55.385Z|INFO|ThreadPoolExecutor-0_0|start_timer|tmc_component_manager.py#211|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Starting timer for id : 1705483315.3848162_AssignResources
+1|2024-01-17T09:21:55.386Z|INFO|ThreadPoolExecutor-0_0|do_mid|assign_resources_command.py#148|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Invoking AssignResources command on mid-csp/subarray/01
+1|2024-01-17T09:21:55.386Z|INFO|ThreadPoolExecutor-0_0|do_mid|assign_resources_command.py#153|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Input JSON for AssignResources command for CSP subarray mid-csp/subarray/01 is {"interface": "https://schema.skao.int/ska-csp-assignresources/2.0", "subarray_id": 1, "dish": {"receptor_ids": ["SKA001", "SKA036"]}} 
+1|2024-01-17T09:21:55.390Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#177|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value 1
+1|2024-01-17T09:21:55.390Z|INFO|ThreadPoolExecutor-0_0|do_mid|assign_resources_command.py#174|tango-device:ska_mid/tm_leaf_node/csp_subarray01|AssignResources command successfully invoked on mid-csp/subarray/01
+1|2024-01-17T09:21:55.390Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#183|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value updated to 1
+1|2024-01-17T09:21:55.391Z|INFO|ThreadPoolExecutor-0_0|assign_resources|assign_resources_command.py#58|tango-device:ska_mid/tm_leaf_node/csp_subarray01|
+1|2024-01-17T09:21:55.391Z|INFO|Dummy-7|handle_obs_state_event|event_receiver.py#89|tango-device:ska_mid/tm_leaf_node/csp_subarray01|ObsState value is updated 1
+1|2024-01-17T09:21:55.391Z|INFO|ThreadPoolExecutor-0_0|start_tracker_thread|tmc_command.py#176|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Starting tracker thread
+1|2024-01-17T09:21:55.391Z|INFO|Thread-26 (track_and_update_command_status)|check_final_obsstate|tmc_command.py#309|tango-device:ska_mid/tm_leaf_node/csp_subarray01|State change has occurred, current state is ObsState.RESOURCING
+1|2024-01-17T09:21:56.485Z|INFO|Dummy-7|handle_command_result_event|event_receiver.py#101|tango-device:ska_mid/tm_leaf_node/csp_subarray01|LRCR callback called
+1|2024-01-17T09:21:56.485Z|INFO|Dummy-7|update_command_result|component_manager.py#195|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Received longRunningCommandResult event for device: mid-csp/subarray/01, with value: ('1000_ReleaseAllResources', "[<ResultCode.OK: 0>, 'command ReleaseAllResources completed']")
+1|2024-01-17T09:21:56.485Z|INFO|Dummy-7|update_command_result|component_manager.py#212|tango-device:ska_mid/tm_leaf_node/csp_subarray01|command_result: ['<ResultCode.OK: 0>', "'command ReleaseAllResources completed'"]
+1|2024-01-17T09:21:56.485Z|INFO|Dummy-7|update_command_result|component_manager.py#216|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Command result code is <ResultCode.OK: 0> type: <class 'str'>
+1|2024-01-17T09:21:57.494Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#177|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value 2
+1|2024-01-17T09:21:57.495Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#183|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value updated to 2
+1|2024-01-17T09:21:57.495Z|INFO|Dummy-7|handle_obs_state_event|event_receiver.py#89|tango-device:ska_mid/tm_leaf_node/csp_subarray01|ObsState value is updated 2
+1|2024-01-17T09:21:57.495Z|INFO|Thread-26 (track_and_update_command_status)|check_final_obsstate|tmc_command.py#309|tango-device:ska_mid/tm_leaf_node/csp_subarray01|State change has occurred, current state is ObsState.IDLE
+1|2024-01-17T09:21:57.496Z|INFO|Thread-26 (track_and_update_command_status)|check_final_obsstate|tmc_command.py#317|tango-device:ska_mid/tm_leaf_node/csp_subarray01|State change has occurred, command successful
+1|2024-01-17T09:21:57.497Z|INFO|Thread-26 (track_and_update_command_status)|stop_tracker_thread|tmc_command.py#345|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Stopping tracker thread
+1|2024-01-17T09:21:57.497Z|INFO|Thread-26 (track_and_update_command_status)|stop_timer|tmc_component_manager.py#237|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Stopping timer <Timer(Thread-25, started daemon 139707635725888)>
+1|2024-01-17T09:21:57.598Z|INFO|Thread-26 (track_and_update_command_status)|remove_data|lrcr_callback.py#88|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Removed command data None
+1|2024-01-17T09:21:57.830Z|DEBUG|Dummy-5|is_command_allowed|component_manager.py#468|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Checking is command allowed for ReleaseAllResources
+1|2024-01-17T09:21:57.830Z|DEBUG|Dummy-5|log_stream|log4tango.py#138|tango-device:ska_mid/tm_leaf_node/csp_subarray01|-> CspSubarrayLeafNodeMid.ReleaseAllResources()
+1|2024-01-17T09:21:57.833Z|DEBUG|Dummy-5|log_stream|log4tango.py#151|tango-device:ska_mid/tm_leaf_node/csp_subarray01|<- CspSubarrayLeafNodeMid.ReleaseAllResources()
+1|2024-01-17T09:21:57.834Z|INFO|ThreadPoolExecutor-0_0|start_timer|tmc_component_manager.py#211|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Starting timer for id : 1705483317.833806_ReleaseAllResources
+1|2024-01-17T09:21:57.836Z|DEBUG|ThreadPoolExecutor-0_0|do_mid|release_all_resources_command.py#97|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Invoking ReleaseAllResources command on CSP Subarray: mid-csp/subarray/01
+1|2024-01-17T09:21:57.841Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#177|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value 1
+1|2024-01-17T09:21:57.841Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#183|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value updated to 1
+1|2024-01-17T09:21:57.841Z|INFO|Dummy-7|handle_obs_state_event|event_receiver.py#89|tango-device:ska_mid/tm_leaf_node/csp_subarray01|ObsState value is updated 1
+1|2024-01-17T09:21:57.841Z|INFO|ThreadPoolExecutor-0_0|do_mid|release_all_resources_command.py#114|tango-device:ska_mid/tm_leaf_node/csp_subarray01|ReleaseAllResources command successfully invoked on: mid-csp/subarray/01
+1|2024-01-17T09:21:57.842Z|INFO|ThreadPoolExecutor-0_0|release_all_resources|release_all_resources_command.py#55|tango-device:ska_mid/tm_leaf_node/csp_subarray01|
+1|2024-01-17T09:21:57.842Z|INFO|ThreadPoolExecutor-0_0|start_tracker_thread|tmc_command.py#176|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Starting tracker thread
+1|2024-01-17T09:21:59.945Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#177|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value 0
+1|2024-01-17T09:21:59.945Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#183|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value updated to 0
+1|2024-01-17T09:21:59.946Z|INFO|Dummy-7|handle_obs_state_event|event_receiver.py#89|tango-device:ska_mid/tm_leaf_node/csp_subarray01|ObsState value is updated 0
+1|2024-01-17T09:21:59.946Z|INFO|Thread-29 (track_and_update_command_status)|check_final_obsstate|tmc_command.py#309|tango-device:ska_mid/tm_leaf_node/csp_subarray01|State change has occurred, current state is ObsState.EMPTY
+1|2024-01-17T09:21:59.946Z|INFO|Thread-29 (track_and_update_command_status)|check_final_obsstate|tmc_command.py#317|tango-device:ska_mid/tm_leaf_node/csp_subarray01|State change has occurred, command successful
+1|2024-01-17T09:21:59.946Z|INFO|Thread-29 (track_and_update_command_status)|stop_tracker_thread|tmc_command.py#345|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Stopping tracker thread
+1|2024-01-17T09:21:59.946Z|INFO|Thread-29 (track_and_update_command_status)|stop_timer|tmc_component_manager.py#237|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Stopping timer <Timer(Thread-28, started daemon 139708264851008)>
+1|2024-01-17T09:22:00.047Z|INFO|Thread-29 (track_and_update_command_status)|remove_data|lrcr_callback.py#88|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Removed command data None
+1|2024-01-17T09:22:00.394Z|INFO|Dummy-7|handle_command_result_event|event_receiver.py#101|tango-device:ska_mid/tm_leaf_node/csp_subarray01|LRCR callback called
+1|2024-01-17T09:22:00.394Z|INFO|Dummy-7|update_command_result|component_manager.py#195|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Received longRunningCommandResult event for device: mid-csp/subarray/01, with value: ('1000_AssignResources', "[<ResultCode.OK: 0>, 'command AssignResources completed']")
+1|2024-01-17T09:22:00.394Z|INFO|Dummy-7|update_command_result|component_manager.py#212|tango-device:ska_mid/tm_leaf_node/csp_subarray01|command_result: ['<ResultCode.OK: 0>', "'command AssignResources completed'"]
+1|2024-01-17T09:22:00.394Z|INFO|Dummy-7|update_command_result|component_manager.py#216|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Command result code is <ResultCode.OK: 0> type: <class 'str'>
+1|2024-01-17T09:22:01.694Z|DEBUG|Dummy-5|is_command_allowed|component_manager.py#468|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Checking is command allowed for AssignResources
+1|2024-01-17T09:22:01.694Z|DEBUG|Dummy-5|log_stream|log4tango.py#138|tango-device:ska_mid/tm_leaf_node/csp_subarray01|-> CspSubarrayLeafNodeMid.AssignResources()
+1|2024-01-17T09:22:01.699Z|DEBUG|Dummy-5|log_stream|log4tango.py#151|tango-device:ska_mid/tm_leaf_node/csp_subarray01|<- CspSubarrayLeafNodeMid.AssignResources()
+1|2024-01-17T09:22:01.700Z|INFO|ThreadPoolExecutor-0_0|start_timer|tmc_component_manager.py#211|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Starting timer for id : 1705483321.6998003_AssignResources
+1|2024-01-17T09:22:01.701Z|INFO|ThreadPoolExecutor-0_0|do_mid|assign_resources_command.py#148|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Invoking AssignResources command on mid-csp/subarray/01
+1|2024-01-17T09:22:01.701Z|INFO|ThreadPoolExecutor-0_0|do_mid|assign_resources_command.py#153|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Input JSON for AssignResources command for CSP subarray mid-csp/subarray/01 is {"interface": "https://schema.skao.int/ska-csp-assignresources/2.0", "subarray_id": 1, "dish": {"receptor_ids": ["SKA001", "SKA036"]}} 
+1|2024-01-17T09:22:01.704Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#177|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value 1
+1|2024-01-17T09:22:01.704Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#183|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value updated to 1
+1|2024-01-17T09:22:01.704Z|INFO|Dummy-7|handle_obs_state_event|event_receiver.py#89|tango-device:ska_mid/tm_leaf_node/csp_subarray01|ObsState value is updated 1
+1|2024-01-17T09:22:01.704Z|INFO|ThreadPoolExecutor-0_0|do_mid|assign_resources_command.py#174|tango-device:ska_mid/tm_leaf_node/csp_subarray01|AssignResources command successfully invoked on mid-csp/subarray/01
+1|2024-01-17T09:22:01.705Z|INFO|ThreadPoolExecutor-0_0|assign_resources|assign_resources_command.py#58|tango-device:ska_mid/tm_leaf_node/csp_subarray01|
+1|2024-01-17T09:22:01.705Z|INFO|ThreadPoolExecutor-0_0|start_tracker_thread|tmc_command.py#176|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Starting tracker thread
+1|2024-01-17T09:22:01.705Z|INFO|Thread-32 (track_and_update_command_status)|check_final_obsstate|tmc_command.py#309|tango-device:ska_mid/tm_leaf_node/csp_subarray01|State change has occurred, current state is ObsState.RESOURCING
+1|2024-01-17T09:22:02.845Z|INFO|Dummy-7|handle_command_result_event|event_receiver.py#101|tango-device:ska_mid/tm_leaf_node/csp_subarray01|LRCR callback called
+1|2024-01-17T09:22:02.845Z|INFO|Dummy-7|update_command_result|component_manager.py#195|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Received longRunningCommandResult event for device: mid-csp/subarray/01, with value: ('1000_ReleaseAllResources', "[<ResultCode.OK: 0>, 'command ReleaseAllResources completed']")
+1|2024-01-17T09:22:02.846Z|INFO|Dummy-7|update_command_result|component_manager.py#212|tango-device:ska_mid/tm_leaf_node/csp_subarray01|command_result: ['<ResultCode.OK: 0>', "'command ReleaseAllResources completed'"]
+1|2024-01-17T09:22:02.846Z|INFO|Dummy-7|update_command_result|component_manager.py#216|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Command result code is <ResultCode.OK: 0> type: <class 'str'>
+1|2024-01-17T09:22:03.808Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#177|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value 2
+1|2024-01-17T09:22:03.808Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#183|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value updated to 2
+1|2024-01-17T09:22:03.808Z|INFO|Dummy-7|handle_obs_state_event|event_receiver.py#89|tango-device:ska_mid/tm_leaf_node/csp_subarray01|ObsState value is updated 2
+1|2024-01-17T09:22:03.809Z|INFO|Thread-32 (track_and_update_command_status)|check_final_obsstate|tmc_command.py#309|tango-device:ska_mid/tm_leaf_node/csp_subarray01|State change has occurred, current state is ObsState.IDLE
+1|2024-01-17T09:22:03.809Z|INFO|Thread-32 (track_and_update_command_status)|check_final_obsstate|tmc_command.py#317|tango-device:ska_mid/tm_leaf_node/csp_subarray01|State change has occurred, command successful
+1|2024-01-17T09:22:03.809Z|INFO|Thread-32 (track_and_update_command_status)|stop_tracker_thread|tmc_command.py#345|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Stopping tracker thread
+1|2024-01-17T09:22:03.809Z|INFO|Thread-32 (track_and_update_command_status)|stop_timer|tmc_component_manager.py#237|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Stopping timer <Timer(Thread-31, started daemon 139708256458304)>
+1|2024-01-17T09:22:03.910Z|INFO|Thread-32 (track_and_update_command_status)|remove_data|lrcr_callback.py#88|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Removed command data None
+1|2024-01-17T09:22:04.222Z|DEBUG|Dummy-5|is_command_allowed|component_manager.py#468|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Checking is command allowed for Configure
+1|2024-01-17T09:22:04.222Z|DEBUG|Dummy-5|log_stream|log4tango.py#138|tango-device:ska_mid/tm_leaf_node/csp_subarray01|-> CspSubarrayLeafNodeMid.Configure()
+1|2024-01-17T09:22:04.227Z|DEBUG|Dummy-5|log_stream|log4tango.py#151|tango-device:ska_mid/tm_leaf_node/csp_subarray01|<- CspSubarrayLeafNodeMid.Configure()
+1|2024-01-17T09:22:04.228Z|INFO|ThreadPoolExecutor-0_0|start_timer|tmc_component_manager.py#211|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Starting timer for id : 1705483324.2274885_Configure
+1|2024-01-17T09:22:06.709Z|INFO|Dummy-7|handle_command_result_event|event_receiver.py#101|tango-device:ska_mid/tm_leaf_node/csp_subarray01|LRCR callback called
+1|2024-01-17T09:22:06.709Z|INFO|Dummy-7|update_command_result|component_manager.py#195|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Received longRunningCommandResult event for device: mid-csp/subarray/01, with value: ('1000_AssignResources', "[<ResultCode.OK: 0>, 'command AssignResources completed']")
+1|2024-01-17T09:22:06.709Z|INFO|Dummy-7|update_command_result|component_manager.py#212|tango-device:ska_mid/tm_leaf_node/csp_subarray01|command_result: ['<ResultCode.OK: 0>', "'command AssignResources completed'"]
+1|2024-01-17T09:22:06.709Z|INFO|Dummy-7|update_command_result|component_manager.py#216|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Command result code is <ResultCode.OK: 0> type: <class 'str'>
+1|2024-01-17T09:22:19.228Z|INFO|Thread-34|timeout_handler|tmc_component_manager.py#230|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Timeout occured for id : 1705483324.2274885_Configure
+1|2024-01-17T09:22:57.638Z|DEBUG|Dummy-5|is_command_allowed|component_manager.py#468|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Checking is command allowed for Abort
+1|2024-01-17T09:22:57.638Z|DEBUG|Dummy-5|log_stream|log4tango.py#138|tango-device:ska_mid/tm_leaf_node/csp_subarray01|-> CspSubarrayLeafNodeMid.Abort()
+1|2024-01-17T09:22:57.645Z|INFO|Dummy-5|do|abort_command.py#56|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Invoking Abort command on CSP Subarray:mid-csp/subarray/01
+1|2024-01-17T09:22:57.648Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#177|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value 6
+1|2024-01-17T09:22:57.648Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#183|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value updated to 6
+1|2024-01-17T09:22:57.648Z|INFO|Dummy-5|invoke_abort|abort_command.py#33|tango-device:ska_mid/tm_leaf_node/csp_subarray01|
+1|2024-01-17T09:22:57.648Z|DEBUG|Dummy-5|log_stream|log4tango.py#151|tango-device:ska_mid/tm_leaf_node/csp_subarray01|<- CspSubarrayLeafNodeMid.Abort()
+1|2024-01-17T09:22:57.649Z|INFO|Dummy-7|handle_obs_state_event|event_receiver.py#89|tango-device:ska_mid/tm_leaf_node/csp_subarray01|ObsState value is updated 6
+1|2024-01-17T09:22:59.749Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#177|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value 7
+1|2024-01-17T09:22:59.749Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#183|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value updated to 7
+1|2024-01-17T09:22:59.749Z|INFO|Dummy-7|handle_obs_state_event|event_receiver.py#89|tango-device:ska_mid/tm_leaf_node/csp_subarray01|ObsState value is updated 7
+1|2024-01-17T09:23:00.188Z|DEBUG|Dummy-5|is_command_allowed|component_manager.py#468|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Checking is command allowed for Restart
+1|2024-01-17T09:23:00.188Z|DEBUG|Dummy-5|log_stream|log4tango.py#138|tango-device:ska_mid/tm_leaf_node/csp_subarray01|-> CspSubarrayLeafNodeMid.Restart()
+1|2024-01-17T09:23:00.193Z|DEBUG|Dummy-5|log_stream|log4tango.py#151|tango-device:ska_mid/tm_leaf_node/csp_subarray01|<- CspSubarrayLeafNodeMid.Restart()
+1|2024-01-17T09:23:00.194Z|INFO|ThreadPoolExecutor-0_1|do|restart_command.py#68|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Invoking Restart command on: mid-csp/subarray/01
+1|2024-01-17T09:23:00.194Z|INFO|ThreadPoolExecutor-0_1|do|restart_command.py#73|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Invoking Restart command on CSP Subarray: mid-csp/subarray/01
+1|2024-01-17T09:23:00.197Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#177|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value 10
+1|2024-01-17T09:23:00.197Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#183|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value updated to 10
+1|2024-01-17T09:23:00.197Z|INFO|Dummy-7|handle_obs_state_event|event_receiver.py#89|tango-device:ska_mid/tm_leaf_node/csp_subarray01|ObsState value is updated 10
+1|2024-01-17T09:23:00.197Z|INFO|ThreadPoolExecutor-0_1|do|restart_command.py#90|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Restart command successfully invoked on: mid-csp/subarray/01
+1|2024-01-17T09:23:00.197Z|INFO|ThreadPoolExecutor-0_1|restart|restart_command.py#40|tango-device:ska_mid/tm_leaf_node/csp_subarray01|
+1|2024-01-17T09:23:02.299Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#177|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value 0
+1|2024-01-17T09:23:02.300Z|INFO|Dummy-7|update_device_obs_state|component_manager.py#183|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Obs State value updated to 0
+1|2024-01-17T09:23:02.300Z|INFO|Dummy-7|handle_obs_state_event|event_receiver.py#89|tango-device:ska_mid/tm_leaf_node/csp_subarray01|ObsState value is updated 0
+1|2024-01-17T09:23:02.653Z|INFO|Dummy-7|handle_command_result_event|event_receiver.py#101|tango-device:ska_mid/tm_leaf_node/csp_subarray01|LRCR callback called
+1|2024-01-17T09:23:02.653Z|INFO|Dummy-7|update_command_result|component_manager.py#195|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Received longRunningCommandResult event for device: mid-csp/subarray/01, with value: ('1000_Abort', "[<ResultCode.OK: 0>, 'command Abort completed']")
+1|2024-01-17T09:23:02.653Z|INFO|Dummy-7|update_command_result|component_manager.py#212|tango-device:ska_mid/tm_leaf_node/csp_subarray01|command_result: ['<ResultCode.OK: 0>', "'command Abort completed'"]
+1|2024-01-17T09:23:02.653Z|INFO|Dummy-7|update_command_result|component_manager.py#216|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Command result code is <ResultCode.OK: 0> type: <class 'str'>
+1|2024-01-17T09:23:05.202Z|INFO|Dummy-7|handle_command_result_event|event_receiver.py#101|tango-device:ska_mid/tm_leaf_node/csp_subarray01|LRCR callback called
+1|2024-01-17T09:23:05.202Z|INFO|Dummy-7|update_command_result|component_manager.py#195|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Received longRunningCommandResult event for device: mid-csp/subarray/01, with value: ('1000_Restart', "[<ResultCode.OK: 0>, 'command Restart completed']")
+1|2024-01-17T09:23:05.203Z|INFO|Dummy-7|update_command_result|component_manager.py#212|tango-device:ska_mid/tm_leaf_node/csp_subarray01|command_result: ['<ResultCode.OK: 0>', "'command Restart completed'"]
+1|2024-01-17T09:23:05.203Z|INFO|Dummy-7|update_command_result|component_manager.py#216|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Command result code is <ResultCode.OK: 0> type: <class 'str'>
+1|2024-01-17T09:24:22.914Z|INFO|ThreadPoolExecutor-0_0|_load_data|backend.py#718||gitlab://gitlab.com/ska-telescope/ska-telmodel-data?main#tmdata: Loading Nexus tarball...
+1|2024-01-17T09:24:23.230Z|INFO|ThreadPoolExecutor-0_0|update_config_params|delay_model_mid.py#80|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Completed updating config parameters.
+1|2024-01-17T09:24:23.231Z|INFO|ThreadPoolExecutor-0_0|do_mid|configure_command.py#176|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Invoking Configure command on mid-csp/subarray/01
+1|2024-01-17T09:24:23.231Z|INFO|ThreadPoolExecutor-0_0|do_mid|configure_command.py#181|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Input JSON for CSP Subarray Leaf Node Configure command is: {"interface": "https://schema.skao.int/ska-csp-configure/2.0", "subarray": {"subarray_name": "science period 23"}, "common": {"config_id": "sbi-mvp01-20200325-00001-science_A", "frequency_band": "1", "subarray_id": 1}, "cbf": {"fsp": [{"fsp_id": 1, "function_mode": "CORR", "frequency_slice_id": 1, "zoom_factor": 0, "integration_factor": 1, "channel_averaging_map": [[0, 2], [744, 0]], "output_link_map": [[0, 0], [200, 1]], "channel_offset": 0, "output_host": [[0, "192.168.0.1"]], "output_port": [[0, 9000, 1]]}, {"fsp_id": 2, "function_mode": "CORR", "frequency_slice_id": 2, "zoom_factor": 1, "integration_factor": 1, "channel_averaging_map": [[0, 2], [744, 0]], "output_link_map": [[0, 4], [200, 5]], "channel_offset": 744, "zoom_window_tuning": 650000, "output_host": [[0, "192.168.0.1"], [1256, "192.168.0.1"]], "output_port": [[0, 9744, 1], [1256, 9000, 1]]}], "vlbi": {}, "delay_model_subscription_point": "ska_mid/tm_leaf_node/csp_subarray01/delayModel"}, "pss": {}, "pst": {}, "pointing": {"target": {"ra": "21:08:47.92", "dec": "-88:57:22.9", "reference_frame": "ICRS", "target_name": "Polaris Australis"}}}
+1|2024-01-17T09:24:23.235Z|INFO|ThreadPoolExecutor-0_0|do_mid|configure_command.py#201|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Configure command successfully invoked on: mid-csp/subarray/01
+1|2024-01-17T09:24:23.235Z|INFO|ThreadPoolExecutor-0_0|configure|configure_command.py#62|tango-device:ska_mid/tm_leaf_node/csp_subarray01|
+1|2024-01-17T09:24:23.235Z|INFO|ThreadPoolExecutor-0_0|start_tracker_thread|tmc_command.py#176|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Starting tracker thread
+1|2024-01-17T09:24:23.235Z|ERROR|Thread-36 (track_and_update_command_status)|check_command_timeout|tmc_command.py#284|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Timeout has occurred, command failed
+1|2024-01-17T09:24:23.236Z|ERROR|Thread-36 (track_and_update_command_status)|_update_command_exception|base_device.py#552|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Command '1705483324.2230334_126418619787526_Configure' raised exception Timeout has occurred, command failed
+1|2024-01-17T09:24:23.236Z|INFO|Thread-36 (track_and_update_command_status)|stop_tracker_thread|tmc_command.py#345|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Stopping tracker thread
+1|2024-01-17T09:24:23.236Z|INFO|Thread-36 (track_and_update_command_status)|stop_timer|tmc_component_manager.py#237|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Stopping timer <Timer(Thread-34, stopped daemon 139707635725888)>
+1|2024-01-17T09:24:23.336Z|INFO|Thread-36 (track_and_update_command_status)|remove_data|lrcr_callback.py#88|tango-device:ska_mid/tm_leaf_node/csp_subarray01|Removed command data None
