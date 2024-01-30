@@ -230,6 +230,9 @@ def fail_to_connect_dish(test_dish_id):
     LOGGER.info("test_dish_id: %s", test_dish_id)
     LOGGER.info("dish1_admin_dev_name is: %s", dish1_admin_dev_name)
     LOGGER.info("dish1_dev_name: %s", dish1_dev_name)
+    LOGGER.info("dish_tango_host: %s", dish_tango_host)
+    LOGGER.info("dish_namespace1: %s", dish_namespace1)
+    LOGGER.info("cluster_domain: %s", cluster_domain)
 
     dish_host = dish_tango_host + "." + dish_namespace1 + "." + cluster_domain
     LOGGER.info("dish_host is: %s", dish_host)
