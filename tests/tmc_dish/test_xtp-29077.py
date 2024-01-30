@@ -264,7 +264,7 @@ def recheck_if_central_node_running(event_recorder):
 
 @then("the telescope is in Standby state")
 def check_if_telescope_is_in_stanby_state(event_recorder):
-
+    dish1_proxy = DeviceProxy(dish1_dev_name)
     assert event_recorder.has_change_event_occurred(
         dish1_proxy,
         "dishMode",
