@@ -143,15 +143,17 @@ mid-on-demand-deploy-mini-skampi:
     SDP_SIMULATION_ENABLED: "false"
     CSP_SIMULATION_ENABLED: "false"
     SUBARRAY_COUNT: 2
-    DISH_TANGO_HOST: "databaseds-tango-base"
+    DISH_TANGO_HOST: "tango-databaseds"
     CLUSTER_DOMAIN: "svc.cluster.local"
     PORT: "10000"
     DISH_INDEX_1: "001"
     DISH_INDEX_36: "036"
     DISH_INDEX_63: "063"
+    DISH_INDEX_100: "100"
     DISH_NAMESPACE_1: "ci-$CI_PROJECT_NAME-$CI_COMMIT_BRANCH-on-demand-dish-lmc-$DISH_INDEX_1"
     DISH_NAMESPACE_2: "ci-$CI_PROJECT_NAME-$CI_COMMIT_BRANCH-on-demand-dish-lmc-$DISH_INDEX_36"
     DISH_NAMESPACE_3: "ci-$CI_PROJECT_NAME-$CI_COMMIT_BRANCH-on-demand-dish-lmc-$DISH_INDEX_63"
+    DISH_NAMESPACE_4: "ci-$CI_PROJECT_NAME-$CI_COMMIT_BRANCH-on-demand-dish-lmc-$DISH_INDEX_100"
     KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_BRANCH-on-demand-tmc-test"
     SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_BRANCH-on-demand-tmc-test"
     TARANTA_ENABLED: "true"
@@ -166,6 +168,7 @@ mid-on-demand-deploy-mini-skampi:
     - on-demand-dish-lmc-dish001
     - on-demand-dish-lmc-dish036
     - on-demand-dish-lmc-dish063
+    - on-demand-dish-lmc-dish100
   environment:
     name: $CI_PROJECT_NAME/$CI_COMMIT_REF_SLUG
     kubernetes:
@@ -183,7 +186,7 @@ on-demand-dish-lmc-dish001:
     DISH_INDEX: "001"
     KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_BRANCH-on-demand-dish-lmc-$DISH_INDEX"
     DISH_LMC_SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_BRANCH-on-demand-dish-lmc-$DISH_INDEX"
-    DISH_HELM_RELEASE: "2.6.0"
+    DISH_HELM_RELEASE: "2.6.2"
     K8S_DISH_LMC_CHART: "ska-dish-lmc"
   environment:
     name: test/$CI_COMMIT_REF_SLUG
@@ -196,7 +199,7 @@ stop-on-demand-dish-lmc-001:
     stage: on-demand
     variables:
       KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_BRANCH-on-demand-dish-lmc-001"
-      DISH_HELM_RELEASE: "2.6.0"
+      DISH_HELM_RELEASE: "2.6.2"
       K8S_DISH_LMC_CHART: "ska-dish-lmc"
   
 on-demand-dish-lmc-dish036:
@@ -206,7 +209,7 @@ on-demand-dish-lmc-dish036:
     DISH_INDEX: "036"
     KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_BRANCH-on-demand-dish-lmc-$DISH_INDEX"
     DISH_LMC_SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_BRANCH-on-demand-dish-lmc-$DISH_INDEX"
-    DISH_HELM_RELEASE: "2.6.0"
+    DISH_HELM_RELEASE: "2.6.2"
     K8S_DISH_LMC_CHART: "ska-dish-lmc"
   environment:
     name: test/$CI_COMMIT_REF_SLUG
@@ -219,7 +222,7 @@ stop-on-demand-dish-lmc-036:
   stage: on-demand
   variables:
     KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_BRANCH-on-demand-dish-lmc-036"
-    DISH_HELM_RELEASE: "2.6.0"
+    DISH_HELM_RELEASE: "2.6.2"
     K8S_DISH_LMC_CHART: "ska-dish-lmc"
 
 on-demand-dish-lmc-dish063:
@@ -229,7 +232,7 @@ on-demand-dish-lmc-dish063:
     DISH_INDEX: "063"
     KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_BRANCH-on-demand-dish-lmc-$DISH_INDEX"
     DISH_LMC_SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_BRANCH-on-demand-dish-lmc-$DISH_INDEX"
-    DISH_HELM_RELEASE: "2.6.0"
+    DISH_HELM_RELEASE: "2.6.2"
     K8S_DISH_LMC_CHART: "ska-dish-lmc"
   environment:
     name: test/$CI_COMMIT_REF_SLUG
@@ -242,7 +245,30 @@ stop-on-demand-dish-lmc-063:
   stage: on-demand
   variables:
     KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_BRANCH-on-demand-dish-lmc-063"
-    DISH_HELM_RELEASE: "2.6.0"
+    DISH_HELM_RELEASE: "2.6.2"
+    K8S_DISH_LMC_CHART: "ska-dish-lmc"
+
+on-demand-dish-lmc-dish100:
+  extends:
+    - on-demand-dish-lmc-dish001
+  variables:
+    DISH_INDEX: "100"
+    KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_BRANCH-on-demand-dish-lmc-$DISH_INDEX"
+    DISH_LMC_SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_BRANCH-on-demand-dish-lmc-$DISH_INDEX"
+    DISH_HELM_RELEASE: "2.6.2"
+    K8S_DISH_LMC_CHART: "ska-dish-lmc"
+  environment:
+    name: test/$CI_COMMIT_REF_SLUG
+    on_stop: stop-on-demand-dish-lmc-100
+    action: stop
+
+stop-on-demand-dish-lmc-100:
+  extends:
+    - stop-k8s-dish-lmc-001
+  stage: on-demand
+  variables:
+    KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_BRANCH-on-demand-dish-lmc-100"
+    DISH_HELM_RELEASE: "2.6.2"
     K8S_DISH_LMC_CHART: "ska-dish-lmc"
 
 mid-on-demand-destroy-mini-skampi:
