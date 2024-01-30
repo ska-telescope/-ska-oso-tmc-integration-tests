@@ -1,5 +1,6 @@
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
+from tango import DeviceProxy, EventType
 
 from tests.conftest import LOGGER
 from tests.resources.test_support.common_utils.result_code import ResultCode
@@ -11,6 +12,7 @@ from tests.resources.test_support.common_utils.tmc_helpers import (
     tear_down,
 )
 from tests.resources.test_support.constant import (
+    DEVICE_LIST_FOR_CHECK_DEVICES,
     DEVICE_OBS_STATE_ABORT_INFO,
     DEVICE_OBS_STATE_EMPTY_INFO,
     DEVICE_OBS_STATE_IDLE_INFO,
@@ -26,7 +28,6 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
-@pytest.mark.skip(reason="This functionality is not implemented yet in TMC")
 @pytest.mark.SKA_mid
 @scenario(
     "../features/check_command_not_allowed.feature",
@@ -97,7 +98,7 @@ def given_tmc_obsState(json_factory):
 
 @when(
     parsers.parse(
-        "the command {unexpected_command} is invoked on that subarray"
+        "{unexpected_command} command is invoked, TMC raises exception"
     )
 )
 def send(json_factory, unexpected_command):
@@ -107,45 +108,33 @@ def send(json_factory, unexpected_command):
     if unexpected_command == "AssignResources":
         with pytest.raises(Exception) as e:
             LOGGER.info("Invoking AssignResources command on TMC CentralNode")
-            pytest.command_result = tmc_helper.assign_resources(
-                assign_json, **ON_OFF_DEVICE_COMMAND_DICT
-            )
-        LOGGER.info("AssignResources command failed with exception %s", e)
+            central_node = DeviceProxy(centralnode)
+            tmc_helper.check_devices(DEVICE_LIST_FOR_CHECK_DEVICES)
+            pytest.command_result = central_node.AssignResources(assign_json)
+            LOGGER.info(f"pytest result: {pytest.command_result}")
+        assert (
+            "AssignResources command not permitted in observation state"
+            in str(e.value)
+        )
     elif unexpected_command == "ReleaseResources":
         with pytest.raises(Exception) as e:
             LOGGER.info("Invoking ReleaseResources command on TMC CentralNode")
-            pytest.command_result = tmc_helper.invoke_releaseResources(
-                release_json, **ON_OFF_DEVICE_COMMAND_DICT
-            )
-        LOGGER.info("ReleaseResources command failed with exception %s", e)
+            central_node = DeviceProxy(centralnode)
+            tmc_helper.check_devices(DEVICE_LIST_FOR_CHECK_DEVICES)
+            pytest.command_result = central_node.ReleaseResources(release_json)
+            LOGGER.info(f"pytest result: {pytest.command_result}")
+        assert (
+            "ReleaseResources command not permitted in observation state"
+            in str(e.value)
+        )
     elif unexpected_command == "EndScan":
         with pytest.raises(Exception) as e:
             LOGGER.info("Invoking EndScan command on TMC SubarrayNode")
-            pytest.command_result = tmc_helper.invoke_endscan_in_ready(
-                **ON_OFF_DEVICE_COMMAND_DICT
-            )
+            tmc_helper.invoke_endscan_in_ready(**ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("EndScan command failed with exception %s", e)
-    elif unexpected_command == "EndScan":
-        with pytest.raises(Exception) as e:
-            LOGGER.info("Invoking EndScan command on TMC SubarrayNode")
-            pytest.command_result = tmc_helper.invoke_endscan_in_ready(
-                **ON_OFF_DEVICE_COMMAND_DICT
-            )
-        LOGGER.info("EndScan command failed with exception %s", e)
-
-
-@then(
-    parsers.parse(
-        "TMC should reject the {unexpected_command} with ResultCode.Rejected"
-    )
-)
-def invalid_command_rejection(unexpected_command):
-    assert (
-        f"command {unexpected_command} is not allowed \
-        in current subarray obsState"
-        in pytest.command_result[1][0]
-    )
-    assert pytest.command_result[0][0] == ResultCode.REJECTED
+        assert "EndScan command not permitted in observation state" in str(
+            e.value
+        )
 
 
 @then("TMC subarray remains in READY obsState")
@@ -159,22 +148,34 @@ def tmc_status():
 @then(
     parsers.parse("TMC executes the {permitted_command} command successfully")
 )
-def tmc_accepts_next_commands(json_factory, permitted_command):
-    configure_json = json_factory("command_Configure")
+def tmc_accepts_next_commands(
+    json_factory, permitted_command, change_event_callbacks
+):
+    configure_json = json_factory("command_Configure_2")
     scan_file = json_factory("command_Scan")
     release_json = json_factory("command_ReleaseResources")
     try:
         if permitted_command == "Configure":
-            tmc_helper.configure_subarray(
+            pytest.command_result = tmc_helper.configure_subarray(
                 configure_json, **ON_OFF_DEVICE_COMMAND_DICT
             )
-            LOGGER.info(
-                "Invoking ReleaseResources command on TMC \
-               CentralNode"
+            LOGGER.info("Invoking Configure command on TMC SubarrayNode")
+            subarray_node_proxy = DeviceProxy(tmc_subarraynode1)
+            subarray_node_proxy.subscribe_event(
+                "longRunningCommandResult",
+                EventType.CHANGE_EVENT,
+                change_event_callbacks["longRunningCommandResult"],
             )
             assert telescope_control.is_in_valid_state(
                 DEVICE_OBS_STATE_READY_INFO, "obsState"
             )
+            change_event_callbacks[
+                "longRunningCommandResult"
+            ].assert_change_event(
+                (pytest.command_result[1][0], str(ResultCode.OK.value)),
+                lookahead=4,
+            )
+            LOGGER.info("Tear down")
             tmc_helper.end(**ON_OFF_DEVICE_COMMAND_DICT)
             LOGGER.info("Invoking End command on TMC SubarrayNode")
             assert telescope_control.is_in_valid_state(
@@ -259,6 +260,7 @@ def tmc_accepts_next_commands(json_factory, permitted_command):
             assert telescope_control.is_in_valid_state(
                 DEVICE_STATE_STANDBY_INFO, "State"
             )
+
     except Exception:
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
         LOGGER.info("Tear Down complete. Telescope is in Standby State")

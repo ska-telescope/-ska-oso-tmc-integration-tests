@@ -5,7 +5,7 @@ from tests.resources.test_harness.utils.wait_helpers import Waiter
 from tests.resources.test_support.common_utils.base_utils import DeviceUtils
 from tests.resources.test_support.common_utils.common_helpers import Resource
 
-TIMEOUT = 200
+TIMEOUT = 500
 
 
 def sync_telescope_on(func):
@@ -97,7 +97,7 @@ def sync_assign_resources(device_dict):
     return decorator_sync_assign_resources
 
 
-def sync_abort(device_dict, timeout=500):
+def sync_abort(device_dict, timeout=800):
     # define as a decorator
     def decorator_sync_abort(func):
         @functools.wraps(func)

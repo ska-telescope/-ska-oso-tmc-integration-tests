@@ -1,17 +1,17 @@
-release=0.15.6
-tag=0.15.6
+release=0.15.7
+tag=0.15.7
 tag_description=
 **Charts:**
-**1. ska-tmc-integration 0.15.5 - 0.15.6*
+**1. ska-tmc-integration 0.15.6 - 0.15.7*
 
-    **1.1 ska-tmc-mid - 0.15.5 - 0.15.6:
+    **1.1 ska-tmc-mid - 0.15.6 - 0.15.7:
         a. Updates in delayModel json to comply with tel-model
 
 
 release_notes=
 **Charts:**
-**1. ska-tmc-integration 0.15.5 - 0.15.6:**
+**1. ska-tmc-integration 0.15.6 - 0.15.7:**
 
-    **1.1 ska-tmc-mid - 0.15.5 - 0.15.6:
+    **1.1 ska-tmc-mid - 0.15.6 - 0.15.7:
         a. Updates in delayModel json to comply with tel-model
 
