@@ -147,7 +147,7 @@ def given_the_dishes_registered_in_tango_db(dish_ids):
     assert dish100_proxy.dev_name() == "ska100/elt/master"
 
 
-@given("a Telescope consisting of  TMC, DISH , CSP and SDP")
+@given("a Telescope consisting of TMC, DISH, CSP and SDP")
 def given_telescope():
     """
     Given a Telescope with TMC, Dish, CSP and SDP systems
