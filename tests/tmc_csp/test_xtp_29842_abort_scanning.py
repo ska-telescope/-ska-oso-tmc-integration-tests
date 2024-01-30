@@ -54,7 +54,7 @@ def telescope_is_in_on_state(central_node_mid, event_recorder):
 @given(
     parsers.parse(
         "the TMC subarray {subarray_id} and CSP subarray {subarray_id} are "
-        + "busy in scanning"
+        + "busy in SCANNING"
     )
 )
 def subarray_is_in_scanning_obsstate(
