@@ -299,12 +299,6 @@ def recheck_if_central_node_running(event_recorder):
 
 @then("the telescope is in OFF state")
 def check_if_telescope_is_in_off_state(event_recorder):
-    # dish1_proxy = DeviceProxy(dish1_dev_name)
-    assert event_recorder.has_change_event_occurred(
-        dish1_proxy,
-        "dishMode",
-        DishMode.STANDBY_LP,
-    )
     assert event_recorder.has_change_event_occurred(
         dish36_proxy,
         "dishMode",
@@ -327,4 +321,11 @@ def check_if_telescope_is_in_off_state(event_recorder):
         centralnode_proxy,
         "telescopeState",
         DevState.OFF,
+    )
+    dish1_proxy = DeviceProxy(dish1_dev_name)
+    event_recorder.subscribe_event(dish1_proxy, "dishMode")
+    assert event_recorder.has_change_event_occurred(
+        dish1_proxy,
+        "dishMode",
+        DishMode.STANDBY_LP,
     )
