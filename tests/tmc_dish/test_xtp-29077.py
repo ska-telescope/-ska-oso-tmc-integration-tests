@@ -227,15 +227,9 @@ def fail_to_connect_dish(test_dish_id):
 
 
 @when("command TelescopeOff is sent")
-def invoke_telescope_off_command():
+def invoke_telescope_off_command(event_recorder):
     LOGGER.info("Invoke TelescopeOff command")
     centralnode_proxy.TelescopeOff()
-
-
-@then("the Central Node is still running")
-def check_if_central_node_running(event_recorder):
-    """Method to check if central node is still running"""
-    assert centralnode_proxy.ping() > 0
     assert event_recorder.has_change_event_occurred(
         dish36_proxy,
         "dishMode",
@@ -256,6 +250,14 @@ def check_if_central_node_running(event_recorder):
         "telescopeState",
         DevState.OFF,
     )
+    LOGGER.info("telescopeState is OFF")
+
+
+@then("the Central Node is still running")
+def check_if_central_node_running():
+    """Method to check if central node is still running"""
+    assert centralnode_proxy.ping() > 0
+    LOGGER.info("CentralNode is running")
 
 
 @then(parsers.parse("Dish with ID {test_dish_id} comes back"))
