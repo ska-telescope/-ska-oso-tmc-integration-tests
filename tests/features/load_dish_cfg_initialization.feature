@@ -1,4 +1,4 @@
-Feature: TMC is able to load Dish-VCC map configuration during initialization of Central Node and CSP Master Leaf Node
+Feature: TMC is able to load Dish-VCC map configuration during initialization of CentralNode and CSPMasterLeaf Node
     Scenario Outline: TMC is able to load Dish-VCC configuration file during initialization of CSP Master Leaf Node
         Given a TMC is using default version of dish vcc map
         When I restart the CSP Master Leaf Node and Central Node is running   

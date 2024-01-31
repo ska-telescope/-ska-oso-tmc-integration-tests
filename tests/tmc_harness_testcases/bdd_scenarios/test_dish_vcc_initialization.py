@@ -6,7 +6,6 @@ import json
 
 import pytest
 from pytest_bdd import given, scenario, then, when
-from tango import DeviceProxy
 
 from tests.resources.test_harness.helpers import (
     wait_and_validate_device_attribute_value,
@@ -27,7 +26,7 @@ def test_load_dish_vcc_after_initialization():
 
 
 @given("a TMC is using default version of dish vcc map")
-def given_tmc_using_default_version(central_node_mid):
+def given_tmc_using_default_version(tmc_mid):
     """Given a TMC"""
     expected_source_dish_vcc_config = {
         "interface": "https://schema.skao.int/ska-mid-cbf-initsysparam/1.0",
@@ -39,20 +38,18 @@ def given_tmc_using_default_version(central_node_mid):
         ),
     }
     assert (
-        json.loads(central_node_mid.csp_master_leaf_node.sourceDishVccConfig)
+        json.loads(tmc_mid.csp_master_leaf_node.sourceDishVccConfig)
         == expected_source_dish_vcc_config
     )
 
 
 @when("I restart the CSP Master Leaf Node and Central Node is running")
-def restart_csp_master_leaf_node(central_node_mid):
+def restart_csp_master_leaf_node(tmc_mid):
     """Restart Csp Master Leaf Node"""
-    csp_mln_server_name = "dserver/csp_master_leaf_node/01"
-    csp_mln_server = DeviceProxy(csp_mln_server_name)
-    csp_mln_server.RestartServer()
+    tmc_mid.RestartServer(server_type="CSP_MLN")
 
     assert wait_and_validate_device_attribute_value(
-        central_node_mid.csp_master_leaf_node,
+        tmc_mid.csp_master_leaf_node,
         "DishVccMapValidationResult",
         str(int(ResultCode.OK)),
     )
@@ -62,7 +59,7 @@ def restart_csp_master_leaf_node(central_node_mid):
     "CSP Master Leaf Node should able to load dish vcc version "
     "set before restart"
 )
-def validate_csp_mln_dish_vcc_version(central_node_mid):
+def validate_csp_mln_dish_vcc_version(tmc_mid):
     """Validate CSP Master Leaf node report correct dish vcc version"""
     expected_source_dish_vcc_config = {
         "interface": "https://schema.skao.int/ska-mid-cbf-initsysparam/1.0",
@@ -74,15 +71,15 @@ def validate_csp_mln_dish_vcc_version(central_node_mid):
         ),
     }
     assert (
-        json.loads(central_node_mid.csp_master_leaf_node.sourceDishVccConfig)
+        json.loads(tmc_mid.csp_master_leaf_node.sourceDishVccConfig)
         == expected_source_dish_vcc_config
     )
 
 
 @then("TMC should report dish vcc config set to true")
-def validate_central_node_dish_vcc_config(central_node_mid):
+def validate_central_node_dish_vcc_config(tmc_mid):
     """Validate Central Node report dish vcc config after restart"""
-    assert central_node_mid.central_node.isDishVccConfigSet
+    assert tmc_mid.IsDishVccConfigSet
     # Validate Dish Vcc validation status
     result_string_to_match = {
         "ska_mid/tm_leaf_node/csp_master": "TMC and CSP Master Dish Vcc "
@@ -90,6 +87,6 @@ def validate_central_node_dish_vcc_config(central_node_mid):
         "dish": "ALL DISH OK",
     }
     assert (
-        json.loads(central_node_mid.central_node.DishVccValidationStatus)
+        json.loads(tmc_mid.central_node.DishVccValidationStatus)
         == result_string_to_match
     )

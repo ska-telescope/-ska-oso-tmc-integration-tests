@@ -116,6 +116,16 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         self._state = value
 
     @property
+    def IsDishVccConfigSet(self):
+        """ """
+        return self.central_node.isDishVccConfigSet
+
+    @property
+    def DishVccValidationStatus(self):
+        """Current dish vcc validation status of central node"""
+        return self.central_node.DishVccValidationStatus
+
+    @property
     def telescope_health_state(self) -> HealthState:
         """Telescope health state representing overall health of telescope"""
         self._telescope_health_state = Resource(self.central_node).get(
