@@ -15,7 +15,7 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.common_utils.result_code import ResultCode
 
 
-@pytest.mark.SKA_mid1
+@pytest.mark.SKA_mid
 @scenario(
     "../features/tmc_dish/dishln_kvalue_validation.feature",
     "TMC Validates and Reports K-Value discrepancy in Dish Leaf Nodes",
