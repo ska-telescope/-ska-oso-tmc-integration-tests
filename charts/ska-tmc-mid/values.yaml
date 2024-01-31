@@ -105,10 +105,10 @@ cspsubarrayleafnode:
     pullPolicy: IfNotPresent
 
 dishleafnode:
-  image:
+  image: 
     registry: artefact.skao.int
     image: ska-tmc-dishleafnode
-    tag: 0.9.0
+    tag: 0.9.1
     pullPolicy: IfNotPresent
 
 resources:
