@@ -1,9 +1,9 @@
 @XTP-29077 @Team_SAHYADRI @tmc_dish
 Scenario Outline: Mid TMC Central Node robustness test with disappearing DishLMC
-    Given dishes with Dish IDs <dish_ids> are registered on the TangoDB
-    And a Telescope consisting of TMC, DISH, CSP and SDP
-    And command TelescopeOn was sent and received by the dishes
+    Given a Telescope consisting of TMC, DISH, CSP and SDP
+    And dishes with Dish IDs <dish_ids> are registered on the TangoDB
     And dishleafnodes for dishes with IDs <dish_ids> are available
+    And command TelescopeOn was sent and received by the dishes
     When communication with Dish ID <test_dish_id> is lost
     And command TelescopeOff is sent
     Then the Central Node is still running

@@ -120,6 +120,23 @@ def test_tmc_central_node_robustness():
     """
 
 
+@given("a Telescope consisting of TMC, DISH, CSP and SDP")
+def given_telescope():
+    """
+    Given a Telescope with TMC, Dish, CSP and SDP systems
+
+    Args:
+        - "event_recorder": fixture for EventRecorder class
+    """
+    assert centralnode_proxy.ping() > 0
+    assert csp_master_proxy.ping() > 0
+    assert sdp_master_proxy.ping() > 0
+    assert dish1_proxy.ping() > 0
+    assert dish36_proxy.ping() > 0
+    assert dish63_proxy.ping() > 0
+    assert dish100_proxy.ping() > 0
+
+
 @given(
     parsers.parse(
         "dishes with Dish IDs {dish_ids} are registered on the TangoDB"
@@ -137,21 +154,18 @@ def given_the_dishes_registered_in_tango_db(dish_ids):
     assert dish100_proxy.dev_name() == "ska100/elt/master"
 
 
-@given("a Telescope consisting of TMC, DISH, CSP and SDP")
-def given_telescope():
-    """
-    Given a Telescope with TMC, Dish, CSP and SDP systems
+@given(
+    parsers.parse("dishleafnodes for dishes with IDs {dish_ids} are available")
+)
+def check_if_dish_leaf_nodes_alive(dish_ids):
+    """A method to put Telescope to ON state"""
+    dishes = dish_ids.split(",")
+    LOGGER.info("dishes: %s", dishes)
 
-    Args:
-        - "event_recorder": fixture for EventRecorder class
-    """
-    assert centralnode_proxy.ping() > 0
-    assert csp_master_proxy.ping() > 0
-    assert sdp_master_proxy.ping() > 0
-    assert dish1_proxy.ping() > 0
-    assert dish36_proxy.ping() > 0
-    assert dish63_proxy.ping() > 0
-    assert dish100_proxy.ping() > 0
+    assert dish_leaf_node1_proxy.ping() > 0
+    assert dish_leaf_node36_proxy.ping() > 0
+    assert dish_leaf_node63_proxy.ping() > 0
+    assert dish_leaf_node100_proxy.ping() > 0
 
 
 @given("command TelescopeOn was sent and received by the dishes")
@@ -193,20 +207,6 @@ def move_telescope_to_on_state(event_recorder):
     )
 
 
-@given(
-    parsers.parse("dishleafnodes for dishes with IDs {dish_ids} are available")
-)
-def check_if_dish_leaf_nodes_alive(dish_ids):
-    """A method to put Telescope to ON state"""
-    dishes = dish_ids.split(",")
-    LOGGER.info("dishes: %s", dishes)
-
-    assert dish_leaf_node1_proxy.ping() > 0
-    assert dish_leaf_node36_proxy.ping() > 0
-    assert dish_leaf_node63_proxy.ping() > 0
-    assert dish_leaf_node100_proxy.ping() > 0
-
-
 @when(parsers.parse("communication with Dish ID {test_dish_id} is lost"))
 def fail_to_connect_dish(test_dish_id):
     """A method to create dish connection failure"""
@@ -222,7 +222,7 @@ def fail_to_connect_dish(test_dish_id):
 
 
 @when("command TelescopeOff is sent")
-def invoke_telescope_standby_command():
+def invoke_telescope_off_command():
     LOGGER.info("Invoke TelescopeOff command")
     centralnode_proxy.TelescopeOff()
 
@@ -255,7 +255,7 @@ def connect_to_dish(test_dish_id):
 
 
 @then("command TelescopeOff can be sent and received by the dish")
-def move_telescope_to_stanby_state():
+def move_telescope_to_off_state():
     LOGGER.info("Invoke TelescopeOff() with all real sub-systems")
     # centralnode_proxy.TelescopeOff()
 
@@ -266,7 +266,7 @@ def recheck_if_central_node_running(event_recorder):
 
 
 @then("the telescope is in OFF state")
-def check_if_telescope_is_in_stanby_state(event_recorder):
+def check_if_telescope_is_in_off_state(event_recorder):
     dish1_proxy = DeviceProxy(dish1_dev_name)
     assert event_recorder.has_change_event_occurred(
         dish1_proxy,
@@ -289,8 +289,7 @@ def check_if_telescope_is_in_stanby_state(event_recorder):
         DishMode.STANDBY_LP,
     )
 
-    # Wait for the DishLeafNode to get StandbyLP event form DishMaster before
-    # invoking TelescopeOn command
+    # Wait for the DishLeafNode to get StandbyLP event form DishMaster
     time.sleep(1)
     assert event_recorder.has_change_event_occurred(
         centralnode_proxy,
