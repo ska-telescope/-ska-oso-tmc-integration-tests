@@ -233,9 +233,29 @@ def invoke_telescope_off_command():
 
 
 @then("the Central Node is still running")
-def check_if_central_node_running():
+def check_if_central_node_running(event_recorder):
     """Method to check if central node is still running"""
     assert centralnode_proxy.ping() > 0
+    assert event_recorder.has_change_event_occurred(
+        dish36_proxy,
+        "dishMode",
+        DishMode.STANDBY_LP,
+    )
+    assert event_recorder.has_change_event_occurred(
+        dish63_proxy,
+        "dishMode",
+        DishMode.STANDBY_LP,
+    )
+    assert event_recorder.has_change_event_occurred(
+        dish100_proxy,
+        "dishMode",
+        DishMode.STANDBY_LP,
+    )
+    assert event_recorder.has_change_event_occurred(
+        centralnode_proxy,
+        "telescopeState",
+        DevState.OFF,
+    )
 
 
 @then(parsers.parse("Dish with ID {test_dish_id} comes back"))
