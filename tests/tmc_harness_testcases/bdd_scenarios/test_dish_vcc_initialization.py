@@ -17,7 +17,7 @@ from tests.resources.test_support.common_utils.result_code import ResultCode
 @scenario(
     "../features/load_dish_cfg_initialization.feature",
     "TMC is able to load Dish-VCC configuration file during initialization "
-    "of CSP Master Leaf Node",
+    "of CspMasterLeafNode",
 )
 def test_load_dish_vcc_after_initialization():
     """This test validate that TMC is able to load the dish vcc
@@ -25,7 +25,7 @@ def test_load_dish_vcc_after_initialization():
     """
 
 
-@given("a TMC is using default version of dish vcc map")
+@given("a TMC is using default version of Dish-VCC map")
 def given_tmc_using_default_version(tmc_mid):
     """Given a TMC"""
     expected_source_dish_vcc_config = {
@@ -43,7 +43,7 @@ def given_tmc_using_default_version(tmc_mid):
     )
 
 
-@when("I restart the CSP Master Leaf Node and Central Node is running")
+@when("I restart the CspMasterLeafNode and CentralNode is running")
 def restart_csp_master_leaf_node(tmc_mid):
     """Restart Csp Master Leaf Node"""
     tmc_mid.RestartServer(server_type="CSP_MLN")
@@ -56,7 +56,7 @@ def restart_csp_master_leaf_node(tmc_mid):
 
 
 @then(
-    "CSP Master Leaf Node should able to load dish vcc version "
+    "CSP Master Leaf Node should able to load Dish-VCC version "
     "set before restart"
 )
 def validate_csp_mln_dish_vcc_version(tmc_mid):
@@ -76,10 +76,48 @@ def validate_csp_mln_dish_vcc_version(tmc_mid):
     )
 
 
-@then("TMC should report dish vcc config set to true")
+@then("TMC should report Dish-VCC config set to true")
 def validate_central_node_dish_vcc_config(tmc_mid):
     """Validate Central Node report dish vcc config after restart"""
     assert tmc_mid.IsDishVccConfigSet
+    # Validate Dish Vcc validation status
+    result_string_to_match = {
+        "ska_mid/tm_leaf_node/csp_master": "TMC and CSP Master Dish Vcc "
+        "Version is Same",
+        "dish": "ALL DISH OK",
+    }
+    assert (
+        json.loads(tmc_mid.central_node.DishVccValidationStatus)
+        == result_string_to_match
+    )
+
+
+@pytest.mark.SKA_mid
+@scenario(
+    "../features/load_dish_cfg_initialization.feature",
+    "TMC is able to load Dish-VCC configuration file during initialization "
+    "of CentralNode",
+)
+def test_load_dish_vcc_after_central_node_restart():
+    """This test validate that TMC is able to load the dish vcc
+    configuration after Central Node restart
+    """
+
+
+@when("I restart the CentralNode and CspMasterLeafNode is running")
+def restart_central_node(tmc_mid):
+    """Restart Csp Master Leaf Node"""
+    tmc_mid.RestartServer(server_type="CENTRAL_NODE")
+
+
+@then("TMC should set Dish-VCC config set to True after restart")
+def validate_dish_vcc_config_flag(tmc_mid):
+    """Validate Central Node report dish vcc config to true after restart"""
+    assert wait_and_validate_device_attribute_value(
+        tmc_mid.central_node.central_node,
+        "IsDishVccConfigSet",
+        True,
+    )
     # Validate Dish Vcc validation status
     result_string_to_match = {
         "ska_mid/tm_leaf_node/csp_master": "TMC and CSP Master Dish Vcc "
