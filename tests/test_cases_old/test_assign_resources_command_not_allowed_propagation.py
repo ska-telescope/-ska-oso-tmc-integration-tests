@@ -92,6 +92,7 @@ def test_assign_release_command_not_allowed_propagation_csp_ln(
             in assertion_data["attribute_value"][1]
         )
         csp_subarray.SetDirectObsState(ObsState.EMPTY)
+
         # csp empty
         the_waiter = Waiter()
         the_waiter.set_wait_for_specific_obsstate(
@@ -100,10 +101,10 @@ def test_assign_release_command_not_allowed_propagation_csp_ln(
         the_waiter.wait(TIMEOUT)
         tmc_subarray = DeviceProxy(tmc_subarraynode1)
         assert tmc_subarray.obsState == ObsState.EMPTY
-
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
         )
+
         # Do not raise exception
         tear_down(
             release_json, raise_exception=False, **ON_OFF_DEVICE_COMMAND_DICT
