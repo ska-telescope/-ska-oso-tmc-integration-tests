@@ -5,12 +5,12 @@ Scenario Outline: Mid TMC Central Node robustness test with disappearing DishLMC
     And command TelescopeOn was sent and received by the dishes
     And dishleafnodes for dishes with IDs <dish_ids> are available
     When communication with Dish ID <test_dish_id> is lost
-    And command TelescopeStandBy is sent
+    And command TelescopeOff is sent
     Then the Central Node is still running
     And Dish with ID <test_dish_id> comes back
-    And command TelescopeStandBy can be sent and received by the dish
+    And command TelescopeOff can be sent and received by the dish
     And the Central Node is still running
-    And the telescope is in Standby state
+    And the telescope is in OFF state
 
     Examples:
         | dish_ids            | test_dish_id |

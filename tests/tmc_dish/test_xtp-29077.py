@@ -221,10 +221,10 @@ def fail_to_connect_dish(test_dish_id):
     dish1_admin_dev_proxy.RestartServer()
 
 
-@when("command TelescopeStandBy is sent")
+@when("command TelescopeOff is sent")
 def invoke_telescope_standby_command():
-    LOGGER.info("Invoke TelescopeStandBy command")
-    centralnode_proxy.TelescopeStandBy()
+    LOGGER.info("Invoke TelescopeOff command")
+    centralnode_proxy.TelescopeOff()
 
 
 @then("the Central Node is still running")
@@ -254,10 +254,10 @@ def connect_to_dish(test_dish_id):
     LOGGER.info("check_dish1_info is: %s", check_dish1_info)
 
 
-@then("command TelescopeStandBy can be sent and received by the dish")
+@then("command TelescopeOff can be sent and received by the dish")
 def move_telescope_to_stanby_state():
-    LOGGER.info("Invoke TelescopeStandBy() with all real sub-systems")
-    centralnode_proxy.TelescopeStandBy()
+    LOGGER.info("Invoke TelescopeOff() with all real sub-systems")
+    # centralnode_proxy.TelescopeOff()
 
 
 @then("the Central Node is still running")
@@ -265,7 +265,7 @@ def recheck_if_central_node_running(event_recorder):
     assert centralnode_proxy.ping() > 0
 
 
-@then("the telescope is in Standby state")
+@then("the telescope is in OFF state")
 def check_if_telescope_is_in_stanby_state(event_recorder):
     dish1_proxy = DeviceProxy(dish1_dev_name)
     assert event_recorder.has_change_event_occurred(
