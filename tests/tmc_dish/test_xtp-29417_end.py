@@ -14,6 +14,7 @@ from tests.resources.test_harness.helpers import (
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.enum import DishMode, PointingState
 
+
 @pytest.mark.skip(reason="This test will be fixed as part of sah-1476")
 @pytest.mark.tmc_dish
 @scenario(
