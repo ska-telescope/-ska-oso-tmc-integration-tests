@@ -96,10 +96,7 @@ CUSTOM_VALUES1 ?=
 CUSTOM_VALUES2 ?=
 ifeq ($(CSP_SIMULATION_ENABLED),false)
 CUSTOM_VALUES1 =	--set tmc-mid.deviceServers.mocks.is_simulated.csp=$(CSP_SIMULATION_ENABLED)\
-	--set ska-csp-lmc-mid.enabled=true \
-	--set ska-csp-lmc-mid.labels.app=$(KUBE_NAMESPACE)\
-	--set ska-mid-cbf-mcs.labels.app=$(KUBE_NAMESPACE)\
-	--set ska-mid-cbf-tmleafnode.labels.app=$(KUBE_NAMESPACE)
+	--set ska-csp-lmc-mid.enabled=true 
 endif
 
 ifeq ($(SDP_SIMULATION_ENABLED),false)

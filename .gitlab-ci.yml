@@ -509,10 +509,11 @@ k8s-test-mid-with-csp:
     SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-csp-mid"
     MARK: 'tmc_csp'
     CSP_SIMULATION_ENABLED: 'false'
-  before_script:
+  script:
     - make cred SERVICE_ACCOUNT=$SERVICE_ACCOUNT
     - make k8s-install-chart TELESCOPE=SKA-mid
     - make k8s-wait
+    - make k8s-test
   environment:
     name: test/$CI_COMMIT_REF_SLUG
     on_stop: stop-k8s-test-mid-with-csp
