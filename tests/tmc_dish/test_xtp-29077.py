@@ -70,6 +70,10 @@ dish1_info = dish1_db.get_device_info("ska001/elt/master")
 dish1_dev_class = dish1_info.class_name
 dish1_dev_server = dish1_info.ds_full_name
 
+# Create Dish1 admin device proxy
+dish1_leaf_admin_dev_name = dish_leaf_node1_proxy.adm_name()
+dish1_leaf_admin_dev_proxy = DeviceProxy(dish1_leaf_admin_dev_name)
+
 
 def verify_the_telescope_is_in_off_state(event_recorder):
     event_recorder.subscribe_event(dish1_proxy, "dishMode")
@@ -247,12 +251,17 @@ def connect_to_dish(test_dish_id):
     dish1_db.add_device(dev_info)
 
     dish1_admin_dev_proxy.RestartServer()
+    dish1_leaf_admin_dev_proxy.RestartServer()
     check_dish1_info = dish1_db.get_device_info("ska001/elt/master")
     LOGGER.info("check_dish1_info is: %s", check_dish1_info)
+    check_dish1_leaf_info = db.get_device_info("ska_mid/tm_leaf_node/d0001")
+    LOGGER.info("check_dish1_leaf_info is: %s", check_dish1_leaf_info)
     time.sleep(20)
 
     check_dish1_info = dish1_db.get_device_info("ska001/elt/master")
     LOGGER.info("check_dish1_info is: %s", check_dish1_info)
+    check_dish1_leaf_info = db.get_device_info("ska_mid/tm_leaf_node/d0001")
+    LOGGER.info("check_dish1_leaf_info is: %s", check_dish1_leaf_info)
 
 
 @then("command TelescopeOff can be sent and received by the dish")
