@@ -257,7 +257,7 @@ def connect_to_dish(test_dish_id):
 @then("command TelescopeOff can be sent and received by the dish")
 def move_telescope_to_off_state():
     LOGGER.info("Invoke TelescopeOff() with all real sub-systems")
-    # centralnode_proxy.TelescopeOff()
+    centralnode_proxy.TelescopeOff()
 
 
 @then("the Central Node is still running")
