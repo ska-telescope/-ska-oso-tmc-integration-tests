@@ -219,7 +219,7 @@ def fail_to_connect_dish(test_dish_id):
     LOGGER.info("check_dish1_info is: %s", check_dish1_info)
     dish1_db.delete_device(dish1_dev_name)
     dish1_admin_dev_proxy.RestartServer()
-    time.sleep(20)
+    time.sleep(2)
 
 
 @when("command TelescopeOff is sent")
