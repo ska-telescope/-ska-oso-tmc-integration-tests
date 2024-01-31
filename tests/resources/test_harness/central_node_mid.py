@@ -21,6 +21,10 @@ from tests.resources.test_harness.constant import (
     sdp_master,
     sdp_subarray1,
     tmc_csp_master_leaf_node,
+    tmc_dish_leaf_node1,
+    tmc_dish_leaf_node2,
+    tmc_dish_leaf_node3,
+    tmc_dish_leaf_node4,
     tmc_sdp_master_leaf_node,
     tmc_subarraynode1,
 )
@@ -87,6 +91,13 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             DeviceProxy(dish_fqdn36),
             DeviceProxy(dish_fqdn63),
             DeviceProxy(dish_fqdn100),
+        ]
+
+        self.dish_leaf_node_list = [
+            DeviceProxy(tmc_dish_leaf_node1),
+            DeviceProxy(tmc_dish_leaf_node2),
+            DeviceProxy(tmc_dish_leaf_node3),
+            DeviceProxy(tmc_dish_leaf_node4),
         ]
 
         self._state = DevState.OFF
@@ -496,7 +507,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         )
         # reset HealthState.UNKNOWN for mock devices
         self._reset_health_state_for_mock_devices()
-        self._reset_sys_param_and_k_value()
+        # self._reset_sys_param_and_k_value()
         if self.subarray_node.obsState == ObsState.IDLE:
             LOGGER.info("Calling Release Resource on centralnode")
             self.invoke_release_resources(self.release_input)
