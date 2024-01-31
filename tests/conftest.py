@@ -136,7 +136,8 @@ def central_node_mid() -> CentralNodeWrapperMid:
 def tmc_mid() -> TmcMid:
     """Return TMC Mid object"""
     tmc_mid = TmcMid()
-    return tmc_mid
+    yield tmc_mid
+    tmc_mid.tear_down()
 
 
 @pytest.fixture()

@@ -1,7 +1,9 @@
+import json
 import logging
 
 from ska_ser_logging import configure_logging
 
+from tests.resources.test_harness.constant import DEFAULT_DISH_VCC_CONFIG
 from tests.resources.test_support.common_utils.common_helpers import (
     AttributeWatcher,
     Resource,
@@ -34,6 +36,7 @@ class Waiter:
         self.tmc_sdp_subarray_leaf_node = kwargs.get("sdp_subarray_leaf_node")
         self.cbf_subarray1 = kwargs.get("cbf_subarray1")
         self.cbf_controller = kwargs.get("cbf_controller")
+        self.csp_master_leaf_node = kwargs.get("csp_master_leaf_node")
 
     def clear_watches(self):
         self.waits = []
@@ -381,6 +384,22 @@ class Waiter:
         self.waits.append(
             watch(Resource(self.csp_master)).to_become(
                 "State", changed_to="OFF"
+            )
+        )
+
+    def set_wait_for_load_dish_cfg(self):
+        # Set wait for load dish cfg
+        # sourceDishVccConfig is json so use predicate which
+        # call from watch function and compare json string using
+        # loads method
+        def is_source_dish_cfg_changed(current_value, future_value):
+            return json.loads(current_value) == json.loads(future_value)
+
+        self.waits.append(
+            watch(Resource(self.csp_master_leaf_node)).to_become(
+                "sourceDishVccConfig",
+                changed_to=json.dumps(DEFAULT_DISH_VCC_CONFIG),
+                predicate=is_source_dish_cfg_changed,
             )
         )
 

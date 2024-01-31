@@ -10,6 +10,7 @@ from tango import DeviceProxy, DevState
 
 from tests.resources.test_harness.central_node import CentralNodeWrapper
 from tests.resources.test_harness.constant import (
+    DEFAULT_DISH_VCC_CONFIG,
     centralnode,
     csp_master,
     csp_subarray1,
@@ -34,6 +35,7 @@ from tests.resources.test_harness.utils.enums import DishMode
 from tests.resources.test_harness.utils.sync_decorators import (
     sync_abort,
     sync_assign_resources,
+    sync_load_dish_cfg,
     sync_release_resources,
     sync_restart,
     sync_set_to_off,
@@ -455,6 +457,14 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             device_proxy = DeviceProxy(device)
             device_proxy.SetDirectState(subarray_state)
 
+    @sync_load_dish_cfg(device_dict=device_dict)
+    def _load_default_dish_vcc_config(self):
+        """Load Default Dish Vcc config"""
+        result, message = self.load_dish_vcc_configuration(
+            json.dumps(DEFAULT_DISH_VCC_CONFIG)
+        )
+        return result, message
+
     def set_values_with_csp_dish_mocks(
         self, subarray_state: DevState, dish_mode: DishMode
     ) -> None:
@@ -524,3 +534,8 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         if self.telescope_state != "OFF":
             self.move_to_off()
         self._clear_command_call_and_transition_data(clear_transition=True)
+        if (
+            json.loads(self.csp_master_leaf_node.sourceDishVccConfig)
+            != DEFAULT_DISH_VCC_CONFIG
+        ):
+            self._load_default_dish_vcc_config()

@@ -5,10 +5,10 @@ Feature: TMC is able to load Dish-VCC map configuration during initialization of
         Then CSP Master Leaf Node should able to load Dish-VCC version set before restart 
         And TMC should report Dish-VCC config set to true
     
-    Scenario Outline: TMC is able to load Last set Dish-VCC configuration before restart 
+    Scenario Outline: TMC is able to load last used Dish-VCC configuration before restart 
         Given a TMC is using default version of Dish-VCC map
         When I issue the command LoadDishCfg on TMC with Dish-VCC configuration file
-        Then TMC displays the version of Dish and VCC configuration   
+        Then TMC displays the current version of Dish-VCC configuration   
         When I restart the CentralNode and CspMasterLeafNode
         Then TMC should set version of Dish-VCC version used before restart
     

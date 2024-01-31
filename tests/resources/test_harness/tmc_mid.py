@@ -39,3 +39,7 @@ class TmcMid:
     def load_dish_vcc_configuration(self, dish_vcc_config):
         """Load Dish Vcc config on TMC"""
         return self.central_node.load_dish_vcc_configuration(dish_vcc_config)
+
+    def tear_down(self):
+        """tear down"""
+        self.central_node.tear_down()
