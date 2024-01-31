@@ -440,13 +440,12 @@ k8s-test-tmc-with-sdp:
     MARK: 'tmc_sdp'
     SDP_SIMULATION_ENABLED: 'false'
     TARANTA_ENABLED: 'true'
-  script:
+  before_script:
     - make cred SERVICE_ACCOUNT=$SERVICE_ACCOUNT
     - rm charts/ska-tmc-mid/Chart.lock
     - rm charts/ska-tmc-testing-mid/Chart.lock
     - make k8s-install-chart TELESCOPE=SKA-mid
     - make k8s-wait
-    - make k8s-test
   environment:
     name: test/$CI_COMMIT_REF_SLUG
     on_stop: stop-k8s-test-tmc-with-sdp
@@ -512,13 +511,12 @@ k8s-test-mid-with-csp:
     SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-csp-mid"
     MARK: 'tmc_csp'
     CSP_SIMULATION_ENABLED: 'false'
-  script:
+  before_script:
     - make cred SERVICE_ACCOUNT=$SERVICE_ACCOUNT
     - rm charts/ska-tmc-mid/Chart.lock
     - rm charts/ska-tmc-testing-mid/Chart.lock
     - make k8s-install-chart TELESCOPE=SKA-mid
     - make k8s-wait
-    - make k8s-test
   environment:
     name: test/$CI_COMMIT_REF_SLUG
     on_stop: stop-k8s-test-mid-with-csp
