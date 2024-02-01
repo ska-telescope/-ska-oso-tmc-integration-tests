@@ -536,8 +536,11 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         self._clear_command_call_and_transition_data(clear_transition=True)
         # if source dish vcc config is empty or not matching with default
         # dish vcc then load default dish vcc config
+        # SIMULATED DEVICE DICT condition will be removed after testing
+        # with real csp
         if (
             not self.csp_master_leaf_node.sourceDishVccConfig
+            or not SIMULATED_DEVICES_DICT["sdp_and_dish"]
             or json.loads(self.csp_master_leaf_node.sourceDishVccConfig)
             != DEFAULT_DISH_VCC_CONFIG
         ):
