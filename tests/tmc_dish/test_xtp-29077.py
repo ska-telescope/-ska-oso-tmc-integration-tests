@@ -75,33 +75,45 @@ dish1_leaf_admin_dev_name = dish_leaf_node1_proxy.adm_name()
 dish1_leaf_admin_dev_proxy = DeviceProxy(dish1_leaf_admin_dev_name)
 
 
-def verify_the_telescope_is_in_off_state(event_recorder):
-    event_recorder.subscribe_event(dish1_proxy, "dishMode")
-    event_recorder.subscribe_event(dish36_proxy, "dishMode")
-    event_recorder.subscribe_event(dish63_proxy, "dishMode")
-    event_recorder.subscribe_event(dish100_proxy, "dishMode")
-    event_recorder.subscribe_event(centralnode_proxy, "telescopeState")
+def verify_the_dishes_are_in_standbylp_state():
+    assert wait_and_validate_device_attribute_value(
+        dish1_proxy, "dishMode", DishMode.STANDBY_LP
+    )
+    assert wait_and_validate_device_attribute_value(
+        dish36_proxy, "dishMode", DishMode.STANDBY_LP
+    )
+    assert wait_and_validate_device_attribute_value(
+        dish63_proxy, "dishMode", DishMode.STANDBY_LP
+    )
+    assert wait_and_validate_device_attribute_value(
+        dish100_proxy, "dishMode", DishMode.STANDBY_LP
+    )
+    # event_recorder.subscribe_event(dish1_proxy, "dishMode")
+    # event_recorder.subscribe_event(dish36_proxy, "dishMode")
+    # event_recorder.subscribe_event(dish63_proxy, "dishMode")
+    # event_recorder.subscribe_event(dish100_proxy, "dishMode")
+    # event_recorder.subscribe_event(centralnode_proxy, "telescopeState")
 
-    assert event_recorder.has_change_event_occurred(
-        dish1_proxy,
-        "dishMode",
-        DishMode.STANDBY_LP,
-    )
-    assert event_recorder.has_change_event_occurred(
-        dish36_proxy,
-        "dishMode",
-        DishMode.STANDBY_LP,
-    )
-    assert event_recorder.has_change_event_occurred(
-        dish63_proxy,
-        "dishMode",
-        DishMode.STANDBY_LP,
-    )
-    assert event_recorder.has_change_event_occurred(
-        dish100_proxy,
-        "dishMode",
-        DishMode.STANDBY_LP,
-    )
+    # assert event_recorder.has_change_event_occurred(
+    #     dish1_proxy,
+    #     "dishMode",
+    #     DishMode.STANDBY_LP,
+    # )
+    # assert event_recorder.has_change_event_occurred(
+    #     dish36_proxy,
+    #     "dishMode",
+    #     DishMode.STANDBY_LP,
+    # )
+    # assert event_recorder.has_change_event_occurred(
+    #     dish63_proxy,
+    #     "dishMode",
+    #     DishMode.STANDBY_LP,
+    # )
+    # assert event_recorder.has_change_event_occurred(
+    #     dish100_proxy,
+    #     "dishMode",
+    #     DishMode.STANDBY_LP,
+    # )
 
     # Wait for the DishLeafNode to get StandbyLP event form DishMaster before
     # invoking TelescopeOn command
@@ -117,7 +129,7 @@ def wait_and_validate_device_attribute_value(
     device: DeviceProxy,
     attribute_name: str,
     expected_value: str,
-    timeout: int = 70,
+    timeout: int = 30,
 ):
     """This method wait and validate if attribute value is equal to provided
     expected value
@@ -146,7 +158,7 @@ def wait_and_validate_device_attribute_value(
         count += 10
         # When device restart it will at least take 10 sec to up again
         # so added 10 sec sleep and to avoid frequent attribute read.
-        time.sleep(10)
+        time.sleep(2)
 
     logging.exception(
         "Exception occurred while reading attribute %s and cnt is %s",
@@ -216,41 +228,55 @@ def check_if_dish_leaf_nodes_alive(dish_ids):
 
 
 @given("command TelescopeOn was sent and received by the dishes")
-def move_telescope_to_on_state(event_recorder):
+def move_telescope_to_on_state():
     """A method to put Telescope to ON state"""
 
-    verify_the_telescope_is_in_off_state(event_recorder)
+    verify_the_dishes_are_in_standbylp_state()
 
     LOGGER.info("Invoke TelescopeOn() on all sub-systems")
     centralnode_proxy.TelescopeOn()
-
-    assert event_recorder.has_change_event_occurred(
-        dish1_proxy,
-        "dishMode",
-        DishMode.STANDBY_FP,
+    assert wait_and_validate_device_attribute_value(
+        dish1_proxy, "dishMode", DishMode.STANDBY_FP
     )
-    assert event_recorder.has_change_event_occurred(
-        dish36_proxy,
-        "dishMode",
-        DishMode.STANDBY_FP,
+    assert wait_and_validate_device_attribute_value(
+        dish36_proxy, "dishMode", DishMode.STANDBY_FP
     )
-    assert event_recorder.has_change_event_occurred(
-        dish63_proxy,
-        "dishMode",
-        DishMode.STANDBY_FP,
+    assert wait_and_validate_device_attribute_value(
+        dish63_proxy, "dishMode", DishMode.STANDBY_FP
     )
-    assert event_recorder.has_change_event_occurred(
-        dish100_proxy,
-        "dishMode",
-        DishMode.STANDBY_FP,
+    assert wait_and_validate_device_attribute_value(
+        dish100_proxy, "dishMode", DishMode.STANDBY_FP
     )
+    # assert event_recorder.has_change_event_occurred(
+    #     dish1_proxy,
+    #     "dishMode",
+    #     DishMode.STANDBY_FP,
+    # )
+    # assert event_recorder.has_change_event_occurred(
+    #     dish36_proxy,
+    #     "dishMode",
+    #     DishMode.STANDBY_FP,
+    # )
+    # assert event_recorder.has_change_event_occurred(
+    #     dish63_proxy,
+    #     "dishMode",
+    #     DishMode.STANDBY_FP,
+    # )
+    # assert event_recorder.has_change_event_occurred(
+    #     dish100_proxy,
+    #     "dishMode",
+    #     DishMode.STANDBY_FP,
+    # )
 
     # # Wait for the DishLeafNode to get StandbyFP events
     # time.sleep(1)
-    assert event_recorder.has_change_event_occurred(
-        centralnode_proxy,
-        "telescopeState",
-        DevState.ON,
+    # assert event_recorder.has_change_event_occurred(
+    #     centralnode_proxy,
+    #     "telescopeState",
+    #     DevState.ON,
+    # )
+    assert wait_and_validate_device_attribute_value(
+        centralnode_proxy, "telescopeState", DevState.ON
     )
 
 
@@ -272,29 +298,42 @@ def fail_to_connect_dish(test_dish_id):
 
 
 @when("command TelescopeOff is sent")
-def invoke_telescope_off_command(event_recorder):
+def invoke_telescope_off_command():
     LOGGER.info("Invoke TelescopeOff command")
     centralnode_proxy.TelescopeOff()
-    assert event_recorder.has_change_event_occurred(
-        dish36_proxy,
-        "dishMode",
-        DishMode.STANDBY_LP,
+
+    assert wait_and_validate_device_attribute_value(
+        dish36_proxy, "dishMode", DishMode.STANDBY_LP
     )
-    assert event_recorder.has_change_event_occurred(
-        dish63_proxy,
-        "dishMode",
-        DishMode.STANDBY_LP,
+    assert wait_and_validate_device_attribute_value(
+        dish63_proxy, "dishMode", DishMode.STANDBY_LP
     )
-    assert event_recorder.has_change_event_occurred(
-        dish100_proxy,
-        "dishMode",
-        DishMode.STANDBY_LP,
+    assert wait_and_validate_device_attribute_value(
+        dish100_proxy, "dishMode", DishMode.STANDBY_LP
     )
-    assert event_recorder.has_change_event_occurred(
-        centralnode_proxy,
-        "telescopeState",
-        DevState.OFF,
+    assert wait_and_validate_device_attribute_value(
+        centralnode_proxy, "telescopeState", DevState.OFF
     )
+    # assert event_recorder.has_change_event_occurred(
+    #     dish36_proxy,
+    #     "dishMode",
+    #     DishMode.STANDBY_LP,
+    # )
+    # assert event_recorder.has_change_event_occurred(
+    #     dish63_proxy,
+    #     "dishMode",
+    #     DishMode.STANDBY_LP,
+    # )
+    # assert event_recorder.has_change_event_occurred(
+    #     dish100_proxy,
+    #     "dishMode",
+    #     DishMode.STANDBY_LP,
+    # )
+    # assert event_recorder.has_change_event_occurred(
+    #     centralnode_proxy,
+    #     "telescopeState",
+    #     DevState.OFF,
+    # )
     LOGGER.info("telescopeState is OFF")
 
 
@@ -343,37 +382,49 @@ def move_telescope_to_off_state():
 
 
 @then("the Central Node is still running")
-def recheck_if_central_node_running(event_recorder):
+def recheck_if_central_node_running():
     assert centralnode_proxy.ping() > 0
 
 
 @then("the telescope is in OFF state")
-def check_if_telescope_is_in_off_state(event_recorder):
-    assert event_recorder.has_change_event_occurred(
-        dish36_proxy,
-        "dishMode",
-        DishMode.STANDBY_LP,
-    )
-    assert event_recorder.has_change_event_occurred(
-        dish63_proxy,
-        "dishMode",
-        DishMode.STANDBY_LP,
-    )
-    assert event_recorder.has_change_event_occurred(
-        dish100_proxy,
-        "dishMode",
-        DishMode.STANDBY_LP,
-    )
+def check_if_telescope_is_in_off_state():
+    # assert event_recorder.has_change_event_occurred(
+    #     dish36_proxy,
+    #     "dishMode",
+    #     DishMode.STANDBY_LP,
+    # )
+    # assert event_recorder.has_change_event_occurred(
+    #     dish63_proxy,
+    #     "dishMode",
+    #     DishMode.STANDBY_LP,
+    # )
+    # assert event_recorder.has_change_event_occurred(
+    #     dish100_proxy,
+    #     "dishMode",
+    #     DishMode.STANDBY_LP,
+    # )
     assert wait_and_validate_device_attribute_value(
         dish1_proxy, "dishMode", DishMode.STANDBY_LP
+    )
+    assert wait_and_validate_device_attribute_value(
+        dish36_proxy, "dishMode", DishMode.STANDBY_LP
+    )
+    assert wait_and_validate_device_attribute_value(
+        dish63_proxy, "dishMode", DishMode.STANDBY_LP
+    )
+    assert wait_and_validate_device_attribute_value(
+        dish100_proxy, "dishMode", DishMode.STANDBY_LP
     )
     LOGGER.info(
         "Dish %s dishMode is: %s", dish1_dev_name, dish1_proxy.dishMode
     )
     # Wait for the DishLeafNode to get StandbyLP event form DishMaster
     # time.sleep(1)
-    assert event_recorder.has_change_event_occurred(
-        centralnode_proxy,
-        "telescopeState",
-        DevState.OFF,
+    assert wait_and_validate_device_attribute_value(
+        centralnode_proxy, "telescopeState", DevState.OFF
     )
+    # assert event_recorder.has_change_event_occurred(
+    #     centralnode_proxy,
+    #     "telescopeState",
+    #     DevState.OFF,
+    # )
