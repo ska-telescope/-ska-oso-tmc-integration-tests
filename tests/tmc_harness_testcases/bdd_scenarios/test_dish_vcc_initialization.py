@@ -15,6 +15,7 @@ from tests.resources.test_harness.helpers import (
 from tests.resources.test_support.common_utils.result_code import ResultCode
 
 
+@pytest.mark.test
 @pytest.mark.SKA_mid
 @scenario(
     "../features/load_dish_cfg_initialization.feature",
@@ -27,22 +28,17 @@ def test_load_dish_vcc_after_initialization():
     """
 
 
-@given("a TMC is using default version of Dish-VCC map")
-def given_tmc_using_default_version(tmc_mid):
+@given("TMC with default version of dish vcc map")
+def given_tmc_using_default_version(tmc_mid, command_input_factory):
     """Given a TMC"""
-    expected_source_dish_vcc_config = {
-        "interface": "https://schema.skao.int/ska-mid-cbf-initsysparam/1.0",
-        "tm_data_sources": [
-            "car://gitlab.com/ska-telescope/ska-telmodel-data?main#tmdata"
-        ],
-        "tm_data_filepath": (
-            "instrument/ska1_mid_itf/ska-mid-cbf-system-parameters.json"
-        ),
-    }
-    assert (
-        json.loads(tmc_mid.csp_master_leaf_node.sourceDishVccConfig)
-        == expected_source_dish_vcc_config
+    expected_source_dish_vcc_config = (
+        prepare_json_args_for_centralnode_commands(
+            "default_load_dish_cfg", command_input_factory
+        )
     )
+    assert json.loads(
+        tmc_mid.csp_master_leaf_node.sourceDishVccConfig
+    ) == json.loads(expected_source_dish_vcc_config)
 
 
 @when("I restart the CspMasterLeafNode and CentralNode is running")
@@ -61,21 +57,16 @@ def restart_csp_master_leaf_node(tmc_mid):
     "CSP Master Leaf Node should able to load Dish-VCC version "
     "set before restart"
 )
-def validate_csp_mln_dish_vcc_version(tmc_mid):
+def validate_csp_mln_dish_vcc_version(tmc_mid, command_input_factory):
     """Validate CSP Master Leaf node report correct dish vcc version"""
-    expected_source_dish_vcc_config = {
-        "interface": "https://schema.skao.int/ska-mid-cbf-initsysparam/1.0",
-        "tm_data_sources": [
-            "car://gitlab.com/ska-telescope/ska-telmodel-data?main#tmdata"
-        ],
-        "tm_data_filepath": (
-            "instrument/ska1_mid_itf/ska-mid-cbf-system-parameters.json"
-        ),
-    }
-    assert (
-        json.loads(tmc_mid.csp_master_leaf_node.sourceDishVccConfig)
-        == expected_source_dish_vcc_config
+    expected_source_dish_vcc_config = (
+        prepare_json_args_for_centralnode_commands(
+            "default_load_dish_cfg", command_input_factory
+        )
     )
+    assert json.loads(
+        tmc_mid.csp_master_leaf_node.sourceDishVccConfig
+    ) == json.loads(expected_source_dish_vcc_config)
 
 
 @then("TMC should report Dish-VCC config set to true")
@@ -170,34 +161,22 @@ def invoke_load_dish_cfg_command(
 
 
 @then("TMC displays the current version of Dish-VCC configuration")
-def validate_source_disc_vcc_param_attribute_set(tmc_mid):
+def validate_source_disc_vcc_param_attribute_set(
+    tmc_mid, command_input_factory
+):
     """Valdate sourceDishVccConfig and dishVccConfig attribute
     correctly set on csp master leaf node
     :param central_node_mid: fixture for a TMC CentralNode Mid under test
     which provides simulated master devices
     """
-    interface = "https://schema.skao.int/ska-mid-cbf-initsysparam/1.0"
-    expected_dish_vcc_config = json.dumps(
-        {
-            "interface": interface,
-            "dish_parameters": {
-                "SKA001": {"vcc": 1, "k": 119},
-                "SKA036": {"vcc": 2, "k": 1127},
-                "SKA063": {"vcc": 3, "k": 620},
-                "SKA100": {"vcc": 4, "k": 101},
-            },
-        }
+    expected_source_dish_vcc_config = (
+        prepare_json_args_for_centralnode_commands(
+            "load_dish_cfg", command_input_factory
+        )
     )
-    expected_source_dish_vcc_config = json.dumps(
-        {
-            "interface": interface,
-            "tm_data_sources": [
-                "car://gitlab.com/ska-telescope/ska-telmodel-data?"
-                "ska-sdp-tmlite-repository-1.0.0#tmdata"
-            ],
-            "tm_data_filepath": "instrument/ska1_mid_psi/"
-            "ska-mid-cbf-system-parameters.json",
-        }
+
+    expected_dish_vcc_config = prepare_json_args_for_centralnode_commands(
+        "load_dish_cfg_dish_vcc_map", command_input_factory
     )
 
     assert device_attribute_changed(
@@ -222,7 +201,9 @@ def restart_central_node_and_csp_mln(tmc_mid):
 
 
 @then("TMC should set version of Dish-VCC version used before restart")
-def validate_dish_vcc_config_after_central_node_and_csp_mln_restart(tmc_mid):
+def validate_dish_vcc_config_after_central_node_and_csp_mln_restart(
+    tmc_mid, command_input_factory
+):
     """Validate Central Node report dish vcc config to true after restart"""
     assert wait_and_validate_device_attribute_value(
         tmc_mid.central_node.central_node,
@@ -231,8 +212,8 @@ def validate_dish_vcc_config_after_central_node_and_csp_mln_restart(tmc_mid):
     )
     # Validate Dish Vcc validation status
     result_string_to_match = {
-        "ska_mid/tm_leaf_node/csp_master": "TMC and CSP Master Dish Vcc "
-        "Version is Same",
+        "ska_mid/tm_leaf_node/csp_master": "TMC and CSP Master Dish Vcc"
+        " Version is Same",
         "dish": "ALL DISH OK",
     }
     assert (
@@ -241,31 +222,20 @@ def validate_dish_vcc_config_after_central_node_and_csp_mln_restart(tmc_mid):
     )
 
     # Validate CSP Master Leaf Node report dish vcc config set before restart
-    expected_dish_vcc_config = {
-        "interface": "https://schema.skao.int/ska-mid-cbf-initsysparam/1.0",
-        "dish_parameters": {
-            "SKA001": {"vcc": 1, "k": 119},
-            "SKA036": {"vcc": 2, "k": 1127},
-            "SKA063": {"vcc": 3, "k": 620},
-            "SKA100": {"vcc": 4, "k": 101},
-        },
-    }
-    expected_source_dish_vcc_config = {
-        "interface": "https://schema.skao.int/ska-mid-cbf-initsysparam/1.0",
-        "tm_data_sources": [
-            "car://gitlab.com/ska-telescope/"
-            "ska-telmodel-data?ska-sdp-tmlite-repository-1.0.0#tmdata"
-        ],
-        "tm_data_filepath": "instrument/ska1_mid_psi/"
-        "ska-mid-cbf-system-parameters.json",
-    }
-
-    assert (
-        json.loads(tmc_mid.csp_master_leaf_node.sourceDishVccConfig)
-        == expected_source_dish_vcc_config
+    expected_source_dish_vcc_config = (
+        prepare_json_args_for_centralnode_commands(
+            "load_dish_cfg", command_input_factory
+        )
     )
 
-    assert (
-        json.loads(tmc_mid.csp_master_leaf_node.dishVccConfig)
-        == expected_dish_vcc_config
+    expected_dish_vcc_config = prepare_json_args_for_centralnode_commands(
+        "load_dish_cfg_dish_vcc_map", command_input_factory
     )
+
+    assert json.loads(
+        tmc_mid.csp_master_leaf_node.sourceDishVccConfig
+    ) == json.loads(expected_source_dish_vcc_config)
+
+    assert json.loads(
+        tmc_mid.csp_master_leaf_node.dishVccConfig
+    ) == json.loads(expected_dish_vcc_config)

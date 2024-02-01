@@ -7,7 +7,7 @@ from tests.resources.test_harness.constant import tmc_csp_master_leaf_node
 from .central_node_mid import CentralNodeWrapperMid
 
 
-class TmcMid:
+class TMCMid:
     def __init__(self):
         """Set all devices proxy required for TMC"""
         self.central_node = CentralNodeWrapperMid()
