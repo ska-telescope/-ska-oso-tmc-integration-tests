@@ -393,6 +393,8 @@ class Waiter:
         # call from watch function and compare json string using
         # loads method
         def is_source_dish_cfg_changed(current_value, future_value):
+            if not current_value and future_value:
+                return False
             return json.loads(current_value) == json.loads(future_value)
 
         self.waits.append(

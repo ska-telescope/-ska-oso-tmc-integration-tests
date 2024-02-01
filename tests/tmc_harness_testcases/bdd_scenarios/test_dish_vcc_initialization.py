@@ -15,7 +15,6 @@ from tests.resources.test_harness.helpers import (
 from tests.resources.test_support.common_utils.result_code import ResultCode
 
 
-@pytest.mark.test
 @pytest.mark.SKA_mid
 @scenario(
     "../features/load_dish_cfg_initialization.feature",
@@ -239,3 +238,53 @@ def validate_dish_vcc_config_after_central_node_and_csp_mln_restart(
     assert json.loads(
         tmc_mid.csp_master_leaf_node.dishVccConfig
     ) == json.loads(expected_dish_vcc_config)
+
+
+@pytest.mark.SKA_mid
+@scenario(
+    "../features/load_dish_cfg_initialization.feature",
+    "TMC should report Dish-VCC config set as False when Dish-VCC Config "
+    "is mismatch",
+)
+def test_tmc_report_dish_vcc_version_as_false():
+    """This test validate that TMC report dish vcc config set
+    to false when dish vcc version mismatch
+    """
+
+
+@when(
+    "I make Dish-VCC version on CSP Master Leaf Node empty and "
+    "Restart CSPMasterLeafNode"
+)
+def set_dish_vcc_empty_and_restart(tmc_mid):
+    """Restart Csp Master Leaf Node"""
+    # set memorized attribute of dish vcc config to empty
+    tmc_mid.csp_master_leaf_node.memorizedDishVccMap = ""
+    # Restart CSP Master Leaf Node
+    tmc_mid.RestartServer(server_type="CSP_MLN")
+
+
+@then("TMC should set Dish-VCC config set to False after Restart")
+def tmc_set_dish_vcc_config_set_to_false(tmc_mid):
+    """Validate isDishVccConfigSet to False"""
+    assert wait_and_validate_device_attribute_value(
+        tmc_mid.central_node.central_node,
+        "isDishVccConfigSet",
+        False,
+    )
+
+
+@then(
+    "TMC should report that Dish-VCC version mismatch between"
+    " CSPMasterLeafNode and CSPMaster"
+)
+def tmc_report_dish_vcc_mismatch(tmc_mid):
+    """Validate isDishVccConfigSet to False"""
+    expected_dish_vcc_mismatch_message = (
+        "TMC and CSP Master Dish VCC version is Different"
+    )
+    dish_vcc_validation_status = json.loads(tmc_mid.DishVccValidationStatus)
+    assert (
+        dish_vcc_validation_status["ska_mid/tm_leaf_node/csp_master"]
+        == expected_dish_vcc_mismatch_message
+    )

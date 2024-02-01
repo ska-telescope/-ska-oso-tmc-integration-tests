@@ -534,8 +534,11 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         if self.telescope_state != "OFF":
             self.move_to_off()
         self._clear_command_call_and_transition_data(clear_transition=True)
+        # if source dish vcc config is empty or not matching with default
+        # dish vcc then load default dish vcc config
         if (
-            json.loads(self.csp_master_leaf_node.sourceDishVccConfig)
+            not self.csp_master_leaf_node.sourceDishVccConfig
+            or json.loads(self.csp_master_leaf_node.sourceDishVccConfig)
             != DEFAULT_DISH_VCC_CONFIG
         ):
             self._load_default_dish_vcc_config()
