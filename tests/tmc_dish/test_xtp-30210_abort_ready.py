@@ -1,4 +1,4 @@
-"""Test TMC-DISH Abort functionality in Resourcing obstate"""
+"""Test TMC-DISH Abort functionality in Ready obstate"""
 
 import time
 
@@ -9,6 +9,7 @@ from tango import DevState
 
 from tests.resources.test_harness.helpers import (
     prepare_json_args_for_centralnode_commands,
+    prepare_json_args_for_commands,
 )
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.enum import DishMode, PointingState
@@ -16,12 +17,12 @@ from tests.resources.test_support.enum import DishMode, PointingState
 
 @pytest.mark.tmc_dish
 @scenario(
-    "../features/tmc_dish/xtp-xxxxx_abort_resourcing.feature",
-    "TMC executes Abort command on DISH.LMC when TMC Subarray is assigning",
+    "../features/tmc_dish/xtp-30210_abort_ready.feature",
+    "TMC executes Abort command on DISH.LMC when TMC Subarray is in READY",
 )
-def test_tmc_dish_abort_in_resourcing():
+def test_tmc_dish_abort_in_ready():
     """
-    Test case to verify TMC-DISH Abort functionality in RESOURCING obsState
+    Test case to verify TMC-DISH Abort functionality in READY obsState
 
     Glossary:
         - "central_node_mid": fixture for a TMC CentralNode under test
@@ -136,7 +137,12 @@ def turn_on_telescope(central_node_mid, event_recorder):
     )
 
 
-@given(parsers.parse("the TMC subarray {subarray_id} is busy in assigning"))
+@given(
+    parsers.parse(
+        "the TMC subarray {subarray_id} is in READY ObsState"
+        + " and DISH.LMC is in pointingState TRACK"
+    )
+)
 def subarray_is_in_configuring_obsstate(
     central_node_mid,
     subarray_node,
@@ -147,22 +153,52 @@ def subarray_is_in_configuring_obsstate(
     central_node_mid.set_subarray_id(subarray_id)
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
     event_recorder.subscribe_event(
-        central_node_mid.subarray_devices.get("sdp_subarray"), "obsState"
+        subarray_node.subarray_devices.get("sdp_subarray"), "obsState"
     )
+    event_recorder.subscribe_event(
+        central_node_mid.dish_master_list[0], "pointingState"
+    )
+    event_recorder.subscribe_event(
+        central_node_mid.dish_master_list[1], "pointingState"
+    )
+
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
     central_node_mid.store_resources(assign_input_json)
 
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_node,
+        subarray_node.subarray_node,
         "obsState",
-        ObsState.RESOURCING,
+        ObsState.IDLE,
+    )
+
+    configure_json = prepare_json_args_for_commands(
+        "configure_mid", command_input_factory
+    )
+    subarray_node.execute_transition("Configure", configure_json)
+
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_devices["sdp_subarray"],
+        "obsState",
+        ObsState.READY,
+    )
+
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_node,
+        "obsState",
+        ObsState.READY,
+    )
+
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[0],
+        "pointingState",
+        PointingState.TRACK,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_devices.get("sdp_subarray"),
-        "obsState",
-        ObsState.RESOURCING,
+        central_node_mid.dish_master_list[1],
+        "pointingState",
+        PointingState.TRACK,
     )
 
 
@@ -179,12 +215,6 @@ def check_dish_mode_and_pointing_state(central_node_mid, event_recorder):
     """
     Method to check dishMode and pointingState of DISH
     """
-    event_recorder.subscribe_event(
-        central_node_mid.dish_master_list[0], "pointingState"
-    )
-    event_recorder.subscribe_event(
-        central_node_mid.dish_master_list[1], "pointingState"
-    )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.dish_master_list[0],
         "dishMode",
@@ -208,12 +238,15 @@ def check_dish_mode_and_pointing_state(central_node_mid, event_recorder):
 
 
 @then("the TMC subarray transitions to ObsState ABORTED")
-def tmc_subarray_is_in_aborted_obsstate(subarray_node, event_recorder):
+def tmc_subarray_is_in_aborted_obsstate(
+    central_node_mid, event_recorder, subarray_id
+):
     """
     Method to check if TMC subarray is in ABORTED obsstate
     """
+    central_node_mid.set_subarray_id(subarray_id)
     assert event_recorder.has_change_event_occurred(
-        subarray_node.subarray_node,
+        central_node_mid.subarray_node,
         "obsState",
         ObsState.ABORTED,
     )

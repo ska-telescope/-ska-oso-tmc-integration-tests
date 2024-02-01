@@ -1,4 +1,4 @@
-"""Test TMC-DISH Abort functionality in IDLE obstate"""
+"""Test TMC-DISH Abort functionality in Resourcing obstate"""
 
 import time
 
@@ -16,12 +16,12 @@ from tests.resources.test_support.enum import DishMode, PointingState
 
 @pytest.mark.tmc_dish
 @scenario(
-    "../features/tmc_dish/xtp-xxxxx_abort_idle.feature",
-    "TMC executes Abort command on DISH.LMC when TMC Subarray is in IDLE",
+    "../features/tmc_dish/xtp-30208_abort_resourcing.feature",
+    "TMC executes Abort command on DISH.LMC when TMC Subarray is assigning",
 )
-def test_tmc_dish_abort_in_idle():
+def test_tmc_dish_abort_in_resourcing():
     """
-    Test case to verify TMC-DISH Abort functionality in IDLE obsState
+    Test case to verify TMC-DISH Abort functionality in RESOURCING obsState
 
     Glossary:
         - "central_node_mid": fixture for a TMC CentralNode under test
@@ -136,7 +136,7 @@ def turn_on_telescope(central_node_mid, event_recorder):
     )
 
 
-@given(parsers.parse("TMC subarray {subarray_id}  is in IDLE ObsState"))
+@given(parsers.parse("the TMC subarray {subarray_id} is busy in assigning"))
 def subarray_is_in_configuring_obsstate(
     central_node_mid,
     subarray_node,
@@ -144,9 +144,6 @@ def subarray_is_in_configuring_obsstate(
     event_recorder,
     subarray_id,
 ):
-    """
-    A method to check if telescope in is IDLE obsState
-    """
     central_node_mid.set_subarray_id(subarray_id)
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
     event_recorder.subscribe_event(
@@ -158,14 +155,14 @@ def subarray_is_in_configuring_obsstate(
     central_node_mid.store_resources(assign_input_json)
 
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_devices.get("sdp_subarray"),
+        central_node_mid.subarray_node,
         "obsState",
-        ObsState.IDLE,
+        ObsState.RESOURCING,
     )
     assert event_recorder.has_change_event_occurred(
-        subarray_node.subarray_node,
+        central_node_mid.subarray_devices.get("sdp_subarray"),
         "obsState",
-        ObsState.IDLE,
+        ObsState.RESOURCING,
     )
 
 
@@ -179,6 +176,9 @@ def abort_is_invoked(subarray_node):
 
 @then("the DISH transitions to dishMode OPERATE and pointingState READY")
 def check_dish_mode_and_pointing_state(central_node_mid, event_recorder):
+    """
+    Method to check dishMode and pointingState of DISH
+    """
     event_recorder.subscribe_event(
         central_node_mid.dish_master_list[0], "pointingState"
     )
