@@ -5,9 +5,13 @@ global:
 
 # DISH LMC
 ska-mid-dish-manager:
+  labels: 
+    app: ska-tmc-integration
   enabled: true
 
 ska-mid-dish-simulators:
+  labels: 
+    app: ska-tmc-integration
   enabled: true
   deviceServers:
     spfdevice:
@@ -18,4 +22,6 @@ ska-mid-dish-simulators:
     enabled: true
 
 ska-mid-dish-ds-manager:
+  labels: 
+    app: ska-tmc-integration
   enabled: true
