@@ -8,7 +8,7 @@ from ska_tango_base.control_model import ObsState
 from ska_tango_testing.mock.placeholders import Anything
 from tango import DeviceProxy, EventType
 
-from tests.conftest import LOGGER
+from tests.conftest import LOGGER, TIMEOUT
 from tests.resources.test_support.common_utils.common_helpers import Waiter
 from tests.resources.test_support.common_utils.result_code import ResultCode
 from tests.resources.test_support.common_utils.telescope_controls import (
@@ -92,13 +92,19 @@ def test_assign_release_command_not_allowed_propagation_csp_ln(
             in assertion_data["attribute_value"][1]
         )
         csp_subarray.SetDirectObsState(ObsState.EMPTY)
+
         # csp empty
         the_waiter = Waiter()
-        the_waiter.set_wait_for_specific_obsstate("EMPTY", [csp_subarray1])
-        the_waiter.wait(200)
+        the_waiter.set_wait_for_specific_obsstate(
+            "EMPTY", [csp_subarray1, tmc_subarraynode1]
+        )
+        the_waiter.wait(TIMEOUT)
+        tmc_subarray = DeviceProxy(tmc_subarraynode1)
+        assert tmc_subarray.obsState == ObsState.EMPTY
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
         )
+
         # Do not raise exception
         tear_down(
             release_json, raise_exception=False, **ON_OFF_DEVICE_COMMAND_DICT

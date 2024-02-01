@@ -16,9 +16,9 @@ from tests.resources.test_harness.helpers import (
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
 
-@pytest.mark.skip(
-    reason="Test passes independently, fails when executed with all tests"
-)
+# @pytest.mark.skip(
+#     reason="Test passes independently, fails when executed with all tests"
+# )
 @pytest.mark.bdd_configure
 @pytest.mark.SKA_mid
 @scenario(
@@ -63,7 +63,7 @@ def given_tmc_subarray_assigns_resources(
     simulator_factory,
     command_input_factory,
 ):
-    csp_sim, sdp_sim, _, _, _ = get_device_simulators(simulator_factory)
+    csp_sim, sdp_sim, _, _, _, _ = get_device_simulators(simulator_factory)
     event_recorder.subscribe_event(csp_sim, "obsState")
     event_recorder.subscribe_event(sdp_sim, "obsState")
     assign_input_json = prepare_json_args_for_centralnode_commands(
@@ -85,7 +85,7 @@ def given_tmc_subarray_assigns_resources(
 def given_tmc_subarray_configure_is_in_progress(
     subarray_node, event_recorder, simulator_factory, command_input_factory
 ):
-    csp_sim, _, _, _, _ = get_device_simulators(simulator_factory)
+    csp_sim, _, _, _, _, _ = get_device_simulators(simulator_factory)
     configure_input_json = prepare_json_args_for_commands(
         "configure_mid", command_input_factory
     )

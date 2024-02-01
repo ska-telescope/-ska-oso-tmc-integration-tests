@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 
 import msgpack
 import msgpack_numpy
@@ -15,6 +16,7 @@ from tests.resources.test_harness.constant import (
     csp_subarray1,
     dish_master1,
     dish_master2,
+    dish_master3,
     sdp_master,
     sdp_queue_connector,
     sdp_subarray1,
@@ -45,6 +47,7 @@ from tests.resources.test_harness.utils.sync_decorators import (
     sync_assign_resources,
     sync_configure,
     sync_end,
+    sync_endscan,
     sync_release_resources,
     sync_restart,
 )
@@ -52,6 +55,10 @@ from tests.resources.test_support.common_utils.common_helpers import Resource
 
 configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
+
+REAL_DISH1_FQDN = os.getenv("DISH_NAME_1")
+REAL_DISH36_FQDN = os.getenv("DISH_NAME_36")
+REAL_DISH63_FQDN = os.getenv("DISH_NAME_63")
 
 device_dict = {
     # TODO use this as as list when multiple subarray considered in testing
@@ -82,9 +89,23 @@ class SubarrayNodeWrapper(object):
             DeviceProxy(tmc_dish_leaf_node1),
             DeviceProxy(tmc_dish_leaf_node2),
         ]
+
+        if (
+            SIMULATED_DEVICES_DICT["csp_and_sdp"]
+            and not SIMULATED_DEVICES_DICT["all_mocks"]
+        ):
+            dish_fqdn1 = REAL_DISH1_FQDN
+            dish_fqdn36 = REAL_DISH36_FQDN
+            dish_fqdn63 = REAL_DISH63_FQDN
+        else:
+            dish_fqdn1 = dish_master1
+            dish_fqdn36 = dish_master2
+            dish_fqdn63 = dish_master3
+
         self.dish_master_list = [
-            DeviceProxy(dish_master1),
-            DeviceProxy(dish_master2),
+            DeviceProxy(dish_fqdn1),
+            DeviceProxy(dish_fqdn36),
+            DeviceProxy(dish_fqdn63),
         ]
         self.subarray_devices = {
             "csp_subarray": DeviceProxy(csp_subarray1),
@@ -104,10 +125,14 @@ class SubarrayNodeWrapper(object):
 
     def _setup(self):
         """ """
-        for dish_master_proxy in self.dish_master_list:
-            dish_master_proxy.SetDirectState(DevState.STANDBY)
-            # Setting DishMode to STANDBY_FP
-            dish_master_proxy.SetDirectDishMode(DishMode.STANDBY_FP)
+        if (
+            SIMULATED_DEVICES_DICT["csp_and_dish"]
+            or SIMULATED_DEVICES_DICT["all_mocks"]
+        ):
+            for dish_master_proxy in self.dish_master_list:
+                dish_master_proxy.SetDirectState(DevState.STANDBY)
+                # Setting DishMode to STANDBY_FP
+                dish_master_proxy.SetDirectDishMode(DishMode.STANDBY_FP)
 
     @property
     def state(self) -> DevState:
@@ -206,6 +231,12 @@ class SubarrayNodeWrapper(object):
         LOGGER.info("Invoked End on SubarrayNode")
         return result, message
 
+    @sync_endscan(device_dict=device_dict)
+    def remove_scan_data(self):
+        result, message = self.subarray_node.EndScan()
+        LOGGER.info("Invoked EndScan on SubarrayNode")
+        return result, message
+
     def store_scan_data(self, input_string):
         result, message = self.subarray_node.Scan(input_string)
         LOGGER.info("Invoked Scan on SubarrayNode")
@@ -276,7 +307,6 @@ class SubarrayNodeWrapper(object):
         """Reset Dish Devices"""
         if (
             SIMULATED_DEVICES_DICT["csp_and_dish"]
-            or SIMULATED_DEVICES_DICT["csp_and_dish"]
             or SIMULATED_DEVICES_DICT["all_mocks"]
         ):
             for dish_master in self.dish_master_list:

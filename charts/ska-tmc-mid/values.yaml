@@ -30,10 +30,10 @@ global:
   # List the dishes, if set, then this list will be applied to instances of:
   # deviceServers.dishmaster, deviceServers.dishleafnode
   dish_devices: ["dishmaster", "dishleafnode"]
-  dishes: ["001", "036", "063"] # Add dish 100 once SKB-266 is resolved
+  dishes: ["001", "036", "063", "100"]
 
   namespace_dish:
-    dish_name: ["dish1", "dish2", "dish3"] # Add dish4 once SKB-266 is resolved
+    dish_name: ["dish1", "dish2", "dish3", "dish4"]
   # subarray_count, this will be expanded (1 to N inclusive) and applied to instances of:
   # deviceServers.cspsubarrayleafnode, deviceServers.sdpsubarrayleafnode, deviceServers.subarraynode
   subarray_devices:
@@ -73,14 +73,14 @@ centralnode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-centralnode
-    tag: 0.12.2
+    tag: 0.14.1
     pullPolicy: IfNotPresent
 
 subarraynode:
   image:
-    registry: artefact.skao.int
+    registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-subarraynode
     image: ska-tmc-subarraynode
-    tag: 0.13.19
+    tag: 0.14.5-dev.c707e2a96
     pullPolicy: IfNotPresent
 
 sdpleafnodes:
@@ -94,21 +94,21 @@ cspmasterleafnode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-cspleafnodes
-    tag: 0.10.3
+    tag: 0.12.0
     pullPolicy: IfNotPresent
 
 cspsubarrayleafnode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-cspleafnodes
-    tag: 0.12.0
+    tag: 0.13.1
     pullPolicy: IfNotPresent
 
 dishleafnode:
-  image:
-    registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-dishleafnode
+  image: 
+    registry: artefact.skao.int
     image: ska-tmc-dishleafnode
-    tag: 0.8.3-dev.c1dfa43ff
+    tag: 0.9.1
     pullPolicy: IfNotPresent
 
 resources:
@@ -127,16 +127,20 @@ deviceServers:
     subarray_count: 1
     file: "data/centralnode_mid.yaml"
     DishLeafNodePrefix: "ska_mid/tm_leaf_node/d0"
-    DishIDs: ["SKA001", "SKA036", "SKA063"] # Add dish 100 once SKB-266 is resolved
+    DishIDs: ["SKA001", "SKA036", "SKA063", "SKA100"]
     DishMasterPrefix: "elt"
     DishMasterPostfix: "master"
+    DishVccConfig:
+      DishVccUri: "car://gitlab.com/ska-telescope/ska-tmc/ska-tmc-simulators?main#tmdata"
+      DishVccFilePath: "instrument/dishid_vcc_map_configuration/mid_cbf_initial_parameters.json"
+    EnableDishVccInit: "false"
 
   subarraynode:
     enabled: true
     instances: ["01"]
     file: "data/subarraynode_mid.yaml"
     DishLeafNodePrefix: "ska_mid/tm_leaf_node/d0"
-    DishIDs: ["SKA001", "SKA036", "SKA063"] # Add dish 100 once SKB-266 is resolved
+    DishIDs: ["SKA001", "SKA036", "SKA063", "SKA100"]
     DishMasterPrefix: "elt"
     DishMasterPostfix: "master"
 
@@ -162,7 +166,7 @@ deviceServers:
 
   dishleafnode:
     enabled: true
-    instances: ["001","036","063"] # Add dish 100 once SKB-266 is resolved
+    instances: ["001","036","063", "100"]
     file: "data/dishleafnode.yaml"
 
   mocks:

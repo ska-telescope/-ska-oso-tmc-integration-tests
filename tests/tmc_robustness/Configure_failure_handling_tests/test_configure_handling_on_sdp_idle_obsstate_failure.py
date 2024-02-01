@@ -39,6 +39,12 @@ def given_tmc(central_node_mid, subarray_node, event_recorder):
         central_node_mid.central_node, "telescopeState"
     )
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
+    event_recorder.subscribe_event(
+        subarray_node.subarray_devices["csp_subarray"], "obsState"
+    )
+    event_recorder.subscribe_event(
+        subarray_node.subarray_devices["sdp_subarray"], "obsState"
+    )
     central_node_mid.move_to_on()
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
@@ -60,7 +66,7 @@ def given_tmc_subarray_assign_resources(
     simulator_factory,
     command_input_factory,
 ):
-    _, sdp_sim, _, _, _ = get_device_simulators(simulator_factory)
+    _, sdp_sim, _, _, _, _ = get_device_simulators(simulator_factory)
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
@@ -71,6 +77,19 @@ def given_tmc_subarray_assign_resources(
         "AssignResources", assign_input_json
     )
     sdp_sim.SetDirectreceiveAddresses(invalid_receiptor_json)
+
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_devices["csp_subarray"],
+        "obsState",
+        ObsState.IDLE,
+    )
+
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_devices["sdp_subarray"],
+        "obsState",
+        ObsState.IDLE,
+    )
+
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",
@@ -282,6 +301,18 @@ def configure_executed_on_subarray(
     )
     sdp_sim.SetDirectreceiveAddresses(valid_receiptor_json)
     central_node_mid.perform_action("AssignResources", assign_input_json)
+
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_devices["csp_subarray"],
+        "obsState",
+        ObsState.IDLE,
+    )
+
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_devices["sdp_subarray"],
+        "obsState",
+        ObsState.IDLE,
+    )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "obsState",
@@ -290,7 +321,19 @@ def configure_executed_on_subarray(
     configure_input_json = prepare_json_args_for_commands(
         "configure_mid", command_input_factory
     )
-    subarray_node.execute_transition("Configure", configure_input_json)
+    subarray_node.store_configuration_data(configure_input_json)
+
+    # assert event_recorder.has_change_event_occurred(
+    #     subarray_node.subarray_devices["csp_subarray"],
+    #     "obsState",
+    #     ObsState.READY,
+    # )
+    #
+    # assert event_recorder.has_change_event_occurred(
+    #     subarray_node.subarray_devices["sdp_subarray"],
+    #     "obsState",
+    #     ObsState.READY,
+    # )
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",

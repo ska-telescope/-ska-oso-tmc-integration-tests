@@ -8,8 +8,7 @@ TELESCOPE ?= SKA-mid
 DISH_NAMESPACE_1 ?= dish-lmc-1
 DISH_NAMESPACE_2 ?= dish-lmc-2
 DISH_NAMESPACE_3 ?= dish-lmc-3
-# TODO: Add dish 100 once SKB-266 is resolved
-# DISH_NAMESPACE_4 ?= dish-lmc-4
+DISH_NAMESPACE_4 ?= dish-lmc-4
 KUBE_NAMESPACE ?= ska-tmc-integration
 KUBE_NAMESPACE_SDP ?= ska-tmc-integration-sdp
 
@@ -42,7 +41,7 @@ UMBRELLA_CHART_PATH ?= charts/$(HELM_CHART)/
 K8S_CHARTS ?= ska-tmc-$(DEPLOYMENT_TYPE) ska-tmc-testing-$(DEPLOYMENT_TYPE)## list of charts
 K8S_CHART ?= $(HELM_CHART)
 
-DISH_TANGO_HOST ?= databaseds-tango-base
+DISH_TANGO_HOST ?= tango-databaseds
 COUNT ?= 1
 CLUSTER_DOMAIN ?= svc.cluster.local
 PORT ?= 10000
@@ -50,8 +49,7 @@ SUBARRAY_COUNT ?= 2
 DISH_NAME_1 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_1).$(CLUSTER_DOMAIN):$(PORT)/ska001/elt/master
 DISH_NAME_36 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_2).$(CLUSTER_DOMAIN):$(PORT)/ska036/elt/master
 DISH_NAME_63 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_3).$(CLUSTER_DOMAIN):$(PORT)/ska063/elt/master
-# TODO: Add dish 100 once SKB-266 is resolved
-# DISH_NAME_100 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_4).$(CLUSTER_DOMAIN):$(PORT)/ska100/elt/master
+DISH_NAME_100 ?= tango://$(DISH_TANGO_HOST).$(DISH_NAMESPACE_4).$(CLUSTER_DOMAIN):$(PORT)/ska100/elt/master
 CSP_MASTER ?= tango://$(TANGO_HOST).$(KUBE_NAMESPACE).$(CLUSTER_DOMAIN):$(PORT)/mid-csp/control/0
 CSP_SUBARRAY_PREFIX ?= tango://$(TANGO_HOST).$(KUBE_NAMESPACE).$(CLUSTER_DOMAIN):$(PORT)/mid-csp/subarray
 SDP_MASTER ?= tango://$(TANGO_HOST).$(KUBE_NAMESPACE).$(CLUSTER_DOMAIN):$(PORT)/mid-sdp/control/0
@@ -86,7 +84,6 @@ CSP_SIMULATION_ENABLED ?= true
 SDP_SIMULATION_ENABLED ?= true
 DISH_SIMULATION_ENABLED ?= true
 
-
 ifeq ($(MAKECMDGOALS),k8s-test)
 ADD_ARGS +=  --true-context -x
 MARK ?= $(shell echo $(TELESCOPE) | sed "s/-/_/g")
@@ -95,14 +92,15 @@ endif
 # EXIT_AT_FAIL option isn't functioning correctly, so the option -x is added
 # at the end. Will be debugged and fixed as a part of improvement.
 PYTHON_VARS_AFTER_PYTEST ?= -m '$(MARK)' $(ADD_ARGS) $(FILE) -x
-
+CUSTOM_VALUES1 ?=
+CUSTOM_VALUES2 ?=
 ifeq ($(CSP_SIMULATION_ENABLED),false)
-CUSTOM_VALUES =	--set tmc-mid.deviceServers.mocks.is_simulated.csp=$(CSP_SIMULATION_ENABLED)\
-	--set ska-csp-lmc-mid.enabled=true
+CUSTOM_VALUES1 =	--set tmc-mid.deviceServers.mocks.is_simulated.csp=$(CSP_SIMULATION_ENABLED)\
+	--set ska-csp-lmc-mid.enabled=true 
 endif
 
 ifeq ($(SDP_SIMULATION_ENABLED),false)
-CUSTOM_VALUES =	--set tmc-mid.deviceServers.mocks.is_simulated.sdp=$(SDP_SIMULATION_ENABLED)\
+CUSTOM_VALUES2=	--set tmc-mid.deviceServers.mocks.is_simulated.sdp=$(SDP_SIMULATION_ENABLED)\
 	--set global.sdp_master="$(SDP_MASTER)"\
 	--set global.sdp_subarray_prefix="$(SDP_SUBARRAY_PREFIX)"\
 	--set global.sdp.processingNamespace=$(KUBE_NAMESPACE_SDP)\
@@ -120,9 +118,11 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.namespace_dish.dish_name[0]="$(DISH_NAME_1)"\
 	--set global.namespace_dish.dish_name[1]="$(DISH_NAME_36)"\
 	--set global.namespace_dish.dish_name[2]="$(DISH_NAME_63)"\
+	--set global.namespace_dish.dish_name[3]="$(DISH_NAME_100)"\
 	--set tmc-mid.deviceServers.mocks.is_simulated.dish=$(DISH_SIMULATION_ENABLED)\
 	--set global.subarray_count=$(SUBARRAY_COUNT)\
-	$(CUSTOM_VALUES)
+	$(CUSTOM_VALUES1)\
+	$(CUSTOM_VALUES2)
 
 PYTHON_VARS_BEFORE_PYTEST ?= PYTHONPATH=.:./src \
 							 TANGO_HOST=$(TANGO_HOST) \
@@ -133,9 +133,11 @@ PYTHON_VARS_BEFORE_PYTEST ?= PYTHONPATH=.:./src \
 							 DISH_NAMESPACE_1=$(DISH_NAMESPACE_1) \
 							 DISH_NAMESPACE_2=$(DISH_NAMESPACE_2) \
 							 DISH_NAMESPACE_3=$(DISH_NAMESPACE_3) \
+							 DISH_NAMESPACE_4=$(DISH_NAMESPACE_4) \
 							 DISH_NAME_1=$(DISH_NAME_1) \
 							 DISH_NAME_36=$(DISH_NAME_36) \
 							 DISH_NAME_63=$(DISH_NAME_63) \
+							 DISH_NAME_100=$(DISH_NAME_100) \
 							 KUBE_NAMESPACE=$(KUBE_NAMESPACE) \
 							 KUBE_NAMESPACE_SDP=$(KUBE_NAMESPACE_SDP)
 
@@ -192,3 +194,8 @@ cred:
 test-requirements:
 	@poetry export --without-hashes --dev --format requirements.txt --output tests/requirements.txt
 k8s-pre-test: test-requirements
+
+k8s-post-test:
+	@for i in $$(kubectl get pod -n $(KUBE_NAMESPACE) -o jsonpath='{.items[*].metadata.name}'); do \
+	kubectl logs $$i -n $(KUBE_NAMESPACE) | tee -a build/logs.txt; \
+	done;
