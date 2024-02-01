@@ -5,7 +5,8 @@ tag_description=
 **1. ska-tmc-integration 0.15.7 - 0.15.8*
 
     **1.1 ska-tmc-mid - 0.15.7 - 0.15.8:
-        a. Updates in subarray node for abort commands and added thread safe aggragation
+        a. Updated dish leaf node tag v0.9.1 to support longRunningCommandStatus for TrackLoadStaticOff command.
+        a. Updates in subarray node for abort commands and added thread safe aggregation
 
 
 release_notes=
@@ -13,5 +14,6 @@ release_notes=
 **1. ska-tmc-integration 0.15.7 - 0.15.8:**
 
     **1.1 ska-tmc-mid - 0.15.7 - 0.15.8:
-        a. Updates in subarray node for abort commands and added thread safe aggragation
+        a. Updated dish leaf node tag v0.9.1 to support longRunningCommandStatus for TrackLoadStaticOff command.
+        b. Updates in subarray node for abort commands and added thread safe aggregation
 
