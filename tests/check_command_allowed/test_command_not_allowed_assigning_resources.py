@@ -2,7 +2,7 @@ import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from tango import DeviceProxy, EventType
 
-from tests.conftest import LOGGER
+from tests.conftest import LOGGER, TIMEOUT
 from tests.resources.test_support.common_utils.common_helpers import (
     Resource,
     Waiter,
@@ -60,6 +60,12 @@ def given_tmc_obsState(json_factory):
     tmc_helper.check_devices(DEVICE_LIST_FOR_CHECK_DEVICES)
     pytest.command_result = central_node.AssignResources(assign_json)
     LOGGER.info("Checking for Subarray node obsState")
+
+    the_waiter = Waiter()
+    the_waiter.set_wait_for_specific_obsstate(
+        "RESOURCING", [tmc_subarraynode1]
+    )
+    the_waiter.wait(TIMEOUT)
     Resource(tmc_subarraynode1).assert_attribute("obsState").equals(
         "RESOURCING"
     )
