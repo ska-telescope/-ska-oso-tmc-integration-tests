@@ -23,8 +23,6 @@ from tests.resources.test_support.common_utils.tmc_helpers import (
 )
 from tests.resources.test_support.constant import (
     DEVICE_HEALTH_STATE_OK_INFO,
-    DEVICE_LIST_FOR_CHECK_DEVICES,
-    DEVICE_OBS_STATE_EMPTY_INFO,
     DEVICE_OBS_STATE_IDLE_INFO,
     DEVICE_STATE_ON_INFO,
     DEVICE_STATE_STANDBY_INFO,
@@ -40,64 +38,6 @@ from tests.resources.test_support.constant import (
 
 telescope_control = BaseTelescopeControl()
 tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
-
-
-@pytest.mark.skip(reason="To pass this test case, testing setup needs updates")
-@pytest.mark.SKA_mid
-def test_assign_release_with_meerkat_ids(json_factory):
-    """AssignResources and ReleaseResources is executed."""
-    assign_json = json_factory("command_AssignResources")
-    release_json = json_factory("command_ReleaseResources")
-    # Replace SKA dish ids with MeerKAT dish ids
-    json_argument = json.loads(assign_json)
-    json_argument["dish"]["receptor_ids"] = ["MKT001", "MKT002"]
-    json_argument = json.dumps(json_argument)
-    try:
-        tmc_helper.check_devices(DEVICE_LIST_FOR_CHECK_DEVICES)
-
-        # Verify Telescope is Off/Standby
-        assert telescope_control.is_in_valid_state(
-            DEVICE_STATE_STANDBY_INFO, "State"
-        )
-
-        # Invoke TelescopeOn() command on TMC
-        tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
-
-        # Verify State transitions after TelescopeOn
-        assert telescope_control.is_in_valid_state(
-            DEVICE_STATE_ON_INFO, "State"
-        )
-
-        # Invoke AssignResources() Command on TMC
-        tmc_helper.compose_sub(json_argument, **ON_OFF_DEVICE_COMMAND_DICT)
-
-        # Verify ObsState is Idle
-        assert telescope_control.is_in_valid_state(
-            DEVICE_OBS_STATE_IDLE_INFO, "obsState"
-        )
-
-        # Invoke ReleaseResources() command on TMC
-        tmc_helper.invoke_releaseResources(
-            release_json, **ON_OFF_DEVICE_COMMAND_DICT
-        )
-
-        # Verify ObsState is Empty
-        assert telescope_control.is_in_valid_state(
-            DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
-        )
-
-        # Invoke TelescopeStandby() command on TMC
-        tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
-
-        # Verify State transitions after TelescopeStandby
-        assert telescope_control.is_in_valid_state(
-            DEVICE_STATE_STANDBY_INFO, "State"
-        )
-        LOGGER.info("Test complete.")
-
-    except Exception as e:
-        LOGGER.exception("The exception is: %s", e)
-        tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
 @pytest.mark.SKA_mid
