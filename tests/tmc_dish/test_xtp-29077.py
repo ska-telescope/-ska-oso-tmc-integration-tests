@@ -325,7 +325,7 @@ def connect_to_dish(test_dish_id):
     LOGGER.info("check_dish1_leaf_info is: %s", check_dish1_leaf_info)
     # Wait for the dish addition in the TANGO database and device restart
     assert wait_and_validate_device_attribute_value(
-        dish1_proxy, "dishMode", DishMode.STANDBY_LP
+        dish1_proxy, "dishMode", DishMode.STANDBY_FP
     )
 
     # time.sleep(20)
