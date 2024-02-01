@@ -215,11 +215,9 @@ def move_telescope_to_on_state():
     )
 
 
-@when(parsers.parse("communication with Dish ID {test_dish_id} is lost"))
-def fail_to_connect_dish(test_dish_id):
+@when("communication with Dish ID 001 is lost")
+def fail_to_connect_dish():
     """A method to create dish connection failure"""
-
-    LOGGER.info("test_dish_id: %s", test_dish_id)
     LOGGER.info("dish1_admin_dev_name is: %s", dish1_admin_dev_name)
     LOGGER.info("dish1_dev_name: %s", dish1_dev_name)
 
@@ -259,11 +257,9 @@ def check_if_central_node_running():
     LOGGER.info("CentralNode is running")
 
 
-@then(parsers.parse("Dish with ID {test_dish_id} comes back"))
-def connect_to_dish(test_dish_id):
+@then("Dish with ID 001 comes back")
+def connect_to_dish():
     """Method to restablish the connection with the lost dish"""
-    LOGGER.info("test_dish_id: %s", test_dish_id)
-
     # Add Dish device back to DB
     dev_info = DbDevInfo()
     dev_info.name = dish1_dev_name
