@@ -364,21 +364,16 @@ def check_if_telescope_is_in_off_state(event_recorder):
         "dishMode",
         DishMode.STANDBY_LP,
     )
-
+    assert wait_and_validate_device_attribute_value(
+        dish1_proxy, "dishMode", DishMode.STANDBY_LP
+    )
+    LOGGER.info(
+        "Dish %s dishMode is: %s", dish1_dev_name, dish1_proxy.dishMode
+    )
     # Wait for the DishLeafNode to get StandbyLP event form DishMaster
     # time.sleep(1)
     assert event_recorder.has_change_event_occurred(
         centralnode_proxy,
         "telescopeState",
         DevState.OFF,
-    )
-    # dish1_proxy = DeviceProxy(dish1_dev_name)
-    LOGGER.info(
-        "Dish %s dishMode is: %s", dish1_dev_name, dish1_proxy.dishMode
-    )
-    event_recorder.subscribe_event(dish1_proxy, "dishMode")
-    assert event_recorder.has_change_event_occurred(
-        dish1_proxy,
-        "dishMode",
-        DishMode.STANDBY_LP,
     )
