@@ -26,6 +26,7 @@ from tests.resources.test_harness.constant import (
     tmc_subarraynode1,
 )
 from tests.resources.test_harness.helpers import (
+    CSP_SIMULATION_ENABLED,
     SIMULATED_DEVICES_DICT,
     generate_eb_pb_ids,
     wait_csp_master_off,
@@ -536,11 +537,10 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         self._clear_command_call_and_transition_data(clear_transition=True)
         # if source dish vcc config is empty or not matching with default
         # dish vcc then load default dish vcc config
-        # SIMULATED DEVICE DICT condition will be removed after testing
+        # CSP_SIMULATION_ENABLED condition will be removed after testing
         # with real csp
-        if (
+        if CSP_SIMULATION_ENABLED.lower() == "true" and (
             not self.csp_master_leaf_node.sourceDishVccConfig
-            or not SIMULATED_DEVICES_DICT["sdp_and_dish"]
             or json.loads(self.csp_master_leaf_node.sourceDishVccConfig)
             != DEFAULT_DISH_VCC_CONFIG
         ):

@@ -112,8 +112,8 @@ def validate_dish_vcc_config_flag(tmc_mid):
     )
     # Validate Dish Vcc validation status
     result_string_to_match = {
-        "ska_mid/tm_leaf_node/csp_master": "TMC and CSP Master Dish Vcc "
-        "Version is Same",
+        "ska_mid/tm_leaf_node/csp_master": "TMC and CSP Master Dish Vcc"
+        " Version is Same",
         "dish": "ALL DISH OK",
     }
     assert (
