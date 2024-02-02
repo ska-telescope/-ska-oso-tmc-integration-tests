@@ -208,6 +208,12 @@ def move_telescope_to_on_state():
 @when("communication with Dish ID 001 is lost")
 def fail_to_connect_dish():
     """A method to create the dish connection failure"""
+    LOGGER.info("dish1 admin device name is: %s", dish1_admin_dev_name)
+    LOGGER.info("dish1 device name is: %s", dish1_dev_name)
+
+    check_dish1_info = dish1_db.get_device_info("ska001/elt/master")
+    LOGGER.info("check_dish1_info is: %s", check_dish1_info)
+
     dish1_db.delete_device(dish1_dev_name)
     dish1_admin_dev_proxy.RestartServer()
     # Added a wait for the completion of dish device deletion from TANGO
