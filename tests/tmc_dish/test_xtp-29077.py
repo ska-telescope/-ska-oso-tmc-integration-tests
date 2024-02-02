@@ -1,11 +1,11 @@
-"""Test module for TMC-DISH """
+"""Test module for TMC-DISH testing"""
 
 import logging
 import os
 import time
 
 import pytest
-from pytest_bdd import given, parsers, scenario, then, when
+from pytest_bdd import given, scenario, then, when
 from tango import DeviceProxy, DevState
 from tango.db import Database, DbDevInfo
 
@@ -159,30 +159,20 @@ def given_telescope():
     assert dish100_proxy.ping() > 0
 
 
-@given(
-    parsers.parse(
-        "dishes with Dish IDs {dish_ids} are registered on the TangoDB"
-    )
-)
-def given_the_dishes_registered_in_tango_db(dish_ids):
+@given("dishes with Dish IDs 001, 036, 063, 100 are registered on the TangoDB")
+def given_the_dishes_registered_in_tango_db():
     """
     Given the dishes are registered in the TANGO Database
     """
-    dishes = dish_ids.split(",")
-    LOGGER.info("dishes: %s", dishes)
     assert dish1_proxy.dev_name() == "ska001/elt/master"
     assert dish36_proxy.dev_name() == "ska036/elt/master"
     assert dish63_proxy.dev_name() == "ska063/elt/master"
     assert dish100_proxy.dev_name() == "ska100/elt/master"
 
 
-@given(
-    parsers.parse("dishleafnodes for dishes with IDs {dish_ids} are available")
-)
-def check_if_dish_leaf_nodes_alive(dish_ids):
-    """A method to put Telescope to ON state"""
-    dishes = dish_ids.split(",")
-    LOGGER.info("dishes: %s", dishes)
+@given("dishleafnodes for dishes with IDs 001, 036, 063, 100 are available")
+def check_if_dish_leaf_nodes_alive():
+    """A method to check if the dish leaf nodes are alive"""
 
     assert dish_leaf_node1_proxy.ping() > 0
     assert dish_leaf_node36_proxy.ping() > 0
@@ -217,7 +207,7 @@ def move_telescope_to_on_state():
 
 @when("communication with Dish ID 001 is lost")
 def fail_to_connect_dish():
-    """A method to create dish connection failure"""
+    """A method to create the dish connection failure"""
     LOGGER.info("dish1_admin_dev_name is: %s", dish1_admin_dev_name)
     LOGGER.info("dish1_dev_name: %s", dish1_dev_name)
 
