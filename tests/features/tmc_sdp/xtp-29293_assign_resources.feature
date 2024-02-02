@@ -7,5 +7,5 @@ Scenario: Assign resources to SDP subarray using TMC
     And the TMC subarray <subarray_id> obsState is transitioned to IDLE
     And the correct resources <receptors> are assigned to sdp subarray and TMC subarray
     Examples:
-        | subarray_id | receptors            |
-        | 1           | ('SKA001', 'SKA036') |
+        | subarray_id | receptors                                |
+        | 1           | ('SKA001', 'SKA036', 'SKA063', 'SKA100') |
