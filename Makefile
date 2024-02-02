@@ -20,10 +20,10 @@ MARK ?= $(shell echo $(TELESCOPE) | sed "s/-/_/g") ## What -m opt to pass to pyt
 FILE ?= tests## A specific test file to pass to pytest
 ADD_ARGS ?= ## Additional args to pass to pytest
 FILE_NAME?= alarm_rules.txt
-EXIT_AT_FAIL = false ## Flag for determining exit at failure. Set 'true' to exit at first failure.
+EXIT_AT_FAIL = true ## Flag for determining exit at failure. Set 'true' to exit at first failure.
 
 ifeq ($(EXIT_AT_FAIL),true)
-ADD_ARGS += 
+ADD_ARGS += -x
 endif
 
 # KUBE_NAMESPACE defines the Kubernetes Namespace that will be deployed to
@@ -85,13 +85,13 @@ SDP_SIMULATION_ENABLED ?= true
 DISH_SIMULATION_ENABLED ?= true
 
 ifeq ($(MAKECMDGOALS),k8s-test)
-ADD_ARGS +=  --true-context 
+ADD_ARGS +=  --true-context -x
 MARK ?= $(shell echo $(TELESCOPE) | sed "s/-/_/g")
 endif
 
 # EXIT_AT_FAIL option isn't functioning correctly, so the option -x is added
 # at the end. Will be debugged and fixed as a part of improvement.
-PYTHON_VARS_AFTER_PYTEST ?= -m '$(MARK)' $(ADD_ARGS) $(FILE) 
+PYTHON_VARS_AFTER_PYTEST ?= -m '$(MARK)' $(ADD_ARGS) $(FILE) -x
 CUSTOM_VALUES1 ?=
 CUSTOM_VALUES2 ?=
 ifeq ($(CSP_SIMULATION_ENABLED),false)
@@ -113,7 +113,7 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set ska-tango-base.xauthority=$(XAUTHORITY) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
 	--set global.exposeAllDS=false \
-	--set global.operator=false \
+	--set global.operator=true \
 	--set ska-taranta.enabled=$(TARANTA_ENABLED)\
 	--set global.namespace_dish.dish_name[0]="$(DISH_NAME_1)"\
 	--set global.namespace_dish.dish_name[1]="$(DISH_NAME_36)"\
@@ -195,7 +195,7 @@ test-requirements:
 	@poetry export --without-hashes --dev --format requirements.txt --output tests/requirements.txt
 k8s-pre-test: test-requirements
 
-# k8s-post-test:
-# 	@for i in $$(kubectl get pod -n $(KUBE_NAMESPACE) -o jsonpath='{.items[*].metadata.name}'); do \
-# 	kubectl logs $$i -n $(KUBE_NAMESPACE) | tee -a build/logs.txt; \
-# 	done;
+k8s-post-test:
+	@for i in $$(kubectl get pod -n $(KUBE_NAMESPACE) -o jsonpath='{.items[*].metadata.name}'); do \
+	kubectl logs $$i -n $(KUBE_NAMESPACE) | tee -a build/logs.txt; \
+	done;
