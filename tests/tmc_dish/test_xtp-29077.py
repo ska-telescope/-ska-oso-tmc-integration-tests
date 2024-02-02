@@ -208,11 +208,6 @@ def move_telescope_to_on_state():
 @when("communication with Dish ID 001 is lost")
 def fail_to_connect_dish():
     """A method to create the dish connection failure"""
-    LOGGER.info("dish1_admin_dev_name is: %s", dish1_admin_dev_name)
-    LOGGER.info("dish1_dev_name: %s", dish1_dev_name)
-
-    check_dish1_info = dish1_db.get_device_info("ska001/elt/master")
-    LOGGER.info("check_dish1_info is: %s", check_dish1_info)
     dish1_db.delete_device(dish1_dev_name)
     dish1_admin_dev_proxy.RestartServer()
     # Added a wait for the completion of dish device deletion from TANGO
@@ -222,6 +217,7 @@ def fail_to_connect_dish():
 
 @when("command TelescopeOff is sent")
 def invoke_telescope_off_command():
+    """A method to put Telescope to OFF state"""
     LOGGER.info("Invoke TelescopeOff command")
     centralnode_proxy.TelescopeOff()
 
@@ -264,13 +260,14 @@ def connect_to_dish():
         dish1_proxy, "dishMode", DishMode.STANDBY_FP
     )
     check_dish1_info = dish1_db.get_device_info("ska001/elt/master")
-    LOGGER.info("check_dish1_info is: %s", check_dish1_info)
+    LOGGER.info("dish1 device info is: %s", check_dish1_info)
     check_dish1_leaf_info = db.get_device_info("ska_mid/tm_leaf_node/d0001")
-    LOGGER.info("check_dish1_leaf_info is: %s", check_dish1_leaf_info)
+    LOGGER.info("dish1 leaf node device info is: %s", check_dish1_leaf_info)
 
 
 @then("command TelescopeOff can be sent and received by the dish")
 def move_telescope_to_off_state():
+    """A method to put Telescope to OFF state"""
     LOGGER.info("Invoke TelescopeOff() with all real sub-systems")
     centralnode_proxy.TelescopeOff()
 
