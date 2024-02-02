@@ -49,7 +49,7 @@ class TmcMid:
             self.dish_leaf_node_server.RestartServer()
             # Give some time to other device restart
             # to keep the kube-system stable
-            time.sleep(2)
+            time.sleep(3)
 
     def load_dish_vcc_configuration(self, dish_vcc_config):
         """Load Dish Vcc config on TMC"""

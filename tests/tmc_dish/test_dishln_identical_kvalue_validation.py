@@ -38,10 +38,10 @@ def given_tmc_with_already_loaded_dish_vcc_config_version(central_node_mid):
         "ska_mid/tm_leaf_node/csp_master": cspmln_validation_string,
     }
     assert (
-        json.loads(central_node_mid.central_node.DishVccValidationStatus)
+        json.loads(central_node_mid.DishVccValidationStatus)
         == central_node_dish_vcc_validation_status
     )
-    assert central_node_mid.central_node.isDishVccConfigSet
+    assert central_node_mid.IsDishVccConfigSet
 
 
 @when("the Dish Leaf Node is restarted")
@@ -135,4 +135,4 @@ def check_kvalue_validation_result_event_received(
 def check_value_of_isdishvccconfigset_on_central_node(central_node_mid):
     """Method to verify isDishVccConfig attribute is true or
     false after dish leaf node report."""
-    assert central_node_mid.central_node.isDishVccConfigSet
+    assert central_node_mid.IsDishVccConfigSet

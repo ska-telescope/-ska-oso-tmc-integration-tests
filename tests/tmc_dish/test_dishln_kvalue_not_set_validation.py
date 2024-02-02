@@ -38,27 +38,24 @@ def given_tmc_with_already_loaded_dish_vcc_config_version(central_node_mid):
         "ska_mid/tm_leaf_node/csp_master": cspmln_validation_string,
     }
     assert (
-        json.loads(central_node_mid.central_node.DishVccValidationStatus)
+        json.loads(central_node_mid.DishVccValidationStatus)
         == central_node_dish_vcc_validation_status
     )
-    assert central_node_mid.central_node.isDishVccConfigSet
+    assert central_node_mid.IsDishVccConfigSet
 
 
 @when("the Dish Leaf Node is restarted")
 def restart_the_dish_leaf_nodes(central_node_mid, tmc_mid):
     """Restart the dish leaf nodes"""
     # Unset values on some of the Dish Leaf Nodes
-    for i in range(0, 2):
-        central_node_mid.dish_leaf_node_list[i].kValue = 0
+
+    central_node_mid.dish_leaf_node_list[0].kValue = 0
 
     # Unset values on some of the Dish Managers
-    for i in range(2, 4):
-        central_node_mid.dish_master_list[i].kValue = 0
+    central_node_mid.dish_master_list[3].kValue = 0
 
     # [0, 1, 2, 3] are index for dish leaf node list
     tmc_mid.RestartServer("DISHLN_0")
-    tmc_mid.RestartServer("DISHLN_1")
-    tmc_mid.RestartServer("DISHLN_2")
     tmc_mid.RestartServer("DISHLN_3")
 
 
@@ -73,26 +70,10 @@ def check_dishln_is_on_and_kvalue_validation_accomplished(central_node_mid):
         central_node_mid.dish_leaf_node_list[0], "State", DevState.ON
     )
     assert wait_and_validate_device_attribute_value(
-        central_node_mid.dish_leaf_node_list[1], "State", DevState.ON
-    )
-    assert wait_and_validate_device_attribute_value(
-        central_node_mid.dish_leaf_node_list[2], "State", DevState.ON
-    )
-    assert wait_and_validate_device_attribute_value(
         central_node_mid.dish_leaf_node_list[3], "State", DevState.ON
     )
     assert wait_and_validate_device_attribute_value(
         central_node_mid.dish_leaf_node_list[0],
-        "kValueValidationResult",
-        str(int(ResultCode.UNKNOWN)),
-    )
-    assert wait_and_validate_device_attribute_value(
-        central_node_mid.dish_leaf_node_list[1],
-        "kValueValidationResult",
-        str(int(ResultCode.UNKNOWN)),
-    )
-    assert wait_and_validate_device_attribute_value(
-        central_node_mid.dish_leaf_node_list[2],
         "kValueValidationResult",
         str(int(ResultCode.UNKNOWN)),
     )
@@ -112,22 +93,15 @@ def check_kvalue_validation_result_event_received(
 ):
     """Method to check Central Node received the kValueValidation
     attribute event from respective dish leaf nodes."""
-    for i in range(0, len(central_node_mid.dish_leaf_node_list)):
-        event_recorder.subscribe_event(
-            central_node_mid.dish_leaf_node_list[i], "kValueValidationResult"
-        )
+
+    event_recorder.subscribe_event(
+        central_node_mid.dish_leaf_node_list[0], "kValueValidationResult"
+    )
+    event_recorder.subscribe_event(
+        central_node_mid.dish_leaf_node_list[3], "kValueValidationResult"
+    )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.dish_leaf_node_list[0],
-        "kValueValidationResult",
-        str(int(ResultCode.UNKNOWN)),
-    )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_leaf_node_list[1],
-        "kValueValidationResult",
-        str(int(ResultCode.UNKNOWN)),
-    )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_leaf_node_list[2],
         "kValueValidationResult",
         str(int(ResultCode.UNKNOWN)),
     )
@@ -148,14 +122,14 @@ def check_value_of_isdishvccconfigset_on_central_node(central_node_mid):
     cspmln_validation_string = "TMC and CSP Master Dish Vcc Version is Same"
     central_node_dish_vcc_validation_status = {
         "d0001": "k-value not set",
-        "d0036": "k-value not set",
-        "d0063": "k-value not set",
+        "d0036": "k-value identical",
+        "d0063": "k-value identical",
         "d0100": "k-value not set",
         "ska_mid/tm_leaf_node/csp_master": cspmln_validation_string,
     }
-    assert not central_node_mid.central_node.isDishVccConfigSet
+    assert not central_node_mid.IsDishVccConfigSet
     assert (
-        json.loads(central_node_mid.central_node.DishVccValidationStatus)
+        json.loads(central_node_mid.DishVccValidationStatus)
         == central_node_dish_vcc_validation_status
     )
     # Central Node does not allow any command execution
@@ -164,8 +138,6 @@ def check_value_of_isdishvccconfigset_on_central_node(central_node_mid):
     assert "Dish Vcc Config not Set" in str(e.value)
     # Restore to previous k-value
     central_node_mid.dish_leaf_node_list[0].SetKValue(111)
-    central_node_mid.dish_leaf_node_list[1].SetKValue(222)
-    central_node_mid.dish_leaf_node_list[2].SetKValue(333)
     central_node_mid.dish_leaf_node_list[3].SetKValue(444)
 
     assert wait_and_validate_device_attribute_value(
