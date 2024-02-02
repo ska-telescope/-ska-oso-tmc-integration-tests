@@ -3,6 +3,9 @@ global:
   operator: true
   exposeALLDS: false
 
+labels: 
+  app: ska-tmc-integration
+
 # DISH LMC
 ska-mid-dish-manager:
   labels: 
