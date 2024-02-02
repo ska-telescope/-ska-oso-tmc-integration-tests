@@ -194,8 +194,3 @@ cred:
 test-requirements:
 	@poetry export --without-hashes --dev --format requirements.txt --output tests/requirements.txt
 k8s-pre-test: test-requirements
-
-# k8s-post-test:
-# 	@for i in $$(kubectl get pod -n $(KUBE_NAMESPACE) -o jsonpath='{.items[*].metadata.name}'); do \
-# 	kubectl logs $$i -n $(KUBE_NAMESPACE) | tee -a build/logs.txt; \
-# 	done;
