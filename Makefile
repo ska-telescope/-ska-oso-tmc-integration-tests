@@ -84,7 +84,6 @@ CSP_SIMULATION_ENABLED ?= true
 SDP_SIMULATION_ENABLED ?= true
 DISH_SIMULATION_ENABLED ?= true
 
-
 ifeq ($(MAKECMDGOALS),k8s-test)
 ADD_ARGS +=  --true-context 
 MARK ?= $(shell echo $(TELESCOPE) | sed "s/-/_/g")
@@ -93,14 +92,15 @@ endif
 # EXIT_AT_FAIL option isn't functioning correctly, so the option -x is added
 # at the end. Will be debugged and fixed as a part of improvement.
 PYTHON_VARS_AFTER_PYTEST ?= -m '$(MARK)' $(ADD_ARGS) $(FILE) 
-
+CUSTOM_VALUES1 ?=
+CUSTOM_VALUES2 ?=
 ifeq ($(CSP_SIMULATION_ENABLED),false)
-CUSTOM_VALUES =	--set tmc-mid.deviceServers.mocks.is_simulated.csp=$(CSP_SIMULATION_ENABLED)\
-	--set ska-csp-lmc-mid.enabled=true
+CUSTOM_VALUES1 =	--set tmc-mid.deviceServers.mocks.is_simulated.csp=$(CSP_SIMULATION_ENABLED)\
+	--set ska-csp-lmc-mid.enabled=true 
 endif
 
 ifeq ($(SDP_SIMULATION_ENABLED),false)
-CUSTOM_VALUES =	--set tmc-mid.deviceServers.mocks.is_simulated.sdp=$(SDP_SIMULATION_ENABLED)\
+CUSTOM_VALUES2=	--set tmc-mid.deviceServers.mocks.is_simulated.sdp=$(SDP_SIMULATION_ENABLED)\
 	--set global.sdp_master="$(SDP_MASTER)"\
 	--set global.sdp_subarray_prefix="$(SDP_SUBARRAY_PREFIX)"\
 	--set global.sdp.processingNamespace=$(KUBE_NAMESPACE_SDP)\
@@ -113,7 +113,7 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set ska-tango-base.xauthority=$(XAUTHORITY) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
 	--set global.exposeAllDS=false \
-	--set global.operator=true \
+	--set global.operator=false \
 	--set ska-taranta.enabled=$(TARANTA_ENABLED)\
 	--set global.namespace_dish.dish_name[0]="$(DISH_NAME_1)"\
 	--set global.namespace_dish.dish_name[1]="$(DISH_NAME_36)"\
@@ -121,7 +121,8 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.namespace_dish.dish_name[3]="$(DISH_NAME_100)"\
 	--set tmc-mid.deviceServers.mocks.is_simulated.dish=$(DISH_SIMULATION_ENABLED)\
 	--set global.subarray_count=$(SUBARRAY_COUNT)\
-	$(CUSTOM_VALUES)
+	$(CUSTOM_VALUES1)\
+	$(CUSTOM_VALUES2)
 
 PYTHON_VARS_BEFORE_PYTEST ?= PYTHONPATH=.:./src \
 							 TANGO_HOST=$(TANGO_HOST) \
@@ -194,7 +195,7 @@ test-requirements:
 	@poetry export --without-hashes --dev --format requirements.txt --output tests/requirements.txt
 k8s-pre-test: test-requirements
 
-k8s-post-test:
-	@for i in $$(kubectl get pod -n $(KUBE_NAMESPACE) -o jsonpath='{.items[*].metadata.name}'); do \
-	kubectl logs $$i -n $(KUBE_NAMESPACE) | tee -a build/logs.txt; \
-	done;
+# k8s-post-test:
+# 	@for i in $$(kubectl get pod -n $(KUBE_NAMESPACE) -o jsonpath='{.items[*].metadata.name}'); do \
+# 	kubectl logs $$i -n $(KUBE_NAMESPACE) | tee -a build/logs.txt; \
+# 	done;

@@ -70,26 +70,11 @@ def restart_the_dish_leaf_nodes(central_node_mid, tmc_mid):
     for i in range(2, 4):
         central_node_mid.dish_master_list[i].kValue = 0
 
-    tmc_mid.get_dish_leaf_node_server(
-        central_node_mid.dish_leaf_node_list[0].info().server_id
-    ).RestartServer()
-    # Give some time to other device restart to keep the kube-system stable
-    time.sleep(3)
-    tmc_mid.get_dish_leaf_node_server(
-        central_node_mid.dish_leaf_node_list[1].info().server_id
-    ).RestartServer()
-    # Give some time to other device restart to keep the kube-system stable
-    time.sleep(3)
-    tmc_mid.get_dish_leaf_node_server(
-        central_node_mid.dish_leaf_node_list[2].info().server_id
-    ).RestartServer()
-    # Give some time to other device restart to keep the kube-system stable
-    time.sleep(3)
-    tmc_mid.get_dish_leaf_node_server(
-        central_node_mid.dish_leaf_node_list[3].info().server_id
-    ).RestartServer()
-    # Give some time to other device restart to keep the kube-system stable
-    time.sleep(3)
+    # [0, 1, 2, 3] are index for dish leaf node list
+    tmc_mid.RestartServer("DISHLN_0")
+    tmc_mid.RestartServer("DISHLN_1")
+    tmc_mid.RestartServer("DISHLN_2")
+    tmc_mid.RestartServer("DISHLN_3")
 
 
 @when(
