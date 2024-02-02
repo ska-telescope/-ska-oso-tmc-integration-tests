@@ -17,7 +17,7 @@ from tests.resources.test_support.common_utils.result_code import ResultCode
 
 @pytest.mark.SKA_mid
 @scenario(
-    "../features/load_dish_cfg_initialization.feature",
+    "../features/dish_vcc_initialization/xtp_30249_csp_mln_init.feature",
     "TMC is able to load Dish-VCC configuration file during initialization "
     "of CspMasterLeafNode",
 )
@@ -86,7 +86,8 @@ def validate_central_node_dish_vcc_config(tmc_mid):
 
 @pytest.mark.SKA_mid
 @scenario(
-    "../features/load_dish_cfg_initialization.feature",
+    "../features/dish_vcc_initialization/"
+    "xtp_30252_central_node_restart.feature",
     "TMC is able to load Dish-VCC configuration file during initialization "
     "of CentralNode",
 )
@@ -124,7 +125,7 @@ def validate_dish_vcc_config_flag(tmc_mid):
 
 @pytest.mark.SKA_mid
 @scenario(
-    "../features/load_dish_cfg_initialization.feature",
+    "../features/dish_vcc_initialization/xtp_30250_restart.feature",
     "TMC is able to load last used Dish-VCC configuration before restart",
 )
 def test_load_dish_vcc_after_restart():
@@ -242,7 +243,7 @@ def validate_dish_vcc_config_after_central_node_and_csp_mln_restart(
 
 @pytest.mark.SKA_mid
 @scenario(
-    "../features/load_dish_cfg_initialization.feature",
+    "../features/dish_vcc_initialization/xtp_30253_dish_vcc_mismatch.feature",
     "TMC should report Dish-VCC config set as False when Dish-VCC Config "
     "is mismatch",
 )
