@@ -122,9 +122,11 @@ def check_value_of_isdishvccconfigset_on_central_node(tmc_mid):
         "d0100": "k-value not set",
         "ska_mid/tm_leaf_node/csp_master": cspmln_validation_string,
     }
-    assert (
-        json.loads(tmc_mid.DishVccValidationStatus)
-        == central_node_dish_vcc_validation_status
+    assert wait_and_validate_device_attribute_value(
+        tmc_mid.central_node.central_node,
+        "DishVccValidationStatus",
+        json.dumps(central_node_dish_vcc_validation_status),
+        is_json=True,
     )
     assert not tmc_mid.IsDishVccConfigSet
     # Central Node does not allow any command execution

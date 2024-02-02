@@ -548,7 +548,8 @@ def wait_and_validate_device_attribute_value(
     device: DeviceProxy,
     attribute_name: str,
     expected_value: str,
-    timeout: int = 120,
+    is_json: str = False,
+    timeout: int = 300,
 ):
     """This method wait and validate if attribute value is equal to provided
     expected value
@@ -558,15 +559,19 @@ def wait_and_validate_device_attribute_value(
     while count <= timeout:
         try:
             attribute_value = device.read_attribute(attribute_name).value
-
             logging.info(
                 "%s current %s value: %s",
                 device.name(),
                 attribute_name,
                 attribute_value,
             )
-            if attribute_value == expected_value:
+            if is_json and json.loads(attribute_value) == json.loads(
+                expected_value
+            ):
                 return True
+            elif attribute_value == expected_value:
+                return True
+
         except Exception as e:
             # Device gets unavailable due to restart and the above command
             # tries to access the attribute resulting into exception
