@@ -553,6 +553,7 @@ def wait_and_validate_device_attribute_value(
     attribute_name: str,
     expected_value: str,
     timeout: int = 70,
+    is_json: bool = False,
 ):
     """This method wait and validate if attribute value is equal to provided
     expected value
@@ -569,7 +570,11 @@ def wait_and_validate_device_attribute_value(
                     attribute_name,
                     attribute_value,
                 )
-            if attribute_value == expected_value:
+            if is_json and json.loads(attribute_value) == json.loads(
+                expected_value
+            ):
+                return True
+            elif attribute_value == expected_value:
                 return True
         except Exception as e:
             # Device gets unavailable due to restart and the above command

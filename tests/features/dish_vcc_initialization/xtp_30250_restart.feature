@@ -4,5 +4,6 @@ Feature: TMC handles initialization scenarios of setting and verifying Dish ID -
         Given TMC with default version of dish vcc map
         When I issue the command LoadDishCfg on TMC with Dish-VCC configuration file
         Then TMC displays the current version of Dish-VCC configuration   
-        When I restart the CentralNode and CspMasterLeafNode
+        When I restart the CentralNode, CspMasterLeafNode and DishLeafNode
         Then TMC should set version of Dish-VCC version used before restart
+        And TMC should report Dish-VCC config set to true

@@ -193,11 +193,13 @@ def validate_source_disc_vcc_param_attribute_set(
     )
 
 
-@when("I restart the CentralNode and CspMasterLeafNode")
+@when("I restart the CentralNode, CspMasterLeafNode and DishLeafNode")
 def restart_central_node_and_csp_mln(tmc_mid):
     """Restart Csp Master Leaf Node"""
     tmc_mid.RestartServer(server_type="CSP_MLN")
     tmc_mid.RestartServer(server_type="CENTRAL_NODE")
+    tmc_mid.RestartServer(server_type="DISH_1")
+    tmc_mid.RestartServer(server_type="DISH_2")
 
 
 @then("TMC should set version of Dish-VCC version used before restart")
@@ -216,9 +218,11 @@ def validate_dish_vcc_config_after_central_node_and_csp_mln_restart(
         " Version is Same",
         "dish": "ALL DISH OK",
     }
-    assert (
-        json.loads(tmc_mid.central_node.DishVccValidationStatus)
-        == result_string_to_match
+    wait_and_validate_device_attribute_value(
+        tmc_mid.central_node.central_node,
+        "DishVccValidationStatus",
+        json.dumps(result_string_to_match),
+        is_json=True,
     )
 
     # Validate CSP Master Leaf Node report dish vcc config set before restart
@@ -239,6 +243,11 @@ def validate_dish_vcc_config_after_central_node_and_csp_mln_restart(
     assert json.loads(
         tmc_mid.csp_master_leaf_node.dishVccConfig
     ) == json.loads(expected_dish_vcc_config)
+
+    assert tmc_mid.dish_leaf_node_list[0].kValue == 119
+    assert tmc_mid.dish_leaf_node_list[1].kValue == 1127
+    assert tmc_mid.dish_leaf_node_list[2].kValue == 620
+    assert tmc_mid.dish_leaf_node_list[3].kValue == 101
 
 
 @pytest.mark.SKA_mid
