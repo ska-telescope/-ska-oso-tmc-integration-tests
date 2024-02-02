@@ -1,17 +1,14 @@
 """Test module for TMC-DISH On functionality"""
 
 import json
-import time
 
 import pytest
 from pytest_bdd import given, scenario, then, when
-from tango import DeviceProxy, DevState
+from tango import DevState
 
-from tests.resources.test_harness.constant import tmc_csp_master_leaf_node
 from tests.resources.test_harness.helpers import (
     wait_and_validate_device_attribute_value,
 )
-from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.common_utils.result_code import ResultCode
 
 
@@ -29,6 +26,7 @@ def test_tmc_validate_dln_kvalue_not_set():
         - "simulator_factory": fixture for SimulatorFactory class,
         which provides simulated master devices
         - "event_recorder": fixture for EventRecorder class
+        - "tmc_mid": fixture to give TMC mid device server commands
     """
 
 
@@ -36,26 +34,16 @@ def test_tmc_validate_dln_kvalue_not_set():
 def given_tmc_with_already_loaded_dish_vcc_config_version(
     central_node_mid, simulator_factory
 ):
-    """
-    Given a TMC
-    Check all the required devices are up and running
-    Args:
-        simulator_factory: fixture for SimulatorFactory class,
-        which provides simulated master devices
-    """
-    csp_master_sim = simulator_factory.get_or_create_simulator_device(
-        SimulatorDeviceType.MID_CSP_MASTER_DEVICE
+    """Given a TMC with loaded Dish-VCC map version"""
+    cspmln_validation_string = "TMC and CSP Master Dish Vcc Version is Same"
+    central_node_dish_vcc_validation_status = {
+        "dish": "ALL DISH OK",
+        "ska_mid/tm_leaf_node/csp_master": cspmln_validation_string,
+    }
+    assert (
+        json.loads(central_node_mid.central_node.DishVccValidationStatus)
+        == central_node_dish_vcc_validation_status
     )
-    assert csp_master_sim.ping() > 0
-    assert DeviceProxy(tmc_csp_master_leaf_node).ping() > 0
-    assert central_node_mid.dish_master_list[0].ping() > 0
-    assert central_node_mid.dish_master_list[1].ping() > 0
-    assert central_node_mid.dish_master_list[2].ping() > 0
-    assert central_node_mid.dish_master_list[3].ping() > 0
-    assert central_node_mid.dish_leaf_node_list[0].ping() > 0
-    assert central_node_mid.dish_leaf_node_list[1].ping() > 0
-    assert central_node_mid.dish_leaf_node_list[2].ping() > 0
-    assert central_node_mid.dish_leaf_node_list[3].ping() > 0
     assert central_node_mid.central_node.isDishVccConfigSet
 
 
@@ -122,12 +110,12 @@ def check_dishln_is_on_and_kvalue_validation_accomplished(central_node_mid):
     "Dish Leaf Node reports k-value not set on either"
     + " of Dish Leaf Node or Dish Manager"
 )
-def check_kvalue_validadation_result_event_received(
+def check_kvalue_validation_result_event_received(
     central_node_mid, event_recorder
 ):
     """Method to check Central Node received the kValueValidation
     attribute event from respective dish leaf nodes."""
-    for i in range(0, 4):
+    for i in range(0, len(central_node_mid.dish_leaf_node_list)):
         event_recorder.subscribe_event(
             central_node_mid.dish_leaf_node_list[i], "kValueValidationResult"
         )

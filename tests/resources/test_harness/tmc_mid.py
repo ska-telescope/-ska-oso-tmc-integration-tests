@@ -1,6 +1,7 @@
 """TMC Class which contain method specific to TMC
 """
 import time
+
 from tango import DeviceProxy
 
 from tests.resources.test_harness.constant import tmc_csp_master_leaf_node
@@ -46,14 +47,10 @@ class TmcMid:
                 f"dserver/{dish_leaf_node_server_id}"
             )
             self.dish_leaf_node_server.RestartServer()
-            # Give some time to other device restart to keep the kube-system stable
+            # Give some time to other device restart
+            # to keep the kube-system stable
             time.sleep(2)
 
     def load_dish_vcc_configuration(self, dish_vcc_config):
         """Load Dish Vcc config on TMC"""
         return self.central_node.load_dish_vcc_configuration(dish_vcc_config)
-
-    def get_dish_leaf_node_server(self, dln_server_id) -> DeviceProxy:
-        """Creates dish leaf node server proxy from given server id"""
-        self.dish_leaf_node_server = DeviceProxy(f"dserver/{dln_server_id}")
-        return self.dish_leaf_node_server
