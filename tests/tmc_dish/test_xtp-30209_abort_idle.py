@@ -29,8 +29,10 @@ def test_tmc_dish_abort_in_idle():
 
 
 @given(
-    "a Telescope consisting of  TMC, DISH {dish_ids} , "
-    + "simulated CSP and simulated SDP"
+    parsers.parse(
+        "a Telescope consisting of TMC, DISH {dish_ids},"
+        + " simulated CSP and simulated SDP"
+    )
 )
 def given_a_telescope(
     central_node_mid, simulator_factory, event_recorder, dish_ids

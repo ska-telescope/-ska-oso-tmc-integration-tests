@@ -1,6 +1,6 @@
 @XTP-30211 @XTP-29778 @Team_SAHYADRI @tmc_dish
 Scenario: Abort configuring DISH.LMC using TMC
-    Given a Telescope consisting of TMC, DISH, simulated CSP and simulated SDP
+    Given a Telescope consisting of TMC, DISH <dish_ids>, simulated CSP and simulated SDP
     And the Telescope is in ON state
     And the TMC subarray <subarray_id> is busy configuring and DishMaster <dish_ids> is in pointingState TRACK
     When I issue the Abort command to the TMC subarray 
@@ -9,5 +9,5 @@ Scenario: Abort configuring DISH.LMC using TMC
 
         Examples:
         | subarray_id  | dish_ids                           |
-        | 1            | dish001, dish036, dish063, dish100 |
+        | 1            | dish001,dish036,dish063,dish100    |
 
