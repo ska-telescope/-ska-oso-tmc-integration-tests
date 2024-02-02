@@ -48,6 +48,7 @@ server:
         - name: "EnableDishVccInit"
           values:
           - "{{.Values.deviceServers.centralnode.Enabled}}"
+        {{- end }}
         - name: "DishKvalueAggregationAllowedPercent"
           values:
           - "{{.Values.deviceServers.centralnode.DishKvalueAggregationAllowedPercent}}"
