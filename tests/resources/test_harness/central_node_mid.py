@@ -89,6 +89,13 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             DeviceProxy(dish_fqdn100),
         ]
 
+        self.dish_master_dict = {
+            "dish001": DeviceProxy(dish_fqdn1),
+            "dish036": DeviceProxy(dish_fqdn36),
+            "dish063": DeviceProxy(dish_fqdn63),
+            "dish100": DeviceProxy(dish_fqdn100),
+        }
+
         self._state = DevState.OFF
         self.json_factory = JsonFactory()
         self.release_input = (
