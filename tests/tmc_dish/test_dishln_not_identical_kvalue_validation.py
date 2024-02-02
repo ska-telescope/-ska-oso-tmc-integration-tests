@@ -23,7 +23,6 @@ def test_tmc_validate_dln_kvalue_not_identical():
 
     Glossary:
         - "central_node_mid": fixture for a TMC CentralNode under test
-        - "simulator_factory": fixture for SimulatorFactory class,
         which provides simulated master devices
         - "event_recorder": fixture for EventRecorder class
         - "tmc_mid": fixture to give TMC mid device server commands
@@ -31,9 +30,7 @@ def test_tmc_validate_dln_kvalue_not_identical():
 
 
 @given("a TMC with already loaded Dish-VCC map version")
-def given_tmc_with_already_loaded_dish_vcc_config_version(
-    central_node_mid, simulator_factory
-):
+def given_tmc_with_already_loaded_dish_vcc_config_version(central_node_mid):
     """
     Given a TMC with loaded Dish-VCC map version
     """

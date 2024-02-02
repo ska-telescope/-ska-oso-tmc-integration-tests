@@ -12,7 +12,7 @@ from tests.resources.test_harness.helpers import (
 from tests.resources.test_support.common_utils.result_code import ResultCode
 
 
-@pytest.mark.SKA_mid
+@pytest.mark.SKA_mid1
 @scenario(
     "../features/tmc_dish/dishln_kvalue_validation.feature",
     "TMC Validates and Reports K-Value set in Dish Leaf Nodes",
@@ -23,7 +23,6 @@ def test_tmc_validate_dln_kvalue_identical():
 
     Glossary:
         - "central_node_mid": fixture for a TMC CentralNode under test
-        - "simulator_factory": fixture for SimulatorFactory class,
         which provides simulated master devices
         - "event_recorder": fixture for EventRecorder class
         - "tmc_mid": fixture to give TMC mid device server commands
@@ -31,9 +30,7 @@ def test_tmc_validate_dln_kvalue_identical():
 
 
 @given("a TMC with already loaded Dish-VCC map version")
-def given_tmc_with_already_loaded_dish_vcc_config_version(
-    central_node_mid, simulator_factory
-):
+def given_tmc_with_already_loaded_dish_vcc_config_version(central_node_mid):
     """Given a TMC with loaded Dish-VCC map version"""
     cspmln_validation_string = "TMC and CSP Master Dish Vcc Version is Same"
     central_node_dish_vcc_validation_status = {
@@ -48,7 +45,7 @@ def given_tmc_with_already_loaded_dish_vcc_config_version(
 
 
 @when("the Dish Leaf Node is restarted")
-def restart_the_dish_leaf_nodes(central_node_mid, tmc_mid):
+def restart_the_dish_leaf_nodes(tmc_mid):
     """Restart the dish leaf nodes"""
     # [0, 1, 2, 3] are index for dish leaf node list
     tmc_mid.RestartServer("DISHLN_0")
