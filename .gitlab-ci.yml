@@ -299,7 +299,7 @@ mid-on-demand-destroy-mini-skampi:
 
 k8s-test:
   tags:
-    - k8srunner
+    - k8srunner-large
   variables:
     SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA"
     DISH_SIMULATION_ENABLED: "true"
@@ -384,7 +384,7 @@ dish-lmc-dish100:
 k8s-test-dish-lmc:
   stage: test
   tags:
-    - k8srunner
+    - k8srunner-large
   variables:
     DISH_SIMULATION_ENABLED: "false"
     SUBARRAY_COUNT: 2
