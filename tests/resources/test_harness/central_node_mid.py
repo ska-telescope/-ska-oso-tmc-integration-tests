@@ -22,6 +22,10 @@ from tests.resources.test_harness.constant import (
     sdp_master,
     sdp_subarray1,
     tmc_csp_master_leaf_node,
+    tmc_dish_leaf_node1,
+    tmc_dish_leaf_node2,
+    tmc_dish_leaf_node3,
+    tmc_dish_leaf_node4,
     tmc_sdp_master_leaf_node,
     tmc_subarraynode1,
 )
@@ -92,6 +96,13 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             DeviceProxy(dish_fqdn100),
         ]
 
+        self.dish_leaf_node_list = [
+            DeviceProxy(tmc_dish_leaf_node1),
+            DeviceProxy(tmc_dish_leaf_node2),
+            DeviceProxy(tmc_dish_leaf_node3),
+            DeviceProxy(tmc_dish_leaf_node4),
+        ]
+
         self._state = DevState.OFF
         self.json_factory = JsonFactory()
         self.release_input = (
@@ -102,6 +113,16 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         device_dict["cbf_subarray1"] = "mid_csp_cbf/sub_elt/subarray_01"
         device_dict["cbf_controller"] = "mid_csp_cbf/sub_elt/controller"
         self.wait = Waiter(**device_dict)
+
+    @property
+    def IsDishVccConfigSet(self):
+        """ """
+        return self.central_node.isDishVccConfigSet
+
+    @property
+    def DishVccValidationStatus(self):
+        """Current dish vcc validation status of central node"""
+        return self.central_node.DishVccValidationStatus
 
     @property
     def state(self) -> DevState:
@@ -442,6 +463,14 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         if self.dish_master_list:
             for device in self.dish_master_list:
                 device.SetDirectDishMode(dish_mode)
+
+    @sync_load_dish_cfg(device_dict=device_dict)
+    def _load_default_dish_vcc_config(self):
+        """Load Default Dish Vcc config"""
+        result, message = self.load_dish_vcc_configuration(
+            json.dumps(DEFAULT_DISH_VCC_CONFIG)
+        )
+        return result, message
 
     def set_value_with_csp_sdp_mocks(self, subarray_state: DevState) -> None:
         """

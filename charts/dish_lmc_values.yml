@@ -8,12 +8,13 @@ labels:
 
 # DISH LMC
 ska-mid-dish-manager:
-  labels: 
+  labels:
     app: ska-tmc-integration
   enabled: true
 
+
 ska-mid-dish-simulators:
-  labels: 
+  labels:
     app: ska-tmc-integration
   enabled: true
   deviceServers:
@@ -25,6 +26,6 @@ ska-mid-dish-simulators:
     enabled: true
 
 ska-mid-dish-ds-manager:
-  labels: 
+  labels:
     app: ska-tmc-integration
   enabled: true

@@ -552,8 +552,8 @@ def wait_and_validate_device_attribute_value(
     device: DeviceProxy,
     attribute_name: str,
     expected_value: str,
-    timeout: int = 70,
-    is_json: bool = False,
+    is_json: str = False,
+    timeout: int = 300,
 ):
     """This method wait and validate if attribute value is equal to provided
     expected value
@@ -563,13 +563,12 @@ def wait_and_validate_device_attribute_value(
     while count <= timeout:
         try:
             attribute_value = device.read_attribute(attribute_name).value
-            if attribute_value:
-                logging.info(
-                    "%s current %s value: %s",
-                    device.name(),
-                    attribute_name,
-                    attribute_value,
-                )
+            logging.info(
+                "%s current %s value: %s",
+                device.name(),
+                attribute_name,
+                attribute_value,
+            )
             if is_json and json.loads(attribute_value) == json.loads(
                 expected_value
             ):

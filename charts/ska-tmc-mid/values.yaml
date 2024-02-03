@@ -134,6 +134,7 @@ deviceServers:
       DishVccUri: "car://gitlab.com/ska-telescope/ska-telmodel-data?main#tmdata"
       DishVccFilePath: "instrument/ska1_mid_itf/ska-mid-cbf-system-parameters.json"
       Enabled: "false"
+      DishKvalueAggregationAllowedPercent: "100.0"
 
   subarraynode:
     enabled: true

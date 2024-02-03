@@ -1,14 +1,10 @@
 """TMC Class which contain method specific to TMC
 """
+import time
+
 from tango import DeviceProxy
 
-from tests.resources.test_harness.constant import (
-    tmc_csp_master_leaf_node,
-    tmc_dish_leaf_node1,
-    tmc_dish_leaf_node2,
-    tmc_dish_leaf_node3,
-    tmc_dish_leaf_node4,
-)
+from tests.resources.test_harness.constant import tmc_csp_master_leaf_node
 
 from .central_node_mid import CentralNodeWrapperMid
 
@@ -24,12 +20,7 @@ class TMCMid:
         self.central_node_server = DeviceProxy(
             f"dserver/{self.central_node.central_node.info().server_id}"
         )
-        self.dish_leaf_node_list = [
-            DeviceProxy(tmc_dish_leaf_node1),
-            DeviceProxy(tmc_dish_leaf_node2),
-            DeviceProxy(tmc_dish_leaf_node3),
-            DeviceProxy(tmc_dish_leaf_node4),
-        ]
+        self.dish_leaf_node_server = ""
 
     @property
     def IsDishVccConfigSet(self):
@@ -47,11 +38,18 @@ class TMCMid:
             self.csp_master_ln_server.RestartServer()
         elif server_type == "CENTRAL_NODE":
             self.central_node_server.RestartServer()
-        elif server_type.startswith("DISH_"):
-            dish_id = int(server_type.split("_")[-1]) - 1
-            dish_proxy = self.dish_leaf_node_list[int(dish_id)]
-            dish_server = DeviceProxy(f"dserver/{dish_proxy.info().server_id}")
-            dish_server.RestartServer()
+        elif server_type.startswith("DISHLN"):
+            index = int(server_type.split("_")[-1])
+            dish_leaf_node_server_id = (
+                self.central_node.dish_leaf_node_list[index].info().server_id
+            )
+            self.dish_leaf_node_server = DeviceProxy(
+                f"dserver/{dish_leaf_node_server_id}"
+            )
+            self.dish_leaf_node_server.RestartServer()
+            # Give some time to other device restart
+            # to keep the kube-system stable
+            time.sleep(3)
 
     def load_dish_vcc_configuration(self, dish_vcc_config):
         """Load Dish Vcc config on TMC"""
@@ -60,3 +58,6 @@ class TMCMid:
     def tear_down(self):
         """tear down"""
         self.central_node.tear_down()
+    def TelescopeOn(self):
+        """Execute TelescopeOn command"""
+        self.central_node.move_to_on()
