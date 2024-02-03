@@ -47,11 +47,11 @@ server:
         {{- if eq $isSimulatedCsp false }}
         - name: "EnableDishVccInit"
           values:
-          - "{{.Values.deviceServers.centralnode.Enabled}}"
+          - "{{.Values.deviceServers.centralnode.DishVccConfig.Enabled}}"
         {{- end }}
         - name: "DishKvalueAggregationAllowedPercent"
           values:
-          - "{{.Values.deviceServers.centralnode.DishKvalueAggregationAllowedPercent}}"
+          - "{{.Values.deviceServers.centralnode.DishVccConfig.DishKvalueAggregationAllowedPercent}}"
         - name: "DishIDs"
           values:
           {{- range  (.Values.deviceServers.centralnode.DishIDs)  }}

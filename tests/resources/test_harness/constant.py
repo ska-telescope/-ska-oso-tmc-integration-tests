@@ -237,6 +237,7 @@ device_dict = {
     "csp_subarray": csp_subarray1,
     "sdp_subarray_leaf_node": tmc_sdp_subarray_leaf_node,
     "csp_subarray_leaf_node": tmc_csp_subarray_leaf_node,
+    "csp_master_leaf_node": tmc_csp_master_leaf_node,
 }
 
 SIMULATOR_DEVICE_FQDN_DICT = {
