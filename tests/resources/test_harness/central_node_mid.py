@@ -115,16 +115,6 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         self.wait = Waiter(**device_dict)
 
     @property
-    def IsDishVccConfigSet(self):
-        """ """
-        return self.central_node.isDishVccConfigSet
-
-    @property
-    def DishVccValidationStatus(self):
-        """Current dish vcc validation status of central node"""
-        return self.central_node.DishVccValidationStatus
-
-    @property
     def state(self) -> DevState:
         """TMC CentralNode operational state"""
         self._state = Resource(self.central_node).get("State")
@@ -141,7 +131,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
 
     @property
     def IsDishVccConfigSet(self):
-        """ """
+        """Return DishVccConfigSet flag"""
         return self.central_node.isDishVccConfigSet
 
     @property
@@ -463,14 +453,6 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         if self.dish_master_list:
             for device in self.dish_master_list:
                 device.SetDirectDishMode(dish_mode)
-
-    @sync_load_dish_cfg(device_dict=device_dict)
-    def _load_default_dish_vcc_config(self):
-        """Load Default Dish Vcc config"""
-        result, message = self.load_dish_vcc_configuration(
-            json.dumps(DEFAULT_DISH_VCC_CONFIG)
-        )
-        return result, message
 
     def set_value_with_csp_sdp_mocks(self, subarray_state: DevState) -> None:
         """

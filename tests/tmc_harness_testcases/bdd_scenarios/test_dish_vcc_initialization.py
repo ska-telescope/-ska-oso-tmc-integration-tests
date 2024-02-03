@@ -198,8 +198,8 @@ def restart_central_node_and_csp_mln(tmc_mid):
     """Restart Csp Master Leaf Node"""
     tmc_mid.RestartServer(server_type="CSP_MLN")
     tmc_mid.RestartServer(server_type="CENTRAL_NODE")
-    tmc_mid.RestartServer(server_type="DISH_1")
-    tmc_mid.RestartServer(server_type="DISH_2")
+    tmc_mid.RestartServer(server_type="DISHLN_0")
+    tmc_mid.RestartServer(server_type="DISHLN_1")
 
 
 @then("TMC should set version of Dish-VCC version used before restart")

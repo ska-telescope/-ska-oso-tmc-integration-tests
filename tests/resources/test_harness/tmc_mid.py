@@ -32,6 +32,11 @@ class TMCMid:
         """Current dish vcc validation status of central node"""
         return self.central_node.DishVccValidationStatus
 
+    @property
+    def dish_leaf_node_list(self):
+        """Return Dish Leaf Node List"""
+        return self.central_node.dish_leaf_node_list
+
     def RestartServer(self, server_type: str):
         """Restart server based on provided server type"""
         if server_type == "CSP_MLN":
@@ -58,6 +63,7 @@ class TMCMid:
     def tear_down(self):
         """tear down"""
         self.central_node.tear_down()
+
     def TelescopeOn(self):
         """Execute TelescopeOn command"""
         self.central_node.move_to_on()
