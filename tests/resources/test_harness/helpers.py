@@ -366,13 +366,17 @@ def device_attribute_changed(
     Method to verify device attribute changed to speicified attribute value
     """
 
+    def is_value_same(old_value, new_value):
+        # Validate old and new value same
+        return json.loads(old_value) == json.loads(new_value)
+
     waiter = Waiter()
     for attribute_name, attribute_value in zip(
         attribute_name_list, attribute_value_list
     ):
         waiter.waits.append(
             watch(Resource(device.dev_name())).to_become(
-                attribute_name, attribute_value
+                attribute_name, attribute_value, predicate=is_value_same
             )
         )
     try:
@@ -571,7 +575,6 @@ def wait_and_validate_device_attribute_value(
                 return True
             elif attribute_value == expected_value:
                 return True
-
         except Exception as e:
             # Device gets unavailable due to restart and the above command
             # tries to access the attribute resulting into exception

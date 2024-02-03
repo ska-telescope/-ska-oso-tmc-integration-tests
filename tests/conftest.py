@@ -16,7 +16,7 @@ from tests.resources.test_harness.central_node_mid import CentralNodeWrapperMid
 from tests.resources.test_harness.event_recorder import EventRecorder
 from tests.resources.test_harness.simulator_factory import SimulatorFactory
 from tests.resources.test_harness.subarray_node import SubarrayNodeWrapper
-from tests.resources.test_harness.tmc_mid import TmcMid
+from tests.resources.test_harness.tmc_mid import TMCMid
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 
 configure_logging(logging.DEBUG)
@@ -133,10 +133,11 @@ def central_node_mid() -> CentralNodeWrapperMid:
 
 
 @pytest.fixture()
-def tmc_mid() -> TmcMid:
+def tmc_mid() -> TMCMid:
     """Return TMC Mid object"""
-    tmc_mid = TmcMid()
-    return tmc_mid
+    tmc_mid = TMCMid()
+    yield tmc_mid
+    tmc_mid.tear_down()
 
 
 @pytest.fixture()

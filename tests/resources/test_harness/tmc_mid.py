@@ -9,7 +9,7 @@ from tests.resources.test_harness.constant import tmc_csp_master_leaf_node
 from .central_node_mid import CentralNodeWrapperMid
 
 
-class TmcMid:
+class TMCMid:
     def __init__(self):
         """Set all devices proxy required for TMC"""
         self.central_node = CentralNodeWrapperMid()
@@ -32,7 +32,12 @@ class TmcMid:
         """Current dish vcc validation status of central node"""
         return self.central_node.DishVccValidationStatus
 
-    def RestartServer(self, server_type: str) -> None:
+    @property
+    def dish_leaf_node_list(self):
+        """Return Dish Leaf Node List"""
+        return self.central_node.dish_leaf_node_list
+
+    def RestartServer(self, server_type: str):
         """Restart server based on provided server type"""
         if server_type == "CSP_MLN":
             self.csp_master_ln_server.RestartServer()
@@ -54,6 +59,10 @@ class TmcMid:
     def load_dish_vcc_configuration(self, dish_vcc_config):
         """Load Dish Vcc config on TMC"""
         return self.central_node.load_dish_vcc_configuration(dish_vcc_config)
+
+    def tear_down(self):
+        """tear down"""
+        self.central_node.tear_down()
 
     def TelescopeOn(self):
         """Execute TelescopeOn command"""
