@@ -10,6 +10,7 @@ from tango import DeviceProxy, DevState
 
 from tests.resources.test_harness.central_node import CentralNodeWrapper
 from tests.resources.test_harness.constant import (
+    DEFAULT_DISH_VCC_CONFIG,
     centralnode,
     csp_master,
     csp_subarray1,
@@ -21,10 +22,15 @@ from tests.resources.test_harness.constant import (
     sdp_master,
     sdp_subarray1,
     tmc_csp_master_leaf_node,
+    tmc_dish_leaf_node1,
+    tmc_dish_leaf_node2,
+    tmc_dish_leaf_node3,
+    tmc_dish_leaf_node4,
     tmc_sdp_master_leaf_node,
     tmc_subarraynode1,
 )
 from tests.resources.test_harness.helpers import (
+    CSP_SIMULATION_ENABLED,
     SIMULATED_DEVICES_DICT,
     generate_eb_pb_ids,
     wait_csp_master_off,
@@ -34,6 +40,7 @@ from tests.resources.test_harness.utils.enums import DishMode
 from tests.resources.test_harness.utils.sync_decorators import (
     sync_abort,
     sync_assign_resources,
+    sync_load_dish_cfg,
     sync_release_resources,
     sync_restart,
     sync_set_to_off,
@@ -89,6 +96,13 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             DeviceProxy(dish_fqdn100),
         ]
 
+        self.dish_leaf_node_list = [
+            DeviceProxy(tmc_dish_leaf_node1),
+            DeviceProxy(tmc_dish_leaf_node2),
+            DeviceProxy(tmc_dish_leaf_node3),
+            DeviceProxy(tmc_dish_leaf_node4),
+        ]
+
         self._state = DevState.OFF
         self.json_factory = JsonFactory()
         self.release_input = (
@@ -99,6 +113,16 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         device_dict["cbf_subarray1"] = "mid_csp_cbf/sub_elt/subarray_01"
         device_dict["cbf_controller"] = "mid_csp_cbf/sub_elt/controller"
         self.wait = Waiter(**device_dict)
+
+    @property
+    def IsDishVccConfigSet(self):
+        """ """
+        return self.central_node.isDishVccConfigSet
+
+    @property
+    def DishVccValidationStatus(self):
+        """Current dish vcc validation status of central node"""
+        return self.central_node.DishVccValidationStatus
 
     @property
     def state(self) -> DevState:
@@ -430,6 +454,14 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             for device in self.dish_master_list:
                 device.SetDirectDishMode(dish_mode)
 
+    @sync_load_dish_cfg(device_dict=device_dict)
+    def _load_default_dish_vcc_config(self):
+        """Load Default Dish Vcc config"""
+        result, message = self.load_dish_vcc_configuration(
+            json.dumps(DEFAULT_DISH_VCC_CONFIG)
+        )
+        return result, message
+
     def set_value_with_csp_sdp_mocks(self, subarray_state: DevState) -> None:
         """
         A method to set values on mock CSP and SDP devices.
@@ -496,7 +528,6 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         )
         # reset HealthState.UNKNOWN for mock devices
         self._reset_health_state_for_mock_devices()
-        self._reset_sys_param_and_k_value()
         if self.subarray_node.obsState == ObsState.IDLE:
             LOGGER.info("Calling Release Resource on centralnode")
             self.invoke_release_resources(self.release_input)
@@ -515,3 +546,13 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         if self.telescope_state != "OFF":
             self.move_to_off()
         self._clear_command_call_and_transition_data(clear_transition=True)
+        # if source dish vcc config is empty or not matching with default
+        # dish vcc then load default dish vcc config
+        # CSP_SIMULATION_ENABLED condition will be removed after testing
+        # with real csp
+        if CSP_SIMULATION_ENABLED.lower() == "true" and (
+            not self.csp_master_leaf_node.sourceDishVccConfig
+            or json.loads(self.csp_master_leaf_node.sourceDishVccConfig)
+            != DEFAULT_DISH_VCC_CONFIG
+        ):
+            self._load_default_dish_vcc_config()

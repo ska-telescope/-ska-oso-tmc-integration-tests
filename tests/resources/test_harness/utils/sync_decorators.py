@@ -185,3 +185,19 @@ def sync_endscan(device_dict):
         return wrapper
 
     return decorator_sync_end_scan
+
+
+def sync_load_dish_cfg(device_dict, timeout=500):
+    # define as a decorator
+    def decorator_sync_load_dish_cfg(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            the_waiter = Waiter(**device_dict)
+            the_waiter.set_wait_for_load_dish_cfg()
+            result = func(*args, **kwargs)
+            the_waiter.wait(timeout)
+            return result
+
+        return wrapper
+
+    return decorator_sync_load_dish_cfg
