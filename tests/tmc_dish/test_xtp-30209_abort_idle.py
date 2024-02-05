@@ -8,10 +8,9 @@ from ska_tango_base.control_model import ObsState
 from tango import DevState
 
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
-from tests.resources.test_support.enum import DishMode, PointingState
+from tests.resources.test_support.enum import DishMode
 
 
-@pytest.mark.skip
 @pytest.mark.tmc_dish
 @scenario(
     "../features/tmc_dish/xtp-30209_abort_idle.feature",
@@ -211,32 +210,17 @@ def abort_is_invoked(subarray_node):
 
 
 @then(
-    parsers.parse(
-        "the DishMaster {dish_ids} transitions to dishMode"
-        + " OPERATE and pointingState READY"
-    )
+    parsers.parse("the DishMaster {dish_ids} remains in dishmode STANDBY-FP")
 )
-def check_dish_mode_and_pointing_state(
-    central_node_mid, event_recorder, dish_ids
-):
+def check_dish_mode(central_node_mid, event_recorder, dish_ids):
     """
-    Method to check dishMode and pointingState of DISH
+    Method to check dishMode of DISH
     """
     for dish_id in dish_ids.split(","):
-        event_recorder.subscribe_event(
-            central_node_mid.dish_master_dict[dish_id], "pointingState"
-        )
-
         assert event_recorder.has_change_event_occurred(
             central_node_mid.dish_master_dict[dish_id],
             "dishMode",
-            DishMode.OPERATE,
-        )
-
-        assert event_recorder.has_change_event_occurred(
-            central_node_mid.dish_master_dict[dish_id],
-            "pointState",
-            PointingState.READY,
+            DishMode.STANDBY_FP,
         )
 
 
