@@ -199,11 +199,14 @@ def check_dish_mode(central_node_mid, event_recorder, dish_ids):
     Method to check dishMode of DISH
     """
     for dish_id in dish_ids.split(","):
-        assert event_recorder.has_change_event_occurred(
-            central_node_mid.dish_master_dict[dish_id],
-            "dishMode",
-            DishMode.STANDBY_FP,
+        assert (
+            central_node_mid.dish_master_dict[dish_id] == DishMode.STANDBY_FP
         )
+        # assert event_recorder.has_change_event_occurred(
+        #     central_node_mid.dish_master_dict[dish_id],
+        #     "dishMode",
+        #     DishMode.STANDBY_FP,
+        # )
 
 
 @then("the TMC subarray transitions to ObsState ABORTED")
