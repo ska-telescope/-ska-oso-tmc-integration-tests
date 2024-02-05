@@ -36,24 +36,14 @@ dish_leaf_node36_info = db.get_device_info("ska_mid/tm_leaf_node/d0036")
 dish_leaf_node63_info = db.get_device_info("ska_mid/tm_leaf_node/d0063")
 dish_leaf_node100_info = db.get_device_info("ska_mid/tm_leaf_node/d0100")
 
-# Get the full names of the  TMC devices from device info received from
-# TANGO db
-sdp_master_dev_name = sdp_master_dev_info.name
-csp_master_dev_name = csp_master_dev_info.name
-central_node_dev_name = central_node_info.name
-dish_leaf_node1_dev_name = dish_leaf_node1_info.name
-dish_leaf_node36_dev_name = dish_leaf_node36_info.name
-dish_leaf_node63_dev_name = dish_leaf_node63_info.name
-dish_leaf_node100_dev_name = dish_leaf_node100_info.name
-
 # Create proxies of the TMC devices
-csp_master_proxy = DeviceProxy(csp_master_dev_name)
-sdp_master_proxy = DeviceProxy(sdp_master_dev_name)
-centralnode_proxy = DeviceProxy(central_node_dev_name)
-dish_leaf_node1_proxy = DeviceProxy(dish_leaf_node1_dev_name)
-dish_leaf_node36_proxy = DeviceProxy(dish_leaf_node36_dev_name)
-dish_leaf_node63_proxy = DeviceProxy(dish_leaf_node63_dev_name)
-dish_leaf_node100_proxy = DeviceProxy(dish_leaf_node100_dev_name)
+csp_master_proxy = DeviceProxy(csp_master_dev_info.name)
+sdp_master_proxy = DeviceProxy(sdp_master_dev_info.name)
+centralnode_proxy = DeviceProxy(central_node_info.name)
+dish_leaf_node1_proxy = DeviceProxy(dish_leaf_node1_info.name)
+dish_leaf_node36_proxy = DeviceProxy(dish_leaf_node36_info.name)
+dish_leaf_node63_proxy = DeviceProxy(dish_leaf_node63_info.name)
+dish_leaf_node100_proxy = DeviceProxy(dish_leaf_node100_info.name)
 
 # Create proxies of the Dish devices
 dish1_proxy = DeviceProxy(dish1_dev_name)
@@ -94,7 +84,7 @@ def wait_and_validate_device_attribute_value(
     device: DeviceProxy,
     attribute_name: str,
     expected_value: str,
-    timeout: int = 80,
+    timeout: int = 30,
 ):
     """This method wait and validate if attribute value is equal to provided
     expected value
@@ -120,8 +110,8 @@ def wait_and_validate_device_attribute_value(
             # The exception log is suppressed by storing into variable
             # the error is printed later into the log in case of failure
             error = e
-        count += 2
-        time.sleep(2)
+        count += 1
+        time.sleep(1)
 
     logging.exception(
         "Exception occurred while reading attribute %s and cnt is %s",
@@ -261,7 +251,12 @@ def connect_to_dish():
 
     dish1_admin_dev_proxy.RestartServer()
     dish1_leaf_admin_dev_proxy.RestartServer()
-    # Wait for the dish addition in the TANGO database and device restart
+
+    # When device restart it will at least take 10 sec to up again
+    # so added 10 sec sleep.
+    time.sleep(10)
+
+    # Check if the dish 1 is initialised
     assert wait_and_validate_device_attribute_value(
         dish1_proxy, "dishMode", DishMode.STANDBY_FP
     )
