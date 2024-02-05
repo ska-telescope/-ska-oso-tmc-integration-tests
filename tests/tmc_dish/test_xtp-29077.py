@@ -11,6 +11,18 @@ from tango.db import Database, DbDevInfo
 
 from tests.resources.test_support.enum import DishMode
 
+
+@pytest.mark.tmc_dish
+@scenario(
+    "../features/tmc_dish/xtp-29077.feature",
+    "Mid TMC Central Node robustness test with disappearing DishLMC",
+)
+def test_tmc_central_node_robustness():
+    """
+    Test case to verify TMC CentralNode Robustness
+    """
+
+
 LOGGER = logging.getLogger(__name__)
 
 dish1_dev_name = os.getenv("DISH_NAME_1")
@@ -119,17 +131,6 @@ def wait_and_validate_device_attribute_value(
         count,
     )
     return False
-
-
-@pytest.mark.tmc_dish
-@scenario(
-    "../features/tmc_dish/xtp-29077.feature",
-    "Mid TMC Central Node robustness test with disappearing DishLMC",
-)
-def test_tmc_central_node_robustness():
-    """
-    Test case to verify TMC CentralNode Robustness
-    """
 
 
 @given("a Telescope consisting of TMC, DISH, CSP and SDP")
