@@ -202,10 +202,11 @@ def check_dish_mode(central_node_mid, event_recorder, dish_ids):
     """
     for dish_id in dish_ids.split(","):
         logging.info(
-            f"Dishmode:::{central_node_mid.dish_master_dict[dish_id]}"
+            f"Dishmode:::{central_node_mid.dish_master_dict[dish_id].dishMode}"
         )
         assert (
-            central_node_mid.dish_master_dict[dish_id] == DishMode.STANDBY_FP
+            central_node_mid.dish_master_dict[dish_id].dishMode
+            == DishMode.STANDBY_FP
         )
         # assert event_recorder.has_change_event_occurred(
         #     central_node_mid.dish_master_dict[dish_id],
