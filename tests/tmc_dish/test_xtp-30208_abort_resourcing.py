@@ -1,6 +1,5 @@
 """Test TMC-DISH Abort functionality in Resourcing obstate"""
 
-import logging
 import time
 
 import pytest
@@ -8,9 +7,6 @@ from pytest_bdd import given, parsers, scenario, then, when
 from ska_tango_base.control_model import ObsState
 from tango import DevState
 
-from tests.resources.test_harness.helpers import (
-    prepare_json_args_for_centralnode_commands,
-)
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.enum import DishMode
 
@@ -50,8 +46,6 @@ def given_a_telescope(
     sdp_master_sim = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.MID_SDP_MASTER_DEVICE
     )
-    event_recorder.subscribe_event(csp_master_sim, "State")
-    event_recorder.subscribe_event(sdp_master_sim, "State")
 
     assert csp_master_sim.ping() > 0
     assert sdp_master_sim.ping() > 0
@@ -60,7 +54,7 @@ def given_a_telescope(
 
 
 @given("the Telescope is in ON state")
-def turn_on_telescope(central_node_mid, event_recorder):
+def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
     """A method to put DISH to ON"""
     event_recorder.subscribe_event(
         central_node_mid.dish_master_dict["dish001"], "dishMode"
@@ -100,9 +94,19 @@ def turn_on_telescope(central_node_mid, event_recorder):
     # invoking TelescopeOn command
     time.sleep(1)
 
+    csp_master_sim = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.MID_CSP_MASTER_DEVICE
+    )
+    sdp_master_sim = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.MID_SDP_MASTER_DEVICE
+    )
+
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
     )
+
+    event_recorder.subscribe_event(csp_master_sim, "State")
+    event_recorder.subscribe_event(sdp_master_sim, "State")
 
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
@@ -155,10 +159,9 @@ def turn_on_telescope(central_node_mid, event_recorder):
 
 
 @given(parsers.parse("the TMC subarray {subarray_id} is busy in assigning"))
-def subarray_is_in_configuring_obsstate(
+def subarray_is_in_resourcing_obsstate(
     central_node_mid,
     subarray_node,
-    command_input_factory,
     event_recorder,
     subarray_id,
 ):
@@ -167,11 +170,10 @@ def subarray_is_in_configuring_obsstate(
     event_recorder.subscribe_event(
         central_node_mid.subarray_devices.get("sdp_subarray"), "obsState"
     )
-    assign_input_json = prepare_json_args_for_centralnode_commands(
-        "assign_resources_mid", command_input_factory
+    event_recorder.subscribe_event(
+        central_node_mid.subarray_devices.get("csp_subarray"), "obsState"
     )
-    central_node_mid.store_resources(assign_input_json)
-
+    subarray_node.force_change_of_obs_state("RESOURCING")
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "obsState",
@@ -182,6 +184,11 @@ def subarray_is_in_configuring_obsstate(
         "obsState",
         ObsState.RESOURCING,
     )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.subarray_devices.get("csp_subarray"),
+        "obsState",
+        ObsState.RESOURCING,
+    )
 
 
 @when("I issue the Abort command to the TMC subarray")
@@ -189,7 +196,6 @@ def abort_is_invoked(subarray_node):
     """
     This method invokes abort command on tmc subarray.
     """
-    # subarray_node.abort_subarray()
     subarray_node.execute_transition("Abort")
 
 
@@ -198,27 +204,19 @@ def abort_is_invoked(subarray_node):
 )
 def check_dish_mode(central_node_mid, event_recorder, dish_ids):
     """
-    Method to check dishMode of DISH
+    Method to check dishMode.
     """
     for dish_id in dish_ids.split(","):
-        logging.info(
-            f"Dishmode:::{central_node_mid.dish_master_dict[dish_id].dishMode}"
-        )
         assert (
             central_node_mid.dish_master_dict[dish_id].dishMode
             == DishMode.STANDBY_FP
         )
-        # assert event_recorder.has_change_event_occurred(
-        #     central_node_mid.dish_master_dict[dish_id],
-        #     "dishMode",
-        #     DishMode.STANDBY_FP,
-        # )
 
 
 @then("the TMC subarray transitions to ObsState ABORTED")
 def tmc_subarray_is_in_aborted_obsstate(subarray_node, event_recorder):
     """
-    Method to check if TMC subarray is in ABORTED obsstate
+    Method to check if TMC subarray is in ABORTED obsstate.
     """
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,

@@ -70,7 +70,12 @@ device_dict = {
     "tmc_subarraynode": tmc_subarraynode1,
     "sdp_master": sdp_master,
     "centralnode": centralnode,
-    "dish_master_list": [dish_master1, dish_master2],
+    "dish_master_list": [
+        dish_master1,
+        dish_master2,
+        dish_master3,
+        dish_master4,
+    ],
     "csp_subarray_leaf_node": tmc_csp_subarray_leaf_node,
     "sdp_subarray_leaf_node": tmc_sdp_subarray_leaf_node,
 }
@@ -83,6 +88,7 @@ class SubarrayNodeWrapper(object):
 
     def __init__(self) -> None:
         super().__init__()
+        # self.device_dict = device_dict
         self.tmc_subarraynode1 = tmc_subarraynode1
         self.subarray_node = DeviceProxy(self.tmc_subarraynode1)
         self.csp_subarray_leaf_node = DeviceProxy(tmc_csp_subarray_leaf_node)
@@ -112,6 +118,9 @@ class SubarrayNodeWrapper(object):
             DeviceProxy(dish_fqdn63),
             DeviceProxy(dish_fqdn100),
         ]
+
+        device_dict["dish_master_list"] = self.dish_master_list
+
         self.subarray_devices = {
             "csp_subarray": DeviceProxy(csp_subarray1),
             "sdp_subarray": DeviceProxy(sdp_subarray1),
