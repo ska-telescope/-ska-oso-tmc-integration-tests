@@ -71,9 +71,9 @@ def turn_on_telescope(central_node_mid, event_recorder):
     event_recorder.subscribe_event(
         central_node_mid.dish_master_dict["dish063"], "dishMode"
     )
-    # event_recorder.subscribe_event(
-    #     central_node_mid.dish_master_dict["dish100"], "dishMode"
-    # )
+    event_recorder.subscribe_event(
+        central_node_mid.dish_master_dict["dish100"], "dishMode"
+    )
 
     assert event_recorder.has_change_event_occurred(
         central_node_mid.dish_master_dict["dish001"],
@@ -90,11 +90,11 @@ def turn_on_telescope(central_node_mid, event_recorder):
         "dishMode",
         DishMode.STANDBY_LP,
     )
-    # assert event_recorder.has_change_event_occurred(
-    #     central_node_mid.dish_master_dict["dish100"],
-    #     "dishMode",
-    #     DishMode.STANDBY_LP,
-    # )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_dict["dish100"],
+        "dishMode",
+        DishMode.STANDBY_LP,
+    )
 
     # Wait for the DishLeafNode to get StandbyLP event form DishMaster before
     # invoking TelescopeOn command
@@ -126,11 +126,11 @@ def turn_on_telescope(central_node_mid, event_recorder):
         "dishMode",
         DishMode.STANDBY_FP,
     )
-    # assert event_recorder.has_change_event_occurred(
-    #     central_node_mid.dish_master_dict["dish100"],
-    #     "dishMode",
-    #     DishMode.STANDBY_FP,
-    # )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_dict["dish100"],
+        "dishMode",
+        DishMode.STANDBY_FP,
+    )
 
     # Wait for the DishLeafNode to get StandbyFP event form DishMaster before
     # invoking TelescopeOn command
