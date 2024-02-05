@@ -11,7 +11,10 @@ from tests.resources.test_harness.helpers import (
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 
 
-@pytest.mark.bdd_configure
+# @pytest.mark.skip(
+#     reason="Test passes independently, fails when executed with all tests"
+# )
+@pytest.mark.bdd_configure_sdp
 @pytest.mark.SKA_mid
 @scenario(
     "../features/xtp-28835.feature",
@@ -120,7 +123,7 @@ def csp_subarray_configure_complete(event_recorder, simulator_factory):
     csp_sim = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.MID_CSP_DEVICE
     )
-
+    event_recorder.subscribe_event(csp_sim, "obsState")
     assert event_recorder.has_change_event_occurred(
         csp_sim,
         "obsState",
@@ -138,6 +141,7 @@ def sdp_subarray_returns_to_obsstate_idle(event_recorder, simulator_factory):
     sdp_sim = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.MID_SDP_DEVICE
     )
+    event_recorder.subscribe_event(sdp_sim, "obsState")
     assert event_recorder.has_change_event_occurred(
         sdp_sim,
         "obsState",

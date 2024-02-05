@@ -86,7 +86,7 @@ def move_dish_to_on(central_node_mid, event_recorder):
 
     # Wait for the DishLeafNode to get StandbyLP event form DishMaster before
     # invoking TelescopeOn command
-    time.sleep(1)
+    time.sleep(2)
 
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
@@ -118,7 +118,7 @@ def move_dish_to_on(central_node_mid, event_recorder):
 
     # Wait for the DishLeafNode to get StandbyFP event form DishMaster before
     # invoking TelescopeOn command
-    time.sleep(1)
+    time.sleep(2)
 
     assert event_recorder.has_change_event_occurred(
         central_node_mid.sdp_master,
@@ -209,19 +209,15 @@ def invoke_end(central_node_mid, subarray_node, subarray_id):
     subarray_node.execute_transition("End")
 
 
-@then("dishMode transitions to STANDBY-FP obsState")
+@then("DishMode is OPERATE")
 def check_dish_mode(central_node_mid, event_recorder):
-    """Method to check Dish is in STANDBY-FP Dish Mode"""
+    """Method to check Dish is in OPERATE Dish Mode"""
 
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[0],
-        "dishMode",
-        DishMode.STANDBY_FP,
+    assert (
+        central_node_mid.dish_master_list[0].dishMode.value == DishMode.OPERATE
     )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[1],
-        "dishMode",
-        DishMode.STANDBY_FP,
+    assert (
+        central_node_mid.dish_master_list[1].dishMode.value == DishMode.OPERATE
     )
 
 
