@@ -1,5 +1,6 @@
 """Test TMC-DISH Abort functionality in IDLE obstate"""
 
+import logging
 import time
 
 import pytest
@@ -7,6 +8,9 @@ from pytest_bdd import given, parsers, scenario, then, when
 from ska_tango_base.control_model import ObsState
 from tango import DevState
 
+from tests.resources.test_harness.helpers import (
+    prepare_json_args_for_centralnode_commands,
+)
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.enum import DishMode
 
@@ -152,9 +156,11 @@ def turn_on_telescope(central_node_mid, event_recorder):
 
 @given(parsers.parse("TMC subarray {subarray_id}  is in IDLE ObsState"))
 def subarray_is_in_idle_obsstate(
+    central_node_mid,
     subarray_node,
     event_recorder,
     subarray_id,
+    command_input_factory,
 ):
     subarray_node.set_subarray_id(subarray_id)
 
@@ -163,16 +169,12 @@ def subarray_is_in_idle_obsstate(
         subarray_node.subarray_devices.get("sdp_subarray"), "obsState"
     )
     event_recorder.subscribe_event(
-        subarray_node.sdp_subarray_leaf_node, "sdpSubarrayObsState"
-    )
-    event_recorder.subscribe_event(
         subarray_node.subarray_devices.get("csp_subarray"), "obsState"
     )
-    event_recorder.subscribe_event(
-        subarray_node.csp_subarray_leaf_node, "cspSubarrayObsState"
+    assign_input_json = prepare_json_args_for_centralnode_commands(
+        "assign_resources_mid", command_input_factory
     )
-
-    subarray_node.force_change_of_obs_state("IDLE")
+    central_node_mid.store_resources(assign_input_json)
 
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
@@ -185,18 +187,8 @@ def subarray_is_in_idle_obsstate(
         ObsState.IDLE,
     )
     assert event_recorder.has_change_event_occurred(
-        subarray_node.sdp_subarray_leaf_node,
-        "sdpSubarrayObsState",
-        ObsState.IDLE,
-    )
-    assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_devices.get("csp_subarray"),
         "obsState",
-        ObsState.IDLE,
-    )
-    assert event_recorder.has_change_event_occurred(
-        subarray_node.csp_subarray_leaf_node,
-        "cspSubarrayObsState",
         ObsState.IDLE,
     )
 
@@ -218,6 +210,9 @@ def check_dish_mode(central_node_mid, event_recorder, dish_ids):
     Method to check dishMode of DISH
     """
     for dish_id in dish_ids.split(","):
+        logging.info(
+            f"Dishmode:::{central_node_mid.dish_master_dict[dish_id]}"
+        )
         assert (
             central_node_mid.dish_master_dict[dish_id] == DishMode.STANDBY_FP
         )

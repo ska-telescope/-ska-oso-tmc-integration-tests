@@ -1,5 +1,6 @@
 """Test TMC-DISH Abort functionality in Resourcing obstate"""
 
+import logging
 import time
 
 import pytest
@@ -200,6 +201,9 @@ def check_dish_mode(central_node_mid, event_recorder, dish_ids):
     Method to check dishMode of DISH
     """
     for dish_id in dish_ids.split(","):
+        logging.info(
+            f"Dishmode:::{central_node_mid.dish_master_dict[dish_id]}"
+        )
         assert (
             central_node_mid.dish_master_dict[dish_id] == DishMode.STANDBY_FP
         )
