@@ -206,7 +206,8 @@ def abort_is_invoked(subarray_node):
     """
     This method invokes abort command on tmc subarray.
     """
-    subarray_node.abort_subarray()
+    # subarray_node.abort_subarray()
+    subarray_node.execute_transition("Abort")
 
 
 @then(
