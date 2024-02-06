@@ -51,7 +51,7 @@ def restart_the_dish_leaf_nodes(tmc_mid):
     tmc_mid.central_node.dish_leaf_node_list[0].kValue = 0
 
     # Unset values on some of the Dish Managers
-    tmc_mid.central_node.dish_master_list[3].kValue = 0
+    tmc_mid.central_node.dish_master_list[3].SetKValue(0)
 
     # [0, 1, 2, 3] are index for dish leaf node list
     tmc_mid.RestartServer("DISHLN_0")
