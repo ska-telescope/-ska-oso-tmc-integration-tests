@@ -1,5 +1,4 @@
 import functools
-import logging
 from contextlib import contextmanager
 
 from tests.resources.test_harness.utils.wait_helpers import Waiter
@@ -100,8 +99,6 @@ def sync_assign_resources(device_dict):
 
 def sync_abort(device_dict, timeout=800):
     # define as a decorator
-    logging.info(f"Device dictionary in sync decorator:{device_dict}")
-
     def decorator_sync_abort(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):

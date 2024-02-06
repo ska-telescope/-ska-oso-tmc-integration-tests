@@ -73,8 +73,6 @@ device_dict = {
     "dish_master_list": [
         dish_master1,
         dish_master2,
-        dish_master3,
-        dish_master4,
     ],
     "csp_subarray_leaf_node": tmc_csp_subarray_leaf_node,
     "sdp_subarray_leaf_node": tmc_sdp_subarray_leaf_node,
@@ -96,7 +94,6 @@ class SubarrayNodeWrapper(object):
             DeviceProxy(tmc_dish_leaf_node1),
             DeviceProxy(tmc_dish_leaf_node2),
         ]
-        LOGGER.info(f"Device dictionary before update:{device_dict}")
         if (
             SIMULATED_DEVICES_DICT["csp_and_sdp"]
             and not SIMULATED_DEVICES_DICT["all_mocks"]
