@@ -28,7 +28,6 @@ def alarm_rule_validation(filename, missing_attribute):
         )
 
 
-@pytest.mark.skip("Alarm Handler Disabled")
 @pytest.mark.parametrize(
     "alarm_rule_file, missing_attribute",
     [
@@ -39,7 +38,6 @@ def alarm_rule_validation(filename, missing_attribute):
         ("missing_message_attribute.txt", "message"),
     ],
 )
-@pytest.mark.skip("Alarm Handler Disabled due to node port issue")
 @pytest.mark.post_deployment
 @pytest.mark.SKA_mid
 def test_validate_attribute_properties(alarm_rule_file, missing_attribute):

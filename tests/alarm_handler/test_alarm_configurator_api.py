@@ -1,6 +1,5 @@
 """
 This module is used for testing Alarm-Handler configurator API.
-
 """
 import os
 
@@ -53,7 +52,6 @@ def remove_alarm_api():
     assert response_data["alarm_summary"] is None
 
 
-@pytest.mark.skip(reason="Test is disabled for Nodeport issue resolution")
 @pytest.mark.post_deployment
 @pytest.mark.SKA_mid
 def test_configure_alarms():
@@ -61,7 +59,6 @@ def test_configure_alarms():
     add_alarms_api("alarm_file1.txt")
 
 
-@pytest.mark.skip(reason="Test is disabled for Nodeport issue resolution")
 @pytest.mark.post_deployment
 @pytest.mark.SKA_mid
 def test_remove_alarm():
