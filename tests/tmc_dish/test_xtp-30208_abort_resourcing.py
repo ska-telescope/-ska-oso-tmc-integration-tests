@@ -180,10 +180,8 @@ def subarray_is_in_resourcing_obsstate(
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
-    subarray_node.force_change_of_obs_state(
-        "RESOURCING",
-        assign_input_json=assign_input_json,
-    )
+    central_node_mid.store_resources(assign_input_json)
+
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",

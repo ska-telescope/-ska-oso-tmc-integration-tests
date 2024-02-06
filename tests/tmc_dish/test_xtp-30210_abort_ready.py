@@ -7,6 +7,10 @@ from pytest_bdd import given, parsers, scenario, then, when
 from ska_tango_base.control_model import ObsState
 from tango import DevState
 
+from tests.resources.test_harness.helpers import (
+    prepare_json_args_for_centralnode_commands,
+    prepare_json_args_for_commands,
+)
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.enum import DishMode, PointingState
 
@@ -170,6 +174,7 @@ def subarray_is_in_ready_obsstate(
     event_recorder,
     subarray_id,
     dish_ids,
+    command_input_factory,
 ):
     subarray_node.set_subarray_id(subarray_id)
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
@@ -183,7 +188,21 @@ def subarray_is_in_ready_obsstate(
         event_recorder.subscribe_event(
             central_node_mid.dish_master_dict[dish_id], "pointingState"
         )
+    assign_input_json = prepare_json_args_for_centralnode_commands(
+        "assign_resources_mid", command_input_factory
+    )
+    central_node_mid.store_resources(assign_input_json)
 
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_node,
+        "obsState",
+        ObsState.IDLE,
+    )
+
+    configure_json = prepare_json_args_for_commands(
+        "configure_mid", command_input_factory
+    )
+    subarray_node.execute_transition("Configure", configure_json)
     subarray_node.force_change_of_obs_state("READY")
 
     assert event_recorder.has_change_event_occurred(

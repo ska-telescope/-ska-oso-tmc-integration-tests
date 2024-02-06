@@ -6,6 +6,9 @@ from pytest_bdd import given, parsers, scenario, then, when
 from ska_tango_base.control_model import ObsState
 from tango import DevState
 
+from tests.resources.test_harness.helpers import (
+    prepare_json_args_for_centralnode_commands,
+)
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.enum import DishMode
 
@@ -161,6 +164,7 @@ def subarray_is_in_idle_obsstate(
     subarray_node,
     event_recorder,
     subarray_id,
+    command_input_factory,
 ):
     central_node_mid.set_subarray_id(subarray_id)
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
@@ -170,7 +174,10 @@ def subarray_is_in_idle_obsstate(
     event_recorder.subscribe_event(
         central_node_mid.subarray_devices.get("csp_subarray"), "obsState"
     )
-    subarray_node.force_change_of_obs_state("IDLE")
+    assign_input_json = prepare_json_args_for_centralnode_commands(
+        "assign_resources_mid", command_input_factory
+    )
+    central_node_mid.store_resources(assign_input_json)
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",

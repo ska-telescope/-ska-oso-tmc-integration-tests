@@ -118,14 +118,6 @@ class SubarrayNodeWrapper(object):
             DeviceProxy(dish_fqdn100),
         ]
 
-        device_dict["dish_master_list"] = [
-            dish_fqdn001,
-            dish_fqdn036,
-            dish_fqdn063,
-            dish_fqdn100,
-        ]
-        LOGGER.info(f"deice dictionary after update:{device_dict}")
-
         self.subarray_devices = {
             "csp_subarray": DeviceProxy(csp_subarray1),
             "sdp_subarray": DeviceProxy(sdp_subarray1),
