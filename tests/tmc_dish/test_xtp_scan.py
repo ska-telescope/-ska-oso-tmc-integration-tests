@@ -18,7 +18,7 @@ from tests.resources.test_support.enum import DishMode, PointingState
 @pytest.mark.skip
 @pytest.mark.tmc_dish
 @scenario(
-    "../features/tmc_dish/xtp-_scan.feature",
+    "../features/tmc_dish/xtp-scan.feature",
     "scan the telescope having TMC and Dish Subsystems",
 )
 def test_tmc_dish_scan():
@@ -52,6 +52,7 @@ def given_a_telescope(central_node_mid, simulator_factory, event_recorder):
     assert central_node_mid.dish_master_list[0].ping() > 0
     assert central_node_mid.dish_master_list[1].ping() > 0
     assert central_node_mid.dish_master_list[2].ping() > 0
+    assert central_node_mid.dish_master_list[3].ping() > 0
 
 
 @given("the Telescope is in ON state")
@@ -66,6 +67,9 @@ def turn_on_telescope(central_node_mid, event_recorder):
     event_recorder.subscribe_event(
         central_node_mid.dish_master_list[2], "dishMode"
     )
+    event_recorder.subscribe_event(
+        central_node_mid.dish_master_list[3], "dishMode"
+    )
 
     assert event_recorder.has_change_event_occurred(
         central_node_mid.dish_master_list[0],
@@ -79,6 +83,11 @@ def turn_on_telescope(central_node_mid, event_recorder):
     )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.dish_master_list[2],
+        "dishMode",
+        DishMode.STANDBY_LP,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[3],
         "dishMode",
         DishMode.STANDBY_LP,
     )
@@ -110,6 +119,11 @@ def turn_on_telescope(central_node_mid, event_recorder):
     )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.dish_master_list[2],
+        "dishMode",
+        DishMode.STANDBY_FP,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[3],
         "dishMode",
         DishMode.STANDBY_FP,
     )
