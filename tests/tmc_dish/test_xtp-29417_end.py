@@ -15,7 +15,6 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.enum import DishMode, PointingState
 
 
-@pytest.mark.skip(reason="This test will be fixed as part of sah-1476")
 @pytest.mark.tmc_dish
 @scenario(
     "../features/tmc_dish/xtp-29417_end.feature",
@@ -209,19 +208,15 @@ def invoke_end(central_node_mid, subarray_node, subarray_id):
     subarray_node.execute_transition("End")
 
 
-@then("dishMode transitions to STANDBY-FP obsState")
+@then("DishMode is OPERATE")
 def check_dish_mode(central_node_mid, event_recorder):
-    """Method to check Dish is in STANDBY-FP Dish Mode"""
+    """Method to check Dish is in OPERATE Dish Mode"""
 
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[0],
-        "dishMode",
-        DishMode.STANDBY_FP,
+    assert (
+        central_node_mid.dish_master_list[0].dishMode.value == DishMode.OPERATE
     )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[1],
-        "dishMode",
-        DishMode.STANDBY_FP,
+    assert (
+        central_node_mid.dish_master_list[1].dishMode.value == DishMode.OPERATE
     )
 
 
