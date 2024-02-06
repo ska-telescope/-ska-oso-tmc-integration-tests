@@ -58,7 +58,7 @@ def given_a_telescope(
 
 @given("the Telescope is in ON state")
 def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
-    """A method to put DISH to ON"""
+    """A method to put Telescope ON"""
     event_recorder.subscribe_event(
         central_node_mid.dish_master_dict["dish001"], "dishMode"
     )
