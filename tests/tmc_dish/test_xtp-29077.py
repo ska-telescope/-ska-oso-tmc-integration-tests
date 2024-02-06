@@ -33,10 +33,11 @@ dish100_dev_name = os.getenv("DISH_NAME_100")
 # Create database object for TMC TANGO DB
 db = Database()
 
-# Fetch the dish TANGO database host and Port
+# Create database object for Dish1 TANGO DB
 dish1_tango_host = dish1_dev_name.split("/")[2]
 dish1_host = dish1_tango_host.split(":")[0]
 dish1_port = dish1_tango_host.split(":")[1]
+dish1_db = Database(dish1_host, dish1_port)
 
 # Fetch information of the TMC devices from the TANGO db
 sdp_master_dev_info = db.get_device_info("mid-sdp/control/0")
@@ -66,6 +67,10 @@ dish100_proxy = DeviceProxy(dish100_dev_name)
 dish1_admin_dev_name = dish1_proxy.adm_name()
 dish1_admin_dev_proxy = DeviceProxy(dish1_admin_dev_name)
 
+# Get the Dish1 device class and server
+dish1_info = dish1_db.get_device_info("ska001/elt/master")
+dish1_dev_class = dish1_info.class_name
+dish1_dev_server = dish1_info.ds_full_name
 
 # Create Dish1 admin device proxy
 dish1_leaf_admin_dev_name = dish_leaf_node1_proxy.adm_name()
@@ -197,7 +202,6 @@ def fail_to_connect_dish():
     LOGGER.info("dish1 admin device name is: %s", dish1_admin_dev_name)
     LOGGER.info("dish1 device name is: %s", dish1_dev_name)
 
-    dish1_db = Database(dish1_host, dish1_port)
     check_dish1_info = dish1_db.get_device_info("ska001/elt/master")
     LOGGER.info("check_dish1_info is: %s", check_dish1_info)
 
@@ -239,13 +243,6 @@ def check_if_central_node_running():
 @then("Dish with ID 001 comes back")
 def connect_to_dish():
     """Method to restablish the connection with the lost dish"""
-    dish1_db = Database(dish1_host, dish1_port)
-
-    # Get the Dish1 device class and server
-    dish1_info = dish1_db.get_device_info("ska001/elt/master")
-    dish1_dev_class = dish1_info.class_name
-    dish1_dev_server = dish1_info.ds_full_name
-
     # Add Dish device back to DB
     dev_info = DbDevInfo()
     dev_info.name = dish1_dev_name
