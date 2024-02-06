@@ -1,4 +1,4 @@
-@XTP- @XTP-29778 @Team_SAHYADRI @tmc_dish
+@XTP-29778 @Team_SAHYADRI @tmc_dish
 Scenario : TMC executes Scan command on DISH.LMC
     Given a Telescope consisting of TMC, DISH , simulated CSP and simulated SDP
     And the Telescope is in ON state
@@ -8,6 +8,5 @@ Scenario : TMC executes Scan command on DISH.LMC
     And Pointing State is transitioned TRACK
     And TMC subarray node <subarray_id> obsState transitions to READY
     Examples:
-
         | subarray_id |
         | 1 |
