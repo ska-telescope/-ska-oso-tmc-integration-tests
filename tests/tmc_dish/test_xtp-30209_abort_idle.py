@@ -10,7 +10,6 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.enum import DishMode
 
 
-@pytest.mark.skip
 @pytest.mark.tmc_dish
 @scenario(
     "../features/tmc_dish/xtp-30209_abort_idle.feature",
@@ -173,17 +172,17 @@ def subarray_is_in_idle_obsstate(
     )
     subarray_node.force_change_of_obs_state("IDLE")
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_node,
+        subarray_node.subarray_node,
         "obsState",
         ObsState.IDLE,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_devices.get("sdp_subarray"),
+        subarray_node.subarray_devices.get("sdp_subarray"),
         "obsState",
         ObsState.IDLE,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_devices.get("csp_subarray"),
+        subarray_node.subarray_devices.get("csp_subarray"),
         "obsState",
         ObsState.IDLE,
     )
@@ -195,7 +194,6 @@ def abort_is_invoked(subarray_node):
     This method invokes abort command on tmc subarray.
     """
     subarray_node.abort_subarray()
-    # subarray_node.execute_transition("Abort")
 
 
 @then(

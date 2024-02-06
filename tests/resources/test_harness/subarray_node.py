@@ -88,7 +88,6 @@ class SubarrayNodeWrapper(object):
 
     def __init__(self) -> None:
         super().__init__()
-        # self.device_dict = device_dict
         self.tmc_subarraynode1 = tmc_subarraynode1
         self.subarray_node = DeviceProxy(self.tmc_subarraynode1)
         self.csp_subarray_leaf_node = DeviceProxy(tmc_csp_subarray_leaf_node)
@@ -102,27 +101,27 @@ class SubarrayNodeWrapper(object):
             SIMULATED_DEVICES_DICT["csp_and_sdp"]
             and not SIMULATED_DEVICES_DICT["all_mocks"]
         ):
-            dish_fqdn1 = REAL_DISH1_FQDN
-            dish_fqdn36 = REAL_DISH36_FQDN
-            dish_fqdn63 = REAL_DISH63_FQDN
+            dish_fqdn001 = REAL_DISH1_FQDN
+            dish_fqdn036 = REAL_DISH36_FQDN
+            dish_fqdn063 = REAL_DISH63_FQDN
             dish_fqdn100 = REAL_DISH100_FQDN
         else:
-            dish_fqdn1 = dish_master1
-            dish_fqdn36 = dish_master2
-            dish_fqdn63 = dish_master3
+            dish_fqdn001 = dish_master1
+            dish_fqdn036 = dish_master2
+            dish_fqdn063 = dish_master3
             dish_fqdn100 = dish_master4
 
         self.dish_master_list = [
-            DeviceProxy(dish_fqdn1),
-            DeviceProxy(dish_fqdn36),
-            DeviceProxy(dish_fqdn63),
+            DeviceProxy(dish_fqdn001),
+            DeviceProxy(dish_fqdn036),
+            DeviceProxy(dish_fqdn063),
             DeviceProxy(dish_fqdn100),
         ]
 
         device_dict["dish_master_list"] = [
-            dish_fqdn1,
-            dish_fqdn36,
-            dish_fqdn63,
+            dish_fqdn001,
+            dish_fqdn036,
+            dish_fqdn063,
             dish_fqdn100,
         ]
         LOGGER.info(f"deice dictionary after update:{device_dict}")

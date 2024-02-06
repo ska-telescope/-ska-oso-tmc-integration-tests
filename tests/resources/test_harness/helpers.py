@@ -23,6 +23,8 @@ from tests.resources.test_support.constant import (
     csp_subarray1,
     dish_master1,
     dish_master2,
+    dish_master3,
+    dish_master4,
     sdp_subarray1,
     tmc_csp_subarray_leaf_node,
     tmc_sdp_subarray_leaf_node,
@@ -38,6 +40,10 @@ EB_PB_ID_LENGTH = 15
 SDP_SIMULATION_ENABLED = os.getenv("SDP_SIMULATION_ENABLED")
 CSP_SIMULATION_ENABLED = os.getenv("CSP_SIMULATION_ENABLED")
 DISH_SIMULATION_ENABLED = os.getenv("DISH_SIMULATION_ENABLED")
+REAL_DISH1_FQDN = os.getenv("DISH_NAME_1")
+REAL_DISH36_FQDN = os.getenv("DISH_NAME_36")
+REAL_DISH63_FQDN = os.getenv("DISH_NAME_63")
+REAL_DISH100_FQDN = os.getenv("DISH_NAME_100")
 
 
 def check_subarray_obs_state(obs_state=None, timeout=100):
@@ -61,10 +67,27 @@ def check_subarray_obs_state(obs_state=None, timeout=100):
         f"{csp_subarray1}.obsState : "
         + str(Resource(csp_subarray1).get("obsState"))
     )
+
+    if (
+        SIMULATED_DEVICES_DICT["csp_and_sdp"]
+        and not SIMULATED_DEVICES_DICT["all_mocks"]
+    ):
+        dish_fqdn001 = REAL_DISH1_FQDN
+        dish_fqdn036 = REAL_DISH36_FQDN
+        dish_fqdn063 = REAL_DISH63_FQDN
+        dish_fqdn100 = REAL_DISH100_FQDN
+    else:
+        dish_fqdn001 = dish_master1
+        dish_fqdn036 = dish_master2
+        dish_fqdn063 = dish_master3
+        dish_fqdn100 = dish_master4
+
     if obs_state == "READY":
         device_dict["dish_master_list"] = [
-            dish_master1,
-            dish_master2,
+            dish_fqdn001,
+            dish_fqdn036,
+            dish_fqdn063,
+            dish_fqdn100,
         ]
     the_waiter = Waiter(**device_dict)
     the_waiter.set_wait_for_obs_state(obs_state=obs_state)
