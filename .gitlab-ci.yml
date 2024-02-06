@@ -320,11 +320,6 @@ k8s-test:
     - 'make help | grep k8s-test'
     - make k8s-install-chart
     - make k8s-wait
-  needs:
-    - dish-lmc-dish001
-    - dish-lmc-dish036
-    - dish-lmc-dish063
-    - dish-lmc-dish100
   retry: 1
 
 dish-lmc-dish001:
