@@ -177,6 +177,12 @@ def subarray_is_in_resourcing_obsstate(
     event_recorder.subscribe_event(
         central_node_mid.subarray_devices.get("csp_subarray"), "obsState"
     )
+    event_recorder.subscribe_event(
+        subarray_node.csp_subarray_leaf_node, "cspSubarrayObsState"
+    )
+    event_recorder.subscribe_event(
+        subarray_node.sdp_subarray_leaf_node, "sdpSubarrayObsState"
+    )
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
@@ -197,6 +203,16 @@ def subarray_is_in_resourcing_obsstate(
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_devices.get("csp_subarray"),
         "obsState",
+        ObsState.RESOURCING,
+    )
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.csp_subarray_leaf_node,
+        "cspSubarrayObsState",
+        ObsState.RESOURCING,
+    )
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.sdp_subarray_leaf_node,
+        "sdpSubarrayObsState",
         ObsState.RESOURCING,
     )
 
