@@ -12,7 +12,6 @@ from tango.db import Database, DbDevInfo
 from tests.resources.test_support.enum import DishMode
 
 
-@pytest.mark.skip(reason="debug the tests")
 @pytest.mark.tmc_dish
 @scenario(
     "../features/tmc_dish/xtp-29077.feature",
