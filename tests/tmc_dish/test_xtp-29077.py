@@ -267,6 +267,9 @@ def connect_to_dish():
     check_dish1_leaf_info = db.get_device_info("ska_mid/tm_leaf_node/d0001")
     LOGGER.info("dish1 leaf node device info is: %s", check_dish1_leaf_info)
 
+    # Set kvalue on dish leaf node 1
+    dish_leaf_node1_proxy.SetKValue(111)
+
 
 @then("command TelescopeOff can be sent and received by the dish")
 def move_telescope_to_off_state():
