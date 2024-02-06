@@ -17,7 +17,6 @@ configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
 
 
-@pytest.mark.bdd_configure_sdp
 @pytest.mark.SKA_mid
 @scenario(
     "../features/xtp-28836.feature",
