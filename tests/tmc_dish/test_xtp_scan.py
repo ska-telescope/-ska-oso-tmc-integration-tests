@@ -19,7 +19,7 @@ from tests.resources.test_support.enum import DishMode, PointingState
 @pytest.mark.tmc_dish
 @scenario(
     "../features/tmc_dish/xtp-scan.feature",
-    "scan the telescope having TMC and Dish Subsystems",
+    "TMC executes Scan command on DISH.LMC",
 )
 def test_tmc_dish_scan():
     """
