@@ -27,7 +27,7 @@ server:
             - "5"
         - name: "DishVccInitTimeout"
           values:
-            - "180"
+            - "250"
 depends_on:
   - device: sys/database/2
 image:
