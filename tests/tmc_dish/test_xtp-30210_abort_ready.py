@@ -203,7 +203,6 @@ def subarray_is_in_ready_obsstate(
         "configure_mid", command_input_factory
     )
     subarray_node.execute_transition("Configure", configure_json)
-    subarray_node.force_change_of_obs_state("READY")
 
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
