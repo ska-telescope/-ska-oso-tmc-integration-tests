@@ -237,6 +237,7 @@ device_dict = {
     "csp_subarray": csp_subarray1,
     "sdp_subarray_leaf_node": tmc_sdp_subarray_leaf_node,
     "csp_subarray_leaf_node": tmc_csp_subarray_leaf_node,
+    "csp_master_leaf_node": tmc_csp_master_leaf_node,
 }
 
 SIMULATOR_DEVICE_FQDN_DICT = {
@@ -250,4 +251,14 @@ SIMULATOR_DEVICE_FQDN_DICT = {
     ],
     SimulatorDeviceType.MID_SDP_MASTER_DEVICE: [sdp_master],
     SimulatorDeviceType.MID_CSP_MASTER_DEVICE: [csp_master],
+}
+
+DEFAULT_DISH_VCC_CONFIG = {
+    "interface": "https://schema.skao.int/ska-mid-cbf-initsysparam/1.0",
+    "tm_data_sources": [
+        "car://gitlab.com/ska-telescope/ska-telmodel-data?main#tmdata"
+    ],
+    "tm_data_filepath": (
+        "instrument/ska1_mid_itf/" "ska-mid-cbf-system-parameters.json"
+    ),
 }

@@ -110,7 +110,7 @@ ska-ser-skuid:
 ska-tango-alarmhandler:
   labels: 
     app: ska-tmc-integration
-  enabled: false
+  enabled: true
 
 ska-tmc-simulators:
   labels: 
@@ -127,4 +127,14 @@ ska-tmc-simulators:
       enabled: false
 
 ska-csp-lmc-mid:
+  labels: 
+    app: ska-tmc-integration
   enabled: false
+
+ska-mid-cbf-mcs:
+  labels: 
+    app: ska-tmc-integration
+
+ska-mid-cbf-tmleafnode:
+  labels: 
+    app: ska-tmc-integration

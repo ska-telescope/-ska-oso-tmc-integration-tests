@@ -2,6 +2,7 @@
 import logging
 import signal
 import threading
+from datetime import datetime
 from time import sleep
 
 from numpy import ndarray
@@ -255,6 +256,7 @@ class Subscriber:
         """To monitor the attribute value against changed_to_value"""
         if self.implementation == "polling":
             value_now = self.resource.get(attr)
+
             return Monitor(
                 self.resource,
                 value_now,
@@ -797,10 +799,12 @@ class Waiter:
                             {wait.current_value} after\
                                   {timeout_shim:.2f}s \n"
         if self.timed_out:
+            now = datetime.now()
+            current_time = now.strftime("%d/%m/%Y %H:%M:%S:%f")
             raise Exception(
                 f"timed out, the following\
                       timeouts occurred:\n{self.error_logs}\
-                          Successful changes:\n{self.logs}"
+                          Successful changes:\n{self.logs} at {current_time}"
             )
 
 
