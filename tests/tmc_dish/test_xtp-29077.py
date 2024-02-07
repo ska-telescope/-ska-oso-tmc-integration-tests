@@ -271,6 +271,8 @@ def connect_to_dish():
     assert wait_and_validate_device_attribute_value(
         centralnode_proxy, "isDishVccConfigSet", True
     )
+    # Wait for DishLeafNode SetKValue command to be completed
+    time.sleep(8)
 
 
 @then("command TelescopeOff can be sent and received by the dish")
