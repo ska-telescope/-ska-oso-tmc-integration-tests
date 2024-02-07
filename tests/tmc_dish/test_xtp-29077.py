@@ -268,6 +268,9 @@ def connect_to_dish():
 
     # Set kvalue on dish leaf node 1
     dish_leaf_node1_proxy.SetKValue(111)
+    assert wait_and_validate_device_attribute_value(
+        centralnode_proxy, "isDishVccConfigSet", True
+    )
 
 
 @then("command TelescopeOff can be sent and received by the dish")
