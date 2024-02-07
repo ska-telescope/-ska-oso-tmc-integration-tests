@@ -7,5 +7,5 @@ Scenario: Assign resources to CSP subarray using TMC
     And TMC subarray <subarray_id> transitioned to ObsState IDLE
     And correct resources <receptors> are assigned to TMC subarray <subarray_id>
     Examples:
-    | subarray_id | receptors            |
-    | 1           | 'SKA001', 'SKA036'   |
+    | subarray_id | receptors                               |
+    | 1           | 'SKA001', 'SKA036', 'SKA063', 'SKA100'  |

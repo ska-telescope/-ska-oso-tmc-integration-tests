@@ -52,7 +52,7 @@ def restart_the_dish_leaf_nodes(tmc_mid):
     tmc_mid.central_node.dish_leaf_node_list[1].kValue = 9
     # Set dish manager k-value which are not equal to its respective
     # dish leaf node
-    tmc_mid.central_node.dish_master_list[2].kValue = 10
+    tmc_mid.central_node.dish_master_list[2].SetKValue(10)
 
     # [0, 1, 2, 3] are index for dish leaf node list
     tmc_mid.RestartServer("DISHLN_1")
