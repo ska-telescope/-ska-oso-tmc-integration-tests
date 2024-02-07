@@ -1,4 +1,6 @@
-"""Test module for TMC-DISH Scan functionality"""
+"""
+Test module for TMC-DISH Scan functionality
+"""
 
 import time
 
@@ -74,7 +76,6 @@ def turn_on_telescope(central_node_mid, event_recorder):
         central_node_mid.dish_master_list[3], "dishMode"
     )
 
-    
     assert event_recorder.has_change_event_occurred(
         central_node_mid.dish_master_list[0],
         "dishMode",
@@ -154,8 +155,12 @@ def turn_on_telescope(central_node_mid, event_recorder):
     )
 
 
-@given(parsers.parse("TMC subarray {subarray_id} is in READY ObsState",
-    + "and DishMaster <dish_ids> is in pointingState TRACK"))
+@given(
+    parsers.parse(
+        "TMC subarray {subarray_id} is in READY ObsState",
+        +"and DishMaster {dish_ids} is in pointingState TRACK",
+    )
+)
 def check_subarray_obstate(
     subarray_node,
     command_input_factory,
