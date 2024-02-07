@@ -90,7 +90,7 @@ def check_tmc_and_dish_is_on(
 
     # Wait for the DishLeafNode to get StandbyLP event form DishMaster before
     # invoking TelescopeOn command
-    time.sleep(1)
+    time.sleep(4)
 
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,

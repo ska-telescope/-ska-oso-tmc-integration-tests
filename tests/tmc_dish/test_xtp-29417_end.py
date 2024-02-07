@@ -85,7 +85,7 @@ def move_dish_to_on(central_node_mid, event_recorder):
 
     # Wait for the DishLeafNode to get StandbyLP event form DishMaster before
     # invoking TelescopeOn command
-    time.sleep(1)
+    time.sleep(4)
 
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
