@@ -5,7 +5,7 @@ Scenario: TMC executes Scan command on DISH.LMC
     And TMC subarray <subarray_id> is in READY ObsState
     When I issue the scan command to the TMC subarray <subarray_id>
     Then Dish Mode is transitioned to dish mode OPERATE
-    And Pointing State is transitioned TRACK
+    And Pointing State is transitioned SCAN
     And TMC subarray node <subarray_id> obsState transitions to READY
     Examples:
 
