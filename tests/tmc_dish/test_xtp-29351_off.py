@@ -86,6 +86,12 @@ def check_tmc_and_dish_is_on(
     # invoking TelescopeOn command
     time.sleep(1)
 
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.central_node,
+        "telescopeState",
+        DevState.OFF,
+    )
+
     central_node_mid.move_to_on()
 
     assert event_recorder.has_change_event_occurred(
@@ -156,9 +162,6 @@ def check_dish_state(central_node_mid, event_recorder):
 @then("telescope is OFF")
 def check_telescopeOff_state(central_node_mid, event_recorder):
     """Checking if telescope is turned OFF"""
-    event_recorder.subscribe_event(
-        central_node_mid.central_node, "telescopeState"
-    )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
         "telescopeState",
