@@ -7,6 +7,7 @@ from ska_control_model import ObsState, ResultCode
 from ska_ser_logging import configure_logging
 from ska_tango_base.control_model import HealthState
 from tango import DeviceProxy, DevState
+from tango.db import Database
 
 from tests.resources.test_harness.central_node import CentralNodeWrapper
 from tests.resources.test_harness.constant import (
@@ -83,6 +84,16 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             dish_fqdn36 = REAL_DISH36_FQDN
             dish_fqdn63 = REAL_DISH63_FQDN
             dish_fqdn100 = REAL_DISH100_FQDN
+
+            # Create database object for TMC TANGO DB
+            self.db = Database()
+
+            # Create database object for Dish1 TANGO DB
+            dish1_tango_host = dish_fqdn1.split("/")[2]
+            dish1_host = dish1_tango_host.split(":")[0]
+            dish1_port = dish1_tango_host.split(":")[1]
+            self.dish1_db = Database(dish1_host, dish1_port)
+
         else:
             dish_fqdn1 = dish_master1
             dish_fqdn36 = dish_master2
@@ -102,6 +113,16 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             DeviceProxy(tmc_dish_leaf_node3),
             DeviceProxy(tmc_dish_leaf_node4),
         ]
+
+        # Create Dish1 admin device proxy
+        self.dish1_admin_dev_name = self.dish_master_list[0].adm_name()
+        self.dish1_admin_dev_proxy = DeviceProxy(self.dish1_admin_dev_name)
+
+        # Create Dish1 leaf node admin device proxy
+        self.dish1_leaf_admin_dev_name = self.dish_leaf_node_list[0].adm_name()
+        self.dish1_leaf_admin_dev_proxy = DeviceProxy(
+            self.dish1_leaf_admin_dev_name
+        )
 
         self._state = DevState.OFF
         self.json_factory = JsonFactory()
