@@ -1,26 +1,26 @@
 """Test module for TMC-DISH On functionality"""
 
 import json
+import time
 
 import pytest
 from pytest_bdd import given, scenario, then, when
-from tango import DevState, DeviceProxy
+from tango import DeviceProxy, DevState
+
 from tests.resources.test_harness.helpers import (
     wait_and_validate_device_attribute_value,
 )
+from tests.resources.test_support.common_utils.result_code import ResultCode
 from tests.resources.test_support.common_utils.tmc_helpers import (
     tear_down_configured_alarms,
 )
 from tests.resources.test_support.constant import alarm_handler1
-from tests.resources.test_support.common_utils.result_code import ResultCode
-import time
 
 
 @pytest.mark.aki
 @pytest.mark.SKA_mid
 @scenario(
-    "../features/dish_vcc_initialization/"
-    "xtp_alarm_dish_vcc.feature",
+    "../features/dish_vcc_initialization/" "xtp_alarm_dish_vcc.feature",
     "TMC Validates and Reports K-Value not set in Dish Leaf Nodes",
 )
 def test_tmc_validate_dln_kvalue_not_set():
@@ -59,9 +59,7 @@ def restart_the_dish_leaf_nodes(tmc_mid):
     tmc_mid.RestartServer("DISHLN_0")
 
 
-@when(
-    "the Dish Leaf Node finds k-value not set on Dish Leaf Node"
-)
+@when("the Dish Leaf Node finds k-value not set on Dish Leaf Node")
 def check_dishln_is_on_and_kvalue_validation_accomplished(tmc_mid):
     """Method to check dish leaf node are up and
     k-value validation is completed"""
@@ -73,6 +71,7 @@ def check_dishln_is_on_and_kvalue_validation_accomplished(tmc_mid):
         "kValueValidationResult",
         str(int(ResultCode.UNKNOWN)),
     )
+
 
 @then("the Alarm is raised for kValue not set")
 def test_load_alarm():
@@ -87,7 +86,7 @@ def test_load_alarm():
     )
     alarm_handler.Load(alarm_formula)
     alarm_list = alarm_handler.alarmList
-    assert alarm_list == ('dishleafnode_kvalue_not_set',)
+    assert alarm_list == ("dishleafnode_kvalue_not_set",)
     time.sleep(3)
     alarm_summary = alarm_handler.alarmSummary
     assert "UNACK" in alarm_summary[0]
