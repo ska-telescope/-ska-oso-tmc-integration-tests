@@ -239,9 +239,7 @@ def invoke_scan(
         + " OPERATE and pointingState TRACK"
     )
 )
-def check_dish_mode_and_pointing_state(
-    central_node_mid, event_recorder, dish_ids
-):
+def check_dish_mode_and_pointing_state(central_node_mid, dish_ids):
     """
     Method to check dishMode and pointingState of DISH
     """
@@ -252,16 +250,13 @@ def check_dish_mode_and_pointing_state(
         logging.info(
             f"CH2 {central_node_mid.dish_master_dict[dish_id].pointingState}"
         )
-        assert event_recorder.has_change_event_occurred(
-            central_node_mid.dish_master_dict[dish_id],
-            "dishMode",
-            DishMode.OPERATE,
+        assert (
+            central_node_mid.dish_master_dict[dish_id].dishMode
+            == DishMode.OPERATE
         )
-
-        assert event_recorder.has_change_event_occurred(
-            central_node_mid.dish_master_dict[dish_id],
-            "pointingState",
-            PointingState.TRACK,
+        assert (
+            central_node_mid.dish_master_dict[dish_id].pointingState
+            == PointingState.TRACK
         )
 
 
