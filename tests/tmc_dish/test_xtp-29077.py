@@ -230,11 +230,10 @@ def connect_to_dish(central_node_mid, event_recorder):
     time.sleep(10)
 
     # Check if the dish 1 is initialised
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[0],
-        "dishMode",
-        DishMode.STANDBY_FP,
+    LOGGER.info(
+        "dish1 dishMode is: %s", central_node_mid.dish_master_list[0].dishMode
     )
+    assert central_node_mid.dish_master_list[0].dishMode == DishMode.STANDBY_FP
     check_dish1_info = central_node_mid.dish1_db.get_device_info(
         "ska001/elt/master"
     )
