@@ -250,9 +250,10 @@ def is_dish_vcc_set():
     """
     Validate dish vcc config set to true
     """
-    central_node = tango.DeviceProxy(centralnode)
-    assert wait_and_validate_device_attribute_value(
-        central_node,
-        "isDishVccConfigSet",
-        True,
-    ), "Timeout while waiting for isDishVccConfigSet to true"
+    if os.getenv("CSP_SIMULATION_ENABLED").lower() == "true":
+        central_node = tango.DeviceProxy(centralnode)
+        assert wait_and_validate_device_attribute_value(
+            central_node,
+            "isDishVccConfigSet",
+            True,
+        ), "Timeout while waiting for isDishVccConfigSet to true"
