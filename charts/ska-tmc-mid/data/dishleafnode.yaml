@@ -43,6 +43,8 @@ server:
             values:
               - "kValue"
               - "3000"
+              - "kValueValidationResult"
+              - "3000"
   {{- end }}
 depends_on:
   - device: sys/database/2
