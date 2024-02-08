@@ -263,21 +263,14 @@ def recheck_if_central_node_running(central_node_mid):
 
 @then("the telescope is in OFF state")
 def check_if_telescope_is_in_off_state(central_node_mid, event_recorder):
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[1],
-        "dishMode",
-        DishMode.STANDBY_LP,
-    )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[2],
-        "dishMode",
-        DishMode.STANDBY_LP,
-    )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[3],
-        "dishMode",
-        DishMode.STANDBY_LP,
-    )
+    # Dishes 036, 063 and 100 to StandByLP as are already in dishMode StandByLP
+    # Therefore won't receive the event again. Assering the dishMode attribute
+    # to StandByLP
+    assert central_node_mid.dish_master_list[1].dishMode == DishMode.STANDBY_LP
+    assert central_node_mid.dish_master_list[2].dishMode == DishMode.STANDBY_LP
+    assert central_node_mid.dish_master_list[3].dishMode == DishMode.STANDBY_LP
+
+    # Check the dishMOde event StandByLP for dish 001
     assert event_recorder.has_change_event_occurred(
         central_node_mid.dish_master_list[0],
         "dishMode",
