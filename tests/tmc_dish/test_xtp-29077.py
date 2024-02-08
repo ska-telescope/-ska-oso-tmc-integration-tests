@@ -215,16 +215,11 @@ def check_if_central_node_running(central_node_mid):
 @then("Dish with ID 001 comes back")
 def connect_to_dish(central_node_mid, event_recorder):
     """Method to restablish the connection with the lost dish"""
-    # Get the Dish1 device class and server
-    dish1_info = central_node_mid.dish1_db.get_device_info("ska001/elt/master")
-    dish1_dev_class = dish1_info.class_name
-    dish1_dev_server = dish1_info.ds_full_name
-
     # Add Dish device back to DB
     dev_info = DbDevInfo()
     dev_info.name = dish1_dev_name
-    dev_info._class = dish1_dev_class
-    dev_info.server = dish1_dev_server
+    dev_info._class = central_node_mid.dish1_dev_class
+    dev_info.server = central_node_mid.dish1_dev_server
     central_node_mid.dish1_db.add_device(dev_info)
 
     central_node_mid.dish1_admin_dev_proxy.RestartServer()
