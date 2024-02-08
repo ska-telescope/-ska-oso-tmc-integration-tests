@@ -35,7 +35,7 @@ def test_tmc_dish_scan():
 
 
 @given(
-    "a Telescope consisting of TMC, DISH {dish_ids}"
+    "a Telescope consisting of TMC, DISH {dish_ids},"
     + " simulated CSP and simulated SDP "
 )
 def given_a_telescope(
