@@ -245,17 +245,9 @@ def connect_to_dish(central_node_mid, event_recorder):
 
     # Set kvalue on dish leaf node 1
     central_node_mid.dish_leaf_node_list[0].SetKValue(111)
-    event_recorder.subscribe_event(
-        central_node_mid.central_node, "isDishVccConfigSet"
-    )
-
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.central_node,
-        "isDishVccConfigSet",
-        True,
-    )
     # Wait for DishLeafNode SetKValue command to be completed
     time.sleep(8)
+    assert central_node_mid.central_node.isDishVccConfigSet is True
 
 
 @then("command TelescopeOff can be sent and received by the dish")
