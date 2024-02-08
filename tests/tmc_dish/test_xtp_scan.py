@@ -36,7 +36,7 @@ def test_tmc_dish_scan():
 
 
 @given(
-    "a Telescope consisting of TMC, DISH {dish_ids},"
+    "a Telescope consisting of TMC, DISH {dish_ids}"
     + " simulated CSP and simulated SDP "
 )
 def given_a_telescope(
@@ -157,8 +157,8 @@ def turn_on_telescope(central_node_mid, event_recorder):
 
 @given(
     parsers.parse(
-        "TMC subarray {subarray_id} is in READY ObsState",
-        +"and DishMaster {dish_ids} is in pointingState TRACK",
+        "TMC subarray {subarray_id} is in READY ObsState"
+        + " and DishMaster {dish_ids} is in pointingState TRACK"
     )
 )
 def check_subarray_obstate(
@@ -202,7 +202,7 @@ def check_subarray_obstate(
         )
     for dish_id in dish_ids.split(","):
         assert event_recorder.has_change_event_occurred(
-            central_node_mid.dish_master_list[dish_ids],
+            central_node_mid.dish_master_dict[dish_ids],
             "pointingState",
             PointingState.TRACK,
         )
@@ -225,7 +225,7 @@ def invoke_scan(
         "scan_mid", command_input_factory
     )
     central_node_mid.set_subarray_id(subarray_id)
-    subarray_node.execute_transition("Scan", scan_input_json)
+    subarray_node.store_scan_data("Scan", scan_input_json)
 
 
 @then(
@@ -245,10 +245,7 @@ def check_dish_mode_and_pointing_state(
             DishMode.OPERATE,
         )
 
-    for dish_id in dish_ids.split(","):
-        event_recorder.subscribe_event(
-            central_node_mid.dish_master_dict[dish_id], "pointingState"
-        )
+    
     for dish_id in dish_ids.split(","):
         assert event_recorder.has_change_event_occurred(
             central_node_mid.dish_master_dict[dish_id],
