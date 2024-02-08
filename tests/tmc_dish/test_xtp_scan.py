@@ -247,10 +247,10 @@ def check_dish_mode_and_pointing_state(
     """
     for dish_id in dish_ids.split(","):
         logging.info(
-            f"CHECK1 {central_node_mid.dish_master_dict[dish_id].DishMode()}"
+            f"CHECK1 {central_node_mid.dish_master_dict[dish_id].DishMode}"
         )
         logging.info(
-            f"CH2 {central_node_mid.dish_master_dict[dish_id].pointingState()}"
+            f"CH2 {central_node_mid.dish_master_dict[dish_id].pointingState}"
         )
         assert event_recorder.has_change_event_occurred(
             central_node_mid.dish_master_dict[dish_id],
