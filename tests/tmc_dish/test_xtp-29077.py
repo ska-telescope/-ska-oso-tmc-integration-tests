@@ -271,15 +271,19 @@ def check_if_telescope_is_in_off_state(central_node_mid, event_recorder):
     assert central_node_mid.dish_master_list[3].dishMode == DishMode.STANDBY_LP
 
     # Check the dishMOde event StandByLP for dish 001
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[0],
-        "dishMode",
-        DishMode.STANDBY_LP,
-    )
     LOGGER.info(
         "Dish %s dishMode is: %s",
         dish1_dev_name,
         central_node_mid.dish_master_list[0].dishMode,
+    )
+    event_recorder.subscribe_event(
+        central_node_mid.dish_master_list[0], "dishMode"
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_list[0],
+        "dishMode",
+        DishMode.STANDBY_LP,
+        lookahead=15,
     )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
