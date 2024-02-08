@@ -17,7 +17,6 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.enum import DishMode, PointingState
 
 
-@pytest.mark.skip
 @pytest.mark.tmc_dish
 @scenario(
     "../features/tmc_dish/xtp-xxxx_scan.feature",
@@ -245,7 +244,6 @@ def check_dish_mode_and_pointing_state(
             DishMode.OPERATE,
         )
 
-    
     for dish_id in dish_ids.split(","):
         assert event_recorder.has_change_event_occurred(
             central_node_mid.dish_master_dict[dish_id],
