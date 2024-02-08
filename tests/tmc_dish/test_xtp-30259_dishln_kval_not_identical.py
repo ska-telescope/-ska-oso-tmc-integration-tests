@@ -13,6 +13,9 @@ from tests.resources.test_support.common_utils.result_code import ResultCode
 
 
 @pytest.mark.SKA_mid
+@pytest.mark.skip(
+    reason="LoadDishConfig issues while startup. Will be fixed under: HM-419"
+)
 @scenario(
     "../features/dish_vcc_initialization/"
     "xtp_30259_dishln_kvalue_not_identical.feature",
