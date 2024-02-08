@@ -1,0 +1,2 @@
+tag=CentralNode_dish_config_set;formula=(ska_mid/tm_central/central_node/isDishVccConfigSet == 0 );priority=log;group=none;message="alarm for isDishVccConfigSet status"
+tag=CentralNode_dish_validation_status;formula=(ska_mid/tm_central/central_node/DishVccValidationStatus == '{"d0001": "k-value not identical", "ska_mid/tm_leaf_node/csp_master": "TMC and CSP Master Dish Vcc Version is Same"}');priority=log;group=none;message="alarm for dishvalidation status"
