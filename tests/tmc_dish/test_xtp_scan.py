@@ -229,7 +229,7 @@ def invoke_scan(
         "scan_mid", command_input_factory
     )
     central_node_mid.set_subarray_id(subarray_id)
-    subarray_node.store_scan_data("Scan", scan_input_json)
+    subarray_node.store_scan_data(scan_input_json)
 
 
 @then(
