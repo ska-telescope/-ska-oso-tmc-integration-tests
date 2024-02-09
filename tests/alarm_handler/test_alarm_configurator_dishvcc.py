@@ -20,7 +20,7 @@ from tests.resources.test_support.constant import alarm_handler1
 @pytest.mark.SKA_mid
 @scenario(
     "../features/dish_vcc_initialization/" "xtp_alarm_dish_vcc.feature",
-    "TMC Validates and Reports K-Value not set in Dish Leaf Nodes",
+    "TMC validates and raises alarm when K-Value not set in Dish Leaf Nodes",
 )
 def test_tmc_validate_dln_kvalue_not_set():
     """
@@ -72,7 +72,7 @@ def check_dishln_is_on_and_kvalue_validation_accomplished(tmc_mid):
     )
 
 
-@then("the Alarm is raised for kValue not set")
+@then("the alarm is raised for kValue not set")
 def test_load_alarm():
     """A method to load tmc alarm for Alarm handler instance"""
     global alarm_handler, alarm_list
