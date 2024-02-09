@@ -13,13 +13,11 @@ from ska_tango_testing.mock.tango.event_callback import (
 )
 
 from tests.resources.test_harness.central_node_mid import CentralNodeWrapperMid
-
-# from tests.resources.test_harness.constant import centralnode
+from tests.resources.test_harness.constant import centralnode
 from tests.resources.test_harness.event_recorder import EventRecorder
-
-# from tests.resources.test_harness.helpers import (
-#     wait_and_validate_device_attribute_value,
-# )
+from tests.resources.test_harness.helpers import (
+    wait_and_validate_device_attribute_value,
+)
 from tests.resources.test_harness.simulator_factory import SimulatorFactory
 from tests.resources.test_harness.subarray_node import SubarrayNodeWrapper
 from tests.resources.test_harness.tmc_mid import TMCMid
@@ -247,15 +245,15 @@ def wait_for_obsstate_state_change(
     return False
 
 
-# @pytest.fixture(scope="session", autouse=True)
-# def is_dish_vcc_set():
-#     """
-#     Validate dish vcc config set to true
-#     """
-
-#     central_node = tango.DeviceProxy(centralnode)
-#     assert wait_and_validate_device_attribute_value(
-#         central_node,
-#         "isDishVccConfigSet",
-#         True,
-#     ), "Timeout while waiting for isDishVccConfigSet to true"
+@pytest.fixture(scope="session", autouse=True)
+def is_dish_vcc_set():
+    """
+    Validate dish vcc config set to true
+    """
+    if os.getenv("CSP_SIMULATION_ENABLED").lower() == "true":
+        central_node = tango.DeviceProxy(centralnode)
+        assert wait_and_validate_device_attribute_value(
+            central_node,
+            "isDishVccConfigSet",
+            True,
+        ), "Timeout while waiting for isDishVccConfigSet to true"
