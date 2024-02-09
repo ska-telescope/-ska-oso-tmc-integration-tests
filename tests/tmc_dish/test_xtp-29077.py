@@ -255,7 +255,6 @@ def connect_to_dish(central_node_mid, event_recorder):
     wait_and_validate_device_attribute_value(
         central_node_mid.central_node, "isDishVccConfigSet", True
     )
-    # time.sleep(8)
     assert central_node_mid.dish_leaf_node_list[0].kValue == 111
     assert central_node_mid.central_node.isDishVccConfigSet is True
 
@@ -298,7 +297,6 @@ def check_if_telescope_is_in_off_state(central_node_mid, event_recorder):
     assert central_node_mid.dish_master_list[3].dishMode == DishMode.STANDBY_LP
     assert central_node_mid.dish_master_list[0].dishMode == DishMode.STANDBY_LP
 
-    # time.sleep(8)
     LOGGER.info(
         "Dish %s dishMode is: %s",
         dish1_dev_name,
