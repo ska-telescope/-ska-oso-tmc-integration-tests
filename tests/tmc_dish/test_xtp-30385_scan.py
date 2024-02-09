@@ -2,7 +2,6 @@
 Test module for TMC-DISH Scan functionality
 """
 
-import logging
 import time
 
 import pytest
@@ -41,9 +40,7 @@ def test_tmc_dish_scan():
         + " simulated CSP and simulated SDP"
     )
 )
-def given_a_telescope(
-    central_node_mid, simulator_factory, event_recorder, dish_ids
-):
+def given_a_telescope(central_node_mid, simulator_factory, dish_ids):
     """
     Given a TMC
     """
@@ -171,7 +168,6 @@ def check_subarray_obstate(
     event_recorder,
     central_node_mid,
     subarray_id,
-    dish_ids,
 ):
     """Method to check subarray is in READY obstate"""
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
@@ -201,12 +197,12 @@ def check_subarray_obstate(
 
 @given(
     parsers.parse(
-        "DishMaster {dish_ids} is in dishMode with"
-        + " OPERATE pointingState TRACK"
+        "DishMaster {dish_ids} is in dishMode"
+        + " OPERATE with pointingState TRACK"
     )
 )
-def check_pointing_state(
-    central_node_mid, subarray_node, event_recorder, dish_ids
+def check_dish_mode_and_pointing_state(
+    central_node_mid, event_recorder, dish_ids
 ):
     for dish_id in dish_ids.split(","):
         event_recorder.subscribe_event(
@@ -244,17 +240,11 @@ def invoke_scan(
         + " OPERATE and pointingState TRACK"
     )
 )
-def check_dish_mode_and_pointing_state(central_node_mid, dish_ids):
+def check_dish_mode_and_pointing_state_after_scan(central_node_mid, dish_ids):
     """
     Method to check dishMode and pointingState of DISH
     """
     for dish_id in dish_ids.split(","):
-        logging.info(
-            f"CHECK1 {central_node_mid.dish_master_dict[dish_id].DishMode}"
-        )
-        logging.info(
-            f"CH2 {central_node_mid.dish_master_dict[dish_id].pointingState}"
-        )
         assert (
             central_node_mid.dish_master_dict[dish_id].dishMode
             == DishMode.OPERATE
@@ -275,14 +265,13 @@ def tmc_subarray_scanning(
         subarray_node.subarray_node,
         "obsState",
         ObsState.SCANNING,
-        lookahead=15,
     )
 
 
 @then(
     parsers.parse(
         "TMC SubarrayNode transitions to obsState READY"
-        + " ones the scan duration is elapsed"
+        + " once the scan duration is elapsed"
     )
 )
 def Subarray_ObsState(
@@ -295,20 +284,3 @@ def Subarray_ObsState(
         "obsState",
         ObsState.READY,
     )
-
-
-# @then(
-#     parsers.parse(
-#         "TMC subarray {subarray_id} obsState transitions to READY obsState"
-#     )
-# )
-# def check_subarray_obsState_ready(
-#     central_node_mid, subarray_node, event_recorder, subarray_id
-# ):
-#     """Method to check subarray is in READY obstate"""
-#     central_node_mid.set_subarray_id(subarray_id)
-#     assert event_recorder.has_change_event_occurred(
-#         subarray_node.subarray_node,
-#         "obsState",
-#         ObsState.READY,
-#     )
