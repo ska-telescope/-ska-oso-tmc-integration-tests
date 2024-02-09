@@ -232,7 +232,7 @@ on-demand-dish-lmc-dish001:
     on_stop: stop-on-demand-dish-lmc-001
     action: stop
   when: manual
-  
+
 stop-on-demand-dish-lmc-001:
     extends:
       - stop-k8s-dish-lmc-001
@@ -241,7 +241,7 @@ stop-on-demand-dish-lmc-001:
       KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-on-demand-dish-lmc-001"
       DISH_HELM_RELEASE: "2.6.2"
       K8S_DISH_LMC_CHART: "ska-dish-lmc"
-  
+
 on-demand-dish-lmc-dish036:
   extends:
     - on-demand-dish-lmc-dish001
@@ -256,7 +256,7 @@ on-demand-dish-lmc-dish036:
     on_stop: stop-on-demand-dish-lmc-036
     action: stop
   when: manual
-  
+
 stop-on-demand-dish-lmc-036:
   extends:
     - stop-k8s-dish-lmc-001
@@ -346,7 +346,7 @@ stop-k8s-test-mid-csp-dish:
 
 k8s-test:
   tags:
-    - k8srunner
+    - k8srunner-large
   variables:
     SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA"
     DISH_SIMULATION_ENABLED: "true"
@@ -374,7 +374,7 @@ dish-lmc-dish001:
   before_script:
     - make cred SERVICE_ACCOUNT=$DISH_LMC_SERVICE_ACCOUNT
   script:
-    - make k8s-install-chart-car KUBE_NAMESPACE=$KUBE_NAMESPACE K8S_CHART_PARAMS='-f charts/dish_lmc_values.yml 
+    - make k8s-install-chart-car KUBE_NAMESPACE=$KUBE_NAMESPACE K8S_CHART_PARAMS='-f charts/dish_lmc_values.yml
       --set "global.dishes={$(DISH_INDEX)}" --version=2.6.2'
       HELM_RELEASE=$DISH_HELM_RELEASE K8S_CHART=$K8S_DISH_LMC_CHART
     - make k8s-wait
@@ -383,7 +383,7 @@ dish-lmc-dish001:
     on_stop: stop-k8s-dish-lmc-001
     action: stop
   allow_failure: true
-   
+
 
 dish-lmc-dish036:
   extends:
@@ -431,7 +431,7 @@ dish-lmc-dish100:
 k8s-test-dish-lmc:
   stage: test
   tags:
-    - k8srunner
+    - k8srunner-large
   variables:
     DISH_SIMULATION_ENABLED: "false"
     SUBARRAY_COUNT: 2
