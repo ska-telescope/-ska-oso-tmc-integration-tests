@@ -73,22 +73,22 @@ def move_dish_to_on(central_node_mid, event_recorder):
     )
 
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[0],
+        central_node_mid.dish_master_dict["dish001"],
         "dishMode",
         DishMode.STANDBY_LP,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[1],
+        central_node_mid.dish_master_dict["dish036"],
         "dishMode",
         DishMode.STANDBY_LP,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[2],
+        central_node_mid.dish_master_dict["dish063"],
         "dishMode",
         DishMode.STANDBY_LP,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[3],
+        central_node_mid.dish_master_dict["dish100"],
         "dishMode",
         DishMode.STANDBY_LP,
     )
