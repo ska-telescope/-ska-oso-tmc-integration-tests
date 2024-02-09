@@ -11,11 +11,6 @@ ska-mid-dish-manager:
   labels:
     app: ska-tmc-integration
   enabled: true
-  ska-mid-dish-ds-manager:
-    labels:
-      app: ska-tmc-integration
-    enabled: true
-
 
 ska-mid-dish-simulators:
   labels:
@@ -27,4 +22,9 @@ ska-mid-dish-simulators:
     spfrxdevice:
       enabled: true
   dsOpcuaSimulator:
+    enabled: true
+
+ska-mid-dish-ds-manager:
+    labels:
+      app: ska-tmc-integration
     enabled: true

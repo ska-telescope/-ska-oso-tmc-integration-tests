@@ -245,6 +245,10 @@ def connect_to_dish(central_node_mid, event_recorder):
         "ska_mid/tm_leaf_node/d0001"
     )
     LOGGER.info("dish1 leaf node device info is: %s", check_dish1_leaf_info)
+    LOGGER.info(
+        "dish1 leaf node state is: %s",
+        central_node_mid.dish_leaf_node_list[0].State(),
+    )
 
     # Set kvalue on dish leaf node 1
     central_node_mid.dish_leaf_node_list[0].SetKValue(111)
