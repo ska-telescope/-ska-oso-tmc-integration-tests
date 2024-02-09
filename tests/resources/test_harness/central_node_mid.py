@@ -89,7 +89,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             self.db = Database()
 
             # Create database object for Dish1 TANGO DB
-            dish1_tango_host = dish_fqdn1.split("/")[2]
+            dish1_tango_host = dish_fqdn001.split("/")[2]
             dish1_host = dish1_tango_host.split(":")[0]
             dish1_port = dish1_tango_host.split(":")[1]
             self.dish1_db = Database(dish1_host, dish1_port)
