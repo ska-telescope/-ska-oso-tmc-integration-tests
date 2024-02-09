@@ -9,7 +9,7 @@ server:
   instances:
   {{- $isSimulatedDish := .Values.deviceServers.mocks.is_simulated.dish }}
   {{- $real_dish_name := .Values.global.namespace_dish.dish_name }}
-  {{- range $index, $instance := .Values.deviceServers.dishleafnode.instances }}
+  {{- range $index, $instance := .Values.global.dishes }}
     - name: "{{ $instance }}"
       classes:
       - name: "DishLeafNode"

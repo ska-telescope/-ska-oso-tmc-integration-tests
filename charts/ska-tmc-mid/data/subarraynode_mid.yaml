@@ -16,12 +16,12 @@ server:
   {{- $DishMasterPrefix := .Values.deviceServers.subarraynode.DishMasterPrefix }}
   {{- $DishMasterPostfix := .Values.deviceServers.subarraynode.DishMasterPostfix }}
   {{- $dish_id := .Values.deviceServers.subarraynode.DishIDs }}
-  {{- range  .Values.coalesced_subarray_devices }}
-    - name: "{{ . }}"
+  {{- range  ( regexSplit " " ((.Values.global.subarray_count | int) | seq ) -1 ) }}
+    - name: "{{ printf "%02s" . }}"
       classes:
       - name: "SubarrayNodeMid"
         devices:
-        - name: "ska_mid/tm_subarray_node/{{ (split "0" .)._1}}"
+        - name: "ska_mid/tm_subarray_node/{{ . }}"
           properties:
           - name: "DishLeafNodePrefix"
             values:
@@ -34,16 +34,16 @@ server:
             - "{{ $DishMasterPostfix }}"
           - name: "CspSubarrayLNFQDN"
             values:
-            - "{{ $csp_sa_ln_fqdn_prefix}}{{ . }}"
+            - "{{ $csp_sa_ln_fqdn_prefix}}{{ printf "%02s" . }}"
           - name: "SdpSubarrayLNFQDN"
             values:
-            - "{{ $sdp_sa_ln_fqdn_prefix}}{{ . }}"
+            - "{{ $sdp_sa_ln_fqdn_prefix}}{{ printf "%02s" . }}"
           - name: "CspSubarrayFQDN"
             values:
-            - "{{ $csp_sa_fqdn_prefix}}/{{ . }}"
+            - "{{ $csp_sa_fqdn_prefix}}/{{ printf "%02s" . }}"
           - name: "SdpSubarrayFQDN"
             values:
-            - "{{ $sdp_sa_fqdn_prefix}}/{{ . }}"
+            - "{{ $sdp_sa_fqdn_prefix}}/{{ printf "%02s" . }}"
           - name: "DishIDs"
             values:
             {{- range  $dish_id  }}

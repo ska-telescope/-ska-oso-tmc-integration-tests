@@ -41,7 +41,7 @@ server:
         {{- if eq $isSimulatedDish true }}
         - name: "HelperDishDevice"
           devices:
-          {{- range .Values.deviceServers.dishleafnode.instances }}
+          {{- range .Values.global.dishes }}
           - name: "ska{{ printf . }}/elt/master"
           {{- end }}
         {{- end }}

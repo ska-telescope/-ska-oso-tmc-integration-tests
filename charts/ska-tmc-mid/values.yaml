@@ -138,7 +138,7 @@ deviceServers:
 
   subarraynode:
     enabled: true
-    instances: ["01"]
+    instances: 
     file: "data/subarraynode_mid.yaml"
     DishLeafNodePrefix: "ska_mid/tm_leaf_node/d0"
     DishIDs: ["SKA001", "SKA036", "SKA063", "SKA100"]
@@ -147,7 +147,7 @@ deviceServers:
 
   sdpsubarrayleafnode:
     enabled: true
-    instances: ["01"]
+    instances: 
     file: "data/sdpsubarrayleafnode.yaml"
 
   sdpmasterleafnode:
@@ -162,12 +162,12 @@ deviceServers:
 
   cspsubarrayleafnode:
     enabled: true
-    instances: ["01"]
+    instances: 
     file: "data/cspsubarrayleafnode.yaml"
 
   dishleafnode:
     enabled: true
-    instances: ["001","036","063", "100"]
+    instances: 
     file: "data/dishleafnode.yaml"
 
   mocks:
