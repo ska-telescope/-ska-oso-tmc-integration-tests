@@ -9,9 +9,9 @@ from pytest_bdd import given, scenario, then, when
 from tango import DevState
 from tango.db import DbDevInfo
 
-from tests.resources.test_harness.helpers import (
-    wait_and_validate_device_attribute_value,
-)
+# from tests.resources.test_harness.helpers import (
+#     wait_and_validate_device_attribute_value,
+# )
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.enum import DishMode
 
@@ -277,29 +277,20 @@ def recheck_if_central_node_running(central_node_mid):
 
 @then("the telescope is in OFF state")
 def check_if_telescope_is_in_off_state(central_node_mid, event_recorder):
-    wait_and_validate_device_attribute_value(
-        central_node_mid.dish_master_list[1].dishMode,
-        "dishMode",
-        DishMode.STANDBY_LP,
-    )
-    wait_and_validate_device_attribute_value(
-        central_node_mid.dish_master_list[2].dishMode,
-        "dishMode",
-        DishMode.STANDBY_LP,
-    )
-    wait_and_validate_device_attribute_value(
-        central_node_mid.dish_master_list[3].dishMode,
-        "dishMode",
-        DishMode.STANDBY_LP,
-    )
-    wait_and_validate_device_attribute_value(
-        central_node_mid.dish_master_list[0].dishMode,
-        "dishMode",
-        DishMode.STANDBY_LP,
-    )
     assert central_node_mid.dish_master_list[1].dishMode == DishMode.STANDBY_LP
     assert central_node_mid.dish_master_list[2].dishMode == DishMode.STANDBY_LP
     assert central_node_mid.dish_master_list[3].dishMode == DishMode.STANDBY_LP
+    # wait_and_validate_device_attribute_value(
+    #     central_node_mid.dish_master_list[0].dishMode,
+    #     "dishMode",
+    #     DishMode.STANDBY_LP,
+    # )
+    LOGGER.info(
+        "Dish %s dishMode is: %s",
+        dish1_dev_name,
+        central_node_mid.dish_master_list[0].dishMode,
+    )
+    time.sleep(8)
     assert central_node_mid.dish_master_list[0].dishMode == DishMode.STANDBY_LP
 
     LOGGER.info(
