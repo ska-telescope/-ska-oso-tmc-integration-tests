@@ -30,6 +30,10 @@ To test with tmc_csp execute the command `make k8s-test MARK=tmc-csp CSP_SIMULAT
 * ``ReleaseResources`` - Testing ReleaseResources command on TMC with Real-CSP in place.
 
 * ``Standby`` -  Testing StandBy command on TMC with Real-CSP in place.
-    
+
+* ``Abort``    -  Testing Abort command on TMC with Real-CSP in place.
+
+* ``Restart``   -  Testing Restart command on TMC with Real-CSP in place.
+
 
 
