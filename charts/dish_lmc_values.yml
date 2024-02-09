@@ -12,6 +12,7 @@ ska-mid-dish-manager:
     app: ska-tmc-integration
   enabled: true
 
+
 ska-mid-dish-simulators:
   labels:
     app: ska-tmc-integration
@@ -25,6 +26,6 @@ ska-mid-dish-simulators:
     enabled: true
 
 ska-mid-dish-ds-manager:
-    labels:
-      app: ska-tmc-integration
-    enabled: true
+  labels:
+    app: ska-tmc-integration
+  enabled: true

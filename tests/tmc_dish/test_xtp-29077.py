@@ -228,9 +228,9 @@ def connect_to_dish(central_node_mid, event_recorder):
     central_node_mid.dish1_admin_dev_proxy.RestartServer()
     central_node_mid.dish1_leaf_admin_dev_proxy.RestartServer()
 
-    # When device restart it will around 10 sec to up again
+    # When device restart it will around 12 sec to up again
     # so wait for the dish1 dishmode attribute to be in ptoper state
-    time.sleep(10)
+    time.sleep(12)
 
     # Check if the dish 1 is initialised
     LOGGER.info(
@@ -245,22 +245,23 @@ def connect_to_dish(central_node_mid, event_recorder):
         "ska_mid/tm_leaf_node/d0001"
     )
     LOGGER.info("dish1 leaf node device info is: %s", check_dish1_leaf_info)
-    LOGGER.info(
-        "dish1 leaf node state is: %s",
-        central_node_mid.dish_leaf_node_list[0].State(),
-    )
 
     # Set kvalue on dish leaf node 1
     central_node_mid.dish_leaf_node_list[0].SetKValue(111)
+
+    # TODO: Enable this wait methods when the vcc config related issue is
+    # resolved
     # Wait for DishLeafNode SetKValue command to be completed
-    wait_and_validate_device_attribute_value(
-        central_node_mid.dish_leaf_node_list[0], "kValue", 111
-    )
-    wait_and_validate_device_attribute_value(
-        central_node_mid.central_node, "isDishVccConfigSet", True
-    )
-    assert central_node_mid.dish_leaf_node_list[0].kValue == 111
+    # wait_and_validate_device_attribute_value(
+    #     central_node_mid.dish_leaf_node_list[0], "kValue", 111
+    # )
+    # wait_and_validate_device_attribute_value(
+    #     central_node_mid.central_node, "isDishVccConfigSet", True
+    # )
+    time.sleep(8)
+
     assert central_node_mid.central_node.isDishVccConfigSet is True
+    assert central_node_mid.dish_leaf_node_list[0].kValue == 111
 
 
 @then("command TelescopeOff can be sent and received by the dish")

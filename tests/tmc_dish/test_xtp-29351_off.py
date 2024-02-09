@@ -1,6 +1,5 @@
 """Test module for TMC-DISH Off functionality"""
 
-import logging
 import time
 
 import pytest
@@ -9,8 +8,6 @@ from tango import DevState
 
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.enum import DishMode
-
-LOGGER = logging.getLogger(__name__)
 
 
 @pytest.mark.tmc_dish
@@ -84,9 +81,6 @@ def check_tmc_and_dish_is_on(
     assert event_recorder.has_change_event_occurred(
         central_node_mid.dish_master_list[3], "dishMode", DishMode.STANDBY_LP
     )
-    LOGGER.info(
-        "Dish1 dishmode is: %s", central_node_mid.dish_master_list[0].dishMode
-    )
 
     # Wait for the DishLeafNode to get StandbyLP event form DishMaster before
     # invoking TelescopeOn command
@@ -97,9 +91,7 @@ def check_tmc_and_dish_is_on(
         "telescopeState",
         DevState.OFF,
     )
-    LOGGER.info(
-        "Dish1 dishmode is: %s", central_node_mid.dish_master_list[0].dishMode
-    )
+
     central_node_mid.move_to_on()
 
     assert event_recorder.has_change_event_occurred(
