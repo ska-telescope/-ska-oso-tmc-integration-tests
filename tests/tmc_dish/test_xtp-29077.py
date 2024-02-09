@@ -228,15 +228,10 @@ def connect_to_dish(central_node_mid, event_recorder):
     central_node_mid.dish1_admin_dev_proxy.RestartServer()
     central_node_mid.dish1_leaf_admin_dev_proxy.RestartServer()
 
-    # When device restart it will around 12 sec to up again
+    # When device restart it will around 15 sec to up again
     # so wait for the dish1 dishmode attribute to be in ptoper state
     time.sleep(15)
 
-    # Check if the dish 1 is initialised
-    LOGGER.info(
-        "dish1 dishMode is: %s", central_node_mid.dish_master_list[0].dishMode
-    )
-    assert central_node_mid.dish_master_list[0].dishMode == DishMode.STANDBY_FP
     check_dish1_info = central_node_mid.dish1_db.get_device_info(
         "ska001/elt/master"
     )
@@ -246,11 +241,12 @@ def connect_to_dish(central_node_mid, event_recorder):
     )
     LOGGER.info("dish1 leaf node device info is: %s", check_dish1_leaf_info)
 
+    # Check if the dish 1 is initialised
+    assert central_node_mid.dish_master_list[0].dishMode == DishMode.STANDBY_FP
+
     # Set kvalue on dish leaf node 1
     central_node_mid.dish_leaf_node_list[0].SetKValue(111)
 
-    # TODO: Enable this wait methods when the vcc config related issue is
-    # resolved
     # Wait for DishLeafNode SetKValue command to be completed
     wait_and_validate_device_attribute_value(
         central_node_mid.central_node, "isDishVccConfigSet", True
@@ -258,7 +254,6 @@ def connect_to_dish(central_node_mid, event_recorder):
     wait_and_validate_device_attribute_value(
         central_node_mid.dish_leaf_node_list[0], "kValue", 111
     )
-    # time.sleep(8)
 
     assert central_node_mid.central_node.isDishVccConfigSet is True
     assert central_node_mid.dish_leaf_node_list[0].kValue == 111
@@ -281,21 +276,10 @@ def check_if_telescope_is_in_off_state(central_node_mid, event_recorder):
     assert central_node_mid.dish_master_list[2].dishMode == DishMode.STANDBY_LP
     assert central_node_mid.dish_master_list[3].dishMode == DishMode.STANDBY_LP
 
-    LOGGER.info(
-        "Dish %s dishMode is: %s",
-        dish1_dev_name,
-        central_node_mid.dish_master_list[0].dishMode,
-    )
-    # time.sleep(8)
     wait_and_validate_device_attribute_value(
         central_node_mid.dish_master_list[0].dishMode,
         "dishMode",
         DishMode.STANDBY_LP,
-    )
-    LOGGER.info(
-        "Dish %s dishMode is: %s",
-        dish1_dev_name,
-        central_node_mid.dish_master_list[0].dishMode,
     )
     assert central_node_mid.dish_master_list[0].dishMode == DishMode.STANDBY_LP
     assert event_recorder.has_change_event_occurred(
