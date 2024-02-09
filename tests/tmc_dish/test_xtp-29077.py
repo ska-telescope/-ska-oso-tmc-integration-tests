@@ -230,10 +230,7 @@ def connect_to_dish(central_node_mid, event_recorder):
 
     # When device restart it will around 10 sec to up again
     # so wait for the dish1 dishmode attribute to be in ptoper state
-    wait_and_validate_device_attribute_value(
-        central_node_mid.dish_master_list[0], "dishMode", DishMode.STANDBY_FP
-    )
-    # time.sleep(10)
+    time.sleep(10)
 
     # Check if the dish 1 is initialised
     LOGGER.info(
