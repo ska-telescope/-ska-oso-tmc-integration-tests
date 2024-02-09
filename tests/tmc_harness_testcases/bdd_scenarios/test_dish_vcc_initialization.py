@@ -15,7 +15,7 @@ from tests.resources.test_harness.helpers import (
 from tests.resources.test_support.common_utils.result_code import ResultCode
 
 
-@pytest.test.tmc_csp_dish
+@pytest.mark.tmc_csp_dish
 @pytest.mark.SKA_mid
 @scenario(
     "../features/dish_vcc_initialization/xtp_30249_csp_mln_init.feature",
