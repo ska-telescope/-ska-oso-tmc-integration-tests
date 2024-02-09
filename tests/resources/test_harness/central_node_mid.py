@@ -79,23 +79,29 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             SIMULATED_DEVICES_DICT["csp_and_sdp"]
             and not SIMULATED_DEVICES_DICT["all_mocks"]
         ):
-            dish_fqdn1 = REAL_DISH1_FQDN
-            dish_fqdn36 = REAL_DISH36_FQDN
-            dish_fqdn63 = REAL_DISH63_FQDN
+            dish_fqdn001 = REAL_DISH1_FQDN
+            dish_fqdn036 = REAL_DISH36_FQDN
+            dish_fqdn063 = REAL_DISH63_FQDN
             dish_fqdn100 = REAL_DISH100_FQDN
         else:
-            dish_fqdn1 = dish_master1
-            dish_fqdn36 = dish_master2
-            dish_fqdn63 = dish_master3
+            dish_fqdn001 = dish_master1
+            dish_fqdn036 = dish_master2
+            dish_fqdn063 = dish_master3
             dish_fqdn100 = dish_master4
 
         self.dish_master_list = [
-            DeviceProxy(dish_fqdn1),
-            DeviceProxy(dish_fqdn36),
-            DeviceProxy(dish_fqdn63),
+            DeviceProxy(dish_fqdn001),
+            DeviceProxy(dish_fqdn036),
+            DeviceProxy(dish_fqdn063),
             DeviceProxy(dish_fqdn100),
         ]
 
+        self.dish_master_dict = {
+            "dish001": DeviceProxy(dish_fqdn001),
+            "dish036": DeviceProxy(dish_fqdn036),
+            "dish063": DeviceProxy(dish_fqdn063),
+            "dish100": DeviceProxy(dish_fqdn100),
+        }
         self.dish_leaf_node_list = [
             DeviceProxy(tmc_dish_leaf_node1),
             DeviceProxy(tmc_dish_leaf_node2),

@@ -17,10 +17,6 @@ configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
 
 
-@pytest.mark.skip(
-    reason="Test passes independently, fails when executed with all tests"
-)
-@pytest.mark.bdd_configure
 @pytest.mark.SKA_mid
 @scenario(
     "../features/xtp-28836.feature",

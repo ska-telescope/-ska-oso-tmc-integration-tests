@@ -62,5 +62,6 @@ class TestMidCentralNodeAssignResources(object):
             ObsState.IDLE,
         )
         assert check_assigned_resources(
-            central_node_mid.subarray_node, ("SKA001", "SKA036")
+            central_node_mid.subarray_node,
+            ("SKA001", "SKA036", "SKA063", "SKA100"),
         )
