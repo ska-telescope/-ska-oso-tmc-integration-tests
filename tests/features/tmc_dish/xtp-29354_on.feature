@@ -4,3 +4,7 @@ Scenario: Start up Telescope with TMC and DISH devices
     When I start up the telescope
     Then DishMaster <dish_ids> must transition to STANDBY-FP mode
     And telescope state is ON
+
+         Examples:
+        | dish_ids                           |
+        | dish001,dish036,dish063,dish100    |

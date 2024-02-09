@@ -4,3 +4,7 @@ Scenario: Shut down with TMC and DISH devices
     When I switch off the telescope
     Then DishMaster <dish_ids> must transition to STANDBY-LP mode
     And telescope is OFF
+
+         Examples:
+        | dish_ids                           |
+        | dish001,dish036,dish063,dish100    |
