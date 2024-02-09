@@ -475,6 +475,9 @@ def get_simulated_devices_info() -> dict:
         "sdp_and_dish": all(
             [is_sdp_simulated, is_dish_simulated]
         ),  # real CSP.LMC enabled
+        "sdp": all(
+            [is_sdp_simulated, not is_csp_simulated, not is_dish_simulated]
+        ),
         "all_mocks": all(
             [
                 is_csp_simulated,
