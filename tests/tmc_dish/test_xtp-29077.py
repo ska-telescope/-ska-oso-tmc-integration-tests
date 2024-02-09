@@ -9,9 +9,9 @@ from pytest_bdd import given, scenario, then, when
 from tango import DevState
 from tango.db import DbDevInfo
 
-# from tests.resources.test_harness.helpers import (
-#     wait_and_validate_device_attribute_value,
-# )
+from tests.resources.test_harness.helpers import (
+    wait_and_validate_device_attribute_value,
+)
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.enum import DishMode
 
@@ -230,7 +230,7 @@ def connect_to_dish(central_node_mid, event_recorder):
 
     # When device restart it will around 12 sec to up again
     # so wait for the dish1 dishmode attribute to be in ptoper state
-    time.sleep(12)
+    time.sleep(15)
 
     # Check if the dish 1 is initialised
     LOGGER.info(
@@ -252,13 +252,13 @@ def connect_to_dish(central_node_mid, event_recorder):
     # TODO: Enable this wait methods when the vcc config related issue is
     # resolved
     # Wait for DishLeafNode SetKValue command to be completed
-    # wait_and_validate_device_attribute_value(
-    #     central_node_mid.dish_leaf_node_list[0], "kValue", 111
-    # )
-    # wait_and_validate_device_attribute_value(
-    #     central_node_mid.central_node, "isDishVccConfigSet", True
-    # )
-    time.sleep(8)
+    wait_and_validate_device_attribute_value(
+        central_node_mid.central_node, "isDishVccConfigSet", True
+    )
+    wait_and_validate_device_attribute_value(
+        central_node_mid.dish_leaf_node_list[0], "kValue", 111
+    )
+    # time.sleep(8)
 
     assert central_node_mid.central_node.isDishVccConfigSet is True
     assert central_node_mid.dish_leaf_node_list[0].kValue == 111
@@ -280,25 +280,24 @@ def check_if_telescope_is_in_off_state(central_node_mid, event_recorder):
     assert central_node_mid.dish_master_list[1].dishMode == DishMode.STANDBY_LP
     assert central_node_mid.dish_master_list[2].dishMode == DishMode.STANDBY_LP
     assert central_node_mid.dish_master_list[3].dishMode == DishMode.STANDBY_LP
-    # wait_and_validate_device_attribute_value(
-    #     central_node_mid.dish_master_list[0].dishMode,
-    #     "dishMode",
-    #     DishMode.STANDBY_LP,
-    # )
+
     LOGGER.info(
         "Dish %s dishMode is: %s",
         dish1_dev_name,
         central_node_mid.dish_master_list[0].dishMode,
     )
-    time.sleep(8)
+    # time.sleep(8)
+    wait_and_validate_device_attribute_value(
+        central_node_mid.dish_master_list[0].dishMode,
+        "dishMode",
+        DishMode.STANDBY_LP,
+    )
+    LOGGER.info(
+        "Dish %s dishMode is: %s",
+        dish1_dev_name,
+        central_node_mid.dish_master_list[0].dishMode,
+    )
     assert central_node_mid.dish_master_list[0].dishMode == DishMode.STANDBY_LP
-
-    LOGGER.info(
-        "Dish %s dishMode is: %s",
-        dish1_dev_name,
-        central_node_mid.dish_master_list[0].dishMode,
-    )
-
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
         "telescopeState",
