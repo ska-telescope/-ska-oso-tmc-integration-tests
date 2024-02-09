@@ -15,7 +15,7 @@ server:
   {{- $real_dish_name := .Values.global.namespace_dish.dish_name }}
   {{- $DishMasterPrefix := .Values.deviceServers.subarraynode.DishMasterPrefix }}
   {{- $DishMasterPostfix := .Values.deviceServers.subarraynode.DishMasterPostfix }}
-  {{- $dish_id := .Values.deviceServers.subarraynode.DishIDs }}
+  {{- $dish_id := .Values.global.dishes }}
   {{- range  ( regexSplit " " ((.Values.global.subarray_count | int) | seq ) -1 ) }}
     - name: "{{ printf "%02s" . }}"
       classes:
@@ -47,7 +47,7 @@ server:
           - name: "DishIDs"
             values:
             {{- range  $dish_id  }}
-            - "{{ . }}"
+            - "SKA{{ . }}"
             {{- end }}
           - name: "DishMasterFQDN"
             values:
@@ -57,7 +57,7 @@ server:
             {{- end }}
             {{- else }}
             {{- range  $dish_id }}
-            - "{{ . | lower }}/{{ $DishMasterPrefix }}/{{ $DishMasterPostfix }}"
+            - "ska{{ . }}/{{ $DishMasterPrefix }}/{{ $DishMasterPostfix }}"
             {{- end }}
             {{- end }}
           - name: "SkaLevel"

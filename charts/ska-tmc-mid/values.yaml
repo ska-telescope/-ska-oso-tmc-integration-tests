@@ -127,7 +127,7 @@ deviceServers:
     subarray_count: 1
     file: "data/centralnode_mid.yaml"
     DishLeafNodePrefix: "ska_mid/tm_leaf_node/d0"
-    DishIDs: ["SKA001", "SKA036", "SKA063", "SKA100"]
+    DishIDs: 
     DishMasterPrefix: "elt"
     DishMasterPostfix: "master"
     DishVccConfig:
@@ -141,7 +141,7 @@ deviceServers:
     instances: 
     file: "data/subarraynode_mid.yaml"
     DishLeafNodePrefix: "ska_mid/tm_leaf_node/d0"
-    DishIDs: ["SKA001", "SKA036", "SKA063", "SKA100"]
+    DishIDs: 
     DishMasterPrefix: "elt"
     DishMasterPostfix: "master"
 

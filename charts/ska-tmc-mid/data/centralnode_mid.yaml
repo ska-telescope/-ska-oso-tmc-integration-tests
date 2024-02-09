@@ -54,8 +54,8 @@ server:
           - "{{.Values.deviceServers.centralnode.DishVccConfig.DishKvalueAggregationAllowedPercent}}"
         - name: "DishIDs"
           values:
-          {{- range  (.Values.deviceServers.centralnode.DishIDs)  }}
-          - "{{ . }}"
+          {{- range  (.Values.global.dishes)  }}
+          - "SKA{{ . }}"
           {{- end }}
         - name: "DishMasterFQDN"
           values:
@@ -64,8 +64,8 @@ server:
           - "{{ . }}" # Real dish
           {{- end }}
           {{- else }}
-          {{- range  (.Values.deviceServers.centralnode.DishIDs)  }}
-          - "{{ . | lower }}/{{ $DishMasterPrefix }}/{{ $DishMasterPostfix }}"
+          {{- range  (.Values.global.dishes)  }}
+          - "ska{{ . }}/{{ $DishMasterPrefix }}/{{ $DishMasterPostfix }}"
           {{- end }}
           {{- end }}
         - name: "TMCSubarrayNodes"
