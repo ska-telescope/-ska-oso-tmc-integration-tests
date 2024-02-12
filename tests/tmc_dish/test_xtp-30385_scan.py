@@ -175,6 +175,9 @@ def check_subarray_obstate(
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
+    configure_input_json = prepare_json_args_for_commands(
+        "configure_mid", command_input_factory
+    )
     central_node_mid.set_subarray_id(subarray_id)
     central_node_mid.store_resources(assign_input_json)
 
@@ -182,9 +185,6 @@ def check_subarray_obstate(
         subarray_node.subarray_node,
         "obsState",
         ObsState.IDLE,
-    )
-    configure_input_json = prepare_json_args_for_commands(
-        "configure_mid", command_input_factory
     )
 
     subarray_node.execute_transition("Configure", configure_input_json)
@@ -231,7 +231,7 @@ def invoke_scan(
         "scan_mid", command_input_factory
     )
     central_node_mid.set_subarray_id(subarray_id)
-    subarray_node.store_scan_data(scan_input_json)
+    subarray_node.execute_transition("Scan", scan_input_json)
 
 
 @then(
@@ -255,7 +255,7 @@ def check_dish_mode_and_pointing_state_after_scan(central_node_mid, dish_ids):
         )
 
 
-@then(parsers.parse("TMC SubarrayNode transitions to obsState SCANNING"))
+@then("TMC SubarrayNode transitions to obsState SCANNING")
 def tmc_subarray_scanning(
     central_node_mid, subarray_node, event_recorder, subarray_id
 ):
@@ -269,12 +269,10 @@ def tmc_subarray_scanning(
 
 
 @then(
-    parsers.parse(
-        "TMC SubarrayNode transitions to obsState READY"
-        + " once the scan duration is elapsed"
-    )
+    "TMC SubarrayNode transitions to obsState READY"
+    + " once the scan duration is elapsed"
 )
-def Subarray_ObsState(
+def check_subarray_obsstate_ready(
     central_node_mid, subarray_node, event_recorder, subarray_id
 ):
     """Checks if SubarrayNode's obsState attribute value is READY"""

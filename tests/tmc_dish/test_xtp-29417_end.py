@@ -162,7 +162,7 @@ def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
 
 
 @given(parsers.parse("TMC subarray {subarray_id} is in READY ObsState"))
-def check_subarray_obstate(
+def check_subarray_obsstate(
     subarray_node,
     command_input_factory,
     event_recorder,
