@@ -276,6 +276,8 @@ def assign_resources_executed_on_subarray(
         "assign_resources_mid", command_input_factory
     )
 
+    assign_input_json["eb_id"] = "eb-mvp01-20210623-00002"
+
     _, unique_id = central_node_mid.perform_action(
         "AssignResources", assign_input_json
     )
