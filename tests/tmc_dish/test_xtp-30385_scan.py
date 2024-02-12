@@ -1,7 +1,7 @@
 """Test module for TMC-DISH Scan functionality
 """
 
-import logging
+# import logging
 import time
 
 import pytest
@@ -263,15 +263,6 @@ def check_dish_mode_and_pointing_state_after_scan(
         event_recorder.subscribe_event(
             central_node_mid.dish_master_dict[dish_id],
             "longRunningCommandStatus",
-        )
-
-        logging.info(
-            "Here datatype"
-            + type(
-                central_node_mid.dish_master_dict[
-                    dish_id
-                ].longRunningCommandStatus
-            )
         )
 
         assert (
