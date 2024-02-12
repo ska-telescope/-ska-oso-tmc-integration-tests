@@ -1,5 +1,4 @@
-"""
-Test module for TMC-DISH Scan functionality
+"""Test module for TMC-DISH Scan functionality
 """
 
 import time
