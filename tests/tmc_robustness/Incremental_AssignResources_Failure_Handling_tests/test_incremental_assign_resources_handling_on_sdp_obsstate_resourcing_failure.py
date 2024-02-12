@@ -1,3 +1,5 @@
+import json
+
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
@@ -8,6 +10,10 @@ from tests.conftest import LOGGER
 from tests.resources.test_harness.helpers import (
     get_device_simulators,
     prepare_json_args_for_centralnode_commands,
+)
+from tests.resources.test_support.constant import (
+    tmc_sdp_subarray_leaf_node,
+    tmc_subarraynode1,
 )
 
 
@@ -174,10 +180,18 @@ def given_tmc_subarray_stuck_resourcing(
         "SubarrayNode ObsState is %s", central_node_mid.subarray_node.obsState
     )
     assert central_node_mid.subarray_node.obsState == ObsState.RESOURCING
+
+    exception_message = (
+        f"Exception occurred on device: {tmc_subarraynode1}: "
+        + "Exception occurred on the following devices:\n"
+        + f"{tmc_sdp_subarray_leaf_node}: "
+        + "Execution block eb-mvp01-20210623-00000 already exists\n"
+    )
+
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "longRunningCommandResult",
-        Anything,
+        exception_message,
     )
 
 
@@ -276,7 +290,9 @@ def assign_resources_executed_on_subarray(
         "assign_resources_mid", command_input_factory
     )
 
-    assign_input_json["eb_id"] = "eb-mvp01-20210623-00002"
+    assign_input_json_temp = json.loads(assign_input_json)
+    assign_input_json_temp["eb_id"] = "eb-mvp01-20210623-00002"
+    assign_input_json = json.dumps(assign_input_json_temp)
 
     _, unique_id = central_node_mid.perform_action(
         "AssignResources", assign_input_json
