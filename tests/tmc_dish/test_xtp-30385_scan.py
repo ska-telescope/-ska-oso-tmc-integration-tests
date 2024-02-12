@@ -1,9 +1,9 @@
 """Test module for TMC-DISH Scan functionality
 """
 
+import logging
 import time
 
-# import logging
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_tango_base.control_model import ObsState
@@ -261,6 +261,12 @@ def check_dish_mode_and_pointing_state_after_scan(
         event_recorder.subscribe_event(
             central_node_mid.dish_master_dict[dish_id],
             "longRunningCommandStatus",
+        )
+        logging.info(
+            "Here"
+            + central_node_mid.dish_master_dict[
+                dish_id
+            ].longRunningCommandStatus
         )
 
         assert event_recorder.has_change_event_occurred(
