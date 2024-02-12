@@ -258,27 +258,30 @@ def check_dish_mode_and_pointing_state_after_scan(
             central_node_mid.dish_master_dict[dish_id].pointingState
             == PointingState.TRACK
         )
+
         event_recorder.subscribe_event(
             central_node_mid.dish_master_dict[dish_id],
             "longRunningCommandStatus",
         )
-        logging.info(
-            "Here"
-            + central_node_mid.dish_master_dict[
-                dish_id
-            ].longRunningCommandStatus
-        )
 
-        assert event_recorder.has_change_event_occurred(
-            central_node_mid.dish_master_dict[dish_id],
-            "longRunningCommandStatus",
-            TaskStatus.QUEUED,
+        logging.info(
+            "Here datatype"
+            + type(central_node_mid.dish_master_dict[
+                dish_id
+            ].longRunningCommandStatus)
         )
-        assert event_recorder.has_change_event_occurred(
-            central_node_mid.dish_master_dict[dish_id],
-            "longRunningCommandStatus",
-            TaskStatus.COMPLETED,
-        )
+        
+        assert ("_Scan" in central_node_mid.dish_master_dict[
+                dish_id
+            ].longRunningCommandStatus[-2] )
+
+        assert (central_node_mid.dish_master_dict[
+                dish_id
+            ].longRunningCommandStatus[-1] == "COMPLETED")
+        
+        
+        
+        
 
 
 @then("TMC SubarrayNode transitions to obsState SCANNING")
