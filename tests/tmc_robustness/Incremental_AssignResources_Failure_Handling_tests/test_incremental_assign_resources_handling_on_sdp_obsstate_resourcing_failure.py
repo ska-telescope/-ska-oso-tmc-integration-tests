@@ -11,7 +11,8 @@ from tests.resources.test_harness.helpers import (
 )
 
 
-@pytest.mark.SKA_mid
+@pytest.mark.tmc_sdp
+@pytest.mark.SKA_midskip
 @scenario(
     "../features/xtp-29015.feature",
     "TMC behavior when Sdp Subarray is stuck "

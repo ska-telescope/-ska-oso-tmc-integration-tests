@@ -30,7 +30,7 @@ result, message = "", ""
 the_waiter = Waiter()
 
 
-@pytest.mark.SKA_mid
+@pytest.mark.SKA_midskip
 @scenario(
     "../features/check_command_not_allowed.feature",
     "Unexpected commands not allowed when TMC subarray is in Resourcing",

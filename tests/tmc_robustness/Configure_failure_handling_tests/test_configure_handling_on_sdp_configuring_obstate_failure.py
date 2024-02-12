@@ -17,7 +17,7 @@ configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
 
 
-@pytest.mark.SKA_mid
+@pytest.mark.SKA_midskip
 @scenario(
     "../features/xtp-28836.feature",
     "TMC behavior when Sdp Subarray is stuck in obsState CONFIGURING",

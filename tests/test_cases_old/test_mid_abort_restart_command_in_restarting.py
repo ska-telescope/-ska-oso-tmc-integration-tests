@@ -29,7 +29,7 @@ from tests.resources.test_support.constant import (
 )
 
 
-@pytest.mark.SKA_mid
+@pytest.mark.SKA_midskip
 def test_mid_abort_restart_in_restarting(json_factory):
     """Abort and Restart is executed."""
     telescope_control = BaseTelescopeControl()

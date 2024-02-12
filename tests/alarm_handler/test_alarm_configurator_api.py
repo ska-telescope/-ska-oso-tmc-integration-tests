@@ -53,14 +53,14 @@ def remove_alarm_api():
 
 
 @pytest.mark.post_deployment
-@pytest.mark.SKA_mid
+@pytest.mark.SKA_midskip
 def test_configure_alarms():
     """test case to configure alarms for mid"""
     add_alarms_api("alarm_file1.txt")
 
 
 @pytest.mark.post_deployment
-@pytest.mark.SKA_mid
+@pytest.mark.SKA_midskip
 def test_remove_alarm():
     """test case to remove alarm for mid"""
     remove_alarm_api()
