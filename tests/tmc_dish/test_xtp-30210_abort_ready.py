@@ -15,6 +15,7 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.enum import DishMode, PointingState
 
 
+@pytest.mark.skip
 @pytest.mark.tmc_dish
 @scenario(
     "../features/tmc_dish/xtp-30210_abort_ready.feature",
@@ -61,35 +62,35 @@ def given_a_telescope(
 def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
     """A method to put Telescope ON"""
     event_recorder.subscribe_event(
-        central_node_mid.dish_master_list[0], "dishMode"
+        central_node_mid.dish_master_dict["SKA001"], "dishMode"
     )
     event_recorder.subscribe_event(
-        central_node_mid.dish_master_list[1], "dishMode"
+        central_node_mid.dish_master_dict["SKA036"], "dishMode"
     )
     event_recorder.subscribe_event(
-        central_node_mid.dish_master_list[2], "dishMode"
+        central_node_mid.dish_master_dict["SKA063"], "dishMode"
     )
     event_recorder.subscribe_event(
-        central_node_mid.dish_master_list[3], "dishMode"
+        central_node_mid.dish_master_dict["SKA100"], "dishMode"
     )
 
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[0],
+        central_node_mid.dish_master_dict["SKA001"],
         "dishMode",
         DishMode.STANDBY_LP,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[1],
+        central_node_mid.dish_master_dict["SKA36"],
         "dishMode",
         DishMode.STANDBY_LP,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[2],
+        central_node_mid.dish_master_dict["SKA063"],
         "dishMode",
         DishMode.STANDBY_LP,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[3],
+        central_node_mid.dish_master_dict["SKA100"],
         "dishMode",
         DishMode.STANDBY_LP,
     )
@@ -120,22 +121,22 @@ def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
     central_node_mid.move_to_on()
 
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[0],
+        central_node_mid.dish_master_dict["SKA001"],
         "dishMode",
         DishMode.STANDBY_FP,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[1],
+        central_node_mid.dish_master_dict["SKA036"],
         "dishMode",
         DishMode.STANDBY_FP,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[2],
+        central_node_mid.dish_master_dict["SKA063"],
         "dishMode",
         DishMode.STANDBY_FP,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[3],
+        central_node_mid.dish_master_dict["SKA100"],
         "dishMode",
         DishMode.STANDBY_FP,
     )

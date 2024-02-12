@@ -7,6 +7,7 @@ import time
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_tango_base.control_model import ObsState
+from ska_tango_base.executor import TaskStatus
 from tango import DevState
 
 from tests.resources.test_harness.helpers import (
@@ -61,35 +62,35 @@ def given_a_telescope(central_node_mid, simulator_factory, dish_ids):
 def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
     """A method to put Telescope ON"""
     event_recorder.subscribe_event(
-        central_node_mid.dish_master_dict["dish001"], "dishMode"
+        central_node_mid.dish_master_dict["SKA001"], "dishMode"
     )
     event_recorder.subscribe_event(
-        central_node_mid.dish_master_dict["dish036"], "dishMode"
+        central_node_mid.dish_master_dict["SKA036"], "dishMode"
     )
     event_recorder.subscribe_event(
-        central_node_mid.dish_master_dict["dish063"], "dishMode"
+        central_node_mid.dish_master_dict["SKA063"], "dishMode"
     )
     event_recorder.subscribe_event(
-        central_node_mid.dish_master_dict["dish100"], "dishMode"
+        central_node_mid.dish_master_dict["SKA100"], "dishMode"
     )
 
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_dict["dish001"],
+        central_node_mid.dish_master_dict["SKA001"],
         "dishMode",
         DishMode.STANDBY_LP,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_dict["dish036"],
+        central_node_mid.dish_master_dict["SKA036"],
         "dishMode",
         DishMode.STANDBY_LP,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_dict["dish063"],
+        central_node_mid.dish_master_dict["SKA063"],
         "dishMode",
         DishMode.STANDBY_LP,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_dict["dish100"],
+        central_node_mid.dish_master_dict["SKA100"],
         "dishMode",
         DishMode.STANDBY_LP,
     )
@@ -119,22 +120,22 @@ def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
     central_node_mid.move_to_on()
 
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_dict["dish001"],
+        central_node_mid.dish_master_dict["SKA001"],
         "dishMode",
         DishMode.STANDBY_FP,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_dict["dish036"],
+        central_node_mid.dish_master_dict["SKA036"],
         "dishMode",
         DishMode.STANDBY_FP,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_dict["dish063"],
+        central_node_mid.dish_master_dict["SKA063"],
         "dishMode",
         DishMode.STANDBY_FP,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_dict["dish100"],
+        central_node_mid.dish_master_dict["SKA100"],
         "dishMode",
         DishMode.STANDBY_FP,
     )
@@ -240,7 +241,9 @@ def invoke_scan(
         + " OPERATE and pointingState TRACK"
     )
 )
-def check_dish_mode_and_pointing_state_after_scan(central_node_mid, dish_ids):
+def check_dish_mode_and_pointing_state_after_scan(
+    central_node_mid, event_recorder, dish_ids
+):
     """
     Method to check dishMode and pointingState of DISH
     """
@@ -252,6 +255,15 @@ def check_dish_mode_and_pointing_state_after_scan(central_node_mid, dish_ids):
         assert (
             central_node_mid.dish_master_dict[dish_id].pointingState
             == PointingState.TRACK
+        )
+        event_recorder.subscribe_event(
+            central_node_mid.dish_master_dict[dish_id],
+            "longRunningCommandStatus",
+        )
+        assert event_recorder.has_change_event_occurred(
+            central_node_mid.dish_master_dict[dish_id],
+            "longRunningCommandStatus",
+            TaskStatus.COMPLETED,
         )
 
 

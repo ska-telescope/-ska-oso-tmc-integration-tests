@@ -10,5 +10,5 @@ Scenario: TMC executes Scan command on DISH.LMC
     And TMC SubarrayNode transitions to obsState READY once the scan duration is elapsed
     Examples:
 
-        | subarray_id | dish_ids                           |
-        | 1           | dish001,dish036,dish063,dish100    |
+        | subarray_id | dish_ids                       |
+        | 1           | SKA001,SKA036,SKA063,SKA100    |
