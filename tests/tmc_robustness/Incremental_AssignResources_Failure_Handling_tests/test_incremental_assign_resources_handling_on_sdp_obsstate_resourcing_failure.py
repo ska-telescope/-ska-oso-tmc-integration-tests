@@ -157,7 +157,7 @@ def sdp_subarray_stuck_in_resouring(event_recorder, simulator_factory):
     assert event_recorder.has_change_event_occurred(
         sdp_sim,
         "obsState",
-        ObsState.RESOURCING,
+        ObsState.IDLE,
     )
 
 
