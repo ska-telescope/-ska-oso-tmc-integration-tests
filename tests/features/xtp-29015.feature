@@ -15,4 +15,4 @@ Feature: TMC SubarrayNode handles the failure when the Incremental AssignResourc
 
         Examples:
         | subarray_id  | input_json1                      | input_json2                                |
-        | 1            | incremental_assign_resources_01  | incremental_assign_resources_invalid_eb_id |
+        | 1            | assign_resources_mid  | assign_resources_mid |
