@@ -7,7 +7,8 @@ import time
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_tango_base.control_model import ObsState
-from ska_tango_base.executor import TaskStatus
+
+# from ska_tango_base.executor import TaskStatus
 from tango import DevState
 
 from tests.resources.test_harness.helpers import (
@@ -266,22 +267,26 @@ def check_dish_mode_and_pointing_state_after_scan(
 
         logging.info(
             "Here datatype"
-            + type(central_node_mid.dish_master_dict[
-                dish_id
-            ].longRunningCommandStatus)
+            + type(
+                central_node_mid.dish_master_dict[
+                    dish_id
+                ].longRunningCommandStatus
+            )
         )
-        
-        assert ("_Scan" in central_node_mid.dish_master_dict[
-                dish_id
-            ].longRunningCommandStatus[-2] )
 
-        assert (central_node_mid.dish_master_dict[
+        assert (
+            "_Scan"
+            in central_node_mid.dish_master_dict[
                 dish_id
-            ].longRunningCommandStatus[-1] == "COMPLETED")
-        
-        
-        
-        
+            ].longRunningCommandStatus[-2]
+        )
+
+        assert (
+            central_node_mid.dish_master_dict[
+                dish_id
+            ].longRunningCommandStatus[-1]
+            == "COMPLETED"
+        )
 
 
 @then("TMC SubarrayNode transitions to obsState SCANNING")
