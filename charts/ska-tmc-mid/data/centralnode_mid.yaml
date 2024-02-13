@@ -92,7 +92,7 @@ server:
         - name: "LoggingLevelDefault"
           values:
             - "5"
-         - name: "DishVccInitTimeout"
+        - name: "DishVccInitTimeout"
           values:
             - "180" 
         - name: "polled_attr"
