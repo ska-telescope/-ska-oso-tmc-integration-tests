@@ -2,9 +2,11 @@
 Scenario: TMC executes End command on DISH.LMC
     Given a Telescope consisting of TMC, DISH <dish_ids>, simulated CSP and simulated SDP
     And the Telescope is in ON state
-    And TMC subarray <subarray_id> is in READY ObsState
+    And the DishMaster <dish_ids> transitions to dishMode OPERATE and pointingState TRACK
+    And TMC subarray <subarray_id> is in READY obsState
     When I issue the End command to the TMC subarray <subarray_id>  
-    Then the DishMaster <dish_ids> transitions to dishMode OPERATE and pointingState READY
+    Then the DishMaster <dish_ids> remains in dishMode OPERATE 
+    And the DishMaster <dish_ids> pointingState transitions to READY
     And TMC subarray <subarray_id> obsState transitions to IDLE obsState
 
         Examples:
