@@ -2,7 +2,7 @@
 Scenario: TMC executes Scan command on DISH.LMC
     Given a Telescope consisting of TMC, DISH <dish_ids>, simulated CSP and simulated SDP
     And the Telescope is in ON state
-    And TMC subarray <subarray_id> is in READY ObsState 
+    And TMC subarray <subarray_id> is in READY obsState 
     And DishMaster <dish_ids> is in dishMode OPERATE with pointingState TRACK
     When I issue the scan command to the TMC subarray <subarray_id>
     Then the DishMaster <dish_ids> remains in dishMode OPERATE and pointingState TRACK  

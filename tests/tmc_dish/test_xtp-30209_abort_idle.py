@@ -1,4 +1,4 @@
-"""Test TMC-DISH Abort functionality in IDLE obstate"""
+"""Test TMC-DISH Abort functionality in IDLE obsState"""
 import time
 
 import pytest
@@ -56,7 +56,9 @@ def given_a_telescope(
 
 @given("the Telescope is in ON state")
 def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
-    """A method to put Telescope ON"""
+    """
+    A method to put Telescope ON
+    """
     event_recorder.subscribe_event(
         central_node_mid.dish_master_dict["SKA001"], "dishMode"
     )
@@ -91,8 +93,11 @@ def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
         DishMode.STANDBY_LP,
     )
 
-    # Wait for the DishLeafNode to get StandbyLP event form DishMaster before
-    # invoking TelescopeOn command
+    # Wait for DishMaster attribute value update,
+    # on CentralNode for value dishMode STANDBY_LP
+
+    # TODO: Improvement in tests/implementation
+    # to minimize the need of having sleep
     time.sleep(1)
     csp_master_sim = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.MID_CSP_MASTER_DEVICE
@@ -136,8 +141,11 @@ def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
         DishMode.STANDBY_FP,
     )
 
-    # Wait for the DishLeafNode to get StandbyFP event form DishMaster before
-    # invoking TelescopeOn command
+    # Wait for DishMaster attribute value update,
+    # on CentralNode for value dishMode STANDBY_FP
+
+    # TODO: Improvement in tests/implementation
+    # to minimize the need of having sleep
     time.sleep(1)
 
     assert event_recorder.has_change_event_occurred(
@@ -158,14 +166,17 @@ def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
     )
 
 
-@given(parsers.parse("TMC subarray {subarray_id}  is in IDLE ObsState"))
-def subarray_is_in_idle_obsstate(
+@given(parsers.parse("TMC subarray {subarray_id}  is in IDLE obsState"))
+def subarray_is_in_idle_obsState(
     central_node_mid,
     subarray_node,
     event_recorder,
     subarray_id,
     command_input_factory,
 ):
+    """
+    A method to check if telescope in is idle obsState.
+    """
     central_node_mid.set_subarray_id(subarray_id)
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
     event_recorder.subscribe_event(
@@ -217,10 +228,10 @@ def check_dish_mode(central_node_mid, event_recorder, dish_ids):
         )
 
 
-@then("the TMC subarray transitions to ObsState ABORTED")
-def tmc_subarray_is_in_aborted_obsstate(subarray_node, event_recorder):
+@then("the TMC subarray transitions to obsState ABORTED")
+def tmc_subarray_is_in_aborted_obsState(subarray_node, event_recorder):
     """
-    Method to check if TMC subarray is in ABORTED obsstate
+    Method to check if TMC subarray is in ABORTED obsState
     """
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,

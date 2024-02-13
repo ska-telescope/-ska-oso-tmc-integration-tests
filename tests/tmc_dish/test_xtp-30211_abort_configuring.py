@@ -1,4 +1,4 @@
-"""Test TMC-DISH Abort functionality in Configuring obstate"""
+"""Test TMC-DISH Abort functionality in Configuring obsState"""
 
 import time
 
@@ -79,7 +79,7 @@ def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
         DishMode.STANDBY_LP,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_dict["SKA36"],
+        central_node_mid.dish_master_dict["SKA036"],
         "dishMode",
         DishMode.STANDBY_LP,
     )
@@ -93,9 +93,11 @@ def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
         "dishMode",
         DishMode.STANDBY_LP,
     )
+    # Wait for DishMaster attribute value update,
+    # on CentralNode for value dishMode STANDBY_LP
 
-    # Wait for the DishLeafNode to get StandbyLP event form DishMaster before
-    # invoking TelescopeOn command
+    # TODO: Improvement in tests/implementation
+    # to minimize the need of having sleep
     time.sleep(1)
 
     csp_master_sim = simulator_factory.get_or_create_simulator_device(
@@ -140,8 +142,11 @@ def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
         DishMode.STANDBY_FP,
     )
 
-    # Wait for the DishLeafNode to get StandbyFP event form DishMaster before
-    # invoking TelescopeOn command
+    # Wait for DishMaster attribute value update,
+    # on CentralNode for value dishMode STANDBY_FP
+
+    # TODO: Improvement in tests/implementation
+    # to minimize the need of having sleep
     time.sleep(1)
 
     assert event_recorder.has_change_event_occurred(
@@ -168,7 +173,7 @@ def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
         + " DishMaster {dish_ids} is in pointingState TRACK"
     )
 )
-def subarray_is_in_configuring_obsstate(
+def subarray_is_in_configuring_obsState(
     central_node_mid,
     subarray_node,
     event_recorder,
@@ -176,6 +181,10 @@ def subarray_is_in_configuring_obsstate(
     dish_ids,
     command_input_factory,
 ):
+    """
+    A method to check if telescope in is configuring obsState and
+    DishMaster is in pointingState track
+    """
     subarray_node.set_subarray_id(subarray_id)
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
     event_recorder.subscribe_event(
@@ -264,8 +273,8 @@ def check_dish_mode_and_pointing_state(
         )
 
 
-@then("the TMC subarray transitions to ObsState ABORTED")
-def tmc_subarray_is_in_aborted_obsstate(
+@then("the TMC subarray transitions to obsState ABORTED")
+def tmc_subarray_is_in_aborted_obsState(
     central_node_mid, event_recorder, subarray_id
 ):
     """

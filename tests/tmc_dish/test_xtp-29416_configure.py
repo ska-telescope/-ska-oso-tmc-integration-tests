@@ -59,7 +59,9 @@ def given_a_telescope(
 
 @given("the Telescope is in ON state")
 def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
-    """A method to put Telescope ON"""
+    """
+    A method to put Telescope ON
+    """
     event_recorder.subscribe_event(
         central_node_mid.dish_master_dict["SKA001"], "dishMode"
     )
@@ -94,8 +96,12 @@ def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
         DishMode.STANDBY_LP,
     )
 
-    # Wait for the DishLeafNode to get StandbyLP event form DishMaster before
-    # invoking TelescopeOn command
+    # Wait for DishMaster attribute value update,
+    # on CentralNode for value dishMode STANDBY_LP
+
+    # TODO: Improvement in tests/implementation
+    # to minimize the need of having sleep
+
     time.sleep(1)
     csp_master_sim = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.MID_CSP_MASTER_DEVICE
@@ -139,8 +145,11 @@ def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
         DishMode.STANDBY_FP,
     )
 
-    # Wait for the DishLeafNode to get StandbyFP event form DishMaster before
-    # invoking TelescopeOn command
+    # Wait for DishMaster attribute value update,
+    # on CentralNode for value dishMode STANDBY_FP
+
+    # TODO: Improvement in tests/implementation
+    # to minimize the need of having sleep
     time.sleep(1)
 
     assert event_recorder.has_change_event_occurred(
@@ -161,11 +170,13 @@ def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
     )
 
 
-@given("TMC subarray is in IDLE ObsState")
-def check_subarray_obstate(
+@given("TMC subarray is in IDLE obsState")
+def check_subarray_obsState_idle(
     subarray_node, central_node_mid, event_recorder, command_input_factory
 ):
-    """Method to check subarray is in IDLE obstate"""
+    """
+    Method to check subarray is in IDLE obsState
+    """
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
 
     assign_input_json = prepare_json_args_for_centralnode_commands(
@@ -189,7 +200,9 @@ def check_subarray_obstate(
 def invoke_configure(
     central_node_mid, subarray_node, command_input_factory, subarray_id
 ):
-    """A method to invoke Configure command"""
+    """
+    A method to invoke Configure command
+    """
     configure_input_json = prepare_json_args_for_commands(
         "configure_mid", command_input_factory
     )
@@ -235,7 +248,9 @@ def check_dish_mode_and_pointing_state(
 def check_subarray_obsState_ready(
     central_node_mid, subarray_node, event_recorder, subarray_id
 ):
-    """Method to check subarray is in READY obstate"""
+    """
+    Method to check subarray is in READY obsState
+    """
     central_node_mid.set_subarray_id(subarray_id)
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
