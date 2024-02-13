@@ -178,7 +178,6 @@ def check_dish_mode_and_pointing_state_before_end(
     command_input_factory,
     event_recorder,
     central_node_mid,
-    subarray_id,
     dish_ids,
 ):
     """
@@ -189,7 +188,6 @@ def check_dish_mode_and_pointing_state_before_end(
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
-    central_node_mid.set_subarray_id(subarray_id)
     central_node_mid.store_resources(assign_input_json)
 
     assert event_recorder.has_change_event_occurred(
