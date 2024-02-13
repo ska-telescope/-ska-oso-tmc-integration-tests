@@ -296,6 +296,8 @@ def assign_resources_executed_on_subarray(
     assign_input_json_temp["eb_id"] = "eb-mvp01-20210623-00002"
     assign_input_json = json.dumps(assign_input_json_temp)
 
+    LOGGER.info("assign_input_json is %s", assign_input_json)
+
     _, unique_id = central_node_mid.perform_action(
         "AssignResources", assign_input_json
     )
