@@ -244,7 +244,7 @@ def invoke_end(central_node_mid, subarray_node, subarray_id):
 
 @then(
     parsers.parse(
-        "the DishMaster {dish_ids} is in OPERATE dishMode and"
+        "the DishMaster {dish_ids} is in OPERATE dishMode"
         + " and pointingState transitions to READY"
     )
 )
