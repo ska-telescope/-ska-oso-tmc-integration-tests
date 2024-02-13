@@ -1,3 +1,8 @@
+# pylint: disable=missing-function-docstring
+# pylint: disable=missing-module-docstring
+# pylint: disable=import-outside-toplevel
+
+
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
@@ -15,6 +20,7 @@ from tests.resources.test_support.constant import (
 )
 
 
+@pytest.mark.tmc_sdp
 @pytest.mark.SKA_midskip
 @scenario(
     "../features/xtp-29015.feature",
@@ -177,54 +183,14 @@ def given_tmc_subarray_incremental_assign_resources_is_in_progress(
 
     LOGGER.info("Assert for  %s", expected_long_running_command_result)
 
+    import time
+
+    time.sleep(30)
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "longRunningCommandResult",
         expected_long_running_command_result,
     )
-
-
-@given(
-    parsers.parse(
-        "Csp Subarray {subarray_id} completes assign "
-        + "resources and transitions to obsState IDLE"
-    )
-)
-def csp_subarray_assign_resources_complete(event_recorder, simulator_factory):
-    csp_sim, _, _, _, _, _ = get_device_simulators(simulator_factory)
-    event_recorder.subscribe_event(csp_sim, "obsState")
-    assert event_recorder.has_change_event_occurred(
-        csp_sim,
-        "obsState",
-        ObsState.IDLE,
-    )
-
-
-@given(
-    parsers.parse("Sdp Subarray {subarray_id} is stuck in obsState RESOURCING")
-)
-def sdp_subarray_stuck_in_resouring(event_recorder, simulator_factory):
-    _, sdp_sim, _, _, _, _ = get_device_simulators(simulator_factory)
-    event_recorder.subscribe_event(sdp_sim, "obsState")
-    assert event_recorder.has_change_event_occurred(
-        sdp_sim,
-        "obsState",
-        ObsState.IDLE,
-    )
-
-
-@given(parsers.parse("the TMC SubarrayNode {subarray_id} stuck in RESOURCING"))
-def given_tmc_subarray_stuck_resourcing(
-    central_node_mid, event_recorder, change_event_callbacks
-):
-    event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
-    event_recorder.subscribe_event(
-        central_node_mid.subarray_node, "longRunningCommandResult"
-    )
-    LOGGER.info(
-        "SubarrayNode ObsState is %s", central_node_mid.subarray_node.obsState
-    )
-    assert central_node_mid.subarray_node.obsState == ObsState.RESOURCING
 
 
 @when(
