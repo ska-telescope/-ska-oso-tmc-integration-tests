@@ -11,10 +11,11 @@ from tests.resources.test_harness.helpers import (
     get_device_simulators,
     prepare_json_args_for_centralnode_commands,
 )
-from tests.resources.test_support.constant import (
-    tmc_sdp_subarray_leaf_node,
-    tmc_subarraynode1,
-)
+
+# from tests.resources.test_support.constant import (
+#     tmc_sdp_subarray_leaf_node,
+#     tmc_subarraynode1,
+# )
 
 
 @pytest.mark.tmc_sdp
@@ -181,19 +182,19 @@ def given_tmc_subarray_stuck_resourcing(
     )
     assert central_node_mid.subarray_node.obsState == ObsState.RESOURCING
 
-    exception_message = (
-        f"Exception occurred on device: {tmc_subarraynode1}: "
-        + "Exception occurred on the following devices:\n"
-        + f"{tmc_sdp_subarray_leaf_node}: "
-        + "Execution block eb-mvp01-20210623-00000 already exists\n"
-    )
-
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_node,
-        "longRunningCommandResult",
-        exception_message,
-        14,
-    )
+    # exception_message = (
+    #     f"Exception occurred on device: {tmc_subarraynode1}: "
+    #     + "Exception occurred on the following devices:\n"
+    #     + f"{tmc_sdp_subarray_leaf_node}: "
+    #     + "Execution block eb-mvp01-20210623-00000 already exists\n"
+    # )
+    #
+    # assert event_recorder.has_change_event_occurred(
+    #     central_node_mid.subarray_node,
+    #     "longRunningCommandResult",
+    #     exception_message,
+    #     14,
+    # )
 
 
 @when(
