@@ -92,9 +92,15 @@ server:
         - name: "LoggingLevelDefault"
           values:
             - "5"
-        - name: "DishVccInitTimeout"
+         - name: "DishVccInitTimeout"
           values:
-            - "180"
+            - "180" 
+        - name: "polled_attr"
+          values:
+            - "isDishVccConfigSet"
+            - "3000"
+            - "DishVccValidationStatus"
+            - "3000"
 depends_on:
   - device: sys/database/2
 image:
