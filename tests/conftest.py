@@ -13,9 +13,10 @@ from ska_tango_testing.mock.tango.event_callback import (
 )
 
 from tests.resources.test_harness.central_node_mid import CentralNodeWrapperMid
-from tests.resources.test_harness.constant import centralnode
+from tests.resources.test_harness.constant import centralnode, csp_master
 from tests.resources.test_harness.event_recorder import EventRecorder
 from tests.resources.test_harness.helpers import (
+    CSP_SIMULATION_ENABLED,
     wait_and_validate_device_attribute_value,
 )
 from tests.resources.test_harness.simulator_factory import SimulatorFactory
@@ -250,10 +251,10 @@ def is_dish_vcc_set():
     """
     Validate dish vcc config set to true
     """
-    # if CSP_SIMULATION_ENABLED.lower() == "false":
-    #     csp_master_device = tango.DeviceProxy(csp_master)
-    #     if csp_master_device.adminMode != 0:
-    #         csp_master_device.adminMode = 0
+    if CSP_SIMULATION_ENABLED.lower() == "false":
+        csp_master_device = tango.DeviceProxy(csp_master)
+        if csp_master_device.adminMode != 0:
+            csp_master_device.adminMode = 0
     central_node = tango.DeviceProxy(centralnode)
     assert wait_and_validate_device_attribute_value(
         central_node,
