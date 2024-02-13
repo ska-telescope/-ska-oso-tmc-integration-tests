@@ -270,6 +270,7 @@ def check_pointing_state(central_node_mid, event_recorder, dish_ids):
             "pointingState",
             PointingState.READY,
         )
+        time.sleep(1)
 
 
 @then(
