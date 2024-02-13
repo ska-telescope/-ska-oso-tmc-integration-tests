@@ -38,7 +38,9 @@ def test_tmc_dish_end():
         + " simulated CSP and simulated SDP"
     )
 )
-def given_a_telescope(central_node_mid, simulator_factory, dish_ids):
+def given_a_telescope(
+    central_node_mid, simulator_factory, event_recorder, dish_ids
+):
     """
     Given a TMC
     """
@@ -57,9 +59,7 @@ def given_a_telescope(central_node_mid, simulator_factory, dish_ids):
 
 @given("the Telescope is in ON state")
 def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
-    """
-    A method to put Telescope ON
-    """
+    """A method to put Telescope ON"""
     event_recorder.subscribe_event(
         central_node_mid.dish_master_dict["SKA001"], "dishMode"
     )
@@ -94,11 +94,8 @@ def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
         DishMode.STANDBY_LP,
     )
 
-    # Wait for DishMaster attribute value update,
-    # on CentralNode for value dishMode STANDBY_LP
-
-    # TODO: Improvement in tests/implementation
-    # to minimize the need of having sleep
+    # Wait for the DishLeafNode to get StandbyLP event form DishMaster before
+    # invoking TelescopeOn command
     time.sleep(1)
     csp_master_sim = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.MID_CSP_MASTER_DEVICE
@@ -142,11 +139,8 @@ def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
         DishMode.STANDBY_FP,
     )
 
-    # Wait for DishMaster attribute value update,
-    # on CentralNode for value dishMode STANDBY_FP
-
-    # TODO: Improvement in tests/implementation
-    # to minimize the need of having sleep
+    # Wait for the DishLeafNode to get StandbyFP event form DishMaster before
+    # invoking TelescopeOn command
     time.sleep(1)
 
     assert event_recorder.has_change_event_occurred(
@@ -167,27 +161,21 @@ def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
     )
 
 
-@given(
-    parsers.parse(
-        "the DishMaster {dish_ids} transitions to dishMode"
-        + " OPERATE and pointingState TRACK"
-    )
-)
-def check_dish_mode_and_pointing_state_before_end(
+@given(parsers.parse("TMC subarray {subarray_id} is in READY ObsState"))
+def check_subarray_obsstate(
     subarray_node,
     command_input_factory,
     event_recorder,
     central_node_mid,
-    dish_ids,
+    subarray_id,
 ):
-    """
-    Method to check dishMode and pointingState of DISH
-    """
+    """Method to check subarray is in READY obstate"""
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
 
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
+    central_node_mid.set_subarray_id(subarray_id)
     central_node_mid.store_resources(assign_input_json)
 
     assert event_recorder.has_change_event_occurred(
@@ -198,32 +186,62 @@ def check_dish_mode_and_pointing_state_before_end(
     configure_input_json = prepare_json_args_for_commands(
         "configure_mid", command_input_factory
     )
+
     subarray_node.execute_transition("Configure", configure_input_json)
 
-    for dish_id in dish_ids.split(","):
-        assert event_recorder.has_change_event_occurred(
-            central_node_mid.dish_master_dict[dish_id],
-            "dishMode",
-            DishMode.OPERATE,
-        )
-        event_recorder.subscribe_event(
-            central_node_mid.dish_master_dict[dish_id], "pointingState"
-        )
-        assert event_recorder.has_change_event_occurred(
-            central_node_mid.dish_master_dict[dish_id],
-            "pointingState",
-            PointingState.TRACK,
-        )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_dict["SKA001"],
+        "dishMode",
+        DishMode.OPERATE,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_dict["SKA036"],
+        "dishMode",
+        DishMode.OPERATE,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_dict["SKA063"],
+        "dishMode",
+        DishMode.OPERATE,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_dict["SKA100"],
+        "dishMode",
+        DishMode.OPERATE,
+    )
 
-
-@given(parsers.parse("TMC subarray {subarray_id} is in READY obsState"))
-def check_subarray_obsState(
-    subarray_node, event_recorder, subarray_id, central_node_mid
-):
-    """
-    Method to check subarray is in READY obsState
-    """
-    central_node_mid.set_subarray_id(subarray_id)
+    event_recorder.subscribe_event(
+        central_node_mid.dish_master_dict["SKA001"], "pointingState"
+    )
+    event_recorder.subscribe_event(
+        central_node_mid.dish_master_dict["SKA036"], "pointingState"
+    )
+    event_recorder.subscribe_event(
+        central_node_mid.dish_master_dict["SKA063"], "pointingState"
+    )
+    event_recorder.subscribe_event(
+        central_node_mid.dish_master_dict["SKA100"], "pointingState"
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_dict["SKA001"],
+        "pointingState",
+        PointingState.TRACK,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_dict["SKA036"],
+        "pointingState",
+        PointingState.TRACK,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_dict["SKA063"],
+        "pointingState",
+        PointingState.TRACK,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_dict["SKA100"],
+        "pointingState",
+        PointingState.TRACK,
+    )
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",
@@ -235,24 +253,22 @@ def check_subarray_obsState(
     parsers.parse("I issue the End command to the TMC subarray {subarray_id}")
 )
 def invoke_end(central_node_mid, subarray_node, subarray_id):
-    """
-    A method to invoke End command
-    """
+    """A method to invoke End command"""
     central_node_mid.set_subarray_id(subarray_id)
     subarray_node.execute_transition("End")
 
 
 @then(
     parsers.parse(
-        "the DishMaster {dish_ids} is in OPERATE dishMode and"
-        + " pointingState transitions to READY"
+        "the DishMaster {dish_ids} transitions to dishMode"
+        + " OPERATE and pointingState READY"
     )
 )
-def check_dish_mode_and_pointing_state_after_end(
+def check_dish_mode_and_pointing_state(
     central_node_mid, event_recorder, dish_ids
 ):
     """
-    Method to check Dish is in OPERATE Dish Mode and pointingState READY
+    Method to check dishMode and pointingState of DISH
     """
     for dish_id in dish_ids.split(","):
         assert event_recorder.has_change_event_occurred(
@@ -276,9 +292,7 @@ def check_dish_mode_and_pointing_state_after_end(
 def check_subarray_obsState_idle(
     central_node_mid, subarray_node, event_recorder, subarray_id
 ):
-    """
-    Method to check subarray is in IDLE obsState
-    """
+    """Method to check subarray is in IDLE obstate"""
     central_node_mid.set_subarray_id(subarray_id)
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
