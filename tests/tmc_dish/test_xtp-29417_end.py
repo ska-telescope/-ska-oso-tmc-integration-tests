@@ -244,23 +244,21 @@ def invoke_end(central_node_mid, subarray_node, subarray_id):
 
 @then(
     parsers.parse(
-        "the DishMaster {dish_ids} transitions to dishMode"
-        + " OPERATE and pointingState READY"
+        "the DishMaster {dish_ids} is in OPERATE dishMode and"
+        + " and pointingState transitions to READY"
     )
 )
-def check_dish_mode_and_pointing_state(
+def check_dish_mode_and_pointing_state_after_end(
     central_node_mid, event_recorder, dish_ids
 ):
     """
-    Method to check dishMode and pointingState of DISH
+    Method to check Dish is in OPERATE Dish Mode and pointingState READY
     """
     for dish_id in dish_ids.split(","):
-        assert event_recorder.has_change_event_occurred(
-            central_node_mid.dish_master_dict[dish_id],
-            "dishMode",
-            DishMode.OPERATE,
+        assert (
+            central_node_mid.dish_master_dict[dish_id].dishMode.value
+            == DishMode.OPERATE
         )
-
         assert event_recorder.has_change_event_occurred(
             central_node_mid.dish_master_dict[dish_id],
             "pointingState",

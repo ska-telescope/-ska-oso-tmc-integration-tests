@@ -5,7 +5,7 @@ Scenario: TMC executes End command on DISH.LMC
     And the DishMaster <dish_ids> transitions to dishMode OPERATE and pointingState TRACK
     And TMC subarray <subarray_id> is in READY obsState
     When I issue the End command to the TMC subarray <subarray_id>  
-    Then the DishMaster <dish_ids> transitions to dishMode OPERATE and pointingState READY
+    Then the DishMaster <dish_ids> is in OPERATE dishMode and pointingState transitions to READY
     And TMC subarray <subarray_id> obsState transitions to IDLE obsState
 
         Examples:
