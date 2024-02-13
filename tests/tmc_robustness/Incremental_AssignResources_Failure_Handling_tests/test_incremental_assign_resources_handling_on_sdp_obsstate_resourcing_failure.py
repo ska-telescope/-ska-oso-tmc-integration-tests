@@ -192,6 +192,7 @@ def given_tmc_subarray_stuck_resourcing(
         central_node_mid.subarray_node,
         "longRunningCommandResult",
         exception_message,
+        14,
     )
 
 
