@@ -9,14 +9,13 @@ from tests.resources.test_harness.helpers import (
     get_device_simulators,
     prepare_json_args_for_centralnode_commands,
 )
+from tests.resources.test_support.constant import (
+    tmc_sdp_subarray_leaf_node,
+    tmc_subarraynode1,
+)
 
-# from tests.resources.test_support.constant import (
-#     tmc_sdp_subarray_leaf_node,
-#     tmc_subarraynode1,
-# )
 
-
-@pytest.mark.tmc_sdp
+@pytest.mark.tmc_sdp1
 @pytest.mark.SKA_midskip
 @scenario(
     "../features/xtp-29015.feature",
@@ -136,6 +135,55 @@ def given_tmc_subarray_incremental_assign_resources_is_in_progress(
         (unique_id[0], Anything),
     )
 
+    csp_sim, _, _, _, _, _ = get_device_simulators(simulator_factory)
+    event_recorder.subscribe_event(csp_sim, "obsState")
+    assert event_recorder.has_change_event_occurred(
+        csp_sim,
+        "obsState",
+        ObsState.IDLE,
+    )
+
+    LOGGER.info("CSP ObsState is ObsState.IDLE")
+
+    _, sdp_sim, _, _, _, _ = get_device_simulators(simulator_factory)
+    event_recorder.subscribe_event(sdp_sim, "obsState")
+    assert event_recorder.has_change_event_occurred(
+        sdp_sim,
+        "obsState",
+        ObsState.IDLE,
+    )
+
+    LOGGER.info("SDP ObsState is ObsState.IDLE")
+
+    event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
+    event_recorder.subscribe_event(
+        central_node_mid.subarray_node, "longRunningCommandResult"
+    )
+    LOGGER.info(
+        "SubarrayNode ObsState is %s", central_node_mid.subarray_node.obsState
+    )
+    assert central_node_mid.subarray_node.obsState == ObsState.RESOURCING
+
+    exception_message = (
+        f"Exception occurred on device: {tmc_subarraynode1}: "
+        + "Exception occurred on the following devices:\n"
+        + f"{tmc_sdp_subarray_leaf_node}: "
+        + "Execution block eb-mvp01-20210623-00000 already exists\n"
+    )
+
+    expected_long_running_command_result = (
+        unique_id[0],
+        exception_message,
+    )
+
+    LOGGER.info("Assert for  %s", expected_long_running_command_result)
+
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.subarray_node,
+        "longRunningCommandResult",
+        expected_long_running_command_result,
+    )
+
 
 @given(
     parsers.parse(
@@ -168,8 +216,7 @@ def sdp_subarray_stuck_in_resouring(event_recorder, simulator_factory):
 
 @given(parsers.parse("the TMC SubarrayNode {subarray_id} stuck in RESOURCING"))
 def given_tmc_subarray_stuck_resourcing(
-    central_node_mid,
-    event_recorder,
+    central_node_mid, event_recorder, change_event_callbacks
 ):
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
     event_recorder.subscribe_event(
@@ -179,20 +226,6 @@ def given_tmc_subarray_stuck_resourcing(
         "SubarrayNode ObsState is %s", central_node_mid.subarray_node.obsState
     )
     assert central_node_mid.subarray_node.obsState == ObsState.RESOURCING
-
-    # exception_message = (
-    #     f"Exception occurred on device: {tmc_subarraynode1}: "
-    #     + "Exception occurred on the following devices:\n"
-    #     + f"{tmc_sdp_subarray_leaf_node}: "
-    #     + "Execution block eb-mvp01-20210623-00000 already exists\n"
-    # )
-    #
-    # assert event_recorder.has_change_event_occurred(
-    #     central_node_mid.subarray_node,
-    #     "longRunningCommandResult",
-    #     exception_message,
-    #     14,
-    # )
 
 
 @when(
