@@ -12,11 +12,11 @@ server:
   {{- $tmc_sa_fqdn_prefix:= .Values.global.tmc_subarray_prefix}}
   {{- $csp_sa_ln_fqdn_prefix:= .Values.global.csp_subarray_ln_prefix}}
   {{- $sdp_sa_ln_fqdn_prefix:= .Values.global.sdp_subarray_ln_prefix}}
-  {{- $isSimulatedDish := .Values.deviceServers.mocks.is_simulated.dish }}
+  {{- $isSimulatedDish := .Values.deviceServers.mocks.dish }}
   {{- $real_dish_name := .Values.global.namespace_dish.dish_name }}
   {{- $DishMasterPrefix := .Values.deviceServers.centralnode.DishMasterPrefix }}
   {{- $DishMasterPostfix := .Values.deviceServers.centralnode.DishMasterPostfix }}
-  {{- $isSimulatedCsp := .Values.deviceServers.mocks.is_simulated.csp }}
+  {{- $isSimulatedCsp := .Values.deviceServers.mocks.csp }}
   - name: "01"
     classes:
     - name: "CentralNodeMid"
@@ -54,8 +54,8 @@ server:
           - "{{.Values.deviceServers.centralnode.DishVccConfig.DishKvalueAggregationAllowedPercent}}"
         - name: "DishIDs"
           values:
-          {{- range  (.Values.global.dishes)  }}
-          - "SKA{{ . }}"
+          {{- range  (.Values.deviceServers.centralnode.DishIDs)  }}
+          - "{{ . }}"
           {{- end }}
         - name: "DishMasterFQDN"
           values:
@@ -64,8 +64,8 @@ server:
           - "{{ . }}" # Real dish
           {{- end }}
           {{- else }}
-          {{- range  (.Values.global.dishes)  }}
-          - "ska{{ . }}/{{ $DishMasterPrefix }}/{{ $DishMasterPostfix }}"
+          {{- range  (.Values.deviceServers.centralnode.DishIDs)  }}
+          - "{{ . | lower }}/{{ $DishMasterPrefix }}/{{ $DishMasterPostfix }}"
           {{- end }}
           {{- end }}
         - name: "TMCSubarrayNodes"

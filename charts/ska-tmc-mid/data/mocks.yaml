@@ -12,9 +12,9 @@ entrypoints:
 server:
   name: "mocks"
   instances:
-  {{- $isSimulatedDish := .Values.deviceServers.mocks.is_simulated.dish }}
-  {{- $isSimulatedCsp := .Values.deviceServers.mocks.is_simulated.csp }}
-  {{- $isSimulatedSdp := .Values.deviceServers.mocks.is_simulated.sdp }}
+  {{- $isSimulatedDish := .Values.deviceServers.mocks.dish }}
+  {{- $isSimulatedCsp := .Values.deviceServers.mocks.csp }}
+  {{- $isSimulatedSdp := .Values.deviceServers.mocks.sdp }}
     - name: "01"
       classes:
         {{- if eq $isSimulatedSdp true }}

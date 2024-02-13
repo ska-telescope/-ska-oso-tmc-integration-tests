@@ -7,7 +7,7 @@ entrypoints:
 server:
   name: "dish_leaf_node"
   instances:
-  {{- $isSimulatedDish := .Values.deviceServers.mocks.is_simulated.dish }}
+  {{- $isSimulatedDish := .Values.deviceServers.mocks.dish }}
   {{- $real_dish_name := .Values.global.namespace_dish.dish_name }}
   {{- range $index, $instance := .Values.global.dishes }}
     - name: "{{ $instance }}"

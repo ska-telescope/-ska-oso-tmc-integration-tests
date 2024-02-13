@@ -55,7 +55,7 @@ The documentation for this project, including how to get started with it,can be 
  * Test dish lmc with TMC as an entrypoint
     To test Dish LMC within the TMC integration, you can set a specific flag to control whether you want to use a real device or a mock device. Here's how you can do it:
     ```bash
-    --set tmc-mid.deviceServers.mocks.is_simulated.dish=true or false
+    --set tmc-mid.deviceServers.mocks.dish=true or false
     ```
     If you set "enabled" to true, Dish LMC will use a mock device for testing and if you set "enabled" to false, Dish LMC will use a real device for testing.
 
