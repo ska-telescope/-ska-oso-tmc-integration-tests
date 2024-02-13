@@ -9,24 +9,19 @@ server:
   instances:
   {{- $isSimulatedDish := .Values.deviceServers.mocks.dish }}
   {{- $real_dish_name := .Values.global.namespace_dish.dish_name }}
-  {{- range $index, $instance := .Values.global.dishes }}
-    - name: "{{ $instance }}"
+  {{- range $instance := .Values.global.dishes }}
+  {{- if eq $isSimulatedDish false }}
+  {{- range $instance_real := $real_dish_name }}
+  {{- $match := regexFind "/ska(\\d{3})/" $instance_real -}}
+    - name: "{{ $match }}"
       classes:
       - name: "DishLeafNode"
         devices:
-        - name: "ska_mid/tm_leaf_node/d0{{ printf $instance }}"
+        - name: "ska_mid/tm_leaf_node/d0{{ printf $match }}"
           properties:
           - name: "DishMasterFQDN"
             values:
-              {{- if eq $isSimulatedDish false }}
-              {{- range $index_real, $instance_real := $real_dish_name }}
-              {{- if eq $index_real $index }}
               - "{{ $instance_real }}"
-              {{- end }}
-              {{- end }}
-              {{- else }}
-              - "ska{{ printf $instance }}/elt/master" # Mock device FQDN
-              {{- end }}
           - name: "SkaLevel"
             values:
               - "3"
@@ -45,6 +40,36 @@ server:
               - "3000"
               - "kValueValidationResult"
               - "3000"
+  {{- end }}
+  {{- else }}
+    - name: "{{ $instance }}"
+      classes:
+      - name: "DishLeafNode"
+        devices:
+        - name: "ska_mid/tm_leaf_node/d0{{ printf $instance }}"
+          properties:
+          - name: "DishMasterFQDN"
+            values:
+              - "ska{{ printf $instance }}/elt/master" # Mock device FQDN
+          - name: "SkaLevel"
+            values:
+              - "3"
+          - name: "LoggingTargetsDefault"
+            values:
+              - "tango::logger"
+          - name: "LoggingLevelDefault"
+            values:
+              - "5"
+          - name: "CommandTimeOut"
+            values:
+              - "50"
+          - name: "polled_attr"
+            values:
+              - "kValue"
+              - "3000"
+              - "kValueValidationResult"
+              - "3000"
+  {{- end }}
   {{- end }}
 depends_on:
   - device: sys/database/2
