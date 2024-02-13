@@ -15,7 +15,7 @@ from tests.resources.test_support.constant import (
 )
 
 
-@pytest.mark.tmc_sdp1
+@pytest.mark.tmc_sdp
 @pytest.mark.SKA_midskip
 @scenario(
     "../features/xtp-29015.feature",
