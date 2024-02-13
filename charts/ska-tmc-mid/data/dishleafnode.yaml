@@ -13,11 +13,11 @@ server:
   {{- if eq $isSimulatedDish false }}
   {{- range $instance_real := $real_dish_name }}
   {{- $match := regexFind "/ska(\\d{3})/" $instance_real -}}
-    - name: "{{ $match }}"
+    - name: "{{ index $match 1 }}"
       classes:
       - name: "DishLeafNode"
         devices:
-        - name: "ska_mid/tm_leaf_node/d0{{ printf $match }}"
+        - name: "ska_mid/tm_leaf_node/d0{{ index $match 1 }}"
           properties:
           - name: "DishMasterFQDN"
             values:
