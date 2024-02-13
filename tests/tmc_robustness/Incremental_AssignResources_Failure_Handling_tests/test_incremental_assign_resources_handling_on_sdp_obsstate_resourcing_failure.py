@@ -290,7 +290,7 @@ def assign_resources_executed_on_subarray(
         "assign_resources_mid", command_input_factory
     )
 
-    central_node_mid.store_resouces(assign_input_json)
+    central_node_mid.store_resources(assign_input_json)
 
     # assign_input_json_temp = json.loads(assign_input_json)
     #
