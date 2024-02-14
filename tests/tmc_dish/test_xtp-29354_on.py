@@ -74,21 +74,25 @@ def move_dish_to_on(central_node_mid, event_recorder):
         central_node_mid.central_node, "telescopeState"
     )
 
-    assert (
-        central_node_mid.dish_master_dict["SKA001"].dishMode
-        == DishMode.STANDBY_LP
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_dict["SKA001"],
+        "dishMode",
+        DishMode.STANDBY_LP,
     )
-    assert (
-        central_node_mid.dish_master_dict["SKA036"].dishMode
-        == DishMode.STANDBY_LP
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_dict["SKA036"],
+        "dishMode",
+        DishMode.STANDBY_LP,
     )
-    assert (
-        central_node_mid.dish_master_dict["SKA063"].dishMode
-        == DishMode.STANDBY_LP
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_dict["SKA063"],
+        "dishMode",
+        DishMode.STANDBY_LP,
     )
-    assert (
-        central_node_mid.dish_master_dict["SKA100"].dishMode
-        == DishMode.STANDBY_LP
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_dict["SKA100"],
+        "dishMode",
+        DishMode.STANDBY_LP,
     )
     # Wait for DishMaster attribute value update,
     # on CentralNode for value dishMode STANDBY_LP
