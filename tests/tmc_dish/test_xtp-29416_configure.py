@@ -38,9 +38,7 @@ def test_tmc_dish_configure():
         + " simulated CSP and simulated SDP"
     )
 )
-def given_a_telescope(
-    central_node_mid, simulator_factory, event_recorder, dish_ids
-):
+def given_a_telescope(central_node_mid, simulator_factory, dish_ids):
     """
     Given a TMC
     """
