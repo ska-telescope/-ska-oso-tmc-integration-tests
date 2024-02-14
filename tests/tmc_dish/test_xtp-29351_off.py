@@ -63,10 +63,9 @@ def check_tmc_and_dish_is_on(
 
     for dish_id in dish_ids.split(","):
         assert central_node_mid.dish_master_dict[dish_id].ping() > 0
-        assert event_recorder.has_change_event_occurred(
-            central_node_mid.dish_master_dict[dish_id],
-            "dishMode",
-            DishMode.STANDBY_LP,
+        assert (
+            central_node_mid.dish_master_dict[dish_id].dishMode
+            == DishMode.STANDBY_LP
         )
 
     # Wait for DishMaster attribute value update,

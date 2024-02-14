@@ -1,5 +1,6 @@
 """Test module for TMC-DISH End functionality"""
 
+import logging
 import time
 
 import pytest
@@ -75,25 +76,21 @@ def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
         central_node_mid.dish_master_dict["SKA100"], "dishMode"
     )
 
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_dict["SKA001"],
-        "dishMode",
-        DishMode.STANDBY_LP,
+    assert (
+        central_node_mid.dish_master_dict["SKA001"].dishMode
+        == DishMode.STANDBY_LP
     )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_dict["SKA036"],
-        "dishMode",
-        DishMode.STANDBY_LP,
+    assert (
+        central_node_mid.dish_master_dict["SKA036"].dishMode
+        == DishMode.STANDBY_LP
     )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_dict["SKA063"],
-        "dishMode",
-        DishMode.STANDBY_LP,
+    assert (
+        central_node_mid.dish_master_dict["SKA063"].dishMode
+        == DishMode.STANDBY_LP
     )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_dict["SKA100"],
-        "dishMode",
-        DishMode.STANDBY_LP,
+    assert (
+        central_node_mid.dish_master_dict["SKA100"].dishMode
+        == DishMode.STANDBY_LP
     )
 
     # Wait for DishMaster attribute value update,
@@ -265,6 +262,11 @@ def check_pointing_state(central_node_mid, event_recorder, dish_ids):
     Method to check pointingState of DISH
     """
     for dish_id in dish_ids.split(","):
+        logging.info(
+            f"Check{central_node_mid.dish_master_dict[dish_id].pointingState}"
+        )
+    for dish_id in dish_ids.split(","):
+
         assert event_recorder.has_change_event_occurred(
             central_node_mid.dish_master_dict[dish_id],
             "pointingState",
