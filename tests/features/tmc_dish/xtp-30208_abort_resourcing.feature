@@ -5,8 +5,8 @@ Scenario: TMC executes Abort command on DISH.LMC when TMC Subarray in Resourcing
     And the TMC subarray <subarray_id> is busy in assigning
     When I issue the Abort command to the TMC subarray
     Then the DishMaster <dish_ids> remains in dishmode STANDBY-FP
-    And the TMC subarray transitions to ObsState ABORTED
+    And the TMC subarray transitions to obsState ABORTED
 
         Examples:
-        | subarray_id  | dish_ids                           |
-        | 1            | dish001,dish036,dish063,dish100    |
+        | subarray_id  | dish_ids                       |
+        | 1            | SKA001,SKA036,SKA063,SKA100    |

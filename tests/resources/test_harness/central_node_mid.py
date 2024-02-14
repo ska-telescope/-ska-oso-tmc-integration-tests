@@ -97,10 +97,10 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         ]
 
         self.dish_master_dict = {
-            "dish001": DeviceProxy(dish_fqdn001),
-            "dish036": DeviceProxy(dish_fqdn036),
-            "dish063": DeviceProxy(dish_fqdn063),
-            "dish100": DeviceProxy(dish_fqdn100),
+            "SKA001": DeviceProxy(dish_fqdn001),
+            "SKA036": DeviceProxy(dish_fqdn036),
+            "SKA063": DeviceProxy(dish_fqdn063),
+            "SKA100": DeviceProxy(dish_fqdn100),
         }
         self.dish_leaf_node_list = [
             DeviceProxy(tmc_dish_leaf_node1),
