@@ -100,7 +100,7 @@ def move_dish_to_on(central_node_mid, event_recorder):
     # TODO: Improvement in tests/implementation
     # to minimize the need of having sleep
 
-    time.sleep(2)
+    time.sleep(1)
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
         "telescopeState",
@@ -131,7 +131,7 @@ def check_dish_is_on(central_node_mid, event_recorder, dish_ids):
     # TODO: Improvement in tests/implementation
     # to minimize the need of having sleep
 
-    time.sleep(2)
+    time.sleep(1)
 
 
 @then("telescope state is ON")
