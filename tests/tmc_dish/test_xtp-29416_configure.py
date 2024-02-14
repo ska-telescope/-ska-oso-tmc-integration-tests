@@ -98,7 +98,7 @@ def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
     # TODO: Improvement in tests/implementation
     # to minimize the need of having sleep
 
-    time.sleep(1)
+    time.sleep(2)
     csp_master_sim = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.MID_CSP_MASTER_DEVICE
     )
@@ -146,7 +146,7 @@ def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
 
     # TODO: Improvement in tests/implementation
     # to minimize the need of having sleep
-    time.sleep(1)
+    time.sleep(2)
 
     assert event_recorder.has_change_event_occurred(
         central_node_mid.sdp_master,
