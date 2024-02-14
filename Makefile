@@ -120,7 +120,7 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.namespace_dish.dish_name[2]="$(DISH_NAME_63)"\
 	--set global.namespace_dish.dish_name[3]="$(DISH_NAME_100)"\
 	--set tmc-mid.deviceServers.mocks.dish=$(DISH_SIMULATION_ENABLED)\
-	--set global.subarray_count=$(SUBARRAY_COUNT)\
+	--set subarray_count=$(SUBARRAY_COUNT)\
 	$(CUSTOM_VALUES1)\
 	$(CUSTOM_VALUES2)
 
