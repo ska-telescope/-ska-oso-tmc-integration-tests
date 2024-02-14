@@ -183,14 +183,29 @@ def given_tmc_subarray_incremental_assign_resources_is_in_progress(
 
     LOGGER.info("Assert for  %s", expected_long_running_command_result)
 
-    import time
+    # import time
+    #
+    # time.sleep(30)
 
-    time.sleep(30)
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_node,
-        "longRunningCommandResult",
-        expected_long_running_command_result,
+    event_recorder.subscribe_event(
+        central_node_mid.central_node, "longRunningCommandResult"
     )
+
+    assertion_data = event_recorder.has_change_event_occurred(
+        central_node_mid.central_node,
+        attribute_name="longRunningCommandResult",
+        attribute_value=(unique_id[0], Anything),
+    )
+
+    LOGGER.info("assertion_data   %s", assertion_data)
+
+    # assert event_recorder.has_change_event_occurred(
+    #     central_node_mid.subarray_node,
+    #     "longRunningCommandResult",
+    #     expected_long_running_command_result,
+    # )
+    assert "AssignResources" in assertion_data["attribute_value"][0]
+    assert exception_message in assertion_data["attribute_value"][1]
 
 
 @when(
