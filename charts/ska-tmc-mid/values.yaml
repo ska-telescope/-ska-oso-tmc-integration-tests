@@ -174,7 +174,7 @@ deviceServers:
     enabled: false
     file: "data/mocks.yaml"
     is_simulated:
-      dish: true
+      dish: false
       csp: false
       sdp: false
 
