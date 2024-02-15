@@ -170,7 +170,7 @@ def sdp_subarray_remains_in_idle(
     assert event_recorder.has_change_event_occurred(
         sdp_sim,
         "obsState",
-        ObsState.RESOURCING,
+        ObsState.IDLE,
     )
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
     event_recorder.subscribe_event(
