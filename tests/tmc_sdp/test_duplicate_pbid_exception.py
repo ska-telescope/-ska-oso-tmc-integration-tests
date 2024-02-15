@@ -181,7 +181,7 @@ def sdp_subarray_remains_in_idle(
     assert central_node_mid.subarray_node.obsState == ObsState.RESOURCING
 
 
-@given(parsers.parse("exception is propagated to central node"))
+@then(parsers.parse("exception is propagated to central node"))
 def check_exception_propagation_to_central_node(
     central_node_mid,
     event_recorder,
