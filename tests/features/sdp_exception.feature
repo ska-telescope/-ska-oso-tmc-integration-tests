@@ -13,5 +13,5 @@ Feature: TMC SubarrayNode handles the exception when AssignResources command fai
         Then AssignResources command is executed successfully on the Subarray <subarray_id>
 
         Examples:
-        | subarray_id  | input_json1                                                    |
-        | 1            | assign_resources_mid
+        | subarray_id  | input_json1   |                                                 |
+        | 1            | assign_resources_mid |
