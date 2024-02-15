@@ -87,7 +87,7 @@ def given_assign_resources_executed_on_tmc_subarray(
     input_json1,
     command_input_factory,
 ):
-    event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
+
     event_recorder.subscribe_event(
         central_node_mid.central_node, "longRunningCommandResult"
     )
@@ -125,7 +125,6 @@ def given_tmc_subarray_incremental_assign_resources_is_in_progress(
     shared_context,
 ):
 
-    event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
     event_recorder.subscribe_event(
         central_node_mid.central_node, "longRunningCommandResult"
     )
@@ -172,7 +171,7 @@ def sdp_subarray_remains_in_idle(
         "obsState",
         ObsState.IDLE,
     )
-    event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
+
     event_recorder.subscribe_event(
         central_node_mid.subarray_node, "longRunningCommandResult"
     )
@@ -243,7 +242,7 @@ def subarray_transitions_to_aborted(
         "obsState",
         ObsState.ABORTED,
     )
-    event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
+
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "obsState",
@@ -282,7 +281,7 @@ def subarray_transitions_to_empty(
         "obsState",
         ObsState.EMPTY,
     )
-    event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
+
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "obsState",
@@ -299,7 +298,7 @@ def subarray_transitions_to_empty(
 def assign_resources_executed_on_subarray(
     central_node_mid, event_recorder, command_input_factory
 ):
-    event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
+
     event_recorder.subscribe_event(
         central_node_mid.central_node, "longRunningCommandResult"
     )
