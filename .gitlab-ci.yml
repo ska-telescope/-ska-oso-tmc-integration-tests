@@ -140,7 +140,7 @@ mid-on-demand-deploy-mini-skampi:
     - k8srunner
   variables:
     DISH_SIMULATION_ENABLED: "false"
-    SDP_SIMULATION_ENABLED: "true"
+    SDP_SIMULATION_ENABLED: "false"
     CSP_SIMULATION_ENABLED: "false"
     SUBARRAY_COUNT: 2
     DISH_TANGO_HOST: "tango-databaseds"
