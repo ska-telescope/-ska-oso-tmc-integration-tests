@@ -277,14 +277,15 @@ def check_if_telescope_is_in_off_state(central_node_mid, event_recorder):
     assert central_node_mid.dish_master_list[3].dishMode == DishMode.STANDBY_LP
 
     wait_and_validate_device_attribute_value(
-        central_node_mid.dish_master_list[0].dishMode,
+        central_node_mid.dish_master_list[0],
         "dishMode",
         DishMode.STANDBY_LP,
     )
     assert central_node_mid.dish_master_list[0].dishMode == DishMode.STANDBY_LP
-    time.sleep(1)
-    assert event_recorder.has_change_event_occurred(
+
+    wait_and_validate_device_attribute_value(
         central_node_mid.central_node,
         "telescopeState",
         DevState.OFF,
     )
+    assert central_node_mid.central_node.telescopeState == DishMode.STANDBY_LP
