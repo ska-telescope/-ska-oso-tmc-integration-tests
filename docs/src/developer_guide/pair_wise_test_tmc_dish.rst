@@ -22,3 +22,5 @@ To test with tmc_sdp pair execute the command `make k8s-test MARK=tmc_sdp SDP_SI
 * ``End``              -  Testing End command on TMC with real DISH Masters and mocked/simulated SDP and CSP subsystems.
 
 * ``Abort``            -  Testing Abort command on TMC with real DISH Masters and mocked/simulated SDP and CSP subsystems.
+
+* ``Scan``            -  Testing Scan command on TMC with real DISH Masters and mocked/simulated SDP and CSP subsystems.
