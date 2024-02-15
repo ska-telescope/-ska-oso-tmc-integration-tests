@@ -28,8 +28,8 @@ from tests.resources.test_support.constant import (
 @pytest.mark.SKA_midskip
 @scenario(
     "../features/sdp_exception.feature",
-    "TMC behavior when Sdp Subarray is stuck "
-    "in obsState RESOURCING after incremental AssignResources",
+    "TMC SubarrayNode handles the exception raised"
+    " by SDP subarray and propagates to LRCR of centralnode",
 )
 def test_duplicate_ebid_exception_propogation(
     central_node_mid, subarray_node, event_recorder, simulator_factory
