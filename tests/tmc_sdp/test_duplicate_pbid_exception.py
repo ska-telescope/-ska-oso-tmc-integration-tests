@@ -112,8 +112,8 @@ def given_assign_resources_executed_on_tmc_subarray(
 
 @given(
     parsers.parse(
-        "the next TMC SubarrayNode <subarray_id> AssignResources"
-        " is executed with same eb-id <input_json1>"
+        "the next TMC SubarrayNode {subarray_id} AssignResources"
+        " is executed with same eb-id {input_json1}"
     )
 )
 def given_tmc_subarray_incremental_assign_resources_is_in_progress(
@@ -155,16 +155,6 @@ def given_tmc_subarray_incremental_assign_resources_is_in_progress(
     )
 
     LOGGER.info("CSP ObsState is ObsState.IDLE")
-
-    # _, sdp_sim, _, _, _, _ = get_device_simulators(simulator_factory)
-    # event_recorder.subscribe_event(sdp_sim, "obsState")
-    # assert event_recorder.has_change_event_occurred(
-    #     sdp_sim,
-    #     "obsState",
-    #     ObsState.IDLE,
-    # )
-    #
-    # LOGGER.info("SDP ObsState is ObsState.IDLE")
 
 
 @then(
