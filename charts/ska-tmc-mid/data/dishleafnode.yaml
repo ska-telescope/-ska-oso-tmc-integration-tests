@@ -12,15 +12,17 @@ server:
   {{- $real_dish_name := .Values.global.namespace_dish.dish_name }}
   {{- if eq $isSimulatedDish false }}
   {{- range $instance_real := $real_dish_name }}
-  {{- $match := regexFind "/ska(\\d{3})/" $instance_real -}}
-  {{- $instance_list = append $instance_list (index $match 1) }}
+  {{- $start := add (index (split $instance_real "/") 5 | len) 1 }}
+  {{- $end := add $start 3 }}
+  {{- $instance := substr $instance_real $start $end }}
+  {{- $instance_list = append $instance_list ($instance) }}
   {{- end }}
   {{- else }}
   {{- range $instance := .Values.global.dishes }}
   {{- $instance_list = append $instance_list ($instance) }}
   {{- end }}
   {{- end }}
-  {{- range $number := .Values.global.dishes }}
+  {{- range $number := $instance_list }}
     - name: "{{ $number }}"
       classes:
       - name: "DishLeafNode"
