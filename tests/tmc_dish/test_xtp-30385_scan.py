@@ -1,4 +1,7 @@
-"""Test TMC-DISH Abort functionality in IDLE obsState"""
+"""Test module for TMC-DISH Scan functionality
+"""
+
+
 import time
 
 import pytest
@@ -8,19 +11,20 @@ from tango import DevState
 
 from tests.resources.test_harness.helpers import (
     prepare_json_args_for_centralnode_commands,
+    prepare_json_args_for_commands,
 )
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
-from tests.resources.test_support.enum import DishMode
+from tests.resources.test_support.enum import DishMode, PointingState
 
 
 @pytest.mark.tmc_dish
 @scenario(
-    "../features/tmc_dish/xtp-30209_abort_idle.feature",
-    "TMC executes Abort command on DISH.LMC when TMC Subarray is in IDLE",
+    "../features/tmc_dish/xtp-30385_scan.feature",
+    "TMC executes Scan command on DISH.LMC",
 )
-def test_tmc_dish_abort_in_idle():
+def test_tmc_dish_scan():
     """
-    Test case to verify TMC-DISH Abort functionality in IDLE obsState
+    Test case to verify TMC-DISH Scan functionality
 
     Glossary:
         - "central_node_mid": fixture for a TMC CentralNode under test
@@ -36,9 +40,7 @@ def test_tmc_dish_abort_in_idle():
         + " simulated CSP and simulated SDP"
     )
 )
-def given_a_telescope(
-    central_node_mid, simulator_factory, event_recorder, dish_ids
-):
+def given_a_telescope(central_node_mid, simulator_factory, dish_ids):
     """
     Given a TMC
     """
@@ -48,6 +50,7 @@ def given_a_telescope(
     sdp_master_sim = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.MID_SDP_MASTER_DEVICE
     )
+
     assert csp_master_sim.ping() > 0
     assert sdp_master_sim.ping() > 0
     for dish_id in dish_ids.split(","):
@@ -56,9 +59,7 @@ def given_a_telescope(
 
 @given("the Telescope is in ON state")
 def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
-    """
-    A method to put Telescope ON
-    """
+    """A method to put Telescope ON"""
     event_recorder.subscribe_event(
         central_node_mid.dish_master_dict["SKA001"], "dishMode"
     )
@@ -94,7 +95,7 @@ def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
     )
 
     # Wait for DishMaster attribute value update,
-    # on CentralNode for value dishMode STANDBY_LP
+    # on CentralNode for value dishMode STANDBY_FP
 
     # TODO: Improvement in tests/implementation
     # to minimize the need of having sleep
@@ -142,7 +143,7 @@ def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
     )
 
     # Wait for DishMaster attribute value update,
-    # on CentralNode for value dishMode STANDBY_FP
+    # on CentralNode for value dishMode STANDBY_LP
 
     # TODO: Improvement in tests/implementation
     # to minimize the need of having sleep
@@ -166,75 +167,146 @@ def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
     )
 
 
-@given(parsers.parse("TMC subarray {subarray_id}  is in IDLE obsState"))
-def subarray_is_in_idle_obsState(
-    central_node_mid,
+@given(parsers.parse("TMC subarray {subarray_id} is in READY obsState"))
+def check_subarray_obsState_ready(
     subarray_node,
-    event_recorder,
-    subarray_id,
     command_input_factory,
+    event_recorder,
+    central_node_mid,
+    subarray_id,
 ):
-    """
-    A method to check if telescope in is idle obsState.
-    """
-    central_node_mid.set_subarray_id(subarray_id)
+    """Method to check subarray is in READY obsState"""
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
-    event_recorder.subscribe_event(
-        central_node_mid.subarray_devices.get("sdp_subarray"), "obsState"
-    )
-    event_recorder.subscribe_event(
-        central_node_mid.subarray_devices.get("csp_subarray"), "obsState"
-    )
+
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
+    configure_input_json = prepare_json_args_for_commands(
+        "configure_mid", command_input_factory
+    )
+    central_node_mid.set_subarray_id(subarray_id)
     central_node_mid.store_resources(assign_input_json)
+
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",
         ObsState.IDLE,
     )
+
+    subarray_node.execute_transition("Configure", configure_input_json)
     assert event_recorder.has_change_event_occurred(
-        subarray_node.subarray_devices.get("sdp_subarray"),
+        subarray_node.subarray_node,
         "obsState",
-        ObsState.IDLE,
-    )
-    assert event_recorder.has_change_event_occurred(
-        subarray_node.subarray_devices.get("csp_subarray"),
-        "obsState",
-        ObsState.IDLE,
+        ObsState.READY,
     )
 
 
-@when("I issue the Abort command to the TMC subarray")
-def abort_is_invoked(subarray_node):
+@given(
+    parsers.parse(
+        "DishMaster {dish_ids} is in dishMode"
+        + " OPERATE with pointingState TRACK"
+    )
+)
+def check_dish_mode_and_pointing_state(
+    central_node_mid, event_recorder, dish_ids
+):
+    for dish_id in dish_ids.split(","):
+        event_recorder.subscribe_event(
+            central_node_mid.dish_master_dict[dish_id], "pointingState"
+        )
+        assert event_recorder.has_change_event_occurred(
+            central_node_mid.dish_master_dict[dish_id],
+            "dishMode",
+            DishMode.OPERATE,
+        )
+        assert event_recorder.has_change_event_occurred(
+            central_node_mid.dish_master_dict[dish_id],
+            "pointingState",
+            PointingState.TRACK,
+        )
+
+
+@when(
+    parsers.parse("I issue the Scan command to the TMC subarray {subarray_id}")
+)
+def invoke_scan(
+    central_node_mid, subarray_node, command_input_factory, subarray_id
+):
     """
-    This method invokes abort command on tmc subarray.
+    A method to invoke Scan command
     """
-    subarray_node.abort_subarray()
+    scan_input_json = prepare_json_args_for_commands(
+        "scan_mid", command_input_factory
+    )
+    central_node_mid.set_subarray_id(subarray_id)
+    subarray_node.execute_transition("Scan", scan_input_json)
 
 
 @then(
-    parsers.parse("the DishMaster {dish_ids} remains in dishmode STANDBY-FP")
+    parsers.parse(
+        "the DishMaster {dish_ids} remains in dishMode"
+        + " OPERATE and pointingState TRACK"
+    )
 )
-def check_dish_mode(central_node_mid, event_recorder, dish_ids):
+def check_dish_mode_and_pointing_state_after_scan(
+    central_node_mid, event_recorder, dish_ids
+):
     """
-    Method to check dishMode.
+    Method to check dishMode and pointingState of DISH
     """
     for dish_id in dish_ids.split(","):
         assert (
             central_node_mid.dish_master_dict[dish_id].dishMode
-            == DishMode.STANDBY_FP
+            == DishMode.OPERATE
+        )
+        assert (
+            central_node_mid.dish_master_dict[dish_id].pointingState
+            == PointingState.TRACK
+        )
+
+        event_recorder.subscribe_event(
+            central_node_mid.dish_master_dict[dish_id],
+            "longRunningCommandStatus",
+        )
+
+        assert (
+            central_node_mid.dish_master_dict[dish_id]
+            .longRunningCommandStatus[-2]
+            .endswith("_Scan")
+        )
+
+        assert (
+            central_node_mid.dish_master_dict[
+                dish_id
+            ].longRunningCommandStatus[-1]
+            == "COMPLETED"
         )
 
 
-@then("the TMC subarray transitions to obsState ABORTED")
-def tmc_subarray_is_in_aborted_obsState(subarray_node, event_recorder):
-    """
-    Method to check if TMC subarray is in ABORTED obsState
-    """
+@then("TMC SubarrayNode transitions to obsState SCANNING")
+def tmc_subarray_scanning(
+    central_node_mid, subarray_node, event_recorder, subarray_id
+):
+    """Checks if SubarrayNode's obsState attribute value is SCANNING"""
+    central_node_mid.set_subarray_id(int(subarray_id))
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",
-        ObsState.ABORTED,
+        ObsState.SCANNING,
+    )
+
+
+@then(
+    "TMC SubarrayNode transitions to obsState READY"
+    + " once the scan duration is elapsed"
+)
+def check_subarray_obsstate_ready(
+    central_node_mid, subarray_node, event_recorder, subarray_id
+):
+    """Checks if SubarrayNode's obsState attribute value is READY"""
+    central_node_mid.set_subarray_id(int(subarray_id))
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_node,
+        "obsState",
+        ObsState.READY,
     )

@@ -1,4 +1,4 @@
-"""Test TMC-DISH Abort functionality in Resourcing obstate"""
+"""Test TMC-DISH Abort functionality in Resourcing obsState"""
 
 import time
 
@@ -58,43 +58,48 @@ def given_a_telescope(
 
 @given("the Telescope is in ON state")
 def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
-    """A method to put Telescope ON"""
+    """
+    A method to put Telescope ON
+    """
     event_recorder.subscribe_event(
-        central_node_mid.dish_master_dict["dish001"], "dishMode"
+        central_node_mid.dish_master_dict["SKA001"], "dishMode"
     )
     event_recorder.subscribe_event(
-        central_node_mid.dish_master_dict["dish036"], "dishMode"
+        central_node_mid.dish_master_dict["SKA036"], "dishMode"
     )
     event_recorder.subscribe_event(
-        central_node_mid.dish_master_dict["dish063"], "dishMode"
+        central_node_mid.dish_master_dict["SKA063"], "dishMode"
     )
     event_recorder.subscribe_event(
-        central_node_mid.dish_master_dict["dish100"], "dishMode"
+        central_node_mid.dish_master_dict["SKA100"], "dishMode"
     )
 
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_dict["dish001"],
+        central_node_mid.dish_master_dict["SKA001"],
         "dishMode",
         DishMode.STANDBY_LP,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_dict["dish036"],
+        central_node_mid.dish_master_dict["SKA036"],
         "dishMode",
         DishMode.STANDBY_LP,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_dict["dish063"],
+        central_node_mid.dish_master_dict["SKA063"],
         "dishMode",
         DishMode.STANDBY_LP,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_dict["dish100"],
+        central_node_mid.dish_master_dict["SKA100"],
         "dishMode",
         DishMode.STANDBY_LP,
     )
 
-    # Wait for the DishLeafNode to get StandbyLP event form DishMaster before
-    # invoking TelescopeOn command
+    # Wait for DishMaster attribute value update,
+    # on CentralNode for value dishMode STANDBY_LP
+
+    # TODO: Improvement in tests/implementation
+    # to minimize the need of having sleep
     time.sleep(1)
 
     csp_master_sim = simulator_factory.get_or_create_simulator_device(
@@ -119,28 +124,31 @@ def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
     central_node_mid.move_to_on()
 
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_dict["dish001"],
+        central_node_mid.dish_master_dict["SKA001"],
         "dishMode",
         DishMode.STANDBY_FP,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_dict["dish036"],
+        central_node_mid.dish_master_dict["SKA036"],
         "dishMode",
         DishMode.STANDBY_FP,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_dict["dish063"],
+        central_node_mid.dish_master_dict["SKA063"],
         "dishMode",
         DishMode.STANDBY_FP,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_dict["dish100"],
+        central_node_mid.dish_master_dict["SKA100"],
         "dishMode",
         DishMode.STANDBY_FP,
     )
 
-    # Wait for the DishLeafNode to get StandbyFP event form DishMaster before
-    # invoking TelescopeOn command
+    # Wait for DishMaster attribute value update,
+    # on CentralNode for value dishMode STANDBY_FP
+
+    # TODO: Improvement in tests/implementation
+    # to minimize the need of having sleep
     time.sleep(1)
 
     assert event_recorder.has_change_event_occurred(
@@ -162,13 +170,16 @@ def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
 
 
 @given(parsers.parse("the TMC subarray {subarray_id} is busy in assigning"))
-def subarray_is_in_resourcing_obsstate(
+def subarray_is_in_resourcing_obsState(
     central_node_mid,
     subarray_node,
     event_recorder,
     subarray_id,
     command_input_factory,
 ):
+    """
+    A method to check if telescope in is resourcing obsState.
+    """
     central_node_mid.set_subarray_id(subarray_id)
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
     event_recorder.subscribe_event(
@@ -221,10 +232,10 @@ def check_dish_mode(central_node_mid, event_recorder, dish_ids):
         )
 
 
-@then("the TMC subarray transitions to ObsState ABORTED")
-def tmc_subarray_is_in_aborted_obsstate(subarray_node, event_recorder):
+@then("the TMC subarray transitions to obsState ABORTED")
+def tmc_subarray_is_in_aborted_obsState(subarray_node, event_recorder):
     """
-    Method to check if TMC subarray is in ABORTED obsstate.
+    Method to check if TMC subarray is in ABORTED obsState.
     """
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,

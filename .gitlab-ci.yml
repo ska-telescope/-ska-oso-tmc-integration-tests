@@ -312,6 +312,12 @@ k8s-test:
     - 'make help | grep k8s-test'
     - make k8s-install-chart
     - make k8s-wait
+  after_script:
+    - ls -al
+    - ls -al build
+    - ls -al tests
+    - pip3 install -U ska-ser-xray
+    - XRAY_TEST_RESULT_FILE="build/cucumber.json" make xray-publish
   retry: 1
 
 dish-lmc-dish001:
