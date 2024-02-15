@@ -19,7 +19,7 @@ annotations:
 ##  Order of instances resolution ##
 # .Values.subarray_count 
 # subarray_count, this will be expanded (1 to N inclusive) 
-subarray_count: 1
+subarray_count: 2
 
 global:
   minikube: false
@@ -141,7 +141,6 @@ deviceServers:
 
   subarraynode:
     enabled: true
-    instances: 
     file: "data/subarraynode_mid.yaml"
     DishLeafNodePrefix: "ska_mid/tm_leaf_node/d0"
     DishIDs: ["SKA001", "SKA036", "SKA063", "SKA100"]
@@ -149,8 +148,7 @@ deviceServers:
     DishMasterPostfix: "master"
 
   sdpsubarrayleafnode:
-    enabled: true
-    instances: 
+    enabled: true 
     file: "data/sdpsubarrayleafnode.yaml"
 
   sdpmasterleafnode:
@@ -165,12 +163,10 @@ deviceServers:
 
   cspsubarrayleafnode:
     enabled: true
-    instances: 
     file: "data/cspsubarrayleafnode.yaml"
 
   dishleafnode:
     enabled: true
-    instances: 
     file: "data/dishleafnode.yaml"
 
   mocks:

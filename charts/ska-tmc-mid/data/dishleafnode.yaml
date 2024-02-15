@@ -7,50 +7,35 @@ entrypoints:
 server:
   name: "dish_leaf_node"
   instances:
+  {{- $instance_list := list -}}
   {{- $isSimulatedDish := .Values.deviceServers.mocks.dish }}
   {{- $real_dish_name := .Values.global.namespace_dish.dish_name }}
-  {{- range $instance := .Values.global.dishes }}
   {{- if eq $isSimulatedDish false }}
   {{- range $instance_real := $real_dish_name }}
   {{- $match := regexFind "/ska(\\d{3})/" $instance_real -}}
-    - name: "{{ index $match 1 }}"
-      classes:
-      - name: "DishLeafNode"
-        devices:
-        - name: "ska_mid/tm_leaf_node/d0{{ index $match 1 }}"
-          properties:
-          - name: "DishMasterFQDN"
-            values:
-              - "{{ $instance_real }}"
-          - name: "SkaLevel"
-            values:
-              - "3"
-          - name: "LoggingTargetsDefault"
-            values:
-              - "tango::logger"
-          - name: "LoggingLevelDefault"
-            values:
-              - "5"
-          - name: "CommandTimeOut"
-            values:
-              - "50"
-          - name: "polled_attr"
-            values:
-              - "kValue"
-              - "3000"
-              - "kValueValidationResult"
-              - "3000"
+  {{- $instance_list = append $instance_list (index $match 1) }}
   {{- end }}
   {{- else }}
-    - name: "{{ $instance }}"
+  {{- range $instance := .Values.global.dishes }}
+  {{- $instance_list = append $instance_list ($instance) }}
+  {{- end }}
+  {{- end }}
+  {{- range $number := $instance_list }}
+    - name: "{{ $number }}"
       classes:
       - name: "DishLeafNode"
         devices:
-        - name: "ska_mid/tm_leaf_node/d0{{ printf $instance }}"
+        - name: "ska_mid/tm_leaf_node/d0{{ $number }}"
           properties:
           - name: "DishMasterFQDN"
             values:
-              - "ska{{ printf $instance }}/elt/master" # Mock device FQDN
+            {{- if eq $isSimulatedDish false }}
+            {{- range $instance_real := $real_dish_name }}
+              - "{{ $instance_real }}"
+            {{- end }}
+            {{- else }}
+              - "ska{{ printf $number }}/elt/master" # Mock device FQDN
+            {{- end }}
           - name: "SkaLevel"
             values:
               - "3"
@@ -69,7 +54,6 @@ server:
               - "3000"
               - "kValueValidationResult"
               - "3000"
-  {{- end }}
   {{- end }}
 depends_on:
   - device: sys/database/2
