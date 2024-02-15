@@ -288,4 +288,4 @@ def check_if_telescope_is_in_off_state(central_node_mid, event_recorder):
         "telescopeState",
         DevState.OFF,
     )
-    assert central_node_mid.central_node.telescopeState == DishMode.STANDBY_LP
+    assert central_node_mid.central_node.telescopeState == DevState.OFF
