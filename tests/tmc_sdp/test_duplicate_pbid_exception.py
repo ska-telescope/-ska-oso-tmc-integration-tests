@@ -19,24 +19,32 @@ from tests.resources.test_support.constant import (
     tmc_subarraynode1,
 )
 
+# @pytest.fixture
+# def shared_context():
+#     return SharedContext()
+
 
 @pytest.mark.tmc_sdp
 @pytest.mark.SKA_midskip
 @scenario(
-    "../features/xtp-29015.feature",
+    "../features/sdp_exception.feature",
     "TMC behavior when Sdp Subarray is stuck "
     "in obsState RESOURCING after incremental AssignResources",
 )
-def test_incremental_assign_resources_sdp_subarray_obsstate_resourcing(
+def test_duplicate_ebid_exception_propogation(
     central_node_mid, subarray_node, event_recorder, simulator_factory
 ):
     """
-    Test to verify TMC failure handling when incremental AssignResources
-    command fails on SDP Subarray. First AssignResources completes
+    Test to verify TMC failure handling when duplicate EB ID is sent to
+    SDP,command raises exception on SDP Subarray.
+    After first AssignResources completes
     on SDP and CSP Subarrays, and it transitions to obsState IDLE.
-    Whereas after next AssignResources SDP Subarray is stuck in obsState
-    RESOURCING.As a handling Abort + Restart command sequence is executed on
-    the Subarray to take it to the initial obsState EMPTY.
+    Whereas after next AssignResources SDP Subarray is  in obsState
+    IDLE.Test makes sure that exception sent by SDP gets caught by TMC
+    and gets propagated to central node and is available in long running
+    attribute of central node. As a handling Abort + Restart command sequence
+    is executed on
+    the Subarray to take it to the initial obsState IDLE.
     Glossary:
     - "central_node_mid": fixture for a TMC CentralNode Mid under test
     which provides simulated master devices
@@ -104,28 +112,30 @@ def given_assign_resources_executed_on_tmc_subarray(
 
 @given(
     parsers.parse(
-        "the next TMC SubarrayNode {subarray_id} "
-        "AssignResources is in progress with {input_json2}"
+        "the next TMC SubarrayNode <subarray_id> AssignResources"
+        " is executed with same eb-id <input_json1>"
     )
 )
 def given_tmc_subarray_incremental_assign_resources_is_in_progress(
     central_node_mid,
     event_recorder,
     simulator_factory,
-    input_json2,
+    input_json1,
     command_input_factory,
+    shared_context,
 ):
-    csp_sim, sdp_sim, _, _, _, _ = get_device_simulators(simulator_factory)
+
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
     event_recorder.subscribe_event(
         central_node_mid.central_node, "longRunningCommandResult"
     )
     assign_input_json = prepare_json_args_for_centralnode_commands(
-        input_json2, command_input_factory
+        input_json1, command_input_factory
     )
 
-    # Provide assign resources JSON with invalid eb_id to get the SDP Subarray
-    # stuck in obsState RESOURCING
+    # Provide assign resources JSON with invalid eb_id to get the
+    # exception from SDP Subarray
+
     _, unique_id = central_node_mid.perform_action(
         "AssignResources", assign_input_json
     )
@@ -134,11 +144,7 @@ def given_tmc_subarray_incremental_assign_resources_is_in_progress(
         "obsState",
         ObsState.RESOURCING,
     )
-    # assert event_recorder.has_change_event_occurred(
-    #     central_node_mid.central_node,
-    #     "longRunningCommandResult",
-    #     (unique_id[0], Anything),
-    # )
+    shared_context.unique_id = unique_id
 
     csp_sim, _, _, _, _, _ = get_device_simulators(simulator_factory)
     event_recorder.subscribe_event(csp_sim, "obsState")
@@ -150,16 +156,32 @@ def given_tmc_subarray_incremental_assign_resources_is_in_progress(
 
     LOGGER.info("CSP ObsState is ObsState.IDLE")
 
+    # _, sdp_sim, _, _, _, _ = get_device_simulators(simulator_factory)
+    # event_recorder.subscribe_event(sdp_sim, "obsState")
+    # assert event_recorder.has_change_event_occurred(
+    #     sdp_sim,
+    #     "obsState",
+    #     ObsState.IDLE,
+    # )
+    #
+    # LOGGER.info("SDP ObsState is ObsState.IDLE")
+
+
+@then(
+    parsers.parse(
+        "SDP {subarray_id} throws exception and remain in IDLE status"
+    )
+)
+def sdp_subarray_remains_in_idle(
+    event_recorder, simulator_factory, central_node_mid
+):
     _, sdp_sim, _, _, _, _ = get_device_simulators(simulator_factory)
     event_recorder.subscribe_event(sdp_sim, "obsState")
     assert event_recorder.has_change_event_occurred(
         sdp_sim,
         "obsState",
-        ObsState.IDLE,
+        ObsState.RESOURCING,
     )
-
-    LOGGER.info("SDP ObsState is ObsState.IDLE")
-
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
     event_recorder.subscribe_event(
         central_node_mid.subarray_node, "longRunningCommandResult"
@@ -169,6 +191,16 @@ def given_tmc_subarray_incremental_assign_resources_is_in_progress(
     )
     assert central_node_mid.subarray_node.obsState == ObsState.RESOURCING
 
+
+@given(parsers.parse("exception is propagated to central node"))
+def check_exception_propagation_to_central_node(
+    central_node_mid,
+    event_recorder,
+    simulator_factory,
+    input_json1,
+    command_input_factory,
+    shared_context,
+):
     exception_message = (
         f"Exception occurred on device: {tmc_subarraynode1}: "
         + "Exception occurred on the following devices:\n"
@@ -177,7 +209,7 @@ def given_tmc_subarray_incremental_assign_resources_is_in_progress(
     )
 
     expected_long_running_command_result = (
-        unique_id[0],
+        shared_context.unique_id[0],
         exception_message,
     )
 
@@ -186,29 +218,8 @@ def given_tmc_subarray_incremental_assign_resources_is_in_progress(
     event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
         attribute_name="longRunningCommandResult",
-        attribute_value=(unique_id[0], exception_message),
+        attribute_value=(shared_context, exception_message),
     )
-
-    # assertion_data = event_recorder.has_change_event_occurred(
-    #     central_node_mid.central_node,
-    #     attribute_name="longRunningCommandResult",
-    #     attribute_value=(unique_id[0], Anything),
-    # )
-
-    # event_recorder.subscribe_event(
-    #     central_node_mid.subarray_node, "longRunningCommandResult"
-    # )
-    #
-    # assertion_data = event_recorder.has_change_event_occurred(
-    #     central_node_mid.subarray_node,
-    #     attribute_name="longRunningCommandResult",
-    #     attribute_value=(unique_id[0], exception_message),
-    # )
-    #
-    # LOGGER.info("assertion_data   %s", assertion_data)
-    #
-    # assert "AssignResources" in assertion_data["attribute_value"][0]
-    # assert exception_message in assertion_data["attribute_value"][1]
 
 
 @when(

@@ -21,7 +21,10 @@ from tests.resources.test_harness.helpers import (
 from tests.resources.test_harness.simulator_factory import SimulatorFactory
 from tests.resources.test_harness.subarray_node import SubarrayNodeWrapper
 from tests.resources.test_harness.tmc_mid import TMCMid
-from tests.resources.test_harness.utils.common_utils import JsonFactory
+from tests.resources.test_harness.utils.common_utils import (
+    JsonFactory,
+    SharedContext,
+)
 
 configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
@@ -257,3 +260,11 @@ def is_dish_vcc_set():
             "isDishVccConfigSet",
             True,
         ), "Timeout while waiting for isDishVccConfigSet to true"
+
+
+@pytest.fixture
+def shared_context():
+    """
+    This is used for sharing data between BDD tests
+    """
+    return SharedContext()

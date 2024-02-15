@@ -3,8 +3,8 @@ Feature: TMC SubarrayNode handles the exception when AssignResources command fai
     Scenario Outline: TMC SubarrayNode handles the exception raised by SDP subarray and propagates to LRCR of centralnode
         Given a TMC
         And AssignResources is executed with <input_json1> successfully on SubarrayNode <subarray_id>
-        And the next TMC SubarrayNode <subarray_id> AssignResources is executed with same eb-id
-        Then SDP throws exception and remain in IDLE status
+        And the next TMC SubarrayNode <subarray_id> AssignResources is executed with same eb-id <input_json1>
+        Then SDP {subarray_id} throws exception and remain in IDLE status
         AND exception is propagated to central node
         Then I issue the Abort command on TMC SubarrayNode <subarray_id>
         Then the CSP, SDP and TMC subarray <subarray_id> transitions to obsState ABORTED
