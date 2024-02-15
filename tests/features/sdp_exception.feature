@@ -1,5 +1,5 @@
 Feature: TMC SubarrayNode handles the exception when AssignResources command fails on SDP Subarray
-    @XTP-29015 @SKA_mid
+    @XTP-29381 @tmc_sdp
     Scenario Outline: TMC SubarrayNode handles the exception raised by SDP subarray and propagates to LRCR of centralnode
         Given a TMC
         And AssignResources is executed with <input_json1> successfully on SubarrayNode <subarray_id>

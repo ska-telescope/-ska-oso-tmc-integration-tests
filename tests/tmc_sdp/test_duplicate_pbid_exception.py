@@ -211,7 +211,7 @@ def check_exception_propagation_to_central_node(
     )
 
 
-@when(
+@then(
     parsers.parse(
         "I issue the Abort command on TMC SubarrayNode {subarray_id}"
     )
@@ -308,24 +308,8 @@ def assign_resources_executed_on_subarray(
 
     central_node_mid.store_resources(assign_input_json)
 
-    # assign_input_json_temp = json.loads(assign_input_json)
-    #
-    #
-    # generate_eb_pb_ids(assign_input_json_temp)
-    # assign_input_json = json.dumps(assign_input_json_temp)
-
-    LOGGER.info("assign_input_json is %s", assign_input_json)
-
-    # _, unique_id = central_node_mid.perform_action(
-    #     "AssignResources", assign_input_json
-    # )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "obsState",
         ObsState.IDLE,
     )
-    # assert event_recorder.has_change_event_occurred(
-    #     central_node_mid.central_node,
-    #     "longRunningCommandResult",
-    #     (unique_id[0], Anything),
-    # )
