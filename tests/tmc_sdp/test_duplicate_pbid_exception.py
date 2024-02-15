@@ -207,7 +207,7 @@ def check_exception_propagation_to_central_node(
     event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
         attribute_name="longRunningCommandResult",
-        attribute_value=(shared_context, exception_message),
+        attribute_value=(shared_context.unique_id[0], exception_message),
     )
 
 
