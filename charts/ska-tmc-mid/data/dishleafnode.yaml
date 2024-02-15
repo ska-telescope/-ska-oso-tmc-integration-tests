@@ -20,7 +20,7 @@ server:
   {{- $instance_list = append $instance_list ($instance) }}
   {{- end }}
   {{- end }}
-  {{- range $number := $instance_list }}
+  {{- range $number := .Values.global.dishes }}
     - name: "{{ $number }}"
       classes:
       - name: "DishLeafNode"
