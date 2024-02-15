@@ -44,11 +44,9 @@ server:
         - name: "DishVccFilePath"
           values:
           - "{{.Values.deviceServers.centralnode.DishVccConfig.DishVccFilePath}}"
-        {{- if eq $isSimulatedCsp false }}
         - name: "EnableDishVccInit"
           values:
           - "{{.Values.deviceServers.centralnode.DishVccConfig.Enabled}}"
-        {{- end }}
         - name: "DishKvalueAggregationAllowedPercent"
           values:
           - "{{.Values.deviceServers.centralnode.DishVccConfig.DishKvalueAggregationAllowedPercent}}"
