@@ -29,13 +29,13 @@ server:
           properties:
           - name: "DishMasterFQDN"
             values:
-            {{- if eq $isSimulatedDish false }}
-            {{- range $instance_real := $real_dish_name }}
+              {{- if eq $isSimulatedDish false }}
+              {{- range $instance_real := $real_dish_name }}
               - "{{ $instance_real }}"
-            {{- end }}
-            {{- else }}
+              {{- end }}
+              {{- else }}
               - "ska{{ printf $number }}/elt/master" # Mock device FQDN
-            {{- end }}
+              {{- end }}
           - name: "SkaLevel"
             values:
               - "3"
