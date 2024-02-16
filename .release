@@ -1,19 +1,17 @@
-release=0.15.8
-tag=0.15.8
+release=0.16.0
+tag=0.16.0
 tag_description=
 **Charts:**
-**1. ska-tmc-integration 0.15.7 - 0.15.8*
+**1. ska-tmc-integration 0.15.8 - 0.16.0*
 
-    **1.1 ska-tmc-mid - 0.15.7 - 0.15.8:
-        a. Updated dish leaf node tag v0.9.1 to support longRunningCommandStatus for TrackLoadStaticOff command.
-        a. Updates in subarray node for abort commands and added thread safe aggregation
+    **1.1 ska-tmc-mid - 0.15.8 - 0.16.0:
+        a. Load the Dish-VCC mapping table version during TMC initialization and after TMC restart
 
 
 release_notes=
 **Charts:**
-**1. ska-tmc-integration 0.15.7 - 0.15.8:**
+**1. ska-tmc-integration 0.15.8 - 0.16.0:**
 
-    **1.1 ska-tmc-mid - 0.15.7 - 0.15.8:
-        a. Updated dish leaf node tag v0.9.1 to support longRunningCommandStatus for TrackLoadStaticOff command.
-        b. Updates in subarray node for abort commands and added thread safe aggregation
+    **1.1 ska-tmc-mid - 0.15.8 - 0.16.0:
+        a. Load the Dish-VCC mapping table version during TMC initialization and after TMC restart
 
