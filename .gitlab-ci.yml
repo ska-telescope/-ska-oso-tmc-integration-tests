@@ -177,7 +177,7 @@ mid-on-demand-deploy-mini-skampi:
   when: manual
   allow_failure: true # need to keep this to unlock the pipeline
 
-k8s-test-mid-csp-dish:
+k8s-test-csp-dish:
   stage: test
   tags:
     - k8srunner
@@ -214,7 +214,7 @@ k8s-test-mid-csp-dish:
     kubernetes:
       # This repetition is needed for gitlab to parse the namespace correctly
       namespace: $KUBE_NAMESPACE
-    on_stop: stop-k8s-test-mid-csp-dish
+    on_stop: stop-k8s-test-csp-dish
   allow_failure: true # need to keep this to unlock the pipeline
 
 on-demand-dish-lmc-dish001:
@@ -340,7 +340,7 @@ mid-on-demand-destroy-mini-skampi:
   when: manual
   allow_failure: true # need to keep this to unlock the pipeline
 
-stop-k8s-test-mid-csp-dish:
+stop-k8s-test-csp-dish:
   stage: test
   extends:
     - mid-on-demand-destroy-mini-skampi
@@ -468,7 +468,7 @@ k8s-test-dish-lmc:
     - dish-lmc-dish036
     - dish-lmc-dish063
     - dish-lmc-dish100
-    - k8s-test-mid-csp-dish
+    - k8s-test-csp-dish
   after_script:
     - make k8s-uninstall-chart
 

@@ -26,10 +26,10 @@ def test_configure_alarms_with_multiple_files():
             ) as file:
                 response = httpx.post(
                     f"http://alarm-handler-configurator.{namespace}.svc."
-                    + "cluster.local:8004/add-alarms?fqdn="
+                    + "cluster.local:8004/add-alarms?trl="
                     + "alarm%2Fhandler%2F01",
                     files={"file": (filename, file, "text/plain")},
-                    data={"fqdn": "alarm/handler/01"},
+                    data={"trl": "alarm/handler/01"},
                 )
     response_data = response.json()
     assert len(response_data["alarm_summary"]["tag"]) == 5
@@ -50,10 +50,10 @@ def tear_down_alarms(tags_to_remove):
         response = httpx.post(
             f"http://alarm-handler-configurator.{namespace}.svc.cluster."
             + f"local:8004/remove-alarm?tag={tag}&"
-            + "alarmhandlerfqdn=alarm%2Fhandler%2F01",
+            + "alarm_handler_trl=alarm%2Fhandler%2F01",
             data={
                 "tag": tag,
-                "alarmhandlerfqdn": "alarm/handler/01",
+                "alarm_handler_trl": "alarm/handler/01",
             },
         )
     response_data = response.json()
