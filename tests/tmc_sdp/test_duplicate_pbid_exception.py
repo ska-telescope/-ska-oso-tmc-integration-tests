@@ -24,7 +24,7 @@ from tests.resources.test_support.constant import (
 #     return SharedContext()
 
 
-@pytest.mark.tmc_sdp
+@pytest.mark.tmc_sdp_skip
 @pytest.mark.SKA_midskip
 @scenario(
     "../features/sdp_exception.feature",

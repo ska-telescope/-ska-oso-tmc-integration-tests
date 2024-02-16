@@ -1,0 +1,155 @@
+1|2024-02-16T08:24:27.636Z|INFO|MainThread|set_logging_level|base_device.py#765|tango-device:ska001/elt/master|Logging level set to LoggingLevel.INFO on Python and Tango loggers
+1|2024-02-16T08:24:27.637Z|INFO|MainThread|update_logging_handlers|logging.py#380|tango-device:ska001/elt/master|Logging targets set to ['tango::logger']
+1|2024-02-16T08:24:27.710Z|INFO|MainThread|exit|core.py#136||Finished processing state _UNINITIALISED exit callbacks.
+1|2024-02-16T08:24:27.710Z|INFO|MainThread|enter|core.py#130||Finished processing state INIT_DISABLE enter callbacks.
+1|2024-02-16T08:24:27.710Z|INFO|MainThread|callbacks|core.py#1147||Executed callback '<bound method _OpStateMachine._state_changed of <ska_control_model.op_state._OpStateMachine object at 0x7fadd5607d90>>'
+1|2024-02-16T08:24:27.711Z|INFO|MainThread|exit|core.py#136||Finished processing state INIT_DISABLE exit callbacks.
+1|2024-02-16T08:24:27.711Z|INFO|MainThread|enter|core.py#130||Finished processing state DISABLE enter callbacks.
+1|2024-02-16T08:24:27.711Z|INFO|MainThread|callbacks|core.py#1147||Executed callback '<bound method _OpStateMachine._state_changed of <ska_control_model.op_state._OpStateMachine object at 0x7fadd5607d90>>'
+1|2024-02-16T08:24:27.711Z|INFO|MainThread|do|base_device.py#303|tango-device:ska001/elt/master|SKABaseDevice Init command completed OK
+1|2024-02-16T08:24:27.721Z|INFO|MainThread|set_logging_level|base_device.py#765|tango-device:ska036/elt/master|Logging level set to LoggingLevel.INFO on Python and Tango loggers
+1|2024-02-16T08:24:27.721Z|INFO|MainThread|update_logging_handlers|logging.py#380|tango-device:ska036/elt/master|Logging targets set to ['tango::logger']
+1|2024-02-16T08:24:27.727Z|INFO|MainThread|exit|core.py#136||Finished processing state _UNINITIALISED exit callbacks.
+1|2024-02-16T08:24:27.727Z|INFO|MainThread|enter|core.py#130||Finished processing state INIT_DISABLE enter callbacks.
+1|2024-02-16T08:24:27.727Z|INFO|MainThread|callbacks|core.py#1147||Executed callback '<bound method _OpStateMachine._state_changed of <ska_control_model.op_state._OpStateMachine object at 0x7fadd4595cf0>>'
+1|2024-02-16T08:24:27.727Z|INFO|MainThread|exit|core.py#136||Finished processing state INIT_DISABLE exit callbacks.
+1|2024-02-16T08:24:27.727Z|INFO|MainThread|enter|core.py#130||Finished processing state DISABLE enter callbacks.
+1|2024-02-16T08:24:27.728Z|INFO|MainThread|callbacks|core.py#1147||Executed callback '<bound method _OpStateMachine._state_changed of <ska_control_model.op_state._OpStateMachine object at 0x7fadd4595cf0>>'
+1|2024-02-16T08:24:27.728Z|INFO|MainThread|do|base_device.py#303|tango-device:ska036/elt/master|SKABaseDevice Init command completed OK
+1|2024-02-16T08:24:27.736Z|INFO|MainThread|set_logging_level|base_device.py#765|tango-device:ska063/elt/master|Logging level set to LoggingLevel.INFO on Python and Tango loggers
+1|2024-02-16T08:24:27.736Z|INFO|MainThread|update_logging_handlers|logging.py#380|tango-device:ska063/elt/master|Logging targets set to ['tango::logger']
+1|2024-02-16T08:24:27.742Z|INFO|MainThread|exit|core.py#136||Finished processing state _UNINITIALISED exit callbacks.
+1|2024-02-16T08:24:27.742Z|INFO|MainThread|enter|core.py#130||Finished processing state INIT_DISABLE enter callbacks.
+1|2024-02-16T08:24:27.742Z|INFO|MainThread|callbacks|core.py#1147||Executed callback '<bound method _OpStateMachine._state_changed of <ska_control_model.op_state._OpStateMachine object at 0x7fadd43f05e0>>'
+1|2024-02-16T08:24:27.742Z|INFO|MainThread|exit|core.py#136||Finished processing state INIT_DISABLE exit callbacks.
+1|2024-02-16T08:24:27.742Z|INFO|MainThread|enter|core.py#130||Finished processing state DISABLE enter callbacks.
+1|2024-02-16T08:24:27.742Z|INFO|MainThread|callbacks|core.py#1147||Executed callback '<bound method _OpStateMachine._state_changed of <ska_control_model.op_state._OpStateMachine object at 0x7fadd43f05e0>>'
+1|2024-02-16T08:24:27.743Z|INFO|MainThread|do|base_device.py#303|tango-device:ska063/elt/master|SKABaseDevice Init command completed OK
+1|2024-02-16T08:24:27.799Z|INFO|MainThread|set_logging_level|base_device.py#765|tango-device:ska100/elt/master|Logging level set to LoggingLevel.INFO on Python and Tango loggers
+1|2024-02-16T08:24:27.799Z|INFO|MainThread|update_logging_handlers|logging.py#380|tango-device:ska100/elt/master|Logging targets set to ['tango::logger']
+1|2024-02-16T08:24:27.806Z|INFO|MainThread|exit|core.py#136||Finished processing state _UNINITIALISED exit callbacks.
+1|2024-02-16T08:24:27.806Z|INFO|MainThread|enter|core.py#130||Finished processing state INIT_DISABLE enter callbacks.
+1|2024-02-16T08:24:27.806Z|INFO|MainThread|callbacks|core.py#1147||Executed callback '<bound method _OpStateMachine._state_changed of <ska_control_model.op_state._OpStateMachine object at 0x7fadd441ae90>>'
+1|2024-02-16T08:24:27.806Z|INFO|MainThread|exit|core.py#136||Finished processing state INIT_DISABLE exit callbacks.
+1|2024-02-16T08:24:27.806Z|INFO|MainThread|enter|core.py#130||Finished processing state DISABLE enter callbacks.
+1|2024-02-16T08:24:27.806Z|INFO|MainThread|callbacks|core.py#1147||Executed callback '<bound method _OpStateMachine._state_changed of <ska_control_model.op_state._OpStateMachine object at 0x7fadd441ae90>>'
+1|2024-02-16T08:24:27.806Z|INFO|MainThread|do|base_device.py#303|tango-device:ska100/elt/master|SKABaseDevice Init command completed OK
+1|2024-02-16T08:24:27.826Z|INFO|MainThread|set_logging_level|base_device.py#765|tango-device:mid-csp/subarray/01|Logging level set to LoggingLevel.INFO on Python and Tango loggers
+1|2024-02-16T08:24:27.826Z|INFO|MainThread|update_logging_handlers|logging.py#380|tango-device:mid-csp/subarray/01|Logging targets set to ['tango::logger']
+1|2024-02-16T08:24:27.838Z|INFO|MainThread|exit|core.py#136||Finished processing state _UNINITIALISED exit callbacks.
+1|2024-02-16T08:24:27.838Z|INFO|MainThread|enter|core.py#130||Finished processing state INIT_DISABLE enter callbacks.
+1|2024-02-16T08:24:27.838Z|INFO|MainThread|callbacks|core.py#1147||Executed callback '<bound method _OpStateMachine._state_changed of <ska_control_model.op_state._OpStateMachine object at 0x7fadd446d7e0>>'
+1|2024-02-16T08:24:27.838Z|INFO|MainThread|exit|core.py#136||Finished processing state INIT_DISABLE exit callbacks.
+1|2024-02-16T08:24:27.839Z|INFO|MainThread|enter|core.py#130||Finished processing state DISABLE enter callbacks.
+1|2024-02-16T08:24:27.839Z|INFO|MainThread|callbacks|core.py#1147||Executed callback '<bound method _OpStateMachine._state_changed of <ska_control_model.op_state._OpStateMachine object at 0x7fadd446d7e0>>'
+1|2024-02-16T08:24:27.839Z|INFO|MainThread|do|obs_device.py#102|tango-device:mid-csp/subarray/01|SKAObsDevice Init command completed OK
+1|2024-02-16T08:24:27.839Z|INFO|MainThread|do|subarray_device.py#98|tango-device:mid-csp/subarray/01|SKASubarray Init command completed OK
+/usr/local/lib/python3.10/dist-packages/ska_tango_base/commands.py:171: UserWarning: JSON argument to command AssignResources will only be validated as a dictionary.
+  warnings.warn(warning_msg)
+/usr/local/lib/python3.10/dist-packages/ska_tango_base/commands.py:171: UserWarning: JSON argument to command ReleaseResources will only be validated as a dictionary.
+  warnings.warn(warning_msg)
+/usr/local/lib/python3.10/dist-packages/ska_tango_base/commands.py:171: UserWarning: JSON argument to command Configure will only be validated as a dictionary.
+  warnings.warn(warning_msg)
+/usr/local/lib/python3.10/dist-packages/ska_tango_base/commands.py:171: UserWarning: JSON argument to command Scan will only be validated as a dictionary.
+  warnings.warn(warning_msg)
+1|2024-02-16T08:24:27.854Z|INFO|MainThread|set_logging_level|base_device.py#765|tango-device:mid-csp/subarray/02|Logging level set to LoggingLevel.INFO on Python and Tango loggers
+1|2024-02-16T08:24:27.854Z|INFO|MainThread|update_logging_handlers|logging.py#380|tango-device:mid-csp/subarray/02|Logging targets set to ['tango::logger']
+1|2024-02-16T08:24:27.891Z|INFO|MainThread|exit|core.py#136||Finished processing state _UNINITIALISED exit callbacks.
+1|2024-02-16T08:24:27.891Z|INFO|MainThread|enter|core.py#130||Finished processing state INIT_DISABLE enter callbacks.
+1|2024-02-16T08:24:27.891Z|INFO|MainThread|callbacks|core.py#1147||Executed callback '<bound method _OpStateMachine._state_changed of <ska_control_model.op_state._OpStateMachine object at 0x7fadd43167d0>>'
+1|2024-02-16T08:24:27.891Z|INFO|MainThread|exit|core.py#136||Finished processing state INIT_DISABLE exit callbacks.
+1|2024-02-16T08:24:27.891Z|INFO|MainThread|enter|core.py#130||Finished processing state DISABLE enter callbacks.
+1|2024-02-16T08:24:27.892Z|INFO|MainThread|callbacks|core.py#1147||Executed callback '<bound method _OpStateMachine._state_changed of <ska_control_model.op_state._OpStateMachine object at 0x7fadd43167d0>>'
+1|2024-02-16T08:24:27.892Z|INFO|MainThread|do|obs_device.py#102|tango-device:mid-csp/subarray/02|SKAObsDevice Init command completed OK
+1|2024-02-16T08:24:27.892Z|INFO|MainThread|do|subarray_device.py#98|tango-device:mid-csp/subarray/02|SKASubarray Init command completed OK
+1|2024-02-16T08:24:27.908Z|INFO|MainThread|set_logging_level|base_device.py#765|tango-device:mid-csp/control/0|Logging level set to LoggingLevel.INFO on Python and Tango loggers
+1|2024-02-16T08:24:27.908Z|INFO|MainThread|update_logging_handlers|logging.py#380|tango-device:mid-csp/control/0|Logging targets set to ['tango::logger']
+1|2024-02-16T08:24:27.914Z|INFO|MainThread|exit|core.py#136||Finished processing state _UNINITIALISED exit callbacks.
+1|2024-02-16T08:24:27.914Z|INFO|MainThread|enter|core.py#130||Finished processing state INIT_DISABLE enter callbacks.
+1|2024-02-16T08:24:27.914Z|INFO|MainThread|callbacks|core.py#1147||Executed callback '<bound method _OpStateMachine._state_changed of <ska_control_model.op_state._OpStateMachine object at 0x7fadd4387820>>'
+1|2024-02-16T08:24:27.914Z|INFO|MainThread|exit|core.py#136||Finished processing state INIT_DISABLE exit callbacks.
+1|2024-02-16T08:24:27.914Z|INFO|MainThread|enter|core.py#130||Finished processing state DISABLE enter callbacks.
+1|2024-02-16T08:24:27.914Z|INFO|MainThread|callbacks|core.py#1147||Executed callback '<bound method _OpStateMachine._state_changed of <ska_control_model.op_state._OpStateMachine object at 0x7fadd4387820>>'
+1|2024-02-16T08:24:27.914Z|INFO|MainThread|do|base_device.py#303|tango-device:mid-csp/control/0|SKABaseDevice Init command completed OK
+1|2024-02-16T08:24:27.915Z|INFO|MainThread|do|helper_base_device.py#50|tango-device:mid-csp/control/0|Off command completed.
+Ready to accept request
+1|2024-02-16T08:24:45.461Z|INFO|Dummy-1|_load_data|backend.py#738||car://gitlab.com/ska-telescope/ska-telmodel-data?main#tmdata: Loading Nexus tarball...
+1|2024-02-16T08:24:47.477Z|INFO|Thread-2|push_dish_vcc_config_and_source_dish_vcc_config|helper_csp_master_device.py#209|tango-device:mid-csp/control/0|Pushed dishVccConfig and sourceDishVccConfig event
+1|2024-02-16T08:24:48.477Z|INFO|Thread-3|push_command_result|helper_base_device.py#213|tango-device:mid-csp/control/0|The command_id is 1708071888.4772935-LoadDishCfg and the ResultCode is [<ResultCode.OK: 0>, 'command LoadDishCfg completed']
+1|2024-02-16T08:24:48.478Z|INFO|Thread-3|push_command_result|helper_base_device.py#221|tango-device:mid-csp/control/0|Sending Event ('1708071888.4772935-LoadDishCfg', '[0, "command LoadDishCfg completed"]')
+1|2024-02-16T08:25:04.187Z|INFO|Dummy-4|SetDirectState|helper_base_device.py#239|tango-device:ska001/elt/master|Device state is set to STANDBY
+1|2024-02-16T08:25:04.393Z|INFO|Dummy-4|SetDirectState|helper_base_device.py#239|tango-device:ska036/elt/master|Device state is set to STANDBY
+1|2024-02-16T08:25:04.598Z|INFO|Dummy-4|SetDirectState|helper_base_device.py#239|tango-device:ska063/elt/master|Device state is set to STANDBY
+1|2024-02-16T08:25:04.803Z|INFO|Dummy-4|SetDirectState|helper_base_device.py#239|tango-device:ska100/elt/master|Device state is set to STANDBY
+1|2024-02-16T08:25:04.968Z|INFO|Dummy-1|is_On_allowed|helper_csp_master_device.py#76|tango-device:mid-csp/control/0|On command is allowed
+1|2024-02-16T08:25:04.968Z|INFO|Dummy-1|On|helper_csp_master_device.py#90|tango-device:mid-csp/control/0|Instructed simulator to invoke On command
+1|2024-02-16T08:25:05.069Z|INFO|Dummy-1|On|helper_csp_master_device.py#100|tango-device:mid-csp/control/0|On command completed.
+1|2024-02-16T08:25:05.466Z|INFO|Dummy-5|is_AssignResources_allowed|helper_subarray_device.py#882|tango-device:mid-csp/subarray/01|AssignResources Command is allowed
+1|2024-02-16T08:25:05.467Z|INFO|Dummy-5|AssignResources|helper_csp_subarray.py#49|tango-device:mid-csp/subarray/01|Instructed Csp Subarray to invoke AssignResources command
+1|2024-02-16T08:25:05.468Z|INFO|Dummy-5|update_command_info|helper_subarray_device.py#378|tango-device:mid-csp/subarray/01|Recording the command data for Sdp Subarray                  or Csp Subarray simulators
+1|2024-02-16T08:25:05.468Z|INFO|Dummy-5|update_command_info|helper_subarray_device.py#383|tango-device:mid-csp/subarray/01|Recorded command_info for Sdp Subarray             or Csp Subarray simulators is ('AssignResources', '{"interface": "https://schema.skao.int/ska-csp-assignresources/2.0", "subarray_id": 1, "dish": {"receptor_ids": ["SKA001", "SKA036", "SKA063", "SKA100"]}}')
+1|2024-02-16T08:25:05.469Z|INFO|Dummy-5|update_command_info|helper_subarray_device.py#389|tango-device:mid-csp/subarray/01|Recorded command_call_info list for Csp Subarray or                 Sdp Subarray simulators is [('AssignResources', '{"interface": "https://schema.skao.int/ska-csp-assignresources/2.0", "subarray_id": 1, "dish": {"receptor_ids": ["SKA001", "SKA036", "SKA063", "SKA100"]}}')]
+1|2024-02-16T08:25:05.469Z|INFO|Dummy-5|update_command_info|helper_subarray_device.py#396|tango-device:mid-csp/subarray/01|CommandCallInfo updates are pushed
+1|2024-02-16T08:25:05.469Z|INFO|Dummy-5|AssignResources|helper_csp_subarray.py#54|tango-device:mid-csp/subarray/01|CSP Helper Subarray AssignResources command
+1|2024-02-16T08:25:07.472Z|INFO|Thread-7 (update_device_obsstate)|update_device_obsstate|helper_subarray_device.py#361|tango-device:mid-csp/subarray/01|Sleep 2 for command AssignResources 
+1|2024-02-16T08:25:14.376Z|INFO|Dummy-5|is_AssignResources_allowed|helper_subarray_device.py#882|tango-device:mid-csp/subarray/01|AssignResources Command is allowed
+1|2024-02-16T08:25:14.377Z|INFO|Dummy-5|AssignResources|helper_csp_subarray.py#49|tango-device:mid-csp/subarray/01|Instructed Csp Subarray to invoke AssignResources command
+1|2024-02-16T08:25:14.377Z|INFO|Dummy-5|update_command_info|helper_subarray_device.py#378|tango-device:mid-csp/subarray/01|Recording the command data for Sdp Subarray                  or Csp Subarray simulators
+1|2024-02-16T08:25:14.378Z|INFO|Dummy-5|update_command_info|helper_subarray_device.py#383|tango-device:mid-csp/subarray/01|Recorded command_info for Sdp Subarray             or Csp Subarray simulators is ('AssignResources', '{"interface": "https://schema.skao.int/ska-csp-assignresources/2.0", "subarray_id": 1, "dish": {"receptor_ids": ["SKA001", "SKA036", "SKA063", "SKA100"]}}')
+1|2024-02-16T08:25:14.378Z|INFO|Dummy-5|update_command_info|helper_subarray_device.py#389|tango-device:mid-csp/subarray/01|Recorded command_call_info list for Csp Subarray or                 Sdp Subarray simulators is [('AssignResources', '{"interface": "https://schema.skao.int/ska-csp-assignresources/2.0", "subarray_id": 1, "dish": {"receptor_ids": ["SKA001", "SKA036", "SKA063", "SKA100"]}}'), ('AssignResources', '{"interface": "https://schema.skao.int/ska-csp-assignresources/2.0", "subarray_id": 1, "dish": {"receptor_ids": ["SKA001", "SKA036", "SKA063", "SKA100"]}}')]
+1|2024-02-16T08:25:14.378Z|INFO|Dummy-5|update_command_info|helper_subarray_device.py#396|tango-device:mid-csp/subarray/01|CommandCallInfo updates are pushed
+1|2024-02-16T08:25:14.379Z|INFO|Dummy-5|AssignResources|helper_csp_subarray.py#54|tango-device:mid-csp/subarray/01|CSP Helper Subarray AssignResources command
+1|2024-02-16T08:25:16.382Z|INFO|Thread-9 (update_device_obsstate)|update_device_obsstate|helper_subarray_device.py#361|tango-device:mid-csp/subarray/01|Sleep 2 for command AssignResources 
+1|2024-02-16T08:25:16.702Z|INFO|Dummy-5|is_Abort_allowed|helper_subarray_device.py#1317|tango-device:mid-csp/subarray/01|Abort Command is allowed
+1|2024-02-16T08:25:16.703Z|INFO|Dummy-5|Abort|helper_csp_subarray.py#356|tango-device:mid-csp/subarray/01|Instructed Csp Subarray to invoke Abort command
+1|2024-02-16T08:25:16.703Z|INFO|Dummy-5|update_command_info|helper_subarray_device.py#378|tango-device:mid-csp/subarray/01|Recording the command data for Sdp Subarray                  or Csp Subarray simulators
+1|2024-02-16T08:25:16.704Z|INFO|Dummy-5|update_command_info|helper_subarray_device.py#383|tango-device:mid-csp/subarray/01|Recorded command_info for Sdp Subarray             or Csp Subarray simulators is ('Abort', '')
+1|2024-02-16T08:25:16.704Z|INFO|Dummy-5|update_command_info|helper_subarray_device.py#389|tango-device:mid-csp/subarray/01|Recorded command_call_info list for Csp Subarray or                 Sdp Subarray simulators is [('AssignResources', '{"interface": "https://schema.skao.int/ska-csp-assignresources/2.0", "subarray_id": 1, "dish": {"receptor_ids": ["SKA001", "SKA036", "SKA063", "SKA100"]}}'), ('AssignResources', '{"interface": "https://schema.skao.int/ska-csp-assignresources/2.0", "subarray_id": 1, "dish": {"receptor_ids": ["SKA001", "SKA036", "SKA063", "SKA100"]}}'), ('Abort', '')]
+1|2024-02-16T08:25:16.705Z|INFO|Dummy-5|update_command_info|helper_subarray_device.py#396|tango-device:mid-csp/subarray/01|CommandCallInfo updates are pushed
+1|2024-02-16T08:25:16.706Z|INFO|Dummy-5|Abort|helper_csp_subarray.py#377|tango-device:mid-csp/subarray/01|Abort command completed.
+1|2024-02-16T08:25:18.708Z|INFO|Thread-11 (update_device_obsstate)|update_device_obsstate|helper_subarray_device.py#361|tango-device:mid-csp/subarray/01|Sleep 2 for command Abort 
+1|2024-02-16T08:25:35.003Z|INFO|Dummy-5|is_Restart_allowed|helper_subarray_device.py#1360|tango-device:mid-csp/subarray/01|Restart Command is allowed
+1|2024-02-16T08:25:35.004Z|INFO|Dummy-5|Restart|helper_csp_subarray.py#390|tango-device:mid-csp/subarray/01|Instructed Csp Subarray to invoke Restart command
+1|2024-02-16T08:25:35.004Z|INFO|Dummy-5|update_command_info|helper_subarray_device.py#378|tango-device:mid-csp/subarray/01|Recording the command data for Sdp Subarray                  or Csp Subarray simulators
+1|2024-02-16T08:25:35.005Z|INFO|Dummy-5|update_command_info|helper_subarray_device.py#383|tango-device:mid-csp/subarray/01|Recorded command_info for Sdp Subarray             or Csp Subarray simulators is ('Restart', '')
+1|2024-02-16T08:25:35.005Z|INFO|Dummy-5|update_command_info|helper_subarray_device.py#389|tango-device:mid-csp/subarray/01|Recorded command_call_info list for Csp Subarray or                 Sdp Subarray simulators is [('AssignResources', '{"interface": "https://schema.skao.int/ska-csp-assignresources/2.0", "subarray_id": 1, "dish": {"receptor_ids": ["SKA001", "SKA036", "SKA063", "SKA100"]}}'), ('AssignResources', '{"interface": "https://schema.skao.int/ska-csp-assignresources/2.0", "subarray_id": 1, "dish": {"receptor_ids": ["SKA001", "SKA036", "SKA063", "SKA100"]}}'), ('Abort', ''), ('Restart', '')]
+1|2024-02-16T08:25:35.005Z|INFO|Dummy-5|update_command_info|helper_subarray_device.py#396|tango-device:mid-csp/subarray/01|CommandCallInfo updates are pushed
+1|2024-02-16T08:25:35.006Z|INFO|Dummy-5|Restart|helper_csp_subarray.py#411|tango-device:mid-csp/subarray/01|Restart command completed.
+1|2024-02-16T08:25:37.008Z|INFO|Thread-13 (update_device_obsstate)|update_device_obsstate|helper_subarray_device.py#361|tango-device:mid-csp/subarray/01|Sleep 2 for command Restart 
+1|2024-02-16T08:25:47.495Z|INFO|Dummy-5|is_AssignResources_allowed|helper_subarray_device.py#882|tango-device:mid-csp/subarray/01|AssignResources Command is allowed
+1|2024-02-16T08:25:47.495Z|INFO|Dummy-5|AssignResources|helper_csp_subarray.py#49|tango-device:mid-csp/subarray/01|Instructed Csp Subarray to invoke AssignResources command
+1|2024-02-16T08:25:47.496Z|INFO|Dummy-5|update_command_info|helper_subarray_device.py#378|tango-device:mid-csp/subarray/01|Recording the command data for Sdp Subarray                  or Csp Subarray simulators
+1|2024-02-16T08:25:47.496Z|INFO|Dummy-5|update_command_info|helper_subarray_device.py#383|tango-device:mid-csp/subarray/01|Recorded command_info for Sdp Subarray             or Csp Subarray simulators is ('AssignResources', '{"interface": "https://schema.skao.int/ska-csp-assignresources/2.0", "subarray_id": 1, "dish": {"receptor_ids": ["SKA001", "SKA036", "SKA063", "SKA100"]}}')
+1|2024-02-16T08:25:47.497Z|INFO|Dummy-5|update_command_info|helper_subarray_device.py#389|tango-device:mid-csp/subarray/01|Recorded command_call_info list for Csp Subarray or                 Sdp Subarray simulators is [('AssignResources', '{"interface": "https://schema.skao.int/ska-csp-assignresources/2.0", "subarray_id": 1, "dish": {"receptor_ids": ["SKA001", "SKA036", "SKA063", "SKA100"]}}'), ('AssignResources', '{"interface": "https://schema.skao.int/ska-csp-assignresources/2.0", "subarray_id": 1, "dish": {"receptor_ids": ["SKA001", "SKA036", "SKA063", "SKA100"]}}'), ('Abort', ''), ('Restart', ''), ('AssignResources', '{"interface": "https://schema.skao.int/ska-csp-assignresources/2.0", "subarray_id": 1, "dish": {"receptor_ids": ["SKA001", "SKA036", "SKA063", "SKA100"]}}')]
+1|2024-02-16T08:25:47.497Z|INFO|Dummy-5|update_command_info|helper_subarray_device.py#396|tango-device:mid-csp/subarray/01|CommandCallInfo updates are pushed
+1|2024-02-16T08:25:47.497Z|INFO|Dummy-5|AssignResources|helper_csp_subarray.py#54|tango-device:mid-csp/subarray/01|CSP Helper Subarray AssignResources command
+1|2024-02-16T08:25:49.500Z|INFO|Thread-15 (update_device_obsstate)|update_device_obsstate|helper_subarray_device.py#361|tango-device:mid-csp/subarray/01|Sleep 2 for command AssignResources 
+1|2024-02-16T08:26:15.201Z|INFO|Dummy-4|ClearCommandCallInfo|helper_subarray_device.py#493|tango-device:mid-csp/subarray/01|Clearing CommandCallInfo for Csp and Sdp Subarray simulators
+1|2024-02-16T08:26:15.203Z|INFO|Dummy-4|ResetTransitions|helper_subarray_device.py#310|tango-device:mid-csp/subarray/01|Resetting Obs State Duration
+1|2024-02-16T08:26:15.244Z|INFO|Dummy-4|ClearCommandCallInfo|helper_dish_ln_device.py#280|tango-device:ska001/elt/master|Clearing CommandCallInfo for DishMaster simulators
+1|2024-02-16T08:26:15.245Z|INFO|Dummy-4|ResetTransitions|helper_dish_device.py#232|tango-device:ska001/elt/master|Resetting Pointing State Duration
+1|2024-02-16T08:26:15.249Z|INFO|Dummy-4|ClearCommandCallInfo|helper_dish_ln_device.py#280|tango-device:ska036/elt/master|Clearing CommandCallInfo for DishMaster simulators
+1|2024-02-16T08:26:15.250Z|INFO|Dummy-4|ResetTransitions|helper_dish_device.py#232|tango-device:ska036/elt/master|Resetting Pointing State Duration
+1|2024-02-16T08:26:21.597Z|INFO|Dummy-5|is_Abort_allowed|helper_subarray_device.py#1317|tango-device:mid-csp/subarray/01|Abort Command is allowed
+1|2024-02-16T08:26:21.598Z|INFO|Dummy-5|Abort|helper_csp_subarray.py#356|tango-device:mid-csp/subarray/01|Instructed Csp Subarray to invoke Abort command
+1|2024-02-16T08:26:21.599Z|INFO|Dummy-5|update_command_info|helper_subarray_device.py#378|tango-device:mid-csp/subarray/01|Recording the command data for Sdp Subarray                  or Csp Subarray simulators
+1|2024-02-16T08:26:21.599Z|INFO|Dummy-5|update_command_info|helper_subarray_device.py#383|tango-device:mid-csp/subarray/01|Recorded command_info for Sdp Subarray             or Csp Subarray simulators is ('Abort', '')
+1|2024-02-16T08:26:21.600Z|INFO|Dummy-5|update_command_info|helper_subarray_device.py#389|tango-device:mid-csp/subarray/01|Recorded command_call_info list for Csp Subarray or                 Sdp Subarray simulators is [('Abort', '')]
+1|2024-02-16T08:26:21.600Z|INFO|Dummy-5|update_command_info|helper_subarray_device.py#396|tango-device:mid-csp/subarray/01|CommandCallInfo updates are pushed
+1|2024-02-16T08:26:21.601Z|INFO|Dummy-5|Abort|helper_csp_subarray.py#377|tango-device:mid-csp/subarray/01|Abort command completed.
+1|2024-02-16T08:26:23.602Z|INFO|Thread-17 (update_device_obsstate)|update_device_obsstate|helper_subarray_device.py#361|tango-device:mid-csp/subarray/01|Sleep 2 for command Abort 
+1|2024-02-16T08:29:07.587Z|INFO|Dummy-18|SetDirectHealthState|helper_base_device.py#267|tango-device:mid-csp/control/0|HealthState value for simulator is : HealthState.OK
+1|2024-02-16T08:29:07.588Z|INFO|Dummy-18|SetDirectHealthState|helper_base_device.py#272|tango-device:mid-csp/control/0|Setting HealthState value for simulator to : HealthState.UNKNOWN
+1|2024-02-16T08:29:07.588Z|INFO|Dummy-18|SetDirectHealthState|helper_base_device.py#277|tango-device:mid-csp/control/0|Pushed updated HealthState value for simulator
+1|2024-02-16T08:29:07.589Z|INFO|Dummy-18|SetDirectHealthState|helper_base_device.py#267|tango-device:ska001/elt/master|HealthState value for simulator is : HealthState.OK
+1|2024-02-16T08:29:07.590Z|INFO|Dummy-18|SetDirectHealthState|helper_base_device.py#272|tango-device:ska001/elt/master|Setting HealthState value for simulator to : HealthState.UNKNOWN
+1|2024-02-16T08:29:07.590Z|INFO|Dummy-18|SetDirectHealthState|helper_base_device.py#277|tango-device:ska001/elt/master|Pushed updated HealthState value for simulator
+1|2024-02-16T08:29:07.591Z|INFO|Dummy-18|SetDirectHealthState|helper_base_device.py#267|tango-device:ska036/elt/master|HealthState value for simulator is : HealthState.OK
+1|2024-02-16T08:29:07.592Z|INFO|Dummy-18|SetDirectHealthState|helper_base_device.py#272|tango-device:ska036/elt/master|Setting HealthState value for simulator to : HealthState.UNKNOWN
+1|2024-02-16T08:29:07.592Z|INFO|Dummy-18|SetDirectHealthState|helper_base_device.py#277|tango-device:ska036/elt/master|Pushed updated HealthState value for simulator
+1|2024-02-16T08:29:07.593Z|INFO|Dummy-18|SetDirectHealthState|helper_base_device.py#267|tango-device:ska063/elt/master|HealthState value for simulator is : HealthState.OK
+1|2024-02-16T08:29:07.594Z|INFO|Dummy-18|SetDirectHealthState|helper_base_device.py#272|tango-device:ska063/elt/master|Setting HealthState value for simulator to : HealthState.UNKNOWN
+1|2024-02-16T08:29:07.594Z|INFO|Dummy-18|SetDirectHealthState|helper_base_device.py#277|tango-device:ska063/elt/master|Pushed updated HealthState value for simulator
+1|2024-02-16T08:29:07.595Z|INFO|Dummy-18|SetDirectHealthState|helper_base_device.py#267|tango-device:ska100/elt/master|HealthState value for simulator is : HealthState.OK
+1|2024-02-16T08:29:07.595Z|INFO|Dummy-18|SetDirectHealthState|helper_base_device.py#272|tango-device:ska100/elt/master|Setting HealthState value for simulator to : HealthState.UNKNOWN
+1|2024-02-16T08:29:07.596Z|INFO|Dummy-18|SetDirectHealthState|helper_base_device.py#277|tango-device:ska100/elt/master|Pushed updated HealthState value for simulator
