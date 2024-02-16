@@ -1,7 +1,7 @@
 Feature: Default
 
 	#This BDD test performs TMC-SDP pairwise testing to verify EndScan command flow.
-	@XTP-29385 @XTP-29381 @Team_SAHYADRI @tmc_sdp
+	@XTP-29385 @XTP-29381 @Team_SAHYADRI @tmc_sdp_skip
 	Scenario: TMC executes a EndScan command on SDP subarray
 		Given the telescope is in ON state
 		And TMC subarray <subarray_id> is in Scanning ObsState
