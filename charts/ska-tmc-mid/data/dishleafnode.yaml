@@ -12,17 +12,15 @@ server:
   {{- $real_dish_name := .Values.global.namespace_dish.dish_name }}
   {{- if eq $isSimulatedDish false }}
   {{- range $instance_real := $real_dish_name }}
-  {{- $start := add (index (split $instance_real "/") 5 | len) 1 }}
-  {{- $end := add $start 3 }}
-  {{- $instance := substr $instance_real $start $end }}
-  {{- $instance_list = append $instance_list ($instance) }}
+  {{- $match := (regexFind "ska(\\d{3})" $instance_real) -}}
+  {{- $instance_list = append $instance_list (trimPrefix "ska" $match) }}
   {{- end }}
   {{- else }}
   {{- range $instance := .Values.global.dishes }}
   {{- $instance_list = append $instance_list ($instance) }}
   {{- end }}
   {{- end }}
-  {{- range $number := $instance_list }}
+  {{- range $index, $number := $instance_list }}
     - name: "{{ $number }}"
       classes:
       - name: "DishLeafNode"
@@ -32,8 +30,10 @@ server:
           - name: "DishMasterFQDN"
             values:
               {{- if eq $isSimulatedDish false }}
-              {{- range $instance_real := $real_dish_name }}
+              {{- range $index_real, $instance_real := $real_dish_name }}
+              {{- if eq $index_real $index }}
               - "{{ $instance_real }}"
+              {{- end }}
               {{- end }}
               {{- else }}
               - "ska{{ printf $number }}/elt/master" # Mock device FQDN
