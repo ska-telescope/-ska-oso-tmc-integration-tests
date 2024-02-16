@@ -467,13 +467,13 @@ def get_simulated_devices_info() -> dict:
     is_dish_simulated = DISH_SIMULATION_ENABLED.lower() == "true"
     return {
         "csp_and_sdp": all(
-            [is_csp_simulated, is_sdp_simulated]
+            [is_csp_simulated, is_sdp_simulated, not is_dish_simulated]
         ),  # real DISH.LMC enabled
         "csp_and_dish": all(
-            [is_csp_simulated, is_dish_simulated]
+            [is_csp_simulated, is_dish_simulated, not is_sdp_simulated]
         ),  # real SDP enabled
         "sdp_and_dish": all(
-            [is_sdp_simulated, is_dish_simulated]
+            [is_sdp_simulated, is_dish_simulated, not is_csp_simulated]
         ),  # real CSP.LMC enabled
         "sdp": all(
             [is_sdp_simulated, not is_csp_simulated, not is_dish_simulated]
