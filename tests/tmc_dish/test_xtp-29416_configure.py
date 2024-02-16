@@ -32,8 +32,13 @@ def test_tmc_dish_configure():
     """
 
 
-@given("a Telescope consisting of TMC, DISH , simulated CSP and simulated SDP")
-def given_a_telescope(central_node_mid, simulator_factory, event_recorder):
+@given(
+    parsers.parse(
+        "a Telescope consisting of TMC, DISH {dish_ids},"
+        + " simulated CSP and simulated SDP"
+    )
+)
+def given_a_telescope(central_node_mid, simulator_factory, dish_ids):
     """
     Given a TMC
     """
@@ -43,52 +48,72 @@ def given_a_telescope(central_node_mid, simulator_factory, event_recorder):
     sdp_master_sim = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.MID_SDP_MASTER_DEVICE
     )
-    event_recorder.subscribe_event(csp_master_sim, "State")
-    event_recorder.subscribe_event(sdp_master_sim, "State")
 
     assert csp_master_sim.ping() > 0
     assert sdp_master_sim.ping() > 0
-    assert central_node_mid.dish_master_list[0].ping() > 0
-    assert central_node_mid.dish_master_list[1].ping() > 0
-    assert central_node_mid.dish_master_list[2].ping() > 0
+    for dish_id in dish_ids.split(","):
+        assert central_node_mid.dish_master_dict[dish_id].ping() > 0
 
 
 @given("the Telescope is in ON state")
-def turn_on_telescope(central_node_mid, event_recorder):
-    """A method to put DISH to ON"""
+def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
+    """
+    A method to put Telescope ON
+    """
     event_recorder.subscribe_event(
-        central_node_mid.dish_master_list[0], "dishMode"
+        central_node_mid.dish_master_dict["SKA001"], "dishMode"
     )
     event_recorder.subscribe_event(
-        central_node_mid.dish_master_list[1], "dishMode"
+        central_node_mid.dish_master_dict["SKA036"], "dishMode"
     )
     event_recorder.subscribe_event(
-        central_node_mid.dish_master_list[2], "dishMode"
+        central_node_mid.dish_master_dict["SKA063"], "dishMode"
+    )
+    event_recorder.subscribe_event(
+        central_node_mid.dish_master_dict["SKA100"], "dishMode"
     )
 
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[0],
+        central_node_mid.dish_master_dict["SKA001"],
         "dishMode",
         DishMode.STANDBY_LP,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[1],
+        central_node_mid.dish_master_dict["SKA036"],
         "dishMode",
         DishMode.STANDBY_LP,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[2],
+        central_node_mid.dish_master_dict["SKA063"],
+        "dishMode",
+        DishMode.STANDBY_LP,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_dict["SKA100"],
         "dishMode",
         DishMode.STANDBY_LP,
     )
 
-    # Wait for the DishLeafNode to get StandbyLP event form DishMaster before
-    # invoking TelescopeOn command
+    # Wait for DishMaster attribute value update,
+    # on CentralNode for value dishMode STANDBY_LP
+
+    # TODO: Improvement in tests/implementation
+    # to minimize the need of having sleep
+
     time.sleep(1)
+    csp_master_sim = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.MID_CSP_MASTER_DEVICE
+    )
+    sdp_master_sim = simulator_factory.get_or_create_simulator_device(
+        SimulatorDeviceType.MID_SDP_MASTER_DEVICE
+    )
 
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
     )
+
+    event_recorder.subscribe_event(csp_master_sim, "State")
+    event_recorder.subscribe_event(sdp_master_sim, "State")
 
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
@@ -98,23 +123,31 @@ def turn_on_telescope(central_node_mid, event_recorder):
     central_node_mid.move_to_on()
 
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[0],
+        central_node_mid.dish_master_dict["SKA001"],
         "dishMode",
         DishMode.STANDBY_FP,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[1],
+        central_node_mid.dish_master_dict["SKA036"],
         "dishMode",
         DishMode.STANDBY_FP,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[2],
+        central_node_mid.dish_master_dict["SKA063"],
+        "dishMode",
+        DishMode.STANDBY_FP,
+    )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.dish_master_dict["SKA100"],
         "dishMode",
         DishMode.STANDBY_FP,
     )
 
-    # Wait for the DishLeafNode to get StandbyFP event form DishMaster before
-    # invoking TelescopeOn command
+    # Wait for DishMaster attribute value update,
+    # on CentralNode for value dishMode STANDBY_FP
+
+    # TODO: Improvement in tests/implementation
+    # to minimize the need of having sleep
     time.sleep(1)
 
     assert event_recorder.has_change_event_occurred(
@@ -135,11 +168,13 @@ def turn_on_telescope(central_node_mid, event_recorder):
     )
 
 
-@given("TMC subarray is in IDLE ObsState")
-def check_subarray_obstate(
+@given("TMC subarray is in IDLE obsState")
+def check_subarray_obsState_idle(
     subarray_node, central_node_mid, event_recorder, command_input_factory
 ):
-    """Method to check subarray is in IDLE obstate"""
+    """
+    Method to check subarray is in IDLE obsState
+    """
     event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
 
     assign_input_json = prepare_json_args_for_centralnode_commands(
@@ -163,7 +198,9 @@ def check_subarray_obstate(
 def invoke_configure(
     central_node_mid, subarray_node, command_input_factory, subarray_id
 ):
-    """A method to invoke Configure command"""
+    """
+    A method to invoke Configure command
+    """
     configure_input_json = prepare_json_args_for_commands(
         "configure_mid", command_input_factory
     )
@@ -171,41 +208,34 @@ def invoke_configure(
     subarray_node.execute_transition("Configure", configure_input_json)
 
 
-@then("dishMode transitions to OPERATE obsState")
-def check_dish_mode(central_node_mid, event_recorder):
-    """A method verify Dish is in OPERATE Dish Mode"""
+@then(
+    parsers.parse(
+        "the DishMaster {dish_ids} transitions to dishMode"
+        + " OPERATE and pointingState TRACK"
+    )
+)
+def check_dish_mode_and_pointing_state(
+    central_node_mid, event_recorder, dish_ids
+):
+    """
+    Method to check dishMode and pointingState of DISH
+    """
+    for dish_id in dish_ids.split(","):
+        event_recorder.subscribe_event(
+            central_node_mid.dish_master_dict[dish_id], "pointingState"
+        )
 
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[0],
-        "dishMode",
-        DishMode.OPERATE,
-    )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[1],
-        "dishMode",
-        DishMode.OPERATE,
-    )
+        assert event_recorder.has_change_event_occurred(
+            central_node_mid.dish_master_dict[dish_id],
+            "dishMode",
+            DishMode.OPERATE,
+        )
 
-
-@then("pointingState transitions to TRACK")
-def check_dish_pointing_state(central_node_mid, event_recorder):
-    """A method to verify Dish is in TRACK Pointing State"""
-    event_recorder.subscribe_event(
-        central_node_mid.dish_master_list[0], "pointingState"
-    )
-    event_recorder.subscribe_event(
-        central_node_mid.dish_master_list[1], "pointingState"
-    )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[0],
-        "pointingState",
-        PointingState.TRACK,
-    )
-    assert event_recorder.has_change_event_occurred(
-        central_node_mid.dish_master_list[1],
-        "pointingState",
-        PointingState.TRACK,
-    )
+        assert event_recorder.has_change_event_occurred(
+            central_node_mid.dish_master_dict[dish_id],
+            "pointingState",
+            PointingState.TRACK,
+        )
 
 
 @then(
@@ -216,7 +246,9 @@ def check_dish_pointing_state(central_node_mid, event_recorder):
 def check_subarray_obsState_ready(
     central_node_mid, subarray_node, event_recorder, subarray_id
 ):
-    """Method to check subarray is in READY obstate"""
+    """
+    Method to check subarray is in READY obsState
+    """
     central_node_mid.set_subarray_id(subarray_id)
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
