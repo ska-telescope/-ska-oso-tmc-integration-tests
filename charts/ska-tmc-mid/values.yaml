@@ -94,7 +94,7 @@ cspmasterleafnode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-cspleafnodes
-    tag: 0.13.1
+    tag: 0.13.4
     pullPolicy: IfNotPresent
 
 cspsubarrayleafnode:
@@ -133,7 +133,7 @@ deviceServers:
     DishVccConfig:
       DishVccUri: "car://gitlab.com/ska-telescope/ska-telmodel-data?main#tmdata"
       DishVccFilePath: "instrument/ska1_mid_itf/ska-mid-cbf-system-parameters.json"
-      Enabled: "false"
+      Enabled: "true"
       DishKvalueAggregationAllowedPercent: "100.0"
 
   subarraynode:

@@ -16,9 +16,9 @@ def add_alarms_api(filename):
     ) as file:
         response = httpx.post(
             f"http://alarm-handler-configurator.{namespace}.svc.cluster."
-            + "local:8004/add-alarms?fqdn=alarm%2Fhandler%2F01",
+            + "local:8004/add-alarms?trl=alarm%2Fhandler%2F01",
             files={"file": (filename, file, "text/plain")},
-            data={"fqdn": "alarm/handler/01"},
+            data={"trl": "alarm/handler/01"},
         )
         response_data = response.json()
         assert len(response_data["alarm_summary"]["tag"]) == 4
@@ -42,10 +42,10 @@ def remove_alarm_api():
         response = httpx.post(
             f"http://alarm-handler-configurator.{namespace}.svc.cluster."
             + f"local:8004/remove-alarm?tag={tag}&"
-            + "alarmhandlerfqdn=alarm%2Fhandler%2F01",
+            + "alarm_handler_trl=alarm%2Fhandler%2F01",
             data={
                 "tag": tag,
-                "alarmhandlerfqdn": "alarm/handler/01",
+                "alarm_handler_trl": "alarm/handler/01",
             },
         )
     response_data = response.json()

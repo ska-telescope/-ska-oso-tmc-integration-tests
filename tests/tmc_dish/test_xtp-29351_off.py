@@ -73,7 +73,7 @@ def check_tmc_and_dish_is_on(
 
     # TODO: Improvement in tests/implementation
     # to minimize the need of having sleep
-    time.sleep(1)
+    time.sleep(5)
 
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
@@ -94,7 +94,7 @@ def check_tmc_and_dish_is_on(
 
     # TODO: Improvement in tests/implementation
     # to minimize the need of having sleep
-    time.sleep(1)
+    time.sleep(5)
 
     assert event_recorder.has_change_event_occurred(
         central_node_mid.sdp_master,
