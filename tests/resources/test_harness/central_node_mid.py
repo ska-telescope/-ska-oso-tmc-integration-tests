@@ -31,7 +31,6 @@ from tests.resources.test_harness.constant import (
     tmc_subarraynode1,
 )
 from tests.resources.test_harness.helpers import (
-    CSP_SIMULATION_ENABLED,
     SIMULATED_DEVICES_DICT,
     generate_eb_pb_ids,
     wait_csp_master_off,
@@ -78,8 +77,8 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         self.csp_master = DeviceProxy(csp_master)
         if (
             SIMULATED_DEVICES_DICT["csp_and_sdp"]
-            and not SIMULATED_DEVICES_DICT["all_mocks"]
-        ):
+            or SIMULATED_DEVICES_DICT["sdp"]
+        ) and not SIMULATED_DEVICES_DICT["all_mocks"]:
             dish_fqdn001 = REAL_DISH1_FQDN
             dish_fqdn036 = REAL_DISH36_FQDN
             dish_fqdn063 = REAL_DISH63_FQDN
@@ -303,6 +302,15 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             self.set_values_with_sdp_dish_mocks(
                 DevState.ON, DishMode.STANDBY_FP
             )
+        elif SIMULATED_DEVICES_DICT["sdp"]:
+            LOGGER.info("Invoking TelescopeOn() on simulated sdp")
+            if self.csp_master.adminMode != 0:
+                self.csp_master.adminMode = 0
+            wait_csp_master_off()
+            self.central_node.TelescopeOn()
+            self.set_values_on_device(
+                DevState.ON, [self.subarray_devices.get("sdp_subarray")]
+            )
         else:
             LOGGER.info("Invoke TelescopeOn() on all real sub-systems")
             self.central_node.TelescopeOn()
@@ -338,6 +346,11 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             self.central_node.TelescopeOff()
             self.set_values_with_sdp_dish_mocks(
                 DevState.OFF, DishMode.STANDBY_LP
+            )
+        elif SIMULATED_DEVICES_DICT["sdp"]:
+            self.central_node.TelescopeOff()
+            self.set_values_on_device(
+                DevState.OFF, [self.subarray_devices.get("sdp_subarray")]
             )
         else:
             LOGGER.info("Invoke TelescopeOff() with all real sub-systems")
@@ -378,6 +391,11 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             self.central_node.TelescopeStandBy()
             self.set_values_with_sdp_dish_mocks(
                 DevState.STANDBY, DevState.STANDBY
+            )
+        elif SIMULATED_DEVICES_DICT["sdp"]:
+            self.central_node.TelescopeStandBy()
+            self.set_values_on_device(
+                DevState.Standby, [self.subarray_devices.get("sdp_subarray")]
             )
         else:
             LOGGER.info("Invoke TelescopeStandBy() with all real sub-systems")
@@ -437,6 +455,8 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             self.sdp_master.SetDirectHealthState(HealthState.UNKNOWN)
             for mock_device in self.dish_master_list:
                 mock_device.SetDirectHealthState(HealthState.UNKNOWN)
+        elif SIMULATED_DEVICES_DICT["sdp"]:
+            self.sdp_master.SetDirectHealthState(HealthState.UNKNOWN)
         elif SIMULATED_DEVICES_DICT["all_mocks"]:
             for mock_device in [
                 self.sdp_master,
@@ -508,6 +528,19 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             json.dumps(DEFAULT_DISH_VCC_CONFIG)
         )
         return result, message
+
+    def set_values_on_device(
+        self, subarray_state: DevState, device_list, dish_mode: DishMode = None
+    ):
+        """Set Device to ON"""
+        for device in device_list:
+            device_proxy = DeviceProxy(device)
+            device_proxy.SetDirectState(subarray_state)
+
+        # If Dish master provided then set it to standby
+        if self.dish_master_list and dish_mode:
+            for device in self.dish_master_list:
+                device.SetDirectDishMode(dish_mode)
 
     def set_values_with_csp_dish_mocks(
         self, subarray_state: DevState, dish_mode: DishMode
@@ -582,7 +615,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         # dish vcc then load default dish vcc config
         # CSP_SIMULATION_ENABLED condition will be removed after testing
         # with real csp
-        if CSP_SIMULATION_ENABLED.lower() == "true" and (
+        if (
             not self.csp_master_leaf_node.sourceDishVccConfig
             or json.loads(self.csp_master_leaf_node.sourceDishVccConfig)
             != DEFAULT_DISH_VCC_CONFIG
