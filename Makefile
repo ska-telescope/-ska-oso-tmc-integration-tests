@@ -115,10 +115,10 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.exposeAllDS=false \
 	--set global.operator=true \
 	--set ska-taranta.enabled=$(TARANTA_ENABLED)\
-	--set global.namespace_dish.dish_name[0]="$(DISH_NAME_1)"\
-	--set global.namespace_dish.dish_name[1]="$(DISH_NAME_36)"\
-	--set global.namespace_dish.dish_name[2]="$(DISH_NAME_63)"\
-	--set global.namespace_dish.dish_name[3]="$(DISH_NAME_100)"\
+	--set global.namespace_dish.dish_names[0]="$(DISH_NAME_1)"\
+	--set global.namespace_dish.dish_names[1]="$(DISH_NAME_36)"\
+	--set global.namespace_dish.dish_names[2]="$(DISH_NAME_63)"\
+	--set global.namespace_dish.dish_names[3]="$(DISH_NAME_100)"\
 	--set tmc-mid.deviceServers.mocks.dish=$(DISH_SIMULATION_ENABLED)\
 	--set tmc-mid.subarray_count=$(SUBARRAY_COUNT)\
 	$(CUSTOM_VALUES1)\

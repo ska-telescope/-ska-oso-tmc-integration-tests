@@ -40,7 +40,7 @@ Configurable options
 
     #. **Sdp Subarray Leaf Node** 
 
-* c. **dish_name** : User can set this by providing the list of TRLS using global.namespace_dish.dish_name
+* c. **dish_name** : User can set this by providing the list of TRLS using global.namespace_dish.dish_names
 
     Default Value for dish leaf node is
 
