@@ -1,17 +1,17 @@
-release=0.16.0
-tag=0.16.0
+release=0.17.0
+tag=0.17.0
 tag_description=
 **Charts:**
-**1. ska-tmc-integration 0.15.8 - 0.16.0*
+**1. ska-tmc-integration 0.16.0 - 0.17.0*
 
-    **1.1 ska-tmc-mid - 0.15.8 - 0.16.0:
-        a. Load the Dish-VCC mapping table version during TMC initialization and after TMC restart
+    **1.1 ska-tmc-mid - 0.16.0 - 0.17.0:
+        a.The ska-tmc-mid configuration has been improved, the no of subarray needs to be deployed using the subarray_count and in case of dishes the global.namespace_dish.dish_name variable is getting used in case of real Dish Manager and global.dishes variable in case of Mock Dish Device.
 
 
 release_notes=
 **Charts:**
-**1. ska-tmc-integration 0.15.8 - 0.16.0:**
+**1. ska-tmc-integration 0.16.0 - 0.17.0:**
 
-    **1.1 ska-tmc-mid - 0.15.8 - 0.16.0:
-        a. Load the Dish-VCC mapping table version during TMC initialization and after TMC restart
+    **1.1 ska-tmc-mid - 0.16.0 - 0.17.0:
+        a. The ska-tmc-mid configuration has been improved, the no of subarray needs to be deployed using the subarray_count and in case of dishes the global.namespace_dish.dish_name variable is getting used in case of real Dish Manager and global.dishes variable in case of Mock Dish Device.
 
