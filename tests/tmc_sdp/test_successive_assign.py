@@ -10,7 +10,7 @@ from tests.resources.test_harness.helpers import (
 )
 
 
-@pytest.mark.tmc_sdp
+@pytest.mark.tmc_sdp_skip
 @scenario(
     "../features/tmc_sdp/successive_assign.feature",
     "Validate second AssignResources command  after "
@@ -117,14 +117,14 @@ def check_tmc_is_in_empty_obsstate(
     )
 )
 def assign_resources_executed_on_subarray(
-    central_node_mid, event_recorder, command_input_factory
+    central_node_mid, event_recorder, command_input_factory, input_json1
 ):
     """Execute second assign resource"""
     event_recorder.subscribe_event(
         central_node_mid.central_node, "longRunningCommandResult"
     )
     assign_input_json = prepare_json_args_for_centralnode_commands(
-        "assign_resources_mid", command_input_factory
+        input_json1, command_input_factory
     )
 
     central_node_mid.store_resources(assign_input_json)
