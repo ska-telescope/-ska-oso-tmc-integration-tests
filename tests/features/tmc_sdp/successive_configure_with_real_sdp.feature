@@ -8,9 +8,9 @@ Feature:  TMC executes successive configure commands with real sdp devices
         Then the subarray reconfigures changing its obsState to READY
 
         Examples:
-            | input_json1           |      input_json2       |
-            | multiple_configure1   |   multiple_configure2  |
-            | multiple_configure1   |   multiple_configure1  |
+            | subarray_id  | input_json1           |      input_json2       |
+            | 1  | multiple_configure1   |   multiple_configure2  |
+            | 1  | multiple_configure1   |   multiple_configure1  |
 
 
 
