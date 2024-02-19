@@ -113,7 +113,7 @@ def check_tmc_is_in_empty_obsstate(
 @then(
     parsers.parse(
         "AssignResources is executed with updated {input_json1} "
-        "on SubarrayNode <subarray_id> successfully"
+        "on SubarrayNode {subarray_id} successfully"
     )
 )
 def assign_resources_executed_on_subarray(
