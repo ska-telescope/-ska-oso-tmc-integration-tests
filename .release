@@ -6,6 +6,8 @@ tag_description=
 
     **1.1 ska-tmc-mid - 0.16.0 - 0.17.0:
         a.The ska-tmc-mid configuration has been improved, the no of subarray needs to be deployed using the subarray_count and in case of dishes the global.namespace_dish.dish_name variable is getting used in case of real Dish Manager and global.dishes variable in case of Mock Dish Device.
+        b. Implemented Scan command on DishLeafNode and enabled Scan command on SubarrayNode(ss-114).
+        c. Updates done on TMC node for TMC-SDP and TMC-CSP pairwise testing (ss-116)
 
 
 release_notes=
@@ -14,4 +16,7 @@ release_notes=
 
     **1.1 ska-tmc-mid - 0.16.0 - 0.17.0:
         a. The ska-tmc-mid configuration has been improved, the no of subarray needs to be deployed using the subarray_count and in case of dishes the global.namespace_dish.dish_name variable is getting used in case of real Dish Manager and global.dishes variable in case of Mock Dish Device.
+        b. Implemented Scan command on DishLeafNode and enabled Scan command on SubarrayNode(ss-114).
+        c. Updates done on TMC node for TMC-SDP and TMC-CSP pairwise testing (ss-116)
+
 
