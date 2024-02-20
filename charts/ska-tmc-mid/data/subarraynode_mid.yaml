@@ -58,7 +58,7 @@ server:
             {{- end }}
             {{- else }}
             {{- range  $real_dish_name }}
-            - "{{ . }}" # Real dishs
+            - "{{ . }}" # Real dish
             {{- end }}
             {{- end }}
           - name: "SkaLevel"
