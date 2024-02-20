@@ -64,7 +64,7 @@ server:
           {{- end }}
           {{- else }}
           {{- range  (.Values.global.namespace_dish.dish_names)  }}
-          - "{{ . }}" # Real dish
+          - "{{ . }}" # Real dishs
           {{- end }}
           {{- end }}
         - name: "TMCSubarrayNodes"
