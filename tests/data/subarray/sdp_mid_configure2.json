@@ -95,7 +95,7 @@
     },
     "sdp": {
       "interface": "https://schema.skao.int/ska-sdp-configure/0.3",
-      "scan_type": "calibration:b"
+      "scan_type": ".default"
     },
     "tmc": {
       "scan_duration": 10.0
