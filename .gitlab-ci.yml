@@ -215,7 +215,7 @@ k8s-test-csp-dish:
       # This repetition is needed for gitlab to parse the namespace correctly
       namespace: $KUBE_NAMESPACE
     on_stop: stop-k8s-test-csp-dish
-  allow_failure: true # need to keep this to unlock the pipeline
+  allow_failure: false # need to keep this to unlock the pipeline
 
 on-demand-dish-lmc-dish001:
   extends:

@@ -6,7 +6,6 @@ from tango import DevState
 from tests.resources.test_harness.helpers import get_master_device_simulators
 
 
-@pytest.mark.skip
 @pytest.mark.tmc_csp
 @scenario(
     "../features/tmc_csp/xtp_29250_off.feature",
@@ -18,7 +17,6 @@ def test_tmc_csp_telescope_off():
     """
 
 
-@pytest.mark.skip
 @pytest.mark.tmc_csp
 @scenario(
     "../features/tmc_csp/xtp_29251_standby.feature",
