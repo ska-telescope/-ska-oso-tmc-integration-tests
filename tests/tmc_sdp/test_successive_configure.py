@@ -61,7 +61,7 @@ def telescope_is_in_idle_state(
         DevState.ON,
     )
     assign_input_json = prepare_json_args_for_centralnode_commands(
-        "assign_resources_mid", command_input_factory
+        "assign_resources_mid_multiple_scantype", command_input_factory
     )
     central_node_mid.store_resources(assign_input_json)
 
