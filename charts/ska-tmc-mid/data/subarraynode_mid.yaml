@@ -16,6 +16,7 @@ server:
   {{- $DishMasterPrefix := .Values.deviceServers.subarraynode.DishMasterPrefix }}
   {{- $DishMasterPostfix := .Values.deviceServers.subarraynode.DishMasterPostfix }}
   {{- $dish_id := .Values.deviceServers.subarraynode.DishIDs }}
+  {{- $mocks_enabled := .Values.deviceServers.mocks.enabled}}
   {{- range  ( regexSplit " " ((.Values.subarray_count | int) | seq ) -1 ) }}
     - name: "{{ printf "%02s" . }}"
       classes:
@@ -51,13 +52,13 @@ server:
             {{- end }}
           - name: "DishMasterFQDN"
             values:
-            {{- if eq $isSimulatedDish false }}
-            {{- range  $real_dish_name }}
-            - "{{ . }}" # Real dish
-            {{- end }}
-            {{- else }}
+            {{- if and (eq $mocks_enabled true) (eq $isSimulatedDish true) }}
             {{- range  $dish_id }}
             - "{{ . | lower }}/{{ $DishMasterPrefix }}/{{ $DishMasterPostfix }}"
+            {{- end }}
+            {{- else }}
+            {{- range  $real_dish_name }}
+            - "{{ . }}" # Real dish
             {{- end }}
             {{- end }}
           - name: "SkaLevel"

@@ -17,6 +17,7 @@ server:
   {{- $DishMasterPrefix := .Values.deviceServers.centralnode.DishMasterPrefix }}
   {{- $DishMasterPostfix := .Values.deviceServers.centralnode.DishMasterPostfix }}
   {{- $isSimulatedCsp := .Values.deviceServers.mocks.csp }}
+  {{- $mocks_enabled := .Values.deviceServers.mocks.enabled}}
   - name: "01"
     classes:
     - name: "CentralNodeMid"
@@ -57,13 +58,13 @@ server:
           {{- end }}
         - name: "DishMasterFQDN"
           values:
-          {{- if eq $isSimulatedDish false }}
-          {{- range  (.Values.global.namespace_dish.dish_names)  }}
-          - "{{ . }}" # Real dish
-          {{- end }}
-          {{- else }}
+          {{- if and (eq $mocks_enabled true) (eq $isSimulatedDish true) }}
           {{- range  (.Values.deviceServers.centralnode.DishIDs)  }}
           - "{{ . | lower }}/{{ $DishMasterPrefix }}/{{ $DishMasterPostfix }}"
+          {{- end }}
+          {{- else }}
+          {{- range  (.Values.global.namespace_dish.dish_names)  }}
+          - "{{ . }}" # Real dish
           {{- end }}
           {{- end }}
         - name: "TMCSubarrayNodes"
