@@ -98,7 +98,7 @@ def check_subarray_in_ready(
     central_node_mid, subarray_node, event_recorder, subarray_id
 ):
     """A method to check SDP subarray obsstate"""
-    # central_node_mid.set_subarray_id(subarray_id)
+
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_devices["sdp_subarray"],
         "obsState",
@@ -143,12 +143,7 @@ def check_subarray_in_ready_in_reconfigure(
     central_node_mid, subarray_node, event_recorder, subarray_id
 ):
     """A method to check SDP subarray obsstate"""
-    # central_node_mid.set_subarray_id(subarray_id)
-    # assert event_recorder.has_change_event_occurred(
-    #     subarray_node.subarray_devices["sdp_subarray"],
-    #     "obsState",
-    #     ObsState.READY,
-    # )
+
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_devices["csp_subarray"],
         "obsState",
