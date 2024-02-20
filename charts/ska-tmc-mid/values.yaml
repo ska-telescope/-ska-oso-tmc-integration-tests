@@ -37,7 +37,8 @@ global:
 
   namespace_dish:
     dish_names: []
-  # subarray_count, this will be expanded (1 to N inclusive) and applied to instances of:
+
+  # Instance of the following devices can be expanded (1 to N inclusive) by using subarray_count
   # deviceServers.cspsubarrayleafnode, deviceServers.sdpsubarrayleafnode, deviceServers.subarraynode
   subarray_devices:
     - "cspsubarrayleafnode"
