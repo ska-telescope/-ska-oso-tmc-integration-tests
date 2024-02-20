@@ -1,0 +1,548 @@
+1|2024-02-20T04:36:45.257Z|DEBUG|MainThread|configure|tango_logging.py#234|tango-device:mid-sdp/subarray/01|Configured logging for device mid-sdp/subarray/01
+1|2024-02-20T04:36:45.258Z|INFO|MainThread|init_device|device.py#93|tango-device:mid-sdp/subarray/01| Subarray initialising
+1|2024-02-20T04:36:45.258Z|INFO|MainThread|__init__|config.py#37|tango-device:mid-sdp/subarray/01|device name lmc-subarray-01
+1|2024-02-20T04:36:45.258Z|INFO|MainThread|new_config_db_client|config.py#19|tango-device:mid-sdp/subarray/01|Using config DB etcd3 backend
+1|2024-02-20T04:36:45.264Z|DEBUG|MainThread|_verify_server_version|etcd3.py#99|tango-device:mid-sdp/subarray/01|Detected etcd server version 3.5.9
+1|2024-02-20T04:36:45.279Z|DEBUG|MainThread|client_lease|config.py#192|tango-device:mid-sdp/subarray/01|keepalive started!
+1|2024-02-20T04:36:45.281Z|INFO|EventLoop|_event_loop|device.py#259|tango-device:mid-sdp/subarray/01|Starting event loop
+1|2024-02-20T04:36:45.281Z|INFO|MainThread|init_device|device.py#132|tango-device:mid-sdp/subarray/01|SDP Subarray initialised
+1|2024-02-20T04:36:45.281Z|DEBUG|EventLoop|_event_loop|device.py#260|tango-device:mid-sdp/subarray/01|Event loop interval is 10.0 seconds
+1|2024-02-20T04:36:45.285Z|INFO|EventLoop|_event_loop|device.py#262|tango-device:mid-sdp/subarray/01|Waiting for device initialization
+1|2024-02-20T04:36:45.288Z|INFO|MainThread|devices_initialized|device.py#348|tango-device:mid-sdp/subarray/01|SDPSubarray devices are initialized
+1|2024-02-20T04:36:45.288Z|DEBUG|MainThread|devices_initialized|device.py#350|tango-device:mid-sdp/subarray/01|There are 1 device servers
+1|2024-02-20T04:36:45.288Z|INFO|MainThread|initialized|device.py#151|tango-device:mid-sdp/subarray/01|Initialization state changed from False to True
+Ready to accept request
+1|2024-02-20T04:36:45.390Z|DEBUG|EventLoop|__iter__|etcd3_watcher.py#172|tango-device:mid-sdp/subarray/01|Entering watcher loop
+1|2024-02-20T04:36:45.391Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:36:45.391Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:36:45.392Z|DEBUG|EventLoop|create_get_watcher|etcd3_watcher.py#676|tango-device:mid-sdp/subarray/01|Start get watcher 0 for 3/component/lmc-subarray-01/owner at rev 9...
+1|2024-02-20T04:36:45.393Z|DEBUG|EventLoop|create_get_watcher|etcd3_watcher.py#676|tango-device:mid-sdp/subarray/01|Start get watcher 1 for 3/lmc/subarray/01 at rev 9...
+1|2024-02-20T04:36:45.394Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01|Called _set_state INIT -> OFF
+1|2024-02-20T04:36:45.394Z|INFO|EventLoop|_set_state|device.py#191|tango-device:mid-sdp/subarray/01|Setting device state to OFF
+1|2024-02-20T04:36:45.394Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01|Called _set_obs_state None -> EMPTY
+1|2024-02-20T04:36:45.394Z|INFO|EventLoop|_set_obs_state|device.py#540|tango-device:mid-sdp/subarray/01|Setting obsState to EMPTY
+1|2024-02-20T04:36:45.394Z|INFO|EventLoop|_set_resources|device.py#551|tango-device:mid-sdp/subarray/01|Clearing resources
+1|2024-02-20T04:36:45.394Z|INFO|EventLoop|_set_receive_addresses|device.py#573|tango-device:mid-sdp/subarray/01|Setting receiveAddresses
+1|2024-02-20T04:36:45.394Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:36:45.394Z|DEBUG|EventLoop|get_response|etcd3_watcher.py#830|tango-device:mid-sdp/subarray/01|Watcher 0 created
+1|2024-02-20T04:36:45.395Z|DEBUG|EventLoop|get_response|etcd3_watcher.py#830|tango-device:mid-sdp/subarray/01|Watcher 1 created
+1|2024-02-20T04:36:55.394Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:36:55.396Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 11)
+1|2024-02-20T04:36:55.396Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:36:55.396Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:36:55.396Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01|Called _set_state OFF -> OFF
+1|2024-02-20T04:36:55.396Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:36:55.396Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:37:05.396Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:37:05.398Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 11)
+1|2024-02-20T04:37:05.398Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:37:05.398Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:37:05.398Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01|Called _set_state OFF -> OFF
+1|2024-02-20T04:37:05.398Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:37:05.398Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:37:15.398Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:37:15.400Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 11)
+1|2024-02-20T04:37:15.400Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:37:15.400Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:37:15.400Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01|Called _set_state OFF -> OFF
+1|2024-02-20T04:37:15.400Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:37:15.400Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:37:25.400Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:37:25.402Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 11)
+1|2024-02-20T04:37:25.402Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:37:25.402Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:37:25.402Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01|Called _set_state OFF -> OFF
+1|2024-02-20T04:37:25.402Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:37:25.402Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:37:35.402Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:37:35.426Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 11)
+1|2024-02-20T04:37:35.426Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:37:35.426Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:37:35.427Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01|Called _set_state OFF -> OFF
+1|2024-02-20T04:37:35.429Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:37:35.440Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:37:45.441Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:37:45.442Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 11)
+1|2024-02-20T04:37:45.442Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:37:45.442Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:37:45.442Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01|Called _set_state OFF -> OFF
+1|2024-02-20T04:37:45.442Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:37:45.443Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:37:55.443Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:37:55.444Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 11)
+1|2024-02-20T04:37:55.444Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:37:55.444Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:37:55.445Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01|Called _set_state OFF -> OFF
+1|2024-02-20T04:37:55.445Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:37:55.445Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:38:05.445Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:38:05.446Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 11)
+1|2024-02-20T04:38:05.447Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:38:05.447Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:38:05.447Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01|Called _set_state OFF -> OFF
+1|2024-02-20T04:38:05.447Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:38:05.447Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:38:15.448Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:38:15.449Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 11)
+1|2024-02-20T04:38:15.449Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:38:15.449Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:38:15.449Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01|Called _set_state OFF -> OFF
+1|2024-02-20T04:38:15.449Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:38:15.449Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:38:20.851Z|DEBUG|Dummy-26|wrapper|commands.py#40|tango-device:mid-sdp/subarray/01|command On device SDPSubarray
+1|2024-02-20T04:38:20.851Z|INFO|Dummy-26|_get_id_from_params_or_generate_new_id|transactions.py#172|tango-device:mid-sdp/subarray/01|Generated transaction ID txn-local-20240220-946676526
+1|2024-02-20T04:38:20.851Z|INFO|Dummy-26|log_entry|transactions.py#132|tango-device:mid-sdp/subarray/01|Transaction[txn-local-20240220-946676526]: Enter[On] with parameters [{}] marker[22406]
+1|2024-02-20T04:38:20.851Z|DEBUG|Dummy-26|wrapper|commands.py#45|tango-device:mid-sdp/subarray/01,txn-local-20240220-946676526|Execute command On
+1|2024-02-20T04:38:20.855Z|DEBUG|Dummy-26|__iter__|etcd3_watcher.py#172|tango-device:mid-sdp/subarray/01,txn-local-20240220-946676526|Entering watcher loop
+1|2024-02-20T04:38:20.855Z|DEBUG|EventLoop|_process_put|etcd3_watcher.py#406|tango-device:mid-sdp/subarray/01|Watcher 1: put /lmc/subarray/01 (rev 13)
+1|2024-02-20T04:38:20.856Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:38:20.857Z|DEBUG|Dummy-26|create_get_watcher|etcd3_watcher.py#676|tango-device:mid-sdp/subarray/01,txn-local-20240220-946676526|Start get watcher 0 for 3/component/lmc-subarray-01/owner at rev 13...
+1|2024-02-20T04:38:20.857Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 13)
+1|2024-02-20T04:38:20.857Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:38:20.858Z|DEBUG|Dummy-26|create_get_watcher|etcd3_watcher.py#676|tango-device:mid-sdp/subarray/01,txn-local-20240220-946676526|Start get watcher 1 for 3/lmc/subarray/01 at rev 13...
+1|2024-02-20T04:38:20.858Z|DEBUG|Dummy-26|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-946676526|Called _set_state OFF -> ON
+1|2024-02-20T04:38:20.858Z|INFO|Dummy-26|_set_state|device.py#191|tango-device:mid-sdp/subarray/01,txn-local-20240220-946676526|Setting device state to ON
+1|2024-02-20T04:38:20.858Z|DEBUG|Dummy-26|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-946676526|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:38:20.859Z|DEBUG|Dummy-26|__iter__|etcd3_watcher.py#210|tango-device:mid-sdp/subarray/01|Exiting watcher loop
+1|2024-02-20T04:38:20.859Z|INFO|Dummy-26|log_exit|transactions.py#150|tango-device:mid-sdp/subarray/01|Transaction[txn-local-20240220-946676526]: Exit[On] marker[22406]
+1|2024-02-20T04:38:20.860Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:38:20.860Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-946676526|Called _set_state ON -> ON
+1|2024-02-20T04:38:20.860Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-946676526|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:38:20.860Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:38:21.411Z|DEBUG|Dummy-26|wrapper|commands.py#40|tango-device:mid-sdp/subarray/01|command AssignResources device SDPSubarray
+1|2024-02-20T04:38:21.412Z|INFO|Dummy-26|log_entry|transactions.py#132|tango-device:mid-sdp/subarray/01|Transaction[txn-local-20240220-202753793]: Enter[AssignResources] with parameters [{"interface": "https://schema.skao.int/ska-sdp-assignres/0.4", "execution_block": {"eb_id": "eb-mvp01-84039013-29604", "max_length": 100.0, "context": {}, "beams": [{"beam_id": "vis0", "function": "visibilities"}, {"beam_id": "pss1", "search_beam_id": 1, "function": "pulsar search"}, {"beam_id": "pss2", "search_beam_id": 2, "function": "pulsar search"}, {"beam_id": "pst1", "timing_beam_id": 1, "function": "pulsar timing"}, {"beam_id": "pst2", "timing_beam_id": 2, "function": "pulsar timing"}, {"beam_id": "vlbi1", "vlbi_beam_id": 1, "function": "vlbi"}], "scan_types": [{"scan_type_id": ".default", "beams": {"vis0": {"channels_id": "vis_channels", "polarisations_id": "all"}, "pss1": {"field_id": "pss_field_0", "channels_id": "pulsar_channels", "polarisations_id": "all"}, "pss2": {"field_id": "pss_field_1", "channels_id": "pulsar_channels", "polarisations_id": "all"}, "pst1": {"field_id": "pst_field_0", "channels_id": "pulsar_channels", "polarisations_id": "all"}, "pst2": {"field_id": "pst_field_1", "channels_id": "pulsar_channels", "polarisations_id": "all"}, "vlbi": {"field_id": "vlbi_field", "channels_id": "vlbi_channels", "polarisations_id": "all"}}}, {"scan_type_id": "target:a", "derive_from": ".default", "beams": {"vis0": {"field_id": "field_a"}}}], "channels": [{"channels_id": "vis_channels", "spectral_windows": [{"spectral_window_id": "fsp_1_channels", "count": 744, "start": 0, "stride": 2, "freq_min": 350000000.0, "freq_max": 368000000.0, "link_map": [[0, 0], [200, 1], [744, 2], [944, 3]]}, {"spectral_window_id": "fsp_2_channels", "count": 744, "start": 2000, "stride": 1, "freq_min": 360000000.0, "freq_max": 368000000.0, "link_map": [[2000, 4], [2200, 5]]}, {"spectral_window_id": "zoom_window_1", "count": 744, "start": 4000, "stride": 1, "freq_min": 360000000.0, "freq_max": 361000000.0, "link_map": [[4000, 6], [4200, 7]]}]}, {"channels_id": "pulsar_channels", "spectral_windows": [{"spectral_window_id": "pulsar_fsp_channels", "count": 744, "start": 0, "freq_min": 350000000.0, "freq_max": 368000000.0}]}], "polarisations": [{"polarisations_id": "all", "corr_type": ["XX", "XY", "YY", "YX"]}], "fields": [{"field_id": "field_a", "phase_dir": {"ra": [123, 0.1], "dec": [80, 0.1], "reference_time": "...", "reference_frame": "ICRF3"}, "pointing_fqdn": "low-tmc/telstate/0/pointing"}]}, "processing_blocks": [{"pb_id": "pb-mvp01-84039013-29788", "script": {"kind": "realtime", "name": "test-receive-addresses", "version": "0.7.1"}, "sbi_ids": ["sbi-mvp01-20210623-00000"], "parameters": {}}], "resources": {"csp_links": [1, 2, 3, 4], "receptors": ["FS4", "FS8", "FS16", "FS17", "FS22", "FS23", "FS30", "FS31", "FS32", "FS33", "FS36", "FS52", "FS56", "FS57", "FS59", "FS62", "FS66", "FS69", "FS70", "FS72", "FS73", "FS78", "FS80", "FS88", "FS89", "FS90", "FS91", "FS98", "FS108", "FS111", "FS132", "FS144", "FS146", "FS158", "FS165", "FS167", "FS176", "FS183", "FS193", "FS200", "FS345", "FS346", "FS347", "FS348", "FS349", "FS350", "FS351", "FS352", "FS353", "FS354", "FS355", "FS356", "FS429", "FS430", "FS431", "FS432", "FS433", "FS434", "FS465", "FS466", "FS467", "FS468", "FS469", "FS470"], "receive_nodes": 10}, "transaction_id": "txn-local-20240220-202753793"}] marker[16100]
+1|2024-02-20T04:38:21.412Z|DEBUG|Dummy-26|wrapper|commands.py#45|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Execute command AssignResources
+1|2024-02-20T04:38:21.422Z|DEBUG|Dummy-26|validate_json_config|validation.py#271|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Successfully validated JSON configuration
+1|2024-02-20T04:38:21.423Z|INFO|Dummy-26|create_eb|config.py#431|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Creating execution block eb-mvp01-84039013-29604
+1|2024-02-20T04:38:21.429Z|INFO|Dummy-26|create_pbs|config.py#481|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Creating processing block pb-mvp01-84039013-29788
+1|2024-02-20T04:38:21.434Z|DEBUG|Dummy-26|__iter__|etcd3_watcher.py#172|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Entering watcher loop
+1|2024-02-20T04:38:21.434Z|DEBUG|EventLoop|_process_put|etcd3_watcher.py#406|tango-device:mid-sdp/subarray/01|Watcher 1: put /lmc/subarray/01 (rev 14)
+1|2024-02-20T04:38:21.434Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:38:21.436Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 14)
+1|2024-02-20T04:38:21.436Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:38:21.436Z|DEBUG|Dummy-26|create_get_watcher|etcd3_watcher.py#676|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Start get watcher 0 for 3/component/lmc-subarray-01/owner at rev 14...
+1|2024-02-20T04:38:21.437Z|DEBUG|Dummy-26|create_get_watcher|etcd3_watcher.py#676|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Start get watcher 1 for 3/lmc/subarray/01 at rev 14...
+1|2024-02-20T04:38:21.437Z|DEBUG|Dummy-26|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Called _set_state ON -> ON
+1|2024-02-20T04:38:21.438Z|DEBUG|Dummy-26|create_get_watcher|etcd3_watcher.py#676|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Start get watcher 2 for 2/eb/eb-mvp01-84039013-29604 at rev 14...
+1|2024-02-20T04:38:21.439Z|DEBUG|Dummy-26|create_get_watcher|etcd3_watcher.py#676|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Start get watcher 3 for 3/pb/pb-mvp01-84039013-29788/state at rev 14...
+1|2024-02-20T04:38:21.439Z|DEBUG|Dummy-26|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Called _set_obs_state EMPTY -> RESOURCING
+1|2024-02-20T04:38:21.440Z|INFO|Dummy-26|_set_obs_state|device.py#540|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Setting obsState to RESOURCING
+1|2024-02-20T04:38:21.440Z|INFO|Dummy-26|_set_resources|device.py#549|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Setting resources
+1|2024-02-20T04:38:21.440Z|INFO|Dummy-26|_set_eb_id|device.py#562|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|setting ebID to eb-mvp01-84039013-29604
+1|2024-02-20T04:38:21.440Z|DEBUG|Dummy-26|__iter__|etcd3_watcher.py#210|tango-device:mid-sdp/subarray/01|Exiting watcher loop
+1|2024-02-20T04:38:21.441Z|INFO|Dummy-26|log_exit|transactions.py#150|tango-device:mid-sdp/subarray/01|Transaction[txn-local-20240220-202753793]: Exit[AssignResources] marker[16100]
+1|2024-02-20T04:38:21.441Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:38:21.441Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Called _set_state ON -> ON
+1|2024-02-20T04:38:21.442Z|DEBUG|EventLoop|create_get_watcher|etcd3_watcher.py#676|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Start get watcher 2 for 2/eb/eb-mvp01-84039013-29604 at rev 14...
+1|2024-02-20T04:38:21.443Z|DEBUG|EventLoop|create_get_watcher|etcd3_watcher.py#676|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Start get watcher 3 for 3/pb/pb-mvp01-84039013-29788/state at rev 14...
+1|2024-02-20T04:38:21.443Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Called _set_obs_state RESOURCING -> RESOURCING
+1|2024-02-20T04:38:21.444Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:38:21.444Z|DEBUG|EventLoop|get_response|etcd3_watcher.py#830|tango-device:mid-sdp/subarray/01|Watcher 2 created
+1|2024-02-20T04:38:21.444Z|DEBUG|EventLoop|get_response|etcd3_watcher.py#830|tango-device:mid-sdp/subarray/01|Watcher 3 created
+1|2024-02-20T04:38:21.534Z|DEBUG|EventLoop|_process_put|etcd3_watcher.py#406|tango-device:mid-sdp/subarray/01|Watcher 3: put /pb/pb-mvp01-84039013-29788/state (rev 15)
+1|2024-02-20T04:38:21.550Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:38:21.551Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 15)
+1|2024-02-20T04:38:21.551Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:38:21.551Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:38:21.551Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Called _set_state ON -> ON
+1|2024-02-20T04:38:21.552Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Called _set_obs_state RESOURCING -> RESOURCING
+1|2024-02-20T04:38:21.552Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:38:25.810Z|DEBUG|EventLoop|_process_put|etcd3_watcher.py#406|tango-device:mid-sdp/subarray/01|Watcher 3: put /pb/pb-mvp01-84039013-29788/state (rev 23)
+1|2024-02-20T04:38:25.810Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:38:25.811Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 23)
+1|2024-02-20T04:38:25.811Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:38:25.811Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:38:25.812Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Called _set_state ON -> ON
+1|2024-02-20T04:38:25.812Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Called _set_obs_state RESOURCING -> RESOURCING
+1|2024-02-20T04:38:25.812Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:38:25.813Z|DEBUG|EventLoop|_process_put|etcd3_watcher.py#406|tango-device:mid-sdp/subarray/01|Watcher 3: put /pb/pb-mvp01-84039013-29788/state (rev 24)
+1|2024-02-20T04:38:25.813Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:38:25.814Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 24)
+1|2024-02-20T04:38:25.814Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:38:25.814Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:38:25.814Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Called _set_state ON -> ON
+1|2024-02-20T04:38:25.815Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Called _set_obs_state RESOURCING -> RESOURCING
+1|2024-02-20T04:38:25.815Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:38:26.341Z|DEBUG|EventLoop|_process_put|etcd3_watcher.py#406|tango-device:mid-sdp/subarray/01|Watcher 3: put /pb/pb-mvp01-84039013-29788/state (rev 25)
+1|2024-02-20T04:38:26.341Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:38:26.342Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 25)
+1|2024-02-20T04:38:26.342Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:38:26.342Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:38:26.343Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Called _set_state ON -> ON
+1|2024-02-20T04:38:26.343Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Called _set_obs_state RESOURCING -> RESOURCING
+1|2024-02-20T04:38:26.344Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:38:26.344Z|DEBUG|EventLoop|_process_put|etcd3_watcher.py#406|tango-device:mid-sdp/subarray/01|Watcher 3: put /pb/pb-mvp01-84039013-29788/state (rev 26)
+1|2024-02-20T04:38:26.345Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:38:26.345Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 26)
+1|2024-02-20T04:38:26.345Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:38:26.346Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:38:26.346Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Called _set_state ON -> ON
+1|2024-02-20T04:38:26.346Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Called _set_obs_state RESOURCING -> RESOURCING
+1|2024-02-20T04:38:26.347Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:38:26.349Z|DEBUG|EventLoop|_process_put|etcd3_watcher.py#406|tango-device:mid-sdp/subarray/01|Watcher 3: put /pb/pb-mvp01-84039013-29788/state (rev 27)
+1|2024-02-20T04:38:26.349Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:38:26.350Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 27)
+1|2024-02-20T04:38:26.350Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:38:26.350Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:38:26.351Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Called _set_state ON -> ON
+1|2024-02-20T04:38:26.351Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Called _set_obs_state RESOURCING -> RESOURCING
+1|2024-02-20T04:38:26.352Z|INFO|EventLoop|_set_receive_addresses|device.py#573|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Setting receiveAddresses
+1|2024-02-20T04:38:26.352Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:38:26.353Z|DEBUG|EventLoop|_process_put|etcd3_watcher.py#406|tango-device:mid-sdp/subarray/01|Watcher 2: put /eb/eb-mvp01-84039013-29604 (rev 28)
+1|2024-02-20T04:38:26.353Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:38:26.353Z|DEBUG|EventLoop|_process_put|etcd3_watcher.py#406|tango-device:mid-sdp/subarray/01|Watcher 3: put /pb/pb-mvp01-84039013-29788/state (rev 29)
+1|2024-02-20T04:38:26.354Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 29)
+1|2024-02-20T04:38:26.354Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:38:26.354Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:38:26.354Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Called _set_state ON -> ON
+1|2024-02-20T04:38:26.355Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Called _set_obs_state RESOURCING -> RESOURCING
+1|2024-02-20T04:38:26.355Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:38:26.356Z|DEBUG|EventLoop|_process_put|etcd3_watcher.py#406|tango-device:mid-sdp/subarray/01|Watcher 3: put /pb/pb-mvp01-84039013-29788/state (rev 30)
+1|2024-02-20T04:38:26.356Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:38:26.357Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 30)
+1|2024-02-20T04:38:26.357Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:38:26.357Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:38:26.357Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Called _set_state ON -> ON
+1|2024-02-20T04:38:26.358Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Called _set_obs_state RESOURCING -> IDLE
+1|2024-02-20T04:38:26.358Z|INFO|EventLoop|_set_obs_state|device.py#540|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Setting obsState to IDLE
+1|2024-02-20T04:38:26.359Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:38:26.365Z|DEBUG|EventLoop|_process_put|etcd3_watcher.py#406|tango-device:mid-sdp/subarray/01|Watcher 3: put /pb/pb-mvp01-84039013-29788/state (rev 31)
+1|2024-02-20T04:38:26.365Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:38:26.366Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 31)
+1|2024-02-20T04:38:26.366Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:38:26.366Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:38:26.367Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Called _set_state ON -> ON
+1|2024-02-20T04:38:26.367Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-202753793|Called _set_obs_state IDLE -> IDLE
+1|2024-02-20T04:38:26.368Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:38:27.498Z|DEBUG|Dummy-26|wrapper|commands.py#40|tango-device:mid-sdp/subarray/01|command Configure device SDPSubarray
+1|2024-02-20T04:38:27.498Z|INFO|Dummy-26|_get_id_from_params_or_generate_new_id|transactions.py#172|tango-device:mid-sdp/subarray/01|Generated transaction ID txn-local-20240220-909632922
+1|2024-02-20T04:38:27.498Z|INFO|Dummy-26|log_entry|transactions.py#132|tango-device:mid-sdp/subarray/01|Transaction[txn-local-20240220-909632922]: Enter[Configure] with parameters [{"interface": "https://schema.skao.int/ska-sdp-configure/0.3", "scan_type": "target:a"}] marker[35945]
+1|2024-02-20T04:38:27.498Z|DEBUG|Dummy-26|wrapper|commands.py#45|tango-device:mid-sdp/subarray/01,txn-local-20240220-909632922|Execute command Configure
+1|2024-02-20T04:38:27.502Z|DEBUG|Dummy-26|validate_json_config|validation.py#271|tango-device:mid-sdp/subarray/01,txn-local-20240220-909632922|Successfully validated JSON configuration
+1|2024-02-20T04:38:27.507Z|DEBUG|Dummy-26|__iter__|etcd3_watcher.py#172|tango-device:mid-sdp/subarray/01,txn-local-20240220-909632922|Entering watcher loop
+1|2024-02-20T04:38:27.507Z|DEBUG|EventLoop|_process_put|etcd3_watcher.py#406|tango-device:mid-sdp/subarray/01|Watcher 2: put /eb/eb-mvp01-84039013-29604 (rev 32)
+1|2024-02-20T04:38:27.507Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:38:27.509Z|DEBUG|EventLoop|_process_put|etcd3_watcher.py#406|tango-device:mid-sdp/subarray/01|Watcher 1: put /lmc/subarray/01 (rev 32)
+1|2024-02-20T04:38:27.509Z|DEBUG|Dummy-26|create_get_watcher|etcd3_watcher.py#676|tango-device:mid-sdp/subarray/01,txn-local-20240220-909632922|Start get watcher 0 for 3/component/lmc-subarray-01/owner at rev 32...
+1|2024-02-20T04:38:27.510Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 32)
+1|2024-02-20T04:38:27.510Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:38:27.511Z|DEBUG|Dummy-26|create_get_watcher|etcd3_watcher.py#676|tango-device:mid-sdp/subarray/01,txn-local-20240220-909632922|Start get watcher 1 for 3/lmc/subarray/01 at rev 32...
+1|2024-02-20T04:38:27.511Z|DEBUG|Dummy-26|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-909632922|Called _set_state ON -> ON
+1|2024-02-20T04:38:27.512Z|DEBUG|Dummy-26|create_get_watcher|etcd3_watcher.py#676|tango-device:mid-sdp/subarray/01,txn-local-20240220-909632922|Start get watcher 2 for 2/eb/eb-mvp01-84039013-29604 at rev 32...
+1|2024-02-20T04:38:27.513Z|DEBUG|Dummy-26|create_get_watcher|etcd3_watcher.py#676|tango-device:mid-sdp/subarray/01,txn-local-20240220-909632922|Start get watcher 3 for 3/pb/pb-mvp01-84039013-29788/state at rev 32...
+1|2024-02-20T04:38:27.513Z|DEBUG|Dummy-26|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-909632922|Called _set_obs_state IDLE -> READY
+1|2024-02-20T04:38:27.513Z|INFO|Dummy-26|_set_obs_state|device.py#540|tango-device:mid-sdp/subarray/01,txn-local-20240220-909632922|Setting obsState to READY
+1|2024-02-20T04:38:27.514Z|INFO|Dummy-26|_set_scan_type|device.py#584|tango-device:mid-sdp/subarray/01,txn-local-20240220-909632922|Setting scanType to target:a
+1|2024-02-20T04:38:27.514Z|DEBUG|Dummy-26|__iter__|etcd3_watcher.py#210|tango-device:mid-sdp/subarray/01|Exiting watcher loop
+1|2024-02-20T04:38:27.514Z|INFO|Dummy-26|log_exit|transactions.py#150|tango-device:mid-sdp/subarray/01|Transaction[txn-local-20240220-909632922]: Exit[Configure] marker[35945]
+1|2024-02-20T04:38:27.515Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:38:27.515Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-909632922|Called _set_state ON -> ON
+1|2024-02-20T04:38:27.516Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-909632922|Called _set_obs_state READY -> READY
+1|2024-02-20T04:38:27.516Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:38:31.509Z|DEBUG|Dummy-26|wrapper|commands.py#40|tango-device:mid-sdp/subarray/01|command Configure device SDPSubarray
+1|2024-02-20T04:38:31.510Z|INFO|Dummy-26|_get_id_from_params_or_generate_new_id|transactions.py#172|tango-device:mid-sdp/subarray/01|Generated transaction ID txn-local-20240220-549800312
+1|2024-02-20T04:38:31.510Z|INFO|Dummy-26|log_entry|transactions.py#132|tango-device:mid-sdp/subarray/01|Transaction[txn-local-20240220-549800312]: Enter[Configure] with parameters [{"interface": "https://schema.skao.int/ska-sdp-configure/0.3", "scan_type": "target:a"}] marker[31365]
+1|2024-02-20T04:38:31.510Z|DEBUG|Dummy-26|wrapper|commands.py#45|tango-device:mid-sdp/subarray/01,txn-local-20240220-549800312|Execute command Configure
+1|2024-02-20T04:38:31.513Z|DEBUG|Dummy-26|validate_json_config|validation.py#271|tango-device:mid-sdp/subarray/01,txn-local-20240220-549800312|Successfully validated JSON configuration
+1|2024-02-20T04:38:31.519Z|DEBUG|Dummy-26|__iter__|etcd3_watcher.py#172|tango-device:mid-sdp/subarray/01,txn-local-20240220-549800312|Entering watcher loop
+1|2024-02-20T04:38:31.519Z|DEBUG|EventLoop|_process_put|etcd3_watcher.py#406|tango-device:mid-sdp/subarray/01|Watcher 1: put /lmc/subarray/01 (rev 33)
+1|2024-02-20T04:38:31.520Z|DEBUG|EventLoop|_process_put|etcd3_watcher.py#406|tango-device:mid-sdp/subarray/01|Watcher 2: put /eb/eb-mvp01-84039013-29604 (rev 33)
+1|2024-02-20T04:38:31.520Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:38:31.521Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 33)
+1|2024-02-20T04:38:31.521Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:38:31.522Z|DEBUG|Dummy-26|create_get_watcher|etcd3_watcher.py#676|tango-device:mid-sdp/subarray/01,txn-local-20240220-549800312|Start get watcher 0 for 3/component/lmc-subarray-01/owner at rev 33...
+1|2024-02-20T04:38:31.523Z|DEBUG|Dummy-26|create_get_watcher|etcd3_watcher.py#676|tango-device:mid-sdp/subarray/01,txn-local-20240220-549800312|Start get watcher 1 for 3/lmc/subarray/01 at rev 33...
+1|2024-02-20T04:38:31.523Z|DEBUG|Dummy-26|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-549800312|Called _set_state ON -> ON
+1|2024-02-20T04:38:31.524Z|DEBUG|Dummy-26|create_get_watcher|etcd3_watcher.py#676|tango-device:mid-sdp/subarray/01,txn-local-20240220-549800312|Start get watcher 2 for 2/eb/eb-mvp01-84039013-29604 at rev 33...
+1|2024-02-20T04:38:31.525Z|DEBUG|Dummy-26|create_get_watcher|etcd3_watcher.py#676|tango-device:mid-sdp/subarray/01,txn-local-20240220-549800312|Start get watcher 3 for 3/pb/pb-mvp01-84039013-29788/state at rev 33...
+1|2024-02-20T04:38:31.525Z|DEBUG|Dummy-26|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-549800312|Called _set_obs_state READY -> READY
+1|2024-02-20T04:38:31.525Z|DEBUG|Dummy-26|__iter__|etcd3_watcher.py#210|tango-device:mid-sdp/subarray/01|Exiting watcher loop
+1|2024-02-20T04:38:31.526Z|INFO|Dummy-26|log_exit|transactions.py#150|tango-device:mid-sdp/subarray/01|Transaction[txn-local-20240220-549800312]: Exit[Configure] marker[31365]
+1|2024-02-20T04:38:31.526Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:38:31.527Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-549800312|Called _set_state ON -> ON
+1|2024-02-20T04:38:31.527Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-549800312|Called _set_obs_state READY -> READY
+1|2024-02-20T04:38:31.528Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:38:41.528Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:38:41.529Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 33)
+1|2024-02-20T04:38:41.529Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:38:41.529Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:38:41.530Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-549800312|Called _set_state ON -> ON
+1|2024-02-20T04:38:41.530Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-549800312|Called _set_obs_state READY -> READY
+1|2024-02-20T04:38:41.531Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:38:51.531Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:38:51.532Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 33)
+1|2024-02-20T04:38:51.532Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:38:51.532Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:38:51.533Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-549800312|Called _set_state ON -> ON
+1|2024-02-20T04:38:51.533Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-549800312|Called _set_obs_state READY -> READY
+1|2024-02-20T04:38:51.534Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:39:01.534Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:39:01.536Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 33)
+1|2024-02-20T04:39:01.536Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:39:01.536Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:39:01.536Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-549800312|Called _set_state ON -> ON
+1|2024-02-20T04:39:01.537Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-549800312|Called _set_obs_state READY -> READY
+1|2024-02-20T04:39:01.537Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:39:11.538Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:39:11.539Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 33)
+1|2024-02-20T04:39:11.539Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:39:11.539Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:39:11.539Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-549800312|Called _set_state ON -> ON
+1|2024-02-20T04:39:11.540Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-549800312|Called _set_obs_state READY -> READY
+1|2024-02-20T04:39:11.540Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:39:21.540Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:39:21.542Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 33)
+1|2024-02-20T04:39:21.542Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:39:21.542Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:39:21.542Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-549800312|Called _set_state ON -> ON
+1|2024-02-20T04:39:21.542Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-549800312|Called _set_obs_state READY -> READY
+1|2024-02-20T04:39:21.543Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:39:24.440Z|DEBUG|Dummy-26|wrapper|commands.py#40|tango-device:mid-sdp/subarray/01|command Abort device SDPSubarray
+1|2024-02-20T04:39:24.440Z|INFO|Dummy-26|_get_id_from_params_or_generate_new_id|transactions.py#172|tango-device:mid-sdp/subarray/01|Generated transaction ID txn-local-20240220-636618081
+1|2024-02-20T04:39:24.441Z|INFO|Dummy-26|log_entry|transactions.py#132|tango-device:mid-sdp/subarray/01|Transaction[txn-local-20240220-636618081]: Enter[Abort] with parameters [{}] marker[70715]
+1|2024-02-20T04:39:24.441Z|DEBUG|Dummy-26|wrapper|commands.py#45|tango-device:mid-sdp/subarray/01,txn-local-20240220-636618081|Execute command Abort
+1|2024-02-20T04:39:24.446Z|DEBUG|Dummy-26|__iter__|etcd3_watcher.py#172|tango-device:mid-sdp/subarray/01,txn-local-20240220-636618081|Entering watcher loop
+1|2024-02-20T04:39:24.447Z|DEBUG|EventLoop|_process_put|etcd3_watcher.py#406|tango-device:mid-sdp/subarray/01|Watcher 1: put /lmc/subarray/01 (rev 34)
+1|2024-02-20T04:39:24.447Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:39:24.448Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 34)
+1|2024-02-20T04:39:24.448Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:39:24.449Z|DEBUG|Dummy-26|create_get_watcher|etcd3_watcher.py#676|tango-device:mid-sdp/subarray/01,txn-local-20240220-636618081|Start get watcher 0 for 3/component/lmc-subarray-01/owner at rev 34...
+1|2024-02-20T04:39:24.450Z|DEBUG|Dummy-26|create_get_watcher|etcd3_watcher.py#676|tango-device:mid-sdp/subarray/01,txn-local-20240220-636618081|Start get watcher 1 for 3/lmc/subarray/01 at rev 34...
+1|2024-02-20T04:39:24.450Z|DEBUG|Dummy-26|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-636618081|Called _set_state ON -> ON
+1|2024-02-20T04:39:24.450Z|DEBUG|Dummy-26|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-636618081|Called _set_obs_state READY -> ABORTED
+1|2024-02-20T04:39:24.450Z|INFO|Dummy-26|_set_obs_state|device.py#540|tango-device:mid-sdp/subarray/01,txn-local-20240220-636618081|Setting obsState to ABORTED
+1|2024-02-20T04:39:24.451Z|DEBUG|Dummy-26|create_get_watcher|etcd3_watcher.py#676|tango-device:mid-sdp/subarray/01,txn-local-20240220-636618081|Start get watcher 2 for 2/eb/eb-mvp01-84039013-29604 at rev 34...
+1|2024-02-20T04:39:24.452Z|DEBUG|Dummy-26|create_get_watcher|etcd3_watcher.py#676|tango-device:mid-sdp/subarray/01,txn-local-20240220-636618081|Start get watcher 3 for 3/pb/pb-mvp01-84039013-29788/state at rev 34...
+1|2024-02-20T04:39:24.453Z|DEBUG|Dummy-26|__iter__|etcd3_watcher.py#210|tango-device:mid-sdp/subarray/01|Exiting watcher loop
+1|2024-02-20T04:39:24.453Z|INFO|Dummy-26|log_exit|transactions.py#150|tango-device:mid-sdp/subarray/01|Transaction[txn-local-20240220-636618081]: Exit[Abort] marker[70715]
+1|2024-02-20T04:39:24.453Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:39:24.454Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-636618081|Called _set_state ON -> ON
+1|2024-02-20T04:39:24.454Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-636618081|Called _set_obs_state ABORTED -> ABORTED
+1|2024-02-20T04:39:24.454Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:39:30.008Z|DEBUG|Dummy-26|wrapper|commands.py#40|tango-device:mid-sdp/subarray/01|command Restart device SDPSubarray
+1|2024-02-20T04:39:30.008Z|INFO|Dummy-26|_get_id_from_params_or_generate_new_id|transactions.py#172|tango-device:mid-sdp/subarray/01|Generated transaction ID txn-local-20240220-931150950
+1|2024-02-20T04:39:30.008Z|INFO|Dummy-26|log_entry|transactions.py#132|tango-device:mid-sdp/subarray/01|Transaction[txn-local-20240220-931150950]: Enter[Restart] with parameters [{}] marker[31698]
+1|2024-02-20T04:39:30.008Z|DEBUG|Dummy-26|wrapper|commands.py#45|tango-device:mid-sdp/subarray/01,txn-local-20240220-931150950|Execute command Restart
+1|2024-02-20T04:39:30.012Z|INFO|Dummy-26|Restart|device.py#525|tango-device:mid-sdp/subarray/01,txn-local-20240220-931150950|Cancelling execution block eb-mvp01-84039013-29604
+1|2024-02-20T04:39:30.017Z|DEBUG|Dummy-26|__iter__|etcd3_watcher.py#172|tango-device:mid-sdp/subarray/01,txn-local-20240220-931150950|Entering watcher loop
+1|2024-02-20T04:39:30.017Z|DEBUG|EventLoop|_process_put|etcd3_watcher.py#406|tango-device:mid-sdp/subarray/01|Watcher 1: put /lmc/subarray/01 (rev 35)
+1|2024-02-20T04:39:30.017Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:39:30.051Z|DEBUG|EventLoop|_process_put|etcd3_watcher.py#406|tango-device:mid-sdp/subarray/01|Watcher 2: put /eb/eb-mvp01-84039013-29604 (rev 35)
+1|2024-02-20T04:39:30.052Z|DEBUG|EventLoop|_process_put|etcd3_watcher.py#406|tango-device:mid-sdp/subarray/01|Watcher 3: put /pb/pb-mvp01-84039013-29788/state (rev 36)
+1|2024-02-20T04:39:30.052Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 36)
+1|2024-02-20T04:39:30.053Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:39:30.069Z|DEBUG|Dummy-26|create_get_watcher|etcd3_watcher.py#676|tango-device:mid-sdp/subarray/01,txn-local-20240220-931150950|Start get watcher 0 for 3/component/lmc-subarray-01/owner at rev 36...
+1|2024-02-20T04:39:30.092Z|DEBUG|Dummy-26|create_get_watcher|etcd3_watcher.py#676|tango-device:mid-sdp/subarray/01,txn-local-20240220-931150950|Start get watcher 1 for 3/lmc/subarray/01 at rev 36...
+1|2024-02-20T04:39:30.092Z|DEBUG|Dummy-26|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-931150950|Called _set_state ON -> ON
+1|2024-02-20T04:39:30.093Z|DEBUG|Dummy-26|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-931150950|Called _set_obs_state ABORTED -> EMPTY
+1|2024-02-20T04:39:30.093Z|INFO|Dummy-26|_set_obs_state|device.py#540|tango-device:mid-sdp/subarray/01,txn-local-20240220-931150950|Setting obsState to EMPTY
+1|2024-02-20T04:39:30.094Z|INFO|Dummy-26|_set_resources|device.py#551|tango-device:mid-sdp/subarray/01,txn-local-20240220-931150950|Clearing resources
+1|2024-02-20T04:39:30.094Z|INFO|Dummy-26|_set_eb_id|device.py#562|tango-device:mid-sdp/subarray/01,txn-local-20240220-931150950|setting ebID to null
+1|2024-02-20T04:39:30.094Z|INFO|Dummy-26|_set_receive_addresses|device.py#573|tango-device:mid-sdp/subarray/01,txn-local-20240220-931150950|Setting receiveAddresses
+1|2024-02-20T04:39:30.094Z|INFO|Dummy-26|_set_scan_type|device.py#584|tango-device:mid-sdp/subarray/01,txn-local-20240220-931150950|Setting scanType to null
+1|2024-02-20T04:39:30.094Z|DEBUG|Dummy-26|__iter__|etcd3_watcher.py#210|tango-device:mid-sdp/subarray/01|Exiting watcher loop
+1|2024-02-20T04:39:30.094Z|INFO|Dummy-26|log_exit|transactions.py#150|tango-device:mid-sdp/subarray/01|Transaction[txn-local-20240220-931150950]: Exit[Restart] marker[31698]
+1|2024-02-20T04:39:30.095Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:39:30.095Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-931150950|Called _set_state ON -> ON
+1|2024-02-20T04:39:30.095Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-931150950|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:39:30.095Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:39:30.095Z|DEBUG|EventLoop|close_unused|etcd3_watcher.py#950|tango-device:mid-sdp/subarray/01|Cancelling get watcher 2 (/eb/eb-mvp01-84039013-29604)
+1|2024-02-20T04:39:30.095Z|DEBUG|EventLoop|close_unused|etcd3_watcher.py#950|tango-device:mid-sdp/subarray/01|Cancelling get watcher 3 (/pb/pb-mvp01-84039013-29788/state)
+1|2024-02-20T04:39:30.096Z|DEBUG|EventLoop|get_response|etcd3_watcher.py#841|tango-device:mid-sdp/subarray/01|Watcher 2 cancelled ()
+1|2024-02-20T04:39:30.096Z|DEBUG|EventLoop|get_response|etcd3_watcher.py#841|tango-device:mid-sdp/subarray/01|Watcher 3 cancelled ()
+1|2024-02-20T04:39:32.708Z|DEBUG|Dummy-26|wrapper|commands.py#40|tango-device:mid-sdp/subarray/01|command Off device SDPSubarray
+1|2024-02-20T04:39:32.709Z|INFO|Dummy-26|_get_id_from_params_or_generate_new_id|transactions.py#172|tango-device:mid-sdp/subarray/01|Generated transaction ID txn-local-20240220-672771325
+1|2024-02-20T04:39:32.709Z|INFO|Dummy-26|log_entry|transactions.py#132|tango-device:mid-sdp/subarray/01|Transaction[txn-local-20240220-672771325]: Enter[Off] with parameters [{}] marker[77649]
+1|2024-02-20T04:39:32.709Z|DEBUG|Dummy-26|wrapper|commands.py#45|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Execute command Off
+1|2024-02-20T04:39:32.712Z|DEBUG|EventLoop|_process_put|etcd3_watcher.py#406|tango-device:mid-sdp/subarray/01|Watcher 1: put /lmc/subarray/01 (rev 40)
+1|2024-02-20T04:39:32.712Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:39:32.712Z|DEBUG|Dummy-26|__iter__|etcd3_watcher.py#172|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Entering watcher loop
+1|2024-02-20T04:39:32.713Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 40)
+1|2024-02-20T04:39:32.713Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:39:32.714Z|DEBUG|Dummy-26|create_get_watcher|etcd3_watcher.py#676|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Start get watcher 0 for 3/component/lmc-subarray-01/owner at rev 40...
+1|2024-02-20T04:39:32.715Z|DEBUG|Dummy-26|create_get_watcher|etcd3_watcher.py#676|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Start get watcher 1 for 3/lmc/subarray/01 at rev 40...
+1|2024-02-20T04:39:32.715Z|DEBUG|Dummy-26|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_state ON -> OFF
+1|2024-02-20T04:39:32.716Z|INFO|Dummy-26|_set_state|device.py#191|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Setting device state to OFF
+1|2024-02-20T04:39:32.716Z|DEBUG|Dummy-26|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:39:32.716Z|DEBUG|Dummy-26|__iter__|etcd3_watcher.py#210|tango-device:mid-sdp/subarray/01|Exiting watcher loop
+1|2024-02-20T04:39:32.716Z|INFO|Dummy-26|log_exit|transactions.py#150|tango-device:mid-sdp/subarray/01|Transaction[txn-local-20240220-672771325]: Exit[Off] marker[77649]
+1|2024-02-20T04:39:32.716Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:39:32.717Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_state OFF -> OFF
+1|2024-02-20T04:39:32.717Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:39:32.717Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:39:33.655Z|DEBUG|Dummy-26|wrapper|commands.py#40|tango-device:mid-sdp/subarray/01|command Off device SDPSubarray
+1|2024-02-20T04:39:33.655Z|INFO|Dummy-26|_get_id_from_params_or_generate_new_id|transactions.py#172|tango-device:mid-sdp/subarray/01|Generated transaction ID txn-local-20240220-508414181
+1|2024-02-20T04:39:33.655Z|INFO|Dummy-26|log_entry|transactions.py#132|tango-device:mid-sdp/subarray/01|Transaction[txn-local-20240220-508414181]: Enter[Off] with parameters [{}] marker[59588]
+1|2024-02-20T04:39:33.655Z|DEBUG|Dummy-26|wrapper|commands.py#45|tango-device:mid-sdp/subarray/01,txn-local-20240220-508414181|Execute command Off
+1|2024-02-20T04:39:33.690Z|ERROR|Dummy-26|raise_exception|exceptions.py#19|tango-device:mid-sdp/subarray/01,txn-local-20240220-508414181|Raising DevFailed exception...
+1|2024-02-20T04:39:33.690Z|ERROR|Dummy-26|raise_exception|exceptions.py#20|tango-device:mid-sdp/subarray/01,txn-local-20240220-508414181|Reason: API_CommandNotAllowed
+1|2024-02-20T04:39:33.690Z|ERROR|Dummy-26|raise_exception|exceptions.py#21|tango-device:mid-sdp/subarray/01,txn-local-20240220-508414181|Description: Command not allowed in device state OFF
+1|2024-02-20T04:39:33.690Z|ERROR|Dummy-26|raise_exception|exceptions.py#22|tango-device:mid-sdp/subarray/01,txn-local-20240220-508414181|Origin: command_allowed_state
+1|2024-02-20T04:39:33.690Z|ERROR|Dummy-26|raise_exception|exceptions.py#23|tango-device:mid-sdp/subarray/01,txn-local-20240220-508414181|Severity: ERR
+1|2024-02-20T04:39:33.690Z|ERROR|Dummy-26|log_exit|transactions.py#145|tango-device:mid-sdp/subarray/01|Transaction[txn-local-20240220-508414181]: Exception[Off] marker[59588]
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.10/site-packages/ska_sdp_lmc/commands.py", line 49, in wrapper
+    ret = command_method(self, txn_id)
+  File "/usr/local/lib/python3.10/site-packages/ska_sdp_lmc/subarray/device.py", line 224, in Off
+    command_allowed_state(subarray.state, [DevState.ON])
+  File "/usr/local/lib/python3.10/site-packages/ska_sdp_lmc/commands.py", line 113, in command_allowed_state
+    raise_command_not_allowed(message)
+  File "/usr/local/lib/python3.10/site-packages/ska_sdp_lmc/commands.py", line 84, in raise_command_not_allowed
+    raise_exception(reason, message, origin)
+  File "/usr/local/lib/python3.10/site-packages/ska_sdp_lmc/exceptions.py", line 24, in raise_exception
+    Except.throw_exception(reason, desc, origin, severity)
+PyTango.DevFailed: DevFailed[
+DevError[
+    desc = Command not allowed in device state OFF
+  origin = command_allowed_state
+  reason = API_CommandNotAllowed
+severity = ERR]
+]
+1|2024-02-20T04:39:33.690Z|INFO|Dummy-26|log_exit|transactions.py#150|tango-device:mid-sdp/subarray/01|Transaction[txn-local-20240220-508414181]: Exit[Off] marker[59588]
+1|2024-02-20T04:39:42.717Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:39:42.719Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 43)
+1|2024-02-20T04:39:42.719Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:39:42.719Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:39:42.719Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_state OFF -> OFF
+1|2024-02-20T04:39:42.719Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:39:42.719Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:39:52.720Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:39:52.731Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 43)
+1|2024-02-20T04:39:52.731Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:39:52.731Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:39:52.731Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_state OFF -> OFF
+1|2024-02-20T04:39:52.731Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:39:52.731Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:40:02.754Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:40:02.756Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 43)
+1|2024-02-20T04:40:02.756Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:40:02.756Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:40:02.756Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_state OFF -> OFF
+1|2024-02-20T04:40:02.756Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:40:02.756Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:40:12.757Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:40:12.758Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 43)
+1|2024-02-20T04:40:12.758Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:40:12.758Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:40:12.758Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_state OFF -> OFF
+1|2024-02-20T04:40:12.759Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:40:12.759Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:40:22.759Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:40:22.760Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 43)
+1|2024-02-20T04:40:22.760Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:40:22.761Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:40:22.761Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_state OFF -> OFF
+1|2024-02-20T04:40:22.761Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:40:22.761Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:40:32.761Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:40:32.763Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 43)
+1|2024-02-20T04:40:32.763Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:40:32.763Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:40:32.763Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_state OFF -> OFF
+1|2024-02-20T04:40:32.763Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:40:32.763Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:40:42.764Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:40:42.765Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 43)
+1|2024-02-20T04:40:42.765Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:40:42.765Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:40:42.765Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_state OFF -> OFF
+1|2024-02-20T04:40:42.765Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:40:42.765Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:40:52.765Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:40:52.767Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 43)
+1|2024-02-20T04:40:52.767Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:40:52.767Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:40:52.767Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_state OFF -> OFF
+1|2024-02-20T04:40:52.767Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:40:52.767Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:41:02.768Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:41:02.769Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 43)
+1|2024-02-20T04:41:02.769Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:41:02.770Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:41:02.770Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_state OFF -> OFF
+1|2024-02-20T04:41:02.770Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:41:02.770Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:41:12.770Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:41:12.771Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 43)
+1|2024-02-20T04:41:12.771Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:41:12.771Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:41:12.771Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_state OFF -> OFF
+1|2024-02-20T04:41:12.772Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:41:12.772Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:41:22.772Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:41:22.773Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 43)
+1|2024-02-20T04:41:22.773Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:41:22.773Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:41:22.773Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_state OFF -> OFF
+1|2024-02-20T04:41:22.773Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:41:22.774Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:41:32.774Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:41:32.775Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 43)
+1|2024-02-20T04:41:32.775Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:41:32.775Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:41:32.775Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_state OFF -> OFF
+1|2024-02-20T04:41:32.775Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:41:32.775Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:41:42.776Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:41:42.777Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 43)
+1|2024-02-20T04:41:42.777Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:41:42.777Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:41:42.777Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_state OFF -> OFF
+1|2024-02-20T04:41:42.777Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:41:42.777Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:41:52.777Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:41:52.779Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 43)
+1|2024-02-20T04:41:52.779Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:41:52.779Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:41:52.779Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_state OFF -> OFF
+1|2024-02-20T04:41:52.779Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:41:52.780Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:42:02.780Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:42:02.781Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 43)
+1|2024-02-20T04:42:02.781Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:42:02.781Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:42:02.781Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_state OFF -> OFF
+1|2024-02-20T04:42:02.781Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:42:02.782Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:42:12.782Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:42:12.783Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 43)
+1|2024-02-20T04:42:12.784Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:42:12.784Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:42:12.784Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_state OFF -> OFF
+1|2024-02-20T04:42:12.784Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:42:12.784Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:42:22.784Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:42:22.786Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 43)
+1|2024-02-20T04:42:22.786Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:42:22.786Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:42:22.786Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_state OFF -> OFF
+1|2024-02-20T04:42:22.786Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:42:22.786Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:42:32.786Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:42:32.788Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 43)
+1|2024-02-20T04:42:32.788Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:42:32.788Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:42:32.788Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_state OFF -> OFF
+1|2024-02-20T04:42:32.788Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:42:32.788Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:42:42.788Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:42:42.790Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 43)
+1|2024-02-20T04:42:42.790Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:42:42.790Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:42:42.790Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_state OFF -> OFF
+1|2024-02-20T04:42:42.790Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:42:42.790Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:42:52.791Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:42:52.792Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 43)
+1|2024-02-20T04:42:52.792Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:42:52.792Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:42:52.793Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_state OFF -> OFF
+1|2024-02-20T04:42:52.793Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:42:52.793Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
+1|2024-02-20T04:43:02.793Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#309|tango-device:mid-sdp/subarray/01|Requesting progress...
+1|2024-02-20T04:43:02.794Z|DEBUG|EventLoop|_refresh|etcd3_watcher.py#343|tango-device:mid-sdp/subarray/01|Received progress notification (revision 43)
+1|2024-02-20T04:43:02.794Z|DEBUG|EventLoop|_event_loop|device.py#269|tango-device:mid-sdp/subarray/01|Watcher wake-up, exit False
+1|2024-02-20T04:43:02.794Z|DEBUG|EventLoop|_event_loop|device.py#280|tango-device:mid-sdp/subarray/01|Starting set attributes from config
+1|2024-02-20T04:43:02.795Z|DEBUG|EventLoop|_set_state|device.py#187|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_state OFF -> OFF
+1|2024-02-20T04:43:02.795Z|DEBUG|EventLoop|_set_obs_state|device.py#538|tango-device:mid-sdp/subarray/01,txn-local-20240220-672771325|Called _set_obs_state EMPTY -> EMPTY
+1|2024-02-20T04:43:02.795Z|DEBUG|EventLoop|_event_loop|device.py#282|tango-device:mid-sdp/subarray/01|Finished set attributes from config
