@@ -1,6 +1,4 @@
-"""
-Test TMC-CSP Abort functionality in RESOURCING obsState
-"""
+"""Test TMC-CSP Abort functionality in RESOURCING obsState"""
 
 
 import pytest
