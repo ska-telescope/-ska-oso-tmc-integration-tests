@@ -97,6 +97,8 @@ def subarray_is_in_resourcing_obsstate(
         "cspSubarrayObsState",
         ObsState.RESOURCING,
     )
+    # Here the sleep is added to give time to subarraynode to
+    # recieve and process obsState events from subsystem.
     time.sleep(1)
 
 
