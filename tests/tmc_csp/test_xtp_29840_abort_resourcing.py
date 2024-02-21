@@ -1,6 +1,8 @@
 """Test TMC-CSP Abort functionality in RESOURCING obsState"""
 
 
+import time
+
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
@@ -12,9 +14,6 @@ from tests.resources.test_harness.helpers import (
 )
 
 
-@pytest.mark.skip(
-    reason="Issue on CSP - CBF subarray side" + "waiting for SKB-285 fix"
-)
 @pytest.mark.tmc_csp
 @scenario(
     "../features/tmc_csp/xtp_29840_abort_resourcing.feature",
@@ -98,6 +97,9 @@ def subarray_is_in_resourcing_obsstate(
         "cspSubarrayObsState",
         ObsState.RESOURCING,
     )
+    # Here the sleep is added to give time to subarraynode to
+    # recieve and process obsState events from subsystem.
+    time.sleep(1)
 
 
 @when("I issued the Abort command to the TMC subarray")

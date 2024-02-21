@@ -1,4 +1,4 @@
-"""Test module for TMC-DISH On functionality"""
+"""Test module for TMC-DISH Dish-VCC k-value validation functionality"""
 
 import json
 

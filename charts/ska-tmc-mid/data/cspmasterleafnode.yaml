@@ -25,6 +25,9 @@ server:
         - name: "LoggingLevelDefault"
           values:
             - "5"
+        - name: "DishVccInitTimeout"
+          values:
+            - "250"
         - name: "polled_attr"
           values:
             - "sourceDishVccConfig"

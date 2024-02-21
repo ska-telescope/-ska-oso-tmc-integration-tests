@@ -96,7 +96,7 @@ def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
 
     # Wait for the DishLeafNode to get StandbyLP event form DishMaster before
     # invoking TelescopeOn command
-    time.sleep(1)
+    time.sleep(5)
     csp_master_sim = simulator_factory.get_or_create_simulator_device(
         SimulatorDeviceType.MID_CSP_MASTER_DEVICE
     )
@@ -141,7 +141,7 @@ def turn_on_telescope(central_node_mid, event_recorder, simulator_factory):
 
     # Wait for the DishLeafNode to get StandbyFP event form DishMaster before
     # invoking TelescopeOn command
-    time.sleep(1)
+    time.sleep(5)
 
     assert event_recorder.has_change_event_occurred(
         central_node_mid.sdp_master,
