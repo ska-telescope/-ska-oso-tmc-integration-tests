@@ -22,13 +22,13 @@ The documentation for this project, including how to get started with it,can be 
 
 |Component| OCI Name | Version |
 | :-- | :-- |:--------|
-| Central Node| ska-tmc-centralnode | 0.11.6  |
-| Subarray Node| ska-tmc-subarraynode | 0.13.13 |
-| CSP Master Leaf Node| ska-tmc-cspleafnodes | 0.10.3  |
-| CSP Subarray Leaf Node| ska-tmc-cspleafnodes | 0.10.3  |
-| SDP Master Leaf Node| ska-tmc-sdpleafnodes | 0.14.2  |
-| SDP Subarray Leaf Node| ska-tmc-sdpleafnodes | 0.14.2  |
-| Dish Leaf Node| ska-tmc-dishleafnode | 0.7.0   |
+| Central Node| ska-tmc-centralnode | 0.14.3  |
+| Subarray Node| ska-tmc-subarraynode | 0.14.6 |
+| CSP Master Leaf Node| ska-tmc-cspleafnodes | 0.13.1 |
+| CSP Subarray Leaf Node| ska-tmc-cspleafnodes | 0.13.1 |
+| SDP Master Leaf Node| ska-tmc-sdpleafnodes | 0.14.2 |
+| SDP Subarray Leaf Node| ska-tmc-sdpleafnodes | 0.14.2 |
+| Dish Leaf Node| ska-tmc-dishleafnode | 0.9.3 |
 
 
 ### Deployment of Subsystem in Integration 
@@ -55,7 +55,7 @@ The documentation for this project, including how to get started with it,can be 
  * Test dish lmc with TMC as an entrypoint
     To test Dish LMC within the TMC integration, you can set a specific flag to control whether you want to use a real device or a mock device. Here's how you can do it:
     ```bash
-    --set tmc-mid.deviceServers.mocks.is_simulated.dish=true or false
+    --set tmc-mid.deviceServers.mocks.dish=true or false
     ```
     If you set "enabled" to true, Dish LMC will use a mock device for testing and if you set "enabled" to false, Dish LMC will use a real device for testing.
 

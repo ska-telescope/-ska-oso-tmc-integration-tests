@@ -16,14 +16,17 @@ annotations:
   app.gitlab.com/app: CI_PROJECT_PATH_SLUG
   app.gitlab.com/env: CI_ENVIRONMENT_SLUG
 
-
+##  Order of instances resolution ##
+# .Values.subarray_count 
+# subarray_count, this will be expanded (1 to N inclusive) 
+subarray_count: 2
 
 global:
   minikube: false
   tango_host: databaseds-tango-base-test:10000
 
   ##  Order of instances resolution ##
-  # .Values.global.dishes & .Values.global.subarray_count
+  # .Values.global.dishes
   # .Values.deviceServers.<device>.instances
   # File, data/<device>.yaml, instances
 
@@ -33,14 +36,15 @@ global:
   dishes: ["001", "036", "063", "100"]
 
   namespace_dish:
-    dish_name: ["dish1", "dish2", "dish3", "dish4"]
-  # subarray_count, this will be expanded (1 to N inclusive) and applied to instances of:
+    dish_names: []
+
+  # Instance of the following devices can be expanded (1 to N inclusive) by using subarray_count
   # deviceServers.cspsubarrayleafnode, deviceServers.sdpsubarrayleafnode, deviceServers.subarraynode
   subarray_devices:
     - "cspsubarrayleafnode"
     - "sdpsubarrayleafnode"
     - "subarraynode"
-  subarray_count: 1
+  
 
   # fqdn for mid devices
   tmc_subarray_prefix: "ska_mid/tm_subarray_node"
@@ -138,7 +142,6 @@ deviceServers:
 
   subarraynode:
     enabled: true
-    instances: ["01"]
     file: "data/subarraynode_mid.yaml"
     DishLeafNodePrefix: "ska_mid/tm_leaf_node/d0"
     DishIDs: ["SKA001", "SKA036", "SKA063", "SKA100"]
@@ -146,8 +149,7 @@ deviceServers:
     DishMasterPostfix: "master"
 
   sdpsubarrayleafnode:
-    enabled: true
-    instances: ["01"]
+    enabled: true 
     file: "data/sdpsubarrayleafnode.yaml"
 
   sdpmasterleafnode:
@@ -162,21 +164,18 @@ deviceServers:
 
   cspsubarrayleafnode:
     enabled: true
-    instances: ["01"]
     file: "data/cspsubarrayleafnode.yaml"
 
   dishleafnode:
     enabled: true
-    instances: ["001","036","063", "100"]
     file: "data/dishleafnode.yaml"
 
   mocks:
     enabled: false
     file: "data/mocks.yaml"
-    is_simulated:
-      dish: false
-      csp: false
-      sdp: false
+    dish: false
+    csp: false
+    sdp: false
 
 nodeSelector: {}
 
