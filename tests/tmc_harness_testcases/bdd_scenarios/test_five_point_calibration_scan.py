@@ -104,6 +104,8 @@ def when_i_perform_partial_configurations_and_scans(
         command_input_factory,
     )
 
+    # Check the actual pointing attribute is not empty
+    assert subarray_node.dish_leaf_node_list[0].actualPointing
 
 @then(
     "the subarray executes the commands successfully and is in READY obsState"
