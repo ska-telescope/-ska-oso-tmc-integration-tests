@@ -344,7 +344,6 @@ k8s-test:
     - ls -al tests
     - pip3 install -U ska-ser-xray
     - XRAY_TEST_RESULT_FILE="build/cucumber.json" make xray-publish
-  retry: 1
 
 dish-lmc-dish001:
   stage: test
