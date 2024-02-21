@@ -239,7 +239,7 @@ def subarray_transitions_to_aborted(central_node_mid, event_recorder):
     )
 
 
-@when(
+@then(
     parsers.parse("I issue the Restart command on TMC Subarray {subarray_id}")
 )
 def send_command_restart(central_node_mid):
