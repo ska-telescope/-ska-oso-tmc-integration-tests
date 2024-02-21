@@ -30,7 +30,7 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
-@pytest.mark.tmc_sdp
+
 @pytest.mark.SKA_mid
 @scenario(
     "../features/successive_configure.feature",
