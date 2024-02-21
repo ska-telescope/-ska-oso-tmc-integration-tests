@@ -86,7 +86,7 @@ def execute_initial_configure_command(
     subarray_node.store_configuration_data(configure_json)
 
 
-@then(parsers.parse("the subarray transitions to obsState READY"))
+@when(parsers.parse("the subarray transitions to obsState READY"))
 def check_subarray_in_ready(subarray_node, event_recorder):
     """A method to check SDP subarray obsstate"""
 

@@ -22,18 +22,17 @@ def test_tmc_sdp_reassign_resources():
     """
 
 
-@given("a TMC and SDP")
-def given_a_tmc(central_node_mid):
-    """A method to define TMC and SDP."""
-    assert central_node_mid.central_node.ping() > 0
-    assert central_node_mid.subarray_devices["sdp_subarray"].ping() > 0
-
-
-@given(parsers.parse("a subarray {subarray_id} in the IDLE obsState"))
+@given(
+    parsers.parse(
+        "Given the TMC and SDP subarray {subarray_id} in the IDLE obsState"
+    )
+)
 def telescope_is_in_idle_state(
     central_node_mid, event_recorder, command_input_factory, subarray_id
 ):
     """ "A method to move subarray into the IDLE ObsState."""
+    assert central_node_mid.central_node.ping() > 0
+    assert central_node_mid.subarray_devices["sdp_subarray"].ping() > 0
     central_node_mid.move_to_on()
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
@@ -65,7 +64,9 @@ def telescope_is_in_idle_state(
 
 
 @when(
-    parsers.parse("I release all resources assigned to subarray {subarray_id}")
+    parsers.parse(
+        "I release all resources assigned to TMC subarray {subarray_id}"
+    )
 )
 def release_resources_to_subarray(
     central_node_mid, command_input_factory, subarray_id
@@ -79,12 +80,14 @@ def release_resources_to_subarray(
 
 
 @then(
-    parsers.parse("the SDP subarray {subarray_id} must be in EMPTY obsState")
+    parsers.parse(
+        "TMC and SDP subarray {subarray_id} must be in EMPTY obsState"
+    )
 )
 def check_sdp_is_in_empty_obsstate(
     central_node_mid, event_recorder, subarray_id
 ):
-    """Method to check SDP is in EMPTY obsstate"""
+    """Method to check TMC Subarray SDP is in EMPTY obsstate"""
     check_subarray_instance(
         central_node_mid.subarray_devices.get("sdp_subarray"), subarray_id
     )
@@ -93,15 +96,6 @@ def check_sdp_is_in_empty_obsstate(
         "obsState",
         ObsState.EMPTY,
     )
-
-
-@then(
-    parsers.parse("TMC subarray {subarray_id} obsState transitions to EMPTY")
-)
-def check_tmc_is_in_empty_obsstate(
-    central_node_mid, event_recorder, subarray_id
-):
-    """Method to check TMC is in EMPTY obsstate."""
     check_subarray_instance(central_node_mid.subarray_node, subarray_id)
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
@@ -113,7 +107,7 @@ def check_tmc_is_in_empty_obsstate(
 @then(
     parsers.parse(
         "AssignResources is executed with updated {input_json1} "
-        "on SubarrayNode {subarray_id} successfully"
+        "on TMC subarray {subarray_id} "
     )
 )
 def assign_resources_executed_on_subarray(
@@ -129,6 +123,25 @@ def assign_resources_executed_on_subarray(
 
     central_node_mid.store_resources(assign_input_json)
 
+
+@then(
+    parsers.parse(
+        "TMC and SDP subarray {subarray_id} transitions to IDLE obsState"
+    )
+)
+def check_obstates_on_subarray(
+    central_node_mid, event_recorder, command_input_factory, input_json1
+):
+    """
+    Check if TMC Subarray and SDP subarray has transitioned
+    to required ObsState
+    """
+
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.subarray_devices.get("sdp_subarray"),
+        "obsState",
+        ObsState.EMPTY,
+    )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "obsState",

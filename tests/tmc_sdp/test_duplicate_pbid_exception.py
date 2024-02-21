@@ -1,4 +1,4 @@
-"""TMC SubarrayNode handles the exception duplicate eb-id raised
+"""TMC Subarray handles the exception duplicate eb-id raised
 by SDP subarray"""
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
@@ -21,7 +21,7 @@ from tests.resources.test_support.constant import (
 @pytest.mark.SKA_mid
 @scenario(
     "../features/tmc_sdp/sdp_exception.feature",
-    "TMC SubarrayNode handles the exception duplicate"
+    "TMC Subarray handles the exception duplicate"
     " eb-id raised by SDP subarray",
 )
 def test_duplicate_ebid_exception_propogation(
@@ -48,11 +48,22 @@ def test_duplicate_ebid_exception_propogation(
     """
 
 
-@given("a TMC")
-def given_tmc(central_node_mid, event_recorder):
+@given(
+    parsers.parse(
+        "The TMC and SDP subarray {subarray_id} in the IDLE obsState"
+    )
+)
+def given_assign_resources_executed_on_tmc_subarray(
+    central_node_mid,
+    event_recorder,
+    input_json1,
+    command_input_factory,
+):
     """
-    Perform initial set up and subscribe events
+    AssignResources is executed with input_json1 successfully
+    on SubarrayNode 1.
     """
+
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
     )
@@ -68,25 +79,6 @@ def given_tmc(central_node_mid, event_recorder):
         "obsState",
         ObsState.EMPTY,
     )
-
-
-@given(
-    parsers.parse(
-        "AssignResources is executed with {input_json1}"
-        " successfully on SubarrayNode {subarray_id}"
-    )
-)
-def given_assign_resources_executed_on_tmc_subarray(
-    central_node_mid,
-    event_recorder,
-    input_json1,
-    command_input_factory,
-):
-    """
-    AssignResources is executed with input_json1 successfully
-    on SubarrayNode 1.
-    """
-
     event_recorder.subscribe_event(
         central_node_mid.central_node, "longRunningCommandResult"
     )
@@ -109,9 +101,10 @@ def given_assign_resources_executed_on_tmc_subarray(
     )
 
 
-@given(
+@when(
     parsers.parse(
-        "TMC executes second AssignResources command with duplicate eb-id"
+        "TMC executes second AssignResources command with duplicate"
+        " eb-id from <input_json1>"
     )
 )
 def given_tmc_subarray_incremental_assign_resources_is_in_progress(
@@ -156,9 +149,10 @@ def given_tmc_subarray_incremental_assign_resources_is_in_progress(
     LOGGER.info("CSP ObsState is ObsState.IDLE")
 
 
-@then(
+@when(
     parsers.parse(
-        "SDP {subarray_id} throws exception and remain in IDLE status"
+        "SDP subarray {subarray_id} throws an exception and "
+        "remain in IDLE obsState"
     )
 )
 def sdp_subarray_remains_in_idle(
@@ -207,11 +201,7 @@ def check_exception_propagation_to_central_node(
     )
 
 
-@then(
-    parsers.parse(
-        "I issue the Abort command on TMC SubarrayNode {subarray_id}"
-    )
-)
+@then(parsers.parse("I issue the Abort command on TMC Subarray {subarray_id}"))
 def send_command_abort(central_node_mid):
     """
     Issue Abort command
@@ -221,7 +211,7 @@ def send_command_abort(central_node_mid):
 
 @then(
     parsers.parse(
-        "the CSP, SDP and TMC subarray {subarray_id} transitions to "
+        "the CSP, SDP and TMC Subarray {subarray_id} transitions to "
         + "obsState ABORTED"
     )
 )
@@ -254,9 +244,7 @@ def subarray_transitions_to_aborted(
 
 
 @when(
-    parsers.parse(
-        "I issue the Restart command on TMC SubarrayNode {subarray_id}"
-    )
+    parsers.parse("I issue the Restart command on TMC Subarray {subarray_id}")
 )
 def send_command_restart(central_node_mid):
     """
@@ -267,7 +255,7 @@ def send_command_restart(central_node_mid):
 
 @then(
     parsers.parse(
-        "the CSP, SDP and TMC subarray {subarray_id} transitions to "
+        "the CSP, SDP and TMC Subarray {subarray_id} transitions to "
         + "obsState EMPTY"
     )
 )
@@ -300,17 +288,18 @@ def subarray_transitions_to_empty(
 
 @then(
     parsers.parse(
-        "AssignResources command is executed successfully on the "
-        + "Subarray {subarray_id}"
+        "Then AssignResources command is executed and TMC and"
+        " SDP subarray {subarray_id} transitions to IDLE"
     )
 )
 def assign_resources_executed_on_subarray(
-    central_node_mid, event_recorder, command_input_factory
+    central_node_mid, event_recorder, command_input_factory, simulator_factory
 ):
     """
     Check assignResources command is executed successfully
     """
 
+    sdp_sim, _, _, _, _ = get_device_simulators(simulator_factory)
     event_recorder.subscribe_event(
         central_node_mid.central_node, "longRunningCommandResult"
     )
@@ -319,6 +308,12 @@ def assign_resources_executed_on_subarray(
     )
 
     central_node_mid.store_resources(assign_input_json)
+
+    assert event_recorder.has_change_event_occurred(
+        sdp_sim,
+        "obsState",
+        ObsState.IDLE,
+    )
 
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
