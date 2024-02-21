@@ -20,7 +20,7 @@ from tests.resources.test_support.constant import (
 @pytest.mark.tmc_sdp
 @pytest.mark.SKA_mid
 @scenario(
-    "../features/sdp_exception.feature",
+    "../features/tmc_sdp/sdp_exception.feature",
     "TMC SubarrayNode handles the exception duplicate"
     " eb-id raised by SDP subarray",
 )
