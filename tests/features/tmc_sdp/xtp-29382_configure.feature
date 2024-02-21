@@ -1,7 +1,7 @@
 Feature: Default
 
 	#This BDD test performs TMC-SDP pairwise testing to verify Configure command flow.
-	@XTP-29382 @XTP-29381 @Team_SAHYADRI @tmc_sdp_skip
+	@XTP-29382 @XTP-29381 @Team_SAHYADRI @tmc_sdp
 	Scenario: Configure a SDP subarray for a scan using TMC
 		Given the Telescope is in ON state
 		And TMC subarray in obsState IDLE

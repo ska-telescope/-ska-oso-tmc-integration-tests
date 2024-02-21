@@ -1,4 +1,4 @@
-@XTP-29293 @XTP-29381 @Team_SAHYADRI @tmc_sdp_skip
+@XTP-29293 @XTP-29381 @Team_SAHYADRI @tmc_sdp
 Scenario: Assign resources to SDP subarray using TMC
     Given the Telescope is in ON state
     And the subarray <subarray_id> obsState is EMPTY

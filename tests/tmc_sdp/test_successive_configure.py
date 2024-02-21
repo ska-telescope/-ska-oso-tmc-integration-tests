@@ -1,9 +1,4 @@
 """Test TMC-SDP Reconfigure functionality"""
-# When testing Configure verify that the subarray successfully
-# executes the next command Configure if it provides
-# a) the same configuration, b) different configuration.
-#  In the case b) it would be good to verify that the sub-system in question is
-#   indeed re-configured (check at least some parameters).
 
 
 import pytest
@@ -80,9 +75,7 @@ def telescope_is_in_idle_state(
 @when(parsers.parse("the command configure is issued with {input_json1}"))
 def execute_initial_configure_command(
     subarray_node,
-    event_recorder,
     command_input_factory,
-    subarray_id,
     input_json1,
 ):
     """ "A method to invoke configure command"""
@@ -94,9 +87,7 @@ def execute_initial_configure_command(
 
 
 @then(parsers.parse("the subarray transitions to obsState READY"))
-def check_subarray_in_ready(
-    central_node_mid, subarray_node, event_recorder, subarray_id
-):
+def check_subarray_in_ready(subarray_node, event_recorder):
     """A method to check SDP subarray obsstate"""
 
     assert event_recorder.has_change_event_occurred(
@@ -123,9 +114,7 @@ def check_subarray_in_ready(
 )
 def execute_next_configure_command(
     subarray_node,
-    event_recorder,
     command_input_factory,
-    subarray_id,
     input_json2,
 ):
     """ "A method to invoke configure command"""
@@ -139,9 +128,7 @@ def execute_next_configure_command(
 @then(
     parsers.parse("the subarray reconfigures changing its obsState to READY")
 )
-def check_subarray_in_ready_in_reconfigure(
-    central_node_mid, subarray_node, event_recorder, subarray_id
-):
+def check_subarray_in_ready_in_reconfigure(subarray_node, event_recorder):
     """A method to check SDP subarray obsstate"""
 
     assert event_recorder.has_change_event_occurred(

@@ -16,7 +16,7 @@ from tests.resources.test_harness.helpers import (
 )
 
 
-@pytest.mark.SKA_midskip
+@pytest.mark.SKA_mid
 @scenario(
     "../features/xtp-29012.feature",
     "TMC behavior when CSP Subarray"

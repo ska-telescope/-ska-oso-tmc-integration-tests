@@ -11,7 +11,7 @@ namespace = os.getenv("KUBE_NAMESPACE")
 
 
 @pytest.mark.post_deployment
-@pytest.mark.SKA_midskip
+@pytest.mark.SKA_mid
 def test_configure_alarms_with_multiple_files():
     """Test method to configure alarm rules using
     multiple alarm rules files

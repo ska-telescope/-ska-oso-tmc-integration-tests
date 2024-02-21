@@ -10,7 +10,7 @@ from tests.resources.test_harness.helpers import (
 )
 
 
-@pytest.mark.tmc_sdp_skip
+@pytest.mark.tmc_sdp
 @scenario(
     "../features/tmc_sdp/successive_assign.feature",
     "Validate second AssignResources command  after "

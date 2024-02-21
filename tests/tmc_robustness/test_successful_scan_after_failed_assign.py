@@ -30,7 +30,7 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
-@pytest.mark.SKA_midskip
+@pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_failed_assigned.feature",
     "Successfully execute a scan after a failed attempt to assign resources",
@@ -237,7 +237,7 @@ def teardown_the_tmc(json_factory):
     )
 
 
-@pytest.mark.SKA_midskip
+@pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_failed_assigned.feature",
     "Successfully execute a scan after a successive failed attempt to assign resources",  # noqa: E501
@@ -296,7 +296,7 @@ def send_assignresource_with_invalid_json3(json_factory):
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
 
-@pytest.mark.SKA_midskip
+@pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_assigning_unavailable_resources.feature",  # noqa: E501
     "Successfully execute a scan after invoking assign resources with unavailable resources",  # noqa: E501
@@ -343,7 +343,7 @@ def invalid_command_rejection_with_unavailable_resources(resources_list):
     assert pytest.command_result[0][0] == ResultCode.REJECTED
 
 
-@pytest.mark.SKA_midskip
+@pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_assigning_unavailable_resources.feature",  # noqa: E501
     "Successfully execute a scan after invoking successive assign resources with unavailable resources",  # noqa: E501
@@ -355,7 +355,7 @@ def test_assign_resource_successive_invokation_with_unavailable_resources():
     """
 
 
-@pytest.mark.SKA_midskip
+@pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_combination_of_failed_assign_resources.feature",  # noqa: E501
     "Successfully execute a scan after combination of failed assign resources",  # noqa: E501
@@ -370,7 +370,7 @@ def test_assign_resource_with_combination():
     """
 
 
-@pytest.mark.SKA_midskip
+@pytest.mark.SKA_mid
 @scenario(
     "../features/successful_scan_after_combination_of_failed_assign_resources.feature",  # noqa: E501
     "Successfully execute a scan after second combination of failed assign resources",  # noqa: E501
