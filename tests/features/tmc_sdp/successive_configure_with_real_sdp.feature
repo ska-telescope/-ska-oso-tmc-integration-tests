@@ -5,7 +5,7 @@ Feature:  TMC executes successive configure commands with real sdp devices
         When the command configure is issued with <input_json1>
         And the subarray transitions to obsState READY
         And the next successive configure command is issued with <input_json2>
-        Then the subarray reconfigures changing its obsState to READY
+        Then the subarray <subarray_id> reconfigures changing its obsState to READY
 
         Examples:
             | subarray_id  | input_json1           |      input_json2       |

@@ -117,10 +117,11 @@ def check_components_in_empty_obsstate(
     )
 )
 def reassign_resources_on_subarray(
-    central_node_mid, event_recorder, command_input_factory, input_json1
+    central_node_mid, subarray_id, command_input_factory, input_json1
 ):
     """Execute second assign resource"""
 
+    check_subarray_instance(central_node_mid.subarray_node, subarray_id)
     assign_input_json = prepare_json_args_for_centralnode_commands(
         input_json1, command_input_factory
     )
@@ -133,19 +134,22 @@ def reassign_resources_on_subarray(
         "TMC and SDP subarray {subarray_id} transitions to IDLE obsState"
     )
 )
-def check_obstates_on_subarray(
-    central_node_mid, event_recorder, command_input_factory, input_json1
-):
+def check_obstates_on_subarray(central_node_mid, event_recorder, subarray_id):
     """
     Check if TMC Subarray and SDP subarray has transitioned
     to required ObsState
     """
+    check_subarray_instance(
+        central_node_mid.subarray_devices.get("sdp_subarray"), subarray_id
+    )
 
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_devices.get("sdp_subarray"),
         "obsState",
         ObsState.EMPTY,
     )
+
+    check_subarray_instance(central_node_mid.subarray_node, subarray_id)
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "obsState",

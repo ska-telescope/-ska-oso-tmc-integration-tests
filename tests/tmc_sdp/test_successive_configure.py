@@ -49,7 +49,6 @@ def telescope_is_in_idle_state(
     """ "A method to move subarray into the IDLE ObsState."""
     central_node_mid.move_to_on()
 
-    check_subarray_instance(central_node_mid.subarray_node, subarray_id)
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
         "telescopeState",
@@ -60,11 +59,16 @@ def telescope_is_in_idle_state(
     )
     central_node_mid.store_resources(assign_input_json)
 
+    check_subarray_instance(
+        central_node_mid.subarray_devices.get("sdp_subarray"), subarray_id
+    )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_devices.get("sdp_subarray"),
         "obsState",
         ObsState.IDLE,
     )
+
+    check_subarray_instance(central_node_mid.subarray_node, subarray_id)
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_node,
         "obsState",
@@ -86,7 +90,7 @@ def execute_initial_configure_command(
     subarray_node.store_configuration_data(configure_json)
 
 
-@when(parsers.parse("the subarray transitions to obsState READY"))
+@when("the subarray transitions to obsState READY")
 def check_subarray_in_ready(subarray_node, event_recorder):
     """A method to check SDP subarray obsstate"""
 
@@ -126,16 +130,26 @@ def execute_next_configure_command(
 
 
 @then(
-    parsers.parse("the subarray reconfigures changing its obsState to READY")
+    parsers.parse(
+        "the subarray {subarray_id} reconfigures changing its "
+        "obsState to READY"
+    )
 )
-def check_subarray_in_ready_in_reconfigure(subarray_node, event_recorder):
+def check_subarray_in_ready_in_reconfigure(
+    central_node_mid, subarray_node, event_recorder, subarray_id
+):
     """A method to check SDP subarray obsstate"""
 
+    check_subarray_instance(
+        central_node_mid.subarray_devices.get("sdp_subarray"), subarray_id
+    )
     assert event_recorder.has_change_event_occurred(
-        subarray_node.subarray_devices["csp_subarray"],
+        subarray_node.subarray_devices["sdp_subarray"],
         "obsState",
         ObsState.READY,
     )
+
+    check_subarray_instance(central_node_mid.subarray_node, subarray_id)
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
         "obsState",
