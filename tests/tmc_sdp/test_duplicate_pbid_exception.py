@@ -6,9 +6,7 @@ from ska_control_model import ObsState
 from ska_tango_testing.mock.placeholders import Anything
 from tango import DevState
 
-from tests.conftest import LOGGER
 from tests.resources.test_harness.helpers import (
-    get_device_simulators,
     prepare_json_args_for_centralnode_commands,
 )
 from tests.resources.test_support.constant import (
@@ -50,7 +48,8 @@ def test_duplicate_ebid_exception_propogation(
 
 @given(
     parsers.parse(
-        "The TMC and SDP subarray {subarray_id} in the IDLE obsState"
+        "The TMC and SDP subarray {subarray_id} in the IDLE "
+        "obsState using {input_json1}"
     )
 )
 def given_assign_resources_executed_on_tmc_subarray(
@@ -68,6 +67,20 @@ def given_assign_resources_executed_on_tmc_subarray(
         central_node_mid.central_node, "telescopeState"
     )
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
+    event_recorder.subscribe_event(
+        central_node_mid.subarray_devices.get("sdp_subarray"), "obsState"
+    )
+    event_recorder.subscribe_event(
+        central_node_mid.subarray_devices.get("csp_subarray"), "obsState"
+    )
+
+    event_recorder.subscribe_event(
+        central_node_mid.central_node, "longRunningCommandResult"
+    )
+    event_recorder.subscribe_event(
+        central_node_mid.subarray_node, "longRunningCommandResult"
+    )
+
     central_node_mid.move_to_on()
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
@@ -79,9 +92,7 @@ def given_assign_resources_executed_on_tmc_subarray(
         "obsState",
         ObsState.EMPTY,
     )
-    event_recorder.subscribe_event(
-        central_node_mid.central_node, "longRunningCommandResult"
-    )
+
     assign_input_json = prepare_json_args_for_centralnode_commands(
         input_json1, command_input_factory
     )
@@ -104,13 +115,12 @@ def given_assign_resources_executed_on_tmc_subarray(
 @when(
     parsers.parse(
         "TMC executes second AssignResources command with duplicate"
-        " eb-id from <input_json1>"
+        " eb-id from {input_json1}"
     )
 )
-def given_tmc_subarray_incremental_assign_resources_is_in_progress(
+def reassign_resources_to_subarray(
     central_node_mid,
     event_recorder,
-    simulator_factory,
     input_json1,
     command_input_factory,
     shared_context,
@@ -138,15 +148,11 @@ def given_tmc_subarray_incremental_assign_resources_is_in_progress(
     )
     shared_context.unique_id = unique_id
 
-    csp_sim, _, _, _, _, _ = get_device_simulators(simulator_factory)
-    event_recorder.subscribe_event(csp_sim, "obsState")
     assert event_recorder.has_change_event_occurred(
-        csp_sim,
+        central_node_mid.subarray_devices.get("csp_subarray"),
         "obsState",
         ObsState.IDLE,
     )
-
-    LOGGER.info("CSP ObsState is ObsState.IDLE")
 
 
 @when(
@@ -161,20 +167,13 @@ def sdp_subarray_remains_in_idle(
     """
     Check if SDP remains in IDLE status
     """
-    _, sdp_sim, _, _, _, _ = get_device_simulators(simulator_factory)
-    event_recorder.subscribe_event(sdp_sim, "obsState")
+
     assert event_recorder.has_change_event_occurred(
-        sdp_sim,
+        central_node_mid.subarray_devices.get("sdp_subarray"),
         "obsState",
         ObsState.IDLE,
     )
 
-    event_recorder.subscribe_event(
-        central_node_mid.subarray_node, "longRunningCommandResult"
-    )
-    LOGGER.info(
-        "SubarrayNode ObsState is %s", central_node_mid.subarray_node.obsState
-    )
     assert central_node_mid.subarray_node.obsState == ObsState.RESOURCING
 
 
@@ -215,23 +214,20 @@ def send_command_abort(central_node_mid):
         + "obsState ABORTED"
     )
 )
-def subarray_transitions_to_aborted(
-    central_node_mid, simulator_factory, event_recorder
-):
+def subarray_transitions_to_aborted(central_node_mid, event_recorder):
     """
     Check if TMC subarray , CSP Subarray and real SDP Subarray
     move to abort.
     """
-    csp_sim, sdp_sim, _, _, _, _ = get_device_simulators(simulator_factory)
-    event_recorder.subscribe_event(csp_sim, "obsState")
+
     assert event_recorder.has_change_event_occurred(
-        csp_sim,
+        central_node_mid.subarray_devices.get("csp_subarray"),
         "obsState",
         ObsState.ABORTED,
     )
-    event_recorder.subscribe_event(sdp_sim, "obsState")
+
     assert event_recorder.has_change_event_occurred(
-        sdp_sim,
+        central_node_mid.subarray_devices.get("sdp_subarray"),
         "obsState",
         ObsState.ABORTED,
     )
@@ -265,16 +261,15 @@ def subarray_transitions_to_empty(
     """
     Check if CSP, SDP and TMC subarray  transitions to obsState EMPTY
     """
-    csp_sim, sdp_sim, _, _, _, _ = get_device_simulators(simulator_factory)
-    event_recorder.subscribe_event(csp_sim, "obsState")
+
     assert event_recorder.has_change_event_occurred(
-        csp_sim,
+        central_node_mid.subarray_devices.get("csp_subarray"),
         "obsState",
         ObsState.EMPTY,
     )
-    event_recorder.subscribe_event(sdp_sim, "obsState")
+
     assert event_recorder.has_change_event_occurred(
-        sdp_sim,
+        central_node_mid.subarray_devices.get("sdp_subarray"),
         "obsState",
         ObsState.EMPTY,
     )
@@ -288,7 +283,7 @@ def subarray_transitions_to_empty(
 
 @then(
     parsers.parse(
-        "Then AssignResources command is executed and TMC and"
+        "AssignResources command is executed and TMC and"
         " SDP subarray {subarray_id} transitions to IDLE"
     )
 )
@@ -299,10 +294,6 @@ def assign_resources_executed_on_subarray(
     Check assignResources command is executed successfully
     """
 
-    sdp_sim, _, _, _, _ = get_device_simulators(simulator_factory)
-    event_recorder.subscribe_event(
-        central_node_mid.central_node, "longRunningCommandResult"
-    )
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
@@ -310,7 +301,7 @@ def assign_resources_executed_on_subarray(
     central_node_mid.store_resources(assign_input_json)
 
     assert event_recorder.has_change_event_occurred(
-        sdp_sim,
+        central_node_mid.subarray_devices.get("sdp_subarray"),
         "obsState",
         ObsState.IDLE,
     )

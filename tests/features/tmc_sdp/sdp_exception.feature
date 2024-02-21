@@ -2,7 +2,7 @@ Feature: TMC Subarray handles the exception when AssignResources command fails o
     @XTP-29381 @tmc_sdp
     Scenario Outline: TMC Subarray handles the exception duplicate eb-id raised by SDP subarray
 
-        Given The TMC and SDP subarray <subarray_id> in the IDLE obsState
+        Given The TMC and SDP subarray <subarray_id> in the IDLE obsState using <input_json1>
         When TMC executes second AssignResources command with duplicate eb-id from <input_json1>
         And SDP subarray <subarray_id> throws an exception and remain in IDLE obsState
         Then exception is propagated to central node
