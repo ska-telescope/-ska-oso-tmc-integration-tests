@@ -7,25 +7,37 @@ entrypoints:
 server:
   name: "dish_leaf_node"
   instances:
-  {{- $isSimulatedDish := .Values.deviceServers.mocks.is_simulated.dish }}
-  {{- $real_dish_name := .Values.global.namespace_dish.dish_name }}
-  {{- range $index, $instance := .Values.deviceServers.dishleafnode.instances }}
-    - name: "{{ $instance }}"
+  {{- $instance_list := list -}}
+  {{- $mocks_enabled := .Values.deviceServers.mocks.enabled}}
+  {{- $isSimulatedDish := .Values.deviceServers.mocks.dish }}
+  {{- $real_dish_name := .Values.global.namespace_dish.dish_names }}
+  {{- if and (eq $mocks_enabled true) (eq $isSimulatedDish true)  }}
+  {{- range $instance := .Values.global.dishes }}
+  {{- $instance_list = append $instance_list ($instance) }}
+  {{- end }}
+  {{- else }}
+  {{- range $instance_real := $real_dish_name }}
+  {{- $match := (regexFind "ska(\\d{3})" $instance_real) -}}
+  {{- $instance_list = append $instance_list (trimPrefix "ska" $match) }}
+  {{- end }}
+  {{- end }}
+  {{- range $index, $number := $instance_list }}
+    - name: "{{ $number }}"
       classes:
       - name: "DishLeafNode"
         devices:
-        - name: "ska_mid/tm_leaf_node/d0{{ printf $instance }}"
+        - name: "ska_mid/tm_leaf_node/d0{{ $number }}"
           properties:
           - name: "DishMasterFQDN"
             values:
-              {{- if eq $isSimulatedDish false }}
+              {{- if and (eq $mocks_enabled true) (eq $isSimulatedDish true)  }}
+              - "ska{{ printf $number }}/elt/master" # Mock device FQDN
+              {{- else }}
               {{- range $index_real, $instance_real := $real_dish_name }}
               {{- if eq $index_real $index }}
               - "{{ $instance_real }}"
               {{- end }}
               {{- end }}
-              {{- else }}
-              - "ska{{ printf $instance }}/elt/master" # Mock device FQDN
               {{- end }}
           - name: "SkaLevel"
             values:

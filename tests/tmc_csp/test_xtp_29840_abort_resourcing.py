@@ -1,6 +1,8 @@
 """Test TMC-CSP Abort functionality in RESOURCING obsState"""
 
 
+import time
+
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
@@ -95,6 +97,9 @@ def subarray_is_in_resourcing_obsstate(
         "cspSubarrayObsState",
         ObsState.RESOURCING,
     )
+    # Here the sleep is added to give time to subarraynode to
+    # recieve and process obsState events from subsystem.
+    time.sleep(1)
 
 
 @when("I issued the Abort command to the TMC subarray")
