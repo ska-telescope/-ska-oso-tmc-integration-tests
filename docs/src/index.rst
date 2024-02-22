@@ -37,10 +37,10 @@ This project is integration of the TMC components for the `Square Kilometre Arra
    :maxdepth: 1
    :caption: Testing
 
-   developer_guide/testing/pair_wise_test
-   developer_guide/testing/test_harness
-   developer_guide/testing/pair_wise_test_tmc_dish
-   developer_guide/testing/pair_wise_tests
+   developer_guide/pair_wise_test
+   developer_guide/test_harness
+   developer_guide/pair_wise_test_tmc_dish
+   developer_guide/pair_wise_tests
 
 Indices and tables
 ------------------
