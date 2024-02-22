@@ -155,7 +155,7 @@ mid-on-demand-deploy-mini-skampi:
 k8s-test-csp-dish:
   stage: test
   tags:
-    - k8srunner-xlarge
+    - k8srunner-large
   variables:
     DISH_SIMULATION_ENABLED: "false"
     CSP_SIMULATION_ENABLED: "false"
