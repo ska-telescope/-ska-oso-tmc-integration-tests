@@ -36,7 +36,7 @@ def test_duplicate_ebid_exception_propogation(
     and gets propagated to central node and is available in long running
     attribute of central node. As a handling Abort + Restart command sequence
     is executed on
-    the Subarray to take it to the initial obsState IDLE.
+    the Subarray to take it to the initial obsState Empty.
     Glossary:
     - "central_node_mid": fixture for a TMC CentralNode Mid under test
     which provides simulated master devices

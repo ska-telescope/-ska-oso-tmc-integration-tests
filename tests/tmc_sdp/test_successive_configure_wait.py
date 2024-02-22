@@ -1,5 +1,6 @@
 """Test TMC-SDP Reconfigure functionality"""
 
+
 import json
 
 import pytest
@@ -11,6 +12,7 @@ from tests.resources.test_harness.helpers import (
     check_subarray_instance,
     prepare_json_args_for_centralnode_commands,
     prepare_json_args_for_commands,
+    wait_and_validate_device_attribute_value,
 )
 
 
@@ -138,11 +140,11 @@ def execute_next_configure_command(
     )
     subarray_node.store_configuration_data(configure_json)
 
-    # assert event_recorder.has_change_event_occurred(
-    #     subarray_node.subarray_devices["sdp_subarray"],
-    #     "obsState",
-    #     ObsState.CONFIGURING,
-    # )
+    wait_and_validate_device_attribute_value(
+        subarray_node.subarray_devices["sdp_subarray"],
+        "obsState",
+        ObsState.CONFIGURING,
+    )
 
 
 @then(
@@ -156,10 +158,10 @@ def check_subarray_in_ready_in_reconfigure(
 ):
     """A method to check SDP subarray obsstate"""
 
-    # check_subarray_instance(
-    #     central_node_mid.subarray_devices.get("sdp_subarray"), subarray_id
-    # )
-    #
+    check_subarray_instance(
+        central_node_mid.subarray_devices.get("sdp_subarray"), subarray_id
+    )
+
     # time.sleep(2.5)
     #
     # assert event_recorder.has_change_event_occurred(

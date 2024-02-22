@@ -113,7 +113,7 @@ def check_components_in_empty_obsstate(
 @then(
     parsers.parse(
         "AssignResources is executed with updated {input_json1} "
-        "on TMC subarray {subarray_id} "
+        "on TMC subarray {subarray_id}"
     )
 )
 def reassign_resources_on_subarray(
@@ -134,7 +134,7 @@ def reassign_resources_on_subarray(
         "TMC and SDP subarray {subarray_id} transitions to IDLE obsState"
     )
 )
-def check_obstates_on_subarray(central_node_mid, event_recorder, subarray_id):
+def check_obsstate_on_subarray(central_node_mid, event_recorder, subarray_id):
     """
     Check if TMC Subarray and SDP subarray has transitioned
     to required ObsState
