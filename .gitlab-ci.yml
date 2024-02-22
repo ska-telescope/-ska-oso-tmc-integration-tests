@@ -455,8 +455,7 @@ k8s-test-dish-lmc:
 stop-k8s-test-dish-lmc:
   extends:
   - stop-k8s-test
-  stage:
-    - dish-test
+  stage: dish-test
   variables:
     KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-test"
   script:
