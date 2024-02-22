@@ -19,7 +19,7 @@ from tests.resources.test_harness.utils.enums import SimulatorDeviceType
 from tests.resources.test_support.enum import DishMode, PointingState
 
 
-@pytest.mark.tmc_dish
+@pytest.mark.tmc_dish_scan
 @scenario(
     "../features/tmc_dish/xtp-30385_scan.feature",
     "TMC executes Scan command on DISH.LMC",
