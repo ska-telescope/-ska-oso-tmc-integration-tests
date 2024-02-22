@@ -154,7 +154,7 @@ mid-on-demand-deploy-mini-skampi:
   allow_failure: true # need to keep this to unlock the pipeline
 
 k8s-test-csp-dish:
-  stage: test
+  stage: dish-test
   tags:
     - k8srunner-large
   variables:
@@ -317,9 +317,9 @@ mid-on-demand-destroy-mini-skampi:
   allow_failure: true # need to keep this to unlock the pipeline
 
 stop-k8s-test-csp-dish:
-  stage: test
   extends:
     - mid-on-demand-destroy-mini-skampi
+  stage: dish-test
   variables:
     KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-test-mid-csp-dish"
     SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-test-mid-csp-dish"
