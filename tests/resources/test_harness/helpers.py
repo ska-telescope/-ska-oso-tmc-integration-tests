@@ -596,3 +596,11 @@ def wait_and_validate_device_attribute_value(
         count,
     )
     return False
+
+
+def check_long_running_command_status(assertion_data, command_name, status):
+    for index in range(len(assertion_data)):
+        if assertion_data[index].endswith(command_name):
+            if assertion_data[index + 1] == status:
+                return True
+    return False
