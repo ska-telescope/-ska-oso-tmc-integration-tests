@@ -271,7 +271,7 @@ def check_dish_mode_and_pointing_state_after_scan(
             "longRunningCommandStatus",
         )
 
-        assertion_data = event_recorder.has_change_occurred(
+        assertion_data = event_recorder.has_change_event_occurred(
             central_node_mid.dish_master_dict[dish_id],
             "longRunningCommandStatus",
             (Anything),
