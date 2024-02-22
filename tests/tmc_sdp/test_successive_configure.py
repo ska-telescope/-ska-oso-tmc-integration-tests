@@ -1,6 +1,8 @@
 """Test TMC-SDP Reconfigure functionality"""
 
 
+import json
+
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
@@ -57,7 +59,15 @@ def telescope_is_in_idle_state(
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid_multiple_scantype", command_input_factory
     )
-    central_node_mid.store_resources(assign_input_json)
+
+    assign_str = json.loads(assign_input_json)
+    # Here we are adding this to get an event of ObsState CONFIGURING from SDP
+    # Subarray
+    assign_str["sdp"]["processing_blocks"][0]["parameters"][
+        "time-to-ready"
+    ] = 2
+
+    central_node_mid.store_resources(json.dumps(assign_str))
 
     check_subarray_instance(
         central_node_mid.subarray_devices.get("sdp_subarray"), subarray_id

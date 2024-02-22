@@ -265,12 +265,12 @@ def subarray_transitions_to_aborted(
 @then(
     parsers.parse("I issue the Restart command on TMC Subarray {subarray_id}")
 )
-def send_command_restart(central_node_mid, subarray_id):
+def send_command_restart(central_node_mid, subarray_id, subarray_node):
     """
     Issue restart command.
     """
     check_subarray_instance(central_node_mid.subarray_node, subarray_id)
-    central_node_mid.subarray_node.restart_subarray()
+    subarray_node.restart_subarray()
 
 
 @then(
