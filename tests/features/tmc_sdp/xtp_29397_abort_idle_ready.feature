@@ -1,3 +1,4 @@
+# This BDD test performs TMC-SDP pairwise testing to verify Abort command flow in obsStates IDLE and READY.
 @XTP-29397 @XTP-29381 @Team_SAHYADRI @tmc_sdp
 Scenario: TMC executes an Abort on SDP subarray
     Given the telescope is in ON state

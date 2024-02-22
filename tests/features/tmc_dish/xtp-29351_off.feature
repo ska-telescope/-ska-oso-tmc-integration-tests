@@ -1,3 +1,4 @@
+# This BDD test performs TMC-Dish pairwise testing to verify Off command flow.
 @XTP-29351 @XTP-29778 @Team_SAHYADRI @tmc_dish 
 Scenario: Shut down with TMC and DISH devices
     Given a Telescope consisting of TMC, DISH <dish_ids>, simulated CSP and simulated SDP is in ON state

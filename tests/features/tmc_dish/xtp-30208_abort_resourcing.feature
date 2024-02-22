@@ -1,3 +1,4 @@
+# This BDD test performs TMC-Dish pairwise testing to verify Abort command flow in obsState RESOURCING.
 @XTP-30208 @XTP-29778 @Team_SAHYADRI @tmc_dish
 Scenario: TMC executes Abort command on DISH.LMC when TMC Subarray in Resourcing
     Given a Telescope consisting of TMC, DISH <dish_ids>, simulated CSP and simulated SDP

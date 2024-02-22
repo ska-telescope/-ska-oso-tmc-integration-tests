@@ -1,3 +1,4 @@
+# This BDD test performs TMC-CSP pairwise testing to verify Standby command flow.
 @XTP-29583 @XTP-29251 @tmc_csp
 Scenario: Standby the Telescope with real TMC and CSP devices
     Given a Telescope consisting of TMC, CSP, simulated DISH and simulated SDP devices
