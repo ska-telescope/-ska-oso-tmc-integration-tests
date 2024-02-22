@@ -2,7 +2,7 @@
 # CAR_OCI_REGISTRY_USER and PROJECT below.
 ALARM_HANDLER_FQDN= "alarm/handler/01"
 CAR_OCI_REGISTRY_HOST:=artefact.skao.int
-PROJECT = ska-tmc-integration
+PROJECT = ska-tmc-mid-integration
 TANGO_HOST ?= tango-databaseds:10000 ## TANGO_HOST connection to the Tango DS
 TELESCOPE ?= SKA-mid
 DISH_NAMESPACE_1 ?= dish-lmc-1
@@ -72,6 +72,9 @@ MINIKUBE ?= false ## Minikube or not
 FAKE_DEVICES ?= false ## Install fake devices or not
 TANGO_HOST ?= tango-databaseds:10000## TANGO_HOST connection to the Tango DS
 
+EXPOSE_All_DS ?= true ## Expose All Tango Services to the external network (enable Loadbalancer service)
+SKA_TANGO_OPERATOR ?= true
+
 ITANGO_DOCKER_IMAGE = $(CAR_OCI_REGISTRY_HOST)/ska-tango-images-tango-itango:9.3.10
 
 # Test runner - run to completion job in K8s
@@ -113,8 +116,8 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set ska-tango-base.display=$(DISPLAY) \
 	--set ska-tango-base.xauthority=$(XAUTHORITY) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
-	--set global.exposeAllDS=true \
-	--set global.operator=true \
+	--set global.exposeAllDS=$(EXPOSE_All_DS) \
+	--set global.operator=$(SKA_TANGO_OPERATOR) \
 	--set ska-taranta.enabled=$(TARANTA_ENABLED)\
 	--set global.namespace_dish.dish_names[0]="$(DISH_NAME_1)"\
 	--set global.namespace_dish.dish_names[1]="$(DISH_NAME_36)"\
