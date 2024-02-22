@@ -19,6 +19,7 @@ cache:
 # It is also specified that only the master branch will be subject of this job.
 
 stages:
+  - dish-test
   - lint
   - build
   - on-demand
@@ -199,7 +200,7 @@ on-demand-dish-lmc-dish001:
   variables:
     DISH_INDEX: "001"
     KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-on-demand-dish-lmc-$DISH_INDEX"
-    DISH_LMC_SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-on-demand-dish-lmc-$DISH_INDEX"
+    DISH_LMC_SERVICE_ACCOUNT: "ci-svc-$CI_ROJECT_NAME-$CI_COMMIT_SHORT_SHA-on-demand-dish-lmc-$DISH_INDEX"
     DISH_HELM_RELEASE: "2.6.3"
     K8S_DISH_LMC_CHART: "ska-dish-lmc"
     TARANTA_ENABLED: "true"
@@ -346,7 +347,7 @@ k8s-test:
     - XRAY_TEST_RESULT_FILE="build/cucumber.json" make xray-publish
 
 dish-lmc-dish001:
-  stage: test
+  stage: dish-test
   tags:
     - k8srunner
   variables:
@@ -413,7 +414,7 @@ dish-lmc-dish100:
     action: stop
 
 k8s-test-dish-lmc:
-  stage: test
+  stage: dish-test
   tags:
     - k8srunner
   variables:
@@ -454,6 +455,8 @@ k8s-test-dish-lmc:
 stop-k8s-test-dish-lmc:
   extends:
   - stop-k8s-test
+  stage:
+    - dish-test
   variables:
     KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-test"
   script:
@@ -496,9 +499,9 @@ stop-k8s-test-tmc-with-sdp:
 
 
 stop-k8s-dish-lmc-001:
-  stage: test
   extends:
     - stop-k8s-test
+  stage: dish-test
   variables:
     KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-001"
     DISH_HELM_RELEASE: "2.6.3"
