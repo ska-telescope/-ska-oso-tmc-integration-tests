@@ -270,7 +270,7 @@ def send_command_restart(central_node_mid, subarray_id):
     Issue restart command.
     """
     check_subarray_instance(central_node_mid.subarray_node, subarray_id)
-    central_node_mid.subarray_node.Restart()
+    central_node_mid.subarray_node.restart_subarray()
 
 
 @then(
