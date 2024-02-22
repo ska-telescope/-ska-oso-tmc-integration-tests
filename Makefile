@@ -192,7 +192,7 @@ alarm-handler-configurator-link:
 
 cred:
 	make k8s-namespace
-	make make k8s-namespace-credentials
+	make k8s-namespace-credentials
 
 
 test-requirements:
