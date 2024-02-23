@@ -19,7 +19,6 @@ cache:
 # It is also specified that only the master branch will be subject of this job.
 
 stages:
-  - dish-test
   - lint
   - build
   - on-demand
@@ -154,7 +153,7 @@ mid-on-demand-deploy-mini-skampi:
   allow_failure: true # need to keep this to unlock the pipeline
 
 k8s-test-csp-dish:
-  stage: dish-test
+  stage: test
   tags:
     - k8srunner-large
   variables:
@@ -200,7 +199,7 @@ on-demand-dish-lmc-dish001:
   variables:
     DISH_INDEX: "001"
     KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-on-demand-dish-lmc-$DISH_INDEX"
-    DISH_LMC_SERVICE_ACCOUNT: "ci-svc-$CI_ROJECT_NAME-$CI_COMMIT_SHORT_SHA-on-demand-dish-lmc-$DISH_INDEX"
+    DISH_LMC_SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-on-demand-dish-lmc-$DISH_INDEX"
     DISH_HELM_RELEASE: "2.6.3"
     K8S_DISH_LMC_CHART: "ska-dish-lmc"
     TARANTA_ENABLED: "true"
@@ -317,9 +316,9 @@ mid-on-demand-destroy-mini-skampi:
   allow_failure: true # need to keep this to unlock the pipeline
 
 stop-k8s-test-csp-dish:
+  stage: test
   extends:
     - mid-on-demand-destroy-mini-skampi
-  stage: dish-test
   variables:
     KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-test-mid-csp-dish"
     SERVICE_ACCOUNT: "ci-svc-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-test-mid-csp-dish"
@@ -347,7 +346,7 @@ k8s-test:
     - XRAY_TEST_RESULT_FILE="build/cucumber.json" make xray-publish
 
 dish-lmc-dish001:
-  stage: dish-test
+  stage: test
   tags:
     - k8srunner
   variables:
@@ -414,7 +413,7 @@ dish-lmc-dish100:
     action: stop
 
 k8s-test-dish-lmc:
-  stage: dish-test
+  stage: test
   tags:
     - k8srunner
   variables:
@@ -437,7 +436,7 @@ k8s-test-dish-lmc:
     - make cred SERVICE_ACCOUNT=$DISH_LMC_SERVICE_ACCOUNT
     - make k8s-install-chart
     - make k8s-wait
-    - make k8s-test MARK=tmc_dish_scan
+    - make k8s-test MARK=tmc_dish
   needs:
     - dish-lmc-dish001
     - dish-lmc-dish036
@@ -455,7 +454,6 @@ k8s-test-dish-lmc:
 stop-k8s-test-dish-lmc:
   extends:
   - stop-k8s-test
-  stage: dish-test
   variables:
     KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-test"
   script:
@@ -498,9 +496,9 @@ stop-k8s-test-tmc-with-sdp:
 
 
 stop-k8s-dish-lmc-001:
+  stage: test
   extends:
     - stop-k8s-test
-  stage: dish-test
   variables:
     KUBE_NAMESPACE: "ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-dish-lmc-001"
     DISH_HELM_RELEASE: "2.6.3"
