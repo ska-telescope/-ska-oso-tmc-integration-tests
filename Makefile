@@ -2,15 +2,15 @@
 # CAR_OCI_REGISTRY_USER and PROJECT below.
 ALARM_HANDLER_FQDN= "alarm/handler/01"
 CAR_OCI_REGISTRY_HOST:=artefact.skao.int
-PROJECT = ska-tmc-mid-integration
+PROJECT = ska-tmc-integration
 TANGO_HOST ?= tango-databaseds:10000 ## TANGO_HOST connection to the Tango DS
 TELESCOPE ?= SKA-mid
 DISH_NAMESPACE_1 ?= dish-lmc-1
 DISH_NAMESPACE_2 ?= dish-lmc-2
 DISH_NAMESPACE_3 ?= dish-lmc-3
 DISH_NAMESPACE_4 ?= dish-lmc-4
-KUBE_NAMESPACE ?= ska-tmc-mid-integration
-KUBE_NAMESPACE_SDP ?= ska-tmc-mid-integration-sdp
+KUBE_NAMESPACE ?= ska-tmc-integration
+KUBE_NAMESPACE_SDP ?= ska-tmc-integration-sdp
 
 PYTHON_LINT_TARGET ?= tests/
 
