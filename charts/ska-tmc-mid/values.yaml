@@ -112,16 +112,16 @@ dishleafnode:
   image: 
     registry: artefact.skao.int
     image: ska-tmc-dishleafnode
-    tag: 0.9.3
+    tag: 0.9.4
     pullPolicy: IfNotPresent
 
 resources:
   limits:
-    cpu: 400m
+    cpu: 500m
     memory: 500Mi
   requests:
-    cpu: 300m
-    memory: 400Mi
+    cpu: 500m
+    memory: 500Mi
 
 
 deviceServers:
