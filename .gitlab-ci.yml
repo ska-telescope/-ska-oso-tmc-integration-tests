@@ -333,7 +333,7 @@ k8s-test:
     COUNT: 1
     KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA'
   before_script:
-    - make cred K8S_AUTH_SERVICE_ACCOUNT=$SERVICE_ACCOUNT
+    - make cred K8S_SERVICE_ACCOUNT=$SERVICE_ACCOUNT
     - '[ -f .make/k8s.mk ] || (echo "File k8s.mk not included in Makefile; exit 1")'
     - 'make help | grep k8s-test'
     - make k8s-install-chart
