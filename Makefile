@@ -72,9 +72,6 @@ MINIKUBE ?= false ## Minikube or not
 FAKE_DEVICES ?= false ## Install fake devices or not
 TANGO_HOST ?= tango-databaseds:10000## TANGO_HOST connection to the Tango DS
 
-EXPOSE_All_DS ?= true ## Expose All Tango Services to the external network (enable Loadbalancer service)
-SKA_TANGO_OPERATOR ?= true
-
 ITANGO_DOCKER_IMAGE = $(CAR_OCI_REGISTRY_HOST)/ska-tango-images-tango-itango:9.3.10
 
 # Test runner - run to completion job in K8s
@@ -112,12 +109,11 @@ endif
 
 K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.tango_host=$(TANGO_HOST) \
-	--set global.cluster_domain=$(CLUSTER_DOMAIN) \
 	--set ska-tango-base.display=$(DISPLAY) \
 	--set ska-tango-base.xauthority=$(XAUTHORITY) \
 	--set ska-tango-base.jive.enabled=$(JIVE) \
-	--set global.exposeAllDS=$(EXPOSE_All_DS) \
-	--set global.operator=$(SKA_TANGO_OPERATOR) \
+	--set global.exposeAllDS=false \
+	--set global.operator=true \
 	--set ska-taranta.enabled=$(TARANTA_ENABLED)\
 	--set global.namespace_dish.dish_names[0]="$(DISH_NAME_1)"\
 	--set global.namespace_dish.dish_names[1]="$(DISH_NAME_36)"\
@@ -192,10 +188,11 @@ alarm-handler-configurator-link:
 
 cred:
 	make k8s-namespace
-	make k8s-namespace-credentials
+	curl -s https://gitlab.com/ska-telescope/templates-repository/-/raw/master/scripts/namespace_auth.sh | bash -s $(SERVICE_ACCOUNT) $(KUBE_NAMESPACE) || true
 
 
 test-requirements:
 	@poetry export --without-hashes --dev --format requirements.txt --output tests/requirements.txt
 
 k8s-pre-test: test-requirements
+
