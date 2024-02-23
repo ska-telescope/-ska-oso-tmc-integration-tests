@@ -14,7 +14,7 @@ from tests.resources.test_harness.helpers import (
 )
 
 
-@pytest.mark.tmc_sdp
+@pytest.mark.tmc_sdp11
 @scenario(
     "../features/tmc_sdp/successive_configure_with_real_sdp.feature",
     "TMC validates reconfigure functionality with real sdp devices",
@@ -173,4 +173,31 @@ def check_subarray_in_ready_in_reconfigure(
         subarray_node.subarray_node,
         "obsState",
         ObsState.READY,
+    )
+
+    subarray_node.abort_subarray()
+    subarray_node.set_subarray_id(subarray_id)
+    # assert event_recorder.has_change_event_occurred(
+    #     subarray_node.subarray_devices.get("sdp_subarray"),
+    #     "obsState",
+    #     ObsState.ABORTING,
+    # )
+
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_devices.get("sdp_subarray"),
+        "obsState",
+        ObsState.ABORTED,
+    )
+
+    subarray_node.restart_subarray()
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_devices.get("sdp_subarray"),
+        "obsState",
+        ObsState.RESTARTING,
+    )
+
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_devices.get("sdp_subarray"),
+        "obsState",
+        ObsState.EMPTY,
     )
