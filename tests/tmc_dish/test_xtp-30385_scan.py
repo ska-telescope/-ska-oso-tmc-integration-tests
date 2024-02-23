@@ -7,7 +7,6 @@ import time
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_tango_base.control_model import ObsState
-from ska_tango_testing.mock.placeholders import Anything
 from tango import DevState
 
 from tests.resources.test_harness.helpers import (
@@ -266,20 +265,9 @@ def check_dish_mode_and_pointing_state_after_scan(
             == PointingState.TRACK
         )
 
-        event_recorder.subscribe_event(
-            central_node_mid.dish_master_dict[dish_id],
-            "longRunningCommandStatus",
-        )
-
-        assertion_data = event_recorder.has_change_event_occurred(
-            central_node_mid.dish_master_dict[dish_id],
-            "longRunningCommandStatus",
-            (Anything),
-            lookahead=7,
-        )
-
         assert check_long_running_command_status(
-            assertion_data,
+            central_node_mid.dish_master_dict[dish_id],
+            "longRunningCommandStatus",
             "_Scan",
             "COMPLETED",
         )
