@@ -9,8 +9,8 @@ DISH_NAMESPACE_1 ?= dish-lmc-1
 DISH_NAMESPACE_2 ?= dish-lmc-2
 DISH_NAMESPACE_3 ?= dish-lmc-3
 DISH_NAMESPACE_4 ?= dish-lmc-4
-KUBE_NAMESPACE ?= ska-tmc-integration
-KUBE_NAMESPACE_SDP ?= ska-tmc-integration-sdp
+KUBE_NAMESPACE ?= ska-tmc-mid-integration
+KUBE_NAMESPACE_SDP ?= ska-tmc-mid-integration-sdp
 
 PYTHON_LINT_TARGET ?= tests/
 
