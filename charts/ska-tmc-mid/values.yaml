@@ -98,14 +98,14 @@ cspmasterleafnode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-cspleafnodes
-    tag: 0.13.5-dev.c429683c3
+    tag: 0.14.0
     pullPolicy: IfNotPresent
 
 cspsubarrayleafnode:
   image:
     registry: artefact.skao.int
     image: ska-tmc-cspleafnodes
-    tag: 0.13.5-dev.c429683c3
+    tag: 0.14.0
     pullPolicy: IfNotPresent
 
 dishleafnode:
@@ -165,6 +165,9 @@ deviceServers:
   cspsubarrayleafnode:
     enabled: true
     file: "data/cspsubarrayleafnode.yaml"
+    DelayCadence: 10
+    DelayValidityPeriod: 20
+    DelayModelTimeInAdvance: 30
 
   dishleafnode:
     enabled: true
