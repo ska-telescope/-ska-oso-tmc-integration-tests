@@ -96,7 +96,7 @@ CUSTOM_VALUES1 ?=
 CUSTOM_VALUES2 ?=
 ifeq ($(CSP_SIMULATION_ENABLED),false)
 CUSTOM_VALUES1 =	--set tmc-mid.deviceServers.mocks.csp=$(CSP_SIMULATION_ENABLED)\
-	--set ska-csp-lmc-mid.enabled=true 
+	--set ska-csp-lmc-mid.enabled=true
 endif
 
 ifeq ($(SDP_SIMULATION_ENABLED),false)
