@@ -165,9 +165,6 @@ deviceServers:
   cspsubarrayleafnode:
     enabled: true
     file: "data/cspsubarrayleafnode.yaml"
-    DelayCadence: 10
-    DelayValidityPeriod: 20
-    DelayModelTimeInAdvance: 30
 
   dishleafnode:
     enabled: true
