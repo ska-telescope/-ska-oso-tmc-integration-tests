@@ -7,6 +7,6 @@ Scenario: TMC executes an Abort on CSP subarray
 	Then the CSP subarray transitions to ObsState ABORTED
 	And the TMC subarray transitions to ObsState ABORTED
 	Examples:
-		| subarray_id | obsstate |
-		| 1           | IDLE     |
-		| 1           | READY    |
+	| subarray_id | obsstate |
+	| 1           | IDLE     |
+	| 1           | READY    |
