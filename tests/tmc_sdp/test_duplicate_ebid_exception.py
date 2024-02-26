@@ -16,7 +16,7 @@ from tests.resources.test_support.constant import (
 )
 
 
-@pytest.mark.tmc_sdp
+@pytest.mark.tmc_sdp12
 @pytest.mark.SKA_mid
 @scenario(
     "../features/tmc_sdp/sdp_exception.feature",
@@ -59,6 +59,7 @@ def given_assign_resources_executed_on_tmc_subarray(
     input_json1,
     command_input_factory,
     subarray_id,
+    subarray_node,
 ):
     """
     AssignResources is executed with input_json1 successfully
@@ -68,19 +69,19 @@ def given_assign_resources_executed_on_tmc_subarray(
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
     )
-    event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
+    event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
     event_recorder.subscribe_event(
-        central_node_mid.subarray_devices.get("sdp_subarray"), "obsState"
+        subarray_node.subarray_devices.get("sdp_subarray"), "obsState"
     )
     event_recorder.subscribe_event(
-        central_node_mid.subarray_devices.get("csp_subarray"), "obsState"
+        subarray_node.subarray_devices.get("csp_subarray"), "obsState"
     )
 
     event_recorder.subscribe_event(
         central_node_mid.central_node, "longRunningCommandResult"
     )
     event_recorder.subscribe_event(
-        central_node_mid.subarray_node, "longRunningCommandResult"
+        subarray_node.subarray_node, "longRunningCommandResult"
     )
 
     central_node_mid.move_to_on()
@@ -90,9 +91,9 @@ def given_assign_resources_executed_on_tmc_subarray(
         DevState.ON,
     )
 
-    check_subarray_instance(central_node_mid.subarray_node, subarray_id)
+    check_subarray_instance(subarray_node.subarray_node, subarray_id)
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_node,
+        subarray_node.subarray_node,
         "obsState",
         ObsState.EMPTY,
     )
@@ -105,7 +106,7 @@ def given_assign_resources_executed_on_tmc_subarray(
         "AssignResources", assign_input_json
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_node,
+        subarray_node.subarray_node,
         "obsState",
         ObsState.IDLE,
     )
@@ -128,6 +129,7 @@ def reassign_resources_to_subarray(
     input_json1,
     command_input_factory,
     shared_context,
+    subarray_node,
 ):
     """
     TMC executes second AssignResources command with duplicate eb-id
@@ -146,14 +148,14 @@ def reassign_resources_to_subarray(
         "AssignResources", assign_input_json
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_node,
+        subarray_node.subarray_node,
         "obsState",
         ObsState.RESOURCING,
     )
     shared_context.unique_id = unique_id
 
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_devices.get("csp_subarray"),
+        subarray_node.subarray_devices.get("csp_subarray"),
         "obsState",
         ObsState.IDLE,
     )
@@ -165,18 +167,16 @@ def reassign_resources_to_subarray(
         "remain in IDLE obsState"
     )
 )
-def sdp_subarray_remains_in_idle(
-    event_recorder, subarray_id, central_node_mid
-):
+def sdp_subarray_remains_in_idle(event_recorder, subarray_id, subarray_node):
     """
     Check if SDP remains in IDLE status
     """
 
     check_subarray_instance(
-        central_node_mid.subarray_devices.get("sdp_subarray"), subarray_id
+        subarray_node.subarray_devices.get("sdp_subarray"), subarray_id
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_devices.get("sdp_subarray"),
+        subarray_node.subarray_devices.get("sdp_subarray"),
         "obsState",
         ObsState.IDLE,
     )
@@ -185,12 +185,12 @@ def sdp_subarray_remains_in_idle(
 @when(
     parsers.parse("TMC subarray {subarray_id} remain in RESOURCING obsState")
 )
-def tmc_subarray_remains_in_idle(subarray_id, central_node_mid):
+def tmc_subarray_remains_in_idle(subarray_id, subarray_node):
     """
     Check if TMC Subarray remains in RESOURCING status
     """
-    check_subarray_instance(central_node_mid.subarray_node, subarray_id)
-    assert central_node_mid.subarray_node.obsState == ObsState.RESOURCING
+    check_subarray_instance(subarray_node.subarray_node, subarray_id)
+    assert subarray_node.subarray_node.obsState == ObsState.RESOURCING
 
 
 @then("exception is propagated to central node")
@@ -217,12 +217,12 @@ def check_exception_propagation_to_central_node(
 
 
 @then(parsers.parse("I issue the Abort command on TMC Subarray {subarray_id}"))
-def send_command_abort(central_node_mid, subarray_id):
+def send_command_abort(subarray_node, subarray_id):
     """
     Issue Abort command
     """
-    check_subarray_instance(central_node_mid.subarray_node, subarray_id)
-    central_node_mid.subarray_node.Abort()
+    check_subarray_instance(subarray_node.subarray_node, subarray_id)
+    subarray_node.subarray_node.Abort()
 
 
 @then(
@@ -232,7 +232,7 @@ def send_command_abort(central_node_mid, subarray_id):
     )
 )
 def subarray_transitions_to_aborted(
-    central_node_mid, event_recorder, subarray_id
+    subarray_node, event_recorder, subarray_id
 ):
     """
     Check if TMC subarray , CSP Subarray and real SDP Subarray
@@ -240,23 +240,23 @@ def subarray_transitions_to_aborted(
     """
 
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_devices.get("csp_subarray"),
+        subarray_node.subarray_devices.get("csp_subarray"),
         "obsState",
         ObsState.ABORTED,
     )
 
     check_subarray_instance(
-        central_node_mid.subarray_devices.get("sdp_subarray"), subarray_id
+        subarray_node.subarray_devices.get("sdp_subarray"), subarray_id
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_devices.get("sdp_subarray"),
+        subarray_node.subarray_devices.get("sdp_subarray"),
         "obsState",
         ObsState.ABORTED,
     )
 
-    check_subarray_instance(central_node_mid.subarray_node, subarray_id)
+    check_subarray_instance(subarray_node.subarray_node, subarray_id)
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_node,
+        subarray_node.subarray_node,
         "obsState",
         ObsState.ABORTED,
     )
@@ -269,8 +269,8 @@ def send_command_restart(central_node_mid, subarray_id, subarray_node):
     """
     Issue restart command.
     """
-    check_subarray_instance(central_node_mid.subarray_node, subarray_id)
-    subarray_node.restart_subarray()
+    check_subarray_instance(subarray_node.subarray_node, subarray_id)
+    subarray_node.subarray_node.restart_subarray()
 
 
 @then(
@@ -279,31 +279,29 @@ def send_command_restart(central_node_mid, subarray_id, subarray_node):
         + "obsState EMPTY"
     )
 )
-def subarray_transitions_to_empty(
-    central_node_mid, subarray_id, event_recorder
-):
+def subarray_transitions_to_empty(subarray_node, subarray_id, event_recorder):
     """
     Check if CSP, SDP and TMC subarray  transitions to obsState EMPTY
     """
 
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_devices.get("csp_subarray"),
+        subarray_node.subarray_devices.get("csp_subarray"),
         "obsState",
         ObsState.EMPTY,
     )
 
     check_subarray_instance(
-        central_node_mid.subarray_devices.get("sdp_subarray"), subarray_id
+        subarray_node.subarray_devices.get("sdp_subarray"), subarray_id
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_devices.get("sdp_subarray"),
+        subarray_node.subarray_devices.get("sdp_subarray"),
         "obsState",
         ObsState.EMPTY,
     )
 
-    check_subarray_instance(central_node_mid.subarray_node, subarray_id)
+    check_subarray_instance(subarray_node.subarray_node, subarray_id)
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_node,
+        subarray_node.subarray_node,
         "obsState",
         ObsState.EMPTY,
     )
@@ -316,7 +314,7 @@ def subarray_transitions_to_empty(
     )
 )
 def assign_resources_executed_on_subarray(
-    central_node_mid, event_recorder, command_input_factory, subarray_id
+    subarray_node, event_recorder, command_input_factory, subarray_id
 ):
     """
     Check assignResources command is executed successfully
@@ -326,20 +324,20 @@ def assign_resources_executed_on_subarray(
         "assign_resources_mid", command_input_factory
     )
 
-    central_node_mid.store_resources(assign_input_json)
+    subarray_node.store_resources(assign_input_json)
 
     check_subarray_instance(
-        central_node_mid.subarray_devices.get("sdp_subarray"), subarray_id
+        subarray_node.subarray_devices.get("sdp_subarray"), subarray_id
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_devices.get("sdp_subarray"),
+        subarray_node.subarray_devices.get("sdp_subarray"),
         "obsState",
         ObsState.IDLE,
     )
 
-    check_subarray_instance(central_node_mid.subarray_node, subarray_id)
+    check_subarray_instance(subarray_node.subarray_node, subarray_id)
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_node,
+        subarray_node.subarray_node,
         "obsState",
         ObsState.IDLE,
     )
