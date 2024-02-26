@@ -77,3 +77,8 @@ class JsonFactory(object):
             config_json (str): Return configure json based json type provided
         """
         return get_centralnode_input_json(json_type)
+
+
+class SharedContext:
+    def __init__(self):
+        self.unique_id = None
