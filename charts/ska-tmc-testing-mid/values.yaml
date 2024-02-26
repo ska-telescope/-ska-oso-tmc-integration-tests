@@ -117,6 +117,7 @@ ska-tango-alarmhandler:
   labels: 
     app: ska-tmc-integration
   enabled: true
+  legacy_compatibility: true
 
 ska-tmc-simulators:
   labels: 

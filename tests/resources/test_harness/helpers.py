@@ -14,6 +14,7 @@ from ska_tango_testing.mock.placeholders import Anything
 from tango import DeviceProxy
 
 from tests.resources.test_harness.constant import device_dict
+from tests.resources.test_harness.event_recorder import EventRecorder
 from tests.resources.test_harness.simulator_factory import SimulatorFactory
 from tests.resources.test_harness.utils.common_utils import JsonFactory
 from tests.resources.test_harness.utils.enums import SimulatorDeviceType
@@ -595,4 +596,34 @@ def wait_and_validate_device_attribute_value(
         error,
         count,
     )
+    return False
+
+
+def check_long_running_command_status(
+    device, lrcr_command, command_name, status
+):
+    """This function will validate the longRunningCommandStatus"""
+    event_recorder = EventRecorder()
+    event_recorder.subscribe_event(
+        device,
+        lrcr_command,
+    )
+    start_time = time.time()
+    elapsed_time = 0
+    timeout = 2
+    while elapsed_time < timeout:
+        assertion_data = event_recorder.has_change_event_occurred(
+            device,
+            lrcr_command,
+            (Anything),
+            lookahead=7,
+        )
+        LOGGER.info("Assertion Data: %s", assertion_data)
+        iterator = iter(assertion_data["attribute_value"])
+        for value in iterator:
+            if value.endswith(command_name):
+                if next(iterator) == status:
+                    return True
+        time.sleep(0.1)
+        elapsed_time = time.time() - start_time
     return False
