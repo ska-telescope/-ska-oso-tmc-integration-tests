@@ -6,7 +6,6 @@ tag_description=
 
     **1.1 ska-tmc-mid - 0.17.0 - 0.18.0:
         a. Implemented programTrackTable on DishLeafNode (SP-3987)
-        b. Updated delayModel json to version 2.3
 
 
 release_notes=
@@ -15,6 +14,5 @@ release_notes=
 
     **1.1 ska-tmc-mid - 0.17.0 - 0.18.0:
         a. Implemented programTrackTable on DishLeafNode (SP-3987)
-        b. Updated delayModel json to version 2.3
 
 
