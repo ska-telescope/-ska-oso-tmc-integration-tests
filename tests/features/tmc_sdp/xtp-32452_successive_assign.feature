@@ -1,5 +1,5 @@
 Feature: TMC executes successive assign commands with real sdp devices
-        @XTP-29381 @tmc_sdp
+        @XTP-29381 @tmc_sdp @XTP-32452
         Scenario Outline: Validate second AssignResources command  after first successful AssignResources and ReleaseResources are executed
             Given the TMC and SDP subarray <subarray_id> in the IDLE obsState
             When I release all resources assigned to TMC subarray <subarray_id>

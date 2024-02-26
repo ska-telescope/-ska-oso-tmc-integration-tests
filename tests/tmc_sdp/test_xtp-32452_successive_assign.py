@@ -12,7 +12,7 @@ from tests.resources.test_harness.helpers import (
 
 @pytest.mark.tmc_sdp
 @scenario(
-    "../features/tmc_sdp/successive_assign.feature",
+    "../features/tmc_sdp/xtp-32452_successive_assign.feature",
     "Validate second AssignResources command  after "
     "first successful AssignResources and ReleaseResources are executed",
 )
@@ -28,7 +28,11 @@ def test_tmc_sdp_reassign_resources():
     )
 )
 def telescope_is_in_idle_state(
-    central_node_mid, event_recorder, command_input_factory, subarray_id
+    central_node_mid,
+    event_recorder,
+    command_input_factory,
+    subarray_id,
+    subarray_node,
 ):
     """Method to move subarray into the IDLE ObsState."""
     assert central_node_mid.central_node.ping() > 0
@@ -37,9 +41,9 @@ def telescope_is_in_idle_state(
         central_node_mid.central_node, "telescopeState"
     )
     event_recorder.subscribe_event(
-        central_node_mid.subarray_devices.get("sdp_subarray"), "obsState"
+        subarray_node.subarray_devices.get("sdp_subarray"), "obsState"
     )
-    event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
+    event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
     event_recorder.subscribe_event(
         central_node_mid.central_node, "longRunningCommandResult"
     )
@@ -58,12 +62,12 @@ def telescope_is_in_idle_state(
     central_node_mid.store_resources(assign_input_json)
 
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_devices.get("sdp_subarray"),
+        subarray_node.subarray_devices.get("sdp_subarray"),
         "obsState",
         ObsState.IDLE,
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_node,
+        subarray_node.subarray_node,
         "obsState",
         ObsState.IDLE,
     )
@@ -91,20 +95,20 @@ def release_resources_of_subarray(
     )
 )
 def check_components_in_empty_obsstate(
-    central_node_mid, event_recorder, subarray_id
+    central_node_mid, event_recorder, subarray_id, subarray_node
 ):
     """Method to check TMC Subarray SDP is in EMPTY obsstate"""
     check_subarray_instance(
         central_node_mid.subarray_devices.get("sdp_subarray"), subarray_id
     )
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_devices.get("sdp_subarray"),
+        subarray_node.subarray_devices.get("sdp_subarray"),
         "obsState",
         ObsState.EMPTY,
     )
     check_subarray_instance(central_node_mid.subarray_node, subarray_id)
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_node,
+        subarray_node.subarray_node,
         "obsState",
         ObsState.EMPTY,
     )
@@ -134,24 +138,26 @@ def reassign_resources_on_subarray(
         "TMC and SDP subarray {subarray_id} transitions to IDLE obsState"
     )
 )
-def check_obsstate_on_subarray(central_node_mid, event_recorder, subarray_id):
+def check_obsstate_on_subarray(
+    central_node_mid, event_recorder, subarray_id, subarray_node
+):
     """
     Check if TMC Subarray and SDP subarray has transitioned
     to required ObsState
     """
     check_subarray_instance(
-        central_node_mid.subarray_devices.get("sdp_subarray"), subarray_id
+        subarray_node.subarray_devices.get("sdp_subarray"), subarray_id
     )
 
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_devices.get("sdp_subarray"),
+        subarray_node.subarray_devices.get("sdp_subarray"),
         "obsState",
         ObsState.EMPTY,
     )
 
     check_subarray_instance(central_node_mid.subarray_node, subarray_id)
     assert event_recorder.has_change_event_occurred(
-        central_node_mid.subarray_node,
+        subarray_node.subarray_node,
         "obsState",
         ObsState.IDLE,
     )

@@ -16,10 +16,10 @@ from tests.resources.test_support.constant import (
 )
 
 
-@pytest.mark.tmc_sdp12
+@pytest.mark.tmc_sdp
 @pytest.mark.SKA_mid
 @scenario(
-    "../features/tmc_sdp/sdp_exception.feature",
+    "../features/tmc_sdp/xtp-32451_sdp_exception.feature",
     "TMC Subarray handles the exception duplicate"
     " eb-id raised by SDP subarray",
 )
@@ -270,7 +270,7 @@ def send_command_restart(central_node_mid, subarray_id, subarray_node):
     Issue restart command.
     """
     check_subarray_instance(subarray_node.subarray_node, subarray_id)
-    subarray_node.subarray_node.restart_subarray()
+    subarray_node.restart_subarray()
 
 
 @then(
