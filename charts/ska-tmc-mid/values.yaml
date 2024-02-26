@@ -172,6 +172,9 @@ deviceServers:
   dishleafnode:
     enabled: true
     file: "data/dishleafnode.yaml"
+    TrackTableEntries: 25
+    PointingCalculationPeriod: 100
+
 
   mocks:
     enabled: false
