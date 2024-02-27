@@ -23,7 +23,7 @@ from tests.resources.test_support.constant import (
     "TMC Subarray handles the exception duplicate"
     " eb-id raised by SDP subarray",
 )
-def test_duplicate_ebid_exception_propogation(
+def test_duplicate_ebid_exception_propagation(
     central_node_mid, subarray_node, event_recorder, simulator_factory
 ):
     """
@@ -33,7 +33,7 @@ def test_duplicate_ebid_exception_propogation(
     on SDP and CSP Subarrays, and it transitions to obsState IDLE.
     Whereas after next AssignResources SDP Subarray is  in obsState
     IDLE.Test makes sure that exception sent by SDP gets caught by TMC
-    and gets propagated to central node and is available in long running
+    and gets propagated to central node and is available in long-running
     attribute of central node. As a handling Abort + Restart command sequence
     is executed on
     the Subarray to take it to the initial obsState Empty.
@@ -185,7 +185,7 @@ def sdp_subarray_remains_in_idle(event_recorder, subarray_id, subarray_node):
 @when(
     parsers.parse("TMC subarray {subarray_id} remain in RESOURCING obsState")
 )
-def tmc_subarray_remains_in_idle(subarray_id, subarray_node):
+def tmc_subarray_remains_in_resourcing(subarray_id, subarray_node):
     """
     Check if TMC Subarray remains in RESOURCING status
     """

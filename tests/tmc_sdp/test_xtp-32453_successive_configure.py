@@ -14,7 +14,7 @@ from tests.resources.test_harness.helpers import (
 )
 
 
-@pytest.mark.tmc_sdp11
+@pytest.mark.tmc_sdp
 @scenario(
     "../features/tmc_sdp/xtp-32453_successive_configure_with_real_sdp.feature",
     "TMC validates reconfigure functionality with real sdp devices",
@@ -133,7 +133,7 @@ def check_subarray_in_ready(subarray_node, event_recorder):
     )
 )
 def execute_next_configure_command(
-    subarray_node, command_input_factory, input_json2, event_recorder
+    subarray_node, command_input_factory, input_json2
 ):
     """ "A method to invoke configure command"""
 
