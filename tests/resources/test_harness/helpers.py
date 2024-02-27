@@ -599,6 +599,19 @@ def wait_and_validate_device_attribute_value(
     return False
 
 
+def update_eb_pb_ids(input_json: str) -> str:
+    """
+    Method to generate different eb_id and pb_id
+    :param input_json: json to utilised to update values.
+    """
+    input_json = json.loads(input_json)
+    input_json["sdp"]["execution_block"]["eb_id"] = generate_id("eb-test")
+    for pb in input_json["sdp"]["processing_blocks"]:
+        pb["pb_id"] = generate_id("pb-test")
+    input_json = json.dumps(input_json)
+    return input_json
+
+
 def check_long_running_command_status(
     device, lrcr_command, command_name, status
 ):

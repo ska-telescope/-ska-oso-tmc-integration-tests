@@ -63,6 +63,13 @@ tmc-mid:
   labels:
     app: ska-tmc-integration
   enabled: true
+  dishleafnode:
+    TrackTableEntries: 25
+    PointingCalculationPeriod: 100
+  cspsubarrayleafnode:
+    DelayCadence: 10
+    DelayValidityPeriod: 20
+    DelayModelTimeInAdvance: 30
   deviceServers:
     mocks:
       enabled: true

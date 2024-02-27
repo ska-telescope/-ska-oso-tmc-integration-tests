@@ -1,20 +1,18 @@
-release=0.17.1
-tag=0.17.1
+release=0.18.0
+tag=0.18.0
 tag_description=
 **Charts:**
-**1. ska-tmc-integration 0.17.0 - 0.17.1*
+**1. ska-tmc-integration 0.17.0 - 0.18.0*
 
-    **1.1 ska-tmc-mid - 0.17.0 - 0.17.1:
-        a. SKB-288 bug fix.
-        b. actualPointing attribute was empty, now the actualPointing attribute is populated properly
+    **1.1 ska-tmc-mid - 0.17.0 - 0.18.0:
+        a. Implemented programTrackTable on DishLeafNode (SP-3987)
 
 
 release_notes=
 **Charts:**
-**1. ska-tmc-integration 0.17.0 - 0.17.1:**
+**1. ska-tmc-integration 0.17.0 - 0.18.0:**
 
-    **1.1 ska-tmc-mid - 0.17.0 - 0.17.1:
-        a. SKB-288 bug fix.
-        b. actualPointing attribute was empty, now the actualPointing attribute is populated properly
+    **1.1 ska-tmc-mid - 0.17.0 - 0.18.0:
+        a. Implemented programTrackTable on DishLeafNode (SP-3987)
 
 

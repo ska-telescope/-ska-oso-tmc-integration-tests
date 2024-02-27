@@ -22,7 +22,10 @@ from tests.resources.test_harness.helpers import (
 from tests.resources.test_harness.simulator_factory import SimulatorFactory
 from tests.resources.test_harness.subarray_node import SubarrayNodeWrapper
 from tests.resources.test_harness.tmc_mid import TMCMid
-from tests.resources.test_harness.utils.common_utils import JsonFactory
+from tests.resources.test_harness.utils.common_utils import (
+    JsonFactory,
+    SharedContext,
+)
 
 configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
@@ -244,6 +247,14 @@ def wait_for_obsstate_state_change(
         time.sleep(1)
 
     return False
+
+
+@pytest.fixture
+def shared_context():
+    """
+    This is used for sharing data between BDD tests
+    """
+    return SharedContext()
 
 
 @pytest.fixture(scope="session", autouse=True)

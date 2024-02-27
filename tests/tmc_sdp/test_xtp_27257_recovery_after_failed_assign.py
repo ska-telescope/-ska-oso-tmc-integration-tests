@@ -40,7 +40,8 @@ def telescope_with_resources_assigned(
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
     )
-    central_node_mid.perform_action("AssignResources", assign_input_json)
+    # central_node_mid.perform_action("AssignResources", assign_input_json)
+    central_node_mid.store_resources(assign_input_json)
 
     event_recorder.subscribe_event(central_node_mid.subarray_node, "obsState")
     assert event_recorder.has_change_event_occurred(
