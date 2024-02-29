@@ -26,6 +26,7 @@ telescope_control = BaseTelescopeControl()
 result, message = "", ""
 
 
+# TODO: Disabled Scan-Configure scenario
 @pytest.mark.SKA_mid
 @scenario(
     "../features/check_command_not_allowed.feature",
