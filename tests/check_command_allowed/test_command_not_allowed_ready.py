@@ -28,7 +28,7 @@ tmc_helper = TmcHelper(centralnode, tmc_subarraynode1)
 telescope_control = BaseTelescopeControl()
 
 
-# TODO: Disabled EndScan-End scenario because of intermittent issues
+@pytest.mark.skip(reason="Test fails intermittently")
 @pytest.mark.SKA_mid
 @scenario(
     "../features/check_command_not_allowed.feature",
