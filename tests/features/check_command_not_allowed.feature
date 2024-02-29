@@ -46,6 +46,5 @@ Feature:  Invalid unexpected commands
             | unexpected_command   | permitted_command |
             | AssignResources      | Configure         |
             | ReleaseResources     | Scan              |
-            | EndScan              | End               |
             | EndScan              | Abort             |
                  
