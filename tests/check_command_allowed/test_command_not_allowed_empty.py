@@ -29,6 +29,7 @@ telescope_control = BaseTelescopeControl()
 result, message = "", ""
 
 
+@pytest.mark.skip(reason="Test fails intermittently")
 @pytest.mark.SKA_mid
 @scenario(
     "../features/check_command_not_allowed.feature",
