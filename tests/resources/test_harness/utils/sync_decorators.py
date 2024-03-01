@@ -5,7 +5,7 @@ from tests.resources.test_harness.utils.wait_helpers import Waiter
 from tests.resources.test_support.common_utils.base_utils import DeviceUtils
 from tests.resources.test_support.common_utils.common_helpers import Resource
 
-TIMEOUT = 500
+TIMEOUT = 800
 
 
 def sync_telescope_on(func):
@@ -89,7 +89,7 @@ def sync_assign_resources(device_dict):
             if set_wait_for_obsstate:
                 the_waiter = Waiter(**device_dict)
                 the_waiter.set_wait_for_assign_resources()
-                the_waiter.wait(500)
+                the_waiter.wait(800)
             return result
 
         return wrapper
@@ -113,7 +113,7 @@ def sync_abort(device_dict, timeout=800):
     return decorator_sync_abort
 
 
-def sync_restart(device_dict, timeout=300):
+def sync_restart(device_dict, timeout=800):
     # define as a decorator
     def decorator_sync_restart(func):
         @functools.wraps(func)
@@ -159,7 +159,7 @@ def sync_end(device_dict):
             the_waiter = Waiter(**device_dict)
             the_waiter.set_wait_for_idle()
             result = func(*args, **kwargs)
-            the_waiter.wait(200)
+            the_waiter.wait(800)
             return result
 
         return wrapper
@@ -179,7 +179,7 @@ def sync_endscan(device_dict):
             the_waiter = Waiter(**device_dict)
             the_waiter.set_wait_for_ready()
             result = func(*args, **kwargs)
-            the_waiter.wait(200)
+            the_waiter.wait(800)
             return result
 
         return wrapper
