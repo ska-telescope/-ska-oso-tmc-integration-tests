@@ -59,9 +59,7 @@ def test_configure_alarms():
     add_alarms_api("alarm_file1.txt")
 
 
-pytest.mark.xfail(reason="Alarm summary key error")
-
-
+@pytest.mark.xfail(reason="Alarm summary key error")
 @pytest.mark.post_deployment
 @pytest.mark.SKA_mid
 def test_remove_alarm():
