@@ -1,4 +1,6 @@
 """Test module for TMC-CSP ShutDown functionality"""
+import time
+
 import pytest
 from pytest_bdd import given, scenario, then, when
 from tango import DevState
@@ -74,6 +76,7 @@ def check_telescope_state_is_on(central_node_mid, event_recorder):
         DevState.ON,
         lookahead=15,
     )
+    time.sleep(4)
 
 
 @when("I switch off telescope")
@@ -115,6 +118,7 @@ def check_telescope_state_off(central_node_mid, event_recorder):
         "telescopeState",
         DevState.OFF,
     )
+    time.sleep(4)
 
 
 @then("the csp controller must go to standby state")
@@ -148,3 +152,4 @@ def check_telescope_state_is_standby(central_node_mid, event_recorder):
         "telescopeState",
         DevState.STANDBY,
     )
+    time.sleep(4)
