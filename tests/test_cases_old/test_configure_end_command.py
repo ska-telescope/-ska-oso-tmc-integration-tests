@@ -21,6 +21,7 @@ from tests.resources.test_support.constant import (
     DEVICE_OBS_STATE_IDLE_INFO,
     DEVICE_STATE_ON_INFO,
     DEVICE_STATE_STANDBY_INFO,
+    DISH_MODE_STANDBYFP_INFO,
     INTERMEDIATE_STATE_DEFECT,
     ON_OFF_DEVICE_COMMAND_DICT,
     centralnode,
@@ -136,6 +137,11 @@ def test_configure_timeout_sdp(json_factory, change_event_callbacks):
         # Verify State transitions after TelescopeOn
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_ON_INFO, "State"
+        )
+
+        # Verify dishomode transitions after TelescopeOn
+        assert telescope_control.is_in_valid_state(
+            DISH_MODE_STANDBYFP_INFO, "dishMode"
         )
 
         # Invoke AssignResources() Command on TMC
