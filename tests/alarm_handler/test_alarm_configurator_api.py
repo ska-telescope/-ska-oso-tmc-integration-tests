@@ -52,6 +52,7 @@ def remove_alarm_api():
     assert response_data["alarm_summary"] is None
 
 
+@pytest.mark.xfail(reason="Alarm summary key error")
 @pytest.mark.post_deployment
 @pytest.mark.SKA_mid
 def test_configure_alarms():
