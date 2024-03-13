@@ -23,6 +23,7 @@ Feature:  Invalid unexpected commands
         And TMC executes the <permitted_command> command successfully
         Examples:
             | unexpected_command  | permitted_command  |
+            | Scan                |   Configure        |
             | Scan                |   ReleaseResources |
 
     @XTP-29835
@@ -45,5 +46,6 @@ Feature:  Invalid unexpected commands
             | unexpected_command   | permitted_command |
             | AssignResources      | Configure         |
             | ReleaseResources     | Scan              |
+            | EndScan              | End               |
             | EndScan              | Abort             |
                  

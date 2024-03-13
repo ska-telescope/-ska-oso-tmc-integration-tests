@@ -495,7 +495,7 @@ SIMULATED_DEVICES_DICT = get_simulated_devices_info()
 def wait_csp_master_off():
     wait = Waiter(**device_dict)
     wait.set_wait_for_csp_master_to_become_off()
-    wait.wait(800)
+    wait.wait(500)
 
 
 def generate_id(id_pattern: str) -> str:

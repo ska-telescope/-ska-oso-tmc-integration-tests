@@ -9,7 +9,6 @@ from tests.resources.test_harness.helpers import (
 )
 
 
-@pytest.mark.skip(reason="Test fails intermittently")
 @pytest.mark.tmc_sdp
 @scenario(
     "../features/tmc_sdp/xtp_27257_recovery_after_failed_assign.feature",
