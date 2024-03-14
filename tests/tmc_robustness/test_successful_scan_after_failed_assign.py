@@ -21,6 +21,8 @@ from tests.resources.test_support.constant import (
     DEVICE_OBS_STATE_SCANNING_INFO,
     DEVICE_STATE_ON_INFO,
     DEVICE_STATE_STANDBY_INFO,
+    DISH_MODE_STANDBYFP_INFO,
+    DISH_MODE_STANDBYLP_INFO,
     ON_OFF_DEVICE_COMMAND_DICT,
     centralnode,
     tmc_subarraynode1,
@@ -54,6 +56,12 @@ def given_tmc(json_factory):
         assert telescope_control.is_in_valid_state(
             DEVICE_STATE_STANDBY_INFO, "State"
         )
+
+        # Verify dishomode transitions before TelescopeOn
+        assert telescope_control.is_in_valid_state(
+            DISH_MODE_STANDBYLP_INFO, "dishMode"
+        )
+
         # Invoke TelescopeOn() command on TMC CentralNode
         LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
         tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
@@ -63,6 +71,10 @@ def given_tmc(json_factory):
         )
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
+        )
+        # Verify dishomode transitions before TelescopeOn
+        assert telescope_control.is_in_valid_state(
+            DISH_MODE_STANDBYFP_INFO, "dishMode"
         )
     except Exception:
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)

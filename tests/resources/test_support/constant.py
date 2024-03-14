@@ -109,6 +109,13 @@ DISH_MODE_STANDBYFP_INFO = {
     dish_master4: ["STANDBY_FP"],
 }
 
+DISH_MODE_STANDBYLP_INFO = {
+    dish_master1: ["STANDBY_LP"],
+    dish_master2: ["STANDBY_LP"],
+    dish_master3: ["STANDBY_LP"],
+    dish_master4: ["STANDBY_LP"],
+}
+
 DEVICE_OBS_STATE_EMPTY_INFO = {
     sdp_subarray1: ["EMPTY"],
     tmc_subarraynode1: ["EMPTY"],
