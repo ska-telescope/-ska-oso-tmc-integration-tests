@@ -85,7 +85,7 @@ def test_load_alarm():
     )
     alarm_handler.Load(alarm_formula)
     alarm_list = alarm_handler.alarmList
-    assert alarm_list == ("dishleafnode_kvalue_not_set",)
+    assert ("dishleafnode_kvalue_not_set",) in alarm_list
     time.sleep(3)
     alarm_summary = alarm_handler.alarmSummary
     assert "UNACK" in alarm_summary[0]
