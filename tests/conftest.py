@@ -7,6 +7,7 @@ from os.path import dirname, join
 
 import pytest
 import tango
+from ska_control_model import LoggingLevel
 from ska_ser_logging import configure_logging
 from ska_tango_testing.mock.tango.event_callback import (
     MockTangoEventCallbackGroup,
@@ -262,6 +263,9 @@ def is_dish_vcc_set():
     """
     Validate dish vcc config set to true
     """
+    cbf_controller_device = tango.DeviceProxy("mid_csp_cbf/sub_elt/controller")
+    cbf_controller_device.loggingLevel = LoggingLevel.DEBUG
+
     csp_master_device = tango.DeviceProxy(csp_master)
     if csp_master_device.adminMode != 0:
         csp_master_device.adminMode = 0

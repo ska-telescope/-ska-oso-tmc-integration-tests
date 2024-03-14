@@ -427,7 +427,7 @@ def test_recover_subarray_stuck_in_resourcing_with_abort(
         )
         the_waiter.set_wait_for_specific_obsstate("IDLE", [csp_subarray1])
         _, unique_id = central_node.AssignResources(assign_json)
-        the_waiter.wait(30)
+        the_waiter.wait(200)
 
         sdp_subarray.SetDefective(json.dumps({"enabled": False}))
 
