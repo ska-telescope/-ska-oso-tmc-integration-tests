@@ -464,7 +464,6 @@ stop-k8s-test-dish-lmc:
 
 
 k8s-test-tmc-with-sdp:
-  retry: 1
   extends:
     - k8s-test
   variables:
@@ -533,7 +532,6 @@ stop-k8s-dish-lmc-100:
 
 
 k8s-test-mid-with-csp:
-  retry: 1
   extends:
     - k8s-test
   variables:
