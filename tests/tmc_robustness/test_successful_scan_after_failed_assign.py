@@ -1,4 +1,5 @@
 import json
+import time
 
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
@@ -61,7 +62,12 @@ def given_tmc(json_factory):
         assert telescope_control.is_in_valid_state(
             DISH_MODE_STANDBYLP_INFO, "dishMode"
         )
+        # Wait for DishMaster attribute value update,
+        # on CentralNode for value dishMode STANDBY_FP
 
+        # TODO: Improvement in tests/implementation
+        # to minimize the need of having sleep
+        time.sleep(4)
         # Invoke TelescopeOn() command on TMC CentralNode
         LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
         tmc_helper.set_to_on(**ON_OFF_DEVICE_COMMAND_DICT)
@@ -76,6 +82,12 @@ def given_tmc(json_factory):
         assert telescope_control.is_in_valid_state(
             DISH_MODE_STANDBYFP_INFO, "dishMode"
         )
+        # Wait for DishMaster attribute value update,
+        # on CentralNode for value dishMode STANDBY_FP
+
+        # TODO: Improvement in tests/implementation
+        # to minimize the need of having sleep
+        time.sleep(4)
     except Exception:
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
 
