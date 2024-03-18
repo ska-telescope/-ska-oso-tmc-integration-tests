@@ -245,15 +245,6 @@ def subarray_transitions_to_aborted(
         ObsState.ABORTED,
     )
 
-    # check_subarray_instance(
-    #     subarray_node.subarray_devices.get("sdp_subarray"), subarray_id
-    # )
-    # assert event_recorder.has_change_event_occurred(
-    #     subarray_node.subarray_devices.get("sdp_subarray"),
-    #     "obsState",
-    #     ObsState.ABORTED,
-    # )
-
     check_subarray_instance(subarray_node.subarray_node, subarray_id)
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_node,
@@ -289,15 +280,6 @@ def subarray_transitions_to_empty(subarray_node, subarray_id, event_recorder):
         "obsState",
         ObsState.EMPTY,
     )
-
-    # check_subarray_instance(
-    #     subarray_node.subarray_devices.get("sdp_subarray"), subarray_id
-    # )
-    # assert event_recorder.has_change_event_occurred(
-    #     subarray_node.subarray_devices.get("sdp_subarray"),
-    #     "obsState",
-    #     ObsState.EMPTY,
-    # )
 
     check_subarray_instance(subarray_node.subarray_node, subarray_id)
     assert event_recorder.has_change_event_occurred(
