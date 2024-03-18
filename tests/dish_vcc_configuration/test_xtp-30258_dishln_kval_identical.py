@@ -133,4 +133,9 @@ def check_kvalue_validation_result_event_received(tmc_mid, event_recorder):
 def check_value_of_isdishvccconfigset_on_central_node(tmc_mid):
     """Method to verify isDishVccConfig attribute is true or
     false after dish leaf node report."""
+    assert wait_and_validate_device_attribute_value(
+        tmc_mid.central_node.central_node,
+        "isDishVccConfigSet",
+        True,
+    )
     assert tmc_mid.IsDishVccConfigSet
