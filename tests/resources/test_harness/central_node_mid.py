@@ -357,7 +357,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             LOGGER.info("Invoke TelescopeOff() with all real sub-systems")
             self.central_node.TelescopeOff()
 
-    @sync_set_to_standby
+    @sync_set_to_standby(device_dict=device_dict)
     def set_standby(self) -> None:
         """
         A method to invoke TelescopeStandby command to
