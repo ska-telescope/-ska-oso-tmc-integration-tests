@@ -369,13 +369,13 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             LOGGER.info("Invoking TelescopeStandBy() with all Mocks")
             self.central_node.TelescopeStandBy()
             self.set_subarraystate_and_dishmode_with_all_mocks(
-                DevState.STANDBY, DevState.STANDBY
+                DevState.OFF, DishMode.STANDBY_LP
             )
 
         elif SIMULATED_DEVICES_DICT["csp_and_sdp"]:
             LOGGER.info("Invoking TelescopeStandBy() on simulated csp and sdp")
             self.central_node.TelescopeStandBy()
-            self.set_value_with_csp_sdp_mocks(DevState.STANDBY)
+            self.set_value_with_csp_sdp_mocks(DevState.OFF)
 
         elif SIMULATED_DEVICES_DICT["csp_and_dish"]:
             LOGGER.info(
@@ -383,7 +383,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             )
             self.central_node.TelescopeStandBy()
             self.set_values_with_csp_dish_mocks(
-                DevState.STANDBY, DevState.STANDBY
+                DevState.OFF, DishMode.STANDBY_LP
             )
 
         elif SIMULATED_DEVICES_DICT["sdp_and_dish"]:
@@ -392,7 +392,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             )
             self.central_node.TelescopeStandBy()
             self.set_values_with_sdp_dish_mocks(
-                DevState.STANDBY, DevState.STANDBY
+                DevState.OFF, DishMode.STANDBY_LP
             )
         elif SIMULATED_DEVICES_DICT["sdp"]:
             self.central_node.TelescopeStandBy()
