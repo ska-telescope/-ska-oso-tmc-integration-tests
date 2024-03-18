@@ -146,6 +146,7 @@ K8S_TEST_TEST_COMMAND ?= $(PYTHON_VARS_BEFORE_PYTEST) $(PYTHON_RUNNER) \
 						$(PYTHON_VARS_AFTER_PYTEST) ./tests \
 						| tee pytest.stdout # k8s-test test command to run in container
 
+-include .make/base.mk
 -include .make/k8s.mk
 -include .make/helm.mk
 -include .make/python.mk
