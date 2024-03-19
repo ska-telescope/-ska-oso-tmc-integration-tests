@@ -10,7 +10,9 @@ import pytest
 namespace = os.getenv("KUBE_NAMESPACE")
 
 
-@pytest.mark.xfail(reason="Alarm summary key error")
+@pytest.mark.xfail(
+    reason="Alarm summary key error to be resolved under SAH-1510"
+)
 @pytest.mark.post_deployment
 @pytest.mark.SKA_mid
 def test_configure_alarms_with_multiple_files():
