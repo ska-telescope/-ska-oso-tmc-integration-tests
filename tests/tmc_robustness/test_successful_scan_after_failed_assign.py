@@ -66,7 +66,8 @@ def given_tmc(json_factory):
         # on CentralNode for value dishMode STANDBY_FP
 
         # TODO: Improvement in tests/implementation
-        # to minimize the need of having sleep
+        # to minimize the need of having sleep. This is being done under
+        # SAH-1501.
         time.sleep(4)
         # Invoke TelescopeOn() command on TMC CentralNode
         LOGGER.info("Invoking TelescopeOn command on TMC CentralNode")
