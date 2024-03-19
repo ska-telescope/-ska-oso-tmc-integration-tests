@@ -9,3 +9,4 @@ Scenario: Abort scanning CSP using TMC
 	Examples:
 	| subarray_id |
 	| 1           |
+	

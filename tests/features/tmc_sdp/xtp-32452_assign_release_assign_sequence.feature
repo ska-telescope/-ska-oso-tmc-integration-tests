@@ -9,3 +9,4 @@ Feature: TMC executes successive assign commands with real sdp devices
             Examples:
             | subarray_id  | input_json1   |                                                 |
             | 1            | assign_resources_mid |
+            

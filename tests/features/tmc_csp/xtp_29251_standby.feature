@@ -7,3 +7,4 @@ Scenario: Standby the Telescope with real TMC and CSP devices
     Then the csp controller must go to standby state
     And the csp subarray must go to off state
     And telescope state is STANDBY
+    

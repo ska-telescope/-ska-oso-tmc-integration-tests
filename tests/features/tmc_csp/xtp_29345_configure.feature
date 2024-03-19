@@ -10,3 +10,4 @@ Scenario Outline: Configure a CSP subarray for a scan using TMC
     Examples:
     | subarray_id |
     | 1           |
+    

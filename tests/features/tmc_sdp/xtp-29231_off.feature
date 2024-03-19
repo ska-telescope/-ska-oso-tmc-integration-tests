@@ -7,3 +7,4 @@ Scenario: Switch off the telescope having TMC and SDP subsystems
 	When I switch off the telescope
 	Then the sdp must go to OFF State
 	And telescope state is OFF
+	

@@ -11,3 +11,4 @@ Scenario: TMC executes End command on DISH.LMC
         Examples:
         | subarray_id  | dish_ids                       |
         | 1            | SKA001,SKA036,SKA063,SKA100    |
+        

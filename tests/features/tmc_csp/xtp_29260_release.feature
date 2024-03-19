@@ -9,3 +9,4 @@ Scenario: Release resources from CSP subarray using TMC
     Examples:
     | subarray_id |
     | 1           |
+    

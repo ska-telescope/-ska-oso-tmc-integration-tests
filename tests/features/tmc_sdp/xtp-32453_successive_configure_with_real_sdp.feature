@@ -12,6 +12,7 @@ Feature:  TMC executes successive configure commands with real sdp devices
             | subarray_id  | input_json1           |      input_json2       |
             | 1  | sdp_mid_configure1   |   sdp_mid_configure2  |
             | 1  | sdp_mid_configure1   |   sdp_mid_configure1  |
+            
 
 
 

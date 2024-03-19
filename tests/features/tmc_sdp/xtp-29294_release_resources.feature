@@ -9,3 +9,4 @@ Scenario: Release resources from SDP Subarray using TMC
     Examples:
         | subarray_id |
         | 1           |
+        

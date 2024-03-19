@@ -9,3 +9,4 @@ Scenario: End configure from SDP Subarray using TMC
 	Examples:
 	| subarray_id   |
 	|  1            |
+	

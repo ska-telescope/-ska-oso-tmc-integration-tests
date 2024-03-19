@@ -6,3 +6,4 @@ Scenario: Turn Off Telescope with real TMC and CSP devices
     When I switch off telescope
     Then the CSP must go to OFF state
     And telescope state is OFF
+    

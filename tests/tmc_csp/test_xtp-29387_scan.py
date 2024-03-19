@@ -1,8 +1,8 @@
 """Test module for TMC-CSP Scan functionality"""
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
-from ska_control_model import LoggingLevel, ObsState
-from tango import DeviceProxy, DevState
+from ska_control_model import ObsState
+from tango import DevState
 
 from tests.resources.test_harness.central_node_mid import CentralNodeWrapperMid
 from tests.resources.test_harness.event_recorder import EventRecorder
@@ -31,10 +31,6 @@ def given_a_telescope_in_on_state(
     central_node_mid, subarray_node, event_recorder
 ):
     """Checks if CentralNode's telescopeState attribute value is on."""
-
-    cbf_controller_device = DeviceProxy("mid_csp_cbf/sub_elt/controller")
-    cbf_controller_device.loggingLevel = LoggingLevel.DEBUG
-
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
     )

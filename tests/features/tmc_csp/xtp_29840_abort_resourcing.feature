@@ -9,3 +9,4 @@ Scenario: Abort assigning CSP using TMC
 	Examples:
 	| subarray_id |
 	| 1           |
+	

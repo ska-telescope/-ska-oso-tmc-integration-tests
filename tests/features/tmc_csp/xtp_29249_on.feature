@@ -6,3 +6,4 @@ Scenario: StartUp Telescope with TMC and CSP devices
     When I start up the telescope
     Then the CSP must go to ON state
     And telescope state is ON
+    

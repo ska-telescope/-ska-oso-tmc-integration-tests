@@ -11,3 +11,4 @@ Scenario: TMC executes a Scan command on CSP subarray.
     Examples:
         | subarray_id |
         | 1 |
+        

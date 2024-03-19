@@ -9,3 +9,4 @@ Scenario: TMC executes a scan on SDP subarray
 	Examples:
 	| subarray_id   | scan_id  |
 	|  1            | 123      |
+	

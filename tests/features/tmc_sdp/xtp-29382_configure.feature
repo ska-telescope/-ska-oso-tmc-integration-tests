@@ -10,3 +10,4 @@ Scenario: Configure a SDP subarray for a scan using TMC
 	Examples:
 	| subarray_id    |    scan_type    |
 	| 1              |    target:a     |
+	

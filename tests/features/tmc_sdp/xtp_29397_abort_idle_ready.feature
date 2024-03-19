@@ -10,3 +10,4 @@ Scenario: TMC executes an Abort on SDP subarray
     | subarray_id | obsstate |
     | 1           | IDLE     |
     | 1           | READY    |
+    

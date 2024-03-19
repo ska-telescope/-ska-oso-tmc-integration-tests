@@ -9,3 +9,4 @@ Scenario: Shut down with TMC and DISH devices
         Examples:
         | dish_ids                           |
         | SKA001,SKA036,SKA063,SKA100        |
+        

@@ -11,3 +11,4 @@ Scenario: Configure the telescope having TMC and Dish Subsystems
         Examples:
         | subarray_id  | dish_ids                           |
         | 1            | SKA001,SKA036,SKA063,SKA100        |
+        

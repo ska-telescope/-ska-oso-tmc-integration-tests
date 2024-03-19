@@ -9,3 +9,4 @@ Scenario Outline: Fix bug SKB-185 in TMC
     When I release the resources from the csp subarray
     Then the csp subarray changes its obsState to EMPTY
     And the subarray node changes its obsState back to EMPTY
+    

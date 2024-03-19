@@ -8,3 +8,4 @@ Scenario: Abort assigning using TMC
     Examples:
     | subarray_id |
     | 1           |
+    

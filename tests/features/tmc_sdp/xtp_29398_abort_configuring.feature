@@ -8,3 +8,4 @@ Scenario: Abort configuring SDP using TMC
     Examples:
         | subarray_id |
         | 1           |
+        

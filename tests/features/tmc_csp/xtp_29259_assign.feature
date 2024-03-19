@@ -10,3 +10,4 @@ Scenario: Assign resources to CSP subarray using TMC
     Examples:
     | subarray_id | receptors                               |
     | 1           | 'SKA001', 'SKA036', 'SKA063', 'SKA100'  |
+    

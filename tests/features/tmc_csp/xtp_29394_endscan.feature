@@ -9,3 +9,4 @@ Scenario: TMC executes a EndScan command on CSP subarray.
     Examples:
         | subarray_id |
         | 1 |
+        

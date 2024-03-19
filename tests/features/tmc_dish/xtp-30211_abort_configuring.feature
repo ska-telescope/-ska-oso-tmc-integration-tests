@@ -11,4 +11,5 @@ Scenario: Abort configuring DISH.LMC using TMC
         Examples:
         | subarray_id  | dish_ids                       |
         | 1            | SKA001,SKA036,SKA063,SKA100    |
+        
 

@@ -9,3 +9,4 @@ Scenario: TMC executes a Restart on CSP subarray when subarray completes abort
 	Examples:
 	| subarray_id |
 	| 1           |
+	

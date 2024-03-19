@@ -15,3 +15,4 @@ Feature: TMC Subarray handles the exception when AssignResources command fails o
         Examples:
         | subarray_id  | input_json1   |                                                 |
         | 1            | assign_resources_mid |
+        

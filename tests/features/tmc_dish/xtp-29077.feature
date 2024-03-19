@@ -12,4 +12,5 @@ Scenario Outline: Mid TMC Central Node robustness test with disappearing DishLMC
     And command TelescopeOff can be sent and received by the dish
     And the Central Node is still running
     And the telescope is in OFF state
+    
 

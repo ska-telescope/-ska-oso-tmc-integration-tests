@@ -9,3 +9,4 @@ Scenario: End configure from CSP Subarray using TMC
     Examples:
     | subarray_id |
     | 1           |
+    
