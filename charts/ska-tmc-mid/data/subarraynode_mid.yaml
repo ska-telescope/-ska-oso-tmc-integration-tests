@@ -50,6 +50,17 @@ server:
             {{- range  $dish_id  }}
             - "{{ . }}"
             {{- end }}
+          - name: "DishMasterFQDN"
+            values:
+            {{- if and (eq $mocks_enabled true) (eq $isSimulatedDish true) }}
+            {{- range  $dish_id }}
+            - "{{ . | lower }}/{{ $DishMasterPrefix }}/{{ $DishMasterPostfix }}"
+            {{- end }}
+            {{- else }}
+            {{- range  $real_dish_name }}
+            - "{{ . }}" # Real dish
+            {{- end }}
+            {{- end }}
           - name: "SkaLevel"
             values:
               - "2"
