@@ -1,3 +1,4 @@
+# This BDD test performs TMC-Dish pairwise testing to verify Configure command flow.
 @XTP-29416 @XTP-29778 @Team_SAHYADRI @tmc_dish
 Scenario: Configure the telescope having TMC and Dish Subsystems
     Given a Telescope consisting of TMC, DISH <dish_ids>, simulated CSP and simulated SDP
@@ -10,3 +11,4 @@ Scenario: Configure the telescope having TMC and Dish Subsystems
         Examples:
         | subarray_id  | dish_ids                           |
         | 1            | SKA001,SKA036,SKA063,SKA100        |
+        

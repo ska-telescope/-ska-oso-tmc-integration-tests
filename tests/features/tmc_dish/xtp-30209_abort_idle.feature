@@ -1,4 +1,5 @@
-@XTP-XTP-30209 @XTP-29778 @Team_SAHYADRI @tmc_dish
+# This BDD test performs TMC-Dish pairwise testing to verify Abort command flow in obsState IDLE.
+@XTP-30209 @XTP-29778 @Team_SAHYADRI @tmc_dish
 Scenario: TMC executes Abort command on DISH.LMC when TMC Subarray is in IDLE 
     Given a Telescope consisting of TMC, DISH <dish_ids>, simulated CSP and simulated SDP
     And the Telescope is in ON state
@@ -10,4 +11,5 @@ Scenario: TMC executes Abort command on DISH.LMC when TMC Subarray is in IDLE
         Examples:
         | subarray_id  | dish_ids                       |
         | 1            | SKA001,SKA036,SKA063,SKA100    |
+        
 

@@ -1,10 +1,10 @@
-############################################
+######################################
 TMC MID integration Testing guidelines
-#############################################
+######################################
 
-****************************
+***************************
 Pair wise testing - TMC-SDP
-****************************
+***************************
 
 Pair wise testing is way of testing the TMC code with real SDP subsystem in place. 
 using latest `test-harness` implemented. 

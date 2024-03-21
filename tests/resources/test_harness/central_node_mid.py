@@ -44,6 +44,7 @@ from tests.resources.test_harness.utils.sync_decorators import (
     sync_release_resources,
     sync_restart,
     sync_set_to_off,
+    sync_set_to_standby,
 )
 from tests.resources.test_harness.utils.wait_helpers import Waiter
 from tests.resources.test_support.common_utils.common_helpers import Resource
@@ -356,6 +357,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             LOGGER.info("Invoke TelescopeOff() with all real sub-systems")
             self.central_node.TelescopeOff()
 
+    @sync_set_to_standby(device_dict=device_dict)
     def set_standby(self) -> None:
         """
         A method to invoke TelescopeStandby command to
@@ -367,13 +369,13 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             LOGGER.info("Invoking TelescopeStandBy() with all Mocks")
             self.central_node.TelescopeStandBy()
             self.set_subarraystate_and_dishmode_with_all_mocks(
-                DevState.STANDBY, DevState.STANDBY
+                DevState.OFF, DishMode.STANDBY_LP
             )
 
         elif SIMULATED_DEVICES_DICT["csp_and_sdp"]:
             LOGGER.info("Invoking TelescopeStandBy() on simulated csp and sdp")
             self.central_node.TelescopeStandBy()
-            self.set_value_with_csp_sdp_mocks(DevState.STANDBY)
+            self.set_value_with_csp_sdp_mocks(DevState.OFF)
 
         elif SIMULATED_DEVICES_DICT["csp_and_dish"]:
             LOGGER.info(
@@ -381,7 +383,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             )
             self.central_node.TelescopeStandBy()
             self.set_values_with_csp_dish_mocks(
-                DevState.STANDBY, DevState.STANDBY
+                DevState.OFF, DishMode.STANDBY_LP
             )
 
         elif SIMULATED_DEVICES_DICT["sdp_and_dish"]:
@@ -390,7 +392,7 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
             )
             self.central_node.TelescopeStandBy()
             self.set_values_with_sdp_dish_mocks(
-                DevState.STANDBY, DevState.STANDBY
+                DevState.OFF, DishMode.STANDBY_LP
             )
         elif SIMULATED_DEVICES_DICT["sdp"]:
             self.central_node.TelescopeStandBy()

@@ -9,7 +9,7 @@ from ska_control_model import ObsState
 from ska_tango_testing.mock.placeholders import Anything
 from tango import DeviceProxy, EventType
 
-from tests.conftest import LOGGER
+from tests.conftest import LOGGER, TIMEOUT
 from tests.resources.test_support.common_utils.common_helpers import (
     Resource,
     Waiter,
@@ -90,7 +90,7 @@ def test_recover_subarray_stuck_in_resourcing(
         )
         the_waiter.set_wait_for_specific_obsstate("IDLE", [csp_subarray1])
         _, unique_id = central_node.AssignResources(assign_json)
-        the_waiter.wait(30)
+        the_waiter.wait(TIMEOUT)
 
         sdp_subarray.SetDefective(json.dumps({"enabled": False}))
 
@@ -117,7 +117,7 @@ def test_recover_subarray_stuck_in_resourcing(
         csp_subarray.ReleaseAllResources()
         the_waiter.set_wait_for_specific_obsstate("EMPTY", [csp_subarray1])
         the_waiter.set_wait_for_specific_obsstate("EMPTY", [tmc_subarraynode1])
-        the_waiter.wait(30)
+        the_waiter.wait(TIMEOUT)
 
         assert telescope_control.is_in_valid_state(
             DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
@@ -190,7 +190,7 @@ def test_recover_subarray_stuck_in_resourcing_with_sdp_empty_with_abort(
         )
         the_waiter.set_wait_for_specific_obsstate("IDLE", [csp_subarray1])
         _, unique_id = central_node.AssignResources(assign_json)
-        the_waiter.wait(30)
+        the_waiter.wait(TIMEOUT)
 
         sdp_subarray.SetDefective(json.dumps({"enabled": False}))
 
@@ -220,7 +220,7 @@ def test_recover_subarray_stuck_in_resourcing_with_sdp_empty_with_abort(
         the_waiter.set_wait_for_specific_obsstate(
             "ABORTED", [tmc_subarraynode1]
         )
-        the_waiter.wait(200)
+        the_waiter.wait(TIMEOUT)
 
         # Verify State transitions after Abort#
         assert telescope_control.is_in_valid_state(
@@ -233,7 +233,7 @@ def test_recover_subarray_stuck_in_resourcing_with_sdp_empty_with_abort(
 
         the_waiter = Waiter()
         the_waiter.set_wait_for_specific_obsstate("EMPTY", [tmc_subarraynode1])
-        the_waiter.wait(200)
+        the_waiter.wait(TIMEOUT)
 
         # Verify ObsState is EMPTY#
         assert telescope_control.is_in_valid_state(
@@ -311,7 +311,7 @@ def test_recover_subarray_stuck_in_resourcing_with_csp_empty_with_abort(
         )
         the_waiter.set_wait_for_specific_obsstate("IDLE", [sdp_subarray1])
         _, unique_id = central_node.AssignResources(assign_json)
-        the_waiter.wait(30)
+        the_waiter.wait(TIMEOUT)
 
         csp_subarray.SetDefective(json.dumps({"enabled": False}))
 
@@ -341,7 +341,7 @@ def test_recover_subarray_stuck_in_resourcing_with_csp_empty_with_abort(
         the_waiter.set_wait_for_specific_obsstate(
             "ABORTED", [tmc_subarraynode1]
         )
-        the_waiter.wait(500)
+        the_waiter.wait(TIMEOUT)
 
         # Verify State transitions after Abort#
         assert telescope_control.is_in_valid_state(
@@ -354,7 +354,7 @@ def test_recover_subarray_stuck_in_resourcing_with_csp_empty_with_abort(
 
         the_waiter = Waiter()
         the_waiter.set_wait_for_specific_obsstate("EMPTY", [tmc_subarraynode1])
-        the_waiter.wait(500)
+        the_waiter.wait(TIMEOUT)
 
         # Verify ObsState is EMPTY#
         assert telescope_control.is_in_valid_state(
@@ -427,7 +427,7 @@ def test_recover_subarray_stuck_in_resourcing_with_abort(
         )
         the_waiter.set_wait_for_specific_obsstate("IDLE", [csp_subarray1])
         _, unique_id = central_node.AssignResources(assign_json)
-        the_waiter.wait(30)
+        the_waiter.wait(TIMEOUT)
 
         sdp_subarray.SetDefective(json.dumps({"enabled": False}))
 
@@ -457,7 +457,7 @@ def test_recover_subarray_stuck_in_resourcing_with_abort(
         the_waiter.set_wait_for_specific_obsstate(
             "ABORTED", [tmc_subarraynode1]
         )
-        the_waiter.wait(200)
+        the_waiter.wait(TIMEOUT)
 
         # Verify State transitions after Abort#
         assert telescope_control.is_in_valid_state(
@@ -470,7 +470,7 @@ def test_recover_subarray_stuck_in_resourcing_with_abort(
 
         the_waiter = Waiter()
         the_waiter.set_wait_for_specific_obsstate("EMPTY", [tmc_subarraynode1])
-        the_waiter.wait(200)
+        the_waiter.wait(TIMEOUT)
 
         # Verify ObsState is EMPTY#
         assert telescope_control.is_in_valid_state(

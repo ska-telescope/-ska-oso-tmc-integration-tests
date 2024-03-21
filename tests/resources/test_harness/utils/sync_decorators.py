@@ -35,6 +35,21 @@ def sync_set_to_off(device_dict: dict):
     return decorator_sync_set_to_off
 
 
+def sync_set_to_standby(device_dict: dict):
+    def decorator_sync_set_to_standby(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            the_waiter = Waiter(**device_dict)
+            the_waiter.set_wait_for_going_to_standby()
+            result = func(*args, **kwargs)
+            the_waiter.wait(TIMEOUT)
+            return result
+
+        return wrapper
+
+    return decorator_sync_set_to_standby
+
+
 # defined as a context manager
 @contextmanager
 def sync_going_to_off(timeout=50, **kwargs):
@@ -42,18 +57,6 @@ def sync_going_to_off(timeout=50, **kwargs):
     the_waiter.set_wait_for_going_to_off()
     yield
     the_waiter.wait(timeout)
-
-
-def sync_set_to_standby(func):
-    @functools.wraps(func)
-    def wrapper(*args, **kwargs):
-        the_waiter = Waiter(**kwargs)
-        the_waiter.set_wait_for_going_to_standby()
-        result = func(*args, **kwargs)
-        the_waiter.wait(TIMEOUT)
-        return result
-
-    return wrapper
 
 
 def sync_release_resources(device_dict, timeout=200):

@@ -4,8 +4,6 @@ domain: general-monitoring
 instances: ["001", "036", "063", "100"]
 entrypoints:
   - name: "ska_tmc_dishleafnode.dish_leaf_node.DishLeafNode"
-{{- $TrackTableEntries := .Values.deviceServers.dishleafnode.TrackTableEntries }}
-{{- $PointingCalculationPeriod := .Values.deviceServers.dishleafnode.PointingCalculationPeriod }}
 server:
   name: "dish_leaf_node"
   instances:
@@ -59,13 +57,6 @@ server:
               - "3000"
               - "kValueValidationResult"
               - "3000"
-          - name: "TrackTableEntries"
-            values:
-              - "{{ $TrackTableEntries }}"
-          - name: "PointingCalculationPeriod"
-            values:
-              - "{{ $PointingCalculationPeriod }}"
-
   {{- end }}
 depends_on:
   - device: sys/database/2

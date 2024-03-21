@@ -1,4 +1,4 @@
-"""Test TMC-SDP ReleaseResources functionality"""
+"""Test TMC-SDP Assign Release Assign functionality"""
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
@@ -12,13 +12,14 @@ from tests.resources.test_harness.helpers import (
 
 @pytest.mark.tmc_sdp
 @scenario(
-    "../features/tmc_sdp/xtp-32452_successive_assign.feature",
+    "../features/tmc_sdp/xtp-32452_assign_release_assign_sequence.feature",
     "Validate second AssignResources command  after "
     "first successful AssignResources and ReleaseResources are executed",
 )
 def test_tmc_sdp_reassign_resources():
     """
-    Test case to verify TMC-SDP ReleaseResources functionality
+    Test case to verify below sequence of events on TMC-SDP
+     AssignResources,ReleaseResources,AssignResources
     """
 
 

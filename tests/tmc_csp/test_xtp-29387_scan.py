@@ -31,7 +31,6 @@ def given_a_telescope_in_on_state(
     central_node_mid, subarray_node, event_recorder
 ):
     """Checks if CentralNode's telescopeState attribute value is on."""
-
     event_recorder.subscribe_event(
         central_node_mid.central_node, "telescopeState"
     )

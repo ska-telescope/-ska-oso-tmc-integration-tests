@@ -1,3 +1,4 @@
+# This BDD test performs TMC-Dish pairwise testing to verify Abort command flow in obsState READY.
 @XTP-30210 @XTP-29778 @Team_SAHYADRI @tmc_dish
 Scenario: TMC executes Abort command on DISH.LMC when TMC Subarray is in READY
     Given a Telescope consisting of TMC, DISH <dish_ids>, simulated CSP and simulated SDP
@@ -10,3 +11,4 @@ Scenario: TMC executes Abort command on DISH.LMC when TMC Subarray is in READY
         Examples:
         | subarray_id  | dish_ids                       |
         | 1            | SKA001,SKA036,SKA063,SKA100    |
+        

@@ -1,3 +1,4 @@
+# This BDD test performs TMC-CSP pairwise testing to verify AssignResources command flow.
 @XTP-29583 @XTP-29259 @tmc_csp
 Scenario: Assign resources to CSP subarray using TMC
     Given the telescope is in ON state
@@ -9,3 +10,4 @@ Scenario: Assign resources to CSP subarray using TMC
     Examples:
     | subarray_id | receptors                               |
     | 1           | 'SKA001', 'SKA036', 'SKA063', 'SKA100'  |
+    

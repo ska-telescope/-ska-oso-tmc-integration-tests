@@ -1,3 +1,4 @@
+# This BDD test performs TMC-Dish pairwise testing to verify Abort command flow in obsState CONFIGURING.
 @XTP-30211 @XTP-29778 @Team_SAHYADRI @tmc_dish
 Scenario: Abort configuring DISH.LMC using TMC
     Given a Telescope consisting of TMC, DISH <dish_ids>, simulated CSP and simulated SDP
@@ -10,4 +11,5 @@ Scenario: Abort configuring DISH.LMC using TMC
         Examples:
         | subarray_id  | dish_ids                       |
         | 1            | SKA001,SKA036,SKA063,SKA100    |
+        
 

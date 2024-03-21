@@ -1,5 +1,5 @@
 Feature:  TMC executes successive configure commands with real sdp devices
-    @XTP-29381 @XTP-32453 @tmc_sdp
+    @XTP-29381 @XTP-32453 @tmc_sdp @Team_SAHYADRI
     Scenario: TMC validates reconfigure functionality with real sdp devices
         Given a TMC and SDP
         And a subarray <subarray_id> in the IDLE obsState
@@ -12,6 +12,7 @@ Feature:  TMC executes successive configure commands with real sdp devices
             | subarray_id  | input_json1           |      input_json2       |
             | 1  | sdp_mid_configure1   |   sdp_mid_configure2  |
             | 1  | sdp_mid_configure1   |   sdp_mid_configure1  |
+            
 
 
 

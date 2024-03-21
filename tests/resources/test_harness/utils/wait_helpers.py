@@ -96,7 +96,7 @@ class Waiter:
             )
         )
         if self.dish_master_list:
-            self.set_wait_for_dish("State", "STANDBY")
+            self.set_wait_for_dish("dishMode", "STANDBY_LP")
 
     def set_wait_for_telescope_on(self):
         self.waits.append(
