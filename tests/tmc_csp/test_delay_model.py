@@ -1,3 +1,4 @@
+"""Test module to test delay functionality."""
 import json
 
 import pytest
