@@ -1,3 +1,4 @@
+# This BDD test performs TMC-Dish pairwise testing to verify Scan command flow.
 @XTP-30385 @XTP-29778 @Team_SAHYADRI @tmc_dish
 Scenario: TMC executes Scan command on DISH.LMC
     Given a Telescope consisting of TMC, DISH <dish_ids>, simulated CSP and simulated SDP
@@ -12,3 +13,4 @@ Scenario: TMC executes Scan command on DISH.LMC
 
         | subarray_id | dish_ids                       |
         | 1           | SKA001,SKA036,SKA063,SKA100    |
+        

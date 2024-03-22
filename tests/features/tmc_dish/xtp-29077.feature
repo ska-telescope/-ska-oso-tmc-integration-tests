@@ -1,3 +1,4 @@
+# This BDD test performs TMC-Dish pairwise testing to verify CentralNode Robustness.
 @XTP-29077 @XTP-29778 @Team_SAHYADRI @tmc_dish
 Scenario Outline: Mid TMC Central Node robustness test with disappearing DishLMC
     Given a Telescope consisting of TMC, DISH, CSP and SDP
@@ -11,4 +12,5 @@ Scenario Outline: Mid TMC Central Node robustness test with disappearing DishLMC
     And command TelescopeOff can be sent and received by the dish
     And the Central Node is still running
     And the telescope is in OFF state
+    
 

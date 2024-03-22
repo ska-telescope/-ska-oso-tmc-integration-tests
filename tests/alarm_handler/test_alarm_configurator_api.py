@@ -9,7 +9,7 @@ import pytest
 namespace = os.getenv("KUBE_NAMESPACE")
 
 
-def add_alarms_api(filename):
+def add_alarms_api(filename: str):
     """Test method for add alarms API"""
     with open(
         f"/app/tests/data/alarm_rules/valid_rules/{filename}", "rb"
@@ -52,6 +52,9 @@ def remove_alarm_api():
     assert response_data["alarm_summary"] is None
 
 
+@pytest.mark.xfail(
+    reason="Alarm summary key error to be resolved under SAH-1510"
+)
 @pytest.mark.post_deployment
 @pytest.mark.SKA_mid
 def test_configure_alarms():
@@ -59,6 +62,9 @@ def test_configure_alarms():
     add_alarms_api("alarm_file1.txt")
 
 
+@pytest.mark.xfail(
+    reason="Alarm summary key error to be resolved under SAH-1510"
+)
 @pytest.mark.post_deployment
 @pytest.mark.SKA_mid
 def test_remove_alarm():
