@@ -1,5 +1,6 @@
 """Test module to test delay functionality."""
 import json
+import logging
 
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
@@ -18,6 +19,8 @@ from tests.resources.test_harness.helpers import (
 )
 from tests.resources.test_harness.subarray_node import SubarrayNodeWrapper
 from tests.resources.test_harness.utils.common_utils import JsonFactory
+
+LOGGER = logging.getLogger(__name__)
 
 
 @pytest.mark.tmc_csp
@@ -91,12 +94,16 @@ def check_if_delay_values_are_generating(
 ) -> None:
     """Check if delay values are generating."""
     ska_epoch_tai = generate_ska_epoch_tai_value()
+    LOGGER.info(f"ska_epoch_tai : {ska_epoch_tai}")
     delay_json, delay_generated_time = wait_till_delay_values_are_populated(
         subarray_node.csp_subarray_leaf_node
     )
+    LOGGER.info(f"delay_json: {delay_json}")
+    LOGGER.info(f"delay_generated_time: {delay_generated_time}")
     epoch_difference = calculate_epoch_difference(
         delay_generated_time, ska_epoch_tai, delay_json
     )
+    LOGGER.info(f"epoch_difference: {epoch_difference}")
     assert epoch_difference < 30
 
 
