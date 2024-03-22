@@ -5,7 +5,8 @@ tag_description=
 **1. ska-tmc-integration 0.17.0 - 0.18.0*
 
     **1.1 ska-tmc-mid - 0.17.0 - 0.18.0:
-        a. Implemented programTrackTable on DishLeafNode (SP-3987)
+        a. Aligned delayModel json as per ADR-88
+        b. DelayCadence, DelayValidationPeriod and DelayAdvanceTime made configurable
 
 
 release_notes=
@@ -13,6 +14,7 @@ release_notes=
 **1. ska-tmc-integration 0.17.0 - 0.18.0:**
 
     **1.1 ska-tmc-mid - 0.17.0 - 0.18.0:
-        a. Implemented programTrackTable on DishLeafNode (SP-3987)
+        a. Aligned delayModel json as per ADR-88
+        b. DelayCadence, DelayValidationPeriod and DelayAdvanceTime made configurable
 
 
