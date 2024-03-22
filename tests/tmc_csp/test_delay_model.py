@@ -90,7 +90,7 @@ def check_if_delay_values_are_generating(
     subarray_node: SubarrayNodeWrapper,
 ) -> None:
     """Check if delay values are generating."""
-    ska_epoch_tai = generate_ska_epoch_tai_value
+    ska_epoch_tai = generate_ska_epoch_tai_value()
     delay_json, delay_generated_time = wait_till_delay_values_are_populated(
         subarray_node.csp_subarray_leaf_node
     )
