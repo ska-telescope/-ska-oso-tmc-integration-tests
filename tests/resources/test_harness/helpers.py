@@ -441,7 +441,7 @@ def check_lrcr_events(
 def wait_till_delay_values_are_populated(csp_subarray_leaf_node) -> None:
     start_time = time.time()
     time_elapsed = 0
-    while csp_subarray_leaf_node.delayModel == "" and time_elapsed <= TIMEOUT:
+    while csp_subarray_leaf_node.delayModel == "" or time_elapsed <= TIMEOUT:
         time.sleep(1)
         time_elapsed = time.time() - start_time
     delay_generated_time = datetime.now()

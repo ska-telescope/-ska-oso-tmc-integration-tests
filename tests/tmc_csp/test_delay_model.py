@@ -77,13 +77,23 @@ def move_subarray_node_to_idle_obsstate(
 
 @when("I configure the TMC subarray")
 def invoke_configure_command(
-    subarray_node: SubarrayNodeWrapper, command_input_factory: JsonFactory
+    subarray_node: SubarrayNodeWrapper,
+    command_input_factory: JsonFactory,
+    event_recorder,
 ) -> None:
     """Invoke Configure command."""
     configure_input_json = prepare_json_args_for_commands(
         "configure_mid", command_input_factory
     )
     subarray_node.store_configuration_data(configure_input_json)
+    event_recorder.subscribe_event(
+        subarray_node.subarray_devices["csp_subarray"], "obsState"
+    )
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_devices["csp_subarray"],
+        "obsState",
+        ObsState.READY,
+    )
 
 
 @then(
@@ -108,9 +118,19 @@ def check_if_delay_values_are_generating(
 
 
 @when("I end the observation")
-def invoke_end_command(subarray_node: SubarrayNodeWrapper) -> None:
+def invoke_end_command(
+    subarray_node: SubarrayNodeWrapper, event_recorder
+) -> None:
     """Invoke End command."""
     subarray_node.end_observation()
+    event_recorder.subscribe_event(
+        subarray_node.subarray_devices["csp_subarray"], "obsState"
+    )
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_devices["csp_subarray"],
+        "obsState",
+        ObsState.IDLE,
+    )
 
 
 @then("CSP Subarray Leaf Node stops generating delay values")
