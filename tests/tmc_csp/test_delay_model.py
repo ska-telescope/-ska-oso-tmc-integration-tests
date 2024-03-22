@@ -2,7 +2,7 @@
 import json
 
 import pytest
-from pytest_bdd import given, scenario, then, when
+from pytest_bdd import given, parsers, scenario, then, when
 from ska_control_model import ObsState
 from tango import DevState
 
@@ -47,7 +47,7 @@ def check_telescope_is_in_on_state(
     )
 
 
-@given("TMC subarray is in obsState IDLE")
+@given(parsers.parse("TMC subarray {subarray_id} in ObsState IDLE"))
 def move_subarray_node_to_idle_obsstate(
     central_node_mid: CentralNodeWrapperMid,
     event_recorder: EventRecorder,
