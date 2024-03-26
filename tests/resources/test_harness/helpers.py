@@ -445,11 +445,8 @@ def wait_till_delay_values_are_populated(csp_subarray_leaf_node) -> None:
         time.sleep(1)
         time_elapsed = time.time() - start_time
     delay_generated_time = datetime.now()
-    LOGGER.info(f"delay_generated_time :{delay_generated_time}")
     delay_json = csp_subarray_leaf_node.delayModel
-    LOGGER.info(f"delay_json: {delay_json}")
     delay_json_dict = json.loads(delay_json)
-    LOGGER.info(f"delay_json_dict: {delay_json_dict}")
     if csp_subarray_leaf_node.delayModel == "" and time_elapsed > TIMEOUT:
         raise Exception(
             "Timeout while waiting for CspSubarrayLeafNode to generate \
@@ -482,7 +479,6 @@ def generate_ska_epoch_tai_value() -> Time:
     SKA_EPOCH = "1999-12-31T23:59:28Z"
     ska_epoch_utc = Time(SKA_EPOCH, scale="utc")
     ska_epoch_tai = ska_epoch_utc.unix_tai
-    LOGGER.info(f"ska_epoch_tai:{ska_epoch_tai}")
     return ska_epoch_tai
 
 
@@ -496,19 +492,11 @@ def calculate_epoch_difference(
     :return: epoch_difference
     :rtype: int
     """
-    LOGGER.info(f"delay_generated_time: {delay_generated_time}")
-    LOGGER.info(f"ska_epoch_tai : {ska_epoch_tai}")
-    LOGGER.info(f"delay_json_dict : {delay_json_dict}")
     delay_generated_time_utc = Time(delay_generated_time, scale="utc")
-    LOGGER.info(f"delay_generated_time_utc: {delay_generated_time_utc}")
     delay_generated_time_tai = delay_generated_time_utc.unix_tai
-    LOGGER.info(f"delay_generated_time_tai: {delay_generated_time_tai}")
     epoch = delay_generated_time_tai - ska_epoch_tai
-    LOGGER.info(f"epoch: {epoch}")
     epoch_in_json = delay_json_dict["start_validity_sec"]
-    LOGGER.info(f"epoch_in_json: {epoch_in_json}")
     epoch_difference = epoch_in_json - epoch
-    LOGGER.info(f"epoch_difference: {epoch_difference}")
     return epoch_difference
 
 

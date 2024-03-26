@@ -29,7 +29,7 @@ LOGGER = logging.getLogger(__name__)
     "../features/tmc_csp/test_delay_model.feature",
     "TMC generates delay values",
 )
-def test_tmc_csp_configure_functionality() -> None:
+def test_tmc_csp_delay_functionality() -> None:
     """
     Test case to verify delay generates properly.
     """
