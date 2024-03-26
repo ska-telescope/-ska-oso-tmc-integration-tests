@@ -61,16 +61,20 @@ def given_the_dishes_registered_in_tango_db(central_node_mid):
     Given the dishes are registered in the TANGO Database
     """
     assert (
-        central_node_mid.dish_master_list[0].dev_name() == "ska001/elt/master"
+        central_node_mid.dish_master_list[0].dev_name()
+        == "mid-dish/dish-manager/SKA001"
     )
     assert (
-        central_node_mid.dish_master_list[1].dev_name() == "ska036/elt/master"
+        central_node_mid.dish_master_list[1].dev_name()
+        == "mid-dish/dish-manager/SKA036"
     )
     assert (
-        central_node_mid.dish_master_list[2].dev_name() == "ska063/elt/master"
+        central_node_mid.dish_master_list[2].dev_name()
+        == "mid-dish/dish-manager/SKA063"
     )
     assert (
-        central_node_mid.dish_master_list[3].dev_name() == "ska100/elt/master"
+        central_node_mid.dish_master_list[3].dev_name()
+        == "mid-dish/dish-manager/SKA100"
     )
 
 
@@ -169,7 +173,7 @@ def fail_to_connect_dish(central_node_mid):
     LOGGER.info("dish1 device name is: %s", dish1_dev_name)
 
     check_dish1_info = central_node_mid.dish1_db.get_device_info(
-        "ska001/elt/master"
+        "mid-dish/dish-manager/SKA001"
     )
     LOGGER.info("dish1 device info is: %s", check_dish1_info)
 
@@ -234,7 +238,7 @@ def connect_to_dish(central_node_mid, event_recorder):
     time.sleep(15)
 
     check_dish1_info = central_node_mid.dish1_db.get_device_info(
-        "ska001/elt/master"
+        "mid-dish/dish-manager/SKA001"
     )
     LOGGER.info("dish1 device info is: %s", check_dish1_info)
     check_dish1_leaf_info = central_node_mid.db.get_device_info(
