@@ -60,21 +60,24 @@ def given_the_dishes_registered_in_tango_db(central_node_mid):
     """
     Given the dishes are registered in the TANGO Database
     """
+    # proxy.dev_name() provides TANGO device name in small letters. Therefore
+    # asserted to "mid-dish/dish-manager/ska001" instead of
+    # "mid-dish/dish-manager/SKA001"
     assert (
         central_node_mid.dish_master_list[0].dev_name()
-        == "mid-dish/dish-manager/SKA001"
+        == "mid-dish/dish-manager/ska001"
     )
     assert (
         central_node_mid.dish_master_list[1].dev_name()
-        == "mid-dish/dish-manager/SKA036"
+        == "mid-dish/dish-manager/ska036"
     )
     assert (
         central_node_mid.dish_master_list[2].dev_name()
-        == "mid-dish/dish-manager/SKA063"
+        == "mid-dish/dish-manager/ska063"
     )
     assert (
         central_node_mid.dish_master_list[3].dev_name()
-        == "mid-dish/dish-manager/SKA100"
+        == "mid-dish/dish-manager/ska100"
     )
 
 
