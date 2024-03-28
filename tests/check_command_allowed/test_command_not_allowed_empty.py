@@ -13,6 +13,7 @@ from tests.resources.test_support.constant import (
     DEVICE_LIST_FOR_CHECK_DEVICES,
     DEVICE_OBS_STATE_EMPTY_INFO,
     DEVICE_OBS_STATE_IDLE_INFO,
+    DEVICE_STATE_OFF_INFO,
     DEVICE_STATE_ON_INFO,
     DEVICE_STATE_STANDBY_INFO,
     ON_OFF_DEVICE_COMMAND_DICT,
@@ -30,6 +31,7 @@ result, message = "", ""
 
 
 @pytest.mark.SKA_mid
+@pytest.mark.ll
 @scenario(
     "../features/check_command_not_allowed.feature",
     "Unexpected commands not allowed when TMC subarray is empty",
@@ -157,11 +159,19 @@ def tmc_accepts_next_commands(json_factory):
             DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
         )
 
-        LOGGER.info("Invoking Standby command on TMC SubarrayNode")
-        tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
+        # Invoke TelescopeOff() command
+        tmc_helper.set_to_off(**ON_OFF_DEVICE_COMMAND_DICT)
+
+        # Verify State transitions after TelescopeOff
         assert telescope_control.is_in_valid_state(
-            DEVICE_STATE_STANDBY_INFO, "State"
+            DEVICE_STATE_OFF_INFO, "State"
         )
+
+        # LOGGER.info("Invoking Standby command on TMC SubarrayNode")
+        # tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
+        # assert telescope_control.is_in_valid_state(
+        #     DEVICE_STATE_STANDBY_INFO, "State"
+        # )
 
         LOGGER.info("Tear Down complete. Telescope is in Standby State")
     except Exception:
