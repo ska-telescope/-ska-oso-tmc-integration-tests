@@ -5,7 +5,7 @@ Scenario: TMC generates delay values
     Then CSP Subarray Leaf Node starts generating delay values with proper epoch
     When I end the observation
     Then CSP Subarray Leaf Node stops generating delay values
-    When I configure the subarray
+    When I configure the TMC subarray
     Then CSP Subarray Leaf Node starts generating delay values with proper epoch
     Examples:
         | subarray_id |

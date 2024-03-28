@@ -122,17 +122,17 @@ class Waiter:
         if self.dish_master_list:
             self.set_wait_for_dish("dishMode", "STANDBY_FP")
 
-        if self.cbf_subarray1:
-            watch(Resource(self.cbf_subarray1)).to_become(
-                "State", changed_to="ON"
-            )
-        if self.cbf_controller:
-            watch(Resource(self.cbf_controller)).to_become(
-                "State", changed_to="ON"
-            )
-            watch(Resource(self.cbf_controller)).to_become(
-                "reportVccState", changed_to="[0, 0, 0, 0]"
-            )
+        # if self.cbf_subarray1:
+        #     watch(Resource(self.cbf_subarray1)).to_become(
+        #         "State", changed_to="ON"
+        #     )
+        # if self.cbf_controller:
+        #     watch(Resource(self.cbf_controller)).to_become(
+        #         "State", changed_to="ON"
+        #     )
+        #     watch(Resource(self.cbf_controller)).to_become(
+        #         "reportVccState", changed_to="[0, 0, 0, 0]"
+        #     )
 
     def set_wait_for_going_to_empty(self):
         self.waits.append(

@@ -23,8 +23,8 @@ from tests.resources.test_harness.utils.common_utils import JsonFactory
 LOGGER = logging.getLogger(__name__)
 
 
-@pytest.mark.skip
-@pytest.mark.tmc_csp
+@pytest.mark.test00
+@pytest.mark.SKA_mid
 @scenario(
     "../features/test_harness/test_delay_model.feature",
     "TMC generates delay values",
@@ -87,11 +87,9 @@ def invoke_configure_command(
         "configure_mid", command_input_factory
     )
     subarray_node.store_configuration_data(configure_input_json)
-    event_recorder.subscribe_event(
-        subarray_node.subarray_devices["csp_subarray"], "obsState"
-    )
+    event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
     assert event_recorder.has_change_event_occurred(
-        subarray_node.subarray_devices["csp_subarray"],
+        subarray_node.subarray_node,
         "obsState",
         ObsState.READY,
     )
@@ -124,11 +122,9 @@ def invoke_end_command(
 ) -> None:
     """Invoke End command."""
     subarray_node.end_observation()
-    event_recorder.subscribe_event(
-        subarray_node.subarray_devices["csp_subarray"], "obsState"
-    )
+    event_recorder.subscribe_event(subarray_node.subarray_node, "obsState")
     assert event_recorder.has_change_event_occurred(
-        subarray_node.subarray_devices["csp_subarray"],
+        subarray_node.subarray_node,
         "obsState",
         ObsState.IDLE,
     )
