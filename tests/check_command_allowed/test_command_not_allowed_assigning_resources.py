@@ -17,7 +17,6 @@ from tests.resources.test_support.constant import (
     DEVICE_OBS_STATE_EMPTY_INFO,
     DEVICE_OBS_STATE_IDLE_INFO,
     DEVICE_OBS_STATE_READY_INFO,
-    DEVICE_STATE_OFF_INFO,
     DEVICE_STATE_ON_INFO,
     DEVICE_STATE_STANDBY_INFO,
     ON_OFF_DEVICE_COMMAND_DICT,
@@ -126,9 +125,10 @@ def tmc_accepts_permitted_commands(json_factory):
     assert telescope_control.is_in_valid_state(
         DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
     )
-    # Invoke TelescopeOff() command
-    tmc_helper.set_to_off(**ON_OFF_DEVICE_COMMAND_DICT)
+    LOGGER.info("Invoking Standby command on TMC SubarrayNode")
+    tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
+    assert telescope_control.is_in_valid_state(
+        DEVICE_STATE_STANDBY_INFO, "State"
+    )
 
-    # Verify State transitions after TelescopeOff
-    assert telescope_control.is_in_valid_state(DEVICE_STATE_OFF_INFO, "State")
     LOGGER.info("Tear Down complete. Telescope is in Standby State")

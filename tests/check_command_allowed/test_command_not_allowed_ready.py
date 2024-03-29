@@ -17,7 +17,6 @@ from tests.resources.test_support.constant import (
     DEVICE_OBS_STATE_EMPTY_INFO,
     DEVICE_OBS_STATE_IDLE_INFO,
     DEVICE_OBS_STATE_READY_INFO,
-    DEVICE_STATE_OFF_INFO,
     DEVICE_STATE_ON_INFO,
     DEVICE_STATE_STANDBY_INFO,
     ON_OFF_DEVICE_COMMAND_DICT,
@@ -192,18 +191,11 @@ def tmc_accepts_next_commands(
             assert telescope_control.is_in_valid_state(
                 DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
             )
-            # Invoke TelescopeOff() command
-            tmc_helper.set_to_off(**ON_OFF_DEVICE_COMMAND_DICT)
-
-            # Verify State transitions after TelescopeOff
+            tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
+            LOGGER.info("Invoking Standby command on TMC SubarrayNode")
             assert telescope_control.is_in_valid_state(
-                DEVICE_STATE_OFF_INFO, "State"
+                DEVICE_STATE_STANDBY_INFO, "State"
             )
-            # tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
-            # LOGGER.info("Invoking Standby command on TMC SubarrayNode")
-            # assert telescope_control.is_in_valid_state(
-            #     DEVICE_STATE_STANDBY_INFO, "State"
-            # )
 
         if permitted_command == "Scan":
             tmc_helper.scan(scan_file, **ON_OFF_DEVICE_COMMAND_DICT)
@@ -225,18 +217,11 @@ def tmc_accepts_next_commands(
             assert telescope_control.is_in_valid_state(
                 DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
             )
-            # Invoke TelescopeOff() command
-            tmc_helper.set_to_off(**ON_OFF_DEVICE_COMMAND_DICT)
-
-            # Verify State transitions after TelescopeOff
+            tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
+            LOGGER.info("Invoking Standby command on TMC SubarrayNode")
             assert telescope_control.is_in_valid_state(
-                DEVICE_STATE_OFF_INFO, "State"
+                DEVICE_STATE_STANDBY_INFO, "State"
             )
-            # tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
-            # LOGGER.info("Invoking Standby command on TMC SubarrayNode")
-            # assert telescope_control.is_in_valid_state(
-            #     DEVICE_STATE_STANDBY_INFO, "State"
-            # )
 
         if permitted_command == "End":
             tmc_helper.end(**ON_OFF_DEVICE_COMMAND_DICT)
@@ -253,18 +238,11 @@ def tmc_accepts_next_commands(
             assert telescope_control.is_in_valid_state(
                 DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
             )
-            # Invoke TelescopeOff() command
-            tmc_helper.set_to_off(**ON_OFF_DEVICE_COMMAND_DICT)
-
-            # Verify State transitions after TelescopeOff
+            tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
+            LOGGER.info("Invoking Standby command on TMC SubarrayNode")
             assert telescope_control.is_in_valid_state(
-                DEVICE_STATE_OFF_INFO, "State"
+                DEVICE_STATE_STANDBY_INFO, "State"
             )
-            # tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
-            # LOGGER.info("Invoking Standby command on TMC SubarrayNode")
-            # assert telescope_control.is_in_valid_state(
-            #     DEVICE_STATE_STANDBY_INFO, "State"
-            # )
 
         if permitted_command == "Abort":
             tmc_helper.invoke_abort(**ON_OFF_DEVICE_COMMAND_DICT)
@@ -277,18 +255,11 @@ def tmc_accepts_next_commands(
             assert telescope_control.is_in_valid_state(
                 DEVICE_OBS_STATE_EMPTY_INFO, "obsState"
             )
-            # Invoke TelescopeOff() command
-            tmc_helper.set_to_off(**ON_OFF_DEVICE_COMMAND_DICT)
-
-            # Verify State transitions after TelescopeOff
+            tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
+            LOGGER.info("Invoking Standby command on TMC SubarrayNode")
             assert telescope_control.is_in_valid_state(
-                DEVICE_STATE_OFF_INFO, "State"
+                DEVICE_STATE_STANDBY_INFO, "State"
             )
-            # tmc_helper.set_to_standby(**ON_OFF_DEVICE_COMMAND_DICT)
-            # LOGGER.info("Invoking Standby command on TMC SubarrayNode")
-            # assert telescope_control.is_in_valid_state(
-            #     DEVICE_STATE_STANDBY_INFO, "State"
-            # )
 
     except Exception:
         tear_down(release_json, **ON_OFF_DEVICE_COMMAND_DICT)
