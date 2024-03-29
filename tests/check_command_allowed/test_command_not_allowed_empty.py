@@ -30,7 +30,6 @@ result, message = "", ""
 
 
 @pytest.mark.SKA_mid
-@pytest.mark.ll
 @scenario(
     "../features/check_command_not_allowed.feature",
     "Unexpected commands not allowed when TMC subarray is empty",
