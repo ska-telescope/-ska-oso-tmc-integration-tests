@@ -11,7 +11,6 @@ DISH_NAMESPACE_3 ?= dish-lmc-3
 DISH_NAMESPACE_4 ?= dish-lmc-4
 KUBE_NAMESPACE ?= ska-tmc-integration
 KUBE_NAMESPACE_SDP ?= ska-tmc-integration-sdp
-K8S_TIMEOUT = 600
 
 PYTHON_LINT_TARGET ?= tests/
 
