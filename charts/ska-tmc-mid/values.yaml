@@ -77,14 +77,14 @@ centralnode:
   image:
     registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-centralnode
     image: ska-tmc-centralnode
-    tag: 0.14.3-dev.c0491559a
+    tag: 0.14.3-dev.cc357ac2f
     pullPolicy: IfNotPresent
 
 subarraynode:
   image:
     registry: registry.gitlab.com/ska-telescope/ska-tmc/ska-tmc-subarraynode
     image: ska-tmc-subarraynode
-    tag: 0.14.9-dev.c743f59b2
+    tag: 0.14.9-dev.ce9c70584
     pullPolicy: IfNotPresent
 
 sdpleafnodes:
@@ -134,7 +134,8 @@ deviceServers:
     DishIDs: ["SKA001", "SKA036", "SKA063", "SKA100"]
     DishMasterPrefix: "elt"
     DishMasterPostfix: "master"
-    DishMasterTag: "elt/master"
+    RealDishMasterTag: "mid-dish/dish-manager"
+    SimulatorDishMasterTag: "elt/master"
     DishVccConfig:
       DishVccUri: "car://gitlab.com/ska-telescope/ska-telmodel-data?main#tmdata"
       DishVccFilePath: "instrument/ska1_mid_itf/ska-mid-cbf-system-parameters.json"
@@ -148,6 +149,8 @@ deviceServers:
     DishIDs: ["SKA001", "SKA036", "SKA063", "SKA100"]
     DishMasterPrefix: "elt"
     DishMasterPostfix: "master"
+    RealDishMasterTag: "mid-dish/dish-manager"
+    SimulatorDishMasterTag: "elt/master"
 
   sdpsubarrayleafnode:
     enabled: true 
