@@ -127,7 +127,6 @@ mid-on-demand-deploy-mini-skampi:
     CSP_SIMULATION_ENABLED: "false"
     SUBARRAY_COUNT: 2
     DISH_TANGO_HOST: "tango-databaseds"
-    CLUSTER_DOMAIN: "svc.cluster.local"
     PORT: "10000"
     DISH_INDEX_1: "001"
     DISH_INDEX_36: "036"
@@ -169,7 +168,6 @@ k8s-test-csp-dish:
     CSP_SIMULATION_ENABLED: "false"
     SUBARRAY_COUNT: 2
     DISH_TANGO_HOST: "tango-databaseds"
-    CLUSTER_DOMAIN: "svc.cluster.local"
     PORT: "10000"
     DISH_INDEX_1: "001"
     DISH_INDEX_36: "036"
@@ -368,6 +366,7 @@ dish-lmc-dish001:
   script:
     - make k8s-install-chart-car KUBE_NAMESPACE=$KUBE_NAMESPACE K8S_CHART_PARAMS='-f charts/dish_lmc_values.yml
       --set "global.dishes={$(DISH_INDEX)}" --version=2.6.3'
+      --set global.cluster_domain=$(CLUSTER_DOMAIN)'
       HELM_RELEASE=$DISH_HELM_RELEASE K8S_CHART=$K8S_DISH_LMC_CHART
     - make k8s-wait
   environment:
@@ -428,7 +427,6 @@ k8s-test-dish-lmc:
     DISH_SIMULATION_ENABLED: "false"
     SUBARRAY_COUNT: 2
     DISH_TANGO_HOST: "tango-databaseds"
-    CLUSTER_DOMAIN: "svc.cluster.local"
     PORT: "10000"
     DISH_INDEX_1: "001"
     DISH_INDEX_36: "036"
@@ -476,7 +474,6 @@ k8s-test-tmc-with-sdp:
     - k8s-test
   variables:
     TELESCOPE: 'SKA-mid'
-    CLUSTER_DOMAIN: "svc.cluster.local"
     PORT: "10000"
     KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-tmc-sdp'
     KUBE_NAMESPACE_SDP: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-sdp'
