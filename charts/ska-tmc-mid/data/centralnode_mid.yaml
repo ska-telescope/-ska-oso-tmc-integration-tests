@@ -4,6 +4,7 @@ domain: general-monitoring
 instances: ["01"]
 {{- $DishMasterPrefix := .Values.deviceServers.centralnode.DishMasterPrefix }}
 {{- $DishMasterPostfix := .Values.deviceServers.centralnode.DishMasterPostfix }}
+{{- $DishMasterTag := .Values.deviceServers.centralnode.DishMasterTag }}
 entrypoints:
   - name: "ska_tmc_centralnode.central_node_mid.CentralNodeMid"
 server:
@@ -16,6 +17,7 @@ server:
   {{- $real_dish_name := .Values.global.namespace_dish.dish_names }}
   {{- $DishMasterPrefix := .Values.deviceServers.centralnode.DishMasterPrefix }}
   {{- $DishMasterPostfix := .Values.deviceServers.centralnode.DishMasterPostfix }}
+  {{- $DishMasterTag := .Values.deviceServers.centralnode.DishMasterTag }}
   {{- $isSimulatedCsp := .Values.deviceServers.mocks.csp }}
   {{- $mocks_enabled := .Values.deviceServers.mocks.enabled}}
   - name: "01"
@@ -60,7 +62,7 @@ server:
           values:
           {{- if and (eq $mocks_enabled true) (eq $isSimulatedDish true) }}
           {{- range  (.Values.deviceServers.centralnode.DishIDs)  }}
-          - "{{ . | lower }}/{{ $DishMasterPrefix }}/{{ $DishMasterPostfix }}"
+          - "{{ . | lower }}/{{ $DishMasterTag }}"
           {{- end }}
           {{- else }}
           {{- range  (.Values.global.namespace_dish.dish_names)  }}
