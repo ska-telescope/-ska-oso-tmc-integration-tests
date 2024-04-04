@@ -127,7 +127,6 @@ mid-on-demand-deploy-mini-skampi:
     CSP_SIMULATION_ENABLED: "false"
     SUBARRAY_COUNT: 2
     DISH_TANGO_HOST: "tango-databaseds"
-    CLUSTER_DOMAIN: "cluster.local"
     PORT: "10000"
     DISH_INDEX_1: "001"
     DISH_INDEX_36: "036"
@@ -169,7 +168,6 @@ mid-on-demand-deploy-mini-skampi:
 #     CSP_SIMULATION_ENABLED: "false"
 #     SUBARRAY_COUNT: 2
 #     DISH_TANGO_HOST: "tango-databaseds"
-#     CLUSTER_DOMAIN: "cluster.local"
 #     PORT: "10000"
 #     DISH_INDEX_1: "001"
 #     DISH_INDEX_36: "036"
@@ -428,7 +426,6 @@ k8s-test-dish-lmc:
     DISH_SIMULATION_ENABLED: "false"
     SUBARRAY_COUNT: 2
     DISH_TANGO_HOST: "tango-databaseds"
-    CLUSTER_DOMAIN: "cluster.local"
     PORT: "10000"
     DISH_INDEX_1: "001"
     DISH_INDEX_36: "036"
@@ -476,7 +473,6 @@ k8s-test-tmc-with-sdp:
     - k8s-test
   variables:
     TELESCOPE: 'SKA-mid'
-    CLUSTER_DOMAIN: "cluster.local"
     PORT: "10000"
     KUBE_NAMESPACE: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-tmc-sdp'
     KUBE_NAMESPACE_SDP: 'ci-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-sdp'
