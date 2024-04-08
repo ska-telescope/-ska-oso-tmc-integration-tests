@@ -26,8 +26,8 @@ LOGGER = logging.getLogger(__name__)
 @pytest.mark.test00
 @pytest.mark.SKA_mid
 @scenario(
-    "../features/test_harness/test_delay_model.feature",
-    "TMC generates delay values",
+    "../features/test_harness/xtp_35778_test_delay_model.feature",
+    "Verification test for SKB-300",
 )
 def test_tmc_csp_delay_functionality() -> None:
     """

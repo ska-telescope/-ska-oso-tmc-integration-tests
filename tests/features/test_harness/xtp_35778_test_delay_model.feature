@@ -1,4 +1,5 @@
-Scenario: TMC generates delay values 
+@XTP-35778 @XTP-28347
+Scenario: Verification test for SKB-300
     Given the telescope is in ON state
     And TMC subarray <subarray_id> in ObsState IDLE
     When I configure the TMC subarray
