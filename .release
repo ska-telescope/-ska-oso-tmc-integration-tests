@@ -6,6 +6,7 @@ tag_description=
 
     **1.1 ska-tmc-mid - 0.17.0 - 0.18.0:
         a. Aligned delayModel json as per ADR-88
+        b. Fixed and verified SKB-300
         b. DelayCadence, DelayValidationPeriod and DelayAdvanceTime made configurable
 
 
@@ -15,6 +16,7 @@ release_notes=
 
     **1.1 ska-tmc-mid - 0.17.0 - 0.18.0:
         a. Aligned delayModel json as per ADR-88
+        b. Fixed and verified SKB-300
         b. DelayCadence, DelayValidationPeriod and DelayAdvanceTime made configurable
 
 
