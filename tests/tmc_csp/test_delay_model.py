@@ -23,7 +23,7 @@ from tests.resources.test_harness.utils.common_utils import JsonFactory
 LOGGER = logging.getLogger(__name__)
 
 
-@pytest.mark.skip
+@pytest.mark.skip(reason="Requires CBF chart with ska-telmodel v.1.15.0")
 @pytest.mark.tmc_csp
 @scenario(
     "../features/test_harness/test_delay_model.feature",
