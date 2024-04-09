@@ -96,6 +96,11 @@ def resources_assigned_to_csp(central_node_mid, event_recorder):
         "obsState",
         ObsState.IDLE,
     )
+    assert event_recorder.has_change_event_occurred(
+        central_node_mid.csp_subarray_leaf_node,
+        "obsState",
+        ObsState.IDLE,
+    )
 
 
 @given("the subarray node is stuck in obsState RESOURCING")
