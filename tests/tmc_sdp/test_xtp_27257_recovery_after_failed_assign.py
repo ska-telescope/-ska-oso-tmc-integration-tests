@@ -91,6 +91,9 @@ def resources_assigned_to_csp(central_node_mid, event_recorder):
     event_recorder.subscribe_event(
         central_node_mid.subarray_devices.get("csp_subarray"), "obsState"
     )
+    event_recorder.subscribe_event(
+        central_node_mid.csp_subarray_leaf_node, "cspSubarrayObsState"
+    )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.subarray_devices.get("csp_subarray"),
         "obsState",
@@ -98,7 +101,7 @@ def resources_assigned_to_csp(central_node_mid, event_recorder):
     )
     assert event_recorder.has_change_event_occurred(
         central_node_mid.csp_subarray_leaf_node,
-        "obsState",
+        "cspSubarrayObsState",
         ObsState.IDLE,
     )
 
