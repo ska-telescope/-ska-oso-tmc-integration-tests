@@ -80,9 +80,11 @@ def move_subarray_node_to_idle_obsstate(
 def invoke_configure_command(
     subarray_node: SubarrayNodeWrapper,
     command_input_factory: JsonFactory,
-    event_recorder,
+    event_recorder: EventRecorder,
 ) -> None:
-    """Invoke Configure command."""
+    """
+    Invokes Configure command and checks whether subarray is in Obsstae READY
+    """
     configure_input_json = prepare_json_args_for_commands(
         "configure_mid", command_input_factory
     )
@@ -120,9 +122,9 @@ def check_if_delay_values_are_generating(
 
 @when("I end the observation")
 def invoke_end_command(
-    subarray_node: SubarrayNodeWrapper, event_recorder
+    subarray_node: SubarrayNodeWrapper, event_recorder: EventRecorder
 ) -> None:
-    """Invoke End command."""
+    """Invoke End command checks whether subarray is in Obsstae IDLE"""
     subarray_node.end_observation()
     event_recorder.subscribe_event(
         subarray_node.subarray_devices["csp_subarray"], "obsState"
@@ -141,4 +143,27 @@ def check_if_delay_values_are_stop_generating(
     """Check if delay values are stop generating."""
     wait_for_delay_updates_stop_on_delay_model(
         subarray_node.csp_subarray_leaf_node
+    )
+
+
+@when("I re-configure the TMC subarray")
+def reconfigure_the_subarray(
+    subarray_node: SubarrayNodeWrapper,
+    command_input_factory: JsonFactory,
+    event_recorder: EventRecorder,
+) -> None:
+    """
+    Invokes Configure command and checks whether subarray is in Obsstae READY
+    """
+    configure_input_json = prepare_json_args_for_commands(
+        "configure_mid", command_input_factory
+    )
+    subarray_node.store_configuration_data(configure_input_json)
+    event_recorder.subscribe_event(
+        subarray_node.subarray_devices["csp_subarray"], "obsState"
+    )
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_devices["csp_subarray"],
+        "obsState",
+        ObsState.READY,
     )
