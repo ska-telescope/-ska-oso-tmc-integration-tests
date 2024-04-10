@@ -27,7 +27,7 @@ LOGGER = logging.getLogger(__name__)
 @pytest.mark.tmc_csp
 @scenario(
     "../features/test_harness/xtp_35778_test_delay_model.feature",
-    "Delay epoch values are less than delay advance time",
+    "Verify generated delay epoch values are less than delay advance time",
 )
 def test_tmc_csp_delay_functionality() -> None:
     """
@@ -58,7 +58,7 @@ def move_subarray_node_to_idle_obsstate(
     command_input_factory: JsonFactory,
     subarray_id: str,
 ) -> None:
-    """Move TMC Subarray to IDLE obsstate."""
+    """Move TMC Subarray to IDLE ObsState."""
     central_node_mid.set_subarray_id(subarray_id)
     assign_input_json = prepare_json_args_for_centralnode_commands(
         "assign_resources_mid", command_input_factory
@@ -83,7 +83,7 @@ def invoke_configure_command(
     event_recorder: EventRecorder,
 ) -> None:
     """
-    Invokes Configure command and checks whether subarray is in Obsstae READY
+    Invokes Configure command and checks whether subarray is in ObsState READY
     """
     configure_input_json = prepare_json_args_for_commands(
         "configure_mid", command_input_factory
@@ -124,7 +124,7 @@ def check_if_delay_values_are_generating(
 def invoke_end_command(
     subarray_node: SubarrayNodeWrapper, event_recorder: EventRecorder
 ) -> None:
-    """Invoke End command checks whether subarray is in Obsstae IDLE"""
+    """Invoke End command checks whether subarray is in ObsState IDLE"""
     subarray_node.end_observation()
     event_recorder.subscribe_event(
         subarray_node.subarray_devices["csp_subarray"], "obsState"
@@ -153,7 +153,7 @@ def reconfigure_the_subarray(
     event_recorder: EventRecorder,
 ) -> None:
     """
-    Invokes Configure command and checks whether subarray is in Obsstae READY
+    Invokes Configure command and checks whether subarray is in ObsState READY
     """
     configure_input_json = prepare_json_args_for_commands(
         "configure_mid", command_input_factory
