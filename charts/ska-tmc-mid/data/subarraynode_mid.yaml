@@ -81,7 +81,6 @@ server:
               - "5"
           - name: "CommandTimeOut"
             values:
-              {{- if or (eq $mocks_enabled false) (eq $isSimulatedDish false) }}
               - "60"
               {{- end }}
           - name: "AbortCommandTimeout"
