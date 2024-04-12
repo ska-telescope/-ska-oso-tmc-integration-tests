@@ -204,7 +204,7 @@ def check_exception_propagation_to_central_node(
     """
     exception_message = (
         f"Exception occurred on device: {tmc_subarraynode1}: "
-        + "Exception occurred on the following devices:\n"
+        + "Exception occurred on the following devices: "
         + f"{tmc_sdp_subarray_leaf_node}: "
         + "Execution block eb-mvp01-20210623-00000 already exists\n"
     )
