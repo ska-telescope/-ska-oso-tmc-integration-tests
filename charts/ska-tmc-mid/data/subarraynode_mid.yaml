@@ -82,7 +82,6 @@ server:
           - name: "CommandTimeOut"
             values:
               - "60"
-              {{- end }}
           - name: "AbortCommandTimeout"
             values:
               - "100"
