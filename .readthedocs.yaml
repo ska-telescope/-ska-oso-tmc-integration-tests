@@ -4,9 +4,6 @@
 
 version: 2
 
-# Based on https://confluence.skatelescope.org/display/SE/
-# System+Team+Planned+Deprecations#SystemTeamPlannedDeprecations-
-# ReadtheDocswillmigrateto.readthedocs.yamlconfigurationfile
 build:
   os: "ubuntu-22.04"
   tools:
@@ -24,7 +21,7 @@ build:
       # https://python-poetry.org/docs/managing-dependencies/#dependency-groups
       - VIRTUAL_ENV=$READTHEDOCS_VIRTUALENV_PATH poetry install --only docs
 
-
-# Build documentation in the docs/src/ directory with Sphinx
 sphinx:
   configuration: docs/src/conf.py
+  # Fail the docs build if there is a warning (eg if the auto imports are not configured)
+  fail_on_warning: true
