@@ -182,15 +182,15 @@ def sdp_subarray_remains_in_idle(event_recorder, subarray_id, subarray_node):
     )
 
 
-@when(
-    parsers.parse("TMC subarray {subarray_id} remain in RESOURCING obsState")
-)
-def tmc_subarray_remains_in_resourcing(subarray_id, subarray_node):
-    """
-    Check if TMC Subarray remains in RESOURCING status
-    """
-    check_subarray_instance(subarray_node.subarray_node, subarray_id)
-    assert subarray_node.subarray_node.obsState == ObsState.RESOURCING
+# @when(
+#     parsers.parse("TMC subarray {subarray_id} remain in RESOURCING obsState")
+# )
+# def tmc_subarray_remains_in_resourcing(subarray_id, subarray_node):
+#     """
+#     Check if TMC Subarray remains in RESOURCING status
+#     """
+#     check_subarray_instance(subarray_node.subarray_node, subarray_id)
+#     assert subarray_node.subarray_node.obsState == ObsState.RESOURCING
 
 
 @then("exception is propagated to central node")

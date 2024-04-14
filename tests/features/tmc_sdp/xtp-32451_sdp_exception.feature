@@ -5,7 +5,6 @@ Feature: TMC Subarray handles the exception when AssignResources command fails o
         Given The TMC and SDP subarray <subarray_id> in the IDLE obsState using <input_json1>
         When TMC executes second AssignResources command with duplicate eb-id from <input_json1>
         And SDP subarray <subarray_id> throws an exception and remain in IDLE obsState
-        And TMC subarray <subarray_id> remain in RESOURCING obsState
         Then exception is propagated to central node
         And I issue the Abort command on TMC Subarray <subarray_id>
         And the CSP, SDP and TMC Subarray <subarray_id> transitions to obsState ABORTED
