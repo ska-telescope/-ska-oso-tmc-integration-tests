@@ -161,7 +161,7 @@ def reassign_resources_to_subarray(
     )
 
 
-@when(
+@then(
     parsers.parse(
         "SDP subarray {subarray_id} throws an exception and "
         "remain in IDLE obsState"
@@ -216,7 +216,7 @@ def check_exception_propagation_to_central_node(
     )
 
 
-@then(parsers.parse("I issue the Abort command on TMC Subarray {subarray_id}"))
+@when(parsers.parse("I issue the Abort command on TMC Subarray {subarray_id}"))
 def send_command_abort(subarray_node, subarray_id):
     """
     Issue Abort command
