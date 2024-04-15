@@ -597,10 +597,10 @@ class CentralNodeWrapperMid(CentralNodeWrapper):
         )
         # reset HealthState.UNKNOWN for mock devices
         self._reset_health_state_for_mock_devices()
-        if self.subarray_node.obsState == ObsState.IDLE:
-            LOGGER.info("Calling Release Resource on centralnode")
-            self.invoke_release_resources(self.release_input)
-        elif self.subarray_node.obsState in [
+        # if self.subarray_node.obsState == ObsState.IDLE:
+        #     LOGGER.info("Calling Release Resource on centralnode")
+        #     self.invoke_release_resources(self.release_input)
+        if self.subarray_node.obsState in [
             ObsState.RESOURCING,
             ObsState.SCANNING,
             ObsState.CONFIGURING,
