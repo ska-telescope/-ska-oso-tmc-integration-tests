@@ -8,6 +8,7 @@ from ska_control_model import ObsState, ResultCode
 from tango import DevState
 
 from tests.resources.test_harness.helpers import (
+    check_for_device_command_event,
     check_subarray_instance,
     prepare_json_args_for_centralnode_commands,
 )
@@ -17,6 +18,7 @@ from tests.resources.test_support.constant import (
 )
 
 
+@pytest.mark.duplicate_ebid
 @pytest.mark.tmc_sdp
 @pytest.mark.SKA_mid
 @scenario(
@@ -155,7 +157,7 @@ def reassign_resources_to_subarray(
     #     "obsState",
     #     ObsState.RESOURCING,
     # )
-    shared_context.unique_id = pytest.unique_id[0]
+    # shared_context.unique_id = pytest.unique_id[0]
 
     # assert event_recorder.has_change_event_occurred(
     #     subarray_node.subarray_devices.get("csp_subarray"),
@@ -186,10 +188,17 @@ def sdp_subarray_remains_in_idle(event_recorder, subarray_id, subarray_node):
     exception_message = (
         "Execution block eb-mvp01-20210623-00000 already exists"
     )
-    assert event_recorder.has_change_event_occurred(
+    # assert event_recorder.has_change_event_occurred(
+    #     subarray_node.sdp_subarray_leaf_node,
+    #     "longRunningCommandResult",
+    #     (pytest.unique_id[0], exception_message),
+    # )
+    assert check_for_device_command_event(
         subarray_node.sdp_subarray_leaf_node,
         "longRunningCommandResult",
-        (pytest.unique_id[0], exception_message),
+        exception_message,
+        event_recorder,
+        "AssignResources",
     )
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_devices.get("sdp_subarray"),
@@ -199,7 +208,7 @@ def sdp_subarray_remains_in_idle(event_recorder, subarray_id, subarray_node):
 
 
 @then(
-    parsers.parse("TMC subarray {subarray_id} remain in RESOURCING obsState")
+    parsers.parse("TMC subarray {subarray_id} remains in RESOURCING obsState")
 )
 def tmc_subarray_remains_in_resourcing(
     subarray_id, subarray_node, event_recorder
@@ -235,7 +244,7 @@ def check_exception_propagation_to_central_node(
     event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
         attribute_name="longRunningCommandResult",
-        attribute_value=(shared_context.unique_id[0], exception_message),
+        attribute_value=(pytest.unique_id[0], exception_message),
     )
 
 
