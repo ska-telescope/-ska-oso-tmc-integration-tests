@@ -177,7 +177,9 @@ def sdp_subarray_remains_in_idle(event_recorder, subarray_id, subarray_node):
     """
     Check if SDP remains in IDLE status
     """
-
+    event_recorder.subscribe_event(
+        subarray_node.sdp_subarray_leaf_node, "longRunningCommandResult"
+    )
     check_subarray_instance(
         subarray_node.subarray_devices.get("sdp_subarray"), subarray_id
     )
