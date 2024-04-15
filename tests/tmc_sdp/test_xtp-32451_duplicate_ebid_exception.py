@@ -182,7 +182,7 @@ def sdp_subarray_remains_in_idle(event_recorder, subarray_id, subarray_node):
         subarray_node.subarray_devices.get("sdp_subarray"), subarray_id
     )
     exception_message = (
-        f"Execution block eb-mvp01-20210623-00000 already exists"
+        "Execution block eb-mvp01-20210623-00000 already exists"
     )
     assert event_recorder.has_change_event_occurred(
         subarray_node.sdp_subarray_leaf_node,
