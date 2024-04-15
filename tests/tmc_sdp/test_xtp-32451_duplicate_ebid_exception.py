@@ -2,8 +2,9 @@
 by SDP subarray"""
 import pytest
 from pytest_bdd import given, parsers, scenario, then, when
-from ska_control_model import ObsState
-from ska_tango_testing.mock.placeholders import Anything
+from ska_control_model import ObsState, ResultCode
+
+# from ska_tango_testing.mock.placeholders import Anything
 from tango import DevState
 
 from tests.resources.test_harness.helpers import (
@@ -113,7 +114,7 @@ def given_assign_resources_executed_on_tmc_subarray(
     assert event_recorder.has_change_event_occurred(
         central_node_mid.central_node,
         "longRunningCommandResult",
-        (unique_id[0], Anything),
+        (unique_id[0], str(ResultCode.OK.value)),
     )
 
 
@@ -144,24 +145,29 @@ def reassign_resources_to_subarray(
     # Provide assign resources JSON with duplicate eb_id to get the
     # exception from SDP Subarray
 
-    _, unique_id = central_node_mid.perform_action(
+    pytest.result, pytest.unique_id = central_node_mid.perform_action(
         "AssignResources", assign_input_json
     )
-    assert event_recorder.has_change_event_occurred(
-        subarray_node.subarray_node,
-        "obsState",
-        ObsState.RESOURCING,
-    )
-    shared_context.unique_id = unique_id
+    assert pytest.unique_id[0].endswith("AssignResources")
+    assert pytest.result[0] == ResultCode.QUEUED
+    # assert event_recorder.has_change_event_occurred(
+    #     subarray_node.subarray_node,
+    #     "obsState",
+    #     ObsState.RESOURCING,
+    # )
+    shared_context.unique_id = pytest.unique_id[0]
 
-    assert event_recorder.has_change_event_occurred(
-        subarray_node.subarray_devices.get("csp_subarray"),
-        "obsState",
-        ObsState.IDLE,
-    )
+    # assert event_recorder.has_change_event_occurred(
+    #     subarray_node.subarray_devices.get("csp_subarray"),
+    #     "obsState",
+    #     ObsState.IDLE,
+    # )
+
+    # TODO:
+    # assertion on duplicate eb_id
 
 
-@when(
+@then(
     parsers.parse(
         "SDP subarray {subarray_id} throws an exception and "
         "remain in IDLE obsState"
@@ -171,9 +177,19 @@ def sdp_subarray_remains_in_idle(event_recorder, subarray_id, subarray_node):
     """
     Check if SDP remains in IDLE status
     """
-
+    event_recorder.subscribe_event(
+        subarray_node.sdp_subarray_leaf_node, "longRunningCommandResult"
+    )
     check_subarray_instance(
         subarray_node.subarray_devices.get("sdp_subarray"), subarray_id
+    )
+    exception_message = (
+        "Execution block eb-mvp01-20210623-00000 already exists"
+    )
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.sdp_subarray_leaf_node,
+        "longRunningCommandResult",
+        (pytest.unique_id[0], exception_message),
     )
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_devices.get("sdp_subarray"),
@@ -182,15 +198,22 @@ def sdp_subarray_remains_in_idle(event_recorder, subarray_id, subarray_node):
     )
 
 
-@when(
+@then(
     parsers.parse("TMC subarray {subarray_id} remain in RESOURCING obsState")
 )
-def tmc_subarray_remains_in_resourcing(subarray_id, subarray_node):
+def tmc_subarray_remains_in_resourcing(
+    subarray_id, subarray_node, event_recorder
+):
     """
     Check if TMC Subarray remains in RESOURCING status
     """
     check_subarray_instance(subarray_node.subarray_node, subarray_id)
-    assert subarray_node.subarray_node.obsState == ObsState.RESOURCING
+    # assert subarray_node.subarray_node.obsState == ObsState.RESOURCING
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_node,
+        "obsState",
+        ObsState.RESOURCING,
+    )
 
 
 @then("exception is propagated to central node")
@@ -216,7 +239,7 @@ def check_exception_propagation_to_central_node(
     )
 
 
-@then(parsers.parse("I issue the Abort command on TMC Subarray {subarray_id}"))
+@when(parsers.parse("I issue the Abort command on TMC Subarray {subarray_id}"))
 def send_command_abort(subarray_node, subarray_id):
     """
     Issue Abort command

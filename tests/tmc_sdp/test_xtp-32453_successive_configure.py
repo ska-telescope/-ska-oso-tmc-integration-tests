@@ -98,7 +98,13 @@ def execute_initial_configure_command(
     configure_json = prepare_json_args_for_commands(
         input_json1, command_input_factory
     )
-    subarray_node.store_configuration_data(configure_json)
+    # subarray_node.store_configuration_data(configure_json)
+    subarray_node.execute_transition("Configure", configure_json)
+    assert event_recorder.has_change_event_occurred(
+        subarray_node.subarray_node,
+        "obsState",
+        ObsState.CONFIGURING,
+    )
     assert event_recorder.has_change_event_occurred(
         subarray_node.subarray_devices["sdp_subarray"],
         "obsState",
@@ -140,7 +146,8 @@ def execute_next_configure_command(
     configure_json = prepare_json_args_for_commands(
         input_json2, command_input_factory
     )
-    subarray_node.store_configuration_data(configure_json)
+    # subarray_node.store_configuration_data(configure_json)
+    subarray_node.execute_transition("Configure", configure_json)
 
     # TODO :: Issue is raised with SDP team , awating for
     #  confirmation to raise it as bug
