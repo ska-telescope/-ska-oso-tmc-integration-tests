@@ -1,0 +1,34 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: debug-statements
+      - id: end-of-file-fixer
+        exclude: |
+          (?x)^(
+              docs/src/diagrams/export/|
+          )|
+          .drawio$
+      - id: trailing-whitespace
+        exclude: |
+          (?x)^(
+              docs/src/diagrams/export/|
+          )|
+          .drawio$
+      - id: check-json
+  - repo: https://github.com/ambv/black
+    rev: 24.4.2
+    hooks:
+      - id: black
+        files: ^(src/|tests/)
+  - repo: https://github.com/pycqa/flake8.git
+    rev: 7.0.0
+    hooks:
+      - id: flake8
+        files: ^(src/|tests/)
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        files: ^(src/|tests/)
+        args: [ "--profile", "black" ]
