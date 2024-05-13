@@ -1,0 +1,30 @@
+---
+name: "ska-oso-tmcsim-{{ .Release.Name }}"
+function: testing
+domain: mocks
+instances: ["01"]
+entrypoints:
+  - name: "ska_oso_tmc_integration_tests.tmcsim.centralnode.CentralNode"
+  - name: "ska_oso_tmc_integration_tests.tmcsim.subarraynode.SubArrayNode"
+server:
+  name: "tmcsim"
+  instances:
+    - name: "01"
+      classes:
+        - name: "CentralNode"
+          devices:
+            - name: "ska_mid/tm_central/central_node"
+        - name: "SubArrayNode"
+          devices:
+            - name: "ska_mid/tm_subarray_node/1"
+              properties:
+                - name: "initial_obsstate"
+                  values:
+                    - "0"  # = EMPTY
+depends_on:
+  - device: sys/database/2
+image:
+  registry: "{{ .Values.image.registry }}"
+  image: "{{ .Values.image.image }}"
+  tag: "{{ .Values.image.tag | default $.Chart.AppVersion }}"
+  pullPolicy: "{{ .Values.image.pullPolicy }}"
