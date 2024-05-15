@@ -25,13 +25,15 @@ url = "https://gitlab.com/api/v4/projects/22057734/packages/pypi/simple"
 python = "^3.10,<3.13"
 python-statemachine = "^2.2.0"
 ska-tango-testing = "^0.6.1"
-ska-control-model = "^1.0.0"
+ska-control-model = "^0.3.4"
 
 [tool.poetry.group.docs]
 optional = true
 
 [tool.poetry.group.docs.dependencies]
 ska-ser-sphinx-theme = "^0.1.3"
+python-statemachine = "^2.2.0"
+ska-control-model = "^0.3.4"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.4.2"

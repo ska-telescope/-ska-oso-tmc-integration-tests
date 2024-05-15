@@ -1,2 +1,0 @@
---extra-index-url https://artefact.skao.int/repository/pypi-internal/simple
-python-statemachine==2.2.0

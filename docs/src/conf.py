@@ -19,13 +19,11 @@
 #
 import os
 import sys
-import statemachine
 
 sys.path.append(os.path.abspath('../../src'))
 
 
 autodoc_mock_imports = [
-    'ska_control_model',
     'ska_tango_testing',
     'tango',
 ]
