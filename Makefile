@@ -1,0 +1,128 @@
+CAR_OCI_REGISTRY_HOST := artefact.skao.int
+CI_PROJECT_PATH_SLUG ?= ska-oso-tmc-integration-tests
+CI_ENVIRONMENT_SLUG ?= ska-oso-tmc-integration-tests
+
+-include .make/base.mk
+-include .make/helm.mk
+-include .make/k8s.mk
+-include .make/oci.mk
+-include .make/python.mk
+-include PrivateRules.mak
+
+#- doc configuration ------------------------------------------------------------------
+
+# Fail the docs build if there is a warning (eg if the autoimports are not configured)
+# https://www.sphinx-doc.org/en/master/man/sphinx-build.html#cmdoption-sphinx-build-W
+DOCS_SPHINXOPTS=-W --keep-going
+
+
+#- Python configuration ---------------------------------------------------------------
+
+
+# unset defaults so settings in pyproject.toml take effect
+PYTHON_SWITCHES_FOR_BLACK =
+PYTHON_SWITCHES_FOR_ISORT =
+
+# Restore Black's preferred line length which otherwise would be overridden by
+# System Team makefiles' 79 character default
+PYTHON_LINE_LENGTH = 88
+
+
+#- Kubernetes configuration -----------------------------------------------------------
+
+
+# KUBE_NAMESPACE defines the Kubernetes Namespace that will be deployed to
+# using Helm.  If this does not already exist it will be created
+ifneq ($(CI_JOB_ID),)
+KUBE_NAMESPACE ?= ci-$(CI_PROJECT_NAME)-$(CI_COMMIT_SHORT_SHA)
+OCI_REGISTRY ?= registry.gitlab.com/ska-telescope/oso/ska-oso-tmc-integration-tests
+else
+OCI_REGISTRY ?= artefact.skao.int
+endif
+
+MINIKUBE ?= false ## Is this deployment running in Minikube? true/false
+MINIKUBE_IP = $(shell minikube ip)
+HOSTNAME = $(shell hostname)
+
+TANGO_HOST ?= tango-databaseds:10000  ## TANGO_HOST connection to the Tango DS
+CLUSTER_DOMAIN ?= cluster.local
+
+# Enable Taranta deployment. true/false
+TARANTA_ENABLED ?= false
+
+ODA_URL ?= http://ska-db-oda-rest-$(RELEASE_NAME):5000/$(KUBE_NAMESPACE)/oda/api/v3
+
+K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
+	--set global.tango_host=$(TANGO_HOST) \
+	--set global.exposeAllDS=false \
+	--set global.cluster_domain=$(CLUSTER_DOMAIN) \
+	--set global.operator=true \
+	--set ska-taranta.enabled=$(TARANTA_ENABLED)\
+    --set ska-db-oda.pgadmin4.enabled=false\
+	--set ska-db-oda.rest.backend.type=filesystem\
+    --set ska-db-oda.postgresql.enabled=false\
+    --set ska-oso-oet.rest.oda.backend.type=rest\
+    --set ska-oso-oet.rest.oda.url=$(ODA_URL)\
+	--set ska-oso-tmcsim.image.registry=$(OCI_REGISTRY)
+
+# tag to use when deploying TMC simulator
+TMCSIM_TAG ?= $(VERSION)
+
+# Simulate TMC: true / false
+TMC_SIMULATION_ENABLED ?= true
+ifeq ($(TMC_SIMULATION_ENABLED),false)
+K8S_CHART_PARAMS += 	--set ska-tmc-mid.enabled=true\
+	--set ska-oso-tmcsim.enabled=false\
+	--set ska-tango-alarmhandler.enable=true\
+	--set tmc-mid.deviceServers.mocks.dish=true\
+	--set tmc-mid.subarray_count=1
+else
+K8S_CHART_PARAMS += 	--set ska-tmc-mid.enabled=false\
+	--set ska-tango-alarmhandler.enable=false\
+	--set ska-oso-tmcsim.enabled=true\
+    --set ska-oso-tmcsim.image.tag=$(TMCSIM_TAG)
+endif
+
+# write ODA entities to local filesystem. Filesharing with Minikube MUST be set up!
+LOCAL_ODA ?= false
+ifeq ($(LOCAL_ODA),true)
+K8S_CHART_PARAMS +=	--set ska-db-oda.rest.backend.filesystem.use_pv=true\
+    --set ska-db-oda.rest.backend.filesystem.pv_hostpath=$(PWD)/oda
+endif
+
+# Expose OET API and Swagger UI
+OET_INGRESS ?= false
+ifeq ($(OET_INGRESS),true)
+K8S_CHART_PARAMS +=	--set ska-oso-oet.rest.ingress.enabled=true
+endif
+
+# Developer environment setup. Shortcut for activating options useful for developers,
+# e.g., open ingress and ODA with local filesystem backing.
+DEVENV ?= false
+ifeq ($(DEVENV),true)
+MINIKUBE = true
+LOCAL_ODA = true
+OET_INGRESS = true
+endif
+
+#- Make target customisation ----------------------------------------------------------
+
+k8s-pre-install-chart:
+ifeq ($(LOCAL_ODA),true)
+	export ODA_DIR=$(PWD)/oda && \
+	echo "Creating ODA backing directory $$ODA_DIR..." && \
+	mkdir -p $$ODA_DIR
+endif
+
+k8s-post-install-chart:
+ifneq ($(MINIKUBE_IP),)
+ifeq ($(TARANTA_ENABLED), true)
+	@echo "    * Taranta: http://$(MINIKUBE_IP)/$(KUBE_NAMESPACE)/taranta/"
+endif
+ifeq ($(OET_INGRESS),true)
+	@echo "    * OET Swagger UI: http://$(MINIKUBE_IP)/$(KUBE_NAMESPACE)/oet/api/v6/ui"
+	@echo "    * OET REST API: http://$(MINIKUBE_IP)/$(KUBE_NAMESPACE)/oet/api/v6"
+endif
+	@echo "    * ODA Swagger UI: http://$(MINIKUBE_IP)/$(KUBE_NAMESPACE)/oda/api/v3/ui"
+	@echo "    * ODA REST API: http://$(MINIKUBE_IP)/$(KUBE_NAMESPACE)/oda/api/v3"
+endif

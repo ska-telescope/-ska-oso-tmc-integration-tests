@@ -1,0 +1,92 @@
+# GitLab CI in conjunction with GitLab Runner can use Docker Engine to test and build any application.
+# Docker, when used with GitLab CI, runs each job in a separate and isolated container using the predefined image that is set up in .gitlab-ci.yml.
+# In this case we use the latest python docker image to build and test this project.
+image: $SKA_K8S_TOOLS_DOCKER_BUILDER_IMAGE
+
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+  DOCKER_DRIVER: overlay2
+
+# cache is used to specify a list of files and directories which should be cached between jobs. You can only use paths that are within the project workspace.
+# If cache is defined outside the scope of jobs, it means it is set globally and all jobs will use that definition
+cache:
+  paths:
+    - build
+
+# The YAML file defines a set of jobs with constraints stating when they should be run.
+# You can specify an unlimited number of jobs which are defined as top-level elements with an arbitrary name and always have to contain at least the script clause.
+# In this case we have only the test job which produce an artifacts (it must be placed into a directory called "public")
+# It is also specified that only the master branch will be subject of this job.
+
+stages:
+  - build
+  - test
+  - deploy
+  - lint
+  - publish
+  - pages
+  - scan
+  - on-demand
+  - integration
+  - staging
+
+.info_script: &info_script
+    - |-
+      echo "Status of pods in $KUBE_NAMESPACE namespace:"
+      kubectl get pods -n $KUBE_NAMESPACE -o jsonpath="{range .items[*]}{'Pod: '}{.metadata.name}:{'\n'}{'\t'}{'Image: '}{.spec.containers[*].image}{'\n'}{'\t'}{'Status: '}{.status.phase}{'\n'}{end}{'\n'}"
+
+# Currently, the dev template uses ci-dev-$CI_PROJECT_NAME which means only one branch can be deployed at a time, so we overwrite this
+.dev_env: &dev_env
+  variables:
+    KUBE_NAMESPACE: "dev-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG"
+  environment:
+    name: "dev-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG"
+
+info-dev-environment:
+  <<: *dev_env
+  script:
+    - *info_script
+
+info-integration:
+  script:
+    - *info_script
+
+deploy-dev-environment:
+  <<: *dev_env
+
+test-dev-environment:
+  <<: *dev_env
+
+stop-dev-environment:
+  <<: *dev_env
+
+
+include:
+  # Python
+  - project: "ska-telescope/templates-repository"
+    file: "gitlab-ci/includes/python.gitlab-ci.yml"
+  # OCI
+  - project: "ska-telescope/templates-repository"
+    file: "gitlab-ci/includes/oci-image.gitlab-ci.yml"
+  # Selected Helm chart steps - don't include publish as this project is not a deployable artefact
+  - project: 'ska-telescope/templates-repository'
+    file: 'gitlab-ci/includes/helm-chart-lint.gitlab-ci.yml'
+  - project: 'ska-telescope/templates-repository'
+    file: 'gitlab-ci/includes/helm-chart-build.gitlab-ci.yml'
+  # k8s steps
+  - project: 'ska-telescope/templates-repository'
+    file: 'gitlab-ci/includes/k8s.gitlab-ci.yml'
+  # Selected deploy steps - only includes dev as the integration tests chart is not intended to be deployable
+  - project: 'ska-telescope/templates-repository'
+    file: 'gitlab-ci/includes/deploy.dev.gitlab-ci.yml'
+  - project: 'ska-telescope/templates-repository'
+    file: 'gitlab-ci/includes/deploy.integration.gitlab-ci.yml'
+  # Docs pages
+  - project: 'ska-telescope/templates-repository'
+    file: 'gitlab-ci/includes/docs.gitlab-ci.yml'
+  # release automation
+  - project: 'ska-telescope/templates-repository'
+    file: 'gitlab-ci/includes/release.gitlab-ci.yml'
+  # .post step finalisers eg: badges
+  - project: "ska-telescope/templates-repository"
+    file: "gitlab-ci/includes/finaliser.gitlab-ci.yml"
