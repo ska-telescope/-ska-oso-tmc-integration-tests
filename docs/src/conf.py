@@ -24,6 +24,7 @@ sys.path.append(os.path.abspath('../../src'))
 
 
 autodoc_mock_imports = [
+    'pydantic',
     'ska_tango_testing',
     'ska_ser_logging',
     'ska_tango_testing',

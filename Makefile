@@ -27,6 +27,21 @@ PYTHON_SWITCHES_FOR_ISORT =
 # System Team makefiles' 79 character default
 PYTHON_LINE_LENGTH = 88
 
+# Set python-test make target to only run unit tests, as tests in the integration
+# folder require Tango.
+PYTHON_TEST_FILE = tests/unit
+
+#- Kubernetes test configuration ------------------------------------------------------
+
+# override k8s-test so that:
+# - pytest --forked is run, working around Tango segfault issue with standard pytest
+# - only integration tests run and unit tests are ignored
+# - adds 'rP' to print captured output for successful tests
+K8S_TEST_TEST_COMMAND = $(PYTHON_VARS_BEFORE_PYTEST) $(PYTHON_RUNNER) \
+                        ODA_URL=$(ODA_URL) \
+                        pytest --forked -rP \
+                        $(PYTHON_VARS_AFTER_PYTEST) ./tests/integration \
+                         | tee pytest.stdout ## k8s-test test command to run in container
 
 #- Kubernetes configuration -----------------------------------------------------------
 
