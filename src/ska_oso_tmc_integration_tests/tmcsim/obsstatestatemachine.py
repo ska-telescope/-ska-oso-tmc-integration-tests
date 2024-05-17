@@ -45,6 +45,8 @@ class ObsStateMachineMixin:  # pylint: disable=too-few-public-methods
 
         # this property should be set on the device
         initial_int_obsstate = getattr(self, self.initial_state_attr)
+        assert initial_int_obsstate is not None, f"{self.initial_state_attr} not set"
+
         # map int back to ObsState state value
         idx_to_state = {s.value: s for s in BaseObsStateMachine._states}
         initial_obsstate = idx_to_state[initial_int_obsstate].value

@@ -8,6 +8,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 *****
 
 * Added TMCSimTestHarness for testing using/against OSO's TMC Simulator 
+* Fixed issue with initial obsstate not being transferred to state machine.
 
 0.1.0
 *****

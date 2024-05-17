@@ -24,6 +24,10 @@ class SubArrayNode(ObsStateMachineMixin, Device):
     initial_obsstate = device_property(dtype=int)
     """Initial obsState for state machine provided by the OSO test harnesses"""
 
+    def __init__(self, cl, name):
+        Device.__init__(self, cl, name)
+        ObsStateMachineMixin.__init__(self)
+
     def init_device(self):
         """
         Simulate SubArrayNode device initialisation.
