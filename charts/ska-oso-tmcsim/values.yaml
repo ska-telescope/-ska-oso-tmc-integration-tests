@@ -7,7 +7,7 @@ subsystem: ska-oso-tmcsim
 
 global:
   minikube: true
-  tango_host: databaseds-tango-base-test:10000
+  tango_host: tango-databaseds:10000
 
 labels:
   app: ska-oso-tmcsim
@@ -32,6 +32,13 @@ image:
   image: ska-oso-tmc-integration-tests
   tag: ~  # Defaults to the chart appVersion if not set
   pullPolicy: IfNotPresent
+
+devpod:
+  enabled: false
+  # set this to a directory mountable via NFS from the pod
+  hostPath: /path/to/your/src/directory
+  env:
+    oda_url: ~  # set dynamically in makefile
 
 nodeSelector: {}
 
