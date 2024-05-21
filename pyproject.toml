@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ska-oso-tmc-integration-tests"
-version = "0.2.0"
+version = "0.2.1"
 description = "Repository for integration of OSO and TMC"
 authors = ["Team Buttons"]
 license = "BSD-3-Clause"
