@@ -24,8 +24,10 @@ url = "https://gitlab.com/api/v4/projects/22057734/packages/pypi/simple"
 [tool.poetry.dependencies]
 python = "^3.10,<3.13"
 python-statemachine = "^2.2.0"
-ska-tango-testing = "^0.6.1"
 ska-control-model = "^0.3.4"
+ska-ser-logging = "^0.4.3"
+ska-tango-testing = "^0.6.1"
+pydantic = "^2.7.1"
 
 [tool.poetry.group.docs]
 optional = true
@@ -42,6 +44,7 @@ isort = "^5.13.2"
 pytest-cov = "^5.0.0"
 pylint-junit = "^0.3.4"
 typing-extensions = "^4.11.0"
+pytest-forked = "^1.6.0"
 
 [tool.black]
 line-length = 88

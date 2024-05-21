@@ -14,14 +14,20 @@ centralnode
 .. automodule:: ska_oso_tmc_integration_tests.tmcsim.centralnode
     :members:
 
+obsstatestatemachine
+--------------------
+
+.. automodule:: ska_oso_tmc_integration_tests.tmcsim.obsstatestatemachine
+    :members:
+
 subarraynode
 ------------
 
 .. automodule:: ska_oso_tmc_integration_tests.tmcsim.subarraynode
     :members:
 
-obsstatestatemachine
+testharness
 --------------------
 
-.. automodule:: ska_oso_tmc_integration_tests.tmcsim.obsstatestatemachine
+.. automodule:: ska_oso_tmc_integration_tests.tmcsim.testharness
     :members:

@@ -27,6 +27,21 @@ PYTHON_SWITCHES_FOR_ISORT =
 # System Team makefiles' 79 character default
 PYTHON_LINE_LENGTH = 88
 
+# Set python-test make target to only run unit tests, as tests in the integration
+# folder require Tango.
+PYTHON_TEST_FILE = tests/unit
+
+#- Kubernetes test configuration ------------------------------------------------------
+
+# override k8s-test so that:
+# - pytest --forked is run, working around Tango segfault issue with standard pytest
+# - only integration tests run and unit tests are ignored
+# - adds 'rP' to print captured output for successful tests
+K8S_TEST_TEST_COMMAND = $(PYTHON_VARS_BEFORE_PYTEST) $(PYTHON_RUNNER) \
+                        ODA_URL=$(ODA_URL) \
+                        pytest --forked -rP \
+                        $(PYTHON_VARS_AFTER_PYTEST) ./tests/integration \
+                         | tee pytest.stdout ## k8s-test test command to run in container
 
 #- Kubernetes configuration -----------------------------------------------------------
 
@@ -50,7 +65,7 @@ CLUSTER_DOMAIN ?= cluster.local
 # Enable Taranta deployment. true/false
 TARANTA_ENABLED ?= false
 
-ODA_URL ?= http://ska-db-oda-rest-$(RELEASE_NAME):5000/$(KUBE_NAMESPACE)/oda/api/v3
+ODA_URL ?= http://ska-db-oda-rest-$(HELM_RELEASE):5000/$(KUBE_NAMESPACE)/oda/api/v3
 
 K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.tango_host=$(TANGO_HOST) \
@@ -126,3 +141,21 @@ endif
 	@echo "    * ODA Swagger UI: http://$(MINIKUBE_IP)/$(KUBE_NAMESPACE)/oda/api/v3/ui"
 	@echo "    * ODA REST API: http://$(MINIKUBE_IP)/$(KUBE_NAMESPACE)/oda/api/v3"
 endif
+ifeq ($(DEVENV), true)
+	@echo
+	@echo "To connect to the Tango database from your host, run"
+	@echo
+	@echo "    kubectl -n $(KUBE_NAMESPACE) port-forward services/tango-databaseds 10000"
+	@echo "    export TANGO_HOST=$(HOSTNAME):10000"
+endif
+
+
+devpod: DEVENV = true
+devpod: K8S_CHART_PARAMS += --set ska-oso-tmcsim.devpod.enabled=true\
+	--set ska-oso-tmcsim.devpod.env.oda_url=$(ODA_URL)\
+	--set ska-oso-tmcsim.devpod.hostPath=$(PWD)
+devpod: k8s-install-chart
+	@echo "Waiting for devpod to become available..."
+	@kubectl -n $(KUBE_NAMESPACE) wait --for=condition=ready pod devpod
+	@echo "Now launching a bash terminal inside devpod..."
+	@kubectl -n $(KUBE_NAMESPACE) exec --stdin --tty devpod -- /bin/bash

@@ -1,3 +1,4 @@
+# pylint: disable=redefined-outer-name,missing-module-docstring
 from time import time
 
 import pytest
@@ -8,6 +9,7 @@ from ska_oso_tmc_integration_tests.tmcsim import ObsStateStateMachine
 
 @pytest.fixture
 def sm():
+    """Get an instance of an ObsStateStateMachine."""
     return ObsStateStateMachine()
 
 
