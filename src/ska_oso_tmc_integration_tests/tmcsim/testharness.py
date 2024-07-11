@@ -38,6 +38,7 @@ class TMCSimTestHarness:
         self._tango_test_harness.add_device(
             device_name=f"{self._base_uri}/tm_central/central_node",
             device_class=CentralNode,
+            base_uri=self._base_uri,
         )
 
     def add_subarray(
