@@ -33,7 +33,17 @@ This project holds code used to test OSO's integration with TMC. It contains:
 - Helm charts that deploy either OSO's TMC simulator or real TMC operating in simulation mode.
 - BDD tests to test integration of OSO software with TMC.
 
-Currently, this project only targets simulation and testing for SKA MID.
+Mid and Low Simulations
+========================
+
+The OSO TMC simulator provides CentralNode and Subarray device classes which simulate the corresponding TMC classes.
+As these behave the same for Mid and Low, the OSO TMC simulator uses the same classes to simulate both, with the difference
+being the FQDN for the devices.
+
+The ska-oso-tmcsim helm chart deploys 2 device services: one using a default `base_uri` of 'ska-mid' which will deploy the Mid devices
+(ska-mid/tm_central/central_node` `ska-mid/tm_subarray_node/1`) and one using 'ska-low' with the Low devices (ska-mid/tm_central/central_node` `ska-mid/tm_subarray_node/1`).
+
+These devices can be enabled/disabled individually in the Helm values, and the domain name can also be configured.
 
 Quickstart
 ==========

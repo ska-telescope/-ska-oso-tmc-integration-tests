@@ -22,10 +22,16 @@ dsconfig:
     pullPolicy: IfNotPresent
 
 deviceServers:
-  tmcsim:
+  tmcsimskamid:
     enabled: true
     instances: ["01"]
-    file: "data/tmcsim.yaml"
+    file: "data/tmcsim_ska_mid.yaml"
+    baseUri: "ska_mid"
+  tmcsimskalow:
+    enabled: true
+    instances: ["01"]
+    file: "data/tmcsim_ska_low.yaml"
+    baseUri: "ska_low"
 
 image:
   registry: artefact.skao.int
