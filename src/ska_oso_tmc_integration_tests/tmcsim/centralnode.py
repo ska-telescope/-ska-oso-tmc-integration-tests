@@ -2,7 +2,7 @@
 Simulates the behaviour of a TMC CentralNode for the purpose of integration tests.
 """
 
-import ska_tango_testing
+import tango
 from tango import DevState
 from tango.server import Device, command, device_property
 
@@ -28,13 +28,7 @@ class CentralNode(Device):
         """
         Assign resources to a subarray.
         """
-        # pylint: disable=line-too-long
-        # devices inside the TestHarness can't create DeviceProxy instances directly
-        # See https://developer.skatelescope.org/projects/ska-tango-testing/en/latest/guide/harness/tango_contexts.html
-        # and related Tango bug https://gitlab.com/tango-controls/pytango/-/issues/459
-        san = ska_tango_testing.context.DeviceProxy(
-            f"{self.base_uri}/tm_subarray_node/1"
-        )
+        san = tango.DeviceProxy(f"{self.base_uri}/tm_subarray_node/1")
         san.AssignResources(cdm_str)
 
     @command(dtype_in=str)
@@ -42,7 +36,5 @@ class CentralNode(Device):
         """
         Release resources from a subarray.
         """
-        san = ska_tango_testing.context.DeviceProxy(
-            f"{self.base_uri}/tm_subarray_node/1"
-        )
+        san = tango.DeviceProxy(f"{self.base_uri}/tm_subarray_node/1")
         san.ReleaseResources(cdm_str)
