@@ -11,6 +11,8 @@ from ska_control_model import ObsState
 from ska_oso_tmc_integration_tests.tmcsim.subarraynode import MethodCall
 from ska_oso_tmc_integration_tests.tmcsim.testharness import TMCSimTestHarness
 
+from . import LOW_BASE_URI, MID_BASE_URI
+
 
 class TestSubarrayNode:  # pylint: disable=too-few-public-methods
     """
@@ -18,6 +20,7 @@ class TestSubarrayNode:  # pylint: disable=too-few-public-methods
     model, which is tested separately in unit tests.
     """
 
+    @pytest.mark.parametrize("base_uri", [MID_BASE_URI, LOW_BASE_URI])
     @pytest.mark.parametrize(
         "initial_obsstate,method,args",
         [
@@ -30,11 +33,10 @@ class TestSubarrayNode:  # pylint: disable=too-few-public-methods
             (ObsState.ABORTED, "Restart", []),
         ],
     )
-    def test_arguments_recorded(self, initial_obsstate, method, args):
+    def test_arguments_recorded(self, base_uri, initial_obsstate, method, args):
         """
         Tests that commands and arguments are recorded in the device history.
         """
-        base_uri = "tmcsim"
         test_harness = TMCSimTestHarness(base_uri=base_uri)
         test_harness.add_subarray(1, initial_obsstate=initial_obsstate)
 
@@ -47,11 +49,11 @@ class TestSubarrayNode:  # pylint: disable=too-few-public-methods
         expected = MethodCall(command=method, args=args)
         assert MethodCall.model_validate(history[0]) == expected
 
-    def test_history_cleared(self):
+    @pytest.mark.parametrize("base_uri", [MID_BASE_URI, LOW_BASE_URI])
+    def test_history_cleared(self, base_uri):
         """
         Tests that the command history is cleared when ClearHistory is called.
         """
-        base_uri = "tmcsim"
         test_harness = TMCSimTestHarness(base_uri=base_uri)
         test_harness.add_subarray(1, initial_obsstate=ObsState.IDLE)
 
