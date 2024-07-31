@@ -2,6 +2,7 @@
 Simulates the behaviour of a TMC SubArrayNode for integration testing.
 """
 
+import ast
 import json
 from collections import deque
 
@@ -138,3 +139,16 @@ class SubArrayNode(Device, ObsStateMachineMixin):
     def ClearHistory(self):  # pylint: disable=invalid-name
         """Clear the history of JSON arguments."""
         self._history.clear()
+
+    @command(dtype_in=str)
+    def InjectFaultAfter(self, states_str):  # pylint: disable=invalid-name
+        """
+        Will cause the state to go to FAULT if the state machine
+        passes through the states given in the arg
+        """
+        # Convert the string input into the ObsStateStateMachine states
+        states = [
+            getattr(self.statemachine, state_str)
+            for state_str in ast.literal_eval(states_str)
+        ]
+        self.statemachine.set_to_fail_after(*states)

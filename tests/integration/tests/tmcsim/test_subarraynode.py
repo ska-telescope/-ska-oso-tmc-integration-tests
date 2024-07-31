@@ -65,3 +65,21 @@ class TestSubarrayNode:  # pylint: disable=too-few-public-methods
             san.ClearHistory()
             history = json.loads(san.History)
             assert len(history) == 0
+
+    def test_fault_can_be_injected(self, base_uri="ska-test"):
+        """
+        Tests that the SubarrayNode can be configured to go to a FAULT state for
+        a given series of commands.
+        """
+        test_harness = TMCSimTestHarness(base_uri=base_uri)
+        test_harness.add_subarray(1, initial_obsstate=ObsState.IDLE)
+
+        with test_harness as ctx:
+            san = ctx.get_device(f"{base_uri}/tm_subarray_node/1")
+            # Set the device up so it will go to FAULT after moving
+            # through a given sequence of states
+            san.InjectFaultAfter("['IDLE', 'CONFIGURING', 'READY']")
+            # Send a command which should move the device through the above states
+            san.Configure("{'foo': 'bar'}")
+            # Assert the state has gone to Fault
+            assert san.obsState == ObsState.FAULT

@@ -113,14 +113,18 @@ class BaseObsStateMachine(StateMachine):
     )
 
     # internal transitions triggered by downstream device state
-    assigned = RESOURCING.to(IDLE)
-    released = RESOURCING.to(EMPTY, cond="is_release_all") | RESOURCING.to(
-        IDLE, unless="is_release_all"
+    # We set FAULT to FAULT as the 'after' hook which calls these internal
+    # transactions will still be called and we don't want this to cause an error
+    assigned = RESOURCING.to(IDLE) | FAULT.to(FAULT)
+    released = (
+        RESOURCING.to(EMPTY, cond="is_release_all")
+        | RESOURCING.to(IDLE, unless="is_release_all")
+        | FAULT.to(FAULT)
     )
-    ready = CONFIGURING.to(READY)
-    scan_complete = SCANNING.to(READY)
-    abort_complete = ABORTING.to(ABORTED)
-    restart_complete = RESTARTING.to(EMPTY)
+    ready = CONFIGURING.to(READY) | FAULT.to(FAULT)
+    scan_complete = SCANNING.to(READY) | FAULT.to(FAULT)
+    abort_complete = ABORTING.to(ABORTED) | FAULT.to(FAULT)
+    restart_complete = RESTARTING.to(EMPTY) | FAULT.to(FAULT)
 
     fatal_error = (
         EMPTY.to(FAULT)
@@ -203,6 +207,12 @@ class ObsStateStateMachine(BaseObsStateMachine):
         """
         self.state_history.append(state)
 
+        if (
+            self._fail_after
+            and self.state_history[-len(self._fail_after) :] == self._fail_after
+        ):
+            self.fatal_error()
+
     def after_transition(self, event):
         """
         Perform actions that should occur after a state transition.
@@ -214,11 +224,6 @@ class ObsStateStateMachine(BaseObsStateMachine):
         """
         sleep_seconds = self.transition_timing.get(event, self.default_transition_time)
         sleep(sleep_seconds)
-        if (
-            self._fail_after
-            and self.state_history[-len(self._fail_after) :] == self._fail_after
-        ):
-            self.fatal_error()
 
 
 class LoggingObserver:  # pylint: disable=too-few-public-methods
