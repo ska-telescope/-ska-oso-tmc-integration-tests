@@ -153,9 +153,10 @@ endif
 
 
 devpod: DEVENV = true
-devpod: K8S_CHART_PARAMS += --set ska-oso-tmcsim.devpod.enabled=true\
-	--set ska-oso-tmcsim.devpod.env.oda_url=$(ODA_URL)\
-	--set ska-oso-tmcsim.devpod.hostPath=$(PWD)
+devpod: K8S_CHART_PARAMS += --set ska-oso-devpod.enabled=true\
+	--set ska-oso-devpod.image.tag=$(TMCSIM_TAG)\
+	--set ska-oso-devpod.env.oda_url=$(ODA_URL)\
+	--set ska-oso-devpod.hostPath=$(PWD)
 devpod: k8s-install-chart
 	@echo "Waiting for devpod to become available..."
 	@kubectl -n $(KUBE_NAMESPACE) wait --for=condition=ready pod devpod

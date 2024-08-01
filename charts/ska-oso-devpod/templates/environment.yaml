@@ -2,15 +2,18 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{template "ska-oso-tmcsim.name" .}}-{{.Release.Name}}-devpod-environment
+  name: {{template "ska-oso-devpod.name" .}}-{{.Release.Name}}-devpod-environment
   namespace: {{.Release.Namespace}}
   labels:
-    {{- include "ska-oso-tmcsim.labels" . | indent 4}}
-    component: {{template "ska-oso-tmcsim.name" .}}
+    {{- include "ska-oso-devpod.labels" . | indent 4}}
+    component: {{template "ska-oso-devpod.name" .}}
     domain: environment
     function: devpod-environment
     intent: development
 data:
-  ODA_URL: {{.Values.devpod.env.oda_url}}
+  ODA_URL: {{.Values.env.oda_url}}
   TANGO_HOST: {{if .Values.global.tango_host -}} {{.Values.global.tango_host}} {{- else -}} tango-databaseds-{{.Release.Name}}:10000 {{- end}}
   SHELL: /usr/bin/bash
+  SDP_SIMULATION_ENABLED: "true"
+  CSP_SIMULATION_ENABLED: "true"
+  DISH_SIMULATION_ENABLED: "true"

@@ -24,6 +24,10 @@ dependencies:
     version: 0.2.1
     repository: file://../ska-oso-tmcsim
     condition: ska-oso-tmcsim.enabled
+  - name: ska-oso-devpod
+    version: 0.2.1
+    repository: file://../ska-oso-devpod
+    condition: ska-oso-devpod.enabled
   - name: ska-ser-skuid
     version: 3.3.3
     repository: https://artefact.skao.int/repository/helm-internal

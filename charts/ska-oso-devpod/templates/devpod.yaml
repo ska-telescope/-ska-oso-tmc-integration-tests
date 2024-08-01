@@ -1,5 +1,5 @@
 ---
-{{if .Values.devpod.enabled}}
+{{if .Values.enabled}}
 apiVersion: v1
 kind: Pod
 metadata:
@@ -12,7 +12,7 @@ spec:
       command: ["/bin/sh", "-c", "while sleep 1000; do :; done"]
       envFrom:
         - configMapRef:
-            name: {{template "ska-oso-tmcsim.name" .}}-{{.Release.Name}}-devpod-environment
+            name: {{template "ska-oso-devpod.name" .}}-{{.Release.Name}}-devpod-environment
       volumeMounts:
         - mountPath: /app
           name: host-volume
@@ -20,7 +20,7 @@ spec:
   - name: host-volume
     nfs:
       server: host.minikube.internal
-      path: {{.Values.devpod.hostPath}}
+      path: {{.Values.hostPath}}
       readOnly: false
   - name: cache-volume
     # same as lifetime of the pod; OK for caching of python package installs and so on

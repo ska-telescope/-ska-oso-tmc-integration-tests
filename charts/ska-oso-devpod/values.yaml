@@ -1,0 +1,27 @@
+---
+enabled: false
+
+system: OSO
+telescope: SKA-mid
+subsystem: ska-oso-devpod
+
+global:
+  minikube: true
+  tango_host: tango-databaseds:10000
+
+# set this to a directory mountable via NFS from the pod
+hostPath: /path/to/your/src/directory
+env:
+  oda_url: ~  # set dynamically in makefile
+
+image:
+  registry: artefact.skao.int
+  image: ska-oso-tmc-integration-tests
+  tag: ~  # Defaults to the chart appVersion if not set
+  pullPolicy: IfNotPresent
+
+nodeSelector: {}
+
+affinity: {}
+
+tolerations: []
