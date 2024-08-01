@@ -4,6 +4,7 @@ Contains code for testing OSO's TMC SubArrayNode simulator in a Tango context.
 
 import json
 import operator
+from time import time
 
 import pytest
 from ska_control_model import ObsState
@@ -83,3 +84,33 @@ class TestSubarrayNode:  # pylint: disable=too-few-public-methods
             san.Configure("{'foo': 'bar'}")
             # Assert the state has gone to Fault
             assert san.obsState == ObsState.FAULT
+
+    @pytest.mark.parametrize("command_str", ["Configure", "AssignResources"])
+    def test_delay_can_be_injected(self, command_str):
+        """
+        Tests that the SubarrayNode can be configured to add delays to
+        individual supported commands.
+        """
+        base_uri = "ska-test"
+        test_harness = TMCSimTestHarness(base_uri=base_uri)
+        test_harness.add_subarray(1, initial_obsstate=ObsState.IDLE)
+
+        with test_harness as ctx:
+            san = ctx.get_device(f"{base_uri}/tm_subarray_node/1")
+            delay_s = 0.1
+            san_cmd = getattr(san, command_str)
+
+            # First check the command is less than the delay before it has been injected
+            start = time()
+            san_cmd("{'foo': 'bar'}")
+            end = time()
+            assert (end - start) < delay_s
+
+            # Inject the delay
+            san.InjectDelay(json.dumps({command_str: delay_s}))
+
+            # Check the command now takes longer than the delay
+            start = time()
+            san_cmd("{'foo': 'bar'}")
+            end = time()
+            assert (end - start) > delay_s

@@ -112,9 +112,13 @@ class BaseObsStateMachine(StateMachine):
         RESTARTING, after="restart_complete"
     )
 
-    # internal transitions triggered by downstream device state
-    # We set FAULT to FAULT as the 'after' hook which calls these internal
-    # transactions will still be called and we don't want this to cause an error
+    # Internal transitions triggered by downstream device state.
+    #
+    # These are called in the 'after' hooks of specific transitions defined above.
+    # A fault might have been injected into the transitions that means
+    # by the time these internal transitions are called the device is already
+    # in FAULT state. Without the FAULT.to(FAULT) added below, this would then
+    # result in a state machine exception.
     assigned = RESOURCING.to(IDLE) | FAULT.to(FAULT)
     released = (
         RESOURCING.to(EMPTY, cond="is_release_all")
@@ -218,9 +222,9 @@ class ObsStateStateMachine(BaseObsStateMachine):
         Perform actions that should occur after a state transition.
 
         This template function hooks into python-statemachine and is called whenever a
-        state transition has completed.
+        state transition has happened and the state has changed.
 
-        :param event: state transition that occurred
+        :param event: e.g. 'configure'
         """
         sleep_seconds = self.transition_timing.get(event, self.default_transition_time)
         sleep(sleep_seconds)
