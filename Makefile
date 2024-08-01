@@ -59,8 +59,10 @@ MINIKUBE ?= false ## Is this deployment running in Minikube? true/false
 MINIKUBE_IP = $(shell minikube ip)
 HOSTNAME = $(shell hostname)
 
-TANGO_HOST ?= tango-databaseds:10000  ## TANGO_HOST connection to the Tango DS
+DATABASEDS = tango-databaseds  ## TANGO_HOST connection to the Tango DS
 CLUSTER_DOMAIN ?= cluster.local
+TANGO_PORT ?= 10000
+TANGO_HOST ?= $(strip $(DATABASEDS)):$(strip $(TANGO_PORT))
 
 # Enable Taranta deployment. true/false
 TARANTA_ENABLED ?= false
@@ -145,8 +147,8 @@ ifeq ($(DEVENV), true)
 	@echo
 	@echo "To connect to the Tango database from your host, run"
 	@echo
-	@echo "    kubectl -n $(KUBE_NAMESPACE) port-forward services/tango-databaseds 10000"
-	@echo "    export TANGO_HOST=$(HOSTNAME):10000"
+	@echo "    kubectl -n $(KUBE_NAMESPACE) port-forward services/tango-databaseds $(TANGO_PORT)"
+	@echo "    export TANGO_HOST=$(TANGO_HOST)"
 endif
 
 
