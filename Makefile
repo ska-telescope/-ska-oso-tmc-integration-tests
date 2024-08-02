@@ -20,7 +20,8 @@ DOCS_SPHINXOPTS=-W --keep-going
 
 
 # unset defaults so settings in pyproject.toml take effect
-PYTHON_SWITCHES_FOR_BLACK =
+PYTHON_SWITCHES_FOR_BLACK = --exclude="tests/integration/tests/tmcmid/conftest.py"
+
 PYTHON_SWITCHES_FOR_ISORT =
 
 # Restore Black's preferred line length which otherwise would be overridden by
