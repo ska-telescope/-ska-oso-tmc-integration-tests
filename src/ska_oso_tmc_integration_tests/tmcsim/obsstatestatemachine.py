@@ -112,15 +112,23 @@ class BaseObsStateMachine(StateMachine):
         RESTARTING, after="restart_complete"
     )
 
-    # internal transitions triggered by downstream device state
-    assigned = RESOURCING.to(IDLE)
-    released = RESOURCING.to(EMPTY, cond="is_release_all") | RESOURCING.to(
-        IDLE, unless="is_release_all"
+    # Internal transitions triggered by downstream device state.
+    #
+    # These are called in the 'after' hooks of specific transitions defined above.
+    # A fault might have been injected into the transitions that means
+    # by the time these internal transitions are called the device is already
+    # in FAULT state. Without the FAULT.to(FAULT) added below, this would then
+    # result in a state machine exception.
+    assigned = RESOURCING.to(IDLE) | FAULT.to(FAULT)
+    released = (
+        RESOURCING.to(EMPTY, cond="is_release_all")
+        | RESOURCING.to(IDLE, unless="is_release_all")
+        | FAULT.to(FAULT)
     )
-    ready = CONFIGURING.to(READY)
-    scan_complete = SCANNING.to(READY)
-    abort_complete = ABORTING.to(ABORTED)
-    restart_complete = RESTARTING.to(EMPTY)
+    ready = CONFIGURING.to(READY) | FAULT.to(FAULT)
+    scan_complete = SCANNING.to(READY) | FAULT.to(FAULT)
+    abort_complete = ABORTING.to(ABORTED) | FAULT.to(FAULT)
+    restart_complete = RESTARTING.to(EMPTY) | FAULT.to(FAULT)
 
     fatal_error = (
         EMPTY.to(FAULT)
@@ -203,22 +211,23 @@ class ObsStateStateMachine(BaseObsStateMachine):
         """
         self.state_history.append(state)
 
-    def after_transition(self, event):
-        """
-        Perform actions that should occur after a state transition.
-
-        This template function hooks into python-statemachine and is called whenever a
-        state transition has completed.
-
-        :param event: state transition that occurred
-        """
-        sleep_seconds = self.transition_timing.get(event, self.default_transition_time)
-        sleep(sleep_seconds)
         if (
             self._fail_after
             and self.state_history[-len(self._fail_after) :] == self._fail_after
         ):
             self.fatal_error()
+
+    def after_transition(self, event):
+        """
+        Perform actions that should occur after a state transition.
+
+        This template function hooks into python-statemachine and is called whenever a
+        state transition has happened and the state has changed.
+
+        :param event: e.g. 'configure'
+        """
+        sleep_seconds = self.transition_timing.get(event, self.default_transition_time)
+        sleep(sleep_seconds)
 
 
 class LoggingObserver:  # pylint: disable=too-few-public-methods

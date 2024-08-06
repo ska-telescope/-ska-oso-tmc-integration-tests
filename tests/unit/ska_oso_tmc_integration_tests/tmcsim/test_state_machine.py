@@ -110,3 +110,21 @@ def test_fault_specific_pattern(sm):
     sm.configure()
     sm.scan()
     assert sm.current_state == sm.FAULT
+
+
+def test_fault_injection_works_before_internal_transitions(sm):
+    """
+    For an action like configure, the action will transition from IDLE -> CONFIGURING
+    and then an 'after' hook will call the ready action causing CONFIGURING -> READY.
+
+    If we inject a fault after ['IDLE', 'CONFIGURING'], we want to ensure the FAULT
+    transition happens before the transition to READY.
+    """
+
+    sm.set_to_fail_after(sm.IDLE, sm.CONFIGURING)
+    sm.assign_resources()
+
+    sm.configure()
+
+    assert sm.READY not in sm.state_history
+    assert sm.current_state == sm.FAULT

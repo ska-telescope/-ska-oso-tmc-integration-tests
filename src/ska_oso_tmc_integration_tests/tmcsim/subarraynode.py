@@ -2,6 +2,7 @@
 Simulates the behaviour of a TMC SubArrayNode for integration testing.
 """
 
+import ast
 import json
 from collections import deque
 
@@ -138,3 +139,42 @@ class SubArrayNode(Device, ObsStateMachineMixin):
     def ClearHistory(self):  # pylint: disable=invalid-name
         """Clear the history of JSON arguments."""
         self._history.clear()
+
+    @command(dtype_in=str)
+    def InjectFaultAfter(self, states_str):  # pylint: disable=invalid-name
+        """
+        Will cause the state to go to FAULT if the state machine
+        passes through the states given in the arg.
+
+        :param states_str: string in the format "['IDLE', 'CONFIGURING']"
+        """
+        # Convert the string input into the ObsStateStateMachine states
+        states = [
+            getattr(self.statemachine, state_str)
+            for state_str in ast.literal_eval(states_str)
+        ]
+        self.statemachine.set_to_fail_after(*states)
+
+    @command
+    def InjectDelay(self, cmd_with_delay_str: str):  # pylint: disable=invalid-name
+        """
+        Will cause the state transition for the event to have a delay,
+        to simulate a long-running command.
+
+        NOTE: THIS ISN'T THE SAME BEHAVIOUR AS REAL TMC. A command will always return
+        quickly and it is the state transitions in a separate process where there might
+        be a delay. Here the state transitions happen within the command before it
+        returns.
+
+        :param cmd_with_delay_str: A serialised dict with the delay for each command,
+            e.g. "{'Configure': 1, 'AssignResources': 0.5}
+        """
+        cmd_with_delay = json.loads(cmd_with_delay_str)
+        if "Configure" in cmd_with_delay:
+            self.statemachine.transition_timing["configure"] = cmd_with_delay[
+                "Configure"
+            ]
+        if "AssignResources" in cmd_with_delay:
+            self.statemachine.transition_timing["assign_resources"] = cmd_with_delay[
+                "AssignResources"
+            ]
