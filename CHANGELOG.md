@@ -4,6 +4,12 @@ Changelog
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+0.3.0
+*****
+
+* Added ability to simulate Low, effectively by making the base of the FQDN configurable
+* Added InjectFaultAfter and InjectDelay commands to the SubarrayNode, as described in their doc strings
+
 0.2.1
 *****
 
