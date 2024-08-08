@@ -48,6 +48,8 @@ typing-extensions = "^4.11.0"
 pytest-forked = "^1.6.0"
 pytest-bdd = "^7.2.0"
 ska-oso-scripting = { version="8.1.0+dev.cc02e847c", source="gitlab-ska-oso-scripting" }
+# temp fix to OSD bug, can be removed next time scripting version is updated
+simpleeval = "^0.9.13"
 
 [tool.black]
 line-length = 88

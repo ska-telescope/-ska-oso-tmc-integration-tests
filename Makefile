@@ -44,6 +44,11 @@ K8S_TEST_TEST_COMMAND = $(PYTHON_VARS_BEFORE_PYTEST) $(PYTHON_RUNNER) \
                         $(PYTHON_VARS_AFTER_PYTEST) ./tests/integration \
                          | tee pytest.stdout ## k8s-test test command to run in container
 
+K8S_TEST_RUNNER_ADD_ARGS = --env=SDP_SIMULATION_ENABLED=true \
+						   --env=CSP_SIMULATION_ENABLED=true \
+						   --env=DISH_SIMULATION_ENABLED=true \
+						   --env=TANGO_HOST=$(TANGO_HOST)
+
 #- Kubernetes configuration -----------------------------------------------------------
 
 

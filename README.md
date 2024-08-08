@@ -12,7 +12,7 @@ This project holds code used to test OSO's integration with TMC. It contains:
 
 ## Installation
 
-No installation is required unless you want to contribute to this project. If you want to contribute, project
+No installation is required unless you want to contribute to this project. If you want to contribute, 
 project requirements can be installed with `poetry install --with=dev --sync`.
 
 ## Usage
