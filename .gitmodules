@@ -4,6 +4,7 @@
 [submodule "submodules/ska-tmc-mid-integration"]
 	path = submodules/ska-tmc-mid-integration
 	url = https://gitlab.com/ska-telescope/ska-tmc/ska-tmc-mid-integration
+	branch = 0.21.2
 [submodule "submodules/ska-oso-scripting"]
 	path = submodules/ska-oso-scripting
 	url = https://gitlab.com/ska-telescope/oso/ska-oso-scripting
