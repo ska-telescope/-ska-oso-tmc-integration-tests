@@ -57,6 +57,8 @@ K8S_TEST_RUNNER_ADD_ARGS = --env=SDP_SIMULATION_ENABLED=true \
 ifneq ($(CI_JOB_ID),)
 KUBE_NAMESPACE ?= ci-$(CI_PROJECT_NAME)-$(CI_COMMIT_SHORT_SHA)
 OCI_REGISTRY ?= registry.gitlab.com/ska-telescope/oso/ska-oso-tmc-integration-tests
+# Use real TMC when running tests on the pipeline
+TMC_SIMULATION_ENABLED ?= false
 else
 OCI_REGISTRY ?= artefact.skao.int
 endif
