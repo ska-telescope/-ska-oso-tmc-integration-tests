@@ -17,10 +17,6 @@ url = 'https://artefact.skao.int/repository/pypi-internal/simple'
 name = "PyPI-public"
 url = 'https://pypi.org/simple'
 
-[[tool.poetry.source]]
-name = "gitlab-ska-oso-scripting"
-url = "https://gitlab.com/api/v4/projects/22057734/packages/pypi/simple"
-
 [tool.poetry.dependencies]
 python = "^3.10,<3.13"
 pydantic = "^2.7.1"
@@ -47,7 +43,9 @@ pylint-junit = "^0.3.4"
 typing-extensions = "^4.11.0"
 pytest-forked = "^1.6.0"
 pytest-bdd = "^7.2.0"
-ska-oso-scripting = { version="8.1.0+dev.cc02e847c", source="gitlab-ska-oso-scripting" }
+# NOTE: When updating ska-oso-scripting version, also update the submodule
+# to the correct tag (see Update submodules section in README)
+ska-oso-scripting = "^8.1.0"
 # temp fix to OSD bug, can be removed next time scripting version is updated
 simpleeval = "^0.9.13"
 

@@ -28,6 +28,23 @@ variables:
 | LOCAL_ODA              | false         | Controls whether the ODA saves entities inside the ODA pod (false) or inside an `oda` directory shared with the host machine. File sharing between host machine and Minikube *must* be set up for this to function correctly. | 
 | DEVENV                 | false         | Shortcut to set `OET_INGRESS` and `LOCAL_ODA` to true                                                                                                                                                                         | 
 
+## Update submodules
+When updating the version of `ska-oso-scripting` Python dependency or the chart version of `ska-tmc-mid` chart dependency, 
+the corresponding submodule should be updated as well. For `ska-oso-scripting` the submodule is in `submodules/ska-oso-scripting` 
+and for `ska-tmc-mid` it is in `submodules/ska-tmc-mid-integration`. To update the submodule to specific version run:
+
+```
+cd submodules/<project_name>
+git checkout tags/<new_version>
+cd ../..
+```
+
+Make sure to commit the changes after the update. To check that the submodules are pointing to the expected versions run
+
+```
+git submodule status
+```
+
 # Support
 
 Issues with this project should be raised on the #team-oso Slack channel and reported via the SKA Jira system.
