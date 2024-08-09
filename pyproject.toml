@@ -20,6 +20,11 @@ url = 'https://pypi.org/simple'
 [tool.poetry.dependencies]
 python = "^3.10,<3.13"
 pydantic = "^2.7.1"
+# Pinned pydantic-core version for now due to
+# version 2.21.0 not playing nice with Poetry.
+# Look into removing the pin when Poetry version
+# (base images in Dockerfile) are updated
+pydantic-core = "2.20.1"
 pytango = "^9.5.1"
 python-statemachine = "^2.2.0"
 ska-control-model = "*"

@@ -32,7 +32,7 @@
   "scan_definitions": [
     {
       "scan_definition_id": "pointing calibration",
-      "scan_duration_ms": 60000,
+      "scan_duration": 60000,
       "target_ref": "Polaris Australis",
       "dish_configuration_ref": "dish config 123",
       "scan_type_ref": "pointing",
@@ -41,7 +41,7 @@
     },
     {
       "scan_definition_id": "science scan with pointing model update",
-      "scan_duration_ms": 60000,
+      "scan_duration": 60000,
       "target_ref": "M83",
       "dish_configuration_ref": "dish config 123",
       "scan_type_ref": "science",
@@ -50,7 +50,7 @@
     },
     {
       "scan_definition_id": "science scan",
-      "scan_duration_ms": 60000,
+      "scan_duration": 60000,
       "target_ref": "M83",
       "dish_configuration_ref": "dish config 123",
       "scan_type_ref": "science",
@@ -475,7 +475,7 @@
         ]
       },
       "cbf": {
-        "fsp": [
+        "fsps": [
           {
             "fsp_id": 1,
             "function_mode": "CORR",
