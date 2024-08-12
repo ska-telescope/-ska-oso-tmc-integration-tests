@@ -2421,13 +2421,13 @@ reference = "ska-nexus"
 
 [[package]]
 name = "ska-db-oda"
-version = "5.2.0"
+version = "5.3.0"
 description = "SKA Database OSO Data Archive"
 optional = false
 python-versions = ">=3.10,<4.0"
 files = [
-    {file = "ska_db_oda-5.2.0-py3-none-any.whl", hash = "sha256:3cbfcb520043a6120c156a4b45401dd4ebf6df1b57cd09cfaf835a539dfda79b"},
-    {file = "ska_db_oda-5.2.0.tar.gz", hash = "sha256:992f3aeaaba910917fd1bfc418ff54225516eb693db044eb67b5da1da2c0b365"},
+    {file = "ska_db_oda-5.3.0-py3-none-any.whl", hash = "sha256:c3c56908e1eaa8fbebb59e222a16e7a4a60e0b0823bdde4221d99440382966ee"},
+    {file = "ska_db_oda-5.3.0.tar.gz", hash = "sha256:0e099db193d783bc7a27ec6da19c1999b17cb3d33d02dd92f75ac2d5d95ef35b"},
 ]
 
 [package.dependencies]
@@ -2440,7 +2440,7 @@ psycopg = {version = ">=3.0.15,<4.0.0", extras = ["binary"]}
 psycopg-pool = ">=3.1.1,<4.0.0"
 python-dateutil = ">=2.8.2,<3.0.0"
 requests = ">=2.27.1,<3.0.0"
-ska-oso-pdm = ">=14.3.0,<15.0.0"
+ska-oso-pdm = ">=15,<16"
 ska-ser-logging = ">=0.4.1,<0.5.0"
 ska-ser-skuid = ">=3.3.3,<4.0.0"
 
@@ -2482,17 +2482,17 @@ reference = "ska-nexus"
 
 [[package]]
 name = "ska-oso-pdm"
-version = "14.3.0"
+version = "15.2.0"
 description = "SKA Project Data Model serialisation library"
 optional = false
 python-versions = ">=3.10,<4.0"
 files = [
-    {file = "ska_oso_pdm-14.3.0-py3-none-any.whl", hash = "sha256:338602226633b019a5c81921cc96793a2eb5c1c5fa37ab3ba70de48011c6918d"},
-    {file = "ska_oso_pdm-14.3.0.tar.gz", hash = "sha256:ced97066c90517c065eefdaac5669a702a31aae9cef311e29567f39dbc621a5d"},
+    {file = "ska_oso_pdm-15.2.0-py3-none-any.whl", hash = "sha256:a60138c649bc46a27ebc27a564c3ba36acfd22c56bacbfcc89989f03e0a6b9f9"},
+    {file = "ska_oso_pdm-15.2.0.tar.gz", hash = "sha256:60f117070f911458b76092ac819c10e660c2bf779514c379734f52cb38ac4f6b"},
 ]
 
 [package.dependencies]
-astropy = ">=5.0.3,<6.0.0"
+astropy = ">=5.0.3,<7"
 pydantic = {version = ">=2.7.1,<3.0.0", extras = ["email"]}
 
 [package.source]
@@ -2502,25 +2502,25 @@ reference = "ska-nexus"
 
 [[package]]
 name = "ska-oso-scripting"
-version = "8.1.0"
+version = "9.0.0"
 description = "SKA OSO Scripting Library"
 optional = false
 python-versions = ">=3.10,<3.13"
 files = [
-    {file = "ska_oso_scripting-8.1.0-py3-none-any.whl", hash = "sha256:cdadc28ab22012c5180f9696d0021d6e89c3b5818008bae67af642caa54f8321"},
-    {file = "ska_oso_scripting-8.1.0.tar.gz", hash = "sha256:f73e25d94b83526484a8e5982eab79a350efd0d54eb801efab6d8dc5dc22a933"},
+    {file = "ska_oso_scripting-9.0.0-py3-none-any.whl", hash = "sha256:81ebbf33dd1278c5f6c8a1bf063ce6a5228b5f14d06f7be699f7d0ec4feb13e5"},
+    {file = "ska_oso_scripting-9.0.0.tar.gz", hash = "sha256:b14adbba34418cb10b760944a397f19a16e3b5a8caea8c98507931362029e94b"},
 ]
 
 [package.dependencies]
 connexion = "2.14.2"
-ska-db-oda = ">=5.0.1,<6.0.0"
+ska-db-oda = "5.3.0"
 ska-oso-oet = ">=6.2.0,<7.0.0"
-ska-oso-pdm = ">=14.3.0,<15.0.0"
+ska-oso-pdm = ">=15.0.0,<16.0.0"
 ska-ser-log-transactions = ">=0.2.2,<0.3.0"
 ska-ser-logging = ">=0.4.1,<0.5.0"
 ska-ser-skuid = ">=3.2.1,<4.0.0"
 ska-tango-base = ">=0.19.1,<0.20.0"
-ska-tmc-cdm = ">=10.1.2,<11.0.0"
+ska-tmc-cdm = ">=11.0.1,<12.0.0"
 
 [package.source]
 type = "legacy"
@@ -2709,13 +2709,13 @@ reference = "ska-nexus"
 
 [[package]]
 name = "ska-tmc-cdm"
-version = "10.1.2"
+version = "11.0.1"
 description = "SKA Control Data Model serialisation library"
 optional = false
 python-versions = ">=3.10,<4.0"
 files = [
-    {file = "ska_tmc_cdm-10.1.2-py3-none-any.whl", hash = "sha256:e9c97bad2b24344960188a66f2e7e5741ba0d31f9ee653534165cb4829ca9e1d"},
-    {file = "ska_tmc_cdm-10.1.2.tar.gz", hash = "sha256:f4a4264e2c926dd5e02e4910691dfc8b6adad438ace12594557a5d174f0cadd1"},
+    {file = "ska_tmc_cdm-11.0.1-py3-none-any.whl", hash = "sha256:c05b02474953718ae422896a2b70a786ede182097e58e6bcaa3854c46ca5248a"},
+    {file = "ska_tmc_cdm-11.0.1.tar.gz", hash = "sha256:2e8a7681386a5485e9430a55248ed769892a3622c4d0bb403908bff25526c66e"},
 ]
 
 [package.dependencies]
@@ -2725,6 +2725,7 @@ deepdiff = ">=5.8.1,<6.0.0"
 pydantic = ">=2.7.0,<3.0.0"
 pydantic-core = ">=2.18.1,<3.0.0"
 ska-ost-osd = "1.0.3"
+ska-telmodel = ">=1.18.1,<2.0.0"
 
 [package.source]
 type = "legacy"
@@ -3188,4 +3189,4 @@ reference = "PyPI-public"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10,<3.13"
-content-hash = "31714173982fb7a0806c86e360ec94723a139f909376b635d5ac316bf3a33c03"
+content-hash = "eae71ddf1a4acb8ed5f74fe8329c218aa106405b1c7bd876ee25694d92a79351"

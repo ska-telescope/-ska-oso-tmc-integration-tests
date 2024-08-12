@@ -75,7 +75,7 @@ TANGO_HOST ?= $(strip $(DATABASEDS)):$(strip $(TANGO_PORT))
 # Enable Taranta deployment. true/false
 TARANTA_ENABLED ?= false
 
-ODA_URL ?= http://ska-db-oda-rest-$(HELM_RELEASE):5000/$(KUBE_NAMESPACE)/oda/api/v3
+ODA_URL ?= http://ska-db-oda-rest-$(HELM_RELEASE):5000/$(KUBE_NAMESPACE)/oda/api/v5
 
 K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.tango_host=$(TANGO_HOST) \
@@ -148,8 +148,8 @@ ifeq ($(OET_INGRESS),true)
 	@echo "    * OET Swagger UI: http://$(MINIKUBE_IP)/$(KUBE_NAMESPACE)/oet/api/v6/ui"
 	@echo "    * OET REST API: http://$(MINIKUBE_IP)/$(KUBE_NAMESPACE)/oet/api/v6"
 endif
-	@echo "    * ODA Swagger UI: http://$(MINIKUBE_IP)/$(KUBE_NAMESPACE)/oda/api/v3/ui"
-	@echo "    * ODA REST API: http://$(MINIKUBE_IP)/$(KUBE_NAMESPACE)/oda/api/v3"
+	@echo "    * ODA Swagger UI: http://$(MINIKUBE_IP)/$(KUBE_NAMESPACE)/oda/api/v5/ui"
+	@echo "    * ODA REST API: http://$(MINIKUBE_IP)/$(KUBE_NAMESPACE)/oda/api/v5"
 endif
 ifeq ($(DEVENV), true)
 	@echo

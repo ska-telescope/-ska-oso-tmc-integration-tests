@@ -11,5 +11,5 @@ Feature: Allocate resources to a subarray
 
   Examples:
     | script                         | sbd                   | RESOURCING | final_state |
-    | allocate_and_observe_mid_sb.py | mid/assign_only.json  | 2          | EMPTY       |
-#    | allocate_from_file_mid_sb.py   | mid/assign_only.json  | 1          | IDLE        |
+    | allocate_and_observe_sb.py | mid/assign_only.json  | 2          | EMPTY       |
+#    | allocate_from_file_sb.py   | mid/assign_only.json  | 1          | IDLE        |
