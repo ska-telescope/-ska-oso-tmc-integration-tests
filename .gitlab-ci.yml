@@ -30,6 +30,17 @@ stages:
   - integration
   - staging
 
+
+# overrides required to run inside a poetry virtual environment
+python-build-for-development:
+  before_script:
+    - '[ -f .make/python.mk ] || (echo "File python.mk not included in Makefile; exit 1")'
+    - 'make help | grep python-build'
+    - poetry run pip install build==0.10.0
+  script:
+    - poetry run make python-build PYTHON_BUILD_TYPE="non_tag_pyproject"
+
+
 .info_script: &info_script
     - |-
       echo "Status of pods in $KUBE_NAMESPACE namespace:"
