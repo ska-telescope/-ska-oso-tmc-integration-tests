@@ -32,10 +32,6 @@ PYTHON_LINE_LENGTH = 88
 # folder require Tango.
 PYTHON_TEST_FILE = tests/unit
 
-# Run tests in a virtual environment
-PYTHON_RUNNER = poetry run
-POETRY_CONFIG_VIRTUALENVS_CREATE = true
-
 PYTHON_VARS_BEFORE_PYTEST += ODA_URL=$(ODA_URL)
 
 #- Kubernetes test configuration ------------------------------------------------------
