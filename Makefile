@@ -78,6 +78,7 @@ TANGO_HOST ?= $(strip $(DATABASEDS)):$(strip $(TANGO_PORT))
 TARANTA_ENABLED ?= false
 
 ODA_URL ?= http://ska-db-oda-rest-$(HELM_RELEASE):5000/$(KUBE_NAMESPACE)/oda/api/v5
+OET_URL ?= http://ska-oso-oet-rest-$(HELM_RELEASE):5000/$(KUBE_NAMESPACE)/oet/api/v6
 
 K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.tango_host=$(TANGO_HOST) \
@@ -166,6 +167,7 @@ devpod: DEVENV = true
 devpod: K8S_CHART_PARAMS += --set ska-oso-devpod.enabled=true\
 	--set ska-oso-devpod.image.tag=$(TMCSIM_TAG)\
 	--set ska-oso-devpod.env.oda_url=$(ODA_URL)\
+	--set ska-oso-devpod.env.oet_url=$(OET_URL)\
 	--set ska-oso-devpod.hostPath=$(PWD)
 devpod: k8s-install-chart
 	@echo "Waiting for devpod to become available..."

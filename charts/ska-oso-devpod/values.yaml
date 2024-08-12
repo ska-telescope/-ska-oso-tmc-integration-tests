@@ -13,6 +13,7 @@ global:
 hostPath: /path/to/your/src/directory
 env:
   oda_url: ~  # set dynamically in makefile
+  oet_url: ~  # set dynamically in makefile
 
 image:
   registry: artefact.skao.int

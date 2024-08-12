@@ -12,6 +12,7 @@ metadata:
     intent: development
 data:
   ODA_URL: {{.Values.env.oda_url}}
+  OET_URL: {{.Values.env.oet_url}}
   TANGO_HOST: {{if .Values.global.tango_host -}} {{.Values.global.tango_host}} {{- else -}} tango-databaseds-{{.Release.Name}}:10000 {{- end}}
   SHELL: /usr/bin/bash
   SDP_SIMULATION_ENABLED: "true"
