@@ -53,6 +53,7 @@ pytest-bdd = "^7.2.0"
 ska-oso-scripting = "^9.0.0"
 # temp fix to OSD bug, can be removed next time scripting version is updated
 simpleeval = "^0.9.13"
+build = "^1.2.1"
 
 [tool.black]
 line-length = 88
