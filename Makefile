@@ -36,14 +36,16 @@ PYTHON_TEST_FILE = tests/unit
 PYTHON_RUNNER = poetry run
 POETRY_CONFIG_VIRTUALENVS_CREATE = true
 
+PYTHON_VARS_BEFORE_PYTEST += ODA_URL=$(ODA_URL)
+
 #- Kubernetes test configuration ------------------------------------------------------
 
 # override k8s-test so that:
 # - pytest --forked is run, working around Tango segfault issue with standard pytest
 # - only integration tests run and unit tests are ignored
 # - adds 'rP' to print captured output for successful tests
-K8S_TEST_TEST_COMMAND = $(PYTHON_VARS_BEFORE_PYTEST) $(PYTHON_RUNNER) \
-                        ODA_URL=$(ODA_URL) \
+K8S_TEST_TEST_COMMAND = $(PYTHON_VARS_BEFORE_PYTEST) \
+						$(PYTHON_RUNNER) \
                         pytest --forked -rP \
                         $(PYTHON_VARS_AFTER_PYTEST) ./tests/integration \
                          | tee pytest.stdout ## k8s-test test command to run in container
