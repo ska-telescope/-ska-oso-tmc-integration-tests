@@ -14,7 +14,7 @@ from tests.resources.test_harness.central_node import CentralNodeWrapper
 from tests.resources.test_harness.subarray_node import SubarrayNodeWrapper
 from tests.resources.test_harness.tmc_mid import TMCMid
 
-scenarios("mid/subarray_allocation.feature")
+scenarios("mid/sb_observation_execution.feature")
 
 
 @dataclasses.dataclass

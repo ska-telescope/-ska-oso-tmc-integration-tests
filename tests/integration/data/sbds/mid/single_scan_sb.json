@@ -35,12 +35,12 @@
       "scan_duration_ms": 6000,
       "target_ref": "SGRS J04008456",
       "dish_configuration_ref": "dish config 123",
-      "scan_type_ref": "science",
+      "scan_type_ref": "target:a",
       "csp_configuration_ref": "csp config 123",
       "pointing_correction": "MAINTAIN"
     }
   ],
-  "scan_sequence": [],
+  "scan_sequence": ["science scan"],
   "targets": [
     {
       "target_id": "SGRS J04008456",
