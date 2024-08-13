@@ -55,8 +55,6 @@ dependencies:
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-oso-oet.enabled
   - name: ska-db-oda
-    # NOTE: When updating the major version of ODA chart, also
-    # update the version in ODA_URL set in the Makefile
     version: 5.3.3
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-db-oda.enabled
