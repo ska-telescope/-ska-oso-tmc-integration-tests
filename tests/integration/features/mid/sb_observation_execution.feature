@@ -13,3 +13,5 @@ Feature: Allocate resources to a subarray
     | script                         | sbd                      | RESOURCING | CONFIGURING | SCANNING  | final_state |
     | allocate_and_observe_sb.py     | mid/assign_only.json     | 2          | 0           | 0         | EMPTY       |
     | allocate_and_observe_sb.py     | mid/single_scan_sb.json  | 2          | 1           | 1         | EMPTY       |
+    | allocate_and_observe_sb.py     | mid/multi_scan_sb.json   | 2          | 2           | 2         | EMPTY       |
+  #  | allocate_and_observe_sb.py     | mid/5_point_example.json  | 2          | 7           | 7         | EMPTY       |

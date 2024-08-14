@@ -42,7 +42,7 @@
     {
       "scan_definition_id": "science scan with pointing model update",
       "scan_duration_ms": 6000,
-      "target_ref": "Polaris Australis",
+      "target_ref": "Southern Pleiades",
       "dish_configuration_ref": "dish config 123",
       "scan_type_ref": "pointing",
       "csp_configuration_ref": "csp config 123",
@@ -53,12 +53,12 @@
       "scan_duration_ms": 6000,
       "target_ref": "Southern Pleiades",
       "dish_configuration_ref": "dish config 123",
-      "scan_type_ref": "target:a",
+      "scan_type_ref": "pointing",
       "csp_configuration_ref": "csp config 123",
       "pointing_correction": "MAINTAIN"
     }
   ],
-  "scan_sequence": ["pointing calibration", "science scan with pointing model update"],
+  "scan_sequence": ["pointing calibration", "science scan with pointing model update", "science scan"],
   "targets": [
     {
       "target_id": "Polaris Australis",

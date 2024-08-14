@@ -40,7 +40,7 @@
       "pointing_correction": "MAINTAIN"
     }
   ],
-  "scan_sequence": ["science scan"],
+  "scan_sequence": ["science scan", "science scan"],
   "targets": [
     {
       "target_id": "SGRS J04008456",
