@@ -14,4 +14,5 @@ Feature: Executing an observation defined by a Scheduling Block
     | allocate_and_observe_sb.py     | mid/assign_only.json     | 2          | 0           | 0         | EMPTY       |
     | allocate_and_observe_sb.py     | mid/single_scan_sb.json  | 2          | 1           | 1         | EMPTY       |
     | allocate_and_observe_sb.py     | mid/multi_scan_sb.json   | 2          | 2           | 2         | EMPTY       |
+  # Below test is disabled due to TMC in simulation mode not supporting pointing as scan type
   #  | allocate_and_observe_sb.py     | mid/5_point_example.json  | 2          | 7           | 7         | EMPTY       |
