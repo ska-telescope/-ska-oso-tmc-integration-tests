@@ -1,4 +1,4 @@
-Feature: Allocate resources to a subarray
+Feature: Executing an observation defined by a Scheduling Block
 
   Scenario Outline: Executing a Scheduling Block on a MID sub-array using standard observing scripts
     Given a telescope control system
