@@ -12,7 +12,7 @@ This project holds code used to test OSO's integration with TMC. It contains:
 
 ## Installation
 
-No installation is required unless you want to contribute to this project. If you want to contribute, project
+No installation is required unless you want to contribute to this project. If you want to contribute, 
 project requirements can be installed with `poetry install --with=dev --sync`.
 
 ## Usage
@@ -27,6 +27,23 @@ variables:
 | OET_INGRESS            | false         | Controls whether OET network ingress is enabled (true) or disabled (false). Ingress exposes an API for remote execution of Python scripts, so for security is disabled by default.                                            |
 | LOCAL_ODA              | false         | Controls whether the ODA saves entities inside the ODA pod (false) or inside an `oda` directory shared with the host machine. File sharing between host machine and Minikube *must* be set up for this to function correctly. | 
 | DEVENV                 | false         | Shortcut to set `OET_INGRESS` and `LOCAL_ODA` to true                                                                                                                                                                         | 
+
+## Update submodules
+When updating the version of `ska-oso-scripting` Python dependency or the chart version of `ska-tmc-mid` chart dependency, 
+the corresponding submodule should be updated as well. For `ska-oso-scripting` the submodule is in `submodules/ska-oso-scripting` 
+and for `ska-tmc-mid` it is in `submodules/ska-tmc-mid-integration`. To update the submodule to specific version run:
+
+```
+cd submodules/<project_name>
+git checkout tags/<new_version>
+cd ../..
+```
+
+Make sure to commit the changes after the update. To check that the submodules are pointing to the expected versions run
+
+```
+git submodule status
+```
 
 # Support
 

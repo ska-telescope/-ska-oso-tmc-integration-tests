@@ -39,13 +39,6 @@ image:
   tag: ~  # Defaults to the chart appVersion if not set
   pullPolicy: IfNotPresent
 
-devpod:
-  enabled: false
-  # set this to a directory mountable via NFS from the pod
-  hostPath: /path/to/your/src/directory
-  env:
-    oda_url: ~  # set dynamically in makefile
-
 nodeSelector: {}
 
 affinity: {}

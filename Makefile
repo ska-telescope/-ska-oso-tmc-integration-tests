@@ -20,7 +20,8 @@ DOCS_SPHINXOPTS=-W --keep-going
 
 
 # unset defaults so settings in pyproject.toml take effect
-PYTHON_SWITCHES_FOR_BLACK =
+PYTHON_SWITCHES_FOR_BLACK = --exclude="tests/integration/tests/tmcmid/conftest.py"
+
 PYTHON_SWITCHES_FOR_ISORT =
 
 # Restore Black's preferred line length which otherwise would be overridden by
@@ -31,17 +32,24 @@ PYTHON_LINE_LENGTH = 88
 # folder require Tango.
 PYTHON_TEST_FILE = tests/unit
 
+PYTHON_VARS_BEFORE_PYTEST += ODA_URL=$(ODA_URL)
+
 #- Kubernetes test configuration ------------------------------------------------------
 
 # override k8s-test so that:
 # - pytest --forked is run, working around Tango segfault issue with standard pytest
 # - only integration tests run and unit tests are ignored
 # - adds 'rP' to print captured output for successful tests
-K8S_TEST_TEST_COMMAND = $(PYTHON_VARS_BEFORE_PYTEST) $(PYTHON_RUNNER) \
-                        ODA_URL=$(ODA_URL) \
+K8S_TEST_TEST_COMMAND = $(PYTHON_VARS_BEFORE_PYTEST) \
+						$(PYTHON_RUNNER) \
                         pytest --forked -rP \
                         $(PYTHON_VARS_AFTER_PYTEST) ./tests/integration \
                          | tee pytest.stdout ## k8s-test test command to run in container
+
+K8S_TEST_RUNNER_ADD_ARGS = --env=SDP_SIMULATION_ENABLED=true \
+						   --env=CSP_SIMULATION_ENABLED=true \
+						   --env=DISH_SIMULATION_ENABLED=true \
+						   --env=TANGO_HOST=$(TANGO_HOST)
 
 #- Kubernetes configuration -----------------------------------------------------------
 
@@ -51,6 +59,8 @@ K8S_TEST_TEST_COMMAND = $(PYTHON_VARS_BEFORE_PYTEST) $(PYTHON_RUNNER) \
 ifneq ($(CI_JOB_ID),)
 KUBE_NAMESPACE ?= ci-$(CI_PROJECT_NAME)-$(CI_COMMIT_SHORT_SHA)
 OCI_REGISTRY ?= registry.gitlab.com/ska-telescope/oso/ska-oso-tmc-integration-tests
+# Use real TMC when running tests on the pipeline
+TMC_SIMULATION_ENABLED ?= false
 else
 OCI_REGISTRY ?= artefact.skao.int
 endif
@@ -59,13 +69,18 @@ MINIKUBE ?= false ## Is this deployment running in Minikube? true/false
 MINIKUBE_IP = $(shell minikube ip)
 HOSTNAME = $(shell hostname)
 
-TANGO_HOST ?= tango-databaseds:10000  ## TANGO_HOST connection to the Tango DS
+DATABASEDS = tango-databaseds  ## TANGO_HOST connection to the Tango DS
 CLUSTER_DOMAIN ?= cluster.local
+TANGO_PORT ?= 10000
+TANGO_HOST ?= $(strip $(DATABASEDS)):$(strip $(TANGO_PORT))
 
 # Enable Taranta deployment. true/false
 TARANTA_ENABLED ?= false
 
-ODA_URL ?= http://ska-db-oda-rest-$(HELM_RELEASE):5000/$(KUBE_NAMESPACE)/oda/api/v3
+OET_API_VERSION ?= $(shell helm dependency list ./charts/ska-oso-tmc-integration-tests/ | grep ska-oso-oet | gawk -F'[[:space:]]+|[.]' '{print $$2}')
+ODA_API_VERSION ?= $(shell helm dependency list ./charts/ska-oso-tmc-integration-tests/ | grep ska-db-oda | gawk -F'[[:space:]]+|[.]' '{print $$2}')
+ODA_URL ?= http://ska-db-oda-rest-$(HELM_RELEASE):5000/$(KUBE_NAMESPACE)/oda/api/v$(ODA_API_VERSION)
+OET_URL ?= http://ska-oso-oet-rest-$(HELM_RELEASE):5000/$(KUBE_NAMESPACE)/oet/api/v$(OET_API_VERSION)
 
 K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.tango_host=$(TANGO_HOST) \
@@ -135,25 +150,27 @@ ifeq ($(TARANTA_ENABLED), true)
 	@echo "    * Taranta: http://$(MINIKUBE_IP)/$(KUBE_NAMESPACE)/taranta/"
 endif
 ifeq ($(OET_INGRESS),true)
-	@echo "    * OET Swagger UI: http://$(MINIKUBE_IP)/$(KUBE_NAMESPACE)/oet/api/v6/ui"
-	@echo "    * OET REST API: http://$(MINIKUBE_IP)/$(KUBE_NAMESPACE)/oet/api/v6"
+	@echo "    * OET Swagger UI: $(subst ska-oso-oet-rest-$(HELM_RELEASE):5000,$(MINIKUBE_IP),$(OET_URL))/ui"
+	@echo "    * OET REST API: $(subst ska-oso-oet-rest-$(HELM_RELEASE):5000,$(MINIKUBE_IP),$(OET_URL))"
 endif
-	@echo "    * ODA Swagger UI: http://$(MINIKUBE_IP)/$(KUBE_NAMESPACE)/oda/api/v3/ui"
-	@echo "    * ODA REST API: http://$(MINIKUBE_IP)/$(KUBE_NAMESPACE)/oda/api/v3"
+	@echo "    * ODA Swagger UI: $(subst ska-db-oda-rest-$(HELM_RELEASE):5000,$(MINIKUBE_IP),$(ODA_URL))/ui"
+	@echo "    * ODA REST API: $(subst ska-db-oda-rest-$(HELM_RELEASE):5000,$(MINIKUBE_IP),$(ODA_URL))"
 endif
 ifeq ($(DEVENV), true)
 	@echo
 	@echo "To connect to the Tango database from your host, run"
 	@echo
-	@echo "    kubectl -n $(KUBE_NAMESPACE) port-forward services/tango-databaseds 10000"
-	@echo "    export TANGO_HOST=$(HOSTNAME):10000"
+	@echo "    kubectl -n $(KUBE_NAMESPACE) port-forward services/tango-databaseds $(TANGO_PORT)"
+	@echo "    export TANGO_HOST=$(TANGO_HOST)"
 endif
 
 
 devpod: DEVENV = true
-devpod: K8S_CHART_PARAMS += --set ska-oso-tmcsim.devpod.enabled=true\
-	--set ska-oso-tmcsim.devpod.env.oda_url=$(ODA_URL)\
-	--set ska-oso-tmcsim.devpod.hostPath=$(PWD)
+devpod: K8S_CHART_PARAMS += --set ska-oso-devpod.enabled=true\
+	--set ska-oso-devpod.image.tag=$(TMCSIM_TAG)\
+	--set ska-oso-devpod.env.oda_url=$(ODA_URL)\
+	--set ska-oso-devpod.env.oet_url=$(OET_URL)\
+	--set ska-oso-devpod.hostPath=$(PWD)
 devpod: k8s-install-chart
 	@echo "Waiting for devpod to become available..."
 	@kubectl -n $(KUBE_NAMESPACE) wait --for=condition=ready pod devpod
