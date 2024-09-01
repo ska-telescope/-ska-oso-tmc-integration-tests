@@ -35,23 +35,24 @@ global:
 ska-tango-base:
   enabled: true
   vnc:
-    replicas: 1
     enabled: false
   tangorest:
     enabled: false
-    replicas: 1
   tangodb:
     use_pv: false
-  deviceServers:
-    tangotest:
-      instances: []
+  deviceServersEnabled:
 
+# Taranta
 ska-taranta:
   enabled: false
+
+ska-tango-taranta:
   ingress:
     enabled: true
     nginx: true
     hostname: k8s.stfc.skao.int
+
+ska-tango-tangogql:
   tangogql:
     replicas: 1
     resources:
@@ -61,6 +62,8 @@ ska-taranta:
       limits:
         cpu: 1000m  # 1000m = 1 CPU
         memory: 1024Mi  # 1024Mi = 1 GB mem
+  ska-tango-examples:
+    enabled: false
 
 # Tmc-Mid
 tmc-mid:
