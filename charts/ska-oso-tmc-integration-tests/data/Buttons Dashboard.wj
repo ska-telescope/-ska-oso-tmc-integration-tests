@@ -1,0 +1,510 @@
+{
+  "id": "655f0c60dae5e30019f256ef",
+  "name": "Buttons Dashboard",
+  "version": "2.4.2",
+  "user": "user1",
+  "insertTime": "2023-11-23T08:25:04.427Z",
+  "updateTime": "2023-11-23T08:25:04.423Z",
+  "group": null,
+  "groupWriteAccess": false,
+  "lastUpdatedBy": "user1",
+  "widget": [
+    {
+      "valid": 1,
+      "id": "2",
+      "x": 4,
+      "y": 11,
+      "canvas": "0",
+      "width": 64,
+      "height": 30,
+      "type": "LABEL",
+      "inputs": {
+        "text": "CentralNode",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0.1,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "",
+        "automaticResize": "Disabled"
+      },
+      "order": 1
+    },
+    {
+      "valid": 1,
+      "id": "4",
+      "x": 5,
+      "y": 17,
+      "canvas": "0",
+      "width": 8,
+      "height": 4,
+      "type": "LABEL",
+      "inputs": {
+        "text": "State",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "",
+        "automaticResize": "Disabled"
+      },
+      "order": 2
+    },
+    {
+      "valid": 1,
+      "id": "5",
+      "x": 20,
+      "y": 17,
+      "canvas": "0",
+      "width": 10,
+      "height": 4,
+      "type": "ATTRIBUTE_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "ska_mid/tm_central/central_node",
+          "attribute": "state",
+          "label": "State"
+        },
+        "precision": 2,
+        "showDevice": false,
+        "showAttribute": "None",
+        "scientificNotation": false,
+        "showEnumLabels": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "alignTextCenter": false,
+        "alignValueRight": true,
+        "showAttrQuality": false,
+        "widgetCss": "",
+        "format": ""
+      },
+      "order": 3
+    },
+    {
+      "valid": 1,
+      "id": "6",
+      "x": 13,
+      "y": 17,
+      "canvas": "0",
+      "width": 7,
+      "height": 4,
+      "type": "DEVICE_STATUS",
+      "inputs": {
+        "device": "ska_mid/tm_central/central_node",
+        "state": {
+          "device": null,
+          "attribute": null
+        },
+        "showDeviceName": false,
+        "showStateString": false,
+        "showStateLED": true,
+        "LEDSize": 1,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "textSize": 1,
+        "widgetCss": ""
+      },
+      "order": 4
+    },
+    {
+      "valid": 1,
+      "id": "7",
+      "x": 31,
+      "y": 17,
+      "canvas": "0",
+      "width": 20,
+      "height": 4,
+      "type": "LABEL",
+      "inputs": {
+        "text": "TelescopeState",
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "borderWidth": 0,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "",
+        "automaticResize": "Disabled"
+      },
+      "order": 5
+    },
+    {
+      "valid": 1,
+      "id": "8",
+      "x": 53,
+      "y": 17,
+      "canvas": "0",
+      "width": 14,
+      "height": 4,
+      "type": "ATTRIBUTE_DISPLAY",
+      "inputs": {
+        "attribute": {
+          "device": "ska_mid/tm_central/central_node",
+          "attribute": "telescopestate",
+          "label": "telescopeState"
+        },
+        "precision": 2,
+        "showDevice": false,
+        "showAttribute": "None",
+        "scientificNotation": false,
+        "showEnumLabels": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "alignTextCenter": false,
+        "alignValueRight": true,
+        "showAttrQuality": false,
+        "widgetCss": "",
+        "format": ""
+      },
+      "order": 6
+    },
+    {
+      "valid": 1,
+      "id": "11",
+      "x": 5,
+      "y": 22,
+      "canvas": "0",
+      "width": 62,
+      "height": 6,
+      "type": "command_file",
+      "inputs": {
+        "title": "AssignResources",
+        "uploadBtnLabel": "Upload File",
+        "buttonLabel": "",
+        "command": {
+          "device": "ska_mid/tm_central/central_node",
+          "command": "AssignResources",
+          "acceptedType": "DevString",
+          "intypedesc": "The string in JSON format. The JSON contains following values:\nsubarrayID: DevShort\ndish: JSON object consisting\n- receptor_ids: DevVarStringArray. The individual string should contain dish numbers in string format with preceding zeroes upto 3 digits. E.g. 0001, 0002",
+          "outtypedesc": "information-only string",
+          "outtype": "DevVarLongStringArray",
+          "tag": "0"
+        },
+        "showDevice": false,
+        "showCommand": false,
+        "requireConfirmation": true,
+        "displayOutput": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 14,
+        "font": "Helvetica",
+        "alignSendButtonRight": true
+      },
+      "order": 7
+    },
+    {
+      "valid": 1,
+      "id": "12",
+      "x": 5,
+      "y": 29,
+      "canvas": "0",
+      "width": 62,
+      "height": 6,
+      "type": "command_file",
+      "inputs": {
+        "title": "ReleaseResources",
+        "uploadBtnLabel": "Upload File",
+        "buttonLabel": "",
+        "command": {
+          "device": "ska_mid/tm_central/central_node",
+          "command": "ReleaseResources",
+          "acceptedType": "DevString",
+          "intypedesc": "The string in JSON format. The JSON contains following values:\nsubarrayID: releaseALL boolean as true and receptor_ids.",
+          "outtypedesc": "information-only string",
+          "outtype": "DevVarLongStringArray",
+          "tag": "0"
+        },
+        "showDevice": false,
+        "showCommand": false,
+        "requireConfirmation": true,
+        "displayOutput": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 14,
+        "font": "Helvetica",
+        "alignSendButtonRight": true
+      },
+      "order": 8
+    },
+    {
+      "valid": 1,
+      "id": "20",
+      "x": 6,
+      "y": 69,
+      "canvas": "0",
+      "width": 90,
+      "height": 6,
+      "type": "command_file",
+      "inputs": {
+        "title": "Configure",
+        "uploadBtnLabel": "Upload File",
+        "buttonLabel": "",
+        "command": {
+          "device": "ska_mid/tm_subarray_node/1",
+          "command": "Configure",
+          "acceptedType": "DevString",
+          "intypedesc": "JSON-encoded string with the scan configuration",
+          "outtypedesc": "(ReturnType, 'informational message')",
+          "outtype": "DevVarLongStringArray",
+          "tag": "0"
+        },
+        "showDevice": false,
+        "showCommand": false,
+        "requireConfirmation": true,
+        "displayOutput": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 14,
+        "font": "Helvetica",
+        "alignSendButtonRight": true
+      },
+      "order": 9
+    },
+    {
+      "valid": 1,
+      "id": "21",
+      "x": 6,
+      "y": 76,
+      "canvas": "0",
+      "width": 90,
+      "height": 6,
+      "type": "command_file",
+      "inputs": {
+        "title": "Scan",
+        "uploadBtnLabel": "Upload File",
+        "buttonLabel": "",
+        "command": {
+          "device": "ska_mid/tm_subarray_node/1",
+          "command": "Scan",
+          "acceptedType": "DevString",
+          "intypedesc": "JSON-encoded string with the per-scan configuration",
+          "outtypedesc": "(ReturnType, 'informational message')",
+          "outtype": "DevVarLongStringArray",
+          "tag": "0"
+        },
+        "showDevice": false,
+        "showCommand": false,
+        "requireConfirmation": true,
+        "displayOutput": false,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 14,
+        "font": "Helvetica",
+        "alignSendButtonRight": true
+      },
+      "order": 10
+    },
+    {
+      "valid": 1,
+      "id": "24",
+      "x": 6,
+      "y": 83,
+      "canvas": "0",
+      "width": 90,
+      "height": 41,
+      "type": "TIMELINE",
+      "inputs": {
+        "timeWindow": 120,
+        "overflow": false,
+        "groupAttributes": true,
+        "attributes": [
+          {
+            "attribute": {
+              "device": "mid-sdp/subarray/01",
+              "attribute": "obsstate",
+              "label": "Observing state"
+            },
+            "yAxisDisplay": "Label",
+            "showAttribute": "Name",
+            "yAxis": "left"
+          },
+          {
+            "attribute": {
+              "device": "mid-csp/subarray/01",
+              "attribute": "obsstate",
+              "label": "obsState"
+            },
+            "yAxisDisplay": "Label",
+            "showAttribute": "Label",
+            "yAxis": "left"
+          },
+          {
+            "attribute": {
+              "device": "ska_mid/tm_subarray_node/1",
+              "attribute": "obsstate",
+              "label": "obsState"
+            },
+            "yAxisDisplay": "Label",
+            "showAttribute": "Label",
+            "yAxis": "left"
+          }
+        ]
+      },
+      "order": 11
+    },
+    {
+      "valid": 1,
+      "id": "74",
+      "x": 4,
+      "y": 5,
+      "canvas": "0",
+      "width": 25,
+      "height": 4,
+      "type": "Command_Switch",
+      "inputs": {
+        "onCommand": {
+          "device": "ska_mid/tm_central/central_node",
+          "command": "TelescopeOn",
+          "acceptedType": "DevVoid",
+          "intypedesc": "Uninitialised",
+          "outtypedesc": "Uninitialised",
+          "outtype": "DevVarLongStringArray",
+          "tag": "0"
+        },
+        "offCommand": {
+          "device": "ska_mid/tm_central/central_node",
+          "command": "TelescopeOff",
+          "acceptedType": "DevVoid",
+          "intypedesc": "Uninitialised",
+          "outtypedesc": "Uninitialised",
+          "outtype": "DevVarLongStringArray",
+          "tag": "0"
+        },
+        "attribute": {
+          "device": "ska_mid/tm_central/central_node",
+          "attribute": "telescopestate",
+          "label": "telescopeState"
+        },
+        "commandOn": "",
+        "commandOff": "",
+        "showDevice": false,
+        "showCommand": false,
+        "displayOutput": false,
+        "alignSendButtonRight": true,
+        "timeDisplayOutput": 3000,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Helvetica",
+        "inputWidgetCss": "",
+        "title": "Telescope On/Off"
+      },
+      "order": 12
+    },
+    {
+      "valid": 3,
+      "id": "75",
+      "x": 6,
+      "y": 47,
+      "canvas": "0",
+      "width": 90,
+      "height": 20,
+      "type": "TABULAR_VIEW",
+      "inputs": {
+        "devices": [
+          {
+            "device": "ska_mid/tm_subarray_node/1"
+          },
+          {
+            "device": "mid-csp/subarray/01"
+          },
+          {
+            "device": "mid-sdp/subarray/01"
+          },
+          {
+            "device": "ska001/dish/master"
+          },
+          {
+            "device": "ska002/dish/master"
+          }
+        ],
+        "precision": 2,
+        "scientificNotation": false,
+        "showDefaultAttribute": true,
+        "showEnumLabels": true,
+        "customAttributes": [
+          {
+            "attribute": {
+              "device": "ska_mid/tm_subarray_node/1,mid-csp/subarray/01,mid-sdp/subarray/01,ska001/dish/master,ska002/dish/master",
+              "attribute": "obsstate",
+              "label": "obsState"
+            }
+          },
+          {
+            "attribute": {
+              "device": "ska_mid/tm_subarray_node/1,mid-csp/subarray/01,mid-sdp/subarray/01,ska001/dish/master,ska002/dish/master",
+              "attribute": "pointingstate",
+              "label": "pointingState"
+            }
+          },
+          {
+            "attribute": {
+              "device": "ska_mid/tm_subarray_node/1,mid-csp/subarray/01,mid-sdp/subarray/01,ska001/dish/master,ska002/dish/master",
+              "attribute": "state",
+              "label": "state",
+              "hideList": true
+            }
+          },
+          {
+            "attribute": {
+              "device": "ska_mid/tm_subarray_node/1,mid-csp/subarray/01,mid-sdp/subarray/01,ska001/dish/master,ska002/dish/master",
+              "attribute": "adminmode",
+              "label": "adminmode",
+              "hideList": true
+            }
+          },
+          {
+            "attribute": {
+              "device": "ska_mid/tm_subarray_node/1,mid-csp/subarray/01,mid-sdp/subarray/01,ska001/dish/master,ska002/dish/master",
+              "attribute": "healthstate",
+              "label": "healthstate",
+              "hideList": true
+            }
+          }
+        ],
+        "compactTable": true,
+        "borderedTable": true,
+        "textColor": "#000000",
+        "backgroundColor": "#ffffff",
+        "size": 1,
+        "font": "Courier new",
+        "widgetCss": ""
+      },
+      "order": 13
+    },
+    {
+      "valid": 1,
+      "id": "76",
+      "x": 4,
+      "y": 44,
+      "canvas": "0",
+      "width": 95,
+      "height": 82,
+      "type": "LABEL",
+      "inputs": {
+        "text": "Subarray 1",
+        "textColor": "#000000",
+        "backgroundColor": "#d3d7cf",
+        "size": 1,
+        "borderWidth": 0.1,
+        "borderColor": "#000000",
+        "font": "Helvetica",
+        "linkTo": "",
+        "customCss": "",
+        "automaticResize": "Disabled"
+      },
+      "order": 0
+    }
+  ],
+  "variables": []
+}
