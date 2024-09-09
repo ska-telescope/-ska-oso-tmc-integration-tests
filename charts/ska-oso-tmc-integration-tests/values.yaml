@@ -40,7 +40,9 @@ ska-tango-base:
     enabled: false
   tangodb:
     use_pv: false
-  deviceServersEnabled:
+  deviceServers:
+    tangotest:
+      instances: []
 
 # Taranta
 ska-taranta:
