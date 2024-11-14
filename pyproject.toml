@@ -19,8 +19,7 @@ url = 'https://pypi.org/simple'
 
 [tool.poetry.dependencies]
 python = "^3.10,<3.13"
-pydantic = "^2.9.2"
-pydantic-core = "2.27.0"
+pydantic = "^2.7.1"
 pytango = "^9.5.1"
 python-statemachine = "^2.4.0"
 ska-control-model = "*"
