@@ -24,7 +24,7 @@ pytango = "^9.5.1"
 python-statemachine = "^2.4.0"
 ska-control-model = "*"
 ska-ser-logging = "^0.4.3"
-ska-tango-testing = "^0.7.2"
+ska-tango-testing = "^0.7.3"
 
 [tool.poetry.group.docs]
 optional = true
