@@ -174,7 +174,7 @@
       "common": {
         "subarray_id": 1
       },
-      "cbf": {
+      "midcbf": {
         "frequency_band": 1,
         "subbands": [
           {
