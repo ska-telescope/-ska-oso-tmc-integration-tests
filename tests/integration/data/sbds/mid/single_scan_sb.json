@@ -175,6 +175,7 @@
         "subarray_id": 1
       },
       "midcbf": {
+        "frequency_band": 1,
         "fsps": [
           {
             "fsp_id": 1,
