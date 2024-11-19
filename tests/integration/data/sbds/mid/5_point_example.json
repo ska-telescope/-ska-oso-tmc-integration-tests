@@ -493,7 +493,7 @@
                   "SKA001",
                   "SKA100"
                 ],
-                "zoom_factor": 1,
+                "zoom_factor": 0,
                 "centre_frequency": 800000000.0,
                 "number_of_channels": 20000,
                 "channel_averaging_factor": 1,
