@@ -489,9 +489,6 @@
                   2
                 ],
                 "receptors": [
-                  "SKA063",
-                  "SKA001",
-                  "SKA100"
                 ],
                 "zoom_factor": 0,
                 "centre_frequency": 800000000.0,
