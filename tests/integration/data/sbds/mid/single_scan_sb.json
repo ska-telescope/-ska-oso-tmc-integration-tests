@@ -174,43 +174,30 @@
       "common": {
         "subarray_id": 1
       },
-      "cbf": {
-        "fsps": [
+      "midcbf": {
+        "frequency_band": 1,
+        "subbands": [
           {
-            "fsp_id": 1,
-            "function_mode": "CORR",
-            "frequency_slice_id": 1,
-            "integration_factor": 1,
-            "zoom_factor": 0,
-            "channel_averaging_map": [
-              [
-                0,
-                2
-              ],
-              [
-                744,
-                0
-              ]
-            ],
-            "channel_offset": 0,
-            "output_link_map": [
-              [
-                0,
-                0
-              ],
-              [
-                200,
-                1
-              ]
+            "frequency_slice_offset": {
+              "value": 1.23,
+              "unit": "MHz"
+            },
+            "correlation_spws": [
+              {
+                "spw_id": 2,
+                "logical_fsp_ids": [
+                  1,
+                  2
+                ],
+                "receptors": [
+                ],
+                "zoom_factor": 0,
+                "centre_frequency": 800000000.0,
+                "number_of_channels": 20000,
+                "channel_averaging_factor": 1,
+                "time_integration_factor": 1
+              }
             ]
-          },
-          {
-            "fsp_id": 2,
-            "function_mode": "CORR",
-            "frequency_slice_id": 2,
-            "integration_factor": 1,
-            "zoom_factor": 1,
-            "zoom_window_tuning": 650000
           }
         ]
       }

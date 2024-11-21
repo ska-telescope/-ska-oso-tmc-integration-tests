@@ -20,11 +20,6 @@ url = 'https://pypi.org/simple'
 [tool.poetry.dependencies]
 python = "^3.10,<3.13"
 pydantic = "^2.7.1"
-# Pinned pydantic-core version for now due to
-# version 2.21.0 not playing nice with Poetry.
-# Look into removing the pin when Poetry version
-# (base images in Dockerfile) are updated
-pydantic-core = "2.20.1"
 pytango = "^9.5.1"
 python-statemachine = "^2.2.0"
 ska-control-model = "*"
@@ -50,9 +45,7 @@ pytest-forked = "^1.6.0"
 pytest-bdd = "^7.2.0"
 # NOTE: When updating ska-oso-scripting version, also update the submodule
 # to the correct tag (see Update submodules section in README)
-ska-oso-scripting = "^9.0.0"
-# temp fix to OSD bug, can be removed next time scripting version is updated
-simpleeval = "^0.9.13"
+ska-oso-scripting = "^10.1.0"
 
 [tool.black]
 line-length = 88
