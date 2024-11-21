@@ -46,6 +46,18 @@ Make sure to commit the changes after the update. To check that the submodules a
 git submodule status
 ```
 
+### Update .make submodule
+
+`.make` submodule contains the common SKA Makefiles managed by the System Team. It is good to keep the submodule as 
+up-to-date as possible. To update the `.make` submodule to the latest version, run
+
+```
+git submodule update --init --remote .make
+```
+
+*Note: This is usually done with `make make` command but this should not be used in a project where other submodules 
+are present and those submodules are not updated in-sync.
+
 # Support
 
 Issues with this project should be raised on the #team-oso Slack channel and reported via the SKA Jira system.
