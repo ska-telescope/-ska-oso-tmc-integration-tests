@@ -4,8 +4,8 @@ Changelog
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-Unreleased
-**********
+0.4.0
+*****
 * Updated to Pydantic v2.10.4 and oso-scripting v10.2.0-rc5
 
 0.3.0
