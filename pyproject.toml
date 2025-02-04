@@ -10,6 +10,11 @@ include = [
 ]
 
 [[tool.poetry.source]]
+name = 'ska-scripting-gitlab'
+url = 'https://gitlab.com/api/v4/projects/22057734/packages/pypi/simple'
+priority = "explicit"
+
+[[tool.poetry.source]]
 name = 'ska-nexus'
 url = 'https://artefact.skao.int/repository/pypi-internal/simple'
 
@@ -18,7 +23,7 @@ name = "PyPI-public"
 url = 'https://pypi.org/simple'
 
 [tool.poetry.dependencies]
-python = "^3.10,<3.13"
+python = "^3.10"
 pytango = "^9.5.1"
 python-statemachine = "^2.2.0"
 ska-control-model = "*"
@@ -45,7 +50,9 @@ pytest-forked = "^1.6.0"
 pytest-bdd = "^7.2.0"
 # NOTE: When updating ska-oso-scripting version, also update the submodule
 # to the correct tag (see Update submodules section in README)
-ska-oso-scripting = "^10.2.0-rc.5"
+# Temp updating ska-oso-scripting to pull from GitLab to help relax
+# Python version in ska-oso-scripting dependencies
+ska-oso-scripting = {version = "10.4.0+dev.ce52d3604", source = "ska-scripting-gitlab"}
 
 [tool.black]
 line-length = 88
