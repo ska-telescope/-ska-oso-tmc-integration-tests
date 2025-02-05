@@ -52,7 +52,7 @@ pytest-bdd = "^7.2.0"
 # to the correct tag (see Update submodules section in README)
 # Temp updating ska-oso-scripting to pull from GitLab to help relax
 # Python version in ska-oso-scripting dependencies
-ska-oso-scripting = {version = "10.4.0+dev.ce52d3604", source = "ska-scripting-gitlab"}
+ska-oso-scripting = {version = "10.4.0+dev.c495da488", source = "ska-scripting-gitlab"}
 
 [tool.black]
 line-length = 88
