@@ -34,13 +34,17 @@
       "scan_definition_id": "science scan",
       "scan_duration_ms": 6000,
       "target_ref": "SGRS J04008456",
-      "dish_configuration_ref": "dish config 123",
+      "dish_allocation_ref": "dish-allocation-74519",
       "scan_type_ref": "target:a",
       "csp_configuration_ref": "csp config 123",
       "pointing_correction": "MAINTAIN"
     }
   ],
   "scan_sequence": ["science scan"],
+  "dish_allocations": {
+    "dish_ids": ["SKA001", "SKA036", "SKA063", "SKA100"],
+    "dish_allocation_id": "dish-allocation-74519"
+  },
   "targets": [
     {
       "target_id": "SGRS J04008456",
@@ -201,20 +205,6 @@
           }
         ]
       }
-    }
-  ],
-  "dish_allocations": {
-    "receptor_ids": [
-      "SKA001",
-      "SKA036",
-      "SKA063",
-      "SKA100"
-    ]
-  },
-  "dish_configurations": [
-    {
-      "dish_configuration_id": "dish config 123",
-      "receiver_band": "1"
     }
   ]
 }
