@@ -474,7 +474,7 @@
         "subarray_id": 1
       },
       "midcbf": {
-        "frequency_band": 1,
+        "frequency_band": "1",
         "subbands": [
           {
             "frequency_slice_offset": {
