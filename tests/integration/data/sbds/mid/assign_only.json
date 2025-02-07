@@ -66,6 +66,105 @@
       }
     }
   ],
+  "sdp_configuration": {
+    "execution_block": {
+      "eb_id": "eb-mvp01-20200325-00001",
+      "context": {},
+      "max_length": 21600.0,
+      "beams": [
+        {
+          "beam_id": "vis0",
+          "function": "visibilities"
+        }
+      ],
+      "channels": [
+        {
+          "channels_id": "vis_channels",
+          "spectral_windows": [
+            {
+              "spectral_window_id": "fsp_1_channels",
+              "count": 14880,
+              "start": 0,
+              "stride": 1,
+              "freq_min": 1.326e9,
+              "freq_max": 1.367e9,
+              "link_map": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  200,
+                  1
+                ],
+                [
+                  744,
+                  2
+                ],
+                [
+                  944,
+                  3
+                ]
+              ]
+            }
+          ]
+        }
+      ],
+      "polarisations": [
+        {
+          "polarisations_id": "all",
+          "corr_type": [
+            "XX",
+            "XY",
+            "YX",
+            "YY"
+          ]
+        }
+      ],
+      "scan_types": [
+        {
+          "scan_type_id": ".default",
+          "beams": [
+            {
+              "polarisations_ref": "all",
+              "channels_ref": "vis_channels",
+              "beam_ref": "vis0"
+            }
+          ]
+        },
+        {
+          "scan_type_id": "science",
+          "derive_from": ".default",
+          "beams": [
+            {
+              "field_ref": "SGRS J04008456",
+              "beam_ref": "vis0"
+            }
+          ]
+        }
+      ]
+    },
+    "processing_blocks": [
+      {
+        "pb_id": "pb-test-20211111-00000",
+        "script": {
+          "kind": "realtime",
+          "name": "test-receive-addresses",
+          "version": "0.7.1"
+        },
+        "parameters": {}
+      }
+    ],
+    "resources": {
+      "receptors": [
+        "SKA001",
+        "SKA036",
+        "SKA063",
+        "SKA100"
+      ],
+      "receive_nodes": 1
+    }
+  },
   "csp_configurations": [
     {
       "config_id": "csp config 123",
