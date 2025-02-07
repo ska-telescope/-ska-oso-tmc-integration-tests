@@ -18,7 +18,7 @@ dependencies:
   - name: ska-tmc-mid
     # NOTE: When updating ska-tmc-mid chart version, also update the submodule
     # to the correct tag (see Update submodules section in README)
-    version: 0.24.0-rc.1
+    version: 0.24.0
     repository: https://artefact.skao.int/repository/helm-internal
     alias: tmc-mid
     condition: ska-tmc-mid.enabled
@@ -55,6 +55,6 @@ dependencies:
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-oso-oet.enabled
   - name: ska-db-oda
-    version: 6.1.0
+    version: 7.1.1
     repository: https://artefact.skao.int/repository/helm-internal
     condition: ska-db-oda.enabled
