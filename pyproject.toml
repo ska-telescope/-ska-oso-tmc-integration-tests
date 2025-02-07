@@ -51,7 +51,7 @@ pytest-bdd = "^7.2.0"
 # NOTE: When updating ska-oso-scripting version, also update the submodule
 # to the correct tag (see Update submodules section in README)
 #ska-oso-scripting = "^10.2.0-rc.5"
-ska-oso-scripting = {version = "10.4.0+dev.cd98099e3", source = "ska-scripting-gitlab"}
+ska-oso-scripting = {version = "10.4.0+dev.c08e92f39", source = "ska-scripting-gitlab"}
 
 [tool.black]
 line-length = 88

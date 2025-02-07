@@ -3062,13 +3062,13 @@ reference = "ska-nexus"
 
 [[package]]
 name = "ska-oso-scripting"
-version = "10.4.0+dev.cd98099e3"
+version = "10.4.0+dev.c08e92f39"
 description = "SKA OSO Scripting Library"
 optional = false
 python-versions = ">=3.10,<3.13"
 files = [
-    {file = "ska_oso_scripting-10.4.0+dev.cd98099e3-py3-none-any.whl", hash = "sha256:409aaeee242f6d5ba81207560cced631d09a4db9994743e290abf2cfc7f79437"},
-    {file = "ska_oso_scripting-10.4.0+dev.cd98099e3.tar.gz", hash = "sha256:6af221a1c8dc0100b5f4599ae209cef23c1c9c76c5b14bd0b2881905474f3ec8"},
+    {file = "ska_oso_scripting-10.4.0+dev.c08e92f39-py3-none-any.whl", hash = "sha256:77f0c7700b4d8ce490ea772de6853207cc4278b4f874c9fe053c75fec9deb038"},
+    {file = "ska_oso_scripting-10.4.0+dev.c08e92f39.tar.gz", hash = "sha256:ad387f7e94ba64bb6947236d88b5dbd1b7692fe14ee0386268cdd844eed82ff6"},
 ]
 
 [package.dependencies]
@@ -4125,4 +4125,4 @@ reference = "PyPI-public"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10,<3.13"
-content-hash = "1661c818babba17680dda0ddf149112731c29333d725c5496b109c259410885b"
+content-hash = "8df699b24b86d15a6baada43ce077460f7960a4ed06b8c9a9ca2f7209d466feb"
