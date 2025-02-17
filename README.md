@@ -35,8 +35,9 @@ and for `ska-tmc-mid` it is in `submodules/ska-tmc-mid-integration`. To update t
 
 ```
 cd submodules/<project_name>
-git pull && git submodule update --init
-git checkout tags/<new_version>
+git pull                        # Make sure repository is up-to-date
+git checkout tags/<new_version> # Check out the required version
+git submodule update --init     # Initialise any submodules to match tag
 cd ../..
 ```
 

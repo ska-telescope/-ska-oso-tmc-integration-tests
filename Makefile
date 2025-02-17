@@ -33,6 +33,7 @@ PYTHON_LINE_LENGTH = 88
 PYTHON_TEST_FILE = tests/unit
 
 PYTHON_VARS_BEFORE_PYTEST += ODA_URL=$(ODA_URL)
+PYTHON_VARS_BEFORE_PYTEST += SKUID_URL=$(SKUID_URL)
 
 #- Kubernetes test configuration ------------------------------------------------------
 
@@ -81,6 +82,7 @@ OET_API_VERSION ?= $(shell helm dependency list ./charts/ska-oso-tmc-integration
 ODA_API_VERSION ?= $(shell helm dependency list ./charts/ska-oso-tmc-integration-tests/ | grep ska-db-oda | gawk -F'[[:space:]]+|[.]' '{print $$2}')
 ODA_URL ?= http://ska-db-oda-rest-$(HELM_RELEASE):5000/$(KUBE_NAMESPACE)/oda/api/v$(ODA_API_VERSION)
 OET_URL ?= http://ska-oso-oet-rest-$(HELM_RELEASE):5000/$(KUBE_NAMESPACE)/oet/api/v$(OET_API_VERSION)
+SKUID_URL ?= http://ska-ser-skuid-$(HELM_RELEASE)-svc.$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN):9870
 
 K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.tango_host=$(TANGO_HOST) \
@@ -170,6 +172,7 @@ devpod: K8S_CHART_PARAMS += --set ska-oso-devpod.enabled=true\
 	--set ska-oso-devpod.image.tag=$(TMCSIM_TAG)\
 	--set ska-oso-devpod.env.oda_url=$(ODA_URL)\
 	--set ska-oso-devpod.env.oet_url=$(OET_URL)\
+	--set ska-oso-devpod.env.skuid_url=$(SKUID_URL)\
 	--set ska-oso-devpod.hostPath=$(PWD)
 devpod: k8s-install-chart
 	@echo "Waiting for devpod to become available..."

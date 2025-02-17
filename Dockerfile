@@ -5,6 +5,7 @@ FROM artefact.skao.int/ska-tango-images-pytango-runtime:9.5.0 AS runtime
 
 USER root
 
+RUN pip install poetry==1.8.3
 RUN poetry export --format requirements.txt --output poetry-requirements.txt --without-hashes && \
     pip install -r poetry-requirements.txt && \
     rm poetry-requirements.txt && \
