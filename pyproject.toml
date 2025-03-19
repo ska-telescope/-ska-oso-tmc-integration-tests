@@ -28,7 +28,7 @@ pytango = "^9.5.1"
 python-statemachine = "^2.2.0"
 ska-control-model = "*"
 ska-ser-logging = "^0.4.3"
-ska-tango-testing = "^0.7.1"
+ska-tango-testing = "^0.8.0"
 pydantic = "^2.10.4"
 
 [tool.poetry.group.docs]
