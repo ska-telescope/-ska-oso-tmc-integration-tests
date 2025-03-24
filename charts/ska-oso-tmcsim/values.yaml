@@ -2,7 +2,6 @@
 enabled: true
 
 system: OSO
-telescope: SKA-mid
 subsystem: ska-oso-tmcsim
 
 global:

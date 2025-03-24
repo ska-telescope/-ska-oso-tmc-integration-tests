@@ -7,7 +7,7 @@ variables:
   GIT_SUBMODULE_STRATEGY: recursive
   DOCKER_DRIVER: overlay2
 
-  # Set it to true while debugging/developing you brnach to have CI preserved
+  # Set it to true while debugging/developing you branch to have CI preserved
   # It needs to be used when not wanting to tear down the k8s-test environment right after tests
   # CI_KEEP_NAMESPACE: true
 

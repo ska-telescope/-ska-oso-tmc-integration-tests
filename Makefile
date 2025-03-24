@@ -2,6 +2,8 @@ CAR_OCI_REGISTRY_HOST := artefact.skao.int
 CI_PROJECT_PATH_SLUG ?= ska-oso-tmc-integration-tests
 CI_ENVIRONMENT_SLUG ?= ska-oso-tmc-integration-tests
 
+K8S_CHART = ska-oso-tmcsim
+
 -include .make/base.mk
 -include .make/helm.mk
 -include .make/k8s.mk
@@ -20,7 +22,7 @@ DOCS_SPHINXOPTS=-W --keep-going
 
 
 # unset defaults so settings in pyproject.toml take effect
-PYTHON_SWITCHES_FOR_BLACK = --exclude="tests/integration/tests/tmcmid/conftest.py"
+PYTHON_SWITCHES_FOR_BLACK =
 
 PYTHON_SWITCHES_FOR_ISORT =
 
@@ -28,29 +30,18 @@ PYTHON_SWITCHES_FOR_ISORT =
 # System Team makefiles' 79 character default
 PYTHON_LINE_LENGTH = 88
 
-# Set python-test make target to only run unit tests, as tests in the integration
-# folder require Tango.
-PYTHON_TEST_FILE = tests/unit
+## Configure unit and component test run (make python-test target) so that:
+## - pytest --forked is run, working around Tango segfault issue with standard pytest
+## - adds 'rP' to print captured output for successful tests
+PYTHON_TEST_FILE = tests/unit tests/component
+PYTHON_VARS_AFTER_PYTEST += --forked -rP
 
-PYTHON_VARS_BEFORE_PYTEST += ODA_URL=$(ODA_URL)
-PYTHON_VARS_BEFORE_PYTEST += SKUID_URL=$(SKUID_URL)
-
-#- Kubernetes test configuration ------------------------------------------------------
-
-# override k8s-test so that:
-# - pytest --forked is run, working around Tango segfault issue with standard pytest
-# - only integration tests run and unit tests are ignored
-# - adds 'rP' to print captured output for successful tests
 K8S_TEST_TEST_COMMAND = $(PYTHON_VARS_BEFORE_PYTEST) \
 						$(PYTHON_RUNNER) \
-                        pytest --forked -rP \
+                        pytest \
                         $(PYTHON_VARS_AFTER_PYTEST) ./tests/integration \
                          | tee pytest.stdout ## k8s-test test command to run in container
-
-K8S_TEST_RUNNER_ADD_ARGS = --env=SDP_SIMULATION_ENABLED=true \
-						   --env=CSP_SIMULATION_ENABLED=true \
-						   --env=DISH_SIMULATION_ENABLED=true \
-						   --env=TANGO_HOST=$(TANGO_HOST)
+K8S_TEST_RUNNER_ADD_ARGS = --env=TANGO_HOST=$(TANGO_HOST)
 
 #- Kubernetes configuration -----------------------------------------------------------
 
@@ -60,8 +51,6 @@ K8S_TEST_RUNNER_ADD_ARGS = --env=SDP_SIMULATION_ENABLED=true \
 ifneq ($(CI_JOB_ID),)
 KUBE_NAMESPACE ?= ci-$(CI_PROJECT_NAME)-$(CI_COMMIT_SHORT_SHA)
 OCI_REGISTRY ?= registry.gitlab.com/ska-telescope/oso/ska-oso-tmc-integration-tests
-# Use real TMC when running tests on the pipeline
-TMC_SIMULATION_ENABLED ?= false
 else
 OCI_REGISTRY ?= artefact.skao.int
 endif
@@ -75,107 +64,9 @@ CLUSTER_DOMAIN ?= cluster.local
 TANGO_PORT ?= 10000
 TANGO_HOST ?= $(strip $(DATABASEDS)):$(strip $(TANGO_PORT))
 
-# Enable Taranta deployment. true/false
-TARANTA_ENABLED ?= false
-
-OET_API_VERSION ?= $(shell helm dependency list ./charts/ska-oso-tmc-integration-tests/ | grep ska-oso-oet | gawk -F'[[:space:]]+|[.]' '{print $$2}')
-ODA_API_VERSION ?= $(shell helm dependency list ./charts/ska-oso-tmc-integration-tests/ | grep ska-db-oda | gawk -F'[[:space:]]+|[.]' '{print $$2}')
-ODA_URL ?= http://ska-db-oda-rest-$(HELM_RELEASE):5000/$(KUBE_NAMESPACE)/oda/api/v$(ODA_API_VERSION)
-OET_URL ?= http://ska-oso-oet-rest-$(HELM_RELEASE):5000/$(KUBE_NAMESPACE)/oet/api/v$(OET_API_VERSION)
-SKUID_URL ?= http://ska-ser-skuid-$(HELM_RELEASE)-svc.$(KUBE_NAMESPACE).svc.$(CLUSTER_DOMAIN):9870
-
 K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.tango_host=$(TANGO_HOST) \
 	--set global.exposeAllDS=false \
 	--set global.cluster_domain=$(CLUSTER_DOMAIN) \
 	--set global.operator=true \
-	--set ska-taranta.enabled=$(TARANTA_ENABLED)\
-    --set ska-db-oda.pgadmin4.enabled=false\
-	--set ska-db-oda.rest.backend.type=filesystem\
-    --set ska-db-oda.postgresql.enabled=false\
-    --set ska-oso-oet.rest.oda.backend.type=rest\
-    --set ska-oso-oet.rest.oda.url=$(ODA_URL)\
 	--set ska-oso-tmcsim.image.registry=$(OCI_REGISTRY)
-
-# tag to use when deploying TMC simulator
-TMCSIM_TAG ?= $(VERSION)
-
-# Simulate TMC: true / false
-TMC_SIMULATION_ENABLED ?= true
-ifeq ($(TMC_SIMULATION_ENABLED),false)
-K8S_CHART_PARAMS += 	--set ska-tmc-mid.enabled=true\
-	--set ska-oso-tmcsim.enabled=false\
-	--set ska-tango-alarmhandler.enable=true\
-	--set tmc-mid.deviceServers.mocks.dish=true\
-	--set tmc-mid.subarray_count=1
-else
-K8S_CHART_PARAMS += 	--set ska-tmc-mid.enabled=false\
-	--set ska-tango-alarmhandler.enable=false\
-	--set ska-oso-tmcsim.enabled=true\
-    --set ska-oso-tmcsim.image.tag=$(TMCSIM_TAG)
-endif
-
-# write ODA entities to local filesystem. Filesharing with Minikube MUST be set up!
-LOCAL_ODA ?= false
-ifeq ($(LOCAL_ODA),true)
-K8S_CHART_PARAMS +=	--set ska-db-oda.rest.backend.filesystem.use_pv=true\
-    --set ska-db-oda.rest.backend.filesystem.pv_hostpath=$(PWD)/oda
-endif
-
-# Expose OET API and Swagger UI
-OET_INGRESS ?= false
-ifeq ($(OET_INGRESS),true)
-K8S_CHART_PARAMS +=	--set ska-oso-oet.rest.ingress.enabled=true
-endif
-
-# Developer environment setup. Shortcut for activating options useful for developers,
-# e.g., open ingress and ODA with local filesystem backing.
-DEVENV ?= false
-ifeq ($(DEVENV),true)
-MINIKUBE = true
-LOCAL_ODA = true
-OET_INGRESS = true
-endif
-
-#- Make target customisation ----------------------------------------------------------
-
-k8s-pre-install-chart:
-ifeq ($(LOCAL_ODA),true)
-	export ODA_DIR=$(PWD)/oda && \
-	echo "Creating ODA backing directory $$ODA_DIR..." && \
-	mkdir -p $$ODA_DIR
-endif
-
-k8s-post-install-chart:
-ifneq ($(MINIKUBE_IP),)
-ifeq ($(TARANTA_ENABLED), true)
-	@echo "    * Taranta: http://$(MINIKUBE_IP)/$(KUBE_NAMESPACE)/taranta/"
-endif
-ifeq ($(OET_INGRESS),true)
-	@echo "    * OET Swagger UI: $(subst ska-oso-oet-rest-$(HELM_RELEASE):5000,$(MINIKUBE_IP),$(OET_URL))/ui"
-	@echo "    * OET REST API: $(subst ska-oso-oet-rest-$(HELM_RELEASE):5000,$(MINIKUBE_IP),$(OET_URL))"
-endif
-	@echo "    * ODA Swagger UI: $(subst ska-db-oda-rest-$(HELM_RELEASE):5000,$(MINIKUBE_IP),$(ODA_URL))/ui"
-	@echo "    * ODA REST API: $(subst ska-db-oda-rest-$(HELM_RELEASE):5000,$(MINIKUBE_IP),$(ODA_URL))"
-endif
-ifeq ($(DEVENV), true)
-	@echo
-	@echo "To connect to the Tango database from your host, run"
-	@echo
-	@echo "    kubectl -n $(KUBE_NAMESPACE) port-forward services/tango-databaseds $(TANGO_PORT)"
-	@echo "    export TANGO_HOST=$(TANGO_HOST)"
-endif
-
-
-devpod: DEVENV = true
-devpod: K8S_CHART_PARAMS += --set ska-oso-devpod.enabled=true\
-	--set ska-oso-devpod.image.tag=$(TMCSIM_TAG)\
-	--set ska-oso-devpod.env.oda_url=$(ODA_URL)\
-	--set ska-oso-devpod.env.oet_url=$(OET_URL)\
-	--set ska-oso-devpod.env.skuid_url=$(SKUID_URL)\
-	--set ska-oso-devpod.hostPath=$(PWD)
-devpod: k8s-install-chart
-	@echo "Waiting for devpod to become available..."
-	@kubectl -n $(KUBE_NAMESPACE) wait --for=condition=ready pod devpod
-	@echo "Now launching a bash terminal inside devpod..."
-	@kubectl -n $(KUBE_NAMESPACE) exec --stdin --tty devpod -- /bin/bash

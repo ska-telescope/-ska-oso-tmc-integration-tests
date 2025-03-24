@@ -1,9 +1,3 @@
 [submodule ".make"]
 	path = .make
 	url = https://gitlab.com/ska-telescope/sdi/ska-cicd-makefile.git
-[submodule "submodules/ska-tmc-mid-integration"]
-	path = submodules/ska-tmc-mid-integration
-	url = https://gitlab.com/ska-telescope/ska-tmc/ska-tmc-mid-integration
-[submodule "submodules/ska-oso-scripting"]
-	path = submodules/ska-oso-scripting
-	url = https://gitlab.com/ska-telescope/oso/ska-oso-scripting
