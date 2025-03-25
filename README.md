@@ -3,7 +3,7 @@
 ## Description
 
 This project holds code used to test OSO's TMC Simulator. It contains the source code for the 
-simulator as well as a Helm chart that deploys the simulator
+simulator as well as a Helm chart that deploys the simulator.
 
 ## Installation
 
