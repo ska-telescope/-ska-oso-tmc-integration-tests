@@ -69,4 +69,4 @@ K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
 	--set global.exposeAllDS=false \
 	--set global.cluster_domain=$(CLUSTER_DOMAIN) \
 	--set global.operator=true \
-	--set ska-oso-tmcsim.image.registry=$(OCI_REGISTRY)
+	--set image.registry=$(OCI_REGISTRY)
