@@ -1,33 +1,30 @@
-=============================
-ska_oso_tmc_integration_tests
-=============================
+==============
+ska_oso_tmcsim
+==============
 
-tmcsim
-======
-
-.. automodule:: ska_oso_tmc_integration_tests.tmcsim
+.. automodule:: ska_oso_tmcsim
     :members:
 
 centralnode
 -----------
 
-.. automodule:: ska_oso_tmc_integration_tests.tmcsim.centralnode
+.. automodule:: ska_oso_tmcsim.centralnode
     :members:
 
 obsstatestatemachine
 --------------------
 
-.. automodule:: ska_oso_tmc_integration_tests.tmcsim.obsstatestatemachine
+.. automodule:: ska_oso_tmcsim.obsstatestatemachine
     :members:
 
 subarraynode
 ------------
 
-.. automodule:: ska_oso_tmc_integration_tests.tmcsim.subarraynode
+.. automodule:: ska_oso_tmcsim.subarraynode
     :members:
 
 testharness
 --------------------
 
-.. automodule:: ska_oso_tmc_integration_tests.tmcsim.testharness
+.. automodule:: ska_oso_tmcsim.testharness
     :members:

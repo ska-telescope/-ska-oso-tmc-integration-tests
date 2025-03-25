@@ -9,7 +9,7 @@ global:
   tango_host: tango-databaseds:10000
 
 labels:
-  app: ska-oso-tmc-integration-tests
+  app: ska-oso-tmcsim
 annotations:
   app.gitlab.com/app: CI_PROJECT_PATH_SLUG
   app.gitlab.com/env: CI_ENVIRONMENT_SLUG
@@ -34,7 +34,7 @@ deviceServers:
 
 image:
   registry: artefact.skao.int
-  image: ska-oso-tmc-integration-tests
+  image: ska-oso-tmcsim
   tag: ~  # Defaults to the chart appVersion if not set
   pullPolicy: IfNotPresent
 

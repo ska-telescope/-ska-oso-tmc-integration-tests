@@ -1,6 +1,6 @@
 CAR_OCI_REGISTRY_HOST := artefact.skao.int
-CI_PROJECT_PATH_SLUG ?= ska-oso-tmc-integration-tests
-CI_ENVIRONMENT_SLUG ?= ska-oso-tmc-integration-tests
+CI_PROJECT_PATH_SLUG ?= ska-oso-tmcsim
+CI_ENVIRONMENT_SLUG ?= ska-oso-tmcsim
 
 K8S_CHART = ska-oso-tmcsim
 
@@ -50,7 +50,7 @@ K8S_TEST_RUNNER_ADD_ARGS = --env=TANGO_HOST=$(TANGO_HOST)
 # using Helm.  If this does not already exist it will be created
 ifneq ($(CI_JOB_ID),)
 KUBE_NAMESPACE ?= ci-$(CI_PROJECT_NAME)-$(CI_COMMIT_SHORT_SHA)
-OCI_REGISTRY ?= registry.gitlab.com/ska-telescope/oso/ska-oso-tmc-integration-tests
+OCI_REGISTRY ?= registry.gitlab.com/ska-telescope/oso/ska-oso-tmcsim
 else
 OCI_REGISTRY ?= artefact.skao.int
 endif

@@ -1,4 +1,4 @@
-# ska-oso-tmc-integration-tests
+# ska-oso-tmcsim
 
 ## Description
 

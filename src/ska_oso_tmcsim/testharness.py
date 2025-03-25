@@ -9,7 +9,7 @@ from ska_control_model import ObsState
 from ska_ser_logging import configure_logging
 from ska_tango_testing.harness import TangoTestHarness
 
-from ska_oso_tmc_integration_tests.tmcsim import CentralNode, SubArrayNode
+from ska_oso_tmcsim import CentralNode, SubArrayNode
 
 configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)

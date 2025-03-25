@@ -4,8 +4,8 @@ function: testing
 domain: mocks
 instances: ["01"]
 entrypoints:
-  - name: "ska_oso_tmc_integration_tests.tmcsim.centralnode.CentralNode"
-  - name: "ska_oso_tmc_integration_tests.tmcsim.subarraynode.SubArrayNode"
+  - name: "ska_oso_tmcsim.centralnode.CentralNode"
+  - name: "ska_oso_tmcsim.subarraynode.SubArrayNode"
 server:
   name: "{{ .Values.deviceServers.tmcsimskalow.baseUri }}"
   instances:

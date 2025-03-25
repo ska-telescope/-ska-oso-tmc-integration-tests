@@ -9,7 +9,7 @@ import pytest
 import tango
 from ska_control_model import ObsState
 
-from ska_oso_tmc_integration_tests.tmcsim.subarraynode import MethodCall
+from ska_oso_tmcsim.subarraynode import MethodCall
 
 from . import LOW_BASE_URI, MID_BASE_URI
 
