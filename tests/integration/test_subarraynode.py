@@ -4,9 +4,9 @@ Contains code for testing OSO's TMC SubArrayNode simulator in a Tango context.
 
 import json
 import operator
-import tango
 
 import pytest
+import tango
 from ska_control_model import ObsState
 
 from ska_oso_tmc_integration_tests.tmcsim.subarraynode import MethodCall
@@ -29,7 +29,7 @@ class TestSubarrayNode:  # pylint: disable=too-few-public-methods
             (ObsState.READY, "Scan", ["{'foo': 'bar'}"]),
             (ObsState.READY, "End", []),
             (ObsState.IDLE, "Abort", []),
-            (ObsState.ABORTED, "Restart", [])
+            (ObsState.ABORTED, "Restart", []),
         ],
     )
     def test_subarray_state_lifecycle(self, base_uri, initial_obsstate, method, args):

@@ -70,6 +70,8 @@ class TestCentralNode:  # pylint: disable=too-few-public-methods
             # Assert the command was sent to the subarray
             history = json.loads(subarray_device.History)
 
-            expected = MethodCall(command="ReleaseResources", args=['{"release_all": true}'])
+            expected = MethodCall(
+                command="ReleaseResources", args=['{"release_all": true}']
+            )
             assert MethodCall.model_validate(history[0]) == expected
             assert subarray_device.ObsState == ObsState.EMPTY
