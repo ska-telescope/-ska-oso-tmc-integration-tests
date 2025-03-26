@@ -1,24 +1,35 @@
-ARG CAR_OCI_REGISTRY_HOST=artefact.skao.int
+FROM artefact.skao.int/ska-build-python:0.1.1 as build
 
-FROM artefact.skao.int/ska-tango-images-pytango-builder:9.5.0 AS buildenv
-FROM artefact.skao.int/ska-tango-images-pytango-runtime:9.5.0 AS runtime
+WORKDIR /src
 
-USER root
+COPY pyproject.toml poetry.lock* ./
 
-RUN pip install poetry==1.8.3
-RUN poetry export --format requirements.txt --output poetry-requirements.txt --without-hashes && \
-    pip install -r poetry-requirements.txt && \
-    rm poetry-requirements.txt && \
-    pip install .
+ENV POETRY_NO_INTERACTION=1
+ENV POETRY_VIRTUALENVS_IN_PROJECT=1
+ENV POETRY_VIRTUALENVS_CREATE=1
 
-USER tango
+#no-root is required because in the build
+#step we only want to install dependencies
+#not the code under development
+RUN poetry install --no-root
 
-# Important! This ARG has to come AFTER the FROM statements, not before. If you put the
-# ARG statement above FROM then PIP_INDEX_URL is set to a blank value and we default to
-# the pypi host set in pip.conf.
-ARG CAR_PYPI_REPOSITORY_URL=https://artefact.skao.int/repository/pypi-internal
-ENV PIP_INDEX_URL ${CAR_PYPI_REPOSITORY_URL}/simple
+FROM artefact.skao.int/ska-python:0.1.2
 
-ENV PATH="/home/tango/.local/bin:${PATH}"
+WORKDIR /src
+
+#Adding the virtualenv binaries
+#to the PATH so there is no need
+#to activate the venv
+ENV VIRTUAL_ENV=/src/.venv
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
+COPY --from=build ${VIRTUAL_ENV} ${VIRTUAL_ENV}
+
+COPY ./src/ska_oso_tmcsim ./ska_oso_tmcsim
+
+#Add source code to the PYTHONPATH
+#so python is able to find our package
+#when we use it on imports
+ENV PYTHONPATH=${PYTHONPATH}:/src/
 
 CMD ["python3"]

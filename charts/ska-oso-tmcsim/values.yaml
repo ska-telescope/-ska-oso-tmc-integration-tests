@@ -13,12 +13,6 @@ labels:
 annotations:
   app.gitlab.com/app: CI_PROJECT_PATH_SLUG
   app.gitlab.com/env: CI_ENVIRONMENT_SLUG
-dsconfig:
-  image:
-    registry: artefact.skao.int
-    image: ska-tango-images-tango-dsconfig
-    tag: 1.5.7
-    pullPolicy: IfNotPresent
 
 deviceServers:
   tmcsimskamid:
@@ -31,6 +25,14 @@ deviceServers:
     instances: ["01"]
     file: "data/tmcsim_ska_low.yaml"
     baseUri: "ska_low"
+
+# Do not deploy the tango test device by default
+# Comment out these lines if test device is required
+ska-tango-base:
+  deviceServers:
+    tangotest:
+      instances: []
+
 
 image:
   registry: artefact.skao.int
