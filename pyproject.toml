@@ -10,11 +10,6 @@ include = [
 ]
 
 [[tool.poetry.source]]
-name = 'ska-scripting-gitlab'
-url = 'https://gitlab.com/api/v4/projects/22057734/packages/pypi/simple'
-priority = "explicit"
-
-[[tool.poetry.source]]
 name = 'ska-nexus'
 url = 'https://artefact.skao.int/repository/pypi-internal/simple'
 
