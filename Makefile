@@ -36,6 +36,13 @@ PYTHON_LINE_LENGTH = 88
 PYTHON_TEST_FILE = tests/unit tests/component
 PYTHON_VARS_AFTER_PYTEST += --forked -rP
 
+# tango_host is defined in the values.yaml but we need to redefine it here so that we
+# can inject the TANGO_HOST environment variable to the k8s-test pod. This should match
+# what is defined in the values.yaml as global.tango_host
+DATABASEDS = tango-databaseds
+TANGO_PORT ?= 10000
+TANGO_HOST ?= $(strip $(DATABASEDS)):$(strip $(TANGO_PORT))
+
 K8S_TEST_TEST_COMMAND = $(PYTHON_VARS_BEFORE_PYTEST) \
 						$(PYTHON_RUNNER) \
                         pytest \
@@ -53,20 +60,5 @@ KUBE_NAMESPACE ?= ci-$(CI_PROJECT_NAME)-$(CI_COMMIT_SHORT_SHA)
 OCI_REGISTRY ?= registry.gitlab.com/ska-telescope/oso/ska-oso-tmcsim
 else
 OCI_REGISTRY ?= artefact.skao.int
+K8S_CHART_PARAMS += --set global.cluster_domain="cluster.local"
 endif
-
-MINIKUBE ?= false ## Is this deployment running in Minikube? true/false
-MINIKUBE_IP = $(shell minikube ip)
-HOSTNAME = $(shell hostname)
-
-DATABASEDS = tango-databaseds  ## TANGO_HOST connection to the Tango DS
-CLUSTER_DOMAIN ?= cluster.local
-TANGO_PORT ?= 10000
-TANGO_HOST ?= $(strip $(DATABASEDS)):$(strip $(TANGO_PORT))
-
-K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
-	--set global.tango_host=$(TANGO_HOST) \
-	--set global.exposeAllDS=false \
-	--set global.cluster_domain=$(CLUSTER_DOMAIN) \
-	--set global.operator=true \
-	--set image.registry=$(OCI_REGISTRY)
