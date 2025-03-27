@@ -11,7 +11,7 @@ from ska_control_model import ObsState
 
 from ska_oso_tmcsim.subarraynode import MethodCall
 
-from . import LOW_BASE_URI, MID_BASE_URI
+from .. import LOW_BASE_URI, MID_BASE_URI
 
 
 class TestSubarrayNode:  # pylint: disable=too-few-public-methods

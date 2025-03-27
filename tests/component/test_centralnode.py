@@ -10,7 +10,7 @@ from ska_control_model import ObsState
 from ska_oso_tmcsim.subarraynode import MethodCall
 from ska_oso_tmcsim.testharness import TMCSimTestHarness
 
-from . import LOW_BASE_URI, MID_BASE_URI
+from .. import LOW_BASE_URI, MID_BASE_URI
 
 
 class TestCentralNode:  # pylint: disable=too-few-public-methods
