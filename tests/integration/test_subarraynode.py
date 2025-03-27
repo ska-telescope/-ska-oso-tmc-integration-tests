@@ -16,8 +16,7 @@ from .. import LOW_BASE_URI, MID_BASE_URI
 
 class TestSubarrayNode:  # pylint: disable=too-few-public-methods
     """
-    Tests for the SubArrayNode simulator that are unrelated to the state
-    model, which is tested separately in unit tests.
+    Tests for the SubArrayNode simulator in tango environment.
     """
 
     @pytest.mark.parametrize("base_uri", [MID_BASE_URI, LOW_BASE_URI])

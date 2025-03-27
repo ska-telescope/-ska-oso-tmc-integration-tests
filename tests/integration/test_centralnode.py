@@ -15,17 +15,14 @@ from .. import LOW_BASE_URI, MID_BASE_URI
 
 class TestCentralNode:  # pylint: disable=too-few-public-methods
     """
-    Tests the behaviour of the CentralNode simulator
+    Tests the behaviour of the CentralNode simulator in a tango environment
     """
 
     @pytest.mark.parametrize("base_uri", [MID_BASE_URI, LOW_BASE_URI])
     def test_assign_resources_reaches_subarray(self, base_uri):
         """
-        This is mainly a sanity check that passing the base_uri property to the
-        CentralNode works and this is then used when communicating with the subarray.
-
-        It is kind of a test of the TMCSimTestHarness too, in that it checks that the
-        base_uri from the constructor is passed properly during add_central_node()
+        This is mainly a sanity check that the CentralNode device can be reached by tango
+        and it is correctly communicating with the Sub-Array device.
         """
         # Arrange a test harness with a CentralNode and one Subarray
         central_node_device = tango.DeviceProxy(f"{base_uri}/tm_central/central_node")
