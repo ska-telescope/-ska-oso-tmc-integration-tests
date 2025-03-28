@@ -58,6 +58,6 @@ ifneq ($(CI_JOB_ID),)
 K8S_CHART_PARAMS += --set image.tag=$(VERSION)-dev.c$(CI_COMMIT_SHORT_SHA) \
 	--set image.registry=$(CI_REGISTRY)/ska-telescope/oso/ska-oso-tmcsim
 else
-OCI_REGISTRY ?= artefact.skao.int
-K8S_CHART_PARAMS += --set global.cluster_domain="cluster.local"
+# Set cluster domain and minikube variables for local deployment when not running in GitLab CI
+K8S_CHART_PARAMS += --set global.cluster_domain="cluster.local" --set global.minikube=true
 endif

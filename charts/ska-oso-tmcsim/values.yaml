@@ -5,7 +5,8 @@ system: OSO
 subsystem: ska-oso-tmcsim
 
 global:
-  minikube: true
+  minikube: false
+  cluster_domain: techops.internal.skao.int
   tango_host: tango-databaseds:10000
   exposeAllDS: false
   operator: true
