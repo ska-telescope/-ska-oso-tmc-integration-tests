@@ -55,8 +55,8 @@ K8S_TEST_RUNNER_ADD_ARGS = --env=TANGO_HOST=$(TANGO_HOST)
 
 # When running jobs on the pipeline, pull the GitLab version of the image rather than one from CAR
 ifneq ($(CI_JOB_ID),)
-K8S_CHART_PARAMS += --set image.tag=$(VERSION)-dev.c$(CI_COMMIT_SHORT_SHA) \
-	--set image.registry=$(CI_REGISTRY)/ska-telescope/oso/ska-oso-tmcsim
+K8S_CHART_PARAMS += --set image.registry=$(CI_REGISTRY)/ska-telescope/oso/ska-oso-tmcsim #--set image.tag=$(VERSION)-dev.c$(CI_COMMIT_SHORT_SHA) \
+#	--set image.registry=$(CI_REGISTRY)/ska-telescope/oso/ska-oso-tmcsim
 else
 OCI_REGISTRY ?= artefact.skao.int
 K8S_CHART_PARAMS += --set global.cluster_domain="cluster.local"
