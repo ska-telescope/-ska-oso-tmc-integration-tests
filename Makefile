@@ -61,3 +61,20 @@ else
 OCI_REGISTRY ?= artefact.skao.int
 K8S_CHART_PARAMS += --set global.cluster_domain="cluster.local"
 endif
+
+
+MINIKUBE ?= false ## Is this deployment running in Minikube? true/false
+MINIKUBE_IP = $(shell minikube ip)
+HOSTNAME = $(shell hostname)
+
+DATABASEDS = tango-databaseds  ## TANGO_HOST connection to the Tango DS
+CLUSTER_DOMAIN ?= cluster.local
+TANGO_PORT ?= 10000
+TANGO_HOST ?= $(strip $(DATABASEDS)):$(strip $(TANGO_PORT))
+
+K8S_CHART_PARAMS = --set global.minikube=$(MINIKUBE) \
+	--set global.tango_host=$(TANGO_HOST) \
+	--set global.exposeAllDS=false \
+	--set global.cluster_domain=$(CLUSTER_DOMAIN) \
+	--set global.operator=true \
+	--set image.registry=$(OCI_REGISTRY)
