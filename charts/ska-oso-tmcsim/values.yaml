@@ -5,7 +5,7 @@ system: OSO
 subsystem: ska-oso-tmcsim
 
 global:
-  minikube: true
+  minikube: false
   tango_host: tango-databaseds:10000
   exposeAllDS: false
   operator: true
