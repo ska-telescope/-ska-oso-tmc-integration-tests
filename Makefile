@@ -55,25 +55,8 @@ K8S_TEST_RUNNER_ADD_ARGS = --env=TANGO_HOST=$(TANGO_HOST)
 
 # When running jobs on the pipeline, pull the GitLab version of the image rather than one from CAR
 ifneq ($(CI_JOB_ID),)
-K8S_CHART_PARAMS += --set image.registry=$(CI_REGISTRY)/ska-telescope/oso/ska-oso-tmcsim #--set image.tag=$(VERSION)-dev.c$(CI_COMMIT_SHORT_SHA) \
-#	--set image.registry=$(CI_REGISTRY)/ska-telescope/oso/ska-oso-tmcsim
+K8S_CHART_PARAMS += --set image.tag=$(VERSION)-dev.c$(CI_COMMIT_SHORT_SHA) \
+	--set image.registry=$(CI_REGISTRY)/ska-telescope/oso/ska-oso-tmcsim
 else
-OCI_REGISTRY ?= artefact.skao.int
-K8S_CHART_PARAMS += --set global.cluster_domain="cluster.local"
+K8S_CHART_PARAMS += --set global.cluster_domain="cluster.local" --set global.minikube=true
 endif
-
-
-MINIKUBE ?= false ## Is this deployment running in Minikube? true/false
-MINIKUBE_IP = $(shell minikube ip)
-HOSTNAME = $(shell hostname)
-
-DATABASEDS = tango-databaseds  ## TANGO_HOST connection to the Tango DS
-CLUSTER_DOMAIN ?= cluster.local
-TANGO_PORT ?= 10000
-TANGO_HOST ?= $(strip $(DATABASEDS)):$(strip $(TANGO_PORT))
-
-K8S_CHART_PARAMS += --set global.minikube=$(MINIKUBE) \
-	--set global.tango_host=$(TANGO_HOST) \
-	--set global.exposeAllDS=false \
-	--set global.cluster_domain=$(CLUSTER_DOMAIN)
-#	--set global.operator=true
