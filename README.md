@@ -1,51 +1,13 @@
-# ska-oso-tmc-integration-tests
+# ska-oso-tmcsim
 
 ## Description
 
-This project holds code used to test OSO's integration with TMC. It contains:
-
-- OSO's TMC simulator.
-- Helm charts that deploy either OSO's TMC simulator or real TMC operating in simulation mode.
-- BDD tests to test integration of OSO software with TMC.
-
-> :warning: Currently, this project only targets simulation and testing for SKA MID
+This project holds code used to test OSO's TMC Simulator. It contains the source code for the 
+simulator as well as a Helm chart that deploys the simulator.
 
 ## Installation
 
-No installation is required unless you want to contribute to this project. If you want to contribute, 
-project requirements can be installed with `poetry install --with=dev --sync`.
 
-## Usage
-
-To deploy the default system, use `make k8s-install-chart`. The deployment can be customised with the following
-variables:
-
-| Variable               | Default value | Description                                                                                                                                                                                                                   |
-|------------------------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| TMC_SIMULATION_ENABLED | true          | Deploys OSO's TMC simulator (true) or TMC with simulation of other subsystems (false)                                                                                                                                         |
-| TMCSIM_TAG             |               | Sets the tag to use for the TMC simulator image. This can be used to override the value in the chart, e.g, '0.0.1-dirty'.                                                                                                     |
-| OET_INGRESS            | false         | Controls whether OET network ingress is enabled (true) or disabled (false). Ingress exposes an API for remote execution of Python scripts, so for security is disabled by default.                                            |
-| LOCAL_ODA              | false         | Controls whether the ODA saves entities inside the ODA pod (false) or inside an `oda` directory shared with the host machine. File sharing between host machine and Minikube *must* be set up for this to function correctly. | 
-| DEVENV                 | false         | Shortcut to set `OET_INGRESS` and `LOCAL_ODA` to true                                                                                                                                                                         | 
-
-## Update submodules
-When updating the version of `ska-oso-scripting` Python dependency or the chart version of `ska-tmc-mid` chart dependency, 
-the corresponding submodule should be updated as well. For `ska-oso-scripting` the submodule is in `submodules/ska-oso-scripting` 
-and for `ska-tmc-mid` it is in `submodules/ska-tmc-mid-integration`. To update the submodule to specific version run:
-
-```
-cd submodules/<project_name>
-git pull                        # Make sure repository is up-to-date
-git checkout tags/<new_version> # Check out the required version
-git submodule update --init     # Initialise any submodules to match tag
-cd ../..
-```
-
-Make sure to commit the changes after the update. To check that the submodules are pointing to the expected versions run
-
-```
-git submodule status
-```
 
 ### Update .make submodule
 
@@ -66,7 +28,6 @@ Issues with this project should be raised on the #team-oso Slack channel and rep
 ## Roadmap
 
 - Improve simulation of long-running commands
-- Expand OSO's TMC simulator to include simulation of TMC LOW.
 
 ## Contributing
 

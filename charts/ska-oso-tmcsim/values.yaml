@@ -2,24 +2,29 @@
 enabled: true
 
 system: OSO
-telescope: SKA-mid
 subsystem: ska-oso-tmcsim
 
 global:
-  minikube: true
+  minikube: false
+  cluster_domain: techops.internal.skao.int
   tango_host: tango-databaseds:10000
+  exposeAllDS: false
+  operator: true
+
+dsconfig:
+  timeout: 300s
+  image:
+    registry: artefact.skao.int
+    image: ska-tango-images-tango-dsconfig
+    tag: 1.8.1
+    pullPolicy: IfNotPresent
+
 
 labels:
   app: ska-oso-tmcsim
 annotations:
   app.gitlab.com/app: CI_PROJECT_PATH_SLUG
   app.gitlab.com/env: CI_ENVIRONMENT_SLUG
-dsconfig:
-  image:
-    registry: artefact.skao.int
-    image: ska-tango-images-tango-dsconfig
-    tag: 1.5.7
-    pullPolicy: IfNotPresent
 
 deviceServers:
   tmcsimskamid:
@@ -33,9 +38,17 @@ deviceServers:
     file: "data/tmcsim_ska_low.yaml"
     baseUri: "ska_low"
 
+# Do not deploy the tango test device by default
+# Comment out these lines if test device is required
+ska-tango-base:
+  deviceServers:
+    tangotest:
+      instances: []
+
+
 image:
   registry: artefact.skao.int
-  image: ska-oso-tmc-integration-tests
+  image: ska-oso-tmcsim
   tag: ~  # Defaults to the chart appVersion if not set
   pullPolicy: IfNotPresent
 

@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "ska-oso-tmc-integration-tests"
+name = "ska-oso-tmcsim"
 version = "0.4.1rc1"
 description = "Repository for integration of OSO and TMC"
 authors = ["Team Buttons"]
@@ -8,11 +8,6 @@ license = "BSD-3-Clause"
 include = [
     { path = 'tests' }
 ]
-
-[[tool.poetry.source]]
-name = 'ska-scripting-gitlab'
-url = 'https://gitlab.com/api/v4/projects/22057734/packages/pypi/simple'
-priority = "explicit"
 
 [[tool.poetry.source]]
 name = 'ska-nexus'
@@ -48,11 +43,6 @@ pylint-junit = "^0.3.4"
 typing-extensions = "^4.11.0"
 pytest-forked = "^1.6.0"
 pytest-bdd = "^7.2.0"
-# NOTE: When updating ska-oso-scripting version, also update the submodule
-# to the correct tag (see Update submodules section in README)
-# Temp updating ska-oso-scripting to pull from GitLab to help relax
-# Python version in ska-oso-scripting dependencies
-ska-oso-scripting = {version = "10.4.0+dev.c25bef727", source = "ska-scripting-gitlab"}
 
 [tool.black]
 line-length = 88

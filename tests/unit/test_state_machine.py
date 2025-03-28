@@ -4,7 +4,7 @@ from time import time
 import pytest
 from ska_control_model import ObsState
 
-from ska_oso_tmc_integration_tests.tmcsim import ObsStateStateMachine
+from ska_oso_tmcsim import ObsStateStateMachine
 
 
 @pytest.fixture

@@ -7,7 +7,7 @@ variables:
   GIT_SUBMODULE_STRATEGY: recursive
   DOCKER_DRIVER: overlay2
 
-  # Set it to true while debugging/developing you brnach to have CI preserved
+  # Set it to true while debugging/developing you branch to have CI preserved
   # It needs to be used when not wanting to tear down the k8s-test environment right after tests
   # CI_KEEP_NAMESPACE: true
 
@@ -72,11 +72,9 @@ include:
   # OCI
   - project: "ska-telescope/templates-repository"
     file: "gitlab-ci/includes/oci-image.gitlab-ci.yml"
-  # Selected Helm chart steps - don't include publish as this project is not a deployable artefact
+  # Helm chart steps
   - project: 'ska-telescope/templates-repository'
-    file: 'gitlab-ci/includes/helm-chart-lint.gitlab-ci.yml'
-  - project: 'ska-telescope/templates-repository'
-    file: 'gitlab-ci/includes/helm-chart-build.gitlab-ci.yml'
+    file: 'gitlab-ci/includes/helm-chart.gitlab-ci.yml'
   # k8s steps
   - project: 'ska-telescope/templates-repository'
     file: 'gitlab-ci/includes/k8s.gitlab-ci.yml'
