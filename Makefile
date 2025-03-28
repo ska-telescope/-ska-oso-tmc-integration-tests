@@ -72,8 +72,8 @@ CLUSTER_DOMAIN ?= cluster.local
 TANGO_PORT ?= 10000
 TANGO_HOST ?= $(strip $(DATABASEDS)):$(strip $(TANGO_PORT))
 
-K8S_CHART_PARAMS += --set global.minikube=$(MINIKUBE)
-#	--set global.tango_host=$(TANGO_HOST) \
+K8S_CHART_PARAMS += --set global.minikube=$(MINIKUBE) \
+	--set global.tango_host=$(TANGO_HOST)
 #	--set global.exposeAllDS=false \
 #	--set global.cluster_domain=$(CLUSTER_DOMAIN) \
 #	--set global.operator=true
