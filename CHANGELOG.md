@@ -4,8 +4,10 @@ Changelog
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-Unreleased
-**********
+1.0.0
+*****
+* Renamed python package to `ska_oso_tmcsim` from `ska_oso_tmc_integration_tests.tmcsim`
+* Published a Helm chart `ska-oso-tmcsim` for the Mid and Low simulators
 * Relaxed Python version from `^3.10,<3.13` to `^3.10`
 
 0.4.0
