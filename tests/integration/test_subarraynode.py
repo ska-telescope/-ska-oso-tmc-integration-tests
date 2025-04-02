@@ -9,6 +9,7 @@ import pytest
 import tango
 from ska_control_model import ObsState
 
+from ska_oso_tmcsim import construct_subarraynode_trl
 from ska_oso_tmcsim.subarraynode import MethodCall
 
 from .. import LOW_BASE_URI, MID_BASE_URI
@@ -36,7 +37,8 @@ class TestSubarrayNode:  # pylint: disable=too-few-public-methods
         Tests that commands and arguments are recorded in the device history.
         """
         f = operator.methodcaller(method, *args)
-        device = tango.DeviceProxy(f"{base_uri}/tm_subarray_node/1")
+        subarray_trl = construct_subarraynode_trl(base_uri, 1)
+        device = tango.DeviceProxy(subarray_trl)
         assert device.ObsState == initial_obsstate
         f(device)
         history = json.loads(device.History)

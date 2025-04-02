@@ -1,2 +1,2 @@
-MID_BASE_URI = "ska_mid"
-LOW_BASE_URI = "ska_low"
+MID_BASE_URI = "mid-tmc"
+LOW_BASE_URI = "low-tmc"

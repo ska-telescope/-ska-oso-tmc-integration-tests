@@ -7,6 +7,7 @@ import json
 import pytest
 from ska_control_model import ObsState
 
+from ska_oso_tmcsim import construct_central_node_trl, construct_subarraynode_trl
 from ska_oso_tmcsim.subarraynode import MethodCall
 from ska_oso_tmcsim.testharness import TMCSimTestHarness
 
@@ -33,8 +34,10 @@ class TestCentralNode:  # pylint: disable=too-few-public-methods
         test_harness.add_subarray(1, initial_obsstate=ObsState.EMPTY)
 
         with test_harness as ctx:
-            central_node_device = ctx.get_device(f"{base_uri}/tm_central/central_node")
-            subarray_device = ctx.get_device(f"{base_uri}/tm_subarray_node/1")
+            centralnode_trl = construct_central_node_trl(base_uri)
+            subarraynode_trl = construct_subarraynode_trl(base_uri, 1)
+            central_node_device = ctx.get_device(centralnode_trl)
+            subarray_device = ctx.get_device(subarraynode_trl)
 
             # Act: send a command to CentralNode
             central_node_device.AssignResources("{'foo': 'bar'}")
@@ -61,8 +64,10 @@ class TestCentralNode:  # pylint: disable=too-few-public-methods
         test_harness.add_subarray(1, initial_obsstate=ObsState.IDLE)
 
         with test_harness as ctx:
-            central_node_device = ctx.get_device(f"{base_uri}/tm_central/central_node")
-            subarray_device = ctx.get_device(f"{base_uri}/tm_subarray_node/1")
+            centralnode_trl = construct_central_node_trl(base_uri)
+            subarraynode_trl = construct_subarraynode_trl(base_uri, 1)
+            central_node_device = ctx.get_device(centralnode_trl)
+            subarray_device = ctx.get_device(subarraynode_trl)
 
             # Act: send a command to CentralNode
             central_node_device.ReleaseResources('{"release_all": true}')

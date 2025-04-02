@@ -6,6 +6,12 @@ import tango
 from tango import DevState
 from tango.server import Device, command, device_property
 
+from ska_oso_tmcsim.subarraynode import construct_subarraynode_trl
+
+
+def construct_central_node_trl(base: str) -> str:
+    return f"{base}/central-node/0"
+
 
 class CentralNode(Device):
     """
@@ -28,7 +34,8 @@ class CentralNode(Device):
         """
         Assign resources to a subarray.
         """
-        san = tango.DeviceProxy(f"{self.base_uri}/tm_subarray_node/1")
+        subarray_trl = construct_subarraynode_trl(self.base_uri, 1)
+        san = tango.DeviceProxy(subarray_trl)
         san.AssignResources(cdm_str)
 
     @command(dtype_in=str)
@@ -36,5 +43,6 @@ class CentralNode(Device):
         """
         Release resources from a subarray.
         """
-        san = tango.DeviceProxy(f"{self.base_uri}/tm_subarray_node/1")
+        subarray_trl = construct_subarraynode_trl(self.base_uri, 1)
+        san = tango.DeviceProxy(subarray_trl)
         san.ReleaseResources(cdm_str)

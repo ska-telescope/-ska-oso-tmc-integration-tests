@@ -9,6 +9,7 @@ from time import time
 import pytest
 from ska_control_model import ObsState
 
+from ska_oso_tmcsim import construct_subarraynode_trl
 from ska_oso_tmcsim.subarraynode import MethodCall
 from ska_oso_tmcsim.testharness import TMCSimTestHarness
 
@@ -43,7 +44,8 @@ class TestSubarrayNode:  # pylint: disable=too-few-public-methods
 
         with test_harness as ctx:
             f = operator.methodcaller(method, *args)
-            device = ctx.get_device(f"{base_uri}/tm_subarray_node/1")
+            subarray_trl = construct_subarraynode_trl(base_uri, 1)
+            device = ctx.get_device(subarray_trl)
             f(device)
             history = json.loads(device.History)
 
@@ -59,7 +61,8 @@ class TestSubarrayNode:  # pylint: disable=too-few-public-methods
         test_harness.add_subarray(1, initial_obsstate=ObsState.IDLE)
 
         with test_harness as ctx:
-            san = ctx.get_device(f"{base_uri}/tm_subarray_node/1")
+            subarray_trl = construct_subarraynode_trl(base_uri, 1)
+            san = ctx.get_device(subarray_trl)
             san.Configure("{'foo': 'bar'}")
             history = json.loads(san.History)
             assert len(history) > 0
@@ -76,7 +79,8 @@ class TestSubarrayNode:  # pylint: disable=too-few-public-methods
         test_harness.add_subarray(1, initial_obsstate=ObsState.IDLE)
 
         with test_harness as ctx:
-            san = ctx.get_device(f"{base_uri}/tm_subarray_node/1")
+            subarray_trl = construct_subarraynode_trl(base_uri, 1)
+            san = ctx.get_device(subarray_trl)
             # Set the device up so it will go to FAULT after moving
             # through a given sequence of states
             san.InjectFaultAfter("['IDLE', 'CONFIGURING', 'READY']")
@@ -96,7 +100,8 @@ class TestSubarrayNode:  # pylint: disable=too-few-public-methods
         test_harness.add_subarray(1, initial_obsstate=ObsState.IDLE)
 
         with test_harness as ctx:
-            san = ctx.get_device(f"{base_uri}/tm_subarray_node/1")
+            subarray_trl = construct_subarraynode_trl(base_uri, 1)
+            san = ctx.get_device(subarray_trl)
             delay_s = 0.1
             san_cmd = getattr(san, command_str)
 

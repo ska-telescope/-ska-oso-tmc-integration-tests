@@ -15,6 +15,10 @@ from tango.server import Device, attribute, command, device_property
 from .obsstatestatemachine import ObsStateMachineMixin, ObsStateStateMachine
 
 
+def construct_subarraynode_trl(base: str, subarray_id: int) -> str:
+    return f"{base}/subarray/{subarray_id:02}"
+
+
 class MethodCall(BaseModel):
     """
     Simple dataclass for describing a method call on a Tango device server.
