@@ -9,9 +9,10 @@ import pytest
 import tango
 from ska_control_model import ObsState
 
+from ska_oso_tmcsim import get_subarraynode_trl
 from ska_oso_tmcsim.subarraynode import MethodCall
 
-from .. import LOW_BASE_URI, MID_BASE_URI
+from .. import LOW_DOMAIN, MID_DOMAIN
 
 
 class TestSubarrayNode:  # pylint: disable=too-few-public-methods
@@ -19,7 +20,7 @@ class TestSubarrayNode:  # pylint: disable=too-few-public-methods
     Tests for the SubArrayNode simulator in tango environment.
     """
 
-    @pytest.mark.parametrize("base_uri", [MID_BASE_URI, LOW_BASE_URI])
+    @pytest.mark.parametrize("domain", [MID_DOMAIN, LOW_DOMAIN])
     @pytest.mark.parametrize(
         "initial_obsstate,method,args",
         [
@@ -31,12 +32,13 @@ class TestSubarrayNode:  # pylint: disable=too-few-public-methods
             (ObsState.ABORTED, "Restart", []),
         ],
     )
-    def test_subarray_state_lifecycle(self, base_uri, initial_obsstate, method, args):
+    def test_subarray_state_lifecycle(self, domain, initial_obsstate, method, args):
         """
         Tests that commands and arguments are recorded in the device history.
         """
         f = operator.methodcaller(method, *args)
-        device = tango.DeviceProxy(f"{base_uri}/tm_subarray_node/1")
+        subarray_trl = get_subarraynode_trl(domain, 1)
+        device = tango.DeviceProxy(subarray_trl)
         assert device.ObsState == initial_obsstate
         f(device)
         history = json.loads(device.History)

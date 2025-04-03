@@ -7,20 +7,20 @@ entrypoints:
   - name: "ska_oso_tmcsim.centralnode.CentralNode"
   - name: "ska_oso_tmcsim.subarraynode.SubArrayNode"
 server:
-  name: "{{ .Values.deviceServers.tmcsimskamid.baseUri }}"
+  name: "mid-tmc"
   instances:
     - name: "01"
       classes:
         - name: "CentralNode"
           devices:
-            - name: "{{ .Values.deviceServers.tmcsimskamid.baseUri }}/tm_central/central_node"
+            - name: "{{ if .Values.use_old_trls }}ska_mid/tm_central/central_node{{ else }}mid-tmc/central-node/0{{ end }}"
               properties:
-                - name: "base_uri"
+                - name: "domain"
                   values:
-                    - "{{ .Values.deviceServers.tmcsimskamid.baseUri }}"
+                    - "{{ if .Values.use_old_trls }}ska_mid{{ else }}mid-tmc{{ end }}"
         - name: "SubArrayNode"
           devices:
-            - name: "{{ .Values.deviceServers.tmcsimskamid.baseUri }}/tm_subarray_node/1"
+            - name: "{{ if .Values.use_old_trls }}ska_mid/tm_subarray_node/1{{ else }}mid-tmc/subarray/01{{ end }}"
               properties:
                 - name: "initial_obsstate"
                   values:

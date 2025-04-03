@@ -6,6 +6,24 @@ import tango
 from tango import DevState
 from tango.server import Device, command, device_property
 
+from ska_oso_tmcsim.subarraynode import get_subarraynode_trl
+
+
+def get_centralnode_trl(domain: str) -> str:
+    """
+    Get the TRL for a TMC CentralNode.
+
+    Returns pre-ADR-9 TRLs if the Tango domain is an old-style 'ska_mid' or 'ska_low'
+    domain.
+
+    @param domain: Tango domain
+    @return: full TRL for the TMC CentralNode
+    """
+    if domain in ["ska_mid", "ska_low"]:
+        return f"{domain}/tm_central/central_node"
+    else:
+        return f"{domain}/central-node/0"
+
 
 class CentralNode(Device):
     """
@@ -13,7 +31,7 @@ class CentralNode(Device):
     required for OSO/TMC integration tests.
     """
 
-    base_uri = device_property(dtype=str)
+    domain = device_property(dtype=str)
     """The domain part of the device FQDN, eg TANGO_HOST/domain/family/member"""
 
     def init_device(self):
@@ -28,7 +46,8 @@ class CentralNode(Device):
         """
         Assign resources to a subarray.
         """
-        san = tango.DeviceProxy(f"{self.base_uri}/tm_subarray_node/1")
+        subarray_trl = get_subarraynode_trl(self.domain, 1)
+        san = tango.DeviceProxy(subarray_trl)
         san.AssignResources(cdm_str)
 
     @command(dtype_in=str)
@@ -36,5 +55,6 @@ class CentralNode(Device):
         """
         Release resources from a subarray.
         """
-        san = tango.DeviceProxy(f"{self.base_uri}/tm_subarray_node/1")
+        subarray_trl = get_subarraynode_trl(self.domain, 1)
+        san = tango.DeviceProxy(subarray_trl)
         san.ReleaseResources(cdm_str)
