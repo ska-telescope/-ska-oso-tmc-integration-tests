@@ -29,7 +29,7 @@ class TMCSimTestHarness:
     of the simulators and code that requires access to simulated TMC.
     """
 
-    def __init__(self, base_uri="ska_mid"):
+    def __init__(self, base_uri="mid-tmc"):
         """
         Create a new TMCSimTestHarness.
         """
@@ -55,10 +55,10 @@ class TMCSimTestHarness:
         The subarray obsState will be set to the default obsState of EMPTY
         unless overridden.
         """
-        fqdn = construct_subarraynode_trl(self._base_uri, subarray_id)
+        trl = construct_subarraynode_trl(self._base_uri, subarray_id)
         device_props = dict(initial_obsstate=initial_obsstate.value)
         self._tango_test_harness.add_device(
-            device_name=fqdn, device_class=SubArrayNode, **device_props
+            device_name=trl, device_class=SubArrayNode, **device_props
         )
 
     def __enter__(self):
