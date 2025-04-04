@@ -9,10 +9,11 @@ from time import time
 import pytest
 from ska_control_model import ObsState
 
+from ska_oso_tmcsim import get_subarraynode_trl
 from ska_oso_tmcsim.subarraynode import MethodCall
 from ska_oso_tmcsim.testharness import TMCSimTestHarness
 
-from .. import LOW_BASE_URI, MID_BASE_URI
+from .. import LOW_DOMAIN, MID_DOMAIN
 
 
 class TestSubarrayNode:  # pylint: disable=too-few-public-methods
@@ -21,7 +22,7 @@ class TestSubarrayNode:  # pylint: disable=too-few-public-methods
     model, which is tested separately in unit tests.
     """
 
-    @pytest.mark.parametrize("base_uri", [MID_BASE_URI, LOW_BASE_URI])
+    @pytest.mark.parametrize("domain", [MID_DOMAIN, LOW_DOMAIN])
     @pytest.mark.parametrize(
         "initial_obsstate,method,args",
         [
@@ -34,32 +35,34 @@ class TestSubarrayNode:  # pylint: disable=too-few-public-methods
             (ObsState.ABORTED, "Restart", []),
         ],
     )
-    def test_arguments_recorded(self, base_uri, initial_obsstate, method, args):
+    def test_arguments_recorded(self, domain, initial_obsstate, method, args):
         """
         Tests that commands and arguments are recorded in the device history.
         """
-        test_harness = TMCSimTestHarness(base_uri=base_uri)
+        test_harness = TMCSimTestHarness(domain=domain)
         test_harness.add_subarray(1, initial_obsstate=initial_obsstate)
 
         with test_harness as ctx:
             f = operator.methodcaller(method, *args)
-            device = ctx.get_device(f"{base_uri}/tm_subarray_node/1")
+            subarray_trl = get_subarraynode_trl(domain, 1)
+            device = ctx.get_device(subarray_trl)
             f(device)
             history = json.loads(device.History)
 
         expected = MethodCall(command=method, args=args)
         assert MethodCall.model_validate(history[0]) == expected
 
-    @pytest.mark.parametrize("base_uri", [MID_BASE_URI, LOW_BASE_URI])
-    def test_history_cleared(self, base_uri):
+    @pytest.mark.parametrize("domain", [MID_DOMAIN, LOW_DOMAIN])
+    def test_history_cleared(self, domain):
         """
         Tests that the command history is cleared when ClearHistory is called.
         """
-        test_harness = TMCSimTestHarness(base_uri=base_uri)
+        test_harness = TMCSimTestHarness(domain=domain)
         test_harness.add_subarray(1, initial_obsstate=ObsState.IDLE)
 
         with test_harness as ctx:
-            san = ctx.get_device(f"{base_uri}/tm_subarray_node/1")
+            subarray_trl = get_subarraynode_trl(domain, 1)
+            san = ctx.get_device(subarray_trl)
             san.Configure("{'foo': 'bar'}")
             history = json.loads(san.History)
             assert len(history) > 0
@@ -67,16 +70,17 @@ class TestSubarrayNode:  # pylint: disable=too-few-public-methods
             history = json.loads(san.History)
             assert len(history) == 0
 
-    def test_fault_can_be_injected(self, base_uri="ska-test"):
+    def test_fault_can_be_injected(self, domain="ska-test"):
         """
         Tests that the SubarrayNode can be configured to go to a FAULT state for
         a given series of commands.
         """
-        test_harness = TMCSimTestHarness(base_uri=base_uri)
+        test_harness = TMCSimTestHarness(domain=domain)
         test_harness.add_subarray(1, initial_obsstate=ObsState.IDLE)
 
         with test_harness as ctx:
-            san = ctx.get_device(f"{base_uri}/tm_subarray_node/1")
+            subarray_trl = get_subarraynode_trl(domain, 1)
+            san = ctx.get_device(subarray_trl)
             # Set the device up so it will go to FAULT after moving
             # through a given sequence of states
             san.InjectFaultAfter("['IDLE', 'CONFIGURING', 'READY']")
@@ -91,12 +95,13 @@ class TestSubarrayNode:  # pylint: disable=too-few-public-methods
         Tests that the SubarrayNode can be configured to add delays to
         individual supported commands.
         """
-        base_uri = "ska-test"
-        test_harness = TMCSimTestHarness(base_uri=base_uri)
+        domain = "ska-test"
+        test_harness = TMCSimTestHarness(domain=domain)
         test_harness.add_subarray(1, initial_obsstate=ObsState.IDLE)
 
         with test_harness as ctx:
-            san = ctx.get_device(f"{base_uri}/tm_subarray_node/1")
+            subarray_trl = get_subarraynode_trl(domain, 1)
+            san = ctx.get_device(subarray_trl)
             delay_s = 0.1
             san_cmd = getattr(san, command_str)
 

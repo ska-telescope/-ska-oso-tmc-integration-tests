@@ -52,12 +52,20 @@ K8S_TEST_RUNNER_ADD_ARGS = --env=TANGO_HOST=$(TANGO_HOST)
 
 #- Kubernetes configuration -----------------------------------------------------------
 
+# Deploy tmcsim to the old pre-ADR-9 TRLs if TMCSIM_USE_OLD_TRLS is defined
+ifdef TMCSIM_USE_OLD_TRLS
+	K8S_CHART_PARAMS += --set use_old_trls=true
+endif
 
 # When running jobs on the pipeline, pull the GitLab version of the image rather than one from CAR
 ifneq ($(CI_JOB_ID),)
-K8S_CHART_PARAMS += --set image.tag=$(VERSION)-dev.c$(CI_COMMIT_SHORT_SHA) \
+K8S_CHART_PARAMS += \
+	--set image.tag=$(VERSION)-dev.c$(CI_COMMIT_SHORT_SHA) \
 	--set image.registry=$(CI_REGISTRY)/ska-telescope/oso/ska-oso-tmcsim
 else
 # Set cluster domain and minikube variables for local deployment when not running in GitLab CI
-K8S_CHART_PARAMS += --set global.cluster_domain="cluster.local" --set global.minikube=true
+K8S_CHART_PARAMS += \
+	--set global.cluster_domain="cluster.local" \
+	--set image.tag=$(VERSION) \
+	--set global.minikube=true
 endif

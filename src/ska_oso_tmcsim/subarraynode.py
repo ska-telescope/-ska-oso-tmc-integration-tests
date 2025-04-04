@@ -15,6 +15,23 @@ from tango.server import Device, attribute, command, device_property
 from .obsstatestatemachine import ObsStateMachineMixin, ObsStateStateMachine
 
 
+def get_subarraynode_trl(domain: str, subarray_id: int) -> str:
+    """
+    Get the TRL for a TMC SubArrayNode.
+
+    Returns pre-ADR-9 TRLs if the Tango domain is an old-style 'ska_mid' or 'ska_low'
+    domain.
+
+    @param domain: Tango domain
+    @param subarray_id: Subarray ID
+    @return: full TRL for the SubArrayNode
+    """
+    if domain in ["ska_mid", "ska_low"]:
+        return f"{domain}/tm_subarray_node/{subarray_id}"
+    else:
+        return f"{domain}/subarray/{subarray_id:02}"
+
+
 class MethodCall(BaseModel):
     """
     Simple dataclass for describing a method call on a Tango device server.

@@ -8,9 +8,10 @@ import pytest
 import tango
 from ska_control_model import ObsState
 
+from ska_oso_tmcsim import get_centralnode_trl, get_subarraynode_trl
 from ska_oso_tmcsim.subarraynode import MethodCall
 
-from .. import LOW_BASE_URI, MID_BASE_URI
+from .. import LOW_DOMAIN, MID_DOMAIN
 
 
 class TestCentralNode:  # pylint: disable=too-few-public-methods
@@ -18,15 +19,17 @@ class TestCentralNode:  # pylint: disable=too-few-public-methods
     Tests the behaviour of the CentralNode simulator in a tango environment
     """
 
-    @pytest.mark.parametrize("base_uri", [MID_BASE_URI, LOW_BASE_URI])
-    def test_assign_resources_reaches_subarray(self, base_uri):
+    @pytest.mark.parametrize("domain", [MID_DOMAIN, LOW_DOMAIN])
+    def test_assign_resources_reaches_subarray(self, domain):
         """
         This is mainly a sanity check that the CentralNode device can be reached by tango
         and it is correctly communicating with the Sub-Array device.
         """
         # Arrange a test harness with a CentralNode and one Subarray
-        central_node_device = tango.DeviceProxy(f"{base_uri}/tm_central/central_node")
-        subarray_device = tango.DeviceProxy(f"{base_uri}/tm_subarray_node/1")
+        centralnode_trl = get_centralnode_trl(domain)
+        subarraynode_trl = get_subarraynode_trl(domain, 1)
+        central_node_device = tango.DeviceProxy(centralnode_trl)
+        subarray_device = tango.DeviceProxy(subarraynode_trl)
         assert subarray_device.ObsState == ObsState.EMPTY
 
         # Act: send a command to CentralNode

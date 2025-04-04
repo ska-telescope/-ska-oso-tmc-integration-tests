@@ -21,6 +21,16 @@ git submodule update --init --remote .make
 *Note: This is usually done with `make make` command but this should not be used in a project where other submodules 
 are present and those submodules are not updated in-sync.
 
+# Deployment
+To deploy TMCSim to ADR-9 TRLs, run
+```
+make k8s-install-chart
+```
+To deploy TMCSim to the previous non-ADR-9 TRLs, run
+```
+TMCSIM_USE_OLD_TRLS=1 make k8s-install-chart
+```
+
 # Support
 
 Issues with this project should be raised on the #team-oso Slack channel and reported via the SKA Jira system.

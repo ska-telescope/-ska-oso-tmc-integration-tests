@@ -9,7 +9,12 @@ from ska_control_model import ObsState
 from ska_ser_logging import configure_logging
 from ska_tango_testing.harness import TangoTestHarness
 
-from ska_oso_tmcsim import CentralNode, SubArrayNode
+from ska_oso_tmcsim import (
+    CentralNode,
+    SubArrayNode,
+    get_centralnode_trl,
+    get_subarraynode_trl,
+)
 
 configure_logging(logging.DEBUG)
 LOGGER = logging.getLogger(__name__)
@@ -24,21 +29,23 @@ class TMCSimTestHarness:
     of the simulators and code that requires access to simulated TMC.
     """
 
-    def __init__(self, base_uri="ska_mid"):
+    def __init__(self, domain: str):
         """
         Create a new TMCSimTestHarness.
+
+        @param domain: Tango domain
         """
         self._tango_test_harness = TangoTestHarness()
-        self._base_uri = base_uri
+        self._domain = domain
 
     def add_central_node(self):
         """
         Make CentralNode available within the test context.
         """
         self._tango_test_harness.add_device(
-            device_name=f"{self._base_uri}/tm_central/central_node",
+            device_name=get_centralnode_trl(self._domain),
             device_class=CentralNode,
-            base_uri=self._base_uri,
+            domain=self._domain,
         )
 
     def add_subarray(
@@ -50,10 +57,10 @@ class TMCSimTestHarness:
         The subarray obsState will be set to the default obsState of EMPTY
         unless overridden.
         """
-        fqdn = f"{self._base_uri}/tm_subarray_node/{subarray_id}"
+        subarray_trl = get_subarraynode_trl(self._domain, subarray_id)
         device_props = dict(initial_obsstate=initial_obsstate.value)
         self._tango_test_harness.add_device(
-            device_name=fqdn, device_class=SubArrayNode, **device_props
+            device_name=subarray_trl, device_class=SubArrayNode, **device_props
         )
 
     def __enter__(self):
